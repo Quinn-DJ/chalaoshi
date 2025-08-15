@@ -4,10 +4,10 @@
 
 ```
 web/
-├── index.html    #  主页面
-├── teachers/     #  教师个人页面目录
+├── teachers/     # 教师个人页面目录
 |   └── ...       # 教师页面
-└── teachers/     #  教师个人页面目录
+├── index.html    # 主页面
+└── README.md
 ```
 
 ## 使用方法
