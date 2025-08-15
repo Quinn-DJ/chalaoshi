@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姬扬 - 物理学院 - 浙大教评</title>
+    <meta name="description" content="姬扬教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="姬扬,物理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">姬扬</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">物理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">1.21</div>
+                    <div class="rating-participants">139人参与评分</div>
+                    <div class="attendance-info">32.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息</h3>
+                <p class="no-data">暂无课程GPA数据</p>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (114 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":215116,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-21 11:07:55","like_diff":356,"likes":370,"dislikes":14,"content":"上完课感觉姬姬扬扬的"},{"id":214910,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-19 05:03:05","like_diff":79,"likes":82,"dislikes":3,"content":"孩子们快跑！这个老师成功地把大物当成水课来上了😰😰😰"},{"id":215188,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-24 02:34:15","like_diff":65,"likes":69,"dislikes":4,"content":"不知所云，真的没人劝啊，或者反映一下。\n\n感觉沉浸在自己的世界里，你浙初来乍到的老师没有相关跟踪考核机制吗，这是何方神圣啊？"},{"id":215620,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-03 03:13:03","like_diff":52,"likes":53,"dislikes":1,"content":"大家注意了，zyg改名为jy，大家差评不要打错地方了"},{"id":215186,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-24 02:25:05","like_diff":51,"likes":53,"dislikes":2,"content":"从秦始皇到奥本海默无所不谈\n\n那姬扬老师，您上课什么不讲呢\n\n哦，我们这节课不讲课本，不讲物理\n\n我们来讲讲我的翻译😈\n\n哎\n\n孩子们快跑"},{"id":215209,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-24 08:55:26","like_diff":49,"likes":50,"dislikes":1,"content":"脑袋长姬姬了"},{"id":215672,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-04 02:32:09","like_diff":46,"likes":48,"dislikes":2,"content":"好扬啊☺️好扬啊我的姬姬"},{"id":215752,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 07:11:08","like_diff":43,"likes":44,"dislikes":1,"content":"一节不上姬扬的，两节不上姬姬扬扬的"},{"id":215419,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-27 10:30:01","like_diff":40,"likes":43,"dislikes":3,"content":"热学变物理通识课\n\n第一节课洋洋洒洒讲自己的经历和情怀已经初见端倪，但想着毕竟第一节课就没退，结果第二节课连ppt都没开，莫名其妙唠嗑一坨...\n\n\n\n\n\n自爆了！他说自己以前'碰巧'学过热学！"},{"id":215412,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-27 06:17:31","like_diff":35,"likes":38,"dislikes":3,"content":"学好热学的最好方法是听你上课讲核聚变吗？哈基扬，你这家伙……🥰"},{"id":215396,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-26 01:33:26","like_diff":34,"likes":35,"dislikes":1,"content":"我很少用迷失幻境来形容一个老师的课"},{"id":215942,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-08 01:49:44","like_diff":34,"likes":34,"dislikes":0,"content":"一天不听姬扬的（积阳德）\n\n听完以后姬姬扬扬的"},{"id":215189,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-01 15:37:04","like_diff":32,"likes":35,"dislikes":3,"content":"选上之后只能补谢小平老师的智云课堂了，或者直接去同一时间的其他大雾教学班旁听\n\n开始讲三体了...\n\n水军差不多得了。\n\n寄养是个人物"},{"id":215151,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-23 02:44:36","like_diff":31,"likes":32,"dislikes":1,"content":"上课光吹水\n\n就讲他和deepseek以及他翻译那几本书的故事，毛都学不到\n\n幸好我能通过霸王选课run了\n\n能run的快run 要不然期末后悔来不及"},{"id":215347,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-26 15:17:50","like_diff":29,"likes":30,"dislikes":1,"content":"哈姬扬"},{"id":217228,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-04-05 08:33:45","like_diff":27,"likes":27,"dislikes":0,"content":"你老公"},{"id":215397,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-26 01:21:31","like_diff":26,"likes":29,"dislikes":3,"content":"🐳孝子"},{"id":215114,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-21 10:04:23","like_diff":21,"likes":22,"dislikes":1,"content":"快逃！"},{"id":215454,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-26 07:57:43","like_diff":21,"likes":22,"dislikes":1,"content":"周武王的后代要求连坐制，从奴隶社会一下到了封建社会，实在是太超前啦"},{"id":215190,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-24 03:23:47","like_diff":20,"likes":21,"dislikes":1,"content":"课前神奇问题，无厘头让人提问，上课不知道在干什么。deepseek魔怔人"},{"id":215421,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-26 04:28:55","like_diff":20,"likes":22,"dislikes":2,"content":"臭傻逼"},{"id":214887,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-19 01:52:44","like_diff":19,"likes":20,"dislikes":1,"content":"上课不讲课本，快跑"},{"id":215287,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-25 04:01:59","like_diff":19,"likes":20,"dislikes":1,"content":"随时面临提问的自习课"},{"id":214888,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-19 02:30:09","like_diff":18,"likes":19,"dislikes":1,"content":"不知所云"},{"id":215232,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-25 00:28:14","like_diff":18,"likes":20,"dislikes":2,"content":"你上的是大学物理导论吗😰"},{"id":215325,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-02 05:09:12","like_diff":18,"likes":19,"dislikes":1,"content":"大雾甲什么时候变成通识了"},{"id":215406,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-26 01:45:28","like_diff":18,"likes":19,"dislikes":1,"content":"同学们，你们都错怪姬扬老师了。他只是想给你们一个自习课而已，他有什么错。（所以大物不会还是去听其他老师吧）"},{"id":215625,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-03 04:15:37","like_diff":17,"likes":18,"dislikes":1,"content":"jy老师！我们喜欢你🥰\n\n我们喜欢deepseek🐋\n\n喜欢提问题❓\n\n[ac01]"},{"id":215757,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 07:58:58","like_diff":15,"likes":15,"dislikes":0,"content":"老师讲得很好，听完姬姬扬扬的！"},{"id":215896,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-06 15:25:59","like_diff":15,"likes":15,"dislikes":0,"content":"我们姬圣下罪己诏了/(ToT)/~~康康下周是否依然给大家喂石赤"},{"id":216052,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-10 03:25:07","like_diff":15,"likes":16,"dislikes":1,"content":"今天见证了他改革后的第一次课\n他说他这节课迫于无奈要开始用PPT了。\n但是讲的还是一坨屎，根本拎不清。\n上课之后我在看谢小平老师的智云课堂，他的课堂就很精彩，谢老师值得一声“先生”敬称。\n姬扬也算是个人。\n下节课小测，不知道要怎么办"},{"id":216572,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-18 15:17:10","like_diff":15,"likes":21,"dislikes":6,"content":"姬扬老师自己的水平和上好课的心都是有的，只是可能需要与浙大的教学模式再磨合一下。\n\n我觉得姬扬老师如果去开一门通识选修课搞不好会大受欢迎。"},{"id":215355,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-25 09:58:19","like_diff":14,"likes":15,"dislikes":1,"content":"xxp启动！"},{"id":217212,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-04-04 14:04:05","like_diff":14,"likes":14,"dislikes":0,"content":"上课的味道和田园薯片的激扬芥末味一样冲"},{"id":215742,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 04:41:58","like_diff":13,"likes":16,"dislikes":3,"content":"第三周热学课依旧各种暴言\n\n“没有人会限制我怎么上课”\n\nbyd还说自己第一次在浙大上课，拿上课当做实验"},{"id":216815,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-26 05:08:21","like_diff":13,"likes":13,"dislikes":0,"content":"选上🐔🐏老师的课你就有福了\n\n一节课读课本，两节课讲废话\n\n收获是没有的，提问是不可少的\n\n这就是您所谓的创新吗？"},{"id":217099,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-04-02 00:53:00","like_diff":13,"likes":15,"dislikes":2,"content":"彼阳若至，小测出的什么寄吧题目，让你猜月球质量有意义吗？觉得自己会背几个常数很了不起是不是🤣还说“我好为人师”🤣🤣🤣"},{"id":215414,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-26 03:52:03","like_diff":12,"likes":13,"dislikes":1,"content":"如果您当年的大学物理老师也是这么给你讲课的话，那么这辈子有了"},{"id":215767,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 10:18:23","like_diff":12,"likes":12,"dislikes":0,"content":"物理学院的热学专业课上到第三节终于出现了第一个公式PV=nRT，大家看着办吧"},{"id":216045,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-10 02:31:16","like_diff":12,"likes":13,"dislikes":1,"content":"所谓“按照课本讲”，指的是有ppt，在一本正经乱讲，换汤不换药。讲了近20分钟还在概念页\n\n我们碰巧遇到技痒。"},{"id":215227,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-24 15:05:02","like_diff":11,"likes":12,"dislikes":1,"content":"大无语\n\n不讲课本内容，提一些尴尬问题，每节课强推deepseek，在课上想死死不掉，想逃逃不了，浪费时间和精力，只能说，不太适合讲课"},{"id":215194,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-24 03:53:20","like_diff":10,"likes":11,"dislikes":1,"content":"不知所云，热爱提问"},{"id":215208,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-24 08:39:57","like_diff":10,"likes":11,"dislikes":1,"content":"不知所云，讲课毫无重点"},{"id":215224,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-24 13:05:46","like_diff":10,"likes":11,"dislikes":1,"content":"这是大学物理导论课嘛"},{"id":215810,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 16:20:06","like_diff":10,"likes":10,"dislikes":0,"content":"如何分辨狼和狗\n\n听叫声是否低沉\n\n低沉为狼 激扬是狗"},{"id":215838,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-06 02:55:21","like_diff":10,"likes":10,"dislikes":0,"content":"助力收敛"},{"id":215936,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-07 16:24:38","like_diff":10,"likes":11,"dislikes":1,"content":"两天没听🐔老师讲课了，总感觉姬姬扬扬的"},{"id":215261,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-25 02:47:03","like_diff":9,"likes":10,"dislikes":1,"content":"快跑，他不讲物理"},{"id":215357,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-25 10:17:54","like_diff":9,"likes":10,"dislikes":1,"content":"《诶同学们都熟悉我的上课风格了吧》"},{"id":215761,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 08:17:48","like_diff":9,"likes":9,"dislikes":0,"content":"哈姬扬"},{"id":216128,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-11 02:17:22","like_diff":9,"likes":10,"dislikes":1,"content":"现在开始用PPT了，但他上课的本质不变"},{"id":216417,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-16 10:12:25","like_diff":9,"likes":12,"dislikes":3,"content":"我打算再相信一次，看得出来老师很有想法，但是实在是缺少教学经验"},{"id":215367,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-25 11:43:50","like_diff":8,"likes":9,"dislikes":1,"content":"快跑，这人上课像推销中老年保健品的推销员，起码对你的考试没有。当然，不想学的另说。"},{"id":215661,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-03 15:15:26","like_diff":8,"likes":9,"dislikes":1,"content":"达芬奇，但是没有奇"},{"id":215197,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-24 03:37:23","like_diff":7,"likes":8,"dislikes":1,"content":"shit"},{"id":215704,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-04 11:14:49","like_diff":7,"likes":8,"dislikes":1,"content":"演都不演了，六百六十六"},{"id":215735,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 03:16:54","like_diff":7,"likes":9,"dislikes":2,"content":"助力一分收敛"},{"id":215763,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 08:35:38","like_diff":7,"likes":7,"dislikes":0,"content":"热烈欢迎知乎实名网友莅临浙大拿本科生做课堂实验研究"},{"id":215768,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 10:26:58","like_diff":7,"likes":7,"dislikes":0,"content":"必扬的哈姬扬"},{"id":215775,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 11:57:40","like_diff":7,"likes":7,"dislikes":0,"content":"授课仅供欣赏，疑义从来不析，大概是人型deepseek广告牌吧。"},{"id":215322,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-25 07:02:54","like_diff":6,"likes":7,"dislikes":1,"content":"上完第一次课就再没去过了…"},{"id":215360,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-25 10:40:45","like_diff":6,"likes":7,"dislikes":1,"content":"一分都给高了666"},{"id":215669,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-04 02:01:22","like_diff":6,"likes":7,"dislikes":1,"content":"助力收敛🤪😅💪👊"},{"id":215717,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-04 15:43:15","like_diff":6,"likes":7,"dislikes":1,"content":"慕名而来，助力收敛"},{"id":215746,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 05:42:57","like_diff":6,"likes":6,"dislikes":0,"content":"助力收敛"},{"id":215759,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 08:11:45","like_diff":6,"likes":6,"dislikes":0,"content":"笑死我了，笑得我🐔痒"},{"id":215807,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 15:46:14","like_diff":6,"likes":6,"dislikes":0,"content":"博客地址 https://wap.sciencenet.cn/home.php?mod=space&uid=1319915"},{"id":215811,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 16:20:09","like_diff":6,"likes":6,"dislikes":0,"content":"如何分辨狼和狗\n\n听叫声是否低沉\n\n低沉为狼 激扬是狗"},{"id":215814,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 16:38:57","like_diff":6,"likes":6,"dislikes":0,"content":"慕名而来上了一节课，越上越感觉姬姬扬扬的，第一次出现这种症状正常吗"},{"id":216326,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-13 10:09:09","like_diff":6,"likes":9,"dislikes":3,"content":"差点就选上了，太幸运了😂"},{"id":217091,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-04-01 15:26:07","like_diff":6,"likes":7,"dislikes":1,"content":"i4b"},{"id":215327,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-25 07:17:11","like_diff":5,"likes":7,"dislikes":2,"content":"sb东西"},{"id":215551,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-28 06:20:20","like_diff":5,"likes":6,"dislikes":1,"content":"....听课不如不听课"},{"id":215660,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-03 15:11:40","like_diff":5,"likes":6,"dislikes":1,"content":"大学物理课 ×\n\ndeepseek课 √\n\n哲学课 √"},{"id":215689,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-04 05:57:05","like_diff":5,"likes":6,"dislikes":1,"content":"大物课有自己的郑音飞"},{"id":215771,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 11:24:21","like_diff":5,"likes":5,"dislikes":0,"content":"真难评"},{"id":215773,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 11:33:21","like_diff":5,"likes":6,"dislikes":1,"content":"助力1分"},{"id":215777,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 12:17:54","like_diff":5,"likes":5,"dislikes":0,"content":"唯一真实"},{"id":215802,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 15:01:41","like_diff":5,"likes":5,"dislikes":0,"content":"蒂普西克的狗"},{"id":215854,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-06 04:00:01","like_diff":5,"likes":5,"dislikes":0,"content":"果壳救场"},{"id":215855,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-06 04:01:50","like_diff":5,"likes":5,"dislikes":0,"content":"老师真是神人了"},{"id":215885,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-06 12:44:17","like_diff":5,"likes":5,"dislikes":0,"content":"姬姬扬扬的"},{"id":215897,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-06 15:43:41","like_diff":5,"likes":6,"dislikes":1,"content":"帮每次上完课满口赞美的室友助力收敛"},{"id":216383,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-15 05:36:22","like_diff":5,"likes":5,"dislikes":0,"content":"坤坤坤"},{"id":217466,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-04-11 01:35:55","like_diff":5,"likes":6,"dislikes":1,"content":"听这个老师讲课云里雾里，觉得整个人都不好了，唧唧痒痒的。"},{"id":215400,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-26 01:30:27","like_diff":4,"likes":5,"dislikes":1,"content":"快跑!!!"},{"id":215613,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-03 02:11:41","like_diff":4,"likes":5,"dislikes":1,"content":"………"},{"id":215621,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-03 03:13:27","like_diff":4,"likes":5,"dislikes":1,"content":"沙币玩意"},{"id":215649,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-03 09:59:30","like_diff":4,"likes":5,"dislikes":1,"content":"目前见过所有老师里最让我感到无语的"},{"id":215750,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 06:40:36","like_diff":4,"likes":5,"dislikes":1,"content":"授课共欣赏，疑义相与析。"},{"id":215760,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 08:13:01","like_diff":4,"likes":4,"dislikes":0,"content":"无话可说了"},{"id":215809,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 16:07:59","like_diff":4,"likes":4,"dislikes":0,"content":"助力收敛"},{"id":215812,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-05 16:26:22","like_diff":4,"likes":4,"dislikes":0,"content":"哈姬扬哈姬扬哈姬扬"},{"id":215830,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-06 02:23:48","like_diff":4,"likes":7,"dislikes":3,"content":"挺有意思的"},{"id":215901,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-07 02:20:30","like_diff":4,"likes":4,"dislikes":0,"content":"哈哈哈"},{"id":215909,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-07 03:08:36","like_diff":4,"likes":4,"dislikes":0,"content":"助力收敛"},{"id":217108,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-04-02 02:54:11","like_diff":4,"likes":5,"dislikes":1,"content":"我要当姬孝子 😍这个老师太棒了"},{"id":218332,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-04-22 16:05:20","like_diff":4,"likes":6,"dislikes":2,"content":"客观评价下：老师有想上好课的心，水平也是在线的，但自身的教学方法确实不太契合大学物理这样一门数理基础课，但他自身也在听取意见有些改变，对学生的提问也算上心（会把钉钉私信统一发群里回复），希望能尽快适合自己又能被大家接受的教学方式吧。（老师会点名但一般在小测时或是会提前通知）"},{"id":215349,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-25 10:37:03","like_diff":3,"likes":5,"dislikes":2,"content":"上了就完蛋力"},{"id":215372,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-25 12:09:22","like_diff":3,"likes":4,"dislikes":1,"content":"快跑！！！！！！！！！"},{"id":216364,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-14 10:21:53","like_diff":3,"likes":4,"dislikes":1,"content":"还好霸王选课逃了\n\n最逆天的老师"},{"id":218297,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-04-22 11:20:45","like_diff":3,"likes":3,"dislikes":0,"content":"傻孩子们快逃啊！"},{"id":215509,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-27 07:23:45","like_diff":2,"likes":4,"dislikes":2,"content":"呵呵呵"},{"id":215657,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-03 13:04:29","like_diff":2,"likes":4,"dislikes":2,"content":"助力收敛"},{"id":216819,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-26 06:48:40","like_diff":1,"likes":1,"dislikes":0,"content":"天天提问。。"},{"id":216759,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-24 06:55:18","like_diff":0,"likes":0,"dislikes":0,"content":"666"},{"id":214929,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-25 14:00:43","like_diff":-2,"likes":19,"dislikes":21,"content":"大水王"},{"id":215423,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-26 04:42:25","like_diff":-8,"likes":2,"dislikes":10,"content":"🐔🐑牛逼"},{"id":215359,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-25 10:28:18","like_diff":-14,"likes":6,"dislikes":20,"content":"感觉老师还是挺有意思的 至少挺想活跃课堂气氛的 上课内容确实难评但人还不错"},{"id":216709,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-21 15:46:25","like_diff":-14,"likes":1,"dislikes":15,"content":"其实还不错"},{"id":217369,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-04-09 06:23:51","like_diff":-16,"likes":2,"dislikes":18,"content":"上课生动活泼有意思"},{"id":216542,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-03-18 07:11:34","like_diff":-17,"likes":7,"dislikes":24,"content":"我觉得作为浙大的学子，还是不要太极端了。1分过分了。虽然说不上好，但是6分左右还是有的。"},{"id":214959,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-19 10:50:05","like_diff":-23,"likes":9,"dislikes":32,"content":"这十分我将给智云课堂🤓☝️"},{"id":215381,"teacher_id":10582,"teacher_name":"姬扬","post_time":"2025-02-25 14:34:16","like_diff":-25,"likes":3,"dislikes":28,"content":"还不知道给分怎么样，再说就上了一周课，没必要扣这么厉害"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

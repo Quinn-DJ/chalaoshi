@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邵帅 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="邵帅教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="邵帅,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">邵帅</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.80</div>
+                    <div class="rating-participants">70人参与评分</div>
+                    <div class="attendance-info">32.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (6 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">企业伦理与会计职业道德</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.00</span>
+                            <span class="students">选课: 33人</span>
+                            <span class="std-dev">标准差: 0.69</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">会计学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.44</span>
+                            <span class="students">选课: 163人</span>
+                            <span class="std-dev">标准差: 0.70</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">电力电子创新实践</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.57</span>
+                            <span class="students">选课: 21人</span>
+                            <span class="std-dev">标准差: 0.32</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">电力电子创新设计与实践</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.27</span>
+                            <span class="students">选课: 27人</span>
+                            <span class="std-dev">标准差: 0.55</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">电力电子技术Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.98</span>
+                            <span class="students">选课: 58人</span>
+                            <span class="std-dev">标准差: 0.91</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">电子电源系统创新实践</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.58</span>
+                            <span class="students">选课: 13人</span>
+                            <span class="std-dev">标准差: 0.42</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (50 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":84294,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2018-07-12 12:47:22","like_diff":33,"likes":36,"dislikes":3,"content":"表白，超级喜欢邵老师，会计学讲课重点很清楚，也会结合有趣的实例，上课只要认真听，成绩就一定不会差～"},{"id":157724,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2022-06-24 12:49:59","like_diff":33,"likes":34,"dislikes":1,"content":"客观说两句\n\n老师很漂亮，是优秀的老学姐，4.98保研哦，海归\n\n讲课不错的（虽然我不听）\n\n几乎不点名 两次小测 没什么硬性作业，全靠自觉\n\n会讲一些她求学时候的故事，我很喜欢她\n\n分数还没出，不过我应该不高，因为不会背......是我自己的问题，和老师无关"},{"id":74647,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2018-03-05 03:08:25","like_diff":24,"likes":28,"dislikes":4,"content":"邵老师真的是一个又温柔，又可爱的好老师"},{"id":84296,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2018-07-12 12:54:40","like_diff":20,"likes":23,"dislikes":3,"content":"老师真的很温柔，讲的也很详细，看得出是一位非常为同学着想的老师，每次交作业都会提前一周提醒，而且会经常放一些很有意思的案例，平时分的话，这次是只要你按时认真做了作业，基本都会满了。听说还曾努力争取过会计学开卷，虽然失败了233。第一节课就被圈粉了，超喜欢老师的"},{"id":108548,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2019-05-28 06:25:55","like_diff":15,"likes":18,"dislikes":3,"content":"老师实在太可爱了 非常了解学生的小心思 下午的课经常问我们是不是困了 困了就不讲很难的内容 或者给大家讲个故事放松一下 声音超级温柔 人又好看 简直女神老师"},{"id":158558,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2022-06-30 07:42:33","like_diff":14,"likes":15,"dislikes":1,"content":"老师讲课会有很多课外的拓展 很有趣 会计学虽然在678节但是是我大一下听得最认真的课之一 老师讲课真的很好 会计学一开始会有点迷糊 但是后面好好学期末成绩肯定不会差的 老师布置的作业也都不是硬性的 会发答案自己课后对 ppt做的也很好 反正就是老师很完美 我好爱哈哈哈"},{"id":177236,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2023-07-02 11:02:03","like_diff":14,"likes":14,"dislikes":0,"content":"不爱ss老师的有难了"},{"id":84320,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2018-07-12 14:21:38","like_diff":12,"likes":14,"dislikes":2,"content":"老师真的很棒，作为老师第一届会计学课的学生，当初选课的时候还有小担心，但是老师真的讲的很棒，最后平时分给满，期末好好复习，成绩不会差的～甚至出乎意料"},{"id":176140,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2023-06-28 02:54:36","like_diff":12,"likes":12,"dislikes":0,"content":"老师真的很厉害，讲课清晰，期末还捞的很厉害，都给我选，本来还以为我要挂科了，我真的我哭死"},{"id":179663,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2023-09-19 06:41:38","like_diff":12,"likes":12,"dislikes":0,"content":"帅姐！帅姐！帅姐！"},{"id":88054,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2018-10-21 03:55:16","like_diff":10,"likes":13,"dislikes":3,"content":"老师形象好气质佳(真的) 而且上课很认真 很细心。答疑时能感到年轻女老师的那种温柔。"},{"id":176600,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2023-06-29 11:45:29","like_diff":10,"likes":10,"dislikes":0,"content":"会计学90分及以上56%，这样的老师除了ss还有谁😍管院会计学给我无脑选ss老师，简直人美心善，讲课又好"},{"id":79139,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2018-05-24 02:40:35","like_diff":9,"likes":10,"dislikes":1,"content":"超赞的美女老师"},{"id":86854,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2018-09-19 05:37:54","like_diff":9,"likes":11,"dislikes":2,"content":"啊啊啊啊啊啊啊我的女神姐姐！！！！！"},{"id":94930,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2019-01-18 13:06:45","like_diff":9,"likes":10,"dislikes":1,"content":"女神老师，超级喜欢她！"},{"id":109623,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2019-06-18 03:21:36","like_diff":9,"likes":10,"dislikes":1,"content":"讲课好，老师温柔又有趣～"},{"id":157242,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2022-06-22 13:33:47","like_diff":9,"likes":10,"dislikes":1,"content":"太爱老师了好舍不得节课！！人美声甜老是问我们困不困，ppt特别清楚重难点突出，还会拓展很多有趣的案例，在老师课上能学到的东西远超课本，能选上老师真的超级幸运！！！"},{"id":158205,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2022-06-27 13:04:32","like_diff":9,"likes":10,"dislikes":1,"content":"老师人美声甜，讲课行云流水，还有不少财务的有趣故事"},{"id":84804,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2018-07-14 02:20:59","like_diff":8,"likes":9,"dislikes":1,"content":"老师超级有气质超级温柔！给分也很好！不是会计专业的上课仔细听也有很大收获！"},{"id":155552,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2022-06-14 09:02:17","like_diff":8,"likes":9,"dislikes":1,"content":"邵帅老师就让人感觉非常非常非常亲切，如沐春风，了解学生的小心思，笑起来真好看，遭了，爱上她了(bushi。会计学只要想通原理，背一背，问题不大。"},{"id":81727,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2018-07-06 04:03:33","like_diff":7,"likes":7,"dislikes":0,"content":"太优秀的老师了！"},{"id":82406,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2018-07-08 06:12:32","like_diff":7,"likes":7,"dislikes":0,"content":"邵姐姐特别好，有亲和力，讲的也好！"},{"id":176168,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2023-06-28 03:38:21","like_diff":7,"likes":7,"dislikes":0,"content":"上课好给分好，这样的老师哪里找。能把会计学这门枯燥的课讲的很能听得进去，爱死"},{"id":178939,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2023-08-02 14:13:33","like_diff":7,"likes":7,"dislikes":0,"content":"非常好，入股不亏，冲！"},{"id":83541,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2018-07-10 14:35:34","like_diff":6,"likes":6,"dislikes":0,"content":"赏心悦目悦耳！成绩多少都不在乎了，上课真的很值得了，是我自己没复习的"},{"id":84297,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2018-07-12 13:03:04","like_diff":6,"likes":10,"dislikes":4,"content":"赏心悦目，最美的老师没有之一，希望老师赶快嫁出去哈哈哈"},{"id":84785,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2018-07-14 01:10:44","like_diff":6,"likes":6,"dislikes":0,"content":"老师的会计学讲的非常清楚！有什么不明白的地方发邮件给老师也会也耐心的回复！而且老师很爱笑很美，上课的案例也很有趣！上课体验很好！"},{"id":155296,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2022-06-10 09:29:48","like_diff":6,"likes":7,"dislikes":1,"content":"管院邵帅老师，是我见过的最好的老师，我是工科学生也可以学会会计学！快冲"},{"id":105168,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2019-04-05 15:35:26","like_diff":5,"likes":10,"dislikes":5,"content":"这么美好的老师快点嫁出去吧！"},{"id":113435,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2019-07-06 17:19:54","like_diff":5,"likes":6,"dislikes":1,"content":"邵帅女神一生推！！！！"},{"id":155579,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2022-06-14 11:47:45","like_diff":5,"likes":6,"dislikes":1,"content":"选！！都给我选！！！"},{"id":113513,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2019-07-06 22:03:01","like_diff":4,"likes":5,"dislikes":1,"content":"呜呜呜超爱邵帅！！"},{"id":113763,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2019-07-07 10:13:24","like_diff":4,"likes":5,"dislikes":1,"content":"老师超漂亮啊！！讲课也很有意思呀！"},{"id":116338,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2019-09-08 16:30:09","like_diff":4,"likes":5,"dislikes":1,"content":"希望老师能幸福"},{"id":171353,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2023-03-22 08:02:44","like_diff":4,"likes":4,"dislikes":0,"content":"无脑赞"},{"id":195436,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2024-06-28 04:32:59","like_diff":4,"likes":4,"dislikes":0,"content":"超级女神，讲课思路清晰，一个理工科学生也能听懂的财务课。\n\n希望能继续上女神老师的管理会计课。"},{"id":124842,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2020-07-12 08:16:15","like_diff":3,"likes":4,"dislikes":1,"content":"简直神仙老师啊，选上邵老师的课真的是天大的服气！！课讲的巨好，还很有趣，对学生还超级关心！！老师超级温柔漂亮！！给分还好！呜呜呜呜"},{"id":125994,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2020-09-16 10:29:53","like_diff":3,"likes":4,"dislikes":1,"content":"会计学很有意思，日常diss贾回国"},{"id":144722,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2021-12-23 10:37:46","like_diff":3,"likes":4,"dislikes":1,"content":"超级好的女神老师，讲课有趣，条理清晰，而且由于有小测，所以会强迫同学复习，期末的压力就会小很多，平时分基本给满，而且是那种能激发学生学习兴趣的老师。总之，只要认真听课好好复习，满绩很简单～"},{"id":199184,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2024-09-19 00:54:09","like_diff":3,"likes":3,"dislikes":0,"content":"帅老师讲的可太好了，课程节奏好，主次分明，逻辑清晰，又通俗易懂，也有案例帮助理解"},{"id":214827,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2025-02-18 06:16:28","like_diff":3,"likes":3,"dislikes":0,"content":"刚刚上完春夏学期第一节会计课。不想反复戳老师伤处，只能说邵老师值得值得值得。10分。"},{"id":116376,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2019-09-10 00:21:02","like_diff":2,"likes":4,"dislikes":2,"content":"老师讲的非常清楚，条理清晰，学到很多。给分很好。"},{"id":121424,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2019-12-16 07:44:13","like_diff":2,"likes":3,"dislikes":1,"content":"超级美丽的姐姐，给分很好呀（我是满了，上课讲的也很清楚，问问题也会很耐心地解答，人很亲切，最棒！"},{"id":139970,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2021-08-22 16:16:16","like_diff":2,"likes":3,"dislikes":1,"content":"女神老师太好好好了！"},{"id":196850,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2024-07-05 13:08:45","like_diff":2,"likes":2,"dislikes":0,"content":"管院会计学课讲得很棒，ppt条理清晰适合补天，助教姐姐人超好"},{"id":197047,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2024-07-07 02:18:11","like_diff":2,"likes":2,"dislikes":0,"content":"讲课真的讲得非常好，毋庸置疑，既有趣又有料。但给分没有想象中那么好，可能也跟今年题型改了有关系，自己很多细节学得不到位。而且感觉均绩高和老师班上的人比较厉害也有关系呜呜呜"},{"id":124601,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2020-07-03 12:18:18","like_diff":1,"likes":3,"dislikes":2,"content":"讲课超级棒，生动有趣且条理清晰！很贴近学生，解答问题超级耐心！并且平时事情真的很少，我觉得除了小测的平时分基本上都会给满的吧！（是的！有小测！但是小测不难，而且能让你平时就好好复习，期末压力真的小很多！）不仅自身有魅力，而且课堂也有魅力的女神老师！！！"},{"id":125262,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2020-09-05 03:40:44","like_diff":1,"likes":3,"dislikes":2,"content":"老师人美心善！！会计学讲得很清晰！"},{"id":177821,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2023-07-05 02:58:00","like_diff":1,"likes":16,"dislikes":15,"content":"妈！"},{"id":216289,"teacher_id":5212,"teacher_name":"邵帅","post_time":"2025-03-13 02:30:23","like_diff":0,"likes":0,"dislikes":0,"content":"表白帅姐姐"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

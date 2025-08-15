@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>丛杭青 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="丛杭青教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="丛杭青,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">丛杭青</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">5.46</div>
+                    <div class="rating-participants">124人参与评分</div>
+                    <div class="attendance-info">19.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">工程伦理导论(A)</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.74</span>
+                            <span class="students">选课: 149人</span>
+                            <span class="std-dev">标准差: 0.71</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">数据伦理</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 5.00</span>
+                            <span class="students">选课: 3人</span>
+                            <span class="std-dev">标准差: 0.00</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (100 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":108246,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-05-17 09:50:26","like_diff":69,"likes":88,"dislikes":19,"content":"首先请允许我叫您一声丛主播，其次我建议增设0分选项，这个很有必要，下面我简单评价一下吧，\n\n1.一次课45*4=180分钟，花式签到2次以上10分钟，换教室小组讨论走路15分钟，自己聊天15分钟，学生自己上台发言尬聊60分钟，推销500强企业行贿受贿底线调查新书10分，APP测试问卷答题10分钟，下课10分，这就去了110分，剩下时间反正我也不知道在干嘛，对了，还有现场看陆播，丛老师和丛主播同台竞技。\n\n2.各种APP不停切换挑战大家极限，首先不得不承认，APP录播课程的确比上课讲的好太多，但是各种拿加分威胁大家看APP就有点反感了，至于为了引诱大家看APP，还不是为了刷积分刷热度，作为浙大教授，真的已经非常热了，绑架学生搞这种花里胡哨的东西真是浪费表情，课程讲的好有吸引力，自然学生会主动听。\n\n3.伦理课已经把我逼着没伦理了，开始在网上留言乱喷了，本来课程评价都是默认五星好评，唯独这门课的评价让我自责不已，觉得愧对我的良知，以后课程评价还是上了再如实评价吧。\n\n4.第4请同学们补充吧，反正感觉是跟我上课老师里面最差的一个，不是指学术造诣，浙大教授学术上相信不会差，反正就是最反感的一个。\n\n好像还有卖书，懒得打字了"},{"id":61932,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2017-11-22 00:49:08","like_diff":38,"likes":57,"dislikes":19,"content":"难道只有我绩点很低吗……"},{"id":93959,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-01-14 13:01:08","like_diff":34,"likes":48,"dislikes":14,"content":"姚鑫霞和孙崇惠两位同学是我在这个课上新认识的，为什么呢？因为大家一般觉得发言一次就够了，他们发言了三次嘛"},{"id":106508,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-04-28 03:09:49","like_diff":24,"likes":25,"dislikes":1,"content":"破事多，给分完全随缘，很辣鸡，说是说没有论文，结果来一大堆破事，给分还差，学个p"},{"id":107324,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-05-03 16:28:52","like_diff":20,"likes":27,"dislikes":7,"content":"和之前同学评论的不一样，感觉不咋地。选这课也就是水点学分，没期望拿高绩点也就希望省点事分有80就行。然后课后网课习题一堆，上课还要发言刷分，课时里一半是没人愿意说话的无聊讨论课，另一半上课的内容中，一大半又被水发言的同学占了……认真刷完网课发言一次期末满分出分2.7……佛了……"},{"id":104429,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-03-20 06:32:17","like_diff":16,"likes":18,"dislikes":2,"content":"一通识课事比专业课还多\n\n垃圾"},{"id":135916,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2021-06-03 03:32:56","like_diff":15,"likes":15,"dislikes":0,"content":"浙大最sb的老师，最sb的课，没有之一！"},{"id":117795,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-10-02 03:27:32","like_diff":13,"likes":15,"dislikes":2,"content":"弄了一个傻逼软件，一堆签到问卷主题讨论，课后也三天两头的发问卷。要不是必修课鬼才上噢。把这些乱七八糟的去了腾出大把的时间好好讲讲工程伦理不行吗？"},{"id":107395,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-05-05 00:19:25","like_diff":12,"likes":12,"dislikes":0,"content":"我来补一手1分（："},{"id":62186,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2017-11-23 05:01:29","like_diff":11,"likes":14,"dislikes":3,"content":"什么都做了  还上去发了言  线上考试也还行  结果被正太"},{"id":108861,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-06-03 10:20:41","like_diff":11,"likes":11,"dislikes":0,"content":"丛老师概念知道的不少，学术肯定有。但是上课讲概念并不是学生最感兴趣的。一门哲学范畴的课应该教会人如何思考，而不是谈一些大道理，希望老师能在课堂上多讲一些案例，如果王欣案被定性了讲不了，那就讲讲美国的也可以。最不能接受的就是当我信心满满想听丛老师讲具体案例丛老师的思考时，丛老师说了一句时间关系不展开了。我不想相信不展开是丛老师没有展开的能力。我相信丛老师能够好好备课准备哪怕是一个好的案例，但真的不希望听一堆概念，看一堆投票结果，全日制和非全日制对伦理理解不一致不是我们要学习的，而学生想听的是对伦理如何去思考，或者您丛老师的思考。\n\n还有希望规则不要变来变去。第一节课说好了加分，那就规划好平均每次课几分，只在上课结束后立马发出作业，而不是随意的叮咚骚扰，甚至发出后作废，导致加分不公。总之，课程改革可以，但是做事加分应有计划性。"},{"id":102591,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-02-11 13:10:09","like_diff":10,"likes":11,"dislikes":1,"content":"基本emmmmm 没啥意思\n\n给分还低"},{"id":126628,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2020-10-09 10:13:51","like_diff":9,"likes":9,"dislikes":0,"content":"很会跟时髦，课堂上不停和你讲他看到的抖音，自以为讲的很有趣，但学识及其浅薄。不过对于思政老师这点也可以理解，毕竟他们自己都可能不信自己说的那一套。\n\n    但关键是你为啥要搞那么多作业，恶心！！！你要么让我们花费时间学到知识，要么就让我们水个学分。自己讲着一套站不住脚的观点，甚至背离马克思主义的思想，有什么资格让我们花费这么多时间再这种垃圾课上面！"},{"id":127008,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2020-11-02 13:35:30","like_diff":9,"likes":11,"dislikes":2,"content":"谁选谁后悔，《工程伦理》最浪费时间、最麻烦的水课。直播课，签到签退+上课不间断的互动问卷+限时作业+视频研讨+主题短视频，我从来没见过这么多花里胡哨的考核，强烈建议避坑。"},{"id":128132,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2020-12-08 04:35:09","like_diff":8,"likes":9,"dislikes":1,"content":"我对这个老师提不起好感，上课不认真上，就搞些奇奇怪怪的互动手段。对学生的疑问还没有耐心，嘲讽道“是不是要给你们每个人配个技术顾问”。后半部分连PPT都不做了，直接打开一个word文档照着念。《自然辩证法》这门课就是外行指导内行，一个人文学院的老师连科学研究（特指理工科）都没有搞过，还要来给我们说科学方法论工程方法论。给分我感觉还可以。"},{"id":105437,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-04-13 05:18:56","like_diff":7,"likes":9,"dislikes":2,"content":"非常坑啊，上课各种方式签到，不认真讲课，回去还要看慕课考试，恶心死了"},{"id":106408,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-04-27 05:57:00","like_diff":7,"likes":10,"dislikes":3,"content":"出分以前老师评分还是9以上的，这下估计晚节不保了"},{"id":106679,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-04-29 02:32:32","like_diff":6,"likes":7,"dislikes":1,"content":"一门通识课该干的都干了期末也还行给我3.3。"},{"id":133228,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2021-02-19 10:06:54","like_diff":6,"likes":6,"dislikes":0,"content":"我吐了，建议早点退休吧丛老师"},{"id":90571,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-01-08 03:30:10","like_diff":5,"likes":9,"dislikes":4,"content":"受不了丛老师的正态心理，考前说有高分需求的私下联系他，谁不想拿个好绩点？发言讨论辛辛苦苦的努力，还比不上考前的'高分需求'？但老师的工程伦理知识还是不错的。"},{"id":73412,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2018-02-01 14:01:55","like_diff":4,"likes":6,"dislikes":2,"content":"被正态了 你懂得"},{"id":108448,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-05-24 09:14:59","like_diff":4,"likes":5,"dislikes":1,"content":"非常糟糕的上课体验啊，异常多事，上课不讲课，让学生回家看慕课和超星尔雅，疯了吧"},{"id":108713,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-05-31 15:49:33","like_diff":4,"likes":5,"dislikes":1,"content":"呸！！"},{"id":112686,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-07-05 00:26:07","like_diff":4,"likes":6,"dislikes":2,"content":"被正态79也可以理解，72是疯了吗？全签到网课全做期末100，这给分可真好"},{"id":115105,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-07-15 15:32:46","like_diff":4,"likes":4,"dislikes":0,"content":"花里胡哨，浪费时间"},{"id":115480,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-07-27 16:57:11","like_diff":4,"likes":4,"dislikes":0,"content":"老师您能不能好好备课呢"},{"id":117869,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-10-07 02:04:21","like_diff":4,"likes":4,"dislikes":0,"content":"十一节总共发了四五个投票和两个评论，我996的老板都没这么push"},{"id":126528,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2020-09-29 07:31:13","like_diff":4,"likes":4,"dislikes":0,"content":"这课事情真的很多，而且老师不靠谱"},{"id":127031,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2020-11-03 13:44:37","like_diff":4,"likes":4,"dislikes":0,"content":"从来没有见过这么垃圾的老师，事儿Ｂ"},{"id":34135,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-09-27 11:18:35","like_diff":3,"likes":12,"dislikes":9,"content":"老师人很好很可爱，能学到很多东西，不过那些性格比较内向，不太爱发言or不太敢发言的我猜不会有好分数............"},{"id":37043,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-11-17 07:17:01","like_diff":3,"likes":5,"dislikes":2,"content":"讲道理很好，最后给的成绩不理想"},{"id":64511,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2017-12-24 23:11:16","like_diff":3,"likes":5,"dislikes":2,"content":"至今犹记得老师教的捍卫他版权法的方式，以其人之道，还治其人之身。妙哉妙哉！"},{"id":124973,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2020-07-28 03:13:35","like_diff":2,"likes":4,"dislikes":2,"content":"这老师事儿贼多，但是评分是真的按学在浙大给"},{"id":128810,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2020-12-25 13:20:11","like_diff":2,"likes":2,"dislikes":0,"content":"事很多，但全做了，最后给分也还可以"},{"id":151255,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2022-02-26 07:52:00","like_diff":2,"likes":2,"dislikes":0,"content":"在听第一节课的时候就来查老师了，老师个人水平真的低，课程设置非常拉跨，讲课混乱思路不清晰。"},{"id":207697,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2024-12-24 02:42:40","like_diff":2,"likes":2,"dislikes":0,"content":"坐标，研究生课，工程伦理，老师被请来上了一节课，一节课各种抢答和回答问题加分，各种屁事。\n\n我上工程伦理课上的好好的，摆的很开心，他一来各种教我们教学班老师如何把课程考核变得更恶心。比如说在课程评价中提高回答问题分数比例，然后取消论文大作业改为PPT大作业。\n\n然后一节课纯纯恶心人，讲课水平不高，各种逼人回答问题，加分威胁，不回答问题就没分。\n\n都研究生了，你还当我们跟本科一样没命卷。\n\n上课就知道放视频，咱就是说，既然能线上讲课，就不要让我们早八来教室受罪。\n\n先给1分为敬。"},{"id":11582,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2015-12-06 15:00:37","like_diff":1,"likes":10,"dislikes":9,"content":"觉得讲得不错啊！"},{"id":37057,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-12-22 05:12:33","like_diff":1,"likes":7,"dislikes":6,"content":"特别棒！干货满满，给分好\n\n"},{"id":109706,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-06-18 14:46:47","like_diff":1,"likes":2,"dislikes":1,"content":"好！！！"},{"id":117903,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-10-08 16:39:06","like_diff":1,"likes":2,"dislikes":1,"content":"无语了"},{"id":118804,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-11-06 08:48:33","like_diff":1,"likes":2,"dislikes":1,"content":"我是傻逼"},{"id":126538,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2020-10-13 05:43:54","like_diff":1,"likes":2,"dislikes":1,"content":"杭青老仙，法力无边"},{"id":126940,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2020-10-29 02:04:06","like_diff":1,"likes":1,"dislikes":0,"content":"事太多，整得我们每天很闲一样，花这么多时间在这门课上"},{"id":127462,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2020-11-23 08:17:23","like_diff":1,"likes":2,"dislikes":1,"content":"每堂课签到签退还有互动，考试题量大，时间不够，给分贼低"},{"id":129051,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2020-12-29 07:16:50","like_diff":1,"likes":4,"dislikes":3,"content":"事情确实不少，每节课都有签到，但整体而言工程伦理导论石门水课，给分的话其实老师还是有调分的，还好吧，任务都完成了就没太大问题"},{"id":143824,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2021-12-08 00:15:19","like_diff":1,"likes":1,"dislikes":0,"content":"丛老师对研讨课的热忱让我感到费解，一半的课时分给研讨课，这样的时长分配是否意义？以及课堂上花里胡哨的互动模式，只会让课堂变得零碎而非丰富。还有，能不能不要随个人心情改变教学计划，大家都忙，没心情配合你游戏人间"},{"id":33217,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-11-22 00:14:12","like_diff":0,"likes":20,"dislikes":20,"content":"很有意思的，原来以为是跟工程有关的东西，结果老师常常讲各种案例，周二的讨论了的讨论主题也都很令人感兴趣~总之是很棒的老师，给分也不错~"},{"id":34070,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-09-26 11:27:53","like_diff":0,"likes":3,"dislikes":3,"content":"各种水"},{"id":56128,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2017-07-03 06:25:50","like_diff":0,"likes":2,"dislikes":2,"content":"挺好的嗯嗯好老师。觉得讲得不错"},{"id":61994,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2017-11-22 05:36:42","like_diff":0,"likes":2,"dislikes":2,"content":"很好的老师"},{"id":62307,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2017-11-24 06:14:00","like_diff":0,"likes":3,"dislikes":3,"content":"挺不错的，老师和助教都很负责。"},{"id":74242,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2018-02-07 16:14:59","like_diff":0,"likes":3,"dislikes":3,"content":"老师认真负责，案例教学，生动形象。"},{"id":75038,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2018-03-07 06:01:08","like_diff":0,"likes":3,"dislikes":3,"content":"老师超好的 给分也很好 讨论课 氛围轻松 如果想发言的话 稍微准备一下就好 期中考和期末考都是在网上考掉的 题目大部分可以在书上找到答案 选择题和判断题 最后一篇论文 想突破自己的建议选"},{"id":87732,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2018-10-11 02:46:16","like_diff":0,"likes":2,"dislikes":2,"content":"给分好，非全日制。据说我们这届给的分高，后期有点名。上课形式理想化，小班效果一般，教室是一个问题，有几个校外专家挺好的。"},{"id":89678,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2018-11-20 08:18:16","like_diff":0,"likes":5,"dislikes":5,"content":"大水课 给分高"},{"id":93123,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-01-07 12:10:43","like_diff":0,"likes":1,"dislikes":1,"content":"最后一天签字售书，特别好的老师"},{"id":94712,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-01-18 02:45:18","like_diff":0,"likes":4,"dislikes":4,"content":"10分，说实话老师讲课风趣，内容充实，是一门很适合工科生的文化类课程...用血的教训告诫大家开卷期末考要好好考，不调分。虽然班级均分挺高的，但是也有我这种被正太到1.5的，崩溃了啊"},{"id":108709,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-05-31 14:29:51","like_diff":0,"likes":0,"dislikes":0,"content":"知识点讲解不够深入"},{"id":108716,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-05-31 16:28:04","like_diff":0,"likes":3,"dislikes":3,"content":"除了学习通APP有些缺陷外，其他方面都非常好。非常敬业的老师，案例分析也很有意思。"},{"id":118431,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-10-27 04:22:57","like_diff":0,"likes":1,"dislikes":1,"content":"工程伦理卵用没有"},{"id":119016,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-11-09 12:58:48","like_diff":0,"likes":0,"dislikes":0,"content":"网红老师"},{"id":127223,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2020-11-15 14:06:32","like_diff":0,"likes":0,"dislikes":0,"content":"一门通识课，事儿异常多，又要准备小组pre，又要期中期末线上考试，期中考试25道题考试时间25分钟，基本看运气，线上考试占比50%……"},{"id":128036,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2020-12-03 16:27:01","like_diff":0,"likes":0,"dislikes":0,"content":"这课的事情怎么说呢，视频能后台挂着刷，那个测试的话如果你有心也是能查到的"},{"id":143631,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2021-11-29 07:39:58","like_diff":0,"likes":1,"dislikes":1,"content":"真的烦"},{"id":143670,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2021-12-01 07:48:03","like_diff":0,"likes":0,"dislikes":0,"content":"听不懂"},{"id":144072,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2021-12-23 05:59:01","like_diff":0,"likes":1,"dislikes":1,"content":"花里胡哨！！！！"},{"id":144147,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2021-12-19 15:01:18","like_diff":0,"likes":0,"dislikes":0,"content":"天天整烂活"},{"id":181128,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2023-10-09 13:17:15","like_diff":0,"likes":0,"dislikes":0,"content":"布置的题目书上找得到吗？你讲了吗？课程屁用没有，啥都学不到。考核内容更是纯抠字眼，搞一些根本没人这样说的乱七八糟的定义来用"},{"id":182258,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2023-11-13 12:03:30","like_diff":0,"likes":1,"dislikes":1,"content":"讲课还挺有意思，但是作为通识课事情有点多，给分是不是太迷了，认认真真听课做作业最后没平均高😅"},{"id":182261,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2023-11-13 13:25:43","like_diff":0,"likes":0,"dislikes":0,"content":"绩杀，无语"},{"id":184696,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2023-12-22 08:11:03","like_diff":0,"likes":0,"dislikes":0,"content":"不想上课可以退休的，没必要上课一大半时间放视频还有搞你的垃圾学习通。"},{"id":35621,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-06-13 08:28:18","like_diff":-1,"likes":11,"dislikes":12,"content":"老师是哲学系教授，讲得很不错啊。而且，课水不水由自己决定，认真听还是会有收获的"},{"id":37084,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-11-17 09:38:40","like_diff":-1,"likes":6,"dislikes":7,"content":"老师很好啦，没有太多作业，发言真的会有帮助的，还有，讨论课最好不要翘掉，助教会点名的，每周都有讨论发言的机会，几乎每个人都有机会，发言对平时分有影响的。还有，老师是哲学系的大牛，师爷级别的大佬，虽然课很枯燥（哲学嘛很正常，对吧），也是可以水的，但是这门课的干货真的超级多，虽然没有拿到4.5，但是4.2也还不错啦，对于一个工科生，哲学课得到这个分数真的很棒了!赞潇洒的老师，美腻的助教姐姐。"},{"id":112424,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-07-04 06:09:49","like_diff":-1,"likes":3,"dislikes":4,"content":"感谢老师的99"},{"id":20186,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-01-26 12:39:46","like_diff":-2,"likes":3,"dislikes":5,"content":"挺好的。"},{"id":33219,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-09-16 02:53:16","like_diff":-2,"likes":3,"dislikes":5,"content":"非常好"},{"id":33276,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-09-17 10:45:37","like_diff":-2,"likes":3,"dislikes":5,"content":"赞，绝妙！"},{"id":34429,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-11-29 07:46:37","like_diff":-2,"likes":3,"dislikes":5,"content":"很不错的体验"},{"id":35717,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-11-10 07:52:04","like_diff":-2,"likes":1,"dislikes":3,"content":"老师讲课好，挺有趣。"},{"id":35854,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-11-10 08:31:08","like_diff":-2,"likes":2,"dislikes":4,"content":"作为哲学专业选修课来上的，老师讲的很好，各种案例信手拈来，因为人少，还经常让我回答问题……不过遗憾的是第一次也是最后一次老师开课了"},{"id":37051,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-11-17 07:41:06","like_diff":-2,"likes":2,"dislikes":4,"content":"只是发了一次言，作业好好做就能拿不错的绩点，也能学到很多思维方式和案例，很推荐"},{"id":37052,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-11-17 07:44:20","like_diff":-2,"likes":1,"dislikes":3,"content":"周一周二的晚课，周一上课，周二小组讨论，挺水的。然而老师很认真，举的案例也非常有趣，助教也很温柔。平时小组讨论以后争取一下发言，然后期中期末两篇东西，给分也挺好。只是作为工科生，对于伦理哲学这一类真是难以理解Orz所以还是有种…上了课…和没上一样的感觉…"},{"id":37104,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-11-17 12:01:59","like_diff":-2,"likes":1,"dislikes":3,"content":"很有哲理性，对各种社会事件有独到的见解，听了这节课完全没有办法听思修课。我平时不太认真，能水则水，但分数给的蛮好的"},{"id":37120,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-11-17 13:24:28","like_diff":-2,"likes":1,"dislikes":3,"content":"富有哲理，认真听是有收获的\n\n"},{"id":38179,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-12-15 02:41:23","like_diff":-2,"likes":1,"dislikes":3,"content":"(工程伦理导论)水水过。最好发过言，论文案例要选好，就行了。讨论课有时会点名。"},{"id":56129,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2017-07-03 06:26:55","like_diff":-2,"likes":2,"dislikes":4,"content":"挺好的一个老师"},{"id":58909,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2017-09-18 11:11:43","like_diff":-2,"likes":3,"dislikes":5,"content":"不错哦"},{"id":59299,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2017-09-20 14:42:27","like_diff":-2,"likes":3,"dislikes":5,"content":"老师超级认真，超级耐心，很负责。课程要求讨论比较多，一星期两节课，有一节用来专门讨论，还有课前发言，挺锻炼能力的。"},{"id":61319,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2017-11-14 11:15:04","like_diff":-2,"likes":1,"dislikes":3,"content":"很水很松"},{"id":61839,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2017-11-21 07:40:39","like_diff":-2,"likes":2,"dislikes":4,"content":"好！老师超好！给分好！"},{"id":64587,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2017-12-25 11:05:55","like_diff":-2,"likes":4,"dislikes":6,"content":"老师很和蔼，给分也尽量满足大部分的需求，而且分数尽量往高处打，学会积极发言，尤其是周一的课上到台上发言，讲得不全面也没关系，助教也十分善良，最后一片论文老师也会限制上限，没有期末考试，测试都是mooc上的，总之积极点就能拿到不错的成绩"},{"id":123790,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2020-06-14 07:34:25","like_diff":-2,"likes":7,"dislikes":9,"content":"选这门课时，我是很忐忑的，因为很多人给分很低，对老师评价不高，但我还是选了。上完后（我是2020年，疫情原因上网课），我感觉这门课其实很硬核，（我和我小组的人都这么认为），每星期的讨论课都挺需要准备的，而且这门课上老师对于国际上，特别是中美关系的评价特别深刻，我感觉讲得很有道理。最后说一下绩点的事。课后很多投票什么的不假，参加一下又不需要多少时间，也就几分钟水一下就OK了，出成绩的时候，我压根没担心过，我觉得我这样付出肯定满绩，结果也正如我所想，98分。所以，选这门课的同学还是要有主见，不要人云亦云，我大物老师评分也不高，但我感觉人也挺好，回答问题很详细。说白了，这个平台的内容你只能参考，不能全信"},{"id":38376,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-12-01 06:03:56","like_diff":-5,"likes":2,"dislikes":7,"content":"听的很舒服"},{"id":106200,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-04-25 13:40:32","like_diff":-5,"likes":2,"dislikes":7,"content":"超棒！"},{"id":33470,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-09-19 12:20:15","like_diff":-6,"likes":3,"dislikes":9,"content":"唉，不行"},{"id":9199,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2015-10-16 07:44:39","like_diff":-7,"likes":6,"dislikes":13,"content":"悲剧啊"},{"id":127487,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2020-11-23 12:16:20","like_diff":-10,"likes":1,"dislikes":11,"content":"真是一位认真负责的好老师"},{"id":33549,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2016-11-19 16:50:48","like_diff":-14,"likes":6,"dislikes":20,"content":"作为一名工科生，一开始我是被工程二字吸引的，但是第一节课发现老师竟然是哲学博士，水平很高的。课堂重点在于伦理，对现实问题进行深刻反思，比如滴滴打车、快播案、活熊取胆、厦门PX项目、怒江水电站修建问题……本来以为伦理是件很复杂的事情，但是在讨论课中发现每个人都能说些精彩的东西，十个人就会用十个角度看问题，当然有时一些问题因为太深刻、太有争议让人非常痛苦。。。这回秋学期的评价体系主要是两篇论文，一篇八百字活熊取胆，一篇风险评估（大一学生用案例分析代替）。谢谢老师给了4.8的绩点，我非常满意。（但是我的室友3.9，其实很不错了，大家自己看着办）"},{"id":142273,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2021-11-09 13:56:46","like_diff":-18,"likes":4,"dislikes":22,"content":"什么都没干结果成绩全班第三，而且根本没锅，老师知识丰富，可以认真学也可以摆，真的宝藏大家放心选"},{"id":108711,"teacher_id":669,"teacher_name":"丛杭青","post_time":"2019-08-26 17:11:19","like_diff":-35,"likes":16,"dislikes":51,"content":"首先，评论里称呼老师为“丛主播”的同学你还有素质吗？虽然你花钱来上课，但这种戏谑的称呼是你作为一个学生应该做的吗？考上研究生不代表你就可以凌驾一切之上，有意见可以好好说，有问题说出来慢慢解决，上来就是喷、出言不逊，你在现实生活中很不如意吗？作为成年人，麻烦你有话好好说，别躲在匿名后面抱着键盘就把素质踩脚底，生而为人请你善良。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吕萍 - 化学系 - 浙大教评</title>
+    <meta name="description" content="吕萍教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="吕萍,化学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">吕萍</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">化学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.85</div>
+                    <div class="rating-participants">94人参与评分</div>
+                    <div class="attendance-info">23.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (5 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">中级有机化学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.24</span>
+                            <span class="students">选课: 186人</span>
+                            <span class="std-dev">标准差: 1.22</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">普通体育课</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.74</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.98</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">有机化学Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.99</span>
+                            <span class="students">选课: 123人</span>
+                            <span class="std-dev">标准差: 0.87</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">有机化学Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.39</span>
+                            <span class="students">选课: 124人</span>
+                            <span class="std-dev">标准差: 1.04</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">有机化学Ⅲ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.87</span>
+                            <span class="students">选课: 111人</span>
+                            <span class="std-dev">标准差: 0.97</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (79 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":7348,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2015-09-14 02:30:36","like_diff":154,"likes":165,"dislikes":11,"content":"我的体育课是化学老师教的"},{"id":26217,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2016-06-16 09:38:18","like_diff":79,"likes":86,"dislikes":7,"content":"鉴于吕老师的特殊情况，请大家评论时注明上的是体育还是化学，谢谢配合！！"},{"id":9684,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2015-11-04 11:03:25","like_diff":46,"likes":48,"dislikes":2,"content":"“你问我为什么写机理这么自信？我只是比你们多写了30年罢了。绝对好老师！"},{"id":225,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2015-03-14 17:06:08","like_diff":31,"likes":38,"dislikes":7,"content":"老师特别大神！条理很清晰！就是上课说话实在太快了 经常跟不上"},{"id":3154,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2016-09-14 01:50:57","like_diff":22,"likes":26,"dislikes":4,"content":"实在觉得应该给吕萍老师一百万奖金 真是好老师啊"},{"id":22565,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2016-03-08 03:29:41","like_diff":22,"likes":23,"dislikes":1,"content":"吕奶奶讲的好啊……然而基础有机没学好，吕奶奶你在讲什么我听不懂啊π_π"},{"id":33996,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2016-09-25 06:03:42","like_diff":22,"likes":26,"dislikes":4,"content":"课上会组织做游戏，偶尔写两个反应试。体育技巧和有机知识并重，难得的好老师。"},{"id":6799,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2015-07-23 03:55:09","like_diff":19,"likes":19,"dislikes":0,"content":"神一般的老师，让我的有机化学从零开始飞跃，不强调记忆而注重思考，很好的方法。"},{"id":36368,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2018-06-14 15:03:25","like_diff":18,"likes":19,"dislikes":1,"content":"毕竟是浙江第一位有机博士，上课上得好，只是我学不会"},{"id":32982,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2016-09-08 15:09:11","like_diff":17,"likes":20,"dislikes":3,"content":"恕我直言把两个老师混在一起mdzz"},{"id":105897,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-04-23 01:39:32","like_diff":17,"likes":17,"dislikes":0,"content":"机理太美"},{"id":61525,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2017-11-18 08:51:45","like_diff":13,"likes":13,"dislikes":0,"content":"吕奶奶的机理写的是行云流水啊，看她写机理是享受，能从电子轨道构型给你解释为什么机理是这么写的，真的是有一种完全不靠记太多东西就直接从原理层次出发写出机理的感觉，果然是大佬。而且奶奶喜欢飙英语，上课讲的速度飞起，如果一不小心跟丢了就完全不知道在说什么了，周三下午中有前面有物化，物化全程打瞌睡(物化老师我对不起你)然后去听中有一点没瞌睡，thinking keeps you away from napping.这门课分还没出，但是不管我考的咋样我都要给十分。"},{"id":40356,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2017-01-03 04:40:49","like_diff":12,"likes":14,"dislikes":2,"content":"教普体的和教有机的真不是一个老师。。有机上的好没的说！"},{"id":421,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2015-03-15 02:10:08","like_diff":11,"likes":14,"dislikes":3,"content":"老师逻辑思维特别清晰，对有机本质的理解也十分到位。上课语速偏快，需要高度集中注意力。"},{"id":69262,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2018-01-24 11:36:09","like_diff":8,"likes":8,"dislikes":0,"content":"我的化学是体育老师教的，千真万确，不信你看顶部的介绍(^з^)-☆"},{"id":89140,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2018-11-16 04:49:19","like_diff":8,"likes":8,"dislikes":0,"content":"吕萍老师真的超级棒，条理清楚教的超棒，而且认真负责考前一直都在线上答疑，还会人性化地调整考试难度。也给王其峻助教疯狂打call，超级负责又超级可爱的助教！"},{"id":105925,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-04-23 07:56:10","like_diff":8,"likes":9,"dislikes":1,"content":"疯狂表白吕奶奶和王其峻xgg！老师上课水平极高，写机理行云流水！助教xgg极其认真负责！爱上了！"},{"id":105930,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-04-23 08:32:33","like_diff":7,"likes":8,"dislikes":1,"content":"吹爆吕奶奶行云流水的机理和助教xgg的耐心答疑，上午考完试下午出分，这效率?"},{"id":37689,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2016-11-20 07:14:55","like_diff":6,"likes":7,"dislikes":1,"content":"好啊，非常好啊。\n\n我是大一选的，因为我是其他专业的渣但是想学化学还听说是竺院的课。\n\n谁知道是大二的2333结果开课那天一群学长围坐。\n\n课真的挺不错的吧，不过求是班的课自然难，主要是要有高中竞赛基础。\n\n老师喜欢和Mysweet啊，上课上到一半让助教去买hhh.\n\n经常讲一些浙大有机研究的历史啊，听得入迷，也能让我们的目光捕捉到科学前沿。\n\n英文单词考得挺多的，一定加油学好英语。\n\n就这样啦，满分。"},{"id":191556,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2024-04-24 23:07:23","like_diff":6,"likes":6,"dislikes":0,"content":"可惜吕老师今年结束带课了，不然还想继续选她的课。只能说不愧是浙江省第一位有机博士，其水平之高在上课时能真真切切的感受到，老师特别可爱（就是讲的太好太专业了导致很多时候跟不上）。最让我感动的是期末考试的前一天课上，吕老师过来问我有没有把握，我说只能尽力而为了，实在过不了就只能重新再来，毕竟中有的难度摆在那里的，吕老师听闻后露出了担忧的面色，随后便开始给我讲应该如何去复习，最后也是擦边过了，只能说感谢老师和助教。"},{"id":24413,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2016-04-30 13:29:07","like_diff":5,"likes":5,"dislikes":0,"content":"有水平，有想法的老师，只是上课时会觉得自己很菜"},{"id":45263,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2017-01-19 08:28:43","like_diff":5,"likes":6,"dislikes":1,"content":"忘不了萍姐银铃般的笑声hhhh"},{"id":49731,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2017-04-25 03:13:22","like_diff":4,"likes":4,"dislikes":0,"content":"表白吕大佬～任性得可爱，牛B地令人发指。"},{"id":119337,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-11-12 06:25:49","like_diff":4,"likes":4,"dislikes":0,"content":"机理太美⊙▽⊙，语速贼快，萍姐姐贼可爱，mysweet贼好喝"},{"id":191560,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2024-04-25 03:09:47","like_diff":4,"likes":4,"dislikes":0,"content":"神中神"},{"id":16441,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2016-01-18 05:51:05","like_diff":3,"likes":9,"dislikes":6,"content":"普体很轻松，会做游戏，给分也好"},{"id":35044,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2016-10-31 10:09:23","like_diff":3,"likes":3,"dislikes":0,"content":"挺好的。不错"},{"id":49735,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2017-04-25 04:14:54","like_diff":3,"likes":4,"dislikes":1,"content":"吕奶奶简直有机女神啊"},{"id":77267,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2018-05-04 08:32:16","like_diff":3,"likes":3,"dislikes":0,"content":"把有机化学讲成了一门艺术，浙大老师中的楷模。"},{"id":103845,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-03-06 08:24:50","like_diff":3,"likes":3,"dislikes":0,"content":"跟不上啊..吕老师.."},{"id":125043,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2020-08-18 12:01:37","like_diff":3,"likes":3,"dislikes":0,"content":"有机。吹爆吕奶奶，业界良心qvq"},{"id":49219,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2017-03-30 01:18:43","like_diff":2,"likes":2,"dislikes":0,"content":"有机很难，但是吕奶奶让我爱上有机，她是真的把有机当自己孩子在讲，感觉即使毕业之后再来听吕奶奶的课还是能找回最初对有机的喜爱"},{"id":62418,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2017-11-25 04:40:56","like_diff":2,"likes":2,"dislikes":0,"content":"绩点低毕竟是自己不努力，老师不挂已经超感恩了。\n\n讲课棒人又贼可爱，而且深入浅出易于理解，爱她一万年"},{"id":78463,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2018-05-12 05:25:41","like_diff":2,"likes":2,"dislikes":0,"content":"吕奶奶炒鸡可爱 麦斯威的超级粉丝"},{"id":82160,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2018-07-07 09:37:56","like_diff":2,"likes":3,"dislikes":1,"content":"选了老师两年普体，都是满绩，表白老师^^"},{"id":86045,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2018-08-29 14:16:01","like_diff":2,"likes":2,"dislikes":0,"content":"在有机的海洋畅游"},{"id":89475,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2018-11-19 08:58:06","like_diff":2,"likes":2,"dislikes":0,"content":"浓浓师生情 给分超好啊\n\n老师很可爱 上课讲的也好"},{"id":93340,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-01-09 05:18:16","like_diff":2,"likes":2,"dislikes":0,"content":"吕老师是一个特别负责特别可爱的老师！中级有机化学讲得很棒，真可惜我自己太差了所有绩点不好看，但是老师真的很好，平时分会努力往上调的！基本上不点名（毕竟人太多了），和王彦广老师是一对有点萌的好老师～如果时光可以倒流，希望能再来一次，改写我的有机绩点。"},{"id":105905,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-04-23 02:20:14","like_diff":2,"likes":3,"dislikes":1,"content":"老师讲得超棒！表白助教！认真负责！"},{"id":105929,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-04-23 08:27:27","like_diff":2,"likes":2,"dislikes":0,"content":"行云流水"},{"id":106439,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-04-27 11:25:10","like_diff":2,"likes":2,"dislikes":0,"content":"吕老师真的是个超级可爱的老师，老师，我爱你"},{"id":172883,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2023-05-09 05:12:22","like_diff":2,"likes":2,"dislikes":0,"content":"21级，上午考完试下午出分+1，吕奶奶牛"},{"id":191166,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2024-04-10 08:11:45","like_diff":2,"likes":2,"dislikes":0,"content":"老师很有实力，虽然中有全班天天被她嘲讽，但收货很大。还没考试，先记一下。"},{"id":36486,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2016-11-14 07:45:41","like_diff":1,"likes":2,"dislikes":1,"content":"老师真的很可爱 每节一杯麦斯微哈哈哈 给分真的很良心 讲课也炒鸡好 只是我比较渣 但还是给过了 感恩⊙﹏⊙"},{"id":37243,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2016-11-18 04:05:04","like_diff":1,"likes":1,"dislikes":0,"content":"老师简直业界良心"},{"id":40197,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2018-07-25 06:39:26","like_diff":1,"likes":2,"dislikes":1,"content":"法力高强，亦可赛艇！"},{"id":49747,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2017-04-25 10:05:16","like_diff":1,"likes":1,"dislikes":0,"content":"吕奶奶超级棒！真的是有机大神啊，给分比我预估的好多了！"},{"id":51848,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2017-06-12 09:53:51","like_diff":1,"likes":1,"dislikes":0,"content":"跟不上"},{"id":69271,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2018-01-24 11:46:59","like_diff":1,"likes":1,"dislikes":0,"content":"吕老师超可爱，给分也不错"},{"id":89941,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2018-11-21 10:42:36","like_diff":1,"likes":1,"dislikes":0,"content":"造化钟神秀\n\n选上是一种幸运"},{"id":90025,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2018-11-21 16:57:00","like_diff":1,"likes":2,"dislikes":1,"content":"老师太棒啦！不点名！想去就去 想不去就不去 真是太好了"},{"id":96000,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-01-20 10:54:34","like_diff":1,"likes":1,"dislikes":0,"content":"大赞老师，课讲的好，学术水平也高。"},{"id":104582,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-03-24 08:14:15","like_diff":1,"likes":1,"dislikes":0,"content":"讲的真的好"},{"id":105927,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-04-23 08:16:22","like_diff":1,"likes":1,"dislikes":0,"content":"老师真女神啊"},{"id":105956,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-04-23 13:40:52","like_diff":1,"likes":1,"dislikes":0,"content":"行云流水"},{"id":106314,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-04-26 09:54:13","like_diff":1,"likes":1,"dislikes":0,"content":"耐心答疑，认真负责，吹爆助教xgg"},{"id":115385,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-07-20 12:39:37","like_diff":1,"likes":1,"dislikes":0,"content":"超级好评"},{"id":115642,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-08-14 05:52:03","like_diff":1,"likes":1,"dislikes":0,"content":"很好的课"},{"id":118997,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-11-09 05:15:42","like_diff":1,"likes":1,"dislikes":0,"content":"老奶奶讲得非常好啊"},{"id":119033,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-11-09 23:22:35","like_diff":1,"likes":1,"dislikes":0,"content":"吕奶奶非常可爱思路特别清晰~"},{"id":121615,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-12-12 08:01:41","like_diff":1,"likes":1,"dislikes":0,"content":"吕老师上课超可爱超可爱超可爱"},{"id":135097,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2021-04-30 08:22:12","like_diff":1,"likes":1,"dislikes":0,"content":"我能过不是我努力了，是吕老师努力了"},{"id":140990,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2021-09-19 13:05:57","like_diff":1,"likes":1,"dislikes":0,"content":"吕奶奶大佬"},{"id":4744,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2015-06-27 06:43:26","like_diff":0,"likes":4,"dislikes":4,"content":"赞，就是作业多了点..."},{"id":5261,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2015-07-06 06:31:35","like_diff":0,"likes":0,"dislikes":0,"content":"一个字爽"},{"id":34823,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2016-10-24 06:28:23","like_diff":0,"likes":0,"dislikes":0,"content":"上课上到开心给老师来打个十分"},{"id":35763,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2016-11-10 08:04:57","like_diff":0,"likes":0,"dislikes":0,"content":"讲得好"},{"id":36512,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2016-11-14 11:22:23","like_diff":0,"likes":1,"dislikes":1,"content":"上吕老师的课好爽"},{"id":37785,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2016-11-21 04:41:41","like_diff":0,"likes":0,"dislikes":0,"content":"超级棒的老师"},{"id":50828,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2017-05-06 03:58:28","like_diff":0,"likes":0,"dislikes":0,"content":"女神！！！！"},{"id":81429,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2018-07-05 05:18:47","like_diff":0,"likes":3,"dislikes":3,"content":"体育。这人人格有缺陷。"},{"id":89579,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2018-11-20 00:22:25","like_diff":0,"likes":0,"dislikes":0,"content":"老师超级棒，给分超级好的"},{"id":115271,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-07-17 09:07:21","like_diff":0,"likes":0,"dislikes":0,"content":"讲课不错"},{"id":115304,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-07-18 07:42:57","like_diff":0,"likes":0,"dislikes":0,"content":"吕老师讲课很好啊"},{"id":190870,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2024-03-23 01:53:22","like_diff":0,"likes":0,"dislikes":0,"content":"一个字：强"},{"id":191435,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2024-04-22 09:28:35","like_diff":0,"likes":0,"dislikes":0,"content":"👍👍👍"},{"id":39503,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2017-05-02 06:33:56","like_diff":-6,"likes":5,"dislikes":11,"content":"有机讲得很好，没得说。吕老师经常吐槽期末卷子应该怎么出才能保证及格率，经常讲各种段子，非常幽默。中级有机的期末考机理题十选五，上课都讲过，平时分给的也超好，然后出乎意料地得了99分。"},{"id":93818,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-01-14 02:13:24","like_diff":-11,"likes":1,"dislikes":12,"content":"那个春学期中有，高分子专业的，那个你是可以吃基础有机老本的，能吃个85分吧，再看看能更高"},{"id":105887,"teacher_id":1513,"teacher_name":"吕萍","post_time":"2019-04-23 01:35:52","like_diff":-19,"likes":2,"dislikes":21,"content":"听老师的课是享受。\n\n某位助教小哥哥，没时间就不要当助教好不好，总是非常莫名其妙"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

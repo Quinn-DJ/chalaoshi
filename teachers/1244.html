@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>苏彬 - 化学系 - 浙大教评</title>
+    <meta name="description" content="苏彬教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="苏彬,化学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">苏彬</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">化学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">6.64</div>
+                    <div class="rating-participants">86人参与评分</div>
+                    <div class="attendance-info">24.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">分析化学Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.42</span>
+                            <span class="students">选课: 433人</span>
+                            <span class="std-dev">标准差: 1.05</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大学化学实验（A）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.65</span>
+                            <span class="students">选课: 52人</span>
+                            <span class="std-dev">标准差: 0.58</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (77 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":99862,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-25 09:00:36","like_diff":35,"likes":44,"dislikes":9,"content":"我普化4.几的老师我都能考4.5，分析化学出来3.3我都无语了，试卷做的时候觉得扣分不会超过10分，另外一个感觉能考5的dl出来也只有4.5，有一点低落，但也只能接受吧，自己肯定也有不完善的地方，但我还是要给你1分，觉得上课毫无意义"},{"id":99800,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-25 07:43:41","like_diff":32,"likes":35,"dislikes":3,"content":"绩杀，认认真真准备了这么久，给分还这么低，从来不答疑，一副事不关己的样子"},{"id":100557,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-26 09:45:43","like_diff":32,"likes":34,"dislikes":2,"content":"全寝室三人选了他的课\n\n无一例外深受其害\n\n第一次听说某一流高校的正教授\n\n就能将学生死活置若罔闻\n\n可算是凭一点几二点几的绩点开了开眼\n\n您手下的研究生助教\n\n能以‘屏蔽 删除提出质询的同学’作为弥补打分错误的手段，可真是名师出高徒的典范呢"},{"id":99943,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-25 10:20:08","like_diff":28,"likes":32,"dislikes":4,"content":"出完绩点了来写评论\n\n整个考试周都用来复习分析化学了.那张半开卷的A4纸抄了我七天.最后1.5我又能说什么呢.可能是我菜吧.但是大家绩点都很低.这老师难道会好？\n\n上课照着书巴拉巴拉讲一遍.还不如自己看来的有效.不建群.也几乎没答疑.一副刚刚在上的样子.不调分.考完试也别和他打电话发邮件.用他原话说就说“我已经是正教授了.不用再评职称什么的了.你们打分打地低也没影响.”你这么??那就给你一分呗.要是能打零分我连这一分都不想给?"},{"id":102542,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-02-06 09:45:13","like_diff":25,"likes":29,"dislikes":4,"content":"这里显示的均绩有问题，我在学习帝的成绩统计上显示，这门课挂科率49.8%，全班平均分没到1.5，该怎么做大家应该都懂了叭"},{"id":94093,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-15 07:30:47","like_diff":24,"likes":28,"dislikes":4,"content":"超级无敌大号催眠药  本来以为商志才够催眠了  学了分化才知道  商老师是好老师哇!!!"},{"id":100554,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-26 09:41:54","like_diff":23,"likes":25,"dislikes":2,"content":"绩杀，这么大个班一天出成绩可见改的有多粗暴，而且平时分超级低? 助教态度超级差"},{"id":99805,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-25 07:48:17","like_diff":22,"likes":24,"dislikes":2,"content":"垃圾老师毁我青春\n\n寒窗一学期绩点二点四\n\n"},{"id":100056,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-25 13:27:00","like_diff":21,"likes":22,"dislikes":1,"content":"上课balabala讲贼快 让人觉得就在赶进度 主要绩杀...对于这种绩点很生气也很难过"},{"id":102117,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-30 14:07:23","like_diff":21,"likes":23,"dislikes":2,"content":"来给大家科普一下，均绩2.4，我2.7排进班级前14%，老师可爱吗，迷人吗?如果想要体验这样的老师，欢迎选他的课，让你欲罢不能，欲仙欲死。出了这门课，拉低了已经有16分学分基础的均绩0.19。老师真的不绩杀呀，我都2.7了还给我卡绩，老师肯定是想让我好好学习不让我上3。生活真美好呀，谢谢老师了呢！老师新年快乐呢！"},{"id":100130,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-26 16:05:22","like_diff":20,"likes":21,"dislikes":1,"content":"会，遭报应的吧"},{"id":75840,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2018-03-19 23:40:33","like_diff":19,"likes":23,"dislikes":4,"content":"上课死气沉沉，感觉人也很冷漠，冰山脸，学生实验有困难时，要么冷眼旁观，要么敷衍一下"},{"id":100871,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-27 03:42:24","like_diff":19,"likes":21,"dislikes":2,"content":"想问老师问题只能通过邮件和下课问\n\n没有答疑，没有群\n\n真的和微积分形成鲜明对比\n\n微积分老师有答疑，还有线上答疑，还有助教答疑，分化什么都没有，问助教没用！！！（刚开始我还觉得助教小姐姐很好看，很好，然后去问题目，回都不回。qq 她不是不用的）\n\n考前两周就开始复习，买了题目自己做，考试的题目大都抄上了，除了简答题，但感觉也不会很差，结果2.4\n\n人生最低。。。。。。\n\n想查分，一句\"按程序走\"，真的很冷漠，不过我也不能说什么，但是真的让人。。。。。\n\n你不调分，人家老师都调分，造成的差距怎么弥补？？？？？\n\n\n\n"},{"id":100083,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-25 14:10:38","like_diff":17,"likes":17,"dislikes":0,"content":"上课比较冷漠，有时候讲话会比较刻薄。"},{"id":99817,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-25 07:58:59","like_diff":16,"likes":20,"dislikes":4,"content":"给分超级低...老师真的有点绩杀，而且不调分。分析化学复习的时间比微积分还多，呵呵，2.7。不说了，要落泪了。"},{"id":100126,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-25 15:25:56","like_diff":16,"likes":17,"dislikes":1,"content":"可能当初是我看走眼了吧，分析化学(乙)就别选他了，真的！相信我！！！"},{"id":102559,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-02-08 09:17:11","like_diff":16,"likes":19,"dislikes":3,"content":"催眠机不想说话，，本来抱着想好好听的心情去的，，听了不到10分钟，保证睡着。前排的男生直接趴了。\n\n绩杀不想说话，全都会做，考下来呢，呵呵，考完第二天就出成绩，能好好改吗??!考试前还舔着脸说什么考完不要给我发邮件说多给点分分，我只想弱弱的说一句，你也没给时间吧。你还是好好当教授吧，再见！"},{"id":100428,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-26 06:12:11","like_diff":15,"likes":17,"dislikes":2,"content":"窒息绩杀2.1什么鬼d(ŐдŐ๑)"},{"id":100049,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-25 13:19:42","like_diff":14,"likes":16,"dislikes":2,"content":"一开始冲着这个正教授分数高才选的，我分析化学真的已经尽全力了，花了很多时间，唉，无奈，2.1的绩点让我想结束一切，是我太差了吗？"},{"id":103947,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-03-15 01:05:44","like_diff":14,"likes":14,"dislikes":0,"content":"他的世界一切都可第三声…… 接受侄子，失去侄子 原谅我强迫症发作想翘课 认真的\n\n我补充一下，我觉得大家说的OK是因为这是他的口头禅，瞎讲一通，OKOK结束，不是他讲的OK，别被骗了！！！"},{"id":72668,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2018-01-30 18:56:04","like_diff":11,"likes":14,"dislikes":3,"content":"点名！不到课的名单会交给系里。学弟学妹们认真听课！"},{"id":104470,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-03-21 06:47:55","like_diff":11,"likes":12,"dislikes":1,"content":"垃圾垃圾"},{"id":103296,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-02-27 07:17:24","like_diff":10,"likes":11,"dislikes":1,"content":"OK?"},{"id":64711,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2017-12-27 00:22:17","like_diff":9,"likes":12,"dislikes":3,"content":"讲实话，他的声音太小啦！讲课平淡，想睡觉。点名的哦"},{"id":104763,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-03-27 07:55:52","like_diff":9,"likes":9,"dislikes":0,"content":"讲课和翻书一样快，我真的尽力听了? ? ?"},{"id":105068,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-04-03 05:52:17","like_diff":9,"likes":11,"dislikes":2,"content":"体验感差，全靠自学。所以没有给0分的选项吗？"},{"id":99841,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-25 09:16:48","like_diff":8,"likes":11,"dislikes":3,"content":"...."},{"id":104154,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-03-13 05:40:43","like_diff":7,"likes":8,"dislikes":1,"content":"我到底是做了什么坏事才遭报应当了他的学生？"},{"id":104610,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-03-25 06:04:55","like_diff":7,"likes":7,"dislikes":0,"content":"???"},{"id":104726,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-03-26 14:27:13","like_diff":7,"likes":8,"dislikes":1,"content":"苏彬老师的微博找到了@带带大师兄"},{"id":105341,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-04-10 07:07:13","like_diff":7,"likes":9,"dislikes":2,"content":"真的辣鸡"},{"id":174526,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2023-06-13 15:27:21","like_diff":6,"likes":6,"dislikes":0,"content":"反正比分化2强"},{"id":105156,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-04-05 11:04:12","like_diff":5,"likes":7,"dislikes":2,"content":"绝了థ౪థ"},{"id":109863,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-06-20 01:49:37","like_diff":4,"likes":8,"dislikes":4,"content":"辣鸡老师"},{"id":106045,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-04-24 16:17:49","like_diff":3,"likes":16,"dislikes":13,"content":"本人2019年春学期上的分化。想正名一下。首先，点名问题，老师一学期只点过一次名（也不算点名，只是查迟到）；第二是交作业，作业是学生分内的事情当然不能算点名的手段，虽说作业有点多，但是老师会每次提前提醒交作业的日期，而且期末能进行作业补交；第三是上课，我觉得老师上课还是可以的，分化本来就很硬核，主要就是讲书里的知识（老师又不是说书先生），就算上课不听也可以自己去看老师主页里的PPT（至于“OK”“对吧”之类的口头禅总要允许吧）；第四，关于考试准备和答疑，老师偶尔会在群里出现，邮件答疑保证会有回复，而且老师在群里说明了各种注意事项，好好准备不出意外可以考好最后我自己的情况，平时作业认真做（只有一次B+，一次A，其余全部A++），半开卷考试前那张A4纸好好准备（基本写满了），考试不慌，最终4.2，也算不辜负自己的努力了。"},{"id":117428,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-09-24 07:12:28","like_diff":3,"likes":7,"dislikes":4,"content":"辣鸡老师"},{"id":131511,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2021-01-28 00:02:09","like_diff":3,"likes":4,"dislikes":1,"content":"好可爱"},{"id":212389,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2025-01-14 02:50:01","like_diff":3,"likes":3,"dislikes":0,"content":"给分还行，仅靠补天，考试分享的唯一一张历年卷在卷子里有几题原题（考的点还比较细 基本上微雕找不到）。除了后面那三章，基本上可以只看他的ppt"},{"id":213096,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2025-01-16 03:48:36","like_diff":3,"likes":3,"dislikes":0,"content":"挺好的，遗憾是卡绩了"},{"id":132597,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2021-02-02 14:12:34","like_diff":2,"likes":6,"dislikes":4,"content":"就一sb"},{"id":188006,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2024-01-18 03:24:24","like_diff":2,"likes":2,"dislikes":0,"content":"不知道为什么评分这么低，复习PPT都给了，考的东西八九不离十还是很好的。"},{"id":189478,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2024-01-24 15:32:09","like_diff":2,"likes":2,"dislikes":0,"content":"苏老师讲课语调平淡而且催眠，会突击点名，PPT内容很详细，做的很好，用它可以脱离课本直接复习，考试内容也不脱离PPT，给分不算太差，打个8分"},{"id":191016,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2024-03-28 08:26:17","like_diff":2,"likes":3,"dislikes":1,"content":"会遭报应的"},{"id":207492,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2024-12-22 11:18:26","like_diff":2,"likes":2,"dislikes":0,"content":"作为专业课的分析化学老师，我觉得苏老师讲课其实很清晰，分析化学书其实可读性不是很高，如果每节课认真跟老师思路其实能拿到不错的成绩的，期末考试的题型和平时作业的形式也比较像，有时会在钉钉上问老师问题，回答得很耐心，可能上课会比较平淡，但最后在课上其实也会开些冷冷的玩笑，期末复习的时候也会设置答疑时间，反正比分化2的老师好多了"},{"id":212369,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2025-01-14 02:20:22","like_diff":2,"likes":2,"dislikes":0,"content":"上课内容还行，但是语气实在平淡，让人在早八不太容易坚持得住，不过这个学期没点过名，作业也不是很多。总体来说其实还行吧，感觉没有其他评论里说的那么逆天。"},{"id":147383,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2022-01-10 01:36:13","like_diff":1,"likes":2,"dislikes":1,"content":"之前看评价好像说老师不调分？但是今年出成绩特别慢，大概用了七天，最后成绩也比自己预想的高！主要还是自己那张纸抄的好，填空啥的基本都抄到了！老师出了挺多原题的，老师给的历年卷一定要刷，最后几章课后习题也要刷，很可能出原题的！老师还是不错的，挺温柔一人没有小测，有几次点名（比如交作业当做点名）"},{"id":147414,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2022-01-10 02:58:11","like_diff":1,"likes":2,"dislikes":1,"content":"苏老师真的挺好的诶"},{"id":212737,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2025-01-14 16:03:03","like_diff":1,"likes":1,"dislikes":0,"content":"挺好的老师，还指出学生好像学风有问题的事。从不点名，最后满了，感谢老师"},{"id":161364,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2022-11-05 05:54:14","like_diff":0,"likes":1,"dislikes":1,"content":"555"},{"id":165662,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2023-01-09 07:24:29","like_diff":0,"likes":2,"dislikes":2,"content":"老师讲的挺好的，复习看ppt就够了，最后4.8"},{"id":168326,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2023-02-11 14:38:39","like_diff":0,"likes":0,"dislikes":0,"content":"老师人很好，每次上课都乐呵呵的，但怎么说呢这门课本来就很无聊，有一大堆东西需要记的（虽然都能抄到纸上），知识点有一点没理解就只能硬抄A4纸了，"},{"id":174993,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2023-06-20 15:20:56","like_diff":0,"likes":1,"dislikes":1,"content":"人很好，上课也会提醒不要玩手机，课件简单易懂\n\n一定要我做一个对比的话，我只能说为什么不接着带分化2？"},{"id":212370,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2025-01-14 02:20:22","like_diff":0,"likes":0,"dislikes":0,"content":"上课内容还行，但是语气实在平淡，让人在早八不太容易坚持得住，不过这个学期没点过名，作业也不是很多。总体来说其实还行吧，感觉没有其他评论里说的那么逆天。"},{"id":212371,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2025-01-14 02:20:22","like_diff":0,"likes":0,"dislikes":0,"content":"上课内容还行，但是语气实在平淡，让人在早八不太容易坚持得住，不过这个学期没点过名，作业也不是很多。总体来说其实还行吧，感觉没有其他评论里说的那么逆天。"},{"id":212372,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2025-01-14 02:20:22","like_diff":0,"likes":0,"dislikes":0,"content":"上课内容还行，但是语气实在平淡，让人在早八不太容易坚持得住，不过这个学期没点过名，作业也不是很多。总体来说其实还行吧，感觉没有其他评论里说的那么逆天。"},{"id":165791,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2023-01-09 17:53:18","like_diff":-1,"likes":1,"dislikes":2,"content":"分析化学I 认真看ppt 抄A4纸 就可以了\n\n老师人很好"},{"id":70080,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2018-01-26 05:29:33","like_diff":-2,"likes":11,"dislikes":13,"content":"谢老师不挂之恩！考完试整个人都凉了 感谢有过程分吧"},{"id":103516,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-03-01 00:49:11","like_diff":-2,"likes":1,"dislikes":3,"content":"okokok"},{"id":74679,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2018-03-05 05:27:27","like_diff":-4,"likes":6,"dislikes":10,"content":"化学哲学玩得很好，为人有原则，上课有点无聊"},{"id":102776,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-02-23 02:52:38","like_diff":-4,"likes":4,"dislikes":8,"content":"想好好评价一下苏老师。1关于催眠，这个是千真万确，十分催眠，必须打起十二分精神。2关于绩杀，因为我觉得我分还好，无权评论。但我早听说老师超严，所以平时作业做的很认真，期末考准备也很认真，半开卷的A4纸正反面写的满满当当。3关于负责，群是有的，但助教不出现，同学们也没太有相互答疑的热情；的确老师不容易联系上，但老师课后会留在教室回答问题，挺耐心的。4老师不正太，考多少是多少。"},{"id":106043,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-04-24 13:34:05","like_diff":-6,"likes":4,"dislikes":10,"content":"这个老师没有评论说的那么差吧，虽然出分是很快，但是感觉给的还不错，虽然和我想象的还是有点差距，但是自己的努力感觉得到回报了，可能是这门课本身就难吧"},{"id":103559,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-03-01 05:46:47","like_diff":-8,"likes":3,"dislikes":11,"content":"说真的，我在化学这门课上没什么天赋，普化2开头，但是苏老师的课就是认真听每节课后都做笔记，考试的时候带的a4纸抄的满满的，绩点还不错。说老师不答疑的，他第一节课就留了邮箱说用那个联系他，我发了两次问问题的邮件他都回得很快。不过不调分是真的，催眠的话我觉得商志才比较.."},{"id":106064,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-04-24 17:11:26","like_diff":-8,"likes":2,"dislikes":10,"content":"老师还是挺和蔼的，化学课本来就容易犯困இдஇ……还是有点催眠，不过好好准备，作业好好做肯定不会差的。\n\n不过分化乙这课是很坑，半个长学期上完，简直有毒。"},{"id":70081,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2018-01-26 05:30:35","like_diff":-9,"likes":7,"dislikes":16,"content":"点名都到 考试认真准备 分就不会低\n\n超级好超级优秀的老师? \n\n"},{"id":103300,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-02-27 07:25:10","like_diff":-9,"likes":1,"dislikes":10,"content":"超级和蔼"},{"id":106040,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-04-24 13:31:22","like_diff":-9,"likes":5,"dislikes":14,"content":"我是19年春学期上的苏老师的分析化学。之前可能的确有过绩杀的情况，但从这学期看来真不存在所为“绩杀”。老师专业水平是很高的，讲课也不错（一般也不会觉得枯燥哇），大家均绩低或许只是因为这门课本身不太友好？"},{"id":106047,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-04-24 14:09:00","like_diff":-9,"likes":1,"dislikes":10,"content":"看个人努力吧，自己真的付出了，绝对有收获。"},{"id":42644,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2017-01-14 16:06:26","like_diff":-10,"likes":1,"dislikes":11,"content":"还好吧"},{"id":64386,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2017-12-23 06:17:56","like_diff":-11,"likes":3,"dislikes":14,"content":"认真负责严格/死板，有一千个读者就有一千个哈姆雷特"},{"id":78257,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2018-05-10 08:15:37","like_diff":-12,"likes":2,"dislikes":14,"content":"xjb乱学了一个春学期居然没给挂"},{"id":49876,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2017-04-26 16:57:54","like_diff":-14,"likes":1,"dislikes":15,"content":"好老师！"},{"id":75178,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2018-03-08 01:29:04","like_diff":-15,"likes":0,"dislikes":15,"content":"认真负责，好好复习分不会低"},{"id":100231,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-26 00:02:06","like_diff":-17,"likes":4,"dislikes":21,"content":"讲课其实一般吧，没坐过教室前7排，绩点4.8，这种半开卷的考试的确有点看运气的，大家也不知道该复习哪里，考试难度有多少也不清楚，的确，不调分对有些人来说觉得这种难度试卷纯粹想绩杀，老师也不接地气，我个人觉得不适合教大一基础课，毕竟新生，很多考试不清楚，而且只能通过邮件来与老师沟通，但这可能也是他的一种风格，希望选它分析化学乙的同学考虑清楚。绩点一部分实力，一部分运气，我是后者。"},{"id":106042,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-04-24 13:33:21","like_diff":-17,"likes":3,"dislikes":20,"content":"绩点4.5，老师超级好\n\n"},{"id":78835,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2018-05-15 13:16:07","like_diff":-20,"likes":3,"dislikes":23,"content":"老师长得实在太帅了，我有个同学也叫苏彬，果然叫苏彬的都很帅"},{"id":100181,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2019-01-25 16:50:07","like_diff":-25,"likes":2,"dislikes":27,"content":"申请了免听，全靠自学，4.4，非常知足了……"},{"id":39485,"teacher_id":1244,"teacher_name":"苏彬","post_time":"2016-12-23 05:39:24","like_diff":-28,"likes":8,"dislikes":36,"content":"从来没想到在浙大还能遇到那么好那么帅的老师！讲课真的很有趣！而且给分超级棒！每一个化学系的胖友都应该去听他的课！"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

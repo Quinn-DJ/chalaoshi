@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>张三元 - 计算机科学与技术学院 - 浙大教评</title>
+    <meta name="description" content="张三元教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="张三元,计算机科学与技术学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">张三元</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">计算机科学与技术学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">5.87</div>
+                    <div class="rating-participants">69人参与评分</div>
+                    <div class="attendance-info">23.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">人工智能</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.73</span>
+                            <span class="students">选课: 24人</span>
+                            <span class="std-dev">标准差: 1.08</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">离散数学及其应用</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 2.88</span>
+                            <span class="students">选课: 220人</span>
+                            <span class="std-dev">标准差: 0.97</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (64 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":1172,"teacher_id":1063,"teacher_name":"张三元","post_time":"2015-03-21 16:24:32","like_diff":43,"likes":51,"dislikes":8,"content":"张老师重新定义了英语"},{"id":1533,"teacher_id":1063,"teacher_name":"张三元","post_time":"2015-03-22 11:13:44","like_diff":16,"likes":19,"dislikes":3,"content":"不太容易听明白他在讲什么"},{"id":157441,"teacher_id":1063,"teacher_name":"张三元","post_time":"2022-06-23 08:43:21","like_diff":16,"likes":16,"dislikes":0,"content":"10分。\n\n3.9。确实基本上靠自学，遇到不会的问题去问老师，老师解答地很认真很详细，也能看出虽是教授但确实是和你去探讨问题。真的是位人很好、尊重学生、热爱教学、崇尚真理的老师。\n\n一次小测答案有问题，老师和大家沟通了快半节课，然后把改错的同学都加回来了~\n\n但老师的教学方式也的确有一定改进空间，让人不是很好理解。更推荐自学——我觉得离散也不是特别深的学科，主要在知识比较广比较细碎，知识点像课程的名字一样：“离散”。所以自学难度不会很高的，加油学弟学妹们！"},{"id":102960,"teacher_id":1063,"teacher_name":"张三元","post_time":"2019-02-25 06:16:42","like_diff":13,"likes":17,"dislikes":4,"content":"第一节课40分钟开场白，之后开始讲学史，嗯我以为我在上通识课。"},{"id":610,"teacher_id":1063,"teacher_name":"张三元","post_time":"2015-03-15 07:04:51","like_diff":12,"likes":21,"dislikes":9,"content":"英语和中文都很难听懂"},{"id":2363,"teacher_id":1063,"teacher_name":"张三元","post_time":"2015-04-27 13:39:44","like_diff":11,"likes":15,"dislikes":4,"content":"额(⊙o⊙)…还是自己预习吧…水平据说牛，教课不是很好"},{"id":3115,"teacher_id":1063,"teacher_name":"张三元","post_time":"2015-05-15 01:34:05","like_diff":9,"likes":15,"dislikes":6,"content":"没逻辑，英语中文都听不懂，前期超慢，后期快。不觉得是个好老师。"},{"id":56846,"teacher_id":1063,"teacher_name":"张三元","post_time":"2017-07-05 01:02:28","like_diff":9,"likes":9,"dislikes":0,"content":"不小测不点"},{"id":75302,"teacher_id":1063,"teacher_name":"张三元","post_time":"2018-03-09 00:27:15","like_diff":9,"likes":11,"dislikes":2,"content":"想考高分的同学自学吧，听课有点浪费时间。。别看中文书，中文书也挺烂的，一定要看英文原版，看进去了就会发现英文书看起来很快的。"},{"id":139601,"teacher_id":1063,"teacher_name":"张三元","post_time":"2021-07-18 07:12:33","like_diff":7,"likes":7,"dislikes":0,"content":"张老师还是蛮负责，挺认真的。\n\n认真学还是能学到挺多东西。但是唯一的坏处就是没有小测，如果你不是期中能考到95加并且期末能考到90加的话。就不要幻想好绩点了 作为cs专业最后gpa基本都在2.4-3.3 之间 这已经算学的好的了 \n\n能去wyl班的赶紧去"},{"id":114558,"teacher_id":1063,"teacher_name":"张三元","post_time":"2019-07-10 16:46:28","like_diff":6,"likes":6,"dislikes":0,"content":"其实老师人挺好的，我之前有问题问他他都非常耐心地解答，我期末有一道题写的比较奇怪，我怕老师改错，就发邮件向他说明情况，万万没想到他回复我说查了没改错，还分析了我主要的失分点，我从没想过老师还会这么详细地回复一个普通学生的邮件！关于（可能的）缺点主要有：1.上课不太听得懂，还有点想睡觉。当然想学的人也是可以学的。2.没有微信群，也不太说考点什么的，有些不考的也上，导致我们一脸懵逼。我花最多精力学的第四章居然不考！（但其实对以后的学习有用）3.不管考得怎么样都不调分。真的希望老师可以调分！！！可能老师心里也没有调分这个概念吧，觉得考得如何就是如何，但均绩不到三也太恐怖了！老师如果调分的话，大家对他的评价肯定会高很多！"},{"id":134632,"teacher_id":1063,"teacher_name":"张三元","post_time":"2021-04-06 14:24:54","like_diff":6,"likes":6,"dislikes":0,"content":"妄想山海"},{"id":6835,"teacher_id":1063,"teacher_name":"张三元","post_time":"2015-07-24 00:17:41","like_diff":5,"likes":8,"dislikes":3,"content":"一次点名是期中试卷不认领，\n\n给分有点奇怪，主要是期中考试给分太低的缘故，其他都很好，知识也很足，一定要多问问他题目，计科可能将来就用到了"},{"id":56698,"teacher_id":1063,"teacher_name":"张三元","post_time":"2017-07-04 10:00:21","like_diff":5,"likes":6,"dislikes":1,"content":"好老师，水平很高，就是给分有点求是，不过这样才能认清自己水平。"},{"id":112112,"teacher_id":1063,"teacher_name":"张三元","post_time":"2019-07-03 15:15:44","like_diff":5,"likes":5,"dislikes":0,"content":"半年前我还是个萌新，看了学长学姐的评论虽然有点害怕但是想了想靠自己也可以的，后来发现大错特错！\n\n首先老师讲得真的烂，讲话糊里糊涂，中英文分不清，上课无起伏无重点；\n\n其次只有期中考，很难，平均分65，其他班五次小测很简单，加上作业轻松拿满平时分！\n\n第三，也是最过分的一点！花了三个星期讲了第四章，而这是根本不考的内容，以至于最后两周，一周讲一章！\n\n第四，翁老师有QQ群，还会进群答疑，非常频繁，考前会讲卷子题型分数分布，而张老师，什 么 都 没 有 ！\n\n总之学弟学妹们千万别选他！如果预置就退课！实在不行就翘课去听翁彦琳老师的！"},{"id":16959,"teacher_id":1063,"teacher_name":"张三元","post_time":"2016-01-19 10:07:15","like_diff":4,"likes":8,"dislikes":4,"content":"没重点，不讲考试的内容，期中考又难，怎么考的好，给分烂的祥。。"},{"id":24358,"teacher_id":1063,"teacher_name":"张三元","post_time":"2016-04-30 02:02:26","like_diff":4,"likes":6,"dislikes":2,"content":"毒性深重啊"},{"id":32004,"teacher_id":1063,"teacher_name":"张三元","post_time":"2016-07-05 10:59:47","like_diff":4,"likes":9,"dislikes":5,"content":"上张老师课没什么感觉，各种听不懂，快期末用了翁彦琳的ppt复习，真是不要太好用。最后均绩4.2飘过。"},{"id":114242,"teacher_id":1063,"teacher_name":"张三元","post_time":"2019-07-09 08:52:55","like_diff":4,"likes":6,"dislikes":2,"content":"这么多人吐槽老师讲课？？我觉得语言方面不能成为听课的绝对障碍吧，如果你有预习或者上课完全跟着ppt走我觉得课堂效率并不低。我想如果换作一个外国教授全英文授课，不见得能接收更多吧。\n\n老师不建群是他的教学方式，如果你仔细观察你会发现一些同学下课后和老师讨论，老师思考很细致，讲解很详尽，为什么一定要在群里解答呢？\n\n最后一周讲了一章也无可厚非吧，最后一章确实也不是考试重点。\n\n希望大家客观，这门课学好不易，但不要把一切归错于老师，找找自己的原因吧。"},{"id":23131,"teacher_id":1063,"teacher_name":"张三元","post_time":"2019-07-09 08:59:14","like_diff":3,"likes":4,"dislikes":1,"content":"好敬业，腿脚不方便\n\n"},{"id":76002,"teacher_id":1063,"teacher_name":"张三元","post_time":"2018-03-23 14:42:31","like_diff":3,"likes":3,"dislikes":0,"content":"觉得老师讲的很好"},{"id":152017,"teacher_id":1063,"teacher_name":"张三元","post_time":"2022-03-23 06:56:41","like_diff":3,"likes":3,"dislikes":0,"content":"zsy老师不作妖不整节目效果，就是单纯的讲得不好给分不好，能跑还是快跑，没跑掉的做好自学+拖绩点的准备到也还过得去。"},{"id":153661,"teacher_id":1063,"teacher_name":"张三元","post_time":"2022-05-10 00:28:32","like_diff":3,"likes":3,"dislikes":0,"content":"考的和讲的有什么关系吗\n\n人挺好，可惜教学质量不是非常理想\n\n但是我被海底捞了 只有感恩"},{"id":1200,"teacher_id":1063,"teacher_name":"张三元","post_time":"2015-03-21 16:34:24","like_diff":2,"likes":11,"dislikes":9,"content":"朴实的数学老师"},{"id":30994,"teacher_id":1063,"teacher_name":"张三元","post_time":"2016-07-03 05:52:17","like_diff":2,"likes":6,"dislikes":4,"content":"除了英文讲的不好之外，绝对好老师"},{"id":32045,"teacher_id":1063,"teacher_name":"张三元","post_time":"2016-07-05 13:04:55","like_diff":2,"likes":4,"dislikes":2,"content":"英语不行，中文也不行，给分不行，真的不行。"},{"id":50290,"teacher_id":1063,"teacher_name":"张三元","post_time":"2017-05-02 07:50:32","like_diff":2,"likes":3,"dislikes":1,"content":"英语不行就不要用英语出卷了嘛。。。other 和the other都弄不清楚。。。"},{"id":136802,"teacher_id":1063,"teacher_name":"张三元","post_time":"2021-06-25 01:28:01","like_diff":2,"likes":2,"dislikes":0,"content":"为人很好，仔细耐心，但是上课真的不太行……"},{"id":5423,"teacher_id":1063,"teacher_name":"张三元","post_time":"2015-07-07 09:32:43","like_diff":1,"likes":7,"dislikes":6,"content":"老师人挺好的，解答问题很耐心"},{"id":22853,"teacher_id":1063,"teacher_name":"张三元","post_time":"2016-03-13 12:25:44","like_diff":1,"likes":4,"dislikes":3,"content":"好好不解釋"},{"id":25833,"teacher_id":1063,"teacher_name":"张三元","post_time":"2016-06-11 02:22:37","like_diff":1,"likes":1,"dislikes":0,"content":"不听课"},{"id":26488,"teacher_id":1063,"teacher_name":"张三元","post_time":"2016-06-19 04:58:50","like_diff":1,"likes":2,"dislikes":1,"content":"只能说上课交作业很水，然而内容和学分不水，能不选的还是进来不选吧"},{"id":44654,"teacher_id":1063,"teacher_name":"张三元","post_time":"2017-01-18 05:33:11","like_diff":1,"likes":2,"dislikes":1,"content":"很低的，呜呜"},{"id":54865,"teacher_id":1063,"teacher_name":"张三元","post_time":"2017-06-30 10:44:30","like_diff":1,"likes":1,"dislikes":0,"content":"今年考试怎么这么难woc。。。"},{"id":80977,"teacher_id":1063,"teacher_name":"张三元","post_time":"2018-07-03 06:49:47","like_diff":1,"likes":1,"dislikes":0,"content":"觉得老师挺好的，问老师问题都能很好的回答"},{"id":114164,"teacher_id":1063,"teacher_name":"张三元","post_time":"2019-07-09 02:14:27","like_diff":1,"likes":3,"dislikes":2,"content":"不点名，无小测，给分好，自学者必选"},{"id":125786,"teacher_id":1063,"teacher_name":"张三元","post_time":"2020-09-14 08:38:59","like_diff":1,"likes":1,"dislikes":0,"content":"好好自学才是王道。学弟学妹多看看别的班的ppt叭"},{"id":156472,"teacher_id":1063,"teacher_name":"张三元","post_time":"2022-06-20 02:27:22","like_diff":1,"likes":1,"dislikes":0,"content":"张老师讲课水平说实话不咋样，但是人是很好的，看的出来努力在讲课，平时成绩基本会捞满，离散这门课还是很看期末的，如果算上了他的课该自学的还是自学吧，反正不点名"},{"id":176201,"teacher_id":1063,"teacher_name":"张三元","post_time":"2023-06-28 08:24:36","like_diff":1,"likes":1,"dislikes":0,"content":"喜提大学最低分"},{"id":23130,"teacher_id":1063,"teacher_name":"张三元","post_time":"2016-03-19 02:36:40","like_diff":0,"likes":1,"dislikes":1,"content":"英语太不标准了，单词大部分都读错了"},{"id":32003,"teacher_id":1063,"teacher_name":"张三元","post_time":"2016-07-05 10:56:26","like_diff":0,"likes":1,"dislikes":1,"content":"老师人不错，但讲课真的。。。\n\n最好还是别选，尤其是周六的课。。给分我也不多说了，自己确实没听过课，不怪老师"},{"id":32166,"teacher_id":1063,"teacher_name":"张三元","post_time":"2016-07-06 00:25:11","like_diff":0,"likes":2,"dislikes":2,"content":"给分烂！同样的水平去翁老师那绩点差距可能有1"},{"id":56441,"teacher_id":1063,"teacher_name":"张三元","post_time":"2017-07-04 00:11:47","like_diff":0,"likes":2,"dislikes":2,"content":"老师讲得很好。英语没那么糟糕。"},{"id":80034,"teacher_id":1063,"teacher_name":"张三元","post_time":"2018-06-19 06:14:47","like_diff":0,"likes":0,"dislikes":0,"content":"没什么体验"},{"id":84464,"teacher_id":1063,"teacher_name":"张三元","post_time":"2018-07-13 02:27:54","like_diff":0,"likes":0,"dislikes":0,"content":"讲课还可以，给分相对来说较差。"},{"id":84966,"teacher_id":1063,"teacher_name":"张三元","post_time":"2018-07-14 15:54:32","like_diff":0,"likes":0,"dislikes":0,"content":"给分是个啥玩意儿？"},{"id":86963,"teacher_id":1063,"teacher_name":"张三元","post_time":"2018-10-17 16:01:05","like_diff":0,"likes":0,"dislikes":0,"content":"是真的**"},{"id":107611,"teacher_id":1063,"teacher_name":"张三元","post_time":"2019-05-07 17:56:18","like_diff":0,"likes":1,"dislikes":1,"content":"上课基本只有几个同学在听 说实在的 老师讲的还行 就是有点催眠"},{"id":115079,"teacher_id":1063,"teacher_name":"张三元","post_time":"2019-07-15 07:33:18","like_diff":0,"likes":0,"dislikes":0,"content":"boring"},{"id":124373,"teacher_id":1063,"teacher_name":"张三元","post_time":"2020-06-30 02:20:30","like_diff":0,"likes":0,"dislikes":0,"content":"太烂了"},{"id":134614,"teacher_id":1063,"teacher_name":"张三元","post_time":"2021-04-06 01:59:35","like_diff":0,"likes":0,"dislikes":0,"content":"人挺好 最大的问题就是口音"},{"id":139636,"teacher_id":1063,"teacher_name":"张三元","post_time":"2021-07-18 15:29:54","like_diff":0,"likes":0,"dislikes":0,"content":"上课逻辑不够清晰详略也不得当，加之离散学的东西又多又杂，听课和复习都很痛苦。离散这门课统一改卷普遍给分都不行，课友们能跑还是跑吧没跑掉自学也行反正张老师不点名。"},{"id":153918,"teacher_id":1063,"teacher_name":"张三元","post_time":"2022-05-17 01:14:54","like_diff":0,"likes":1,"dislikes":1,"content":"快 跑 ！"},{"id":156448,"teacher_id":1063,"teacher_name":"张三元","post_time":"2022-06-19 17:47:47","like_diff":0,"likes":0,"dislikes":0,"content":"老师自己还是挺负责认真的"},{"id":176276,"teacher_id":1063,"teacher_name":"张三元","post_time":"2023-06-28 08:25:17","like_diff":0,"likes":0,"dislikes":0,"content":"喜提大学最低分"},{"id":185329,"teacher_id":1063,"teacher_name":"张三元","post_time":"2023-12-28 02:29:25","like_diff":0,"likes":0,"dislikes":0,"content":"给分极差无比，快逃"},{"id":193756,"teacher_id":1063,"teacher_name":"张三元","post_time":"2024-06-17 14:19:18","like_diff":0,"likes":1,"dislikes":1,"content":"这老师会把离散数学讲成数学史，考前自己发了个历年卷，然后点开一看，竟然是03年的，而且不给答案，试卷比学生的岁数都大，属实令人大开眼界，好在不点名"},{"id":195939,"teacher_id":1063,"teacher_name":"张三元","post_time":"2024-07-01 02:09:25","like_diff":0,"likes":0,"dislikes":0,"content":"3.0烂爆，是自己没好好学，但今年期末是不是有点太难了"},{"id":84458,"teacher_id":1063,"teacher_name":"张三元","post_time":"2018-07-13 02:15:40","like_diff":-1,"likes":0,"dislikes":1,"content":"上课讲的是啥玩意儿？？？"},{"id":122473,"teacher_id":1063,"teacher_name":"张三元","post_time":"2020-02-29 04:31:58","like_diff":-1,"likes":1,"dislikes":2,"content":"人挺和蔼的。中文和英文都说的不好。念ppt。经常结巴。"},{"id":92976,"teacher_id":1063,"teacher_name":"张三元","post_time":"2019-01-06 12:41:11","like_diff":-2,"likes":0,"dislikes":2,"content":"很不错"},{"id":32010,"teacher_id":1063,"teacher_name":"张三元","post_time":"2016-07-05 11:04:30","like_diff":-3,"likes":3,"dislikes":6,"content":"。。。这英语这给分去死吧"},{"id":114155,"teacher_id":1063,"teacher_name":"张三元","post_time":"2019-07-09 01:46:19","like_diff":-5,"likes":7,"dislikes":12,"content":"老师从不点名不小测，这是选他课的最大好处，可能也是唯一好处。老师水平很高，还会讲很多期末不考的内容（然而期中会考），上课讲得比较透彻，然而只是讲给他自己一个人听的。期末预习的时候别看他的ppt，他的ppt基本上就是按顺序把书抄了一遍，推荐直接看书上每个chapter后面的key terms and results，这课的内容太琐碎了，这样能够最快地把章节主要内容预习完。平时从不听课，就这样刚预习完就去考试了，他卡我分91，所以我也来卡他评分9分。"},{"id":1761,"teacher_id":1063,"teacher_name":"张三元","post_time":"2015-03-24 05:38:14","like_diff":-13,"likes":4,"dislikes":17,"content":"人很好\n\n讲中文很好"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

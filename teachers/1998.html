@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吴彦 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="吴彦教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="吴彦,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">吴彦</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">5.40</div>
+                    <div class="rating-participants">145人参与评分</div>
+                    <div class="attendance-info">28.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (5 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">世界史史料研读</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.23</span>
+                            <span class="students">选课: 24人</span>
+                            <span class="std-dev">标准差: 0.45</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">世界文明史</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.33</span>
+                            <span class="students">选课: 384人</span>
+                            <span class="std-dev">标准差: 0.51</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">东方文明史</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.97</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.67</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">中东史专题</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.19</span>
+                            <span class="students">选课: 167人</span>
+                            <span class="std-dev">标准差: 0.57</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">中东文明史</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.56</span>
+                            <span class="students">选课: 14人</span>
+                            <span class="std-dev">标准差: 0.26</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (123 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":31709,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-07-05 14:49:17","like_diff":115,"likes":156,"dislikes":41,"content":"我不懂你们说的那些有的没的，我只知道，我每节都来了的，没有迟到，没有早退，论文写了将近4000字，开卷考试带了五本书，并且找到了答案，每页纸我都写满了的，我很开心地等着出分，为什么!!!!!!!!!!!!!!!!!!!我只有2.4，你这一门课给我拉了多少分，老师，您认识我吗，还是我的名字让你不爽了，你为什么要把正态成这样，我所有努力学习的其它科，就被您这一科给毁了"},{"id":23021,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-07-05 14:33:37","like_diff":38,"likes":65,"dislikes":27,"content":"一个学期大概不定时点四次名字，期中一篇读书报告，期末开卷两道论述题。虽然上课实在忍不住不睡觉，但讲真，如果你有好好看看书好好写报告，期末资料打全，给分OK的。"},{"id":23034,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-03-16 10:08:55","like_diff":29,"likes":34,"dislikes":5,"content":"朋友，你怀念高中的历史课堂吗？你怀念随机点名的激情吗？你怀念没观点也得硬上的尴尬吗？你怀念狂飙笔记的快感吗？"},{"id":23022,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-03-16 08:45:06","like_diff":28,"likes":35,"dislikes":7,"content":"极不好的上课体验！！！！"},{"id":23026,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2019-01-04 10:35:30","like_diff":24,"likes":32,"dislikes":8,"content":"草鸡无敌大反派的感觉，压抑痛苦欲仙欲死。"},{"id":161211,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-11-01 00:25:27","like_diff":22,"likes":24,"dislikes":2,"content":"服了，真的是在不停的恶竞，最讨厌的就是这节课，上课回答问题加分，讨论课要排名加分，一切的都是和加分挂钩，每个人都非常功利，但是大家都没有学到什么，只是在讨论时只顾着一味的卷，做很多很多的ppt，真的很没有水平"},{"id":23032,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-03-16 09:16:46","like_diff":20,"likes":24,"dislikes":4,"content":"就有一种高高在上你们都得听老子的感觉……超级无敌点名上台回答问题(O_O)？全程懵逼心脏狂跳，水平暂时没听出来有什么，就是觉得这种上课方式严重影响好感"},{"id":23020,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-03-16 08:41:22","like_diff":19,"likes":20,"dislikes":1,"content":"点名回答问题"},{"id":139825,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2021-07-29 03:27:53","like_diff":19,"likes":21,"dislikes":2,"content":"楼上所说的助教“黄狗”一门研究生课程挂科考了40分，居然还能拿国奖，研究生毕业论文大修延毕，硕士论文都能写成硕“土”论文，最后还留校当辅导员，真是滑天下之大稽。对体制对分数都很绝望，恶心透了。"},{"id":23024,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-03-16 08:50:49","like_diff":15,"likes":19,"dislikes":4,"content":"好可怕的老师"},{"id":163658,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-12-16 02:11:48","like_diff":14,"likes":14,"dislikes":0,"content":"鼓励恶竞的老师，要求举手发言，展示课是真的。。。事多分少，社恐勿入"},{"id":23028,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-03-16 08:58:46","like_diff":13,"likes":18,"dislikes":5,"content":"吓死宝宝了，我还只是个孩子啊。上课开始疯狂的大点名，一个又一个又一个，全程懵逼.jpg。上大学以来第一次上课紧张。。。。toxic"},{"id":23025,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-03-16 08:52:20","like_diff":12,"likes":18,"dislikes":6,"content":"拉翔一样的体验"},{"id":134203,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2021-04-24 10:55:21","like_diff":12,"likes":13,"dislikes":1,"content":"主要看助教，碰到晦气助教比如说姓黄的赶紧退课吧"},{"id":149708,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-01-16 13:58:31","like_diff":12,"likes":13,"dislikes":1,"content":"课程：世界文明史\n\n打分：5/10\n\n优点：上课感觉还行\n\n缺点：别讨论课了好吗……讨论课真就社恐地狱，然后这个讨论课名实不符，本质只是一群人按顺序发言，并没有什么讨论……\n\n世界文明史秋学期是东方史和西方中世纪史，只要求交一篇读书报告，讨论课的优胜者会加分，大概就是这样。"},{"id":166275,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2023-01-11 15:30:24","like_diff":12,"likes":13,"dislikes":1,"content":"世界文明史。老师是负责讲埃及、希腊等外国部分的。在秋学期。成绩是看举手发言、小组讨论和论文。说实话还是能够学到知识的，但是恶竞真的让人很难受。平常没有签到，所以发言占平时分中较大的比例（我觉得，但社恐人根本不敢举手。还有就是万恶的小组讨论，老师说不用准备，轮流发言就行，我是不怎么准备的，但组里的卷王真的卷的要死，到处找论文写稿子。还有几个大哥用高贵的PPT来跟我一张嘴比，是我的生产力落后了。。。还有另外小组讨论是起额外加分的作用，分加到论文里去。总之这门课一度给刚进折大的苯大一新生留下了心灵创伤。虽然可能不完全是老师的问题，还有折大内卷风气的影响。。。总之感谢老师的教诲！但是还是诚挚地恳求您改变一下评分的方式，不要苦了下一届的学弟学妹了！"},{"id":87830,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2018-10-15 06:52:34","like_diff":11,"likes":17,"dislikes":6,"content":"我看查老师心很慌，但是听课还是听得津津有味...."},{"id":134775,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2021-04-14 13:44:14","like_diff":11,"likes":13,"dislikes":2,"content":"之前一直在忍，今天是真的忍不住了，那条黄狗能不能不要每节课在那吠了，一边嫌弃我们不发言，一边狗叫占了几乎所有发言时间，请问怎么发言？是不是先得把狗嘴封上？但凡是人都知道换位思考，布置这么多任务而且还在考试周是以为只学这一门课么？专业课是不是也要给你这条黄狗让让路？口口声声说可以商量形式，可惜了，黄狗听不懂人话。"},{"id":23029,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-03-16 09:06:52","like_diff":10,"likes":12,"dislikes":2,"content":"可怕的体验"},{"id":23031,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-03-16 09:08:46","like_diff":10,"likes":14,"dislikes":4,"content":"反正我就是不喜欢这种腔调，打我咯。"},{"id":23078,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-03-17 03:12:27","like_diff":10,"likes":12,"dislikes":2,"content":"建議不要選"},{"id":23087,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-03-17 06:53:42","like_diff":10,"likes":15,"dislikes":5,"content":"讲的是什么都不知道，还经常提问，一副高高在上，自以为是的样子做给谁看"},{"id":23267,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-03-23 08:02:42","like_diff":10,"likes":11,"dislikes":1,"content":"用点名留住学生的老师\n\nhhh"},{"id":134190,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2021-03-18 12:34:27","like_diff":10,"likes":10,"dislikes":0,"content":"老师上课无聊，其中一个助教极其令人无语，不想用过分的言语评价，总之非常劝退。本来抱着对历史的热爱选了这门课，没三节课下来已经被助教摧残的一点兴致都提不起来，我不知道助教是什么心态，哪怕学术水平再高，平心而论，就凭随意打断人发言和自以为是唯我独尊这两点您已经德不配位了，希望您耗子尾汁"},{"id":161212,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-11-01 00:27:17","like_diff":10,"likes":10,"dislikes":0,"content":"课堂体验极其差，鼓励恶性竞争，在讨论课上，分别讨论世界文明在哪里，文明有优劣之分吗？文明的动力在哪里，我想问前面几个问题有讨论的必要吗？！！！上课举手发言就加一分，大家都抢着发言但很没有质量，简直快恶心死了。讨论课每次都是用不同的评分模式，组内竞争，就不能好好上课？最后一次个人发言，安静摸鱼都不可以，真是快吐了。从未上过这么难受的老师的课"},{"id":161238,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-11-02 00:23:55","like_diff":10,"likes":10,"dislikes":0,"content":"适合卷王hhhh，讨论课烦死了"},{"id":165688,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2023-01-09 09:15:02","like_diff":10,"likes":10,"dislikes":0,"content":"好老师，最后悔的就是没弃修这门课。"},{"id":23033,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-03-16 09:22:04","like_diff":9,"likes":10,"dislikes":1,"content":"不喜欢这种风格"},{"id":31695,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-07-04 13:46:31","like_diff":9,"likes":11,"dislikes":2,"content":"垃圾老师 胡乱正态 极其不负责任！"},{"id":71891,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2018-01-29 05:11:08","like_diff":9,"likes":13,"dislikes":4,"content":"其实老师挺负责的 学术气息浓厚 虽然讲课不是很有趣但我觉得也没那么不好啦……"},{"id":136624,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2021-06-22 06:06:41","like_diff":8,"likes":9,"dislikes":1,"content":"从不旷课，上课回答问题积极，小组展示也全程参与了，考试都是主观题，最后绩点3.5分，只能说给分很迷惑，也没有公开平时分，也不知道是怎么给分的。一门通识课严重拉低大一绩点，是导致我无法转专业的直接原因之一。只能说当初太年轻，什么都不懂，选课不看查老师评分，现在回想起来十分后悔。这门课事情挺多，一学期有两次展示，而且就算不是自己组展示助教也很可能会叫你起来问你对于这个题目的观点，所以每次讨论课都需要准备。\n\n我只上过这一门通核，不知道别的通核是什么情况，但是我个人认为这门课是我大一上学期最头疼的课之一，卷到了极致。同学们为了平时分，回答问题需要抢，可是就算抢着回答问题得分也还是不高，挫败感很强。现在看评论也有同学说这门课不错的，可能不同的助教之间差距会很大，一个班分三个小班，由三个助教教，我们班助教姓黄，我没觉得他像下面一些同学说的那样人品很差，老师会自己出钱给辩论赛获胜同学买奖品，个人认为助教挺负责，但是他喜欢在同学展示的时候打断是事实，而且他的讨论课确实很卷，上讨论课时常提心吊胆的。（辩论赛是助教举报的课程内容辩论，参加有平时分加分，我没参加辩论可能也是得分低的原因之一？）以上为个人看法，仅供参考，选这门课如果不擅长表达，不是特别能卷，还是慎重，不考虑绩点的随便。\n\n最后补充一下，东方文明史这门课主要讲古埃及，西亚，印度，伊斯兰文明，而且宗教内容占很大一部分，对中国和日本，韩国这些国家介绍也有，但是占比很有限，我选课的时候被自己固有的对东方一词的认识误导了，学习过程挺累的"},{"id":161215,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-11-01 01:02:04","like_diff":8,"likes":8,"dislikes":0,"content":"hhhhhhh第一次碰到这种逼人卷的老师，真正上课的时间没多少，讲课的时候高情商说法是干货满满，低情商是极其无聊，讲的内容又太细了，根本不像通识课，勿选"},{"id":29015,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-07-04 13:52:57","like_diff":7,"likes":8,"dislikes":1,"content":"傻逼老师浪费我青春，毁我績点，我写了那么久的论文和试卷，给我这个分，mdzz学习帝为什么不可以评0分"},{"id":131422,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2021-01-27 13:01:08","like_diff":7,"likes":7,"dislikes":0,"content":"大绩杀"},{"id":160772,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-10-11 01:44:11","like_diff":7,"likes":7,"dislikes":0,"content":"讨论课超烦人"},{"id":164402,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-12-21 01:19:50","like_diff":7,"likes":7,"dislikes":0,"content":"傻孩子们，快跑啊！！！！！！！！！"},{"id":134918,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2021-04-22 09:50:41","like_diff":6,"likes":6,"dislikes":0,"content":"姓黄的贱不贱呐"},{"id":166931,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2023-01-14 09:06:12","like_diff":6,"likes":7,"dislikes":1,"content":"讨论课吐了，发言无意义。评论区打低分的都是本人嘴替。"},{"id":184933,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2023-12-24 13:01:44","like_diff":6,"likes":7,"dislikes":1,"content":"中规中矩吧，水平还是有的，逻辑非常清晰，各个部分之间连贯，但给分很看助教……我是fyh助教的班，fyh很捞人，给分还不错，但是其他助教不好说。认真听课倒是确实能有收获。偶尔点名。总的来说5分很适合这个老师，没什么特别好的地方，但是也还不错吧，中规中矩。"},{"id":205708,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2024-12-11 11:24:08","like_diff":6,"likes":6,"dislikes":0,"content":"【世界文明史】怎么说呢，作为专业基础课，24级历史培养方案新增“不推荐修读世界文明史”很值得玩味\n\n倒不是说老师不好，只是这门课确实本身不太具备向新生提供史学憧憬的条件\n\n老师负责的是世界史板块，鼓励发言且明确登记（不知道能不能算恶竞）\n\n总体比中国史部分好上一些，点名"},{"id":29201,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-06-29 11:39:45","like_diff":5,"likes":8,"dislikes":3,"content":"世界文明史，老师坑你死"},{"id":31711,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-07-04 14:42:30","like_diff":5,"likes":8,"dislikes":3,"content":"老师专业水平是高的，但是讲课有点无聊，ppt上文字太多了，感觉就是在讲ppt上的内容，没有拓展。老师人其实还不错的。但是给分真的不太好。这是我这学期上得最认真的课，但最后的得分还不如不怎么来上课的同学:)"},{"id":31704,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-07-04 14:16:58","like_diff":4,"likes":6,"dislikes":2,"content":"上这个课不如退课，不然你的绩点就像跳楼机，玩到你的心不跳为止"},{"id":32641,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-07-08 11:21:01","like_diff":4,"likes":4,"dislikes":0,"content":"呵呵哒\n\n"},{"id":147957,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-01-11 08:16:01","like_diff":4,"likes":4,"dislikes":0,"content":"上了她的东方文明史，个人是比较喜欢她这样干货的上课方式。助教是某位姓黄的，说实话是在不太喜欢，总是让我们卷卷卷之类的，不喜欢。最后给分挺好的"},{"id":150798,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-02-18 16:47:20","like_diff":4,"likes":4,"dislikes":0,"content":"遇到fyh助教讨论课好好上，应该不会出大问题！"},{"id":159013,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-07-04 12:49:11","like_diff":4,"likes":5,"dislikes":1,"content":"我给fyh助教打满分。他真的好可爱好能捞人！！真的启发了我对历史的爱！！"},{"id":160955,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-10-20 16:00:23","like_diff":4,"likes":4,"dislikes":0,"content":"讨论课事多分少，鼓励很卷的花卷去上吴彦老师的课，分肯定很不错！ps批学生ppt字太多，结果自己上课ppt全是字。"},{"id":164359,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-12-20 11:20:15","like_diff":4,"likes":4,"dislikes":0,"content":"快逃别选"},{"id":27481,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-06-26 12:32:21","like_diff":3,"likes":6,"dislikes":3,"content":"我觉得老师的课认真听还是有收获，这学期不点名了，但是要上课抽问，抽到不到扣分。总体来说还是很有收获。"},{"id":31747,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-07-04 19:35:20","like_diff":3,"likes":5,"dislikes":2,"content":"论文写了三四千字 期末考试大题也写得很多 满满好几面 给我这个分数 真是醉了 莫名其妙的正态 还有 这个老师说话的语气 呵呵 一听就很不舒服"},{"id":131396,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2021-01-27 11:37:15","like_diff":3,"likes":7,"dislikes":4,"content":"东方文明史，开卷考试答案都找到了，平时回答问题几乎每节课都会回答，从没旷课，小组展示认真负责了，得分真的，唉，一言难尽。感觉很挫败，后悔选课的时候没有看查老师评分"},{"id":145404,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2021-12-29 10:59:50","like_diff":3,"likes":3,"dislikes":0,"content":"fyh太可爱了"},{"id":162218,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-11-18 02:03:14","like_diff":3,"likes":3,"dislikes":0,"content":"逼人卷，但没什么水平，连自己研究的中东史都讲不清楚"},{"id":167655,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2023-01-18 05:52:09","like_diff":3,"likes":4,"dislikes":1,"content":"怎么说呢，总的来说还可以，但是给分是有点迷。总之老师的评分符合这个中规中矩的分数，就是讲的不是特别好，但是不至于让人觉得很无聊。个人感觉反正专业课可以拉拉分，这个课么分少点就少点。只是确实为大一要转专业的同学感到惋惜。"},{"id":169667,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2023-02-27 10:00:42","like_diff":3,"likes":3,"dislikes":0,"content":"快跑！！！！！！"},{"id":176018,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2023-06-27 12:19:39","like_diff":3,"likes":3,"dislikes":0,"content":"fyh助教神中神"},{"id":23055,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-03-16 15:37:12","like_diff":2,"likes":5,"dislikes":3,"content":"真好玩"},{"id":28316,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-07-05 08:23:48","like_diff":2,"likes":5,"dislikes":3,"content":"什么垃圾玩意儿 声音尖的刺耳睡不着爱念稿爱点名 给分盒盒"},{"id":31708,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-07-04 14:28:02","like_diff":2,"likes":7,"dislikes":5,"content":"玛德期末考第一题我借来?书上全有的，一模一样的抄上去。第二题也没有严重的地方。一共写了三千可能快四千字结果给我71分。去死吧"},{"id":31728,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-07-04 15:41:10","like_diff":2,"likes":6,"dislikes":4,"content":"妈蛋，有人书没有看完，连摩西是谁都不知道，答中东宗教和书籍感悟的题，考下来都上四，都满绩，开心就好。"},{"id":83298,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2018-07-10 04:57:34","like_diff":2,"likes":7,"dislikes":5,"content":"老师很好。。"},{"id":147762,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-01-10 17:49:37","like_diff":2,"likes":2,"dislikes":0,"content":"中东史专题yyds！"},{"id":161492,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-11-07 15:19:17","like_diff":2,"likes":2,"dislikes":0,"content":"自己品"},{"id":169761,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2023-02-27 23:48:44","like_diff":2,"likes":2,"dislikes":0,"content":"中东文明史&中东史专题\n\n非常好跨专业课，建议俩一块选因为内容一样，期末因为网课从闭卷改成了论文因此不清楚闭卷情况，课上猫后排干自己的活即可获得两小时自习时间"},{"id":201562,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2024-11-04 10:54:27","like_diff":2,"likes":2,"dislikes":0,"content":"一开始看到一大堆恶评心里一凉，但说实话24秋冬的东方文明史老师点人回答问题已经非常非常少了，8周课应该就点过3次，每次点两三个人，讲课很认真讲话思路也挺清楚的，24以后选课的同学不建议看查老形成先入为主的印象"},{"id":27864,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-06-28 01:11:49","like_diff":1,"likes":1,"dislikes":0,"content":"讲课又不怎么样人很凶还大绩杀"},{"id":28723,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-06-28 13:03:00","like_diff":1,"likes":1,"dislikes":0,"content":"手底下一直处于狂奔的状态，上课然，考试亦然。胳膊疼！"},{"id":28724,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-06-28 13:12:51","like_diff":1,"likes":4,"dislikes":3,"content":"考完事就来评论了，老师很有知识的样子，平时叫人回答的形式点名，叫人回答很恐怖，整节课都是紧张的状态。分还没出来，但是考试两道论述题很坑。"},{"id":31721,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-07-04 15:04:08","like_diff":1,"likes":15,"dislikes":14,"content":"感觉学习帝评价真的不太好，很大一个原因是点名让人回答问题？有必要说一下正名。我个人很喜欢老师，觉得她是很严肃正经的人。上课内容也是很丰富的，虽然都是ppt内容，但文明史作为一门以知识点为主的课程，就是如此吧。我参加过其它大学的文明史网课，真心不如吴老师。倒数第二门课是加拿大教授的，还是很有意思的。作业方面，一本书评，考试内容两道论述题有点懵逼，不用准备。分数方面，起码给我的分数很好很好…（没有发言的加分）不过我想，就算最后绩点不高，我也会给吴老师客观的评价。"},{"id":32606,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-07-08 04:44:25","like_diff":1,"likes":2,"dislikes":1,"content":"就是差……"},{"id":79756,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2018-06-13 09:18:13","like_diff":1,"likes":3,"dislikes":2,"content":""},{"id":97813,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2019-01-22 20:19:01","like_diff":1,"likes":7,"dislikes":6,"content":"之前看查老师还挺怕的，不过上课体验其实还不错。主要讨论课好好准备，多发言，不要怂，就是说。期末考试两道论述题，资料带足问题不大。平时讲授课不定时点名，讨论课每节点名，其实感觉碰到一个好助教其实挺重要的。"},{"id":99409,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2019-01-24 17:46:57","like_diff":1,"likes":7,"dislikes":6,"content":"该做的都做了，回答问题也不少，没缺点名，考试也写了很多，出的成绩么，呵呵，我服了，你们呢？"},{"id":127913,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2020-11-30 07:13:43","like_diff":1,"likes":2,"dislikes":1,"content":"一分给选的书，一分给上课讨论，一分给面子，不能再多了。世界史史料研读上课讲的太快了，专业课跟通识课一样，泛泛地念一遍段落大意就完了，水到爆炸好吧，和王海燕老师没有可比性。"},{"id":137328,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2021-07-03 08:31:37","like_diff":1,"likes":1,"dislikes":0,"content":"老师上课态度很认真，教授的知识面也很广，认真听课的话可以收获很多知识。"},{"id":140576,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2021-10-10 13:00:10","like_diff":1,"likes":1,"dislikes":0,"content":"我觉得老师挺好的（对我而言）。"},{"id":140961,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2021-09-18 10:42:47","like_diff":1,"likes":1,"dislikes":0,"content":"垃圾，🐶都不上她的课"},{"id":147596,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-01-10 09:21:33","like_diff":1,"likes":2,"dislikes":1,"content":"老师人真的挺负责的，事情也很少，每周讨论课看好论文就可以了。助教姐姐非常温柔漂亮。周一的课没听过，讨论课多发言，最后考试都写满，尽量不要看书和看资料，写出自己的想法，有创新的观点就好了。老师给分也很好的，这是我这学期第二个满绩的课。"},{"id":167827,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2023-01-19 09:04:30","like_diff":1,"likes":2,"dislikes":1,"content":"老师上课信息量很大，但可能会有点枯燥\n\n期中一篇读书报告，字数有上限要求（5000字）\n\n但是上课发言、小组讨论计分是真的受不了，虽然老师可能是想捞一捞平时分，但是真的就变成恶竞了"},{"id":209050,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2025-01-04 09:49:01","like_diff":1,"likes":2,"dislikes":1,"content":"老师主要是讲文明史的世界部分，课程知识很有趣，平时没有作业，有发言环节，上半个学期有一篇三千字的读书报告，最后有两次讨论课。我认真写了读书报告，平时和讨论课也有发言，最后给分挺好的。"},{"id":211550,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2025-01-12 01:51:07","like_diff":1,"likes":1,"dislikes":0,"content":"中东史专题，因为这学期新增了过程性考核要求，所以需要上课发言（但本人只简单做了一次）平时有两个线上提交的小作业，一次小组作业算pre，一次开卷考试，老师上课非常严谨认真，为人看似严格其实非常温和善良，最后给分超级好"},{"id":213649,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2025-01-18 23:55:23","like_diff":1,"likes":1,"dislikes":0,"content":"东方文明史纯纯屎课，事多分少体验感很差！浪费时间，讨论课纯纯人机互动、给分超级差、还卡绩，快逃！！！！！"},{"id":23030,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-03-16 09:08:29","like_diff":0,"likes":2,"dislikes":2,"content":"..."},{"id":23517,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-04-04 00:27:17","like_diff":0,"likes":2,"dislikes":2,"content":"真的好可怕"},{"id":23891,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-04-20 09:07:25","like_diff":0,"likes":4,"dislikes":4,"content":"自曝是学伊斯兰文化的……满满的攻击性！讲起课来一种施暴的感觉QAQ极无聊不想听好怕会挂=_=///"},{"id":24197,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-04-28 07:39:24","like_diff":0,"likes":2,"dislikes":2,"content":"呵呵，sb不解释"},{"id":25157,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-05-06 11:29:15","like_diff":0,"likes":3,"dislikes":3,"content":"点名，还要写读书笔记啊啊。好怕挂科！"},{"id":28439,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-06-28 08:59:42","like_diff":0,"likes":0,"dislikes":0,"content":"好有压力"},{"id":29973,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-06-30 15:40:16","like_diff":0,"likes":3,"dislikes":3,"content":"其实这个老师的课还是很有干货的，只是学期初点名回答问题让人整学期听课都很担惊受怕的感觉。。。。"},{"id":32874,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-07-20 03:45:48","like_diff":0,"likes":4,"dislikes":4,"content":"有干货！"},{"id":33513,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-09-20 01:49:43","like_diff":0,"likes":3,"dislikes":3,"content":"中东史很棒啊，挺喜欢这个老师的"},{"id":69752,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2018-01-25 10:20:40","like_diff":0,"likes":2,"dislikes":2,"content":"挺好的，比较容易混"},{"id":97316,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2019-01-22 08:04:25","like_diff":0,"likes":7,"dislikes":7,"content":"水了一学期的课都有4.2。总之上课一定要到(会有不定期点名)讨论课尽量多发言，考试带足材料应该问题不大。感觉主要还是讨论课发言。"},{"id":98256,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2019-01-23 08:46:45","like_diff":0,"likes":8,"dislikes":8,"content":"吴老师上课认真听了真的挺好的 给分也好"},{"id":128893,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2020-12-26 13:05:20","like_diff":0,"likes":4,"dislikes":4,"content":"东方文明史，选不上其他通核还是可以选的，不用太在意老师的评分。当然每周都有小组展示还是很累的，积极参与的话老师给分还是厚道的。"},{"id":139523,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2021-07-17 02:35:03","like_diff":0,"likes":2,"dislikes":2,"content":"东方文明史老师讲的很好，但是最后给分完全看脸"},{"id":140519,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2021-09-13 08:53:45","like_diff":0,"likes":0,"dislikes":0,"content":"老师讲课的速度贼快，赶飞机似的"},{"id":146088,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-01-05 12:38:44","like_diff":0,"likes":2,"dislikes":2,"content":"别人都说通核很卷，给分还差。我上学期修这门课真没感觉。理论课点名我靠小组长。讨论课我甚至后期课前从来不看全部临场发挥（抱组长大腿），其他小组的同学感觉也一点不卷。整学期几乎啥都没干就写了篇论文，连要求看的两本书也几乎完全没看。可能是最后考试两个题目我把同组的同学都整理了一下，写的比较充分，最后上四。来这一看吓死了，我觉得有必要给这门课一个好评。最后，fyhyyds"},{"id":154921,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-06-07 02:04:49","like_diff":0,"likes":1,"dislikes":1,"content":"确实不错"},{"id":182359,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2023-11-15 06:37:38","like_diff":0,"likes":2,"dislikes":2,"content":"love u吴彦老师❤️❤️❤️上大学遇到的第一个好老师 感动"},{"id":187943,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2024-01-18 00:59:10","like_diff":0,"likes":2,"dislikes":2,"content":"吴彦老师真的是我上大学以来见过的第一个很好的老师。我每天上课都坐在前排，虽然有时候也会犯困不听讲，但是老师提问的时候我都会积极回答问题。平心而论，老师提问的问题也不难，并且鼓励你有自己的见解，答错了也没关系。也没有说恶意竞争，每次老师都会鼓励没发言的同学发言，不会出现几个人控场的局面。毕竟这也算是专业课，需要积极一点也无可厚非。老师对中东史颇有研究，讲课的时候大部分都会结合有趣的故事、图片来讲，虽然有时会有些枯燥，但是没办法，历史就是这样的。我第一次这么老远来上大学，无依无靠的，老师却经常关心我，和我们聊天像朋友一样，上早八也允许我们在教室吃早餐。作业就是读书报告，只要你认真读了，并且体现你认真读了，给分就没问题，我觉得还是挺中肯的，毕竟大一也写不出来什么有深度的东西，主要还是看态度。有一段时间我特别焦虑，感觉自己什么都做不好，但是在课堂上发了一次言讲了自己的读书报告后老师很认真的表扬了我，让我心情真的好了很多很多。我不是因为给分好才给老师好评的，是真的觉得在大学这种快餐式上课模式中，遇到一位这样的老师很不容易，帮助你培养史学思维，分享学习方法。最后，如果你选择这节课并且好好学，结果绝对会让你满意，人生中第一个满绩是老师给的！"},{"id":193717,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2024-06-16 06:10:13","like_diff":0,"likes":0,"dislikes":0,"content":"还行吧"},{"id":206986,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2024-12-19 02:27:52","like_diff":0,"likes":0,"dislikes":0,"content":"有点过名但不多。上课感觉还是有点鼓励竞争的，会明确记录发言次数计入平时分。但是发言挺容易的，只要站起来讲点啥就好，所以感觉也还好。平常事情也没有很多，我记得好像是参观良渚博物馆和一篇读书批注（批注是有点烦了因为书都好无聊。。。还要几千字）给分暂时不知道，出了我再回来评价"},{"id":209425,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2025-01-06 02:39:37","like_diff":0,"likes":1,"dislikes":1,"content":"吴彦老师！女神!讲课很认真!很能拓展视野!会给出一些有思考难度的问题，很注重历史意识的培养，非常推荐对历史感兴趣并且认真学的同学们选～"},{"id":209620,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2025-01-06 11:20:10","like_diff":0,"likes":2,"dislikes":2,"content":"首先想说不要养成看查老师先入为主的习惯！我当时看了之后感觉还挺害怕的，也蛮影响上课感受唉唉。不过后来越来越感觉老师是很认真做学问的那种，也很热爱教学，真的有在努力培养我们的历史思维，挺推荐对历史感兴趣的同学选～上课确实很干，要求读的书也很干…我对历史兴趣不大，上课不咋听的进去，但我觉得做批准这个过程也算蛮有收获。另外我个人对发言之类的没啥排斥的，问题也不难，反正是不至于说“恶竞”吧"},{"id":216626,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2025-03-19 12:11:40","like_diff":0,"likes":0,"dislikes":0,"content":"事情很多，每周至少1k字报告，讨论课令人窒息，杂乱无章又毫无意义"},{"id":218746,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2025-04-30 14:46:10","like_diff":0,"likes":0,"dislikes":0,"content":"夏三周临时通知期末要加一场pre，强制分三六九等，东方文明史烂课避雷"},{"id":97449,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2019-01-22 09:04:12","like_diff":-1,"likes":6,"dislikes":7,"content":"我觉得老师挺好的啊。。。不知道为什么只有三分。。。老师知识渊博，很认真很温柔！"},{"id":106155,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2019-04-25 10:20:00","like_diff":-1,"likes":4,"dislikes":5,"content":"上课认真"},{"id":113199,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2019-07-06 01:30:35","like_diff":-1,"likes":3,"dislikes":4,"content":"老师讲课风格比较严谨吧，但一学期下来真的知道了不少。给分的话，可能是我开卷的理论题写的不够有理有据吧…还是挺好的"},{"id":154610,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2022-06-02 12:35:37","like_diff":-1,"likes":0,"dislikes":1,"content":"老师的知识储备还是很深厚的，上课很认真，但可能有点枯燥。我分到助教人也还不错，上吴老师的课没有发过言，平时讨论课发言可能多一点，最后给分还是很不错的"},{"id":195313,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2024-06-27 17:23:58","like_diff":-1,"likes":1,"dislikes":2,"content":"上了老师的通核东方文明史，这个课是两个老师上，吴彦老师负责前半部分，老师人还是很nice的，只是周一的理论课会不定期点名。给分不错，期末考试把课件和讨论课资料整理打印出来，开卷考试就够用了。讨论课只发言了一次，期末开卷考把答题卡写满最后拿了4.5，已经很满意了。"},{"id":23027,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-03-16 08:58:38","like_diff":-3,"likes":6,"dislikes":9,"content":"挺敬业的@_@导致心脏有点虚……上课点名，跟中弹一样＼(^o^)／   其实水平还不错，真的听还是不错的吧"},{"id":131363,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2021-01-27 07:58:51","like_diff":-4,"likes":2,"dislikes":6,"content":"老师讲课听与不听实际无所谓，要看你分到的小组与助教。每周都要小组讨论并展示，任务量还是挺大的。有幸分到一个很好的助教和几个很赞很赞的小伙伴，一个学期下来学的很开心😊 。反正要提分的话，一定要积极发言。最后说一句，fx助教姐姐yyds！"},{"id":31691,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-07-04 13:31:28","like_diff":-6,"likes":1,"dislikes":7,"content":"有加拿大老师讲课，赞！\n\n"},{"id":15752,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-01-16 08:27:08","like_diff":-7,"likes":10,"dislikes":17,"content":"很有东西。要求严格，但是很好，学到很多东西。"},{"id":32862,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-07-19 10:08:04","like_diff":-8,"likes":2,"dislikes":10,"content":"点名啥的真心恐怖，不过最后我的绩点上4了。。。所以就不说什么了。。"},{"id":113122,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2019-07-05 23:51:30","like_diff":-8,"likes":1,"dislikes":9,"content":"事少给分好"},{"id":31755,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-07-05 01:08:37","like_diff":-15,"likes":9,"dislikes":24,"content":"客观来讲，老师学识渊博，对于历史有自己的看法，很负责，上课有些无聊，太古板了。认真看了书，写了读书报告，带对了复习资料。最后绩点4.8，挺满足的了。觉得这个老师被黑的好惨，认真来讲，7分还是有的！"},{"id":5404,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-07-04 14:29:26","like_diff":-16,"likes":12,"dislikes":28,"content":"人很好，很温和。讲课有水平，就是给分不咋地。"},{"id":870,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2015-03-18 06:41:12","like_diff":-17,"likes":9,"dislikes":26,"content":"尽心负责的好老师"},{"id":23018,"teacher_id":1998,"teacher_name":"吴彦","post_time":"2016-03-16 08:15:51","like_diff":-17,"likes":6,"dislikes":23,"content":"严格的挺有水平的，很不错的哦"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

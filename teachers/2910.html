@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>咸晓婷 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="咸晓婷教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="咸晓婷,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">咸晓婷</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.82</div>
+                    <div class="rating-participants">82人参与评分</div>
+                    <div class="attendance-info">10.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (4 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">中国古代文学史Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.53</span>
+                            <span class="students">选课: 443人</span>
+                            <span class="std-dev">标准差: 0.51</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">唐宋诗歌研究</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.44</span>
+                            <span class="students">选课: 233人</span>
+                            <span class="std-dev">标准差: 0.35</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">汉语言文学各学科前沿</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.23</span>
+                            <span class="students">选课: 340人</span>
+                            <span class="std-dev">标准差: 0.47</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会实践</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.96</span>
+                            <span class="students">选课: 12人</span>
+                            <span class="std-dev">标准差: 0.14</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (71 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":100531,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2019-01-26 09:05:20","like_diff":34,"likes":35,"dislikes":1,"content":"个人感觉老师不错，讲课有条理，内容也比较有深度，有时候还会讲些有意思的小故事，而且感觉老师很有性格，找同学起来发言的时候，如果没人主动起来，会一直等着，直到有同学起来，hhh，但并不强制。最后一节课还特意听取同学们的意见，感觉老师很认真，也很诚恳，给分也是不错的。只是可能作业考核压力比较小，讲课稍微有一点点枯燥，但我觉得还好。\n\n但我有一点想不明白，那些说自己多么辛苦，多么认真，但是分数低的同学，来喷老师，是什么逻辑啊？虽然考试把手写断，但写的就一定对吗？虽然认真准备ppt，但就一定准确深入地理解了那些知识吗？虽然论文认真写了，但就一定写的比别人都好吗？我觉得老师没必要偏袒或难为谁，成绩不好多从自己身上找原因要更好一点吧。"},{"id":44032,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-01-17 08:31:13","like_diff":26,"likes":35,"dislikes":9,"content":"给分真的很好 期末态度认真答题满绩是比较容易的 平时上课多听听感受性的体悟吧 老师还是很有学识的 虽然展现方式有些单薄 再说一遍 老师人很好 非常善良"},{"id":68121,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-01-22 15:08:50","like_diff":24,"likes":28,"dislikes":4,"content":"老师有大襟怀，认真负责诚恳。只是还欠缺一点儿授课技巧。但不是大问题！也是一种讲课风格。希望老师以后多给学生一点要求，让学生在阅读中真正一点一滴收获自己的心得。"},{"id":174373,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2023-06-11 07:14:31","like_diff":21,"likes":21,"dislikes":0,"content":"还没考试，先来评分，主要是整理复习笔记的时候发现老师太强大了，想来感慨一下。\n\n先赞同楼上一位同学的观点，咸老师的课，想浅就浅，想深就深。\n\n下面分点论述一下我对咸老师的看法，仅供参考：\n\n第一，上课模式。\n\n确实，上课是比较平淡，有点像念稿，我看到有一条评论说老师只会读论文，然后我就找了知网，读秀，以及各种学术平台，发现根本找不到......所以，与其说老师是在读论文，倒不如说她是因为担心自己忘词，所以提前写了一份讲稿，有没有感觉特别像上台展示的小组同学（整体上下来感觉咸老师其实是个特别害羞的人，甚至会觉得自己的声音不好听所以想下架智云hhh）\n\n我浅浅引几句，“寓单行之气，于排偶之中”“破体为文开拓了文体的表现对象和表现方法，带来了陌生化的美学效果，为文体注入新的活力”这都是老师讲稿里的词句，你会发现，这些在普通的如点鬼簿一般的文学史课本和普及读本里是找不到的，读秀里输入这些词句搜出来的都是专业性极强的论文或者专业书籍。这说明老师的讲稿是她自己用心写出来的，和我们自己做小组展示时候拼拼凑凑完全不同，她是在以真正专业的学者角度对自己要讲的主题进行思考，从而写出的专业性极强的讲稿。我觉得就这一点来说，她已经秒杀了很多只把本科生课程当任务的老师了。\n\n第二，讲课内容。\n\n并不是按照传统的诗人点名册这样一个一个讲下去，看得出老师对自己的讲课内容进行了精心的编排，她讲过自己的安排是有深意的，如果能够真正按照她上课讲的去阅读，你是能够构建出一整套对于唐宋诗坛的理解的（经常性摸鱼的我遗憾离场）\n\n第三，老师个人性格（个人看法）\n\n感觉典型I人，慢热，善解人意，说话温温柔柔，有的时候戳中萌点而不自知，看起来严肃但其实很好说话，厕所碰见了打招呼会害羞（bushi）\n\n\n\nabove all，我也觉得咸老师以后会成为一代大家，期待❤️\n\n（因为自己学艺不精所以把希望寄托于老师，反向PUA，手动狗头）"},{"id":45258,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-01-19 08:17:49","like_diff":20,"likes":38,"dislikes":18,"content":"我这里预言一下，咸老师以后可能会成为大师级的学者，上过课的同学以后可以回味。"},{"id":100504,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2019-01-26 08:15:00","like_diff":11,"likes":11,"dislikes":0,"content":"老师有气质➕接地气，超棒的"},{"id":145728,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2022-01-01 04:33:17","like_diff":11,"likes":11,"dislikes":0,"content":"老师给得太多了"},{"id":66776,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-01-19 03:50:06","like_diff":9,"likes":23,"dislikes":14,"content":"讲文学史不用一般线性文学史的讲法，内容其实略难，无论是对文学的体悟还是对文学的研究都有不俗的看法。很好的老师，有学识有情怀有见地，认真听会受到很多启发。"},{"id":156239,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2022-06-18 12:03:21","like_diff":9,"likes":9,"dislikes":0,"content":"古文史2：课程体验说实话一八八，授课有时候非常水，要一直做mooc，但给分说实话很好"},{"id":68262,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-01-23 01:53:31","like_diff":8,"likes":10,"dislikes":2,"content":"老师人超好，而且感觉的出来是用心考虑过学生的。就是讲课方式真的还需要提高一下"},{"id":48368,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-03-02 10:57:51","like_diff":7,"likes":16,"dislikes":9,"content":"如评论所说水平很高但是讲课一般 人很温柔很知性很真诚"},{"id":63256,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-11-29 13:38:12","like_diff":7,"likes":21,"dislikes":14,"content":"有些高妙的见解，李白得性情之真，杜甫得性情之善，诗经之美就像一个美人不自知其美……喜欢咸老师！老师会越来越棒的！"},{"id":156091,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2022-06-17 13:14:29","like_diff":7,"likes":7,"dislikes":0,"content":"咸菩萨给的实在太多了，有点不好意思"},{"id":43995,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-01-17 07:43:50","like_diff":5,"likes":20,"dislikes":15,"content":"满绩妥妥的 \n\n老师很温柔 作业也不多 \n\n考试比较容易 \n\n很后悔没认真听老师说的每一句话 \n\n其实老师很有干货 \n\n很喜欢老师用佛法开导我们啊\n\n老师对诗歌的独特感悟对我启发很大\n\n"},{"id":74569,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-03-03 16:30:14","like_diff":5,"likes":9,"dislikes":4,"content":"棒\n\n真棒\n\n真的棒"},{"id":138305,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2021-07-08 12:11:49","like_diff":5,"likes":5,"dislikes":0,"content":"老师人真的很好，最后一节课还会真诚地征询大家改进意见，上课技巧可能还需要略作提升。本来想给9分的，但是她的分数实在给的太多了.jpg所以报之以李还之以桃"},{"id":105664,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2019-04-18 06:51:28","like_diff":4,"likes":6,"dislikes":2,"content":"超级棒啊，给分很好啊，几乎满绩，超出预料，上课也很可爱啊哈哈哈哈"},{"id":112035,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2019-07-03 08:44:41","like_diff":4,"likes":6,"dislikes":2,"content":"唐宋诗歌研究，一门就算你只去听一次理论上也能拿满绩的课（手动狗头）认真讲，老师的做法挺好的，自己也顺势读了不少诗，最后老师给分也真的很好。"},{"id":136689,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2021-06-23 04:35:01","like_diff":4,"likes":4,"dislikes":0,"content":"感谢老师让我在可怕的考试周有一门可以喘息的开卷考试！！"},{"id":21046,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2016-02-13 09:55:29","like_diff":3,"likes":15,"dislikes":12,"content":"咸老师知识丰富喜欢她的课"},{"id":40316,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-01-02 15:15:02","like_diff":3,"likes":18,"dislikes":15,"content":"讲诗歌很精彩，能抓住诗人精神的本质，真正的人文学者，没有架子，很好的老师。"},{"id":44595,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-01-18 03:54:23","like_diff":3,"likes":14,"dislikes":11,"content":"老师人真的超级好，超级温柔的一个人。上课讲ppt虽然有丢丢枯燥但是能学到很多知识还有一些观点看法。给分很好啊～"},{"id":61621,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-11-19 09:26:21","like_diff":3,"likes":17,"dislikes":14,"content":"咸老师的课还是很有水平的，并非那么简单，她注重对文学的体悟和感受，你浅它就浅，你深它就深。"},{"id":66674,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-01-18 06:33:50","like_diff":3,"likes":13,"dislikes":10,"content":"授课风格比较特別，内容很有深度，重视学生的阅读体验，我个人非常喜欢大学里面这种呈现老师学术个性的课。"},{"id":66746,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-01-18 17:30:56","like_diff":3,"likes":12,"dislikes":9,"content":"咸老师是一位很有古典意蕴的学者，学识丰富有见地。内容由浅入深，循序渐进又不拘常套。给每一位期末做报告的同学做了点评，很认真。课后回答问题也很有耐心。"},{"id":67454,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-01-21 08:30:54","like_diff":3,"likes":7,"dislikes":4,"content":"偶尔会讲学人趣事，再多一点就好了"},{"id":68113,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-01-22 14:59:02","like_diff":3,"likes":6,"dislikes":3,"content":"善良，有水平"},{"id":69200,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-01-24 10:00:06","like_diff":3,"likes":7,"dislikes":4,"content":"玉泉工科生来修文学史当个性，中间有一次点名没到，最后老师给了4.5，还是挺稳的?"},{"id":5119,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2015-07-04 09:04:18","like_diff":2,"likes":14,"dislikes":12,"content":"老师肚里有货有情怀有爱有人性温暖但不会讲课 上课念PPT，不点名没作业，愿意听还是能感受到一些东西 考试是古诗文阅读理解（不死抠标准答案），开卷 给分好"},{"id":35448,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2016-11-10 07:17:22","like_diff":2,"likes":10,"dislikes":8,"content":"老师知识丰富 但是上课比较枯燥沉闷"},{"id":39453,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2016-12-23 01:40:14","like_diff":2,"likes":5,"dislikes":3,"content":"感觉老师人不错但是讲课略枯燥"},{"id":46507,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-01-22 01:28:52","like_diff":2,"likes":11,"dislikes":9,"content":"事情很少，但是我82分。"},{"id":66931,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-01-19 10:13:09","like_diff":2,"likes":12,"dislikes":10,"content":"学问很高，干货很多，内容绝不简单。"},{"id":68079,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-01-22 14:42:42","like_diff":2,"likes":4,"dislikes":2,"content":"咸老师人很好，自己学问也很好，有老派学者的感觉，就是上课会比较无聊，需要自己多体悟，墙裂建议老师去什么演讲谈话培训班学学正常的说话方式啊！"},{"id":68383,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-01-23 05:40:43","like_diff":2,"likes":3,"dislikes":1,"content":"内容有深度。讲授方式有点无聊。给分好"},{"id":100615,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2019-01-26 12:06:38","like_diff":2,"likes":2,"dislikes":0,"content":"平时任务很少，不点名，考试开卷，给分很好，老师讲得有些枯燥但内容很丰富，认真听下来能学到一些东西"},{"id":151312,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2022-02-28 08:18:39","like_diff":2,"likes":2,"dislikes":0,"content":"就还行"},{"id":156084,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2022-06-17 12:19:23","like_diff":2,"likes":2,"dislikes":0,"content":"老师给分也太好了吧"},{"id":196185,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2024-07-02 05:38:16","like_diff":2,"likes":4,"dislikes":2,"content":"菩萨给分太好了，有点不好意思了，在慕课98的基础上期末考并不怎么好，只是把自己背了的、和题目相关的内容疯狂往上写，最后93，太满足了"},{"id":196316,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2024-07-03 01:15:52","like_diff":2,"likes":4,"dislikes":2,"content":"咸老师虽然讲课总会看看讲稿，但是讲课内容丰富，条理清晰。\n\n会有mooc和一次展示，老师的授课内容和考察重点主要都是唐代文学，且老师出题偏爱杜甫（韩愈也会出）。\n\n出卷子很活，但是改卷子太仁慈了！工科生跨专业94非常开心！不愧是咸菩萨！出分那天潮水般的谢谢老师！\n\n（老师偶尔会点同学起来回答问题，但是好像不在的同学貌似也没影响……）"},{"id":29851,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2016-06-30 11:56:15","like_diff":1,"likes":14,"dislikes":13,"content":"口音很醉人，事情有点多，唐宋诗歌研究只讲唐代诗人?"},{"id":40310,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-01-02 15:08:53","like_diff":1,"likes":13,"dislikes":12,"content":"有内容有情怀有水平，喜欢咸老师的课，棒棒哒～"},{"id":44009,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-02-25 17:27:04","like_diff":1,"likes":16,"dislikes":15,"content":"老师是我的女神，超爱咸老师"},{"id":44031,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-01-17 08:30:14","like_diff":1,"likes":7,"dislikes":6,"content":"老师超棒 人很好～期末最后一节课会送给作展示的同学贺卡。平时没有作业。老师很有文学功底，就是讲课稍微有点枯燥，建议有文学方面兴趣的同学听。给分很好 期末满绩"},{"id":61572,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-11-18 16:52:06","like_diff":1,"likes":13,"dislikes":12,"content":"其实咸老师对文学有着很深的感受和体悟，她的文学史课，有一些精辟的论断，需要细读作品之后才能有所领悟。"},{"id":67028,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-01-20 04:49:29","like_diff":1,"likes":12,"dislikes":11,"content":"咸老师讲文学有时候很让人惊艳，一句话直透本质，读书太少领会不了不能怪老师。"},{"id":174464,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2023-06-12 15:37:07","like_diff":1,"likes":2,"dislikes":1,"content":"咸老师非常有自己的学术判断和思考，也非常有学养。她一直学习，不断沉淀，值得我们学习！老师要求我们多看书，本人惭愧，辜负了老师的期望。老师上课条例还挺清晰的，不知道是不是因为做出了调整。祝福她，老师会是有一番成就的学者。"},{"id":175048,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2023-06-21 09:09:09","like_diff":1,"likes":1,"dislikes":0,"content":"老师讲课是很有趣的，能感受到她对课程的投入和准备"},{"id":66671,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-01-18 06:07:19","like_diff":0,"likes":9,"dislikes":9,"content":"喜欢咸老师的课，会跟我们分享自己的研究体会，干货多多，一个学期下来收货多多，有些见解给人以一语道破天机之感。就是语速有点快?"},{"id":217353,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2025-04-09 02:54:19","like_diff":-1,"likes":0,"dislikes":1,"content":"讲课一般，瞟过一眼论文似乎也还过得去"},{"id":59901,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-09-28 05:58:18","like_diff":-2,"likes":21,"dislikes":23,"content":"听的很无奈"},{"id":60173,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-10-12 05:53:59","like_diff":-2,"likes":23,"dislikes":25,"content":"上大学以来最尴尬的一节课，文学史2……"},{"id":59394,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-09-21 06:18:59","like_diff":-3,"likes":20,"dislikes":23,"content":"真的不会讲课啊，需要表达能力很着急"},{"id":60659,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-10-26 06:10:15","like_diff":-3,"likes":19,"dislikes":22,"content":"emmmm一言难尽建议自行体会"},{"id":66668,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-01-18 05:39:22","like_diff":-3,"likes":18,"dislikes":21,"content":"不睡着算你厉害"},{"id":212,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2015-03-14 16:55:04","like_diff":-4,"likes":24,"dislikes":28,"content":"名家名作…平时没作业 上课读ppt 有做pre  人很厉害课就一般 如果不跟着她的思维积累 期末简直作死 建议古文能力强 脑洞大 不在意上课的过程的人来选"},{"id":44098,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-01-17 09:20:00","like_diff":-4,"likes":13,"dislikes":17,"content":"挺水的，肚子里有东西但讲不出来，给分很好，没做展示也满了。老师人还是很好的，也很和蔼。"},{"id":60440,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-10-20 02:40:13","like_diff":-4,"likes":24,"dislikes":28,"content":"每次上咸老师的文学史二 心中总回荡着一首歌：你说你 想要逃离偏偏注定要落脚 希望咸老师能够尽早认识到自己课堂的问题 予以改正"},{"id":60668,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-10-26 07:55:13","like_diff":-5,"likes":18,"dislikes":23,"content":"上咸老师的课一定要早点去 不然抢不到后排的位置\n\n"},{"id":15702,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2016-01-16 07:09:39","like_diff":-6,"likes":19,"dislikes":25,"content":"哎……不会讲课，\"李白就是那个李白，杜甫就是那个杜甫\"。。。"},{"id":124613,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2020-07-03 23:54:04","like_diff":-6,"likes":5,"dislikes":11,"content":"老师上课有点枯燥，可水可听，但还蛮有条理的。给分好。"},{"id":66632,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-01-17 16:28:53","like_diff":-7,"likes":20,"dislikes":27,"content":"念讲稿的老师…文学史只讲诗歌，感觉更适合做研究而不是教学。"},{"id":59381,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2017-09-21 05:43:44","like_diff":-8,"likes":25,"dislikes":33,"content":"古代文学史2………感觉老师其实很适合去做高中语文老师 /捂脸"},{"id":5406,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2015-07-07 08:04:52","like_diff":-9,"likes":17,"dislikes":26,"content":"不会讲课。给分不错，超级水。"},{"id":68178,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-01-22 16:33:36","like_diff":-9,"likes":11,"dislikes":20,"content":"真心怀疑咸老师的评分有什么刷分的现象在。古代文学史二上课就念论文，自己的论文和别人的论文，百度一下百度百科也有部分借鉴。可以说是完全迷了。明明上过的都说迷啊。"},{"id":87565,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-10-07 02:31:08","like_diff":-9,"likes":8,"dislikes":17,"content":"都大学了，还让学生抄诗，疯了"},{"id":3676,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2015-06-17 02:12:03","like_diff":-11,"likes":23,"dislikes":34,"content":"不点名，没作业，只有期末考。自己知识丰富，有点不会讲课。人挺好的。期末考试简单。自愿做pre。给分不错，我91(超级水…"},{"id":78055,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-05-09 07:21:07","like_diff":-13,"likes":4,"dislikes":17,"content":"不会上课 忍不了。。"},{"id":68405,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-01-24 04:07:04","like_diff":-20,"likes":6,"dislikes":26,"content":"总之做展示就是好！作业字数越多越好 虽然说短小精悍的也好 但写的多的一定高分 期末考试不会的也多写  上课不会上吧 期末考试写了满满一面diss她"},{"id":39891,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2016-12-28 06:30:52","like_diff":-24,"likes":7,"dislikes":31,"content":"感觉就是，水平很高讲不出来的那种，讲课讲了五分钟我就开始水手机了。对了只上过她的一节课，是代胡可先老师的通核课，然后。。。跑来吐槽一下。"},{"id":44095,"teacher_id":2910,"teacher_name":"咸晓婷","post_time":"2018-12-22 16:04:20","like_diff":-56,"likes":11,"dislikes":67,"content":"课是水没错，就一篇论文，开卷考，但我的成绩惨不忍睹！给分85，所有课里最低的......论文修改无数次，上课积极发言，认真准备PPT，卷子写的手都要断了，还要我怎样，难道我玩手机被她记住了？愤怒！"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

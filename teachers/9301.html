@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>骆笑 - 法学院 - 浙大教评</title>
+    <meta name="description" content="骆笑教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="骆笑,法学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">骆笑</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">法学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">3.48</div>
+                    <div class="rating-participants">78人参与评分</div>
+                    <div class="attendance-info">11.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">社会调查</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.98</span>
+                            <span class="students">选课: 133人</span>
+                            <span class="std-dev">标准差: 0.11</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">职业生涯规划</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.44</span>
+                            <span class="students">选课: 110人</span>
+                            <span class="std-dev">标准差: 0.31</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (63 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":174343,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-06-26 07:16:10","like_diff":70,"likes":92,"dislikes":22,"content":"对上媚态百出跪舔领导求上位，对下打官腔欺压学生查聊天记录克扣勤工助学金。"},{"id":178707,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-07-21 00:28:25","like_diff":39,"likes":53,"dislikes":14,"content":"此人对某学院的乌烟瘴气做出了巨大贡献"},{"id":185607,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-01-02 19:53:49","like_diff":33,"likes":34,"dislikes":1,"content":"是查老师给好评，能职规给高分吗？\n\n一句话评价，此人无利不起早，且三观不正。\n\n某学院曾有造谣事件，这位老师一方面劝受害女生“不要本校读研了，对你影响不好”，另一方面尽心尽力保护造谣者。\n\n画饼大师。\n\n言而无信。"},{"id":180553,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-09-22 16:06:12","like_diff":30,"likes":44,"dislikes":14,"content":"别当辅导员了😅😅😅，事巨多"},{"id":185759,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-01-04 07:19:22","like_diff":28,"likes":29,"dislikes":1,"content":"我去 骆笑请水军了？？？？"},{"id":183889,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-12-03 01:45:41","like_diff":24,"likes":31,"dislikes":7,"content":"我去，是不是职规课给分好就逆转风评了？你小子叫本院升学意向的同学去考浙农林咱还历历在目呢；当着同学面说另一个同学成绩这么差就别想着保研了，也历历在目呢。法学院最逆天辅导员没有之一，沾到一点都会破防的地步。"},{"id":179374,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-09-13 13:37:11","like_diff":22,"likes":30,"dislikes":8,"content":"非常吓人了"},{"id":173882,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-06-04 05:55:31","like_diff":21,"likes":39,"dislikes":18,"content":"真的垃圾啊啊啊"},{"id":178762,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-07-22 03:01:31","like_diff":21,"likes":36,"dislikes":15,"content":"甩锅侠，刽子手，人见人怕。"},{"id":180632,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-09-24 01:03:25","like_diff":19,"likes":28,"dislikes":9,"content":"和稀泥本事一流 一年级班主任都不这么调节矛盾了😅😅😅😅"},{"id":191987,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-05-07 01:09:31","like_diff":19,"likes":20,"dislikes":1,"content":"垃圾玩意，歧视外专业，人抽象，心思全写在脸上，垃圾就该呆在垃圾桶里。"},{"id":184588,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-12-22 01:57:55","like_diff":18,"likes":21,"dislikes":3,"content":"刷评分有意思吗？"},{"id":184624,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-12-22 03:47:16","like_diff":17,"likes":19,"dislikes":2,"content":"给分好就一堆人来好评都有点离谱，更别说还有一堆辅导员好评的，这一学期辅导员风评就陡转，什么成分不用多说了吧"},{"id":183769,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-11-30 02:11:39","like_diff":14,"likes":18,"dislikes":4,"content":"我嘞个豆，风评逆转了？"},{"id":178749,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-07-21 15:24:46","like_diff":12,"likes":23,"dislikes":11,"content":"。。。"},{"id":180630,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-09-23 16:41:24","like_diff":12,"likes":21,"dislikes":9,"content":"是真的很差劲"},{"id":180942,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-09-28 12:28:53","like_diff":12,"likes":27,"dislikes":15,"content":"碧阳的晚意，初生的东曦。B事真多"},{"id":186297,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-01-10 11:31:25","like_diff":12,"likes":14,"dislikes":2,"content":"看到这么大的逆转笑得想死"},{"id":180554,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-09-22 16:07:09","like_diff":11,"likes":19,"dislikes":8,"content":"事多、无语"},{"id":181783,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-10-31 13:26:53","like_diff":10,"likes":20,"dislikes":10,"content":"关系户就能为非作歹？什么个东西"},{"id":197820,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-08-15 12:28:58","like_diff":10,"likes":10,"dislikes":0,"content":"给一分是因为只有一分。能力与人品均烂，思想和表达俱挫。"},{"id":181946,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-11-07 02:21:13","like_diff":9,"likes":18,"dislikes":9,"content":"分数没有收敛到1是大家的责任"},{"id":193310,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-06-06 06:23:16","like_diff":9,"likes":9,"dislikes":0,"content":"找人刷好评是吧真不要脸啊"},{"id":182653,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-11-19 03:11:42","like_diff":8,"likes":16,"dislikes":8,"content":"一分都不想给"},{"id":190304,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-02-27 14:41:06","like_diff":6,"likes":7,"dislikes":1,"content":"抽象，且两面三刀"},{"id":204399,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-11-25 15:39:45","like_diff":6,"likes":6,"dislikes":0,"content":"真的很假的一个人"},{"id":182536,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-11-17 08:27:47","like_diff":5,"likes":14,"dislikes":9,"content":"勾石，牛魔的事情怎么这么多"},{"id":192383,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-05-17 04:41:12","like_diff":5,"likes":5,"dislikes":0,"content":"chunchun nt，cnmlgb，"},{"id":193581,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-06-13 07:47:28","like_diff":5,"likes":5,"dislikes":0,"content":"唔...之前我给了好评来着..现在..唉"},{"id":204620,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-11-27 05:37:15","like_diff":5,"likes":5,"dislikes":0,"content":"渣滓中的战斗渣滓"},{"id":215098,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2025-02-21 04:14:16","like_diff":5,"likes":5,"dislikes":0,"content":"……经历过的都清楚"},{"id":180941,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-09-28 12:26:35","like_diff":4,"likes":14,"dislikes":10,"content":"事情多"},{"id":202571,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-11-13 07:39:19","like_diff":4,"likes":4,"dislikes":0,"content":"这位老师当年军训期间的神级操作让我毕业多年都无法忘怀。"},{"id":210659,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2025-01-09 15:34:19","like_diff":4,"likes":5,"dislikes":1,"content":"你问钱哪去了，高校行政拿的是教学人员的平均工资，还不用承担科研和教学压力。钱就是被这些尸位素餐的人吞了"},{"id":192577,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-05-24 08:05:01","like_diff":3,"likes":3,"dislikes":0,"content":"呵呵。"},{"id":196539,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-07-04 03:49:41","like_diff":3,"likes":3,"dislikes":0,"content":"。。。。"},{"id":181786,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-10-31 17:44:49","like_diff":2,"likes":10,"dislikes":8,"content":"。。。"},{"id":190384,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-02-29 05:33:37","like_diff":2,"likes":5,"dislikes":3,"content":"有人能说一下到底发生什么了吗，怎么这么多人认为老师不好"},{"id":191733,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-04-29 07:39:02","like_diff":2,"likes":2,"dislikes":0,"content":"呵。。"},{"id":190133,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-02-23 12:43:42","like_diff":1,"likes":2,"dislikes":1,"content":"。。。"},{"id":218619,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2025-04-27 06:26:20","like_diff":0,"likes":0,"dislikes":0,"content":"打交道很少 我感觉骆老师挺温柔的\n\n楼下是来搞笑的吗 你真的看过辅导员和讲师 百人 副教授 教授的工资条吗。。浙大行政工资奇低无比"},{"id":183286,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-11-23 11:59:35","like_diff":-2,"likes":12,"dislikes":14,"content":"我在秋学期周四晚听骆老师的职规课，实话实说我认为这课是很棒的，能听到一些优秀的经验者的故事，也能促进自己对职业选择的思考，推荐。"},{"id":183343,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-11-24 03:20:24","like_diff":-2,"likes":9,"dislikes":11,"content":"听的职规课，给分还行，但事有点多。我室友上的其他老师的课，整体比她好些，所以感觉中规中矩罢。"},{"id":183397,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-11-25 01:38:45","like_diff":-6,"likes":11,"dislikes":17,"content":"老师人很好的，只要多和老师沟通和接触，就会发现老师很温柔的，对同学也很关心，尽心尽力的辅导员。职规课给分也很好，一般都是4.0上的。"},{"id":183444,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-11-26 09:54:01","like_diff":-8,"likes":12,"dislikes":20,"content":"骆笑老师挺好的啊，很为学生着想的"},{"id":183475,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-11-26 13:54:08","like_diff":-9,"likes":8,"dislikes":17,"content":"这个老师课上确实作业比别的老师多了点，其他方面我觉得完全没问题吧，评论区里面怎么都上升到人身攻击了？骆老师对学生还是很够意思的，是愿意真心帮助学生、照顾学生的好老师，大家一沟通交流就知道了"},{"id":183674,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-11-28 10:26:45","like_diff":-10,"likes":5,"dislikes":15,"content":"老师很好~"},{"id":183445,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-11-26 09:58:41","like_diff":-12,"likes":12,"dislikes":24,"content":"必须吹爆我家辅导员，骆姐实在是太好了，真心替我们考虑和着想，职业规划课上请来了好多学长学姐为我们分享经验，能学到很多东西。浙大有幸能遇到这样的好老师，实在是太幸福啦啦"},{"id":183804,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-11-30 07:44:32","like_diff":-12,"likes":7,"dislikes":19,"content":"骆老师是一位很有能力且尽职尽责的老师，对待学生的问题非常上心，和学生关系真的很亲近，和学生唠嗑聊天开玩笑完全没距离！！当学生真的遇到棘手问题，她也会第一时间来帮助解决，事后还不忘常关心和引导！\n\n骆老师也非常注重对学生传帮带教育，她常常邀请已经就业的学长学姐回来给同学们分享经验，给同学们提供更广阔的学习平台，她不仅是一位不可多得的好老师也是一位总会用自己过来经验引导弟弟妹妹的好姐姐~~"},{"id":183797,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-11-30 06:58:43","like_diff":-13,"likes":12,"dislikes":25,"content":"真的想给骆老师大大的好评！从辅导员工作上说，老师真的可以说是尽心尽力了，只记得当时同届的同学都已经实习1个月了，我没有拿到心仪的实习offer很绝望，是骆老师帮忙联系往届学长姐内推。每次因为未来规划迷茫，骆老师都能提供几条很具有可行性的路径供我参考。说实在的，老师真的在给每一个遇到困难前来咨询的同学想尽一切力所能及的办法，每次办各种活动也都冲在最前面...不懂前面恶评的同学是遇到了什么事情，只能说凡是接触过骆老师的同学，即使已经从法学院毕业，还是会常常惦念起大学期间有这样一位负责任、尽心力的辅导员..."},{"id":183848,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-12-01 05:41:09","like_diff":-14,"likes":5,"dislikes":19,"content":"骆老师在学业和生活上都给同学们很大的帮助~经常找同学谈心谈话，也在深造方面给了大家很多支持~"},{"id":183852,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-12-01 08:33:07","like_diff":-14,"likes":5,"dislikes":19,"content":"笑姐是非常负责任的好老师，力挺她。"},{"id":184502,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-12-21 05:42:21","like_diff":-14,"likes":4,"dislikes":18,"content":"职规课给分非常好"},{"id":185455,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-12-29 13:54:16","like_diff":-14,"likes":3,"dislikes":17,"content":"老师非常可爱 会常常给我们发吃的"},{"id":181574,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-10-23 08:05:08","like_diff":-15,"likes":14,"dislikes":29,"content":"其实我觉得骆老师还是很温柔的（个人感受），可能是因为她是辅导员不是老师"},{"id":183545,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-11-27 09:05:21","like_diff":-15,"likes":3,"dislikes":18,"content":"老式人挺好的"},{"id":183911,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-12-03 13:13:44","like_diff":-16,"likes":5,"dislikes":21,"content":"我感觉骆老师挺好的，很体贴很会照顾人"},{"id":183912,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-12-03 13:57:02","like_diff":-17,"likes":3,"dislikes":20,"content":"骆老师人很好的呀~日常也很关心我们，非常暖心的辅导员老师！"},{"id":192162,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-05-10 10:21:07","like_diff":-17,"likes":2,"dislikes":19,"content":"老师人是很不错的，其他同学的观念姑且不评价，对学生还是特别友善的（客观评价）"},{"id":183781,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-12-03 12:35:50","like_diff":-18,"likes":6,"dislikes":24,"content":"骆姐人很好，是真心为我们的好老师，很关心我们，也会给我们提出很实用的建议，会帮我们牵线搭桥实习机会，会带我们走进用人单位和HR、校友们交流，总之是非常棒的老师。楼上说的浙江农林很奇怪，骆姐从没有给我们建议过浙农林这个学校，这个我还是比较了解的，一般都是建议我们考虑五院四系或者家里所在省的985院校"},{"id":183847,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-12-01 05:38:19","like_diff":-18,"likes":7,"dislikes":25,"content":"骆老师真的是个很好很好的老师，真的很感谢老师能够一直鼓励我去发挥自己的优势，给了我很多去尝试的机会和勇气。对于一个外地来就学的孩子，老师真的是把学生当家里人在对待，过年回不了家，老师会专门叫去家里吃饭，在杭州做完手术也是老师专门来寝室看望，每次遇到学业生活的难题总是跑去老师的办公室听老师开解开导，真的没想到在外求学能够遇到这么好的老师。每次白天去老师办公室，老师都是忙忙碌碌地忙着开导安抚各个学生，晚上八九点路过老师办公室，灯都还在亮着，老师还没吃晚饭的在加班，真的是把辅导员的工作当做一项事业和兴趣在做的！！真的很推荐大家如果有生活学业上的问题去请教老师，老师都会很耐心的根据每个人的情况进行指导并且提供帮助！我也要向老师学习，把这份温暖传递给更多的人！！！"},{"id":190515,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2024-03-06 13:22:49","like_diff":-18,"likes":4,"dislikes":22,"content":"在法学院算很还好的老师了"},{"id":185473,"teacher_id":9301,"teacher_name":"骆笑","post_time":"2023-12-30 05:26:29","like_diff":-37,"likes":5,"dislikes":42,"content":"我是一名选调生，骆老师是我的辅导员。我在大一考试失败最艰难的、甚至有些迷茫的那段时间里，骆老师亲自找我来谈话，给我分析了目前的就业形势并提供了建议，因此我下定决心报考选调生回家乡建设。可以说骆老师是我下定决心报考选调生回乡建设的引路人。尽管当时我还是一个刚刚专业分流分到法学院的同学，但是骆老师仍然对我伸出了援手，给我提建议，帮我联系优秀的学长学姐，并且之后一直在跟进我的选调情况，对此我十分感激。\n\n骆老师在工作中也一丝不苟，尽管我没有上她的职规课，但是我也经常要去学院办公室去交一些材料。我见到的工作中的骆老师很多时候都是在与学生交流，潜心学生工作，尽可能解决同学们的问题，消除同学们的疑虑。\n\n我也看了很多同学略带戾气的评论，这里我不是说谁是完人一定不会犯错误，但是注意找好与老师间的沟通方式，能够拉进师生关系。我个人认为我们法学院的辅导员都是潜心服务同学的，没有必要非要给哪个特定的同学使绊子。另外程序上的麻烦不能归结到某个老师上，骆老师也不能解决制度上和程序上的问题，希望你们喷对地方以及提出建议，而不是躲在屏幕后面对着一个学生工作潜心服务同学的老师大放厥词。\n\n最后还是感谢骆老师在我大学学习生活中对我的鼓励和大力支持，没有骆老师的引路和指导我很大可能还在迷茫和犹豫之中，也就坚定不了回家建设的决心。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

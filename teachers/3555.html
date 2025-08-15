@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黄萃 - 公共管理学院 - 浙大教评</title>
+    <meta name="description" content="黄萃教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="黄萃,公共管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">黄萃</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">公共管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">7.51</div>
+                    <div class="rating-participants">44人参与评分</div>
+                    <div class="attendance-info">25.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (4 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">专业实习</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.85</span>
+                            <span class="students">选课: 17人</span>
+                            <span class="std-dev">标准差: 0.49</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">信息资源管理基础</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.48</span>
+                            <span class="students">选课: 90人</span>
+                            <span class="std-dev">标准差: 0.39</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大学写作——写作·社会</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.07</span>
+                            <span class="students">选课: 190人</span>
+                            <span class="std-dev">标准差: 0.59</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">数字治理</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.45</span>
+                            <span class="students">选课: 185人</span>
+                            <span class="std-dev">标准差: 0.30</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (32 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":150380,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2022-01-23 18:45:41","like_diff":34,"likes":41,"dislikes":7,"content":"只能说公管英才的人卷疯了，我庆幸不与其为伍"},{"id":143024,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-11-18 08:47:33","like_diff":15,"likes":29,"dislikes":14,"content":"很喜欢黄老师的课，老师很真诚，会认真听取学生的想法并一起讨论交流！"},{"id":143132,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-11-19 15:28:16","like_diff":9,"likes":13,"dislikes":4,"content":"黄萃老师人很好，有些课程设计是第一次尝试，会有不好的地方难免的，有人尝试总是好的，不能一边骂上课展示的模式没有新意，一边又骂有新意的课程展示任务量太大不是吗（虽然真的很大，个人认为这种模式有极大改进空间）？她真的是个好老师，有在思考创新，有在听我们的意见，也有在及时反思调整，讲课的逻辑很清晰，说话很有调理，作为系主任进行的一些改革也很不错（比如19级大三就可以选择毕设导师）。但这学期的这门课真的有丝丝让人不适，我就像是沙丁鱼效应里的弱沙丁鱼，明知道无意义，最后结果都是要考研，但还是因为鲶鱼和其他受影响的沙丁鱼被迫被挤着做无谓的挣扎内卷，麻了。老师，求求了，下次别再非要跨班级组队了，想躺的人就该和想躺的人一队，不然双方都很难受，难受得就像康师傅调料包撒进了螺蛳粉里一样"},{"id":143025,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-11-18 08:51:23","like_diff":6,"likes":24,"dislikes":18,"content":"楼下说“看戏大师”的真他妈无语。我就直接开喷了。\n\n1: 关于做不做ppt。黄老师说“可以不做ppt”，言下之意是是说“你只要讲的清楚你就可以不做ppt”，好家伙，课上讲的跟屎一样不清不楚，你自己也不准备ppt，你自己毫无逻辑，大家听的也糊里糊涂，你讲完了自己记得自己说了什么么？我反正没记住。相比之下，做了ppt的同学至少能给大家拎出来逻辑，大家有印象他们组的内容。还内卷？现在内卷都被大家当作了自己可以不努力的借口了吧，什么是内卷，使劲做一些无意义的事情才是内卷，我上个课做个ppt就他妈内卷了？\n\n\n\n2：关于展示和作业。你要是觉得多你就提出意见，或者你简单应付，那你就承担相应代价啊。你为啥又不想花时间做，又想要高分？你他妈的还觉得做了多的同学不能得高分？凭啥啊？就凭你天之骄子啊？现在学生有的真的是被惯坏了，求求你们了，我们只是普通学生，谁也不必谁骄傲。\n\n\n\n3: 关于指责黄老师“指指点点”，培养方案烂的。先说客观，你他妈了解的有一个老师多？你说指指点点就指指点点啦？再love&peace一点，学术研究从不介意指指点点，你难道只涉猎自己熟悉的领域？培养方案的事情可以更新可以修改，可以有意见，你有意见直接说啊，别他妈的在这bb，直接说ok?\n\n\n\n4: 有情绪可以，别上升到老师个人。黄老师不管在课堂内容设计、讲述上都很有启发，你可以质疑老师授课内容，咱们上课直接说，用事实说话，别隔着放p，谢谢你全家。"},{"id":143033,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-11-18 09:16:37","like_diff":6,"likes":13,"dislikes":7,"content":"不知道在这里发言的同学有几个是认真听过课的，认真听了以后我是觉得逻辑和内容都挺好的，也能感觉到黄老师很希望我们都参与进课堂里、都能有所收获。对于老师不要做PPT、但别人做了这件事不满的，我是感觉有点疑惑，个人觉得展示这个事情本身就是过程大于结果的一件事，给了你一个下限，只是确定了门槛，你能达到什么高度完全取决于你自己。但是有的人就觉得，规则说可以不做的事，你为什么要做，这样听上去其实挺无理取闹的。而且老师也道歉了，做不做ppt，最后给课程成绩都会一视同仁，我觉得能在课堂上这么开诚布公地讨论这个事，也能对没做好的地方真诚地向学生道歉的老师，挺难得的"},{"id":141178,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-09-25 16:39:57","like_diff":5,"likes":16,"dislikes":11,"content":"政策研究方面很有心得，也期待能加入老师的科研组"},{"id":143022,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-11-18 09:00:42","like_diff":3,"likes":18,"dislikes":15,"content":"课程压力确实挺大的，有点累…但是有些同学自己做得那么垃圾还不允许做得好的拿高分，有点搞笑吧"},{"id":143031,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-11-18 09:07:43","like_diff":3,"likes":8,"dislikes":5,"content":"信息量很大 收获也很大"},{"id":143069,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-11-18 15:44:01","like_diff":3,"likes":12,"dislikes":9,"content":"别的不说，你们有意见提意见，就事论事，别打开查老师自己就不是个浙大学生了，成了个社会混混一样张口就骂的，给你送面镜子看看你这幅样子也配在这里讲话吗？也配说自己是浙大学子？也配对一个愿意交流改进，真心希望学生能学到内容的教授指指点点？\n\n你做PPT也好，不做PPT也罢，我们既然是来学习的，是来做研究性的展示和讨论的，你评判的标准是不是应该是别人的内容？就算他们形式卷翻天，内容一堆水货，我们打低分是不是也底气足？如果的确有内容，但是形式惹到我们了，甚至让我们觉得是在鼓动内卷，我们发发牢骚，冷静下来评价人家的成果的时候，难道摒弃不掉一些个人的情绪？\n\n上这课也都是大三的人了，在浙大学了三年，更有甚者在竺院学了三年，最后连基本的理性都没有，连如何客观地进行一个评价都不会，你到浙大混什么来了？\n\n难道现在浙大的风气是，老师的课程设计让您不满了，他的学术水平甚至他的为人都要被您攻击？\n\n您哪位啊？您私下里和老师交流过几句？您对课题研究到什么程度了？文献看了几篇？问题挖掘了几个？\n\n动不动说水课，那搞人社的“水课”多了去了，课上完拍屁股走人，作业糊弄过去半本著作不读，天下之课皆是水课？您想学的“硬课”是什么？写代码？那您自己找本书学，找案例写，找大厂实习啊，或者你直接学工科去啊，搁这发哪门子牢骚？有些人是不是技能没见自己主动锻炼多少，指点开这个水那个水能耐倒挺足的？\n\n动不动就老师怎么怎么，助教怎么怎么，您又有什么成就呢？黄老师在数字治理的整个理论到实践上都有系统的成果，参与到政策撰写当中，你读过她几篇论文你在这里指点江山？我们助教实打实中山大学保研过来，中山大学公管全国前2%，什么叫“外校来的搞浙大学生”？就某些人的发言，也配代表浙大学生？真是恨不得丢人丢到全国是吧\n\n别光喊竺老两问的时候一个个正气凛然，求是，你看看你求的哪门子的是？"},{"id":143111,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-11-19 05:10:40","like_diff":3,"likes":7,"dislikes":4,"content":"老师上课挺有逻辑的"},{"id":152464,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2022-04-12 08:23:57","like_diff":3,"likes":7,"dislikes":4,"content":"希望信管某些和黄老师资历差不多的都有黄老师的水平"},{"id":169329,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2023-02-25 12:25:45","like_diff":3,"likes":6,"dislikes":3,"content":"大学写作给分太差，一个通识课给那么低的分，想干嘛？？？"},{"id":141807,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-10-27 02:05:19","like_diff":2,"likes":21,"dislikes":19,"content":"辣鸡老师"},{"id":142297,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-11-10 02:32:14","like_diff":2,"likes":25,"dislikes":23,"content":"黄老师是真的看戏大师，一学期四次小组展示够头疼了吧，她还要改成各种形式，题目池抽签、组间辩论样样都有。\n\n一个展示要准备三个题目、课前抽签确定展示哪个也就算了，课前十分钟发在群里的展示顺序上课铃一响说改就改我完全respect\n\nwhat’s more，布置的时候说准备三个题目可以不用做ppt，上课前又说ppt可以加分，当代鼓励内卷大师🌹🌹🌹"},{"id":142308,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-11-10 04:43:34","like_diff":2,"likes":18,"dislikes":16,"content":"离谱！就离谱！"},{"id":143177,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-11-20 15:04:19","like_diff":2,"likes":5,"dislikes":3,"content":"黄老师很真诚很好"},{"id":143155,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-11-20 06:55:33","like_diff":1,"likes":8,"dislikes":7,"content":"看戏，楼上打起来了\n\n本专业的没吭声，英才的打起来了，课上的越来越有意思了\n\n黄老师还是很有水平的，可能游戏规则上崴了一次"},{"id":143352,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-11-24 01:59:51","like_diff":1,"likes":5,"dislikes":4,"content":"好老师，会思考。"},{"id":159440,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2022-07-20 04:56:33","like_diff":1,"likes":4,"dislikes":3,"content":"顶顶 信管好老师"},{"id":212360,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2025-01-14 02:09:52","like_diff":1,"likes":1,"dislikes":0,"content":"金玉其外，四字足以"},{"id":119865,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2019-11-16 11:36:49","like_diff":0,"likes":24,"dislikes":24,"content":"黄老师幽默风趣，上课让我们选择发言3次或者一篇论文。分组做ppt，感觉收获很大。"},{"id":133997,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-03-11 14:30:05","like_diff":0,"likes":14,"dislikes":14,"content":"赞，很喜欢黄老师，在讲政策的时候讲的很深入"},{"id":143032,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-11-18 09:09:39","like_diff":0,"likes":6,"dislikes":6,"content":"我爱黄老师的课！！！"},{"id":143174,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-12-03 04:13:53","like_diff":0,"likes":4,"dislikes":4,"content":"黄老师讲课认真！！人也超级nice!"},{"id":143730,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-12-03 04:14:03","like_diff":0,"likes":3,"dislikes":3,"content":"黄老师的课收获很大 学习到了很多多多"},{"id":147445,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2022-01-10 04:12:07","like_diff":0,"likes":2,"dislikes":2,"content":"很好的老师"},{"id":171185,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2023-03-17 16:51:09","like_diff":0,"likes":4,"dislikes":4,"content":"（跨专业选手报道ヾ(◍°∇°◍)ﾉﾞ老师非常欣赏有自己见解，同时能够充分搜集证据（包括文献资料和现实生活中丰富生动的实例），予以论证并诉诸表达。老师个人的讲课逻辑非常清晰，课程设计提纲挈领，从一开始就有明确的目标可以冲。过程里面，涉及有些过于武断的结论/推论过程，黄老师很乐于补充上她的学识见解以及明了有效的改进建议，完全不存在什么猜来猜去orCPU情节。最最重要的是！！老师给予的信心不能更爱！"},{"id":142298,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-11-10 02:32:14","like_diff":-1,"likes":20,"dislikes":21,"content":"黄老师是真的看戏大师，一学期四次小组展示够头疼了吧，她还要改成各种形式，题目池抽签、组间辩论样样都有。\n\n一个展示要准备三个题目、课前抽签确定展示哪个也就算了，课前十分钟发在群里的展示顺序上课铃一响说改就改我完全respect\n\nwhat’s more，布置的时候说准备三个题目可以不用做ppt，上课前又说ppt可以加分，当代鼓励内卷大师🌹🌹🌹"},{"id":174562,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2023-06-14 05:39:43","like_diff":-2,"likes":4,"dislikes":6,"content":"大学写作一堆专业必修究竟是什么馊主意？专业不对口的文献综述，在自己不熟悉的一堆领域强行讨论，各种强行点名，强行听讲座，而且基本准备搞的也不好，有一次给助教的名单里竟然把老师学生并列，结果助教点到了好几个老师，而且还学的浮皮潦草，还特么绩杀，服了。通识选修嘛，博雅技艺课有好多都挺好，好好把课程做好的话课程肯定是相当热门的，真没有必要搞这么多强制的要求"},{"id":142585,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-11-13 17:28:07","like_diff":-3,"likes":17,"dislikes":20,"content":"能感受得到黄老师在自身的专业领域有不错的造诣，但是喜欢在自己不了解的领域只凭臆想就指指点点恕我不敢苟同。课程本身在设计上都有一定的逻辑性与合理性，但是在实际教学过程中则是逻辑散乱，不太明白最终教学的目的是什么。而且老师极度鼓励内卷，设置了繁琐且意义不大的各种形式的展示，非常浪费时间。另外，作为系主任，个人认为培养方案安排的真的很烂，课程之间十分不搭而且很多课程上完了没学到什么东西。说着技术与理论并重，实际上则是技术类课程浅尝辄止，理论课枯燥无聊且很多都是念ppt+各种展示等无意义作业课程，总之学不到什么东西，对系真的十分失望"},{"id":142305,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-11-10 04:15:05","like_diff":-5,"likes":16,"dislikes":21,"content":"啥b老师，给爷爬！"},{"id":142317,"teacher_id":3555,"teacher_name":"黄萃","post_time":"2021-11-17 07:15:29","like_diff":-5,"likes":15,"dislikes":20,"content":"黄老师真好我好爱，我们只管卷，剩下的，为我们开讨论，内卷的合理性大讨论。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

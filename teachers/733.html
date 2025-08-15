@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管成 - 机械工程学院 - 浙大教评</title>
+    <meta name="description" content="管成教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="管成,机械工程学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">管成</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">机械工程学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">7.13</div>
+                    <div class="rating-participants">99人参与评分</div>
+                    <div class="attendance-info">23.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">机械设计基础（甲）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.47</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 1.00</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">机械设计课程设计（乙）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.98</span>
+                            <span class="students">选课: 273人</span>
+                            <span class="std-dev">标准差: 0.70</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">机电系统设计</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.43</span>
+                            <span class="students">选课: 15人</span>
+                            <span class="std-dev">标准差: 0.42</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (75 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":87628,"teacher_id":733,"teacher_name":"管成","post_time":"2018-10-08 14:41:41","like_diff":59,"likes":65,"dislikes":6,"content":"我不同意前面同学说的老师的态度问题，虽然课讲的不是很好，老师之前一直是搞科研和企业项目的，这两年才给本科生上课。但是我觉得老师的观点我是很赞同的，很多人不来上课，有同学建议点名，老师说不用点名，他们不来是因为我讲的不好，大家对我讲的不清楚的地方可以提出来，这点我是很欣赏管老师的。考前答疑的时候我问了老师很多问题，也和老师讨论了书上的一些内容，一些内容老师承认他之前自己也没理解书上的意思，和我说你们应该多来问问，教学相长。所以，前面说老师不想把课上好的那位同学，我是很反对的，就问你有和老师交流讨论过问题吗？ 另外管老师第一章讲了很久，他上课会讲很多工程上的知识，书上的这些复杂的公式只要了解这个意思就好了，这点我觉得很好，总的来说，我给老师打8分"},{"id":85239,"teacher_id":733,"teacher_name":"管成","post_time":"2018-07-16 11:56:16","like_diff":29,"likes":33,"dislikes":4,"content":"管老师其实是个非常不错的老师，上课认真负责，耐心回答同学提问，学到许多实用的机械设计知识，且给分挺好。"},{"id":99378,"teacher_id":733,"teacher_name":"管成","post_time":"2019-01-24 15:45:49","like_diff":24,"likes":26,"dislikes":2,"content":"就凭管老师每次都能讲满四节课我就要给10分(机电系统设计)"},{"id":56214,"teacher_id":733,"teacher_name":"管成","post_time":"2017-07-03 09:08:16","like_diff":22,"likes":26,"dislikes":4,"content":"管老师是个很不错的老师，学生感兴趣，喜欢问，他就会多讲，讲细。但如果你敷衍，那不好意思，请别奢求老师能给你带来什么惊喜。"},{"id":105186,"teacher_id":733,"teacher_name":"管成","post_time":"2019-04-06 16:51:04","like_diff":21,"likes":25,"dislikes":4,"content":"讲课还是很认真的。"},{"id":83847,"teacher_id":733,"teacher_name":"管成","post_time":"2018-07-11 10:08:12","like_diff":20,"likes":22,"dislikes":2,"content":"老师只是不适合做教学工作，年轻时就在企业工作，后来被聘回zju做老师。老师教的东西都是实际在做机械时会用到的东西，而不是课本上考卷想考的东西。可能管老师试着去学习一下教学应该怎么教，会更好"},{"id":107945,"teacher_id":733,"teacher_name":"管成","post_time":"2019-05-12 08:19:17","like_diff":19,"likes":22,"dislikes":3,"content":"老师上课认真负责，也乐于回答同学问题，是一个很不错的老师"},{"id":123420,"teacher_id":733,"teacher_name":"管成","post_time":"2020-06-08 15:15:42","like_diff":19,"likes":20,"dislikes":1,"content":"我就是很喜欢这个老师啊，感觉上是个欢脱的可爱小老头。很明显这几年的评价是越来越好了，看来讲课水平应该是有提升吧，那说明老师的态度没有问题啊！还没有考试，但是只剩一次课了，所以就很想来给老师打高分！"},{"id":114924,"teacher_id":733,"teacher_name":"管成","post_time":"2019-07-26 20:17:33","like_diff":17,"likes":19,"dislikes":2,"content":"一个非常不错的老师"},{"id":119618,"teacher_id":733,"teacher_name":"管成","post_time":"2019-11-14 07:05:54","like_diff":16,"likes":17,"dislikes":1,"content":"课程设计主要还是靠自己，老师讲得很随意，不过按照书上的案例还是不难的。另外，老师真的会耐心回答同学的每一个问题，多和老师交流可以学到很多"},{"id":115893,"teacher_id":733,"teacher_name":"管成","post_time":"2019-08-24 00:18:13","like_diff":15,"likes":18,"dislikes":3,"content":"老师很好"},{"id":118082,"teacher_id":733,"teacher_name":"管成","post_time":"2019-10-20 23:49:17","like_diff":15,"likes":16,"dislikes":1,"content":"老师讲的很不错"},{"id":194344,"teacher_id":733,"teacher_name":"管成","post_time":"2024-06-23 09:30:19","like_diff":14,"likes":18,"dislikes":4,"content":"新来的助教，合肥工业大学本科，来浙大读研，平时分给的很差，每份作业都交了，每次给分都很低，期末还没考已经炸了一半，对外院学生来说本身不是一门正常课，希望早点踢出培养方案"},{"id":122937,"teacher_id":733,"teacher_name":"管成","post_time":"2020-04-27 21:12:17","like_diff":13,"likes":14,"dislikes":1,"content":"非常认真的老师，乐于回答同学们的每一个问题"},{"id":119697,"teacher_id":733,"teacher_name":"管成","post_time":"2019-11-15 02:01:58","like_diff":12,"likes":13,"dislikes":1,"content":"老师还是很耐心的，可以一直唠嗑的老师"},{"id":122952,"teacher_id":733,"teacher_name":"管成","post_time":"2020-04-25 04:07:51","like_diff":11,"likes":14,"dislikes":3,"content":"讲课联系实际，非常好"},{"id":83838,"teacher_id":733,"teacher_name":"管成","post_time":"2018-07-11 09:46:59","like_diff":10,"likes":13,"dislikes":3,"content":"管老师其实是个心眼特别好的老师，考试有60分都是题库，但是讲课讲得确实emmm"},{"id":84431,"teacher_id":733,"teacher_name":"管成","post_time":"2018-07-12 23:55:06","like_diff":9,"likes":12,"dislikes":3,"content":"给分挺好的。。。\n\n"},{"id":123241,"teacher_id":733,"teacher_name":"管成","post_time":"2020-05-24 17:23:33","like_diff":9,"likes":11,"dislikes":2,"content":"老师讲课认真，回答同学问题非常详细耐心"},{"id":196703,"teacher_id":733,"teacher_name":"管成","post_time":"2024-07-05 00:30:59","like_diff":9,"likes":10,"dislikes":1,"content":"很好的老师。机械设计基础上课从不点名，作业虽然助教平时打分不高但最后都调分了。平时问事情和题目都会秒回，考试题目简单，上课会暗示考试内容。认真背题库，把复习课题型搞懂成绩不会差。收货机械课程第一个满绩。"},{"id":81115,"teacher_id":733,"teacher_name":"管成","post_time":"2018-07-04 03:51:48","like_diff":8,"likes":12,"dislikes":4,"content":"力学班的人表示，虽然老师上课上得不好，但如果问他问题，他还是会很有耐心回答的。而且最后一节课他还会帮忙划出重点，对考试很有效（那一年是他出卷子）"},{"id":189664,"teacher_id":733,"teacher_name":"管成","post_time":"2024-01-26 12:37:40","like_diff":8,"likes":8,"dislikes":0,"content":"课程设计。整体给分还可以。但由于大家的图比较相似难以区分，所以给分有一定随意性。\n\n课程给分全部根据三张图纸本身，平时分也是根据这个给的（图纸好默认你平时用功，反之不用功）。所以建议后来人，设计说明书啥的不用太费劲了，大概看上去像回事就行了，过程评分也是没有的，上课也不用去。\n\n最好能找前辈要到画好改好的图纸和说明书，把数据啥的改一下，容易拿高分。由于大家的图都差不多，自己画的容易出现瑕疵被打低分（老师也是要打出区分度的）。"},{"id":182921,"teacher_id":733,"teacher_name":"管成","post_time":"2023-11-21 05:59:46","like_diff":7,"likes":13,"dislikes":6,"content":"给分根本不行，不如隔壁顾大强。"},{"id":125157,"teacher_id":733,"teacher_name":"管成","post_time":"2020-09-02 10:24:25","like_diff":5,"likes":6,"dislikes":1,"content":"讲课蛮好的"},{"id":110476,"teacher_id":733,"teacher_name":"管成","post_time":"2019-06-27 04:46:21","like_diff":4,"likes":6,"dislikes":2,"content":"幽默风趣喜欢瞎聊天"},{"id":127853,"teacher_id":733,"teacher_name":"管成","post_time":"2020-11-29 01:43:03","like_diff":4,"likes":5,"dislikes":1,"content":"老师很好的"},{"id":39480,"teacher_id":733,"teacher_name":"管成","post_time":"2016-12-23 04:26:00","like_diff":3,"likes":8,"dislikes":5,"content":"很期待老师的机械设计，力学班同学留言"},{"id":125016,"teacher_id":733,"teacher_name":"管成","post_time":"2020-08-11 22:39:49","like_diff":3,"likes":5,"dislikes":2,"content":"非常好的老师"},{"id":183099,"teacher_id":733,"teacher_name":"管成","post_time":"2023-11-22 07:00:51","like_diff":2,"likes":2,"dislikes":0,"content":"好好好"},{"id":195005,"teacher_id":733,"teacher_name":"管成","post_time":"2024-06-26 08:24:23","like_diff":2,"likes":2,"dislikes":0,"content":"隔壁zl来的，满分！"},{"id":196973,"teacher_id":733,"teacher_name":"管成","post_time":"2024-08-02 11:43:27","like_diff":2,"likes":3,"dislikes":1,"content":"好老师 下学期机械设计果断还跟你"},{"id":196979,"teacher_id":733,"teacher_name":"管成","post_time":"2024-07-06 08:44:02","like_diff":2,"likes":2,"dislikes":0,"content":"老师人很好，考试和平常上课内容关系不大，客观题全来自题库，大题也只来自比较基础的几章，整体而言还是比较简单的。"},{"id":29918,"teacher_id":733,"teacher_name":"管成","post_time":"2016-07-01 05:14:37","like_diff":1,"likes":2,"dislikes":1,"content":"考试刷选择判断原题"},{"id":158340,"teacher_id":733,"teacher_name":"管成","post_time":"2022-06-28 12:58:34","like_diff":1,"likes":1,"dislikes":0,"content":"很好的老师，特别懂得体谅学生"},{"id":165406,"teacher_id":733,"teacher_name":"管成","post_time":"2023-01-04 11:46:38","like_diff":1,"likes":1,"dislikes":0,"content":"是胡思思舅舅舅妈"},{"id":197848,"teacher_id":733,"teacher_name":"管成","post_time":"2024-08-15 14:07:42","like_diff":1,"likes":1,"dislikes":0,"content":"555"},{"id":22783,"teacher_id":733,"teacher_name":"管成","post_time":"2016-03-11 04:52:46","like_diff":0,"likes":6,"dislikes":6,"content":"。。。"},{"id":126958,"teacher_id":733,"teacher_name":"管成","post_time":"2020-10-30 02:38:39","like_diff":0,"likes":2,"dislikes":2,"content":"非常好"},{"id":135048,"teacher_id":733,"teacher_name":"管成","post_time":"2021-04-28 06:12:02","like_diff":0,"likes":1,"dislikes":1,"content":"讲课认真，详细，很好"},{"id":178118,"teacher_id":733,"teacher_name":"管成","post_time":"2023-07-07 04:55:12","like_diff":0,"likes":0,"dislikes":0,"content":"不点名，复习课很重要"},{"id":194677,"teacher_id":733,"teacher_name":"管成","post_time":"2024-06-25 02:29:04","like_diff":0,"likes":1,"dislikes":1,"content":"比隔壁zl高不知道多少"},{"id":197175,"teacher_id":733,"teacher_name":"管成","post_time":"2024-07-08 15:28:53","like_diff":0,"likes":1,"dislikes":1,"content":"好好好，机械设计基础还是很好的，虽然平时可能不太明白，但期末会划重点"},{"id":90164,"teacher_id":733,"teacher_name":"管成","post_time":"2018-11-22 09:49:04","like_diff":-1,"likes":4,"dislikes":5,"content":"讲课还是很认真的，也有点东西，就是口齿不是很清楚"},{"id":151725,"teacher_id":733,"teacher_name":"管成","post_time":"2022-03-14 01:01:57","like_diff":-1,"likes":1,"dislikes":2,"content":"老师讲的很好啊，我一个不怎么听课的学生都喜欢上了老师的课"},{"id":159660,"teacher_id":733,"teacher_name":"管成","post_time":"2022-08-23 00:23:20","like_diff":-1,"likes":1,"dislikes":2,"content":"老师当班主任尽心尽责"},{"id":178019,"teacher_id":733,"teacher_name":"管成","post_time":"2023-07-06 08:55:47","like_diff":-2,"likes":3,"dislikes":5,"content":"给分太好了！"},{"id":22802,"teacher_id":733,"teacher_name":"管成","post_time":"2016-03-12 03:26:57","like_diff":-3,"likes":33,"dislikes":36,"content":"不是会不会讲课的能力问题而是根本不想上好课甚至不想讲课的态度问题"},{"id":202238,"teacher_id":733,"teacher_name":"管成","post_time":"2024-11-11 03:21:55","like_diff":-3,"likes":3,"dislikes":6,"content":"服了，机械设计喜提2.7历史最低，整个设计都是自己做的，最后还在不断修改，花了很多时间，然后还比不过其他买来的人，真的牛"},{"id":21859,"teacher_id":733,"teacher_name":"管成","post_time":"2016-03-01 10:18:51","like_diff":-4,"likes":24,"dislikes":28,"content":"自己都不会"},{"id":113856,"teacher_id":733,"teacher_name":"管成","post_time":"2019-07-07 20:09:27","like_diff":-4,"likes":5,"dislikes":9,"content":"嗯……成绩比我想象的要低。感觉大概是不怎么给过程分的，结果错了几乎就是全错。"},{"id":103666,"teacher_id":733,"teacher_name":"管成","post_time":"2019-03-04 03:16:54","like_diff":-6,"likes":2,"dislikes":8,"content":"？？？"},{"id":23209,"teacher_id":733,"teacher_name":"管成","post_time":"2016-03-22 02:11:19","like_diff":-7,"likes":14,"dislikes":21,"content":"年轻，有ppt也听不懂"},{"id":23665,"teacher_id":733,"teacher_name":"管成","post_time":"2016-04-12 01:56:25","like_diff":-8,"likes":11,"dislikes":19,"content":"老师，您的绿茶好喝吗？我也要！"},{"id":22929,"teacher_id":733,"teacher_name":"管成","post_time":"2016-03-15 02:18:30","like_diff":-9,"likes":19,"dislikes":28,"content":"自己不会就算了，讲课之前看看课件行吗？上课照着课件念都能念错，遇到公式从不推导，一句话带过，要是这课的老师这么好做，我也能当老师了。"},{"id":103977,"teacher_id":733,"teacher_name":"管成","post_time":"2019-03-08 07:33:24","like_diff":-11,"likes":0,"dislikes":11,"content":""},{"id":22558,"teacher_id":733,"teacher_name":"管成","post_time":"2016-03-08 02:50:30","like_diff":-13,"likes":6,"dislikes":19,"content":"蜜汁口音"},{"id":23215,"teacher_id":733,"teacher_name":"管成","post_time":"2016-03-22 03:36:39","like_diff":-13,"likes":9,"dislikes":22,"content":"啊？老师有在上课吗"},{"id":83323,"teacher_id":733,"teacher_name":"管成","post_time":"2018-07-10 05:53:04","like_diff":-14,"likes":1,"dislikes":15,"content":"全凭自学，但今年机设好简单啊，给分还贼好。这是一门玄学课程。"},{"id":29895,"teacher_id":733,"teacher_name":"管成","post_time":"2019-01-18 13:05:44","like_diff":-16,"likes":16,"dislikes":32,"content":"老师讲课很精彩，工作认真负责，对待学生如同对待亲爹一般，赞\\(≧▽≦)/"},{"id":104603,"teacher_id":733,"teacher_name":"管成","post_time":"2019-04-06 16:17:24","like_diff":-16,"likes":7,"dislikes":23,"content":"建议自学，就只会念ppt，而且ppt思路也不清楚，看别校的机设课程就好了"},{"id":25390,"teacher_id":733,"teacher_name":"管成","post_time":"2016-05-17 02:43:41","like_diff":-17,"likes":9,"dislikes":26,"content":"辣鸡\n\n"},{"id":29892,"teacher_id":733,"teacher_name":"管成","post_time":"2016-06-30 13:14:03","like_diff":-17,"likes":2,"dislikes":19,"content":"哈哈哈哈"},{"id":28211,"teacher_id":733,"teacher_name":"管成","post_time":"2016-06-28 08:16:22","like_diff":-20,"likes":8,"dislikes":28,"content":"为什么没有0分的设置。\n\n这种老师怎么混进来的？讲不清楚是一会事情，照着PPT念也可以啊，关键是自己都没有想好好讲课的意思。"},{"id":32359,"teacher_id":733,"teacher_name":"管成","post_time":"2016-07-06 08:40:04","like_diff":-21,"likes":5,"dislikes":26,"content":"烂，什么鬼，自己都不会，还来教书。这门课就他妈没软用。"},{"id":80485,"teacher_id":733,"teacher_name":"管成","post_time":"2018-06-27 04:03:57","like_diff":-21,"likes":3,"dislikes":24,"content":"希望老师以后好好备课。。。"},{"id":23217,"teacher_id":733,"teacher_name":"管成","post_time":"2016-03-22 03:41:07","like_diff":-22,"likes":6,"dislikes":28,"content":"看书自学的速度都跟不上老师念ppt的速度，重点的地方一句带过，不是重点的内容根本不讲。一路念ppt还诧异自己上得好快。"},{"id":52431,"teacher_id":733,"teacher_name":"管成","post_time":"2017-06-20 03:44:51","like_diff":-22,"likes":3,"dislikes":25,"content":"零分在哪，真的垃圾，自言自语，说话听不清 毫无条理，全靠自学"},{"id":30035,"teacher_id":733,"teacher_name":"管成","post_time":"2016-07-01 00:14:11","like_diff":-23,"likes":4,"dislikes":27,"content":"完全不想听"},{"id":32361,"teacher_id":733,"teacher_name":"管成","post_time":"2016-07-06 08:55:13","like_diff":-23,"likes":3,"dislikes":26,"content":"上课差，给分还低，我真是呵呵了"},{"id":52365,"teacher_id":733,"teacher_name":"管成","post_time":"2017-06-19 06:13:15","like_diff":-23,"likes":2,"dislikes":25,"content":"真的太渣了。。根本就不想同学考好，上的复习课效果为0"},{"id":23407,"teacher_id":733,"teacher_name":"管成","post_time":"2016-07-06 08:07:30","like_diff":-24,"likes":3,"dislikes":27,"content":"无语了"},{"id":175607,"teacher_id":733,"teacher_name":"管成","post_time":"2023-06-26 01:10:05","like_diff":-24,"likes":0,"dislikes":24,"content":"很横，不尊重学生"},{"id":32444,"teacher_id":733,"teacher_name":"管成","post_time":"2016-07-07 00:39:02","like_diff":-25,"likes":3,"dislikes":28,"content":"管老师：“有点困了。”“怎么还没下课？”“你们自己看看PPT好了奥。”"},{"id":85465,"teacher_id":733,"teacher_name":"管成","post_time":"2018-07-18 06:36:11","like_diff":-28,"likes":0,"dislikes":28,"content":"好吧，上面开始赞美的，八成没怎么认真学也拿了高分。老师讲课绝对存在问题，下课去问也倒是会认真回答。但是，考试这么多满绩不好吧？"},{"id":32960,"teacher_id":733,"teacher_name":"管成","post_time":"2016-08-26 10:38:24","like_diff":-30,"likes":1,"dislikes":31,"content":"怎么最低不是零分？"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

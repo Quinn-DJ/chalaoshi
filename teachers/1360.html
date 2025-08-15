@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>周永广 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="周永广教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="周永广,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">周永广</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">1.50</div>
+                    <div class="rating-participants">87人参与评分</div>
+                    <div class="attendance-info">20.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">创业启程</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.41</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.66</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">设计思维</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.06</span>
+                            <span class="students">选课: 17人</span>
+                            <span class="std-dev">标准差: 0.54</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (71 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":124794,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-10 17:58:35","like_diff":104,"likes":123,"dislikes":19,"content":"①不把学生当人。（那就别怪我们不把你当人了，尊重是相互的）\n\n②考试前同学问问题不回复，考试后面对同学的质疑也不回复，估计又聋又瞎又哑，也可能不识字。\n\n③自己都不清楚考试范围，同学考前问考第一版还第二版始终没回复，导致一批同学两版都背了，第二版也没时间复习。（ps：我们知道的考试范围是好心的同学从别的班得知后在我们班级钉钉群里说的。其他各种考试要求什么的也一样，同学们互相解决，消息来源都是“别的班”）\n\n④zyg和他的助教jy强强联手，完美诠释了装聋作哑的含义，用实际行动教导我们什么是最佳的解决方式——别问。同学们起初好生好气求分数细则，zyg一句不要猜疑，对！只要我们从源头上别问，这事就解决了！平时也没空理学生的问题，也没空上课，哪有时间调分啊，更别说考虑线上考题目乱序导致答案出错的问题了。助教面对同学想要看分数的请求，也是已读也不回复，再追问就删人，一个个都别问，这事就解决了。真是聪明极了！\n\n⑤助教给分可好看了，把我们的作业用博士生的水平来衡量的，我们可真是荣幸呢。博士生哪看的上我们这些非相关专业大一本科生的观后感和主观题呢。别的班是基本写了就满分，我们班最好最好的也得三分起扣才配得上博士生的批改水平呢（强/）。主观题估算起来不是逼近0，就是没了一半分。👍🏻你们可真是太棒了。"},{"id":124808,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-13 15:02:22","like_diff":61,"likes":65,"dislikes":4,"content":"躲在阴暗处想干什么？"},{"id":124776,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-09 02:28:20","like_diff":48,"likes":56,"dislikes":8,"content":"WKNM，幸幸苦苦学了一学期，最后还专门花钱买书复习，最后给我3，要点脸行吧，还不给成绩的明细，是个人？成绩一出，群里全都是问为什么隔壁都是4.5，自己都是3.0，不是说我们对低绩点有意见，我们就是不想被你乱正态。搞得什么玩意，畜牲，没讲过一节课就算了，考个试还JB糊弄人，垃圾，你都过了18岁了，怎么还活着，滚吧。没讲过一节课，没讲过一道题，你把我们当什么了？你混口饭吃的玩物？是因为有我们，你才能有口饭吃，懂吧，畜牲。我们不选你这B课，你还真把自己当回事？我告诉你，你能活着，全靠的是法制社会。简单点，法制社会救了你。"},{"id":124766,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-08 16:17:59","like_diff":46,"likes":48,"dislikes":2,"content":"我吐了退学启程"},{"id":124769,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-09 00:35:11","like_diff":42,"likes":44,"dislikes":2,"content":"说的给分好都是骗人的吗！！！不调分按原始分数给，太可怕了(๑ó﹏ò๑)"},{"id":124817,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-14 00:24:54","like_diff":37,"likes":38,"dislikes":1,"content":"解除群聊妙啊"},{"id":124778,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-09 02:45:46","like_diff":30,"likes":32,"dislikes":2,"content":"创业启程的成绩就离谱 别的班4.5 4.8 他班上的普遍没上4 大佬发话说自己4.2但觉得这个分数配不上他 要求公布原始成绩也是说试卷统一改的 那就是别的班调分了他没调呗 或者我们班助教平时作业打分太严了 我知道认真批改是本分 调分是情分 但是同样的付出得到截然相反的结果不是很不公平吗？？？"},{"id":124777,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-09 04:41:46","like_diff":27,"likes":32,"dislikes":5,"content":"创业启程 平时作业扣分比较狠，最后似乎没有调分。同学们要求公布具体各项分数，得到答复是 不用存疑。老师人挺不错，但是作为一门大课的平行班，这样的给分模式不是很推荐。我觉得倒没有必要用一些不太好的词汇去评论，但是对于不少同学而言，结果似乎没有和投入很好地匹配。毕竟这门课是“启程”，过于严苛的标准当然也没有问题，但是很多班级用一般模式而这个班相对严格不少我觉得有些不妥。"},{"id":154749,"teacher_id":1360,"teacher_name":"周永广","post_time":"2022-06-04 13:45:38","like_diff":24,"likes":24,"dislikes":0,"content":"网页7.81，点进去1.78，sb玩意儿"},{"id":124784,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-09 06:30:02","like_diff":21,"likes":22,"dislikes":1,"content":"我还以为是因为我写瑞幸从一开始就是想炸欺割韮菜所以才得3 结果原来班上没几个上4  集体反应了也不回应 唉"},{"id":124804,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-10 05:19:17","like_diff":17,"likes":21,"dislikes":4,"content":"创业20分观后感给了15分 总评直接少5分 期末考试给分巨差 200+大班只有个位数上4 隔壁上4一大把 这也是我这学期唯一一门4以下的拿了3.3 同学讨要说法群里不予理会 总之很差劲的一次体验就是了"},{"id":124855,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-13 14:47:40","like_diff":17,"likes":17,"dislikes":0,"content":"平时不管事，出成绩比其他班差很多，面对同学的质疑？对评分标准的询问，依然不管事。最后在群里对同学态度不太友好"},{"id":135030,"teacher_id":1360,"teacher_name":"周永广","post_time":"2021-04-27 10:25:38","like_diff":17,"likes":18,"dislikes":1,"content":"创业启程\n\n没有一次亲身授课\n\n全是网课和测试，期末大作业巨迷\n\n问问题是永远不会回复的，调分是只会往下调的\n\n期末考试主观题基本是一分不给的，最终分数比网课的分数低了好多\n\n如果想亲身体验一门课拉低所有课程均绩\n\n千万不要错过哦"},{"id":124852,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-13 14:37:03","like_diff":16,"likes":18,"dislikes":2,"content":"这老师不干正事，出了问题助教冲在前面，无语子"},{"id":124858,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-13 16:20:33","like_diff":16,"likes":16,"dislikes":0,"content":"老师：\"你丢了浙大的人\"\n\n学生：\"我干什么了?\"\n\n老师：\"你把我们做的事情又重复了一遍\""},{"id":124876,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-14 06:48:54","like_diff":16,"likes":17,"dislikes":1,"content":"说他给分求是的，硬洗的人，祝你以后工作没有奖金，因为它本不属于你，人要求是，否则就太可悲了。"},{"id":124788,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-09 11:19:54","like_diff":15,"likes":15,"dislikes":0,"content":"创业启程不调分哦，自己看着办吧"},{"id":158649,"teacher_id":1360,"teacher_name":"周永广","post_time":"2022-07-01 03:27:20","like_diff":15,"likes":16,"dislikes":1,"content":"海上月是天上月，晦气人教晦气课"},{"id":124802,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-10 05:12:53","like_diff":14,"likes":15,"dislikes":1,"content":"退学启程，选了就准备被退学吧"},{"id":124854,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-13 14:41:24","like_diff":14,"likes":14,"dislikes":0,"content":"一人血书莫选，必定后悔"},{"id":124850,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-13 14:29:43","like_diff":13,"likes":15,"dislikes":2,"content":"laji"},{"id":128788,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-12-25 09:58:18","like_diff":13,"likes":13,"dislikes":0,"content":"创业启程就是sb课没毛病吧"},{"id":150534,"teacher_id":1360,"teacher_name":"周永广","post_time":"2022-01-29 05:21:09","like_diff":12,"likes":12,"dislikes":0,"content":"傻逼玩意儿😅"},{"id":124851,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-13 14:37:02","like_diff":11,"likes":14,"dislikes":3,"content":"不尊重学生，满分好评"},{"id":124856,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-13 16:04:34","like_diff":11,"likes":16,"dislikes":5,"content":"我说他是头猪，有人反驳吗？"},{"id":124874,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-14 05:48:20","like_diff":11,"likes":12,"dislikes":1,"content":"设计思维我真的服气，当了大组长，最后出分80，去质疑，问评分细则，他说没事，他不调分，全班都分低，大组长是你自己要当的，加分对不当组长的人不公平，wtm，一个学期的辛苦感觉就像喂了狗。问了同课程其他班，据说给分都还行。。。\n\n虽然后来他把评分细则发给我之后看到他给全班都少算5分，但是当了一学期大组长专业课只有85分我真的接受不了，特别是在同课程其他班的对比下。\n\n不过也就那样，把分数看淡，吐槽还是要吐槽的，给学弟学妹排排雷。"},{"id":127892,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-11-30 01:54:38","like_diff":11,"likes":11,"dislikes":0,"content":"见过考完后说创启杀我的群吗，zyg让你大开眼界"},{"id":128834,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-12-26 01:01:27","like_diff":11,"likes":12,"dislikes":1,"content":"平时网课+BP接近满了，一个读后感，4000字认真写，只给一半的分，平时分硬生生刷下15分，不知道作何考虑。"},{"id":136786,"teacher_id":1360,"teacher_name":"周永广","post_time":"2021-06-24 12:56:04","like_diff":11,"likes":11,"dislikes":0,"content":"楼上的，读后感20分总评他给我10分，呵呵呵呵呵呵。只能说不把学生当人看，只图自己省事。"},{"id":137471,"teacher_id":1360,"teacher_name":"周永广","post_time":"2021-07-04 09:49:17","like_diff":11,"likes":12,"dislikes":1,"content":"sbsbsb"},{"id":167522,"teacher_id":1360,"teacher_name":"周永广","post_time":"2023-01-17 03:38:17","like_diff":11,"likes":12,"dislikes":1,"content":"这么说吧，成绩出了没有一个人在群里发谢谢老师"},{"id":188156,"teacher_id":1360,"teacher_name":"周永广","post_time":"2024-01-18 09:46:34","like_diff":11,"likes":11,"dislikes":0,"content":"退学启程😅💦"},{"id":123104,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-05-10 02:08:52","like_diff":10,"likes":10,"dislikes":0,"content":"上课就基本是看视频和讨论\n\n每次课后一个大作业和小作业\n\n问题是还看不懂他到底要布置什么\n\n这老师真是绝了"},{"id":124818,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-10 15:30:16","like_diff":9,"likes":10,"dislikes":1,"content":"只是希望老师能回应一下群里同学们对成绩与平行班同学相差如此之多的质疑。平时真的没讲课，同学问问题也隔好久才回甚至不回。甚至同学问考试范围都能讲错，说自己记错了。给的电子教材版本也是错的。感觉老师真的没把创业启程这门课当回事吧。"},{"id":188225,"teacher_id":1360,"teacher_name":"周永广","post_time":"2024-01-18 12:36:46","like_diff":9,"likes":9,"dislikes":0,"content":"乐色课程，给分难看"},{"id":189371,"teacher_id":1360,"teacher_name":"周永广","post_time":"2024-01-23 12:44:15","like_diff":9,"likes":12,"dislikes":3,"content":"创业启程:\n\n今年线上成绩40%，期末考试40%，一篇2000字的观后感20%。观后感自己认真听了两次演讲，认真写，20得18；线上成绩客观满分，商业计划书给及格分（全班最高分也就30得24离谱），100得88；考试背98真题＋疯狂划书上知识点，100得67（“已经算很高的成绩了”——助教语），不知道那些一天背真题的人怎么考的(～▽～\")，最终3.6\n\n自己是因为彩票系统的离谱排课导致只能选创业启程，且只有他的课能选\n\n真的，别选创业启程；如果不幸选上了，请好好背98真题（知识点和范围每年都差不多）\n\n愿创业之神保佑你"},{"id":137485,"teacher_id":1360,"teacher_name":"周永广","post_time":"2021-07-04 12:01:16","like_diff":8,"likes":8,"dislikes":0,"content":"让我过吧，让我过吧"},{"id":149835,"teacher_id":1360,"teacher_name":"周永广","post_time":"2022-01-17 07:51:04","like_diff":8,"likes":8,"dislikes":0,"content":"傻狗。。什么给分"},{"id":149993,"teacher_id":1360,"teacher_name":"周永广","post_time":"2022-01-18 08:00:18","like_diff":8,"likes":8,"dislikes":0,"content":"快跑！绩杀！别选！"},{"id":166836,"teacher_id":1360,"teacher_name":"周永广","post_time":"2023-01-14 01:08:17","like_diff":8,"likes":9,"dislikes":1,"content":"傻逼，创业启程给爷挂了，线上学习部分做了，讲座报告交了，期末考试参加了，最后挂了，选了必后悔，真几把傻逼东西"},{"id":124767,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-08 23:41:29","like_diff":6,"likes":9,"dislikes":3,"content":"作业说不清楚，上课放视频，提早下课，最后大作业只占10分，后面还变成小组互评，最后总分所有人少算五分后来更正了，且分数组成与开课时讲的不一样，课堂表现跟学在浙大登陆次数浏览时间挂钩，10分能扣两三分，最后算出来几分就是几分不会调。客观陈述不评价，大家自己辨别。但我觉得老师人还是挺好的，同学有问题都会耐心解答。"},{"id":124853,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-13 14:37:15","like_diff":6,"likes":7,"dislikes":1,"content":"创业启程，呵。\n\n"},{"id":137473,"teacher_id":1360,"teacher_name":"周永广","post_time":"2021-07-04 09:51:50","like_diff":6,"likes":6,"dislikes":0,"content":"课脑瘫人也脑瘫"},{"id":184892,"teacher_id":1360,"teacher_name":"周永广","post_time":"2023-12-24 05:36:24","like_diff":6,"likes":6,"dislikes":0,"content":"参考另一个zyg老师"},{"id":188182,"teacher_id":1360,"teacher_name":"周永广","post_time":"2024-01-18 11:02:55","like_diff":6,"likes":6,"dislikes":0,"content":"别学这狗课"},{"id":25378,"teacher_id":1360,"teacher_name":"周永广","post_time":"2016-05-16 10:27:05","like_diff":5,"likes":10,"dislikes":5,"content":"扯啊扯...纯扯！上课完全没有体系"},{"id":125036,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-08-17 05:17:49","like_diff":5,"likes":6,"dislikes":1,"content":"很恶心"},{"id":154554,"teacher_id":1360,"teacher_name":"周永广","post_time":"2022-06-02 06:14:31","like_diff":5,"likes":5,"dislikes":0,"content":"一言难尽"},{"id":188238,"teacher_id":1360,"teacher_name":"周永广","post_time":"2024-01-18 13:07:49","like_diff":5,"likes":5,"dislikes":0,"content":"给分勾史一样，别选，期末给分贼低"},{"id":188336,"teacher_id":1360,"teacher_name":"周永广","post_time":"2024-01-18 15:54:46","like_diff":5,"likes":5,"dislikes":0,"content":"为什么评分系统最低只能打1分，复习了半天任务也好好做最后给了2.7（？）这不是成心为难学生吗，您的退学启程名不虚传"},{"id":126172,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-09-18 10:57:16","like_diff":4,"likes":5,"dislikes":1,"content":"上课人不在？"},{"id":124859,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-13 16:36:24","like_diff":3,"likes":3,"dislikes":0,"content":"别选。"},{"id":182505,"teacher_id":1360,"teacher_name":"周永广","post_time":"2023-11-16 20:25:38","like_diff":3,"likes":3,"dislikes":0,"content":"恶心你"},{"id":188532,"teacher_id":1360,"teacher_name":"周永广","post_time":"2024-01-19 07:29:13","like_diff":3,"likes":4,"dislikes":1,"content":"别               选！！！！！！！！！！！！"},{"id":196529,"teacher_id":1360,"teacher_name":"周永广","post_time":"2024-07-04 02:34:09","like_diff":2,"likes":2,"dislikes":0,"content":"初生老师，给分奇差"},{"id":159773,"teacher_id":1360,"teacher_name":"周永广","post_time":"2022-08-29 04:46:31","like_diff":0,"likes":4,"dislikes":4,"content":"无语子"},{"id":210257,"teacher_id":1360,"teacher_name":"周永广","post_time":"2025-01-08 14:39:42","like_diff":0,"likes":0,"dislikes":0,"content":"课是不上的，题是不讲的，就让我们自己看视频，完完全全一甩手掌柜，换我上去都能教"},{"id":124592,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-03 10:52:55","like_diff":-2,"likes":4,"dislikes":6,"content":"期末大作业的评分方式是小组互评……"},{"id":185413,"teacher_id":1360,"teacher_name":"周永广","post_time":"2023-12-29 03:19:58","like_diff":-4,"likes":6,"dislikes":10,"content":"没注意线上课，老师就第一节课提了一下，后一直到截止都没提醒过一点没刷的人，本人复习考试，才发现有这东西，然后截止了，导致40分直接没了，去问老师怎么办，能捞不，老师直接说，不用来考试了，建议重修，nm，真不把学生当回事，这课说挂就挂了，于是大学挂的第一门就是创业启程。"},{"id":75850,"teacher_id":1360,"teacher_name":"周永广","post_time":"2018-03-20 02:10:38","like_diff":-5,"likes":2,"dislikes":7,"content":""},{"id":24400,"teacher_id":1360,"teacher_name":"周永广","post_time":"2016-04-30 11:39:17","like_diff":-13,"likes":2,"dislikes":15,"content":"讲课超级棒的老师"},{"id":107582,"teacher_id":1360,"teacher_name":"周永广","post_time":"2019-05-07 04:01:12","like_diff":-13,"likes":3,"dislikes":16,"content":"认真听蛮有意思的，只是我时常走神，偶尔有些段子很冷但戳我笑点。\n\n给分超好"},{"id":158568,"teacher_id":1360,"teacher_name":"周永广","post_time":"2022-06-30 08:52:57","like_diff":-15,"likes":4,"dislikes":19,"content":"创业启程出分了，最后给分应该跟前面比是正常了。考前认真复习了三天，主要是背了书和98 上的复习资料，最后考试时主观题感觉跟高中政治题很像，我是先写知识点再写材料最后再总结，我写的还是挺多的，最后4.8感觉也配得上付出。"},{"id":24104,"teacher_id":1360,"teacher_name":"周永广","post_time":"2016-04-27 05:16:35","like_diff":-17,"likes":5,"dislikes":22,"content":"老师还蛮有意思的，就是上课会脱鞋"},{"id":49774,"teacher_id":1360,"teacher_name":"周永广","post_time":"2017-04-26 00:18:08","like_diff":-19,"likes":8,"dislikes":27,"content":"周老师真的是一个很用心的老师，听他的课能收获好多?给分也无敌好！良心好老师啊，强推！"},{"id":107103,"teacher_id":1360,"teacher_name":"周永广","post_time":"2019-05-01 14:38:05","like_diff":-20,"likes":4,"dislikes":24,"content":"活少课好，给分高"},{"id":158937,"teacher_id":1360,"teacher_name":"周永广","post_time":"2022-07-03 13:46:02","like_diff":-23,"likes":5,"dislikes":28,"content":"创业启程：事少，两次讲座写读后感，另外就是做一份商业计划书；考试内容需要看书和98复习资料复习，考的题基本都是历年的知识点，98上复习资料画的重点很准，分和答题的把握也基本是正相关。不希望创业课占很多时间的可以选周老师的课，就本人而言给分符合预期。"},{"id":49773,"teacher_id":1360,"teacher_name":"周永广","post_time":"2017-04-26 00:17:36","like_diff":-29,"likes":4,"dislikes":33,"content":"给分太高，不说了，我爱他"},{"id":136441,"teacher_id":1360,"teacher_name":"周永广","post_time":"2021-06-18 02:56:58","like_diff":-32,"likes":4,"dislikes":36,"content":"周老师的课还是很精彩的，能够抓住问题的核心，案例和理论结合，小组讨论+系统解析，收获很大！"},{"id":124781,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-07-09 03:33:36","like_diff":-56,"likes":9,"dislikes":65,"content":"行了吧，我相信老师的评判是客观公正的，只是没有调分而已。比起通过调合迎合学生的老师，我倒更欣赏实事求是的老师。不分青红皂白一味追求绝对公平，汲汲于分数在查老师上开骂的样子真是可悲。既把该课定位为水课，又想通过最少的努力获取很高的分数，哪有这么好的事情？创业启程好好把视频时长刷满，考前话花三天慢悠悠地把书看一遍，拿个3.9绝对不在话下，算起来事情应该比职规要少许多。视频的内容是清华做的，有一定质量保障，虽然对真正想创业的同学真的只是“启程”而已，但还是会有一定思维上的启发的。"},{"id":129038,"teacher_id":1360,"teacher_name":"周永广","post_time":"2020-12-29 03:58:56","like_diff":-72,"likes":4,"dislikes":76,"content":"98满绩了好耶"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

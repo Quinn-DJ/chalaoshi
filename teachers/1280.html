@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黄浏英 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="黄浏英教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="黄浏英,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">黄浏英</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.15</div>
+                    <div class="rating-participants">236人参与评分</div>
+                    <div class="attendance-info">30.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">市场营销学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.06</span>
+                            <span class="students">选课: 191人</span>
+                            <span class="std-dev">标准差: 0.76</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">广告学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.11</span>
+                            <span class="students">选课: 128人</span>
+                            <span class="std-dev">标准差: 0.70</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">现代管理基础</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.04</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.70</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (204 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":37126,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-17 13:37:53","like_diff":53,"likes":70,"dislikes":17,"content":"老师上课讲的不错，人也很好，qq上问她问题非常耐心，错过的章测也帮我们补了一些，仅仅评价老师而言，黄老师是一个耐心和蔼的好老师。但是这门课作为一门通识实在是有点坑，这和老师没有什么关系，纯粹是课程设置的问题，作业非常多，还要赶每周章测试的ddl，实在有点力不从心，考试虽然不难但是闭卷，作为一门通识课压力太大，而且用心学可能最多也只能拿3.6，我自己的分数也有点惨不忍睹。总而言之，能学到很多东西，如果不担心的话也不妨选一选。事多的又想拿高分的慎重。"},{"id":10094,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2015-11-15 15:40:06","like_diff":22,"likes":26,"dislikes":4,"content":"讲得不错，给分比较坑"},{"id":10664,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2015-11-23 16:32:48","like_diff":21,"likes":27,"dislikes":6,"content":"绩点有点伤我心"},{"id":10722,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-09-20 00:49:22","like_diff":19,"likes":35,"dislikes":16,"content":"或许讲课还好，给分真的真的不好不好不好"},{"id":10658,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2015-11-21 15:55:53","like_diff":18,"likes":21,"dislikes":3,"content":"讲课很精彩，给分比较坑\n\n"},{"id":635,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2015-03-15 09:02:22","like_diff":15,"likes":27,"dislikes":12,"content":"很喜欢的一个老师，选专业都是因为上了她的市场营销学才决定的！专业知识丰厚，实践经验也很多，所以上课总能听她讲有趣生动的案例，这可是纯搞研究的老师讲不出来的！\n\n"},{"id":1513,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-06-12 15:09:20","like_diff":15,"likes":22,"dislikes":7,"content":"讲的挺好 有趣 给分一般"},{"id":35403,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-12-20 09:27:21","like_diff":15,"likes":22,"dislikes":7,"content":"选的现代管理基础。老师讲课还不错，但是事情是真的多，付出与回报可能不会成正比，选了这节课意味着每周多出了一到两个ddl要去完成，而且要花费的时间还相当多，另外期末还闭卷，考试周就要花相当一部分时间去背一门通识的书。这些可能都认真去做了，但绩点可能还是不好。一门通识到底要肝成什么样才算合理呢？为了绩点去MOOC注册好几个小号去刷分，期末把课本背书还是什么？真的不懂。这门课给我的除了心酸，也就是不解了。"},{"id":121043,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2020-01-19 09:58:28","like_diff":14,"likes":14,"dislikes":0,"content":"市场营销学。黄浏英老师真是我在世真爹，平常没怎么学最后也获得了不错的分数，下面是一些课程小贴士。\n\n课程总体感受：老师讲课很有意思，夹着案例就解释了营销上的一些概念，讲例子的时候引人入胜，但也有一些缺点，就是讲例子和讲概念之间的过渡不太明确。用的书是《营销管理》，原版书很贵，但只会讲里面的几个章节，如果上课认真听了是不需要书本也能复习的，可以选择不买。老师上课点名的方式是用名牌，但是可以让别人代拿，所以去不去问题不大，不去会错过考试的重点。\n\n考试与评分：平时分由考勤、发言、作业确定。考勤的话，每节课拿走名牌不难；发言的话，上课随便插嘴也算，不愿意发言也行，对总成绩影响不大；作业是一次三人小组完成的案例分析，每周名额有限，上课前可以先自行组好队，快人一步抢第一周的展示机会，然后就再也不用担心展示了。秋冬学期的最后一节课各有一次作业，不要旷课。最终的考试内容是出自老师课上讲过的内容的，19~20秋冬的考试题目由四个名词解释——市场细分、营销组合、参考群体、渗透定价法，三个概念辨析——市场定位、消费者介入度、品牌商标，两个案例辨析——迪士尼成功元素、渠道冲突组成，如果上课听了问题不大，但这些东西也可以在书上找到并复习，所以上课没有听课也可以在备考的时候准备，不过这过程就难受多了。\n\n给分良心，一整个学期我都没有听课，光靠考前恶补也有不错的成绩。十分推荐。"},{"id":11180,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2015-11-25 04:45:25","like_diff":12,"likes":14,"dislikes":2,"content":"给分一般"},{"id":172534,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-05-11 05:37:39","like_diff":11,"likes":11,"dislikes":0,"content":"下午课，没缺过勤，好喜欢老师，感觉每次上课都像在听金星脱口秀"},{"id":10388,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-01-23 09:26:49","like_diff":10,"likes":16,"dislikes":6,"content":"上课内容很丰富，讲课方式吸引人。我上的现代管理基础，虽然是一门通识课但是完全不水，可以学到一些东西。"},{"id":19194,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-01-23 12:47:52","like_diff":8,"likes":14,"dislikes":6,"content":"实践经验丰富，注重案例教学，生动有趣有价值。市场营销课给分还不错，考前让大家投票我们最终选了开卷，考试前看隔壁班孩子们背的苦逼，内心庆幸。"},{"id":24387,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-04-30 07:56:41","like_diff":6,"likes":9,"dislikes":3,"content":"兢兢业业回答问题+准备考试=3.6"},{"id":36753,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-03-20 02:24:34","like_diff":6,"likes":9,"dislikes":3,"content":"老师的市场营销真的超级棒啊！有很多很好的案例！学到了很多东西！"},{"id":62687,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-26 11:28:12","like_diff":6,"likes":9,"dislikes":3,"content":"现管这门课\n\n（1）网络小测，书上都找得到的，十分钟十道题凭良心讲简单的\n\n（2）小组展示，用心当然也就费事没办法\n\n（3）课堂小测，开卷，简单的平时听一耳朵老师讲的就会，毕竟老师上课讲的案例还是蛮有意思的，有印象记得住\n\n（4）发言，课上不想发言就多水水网课\n\n（5）是有小组长有课代表的课\n\n\n\n知识不一定学多少，但想做管理者的同学可以从这门课开始体会，会有管理的思维"},{"id":172615,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-05-02 06:45:09","like_diff":6,"likes":6,"dislikes":0,"content":"老师看上去很凶，但实际上很温柔，讲课也很生动。现代管理学基础课程没有考试，成绩构成为八次mooc测试（每次五分钟十道题都可以查得到）、最后一节课的随堂测试（学在浙大上面做，部分搜不到，考验听课，不过成绩占比不大）、一篇周计划、一篇课堂小结、一次小组展示、十次发言。老师人很好，会给你改错补测的机会，很宽容大度，和讲课风格一样。我有一次小测时间错过了，后来补交了，其他内容认认真真完成了，最后给分也很不错。这门课想水可以很水，但认真听课反正还是很有收获的。老师真的很好！！"},{"id":182290,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-11-14 06:11:15","like_diff":6,"likes":7,"dislikes":1,"content":"水课，可以很水，上课可以很轻松是真的。但给分难评，互评部分人心难测。。。"},{"id":62160,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-23 02:03:55","like_diff":5,"likes":8,"dislikes":3,"content":"老师的课还是不错的，内容比较多，认真听可以学的挺多。作业多是该课程统一规定，相比其他老师作业是算少的，读书报告也有上限，评分也不错，认真学并且认真准备小组展示可以有一个还可以的分数"},{"id":163416,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2022-12-14 08:47:47","like_diff":5,"likes":5,"dislikes":0,"content":"内容上的话听起来很有趣！课上有很多例子和她自己的经验，完全不会照着课本照搬\n\n事情还是比较多的，但这是现管这门课的通病，（据我所知所有的老师都是类似的作业，黄老师做得很好的一点是会亲自认真的核对分数，我在互评的时候遇到了恶意打分，结课后老师专门来告诉我分数已经纠正过了\n\n打分比较客观，主要看两次小作业和最后的小组展示，其他的平时分也是会严格按实际情况给的（会有专门的同学记录的\n\n在通识课中体验算是比较好的，因为任务都比较常规，只要认真一点就会有很好的分数，完全不会不明不白地被绩杀"},{"id":182960,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-11-21 08:24:28","like_diff":5,"likes":8,"dislikes":3,"content":"黄老师的课十分生动有趣，形式也非常多样，会有精美的ppt，有趣的视频，各种各样直观的视觉辅助材料等等，下课也会认真地回答同学的疑问。如果给黄老师打分，我会毫不犹豫地打10分，但是，如果现管这门课打分，我最多只会打7分。虽然很有趣，也会学到挺多有用的知识，但事情有点多，想水的话不建议选。总共7次上课(国庆一周放假)，有1次1200左右(但有上限1500)的读书报告，1次不限字数(可能？)的周计划(基本上也会有1800左右)，1次小组报告(争取了小组长，但是事情会很多，除了小组任务，所有会议都要参加外还要另外与其他相关人员另外抽出时间开会，同时小组人员太多了，有10几个，组员之间会有很多需要协调的(一般都想争取自身利益，会有众口难调的情况))。"},{"id":18767,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-01-22 13:18:18","like_diff":4,"likes":7,"dislikes":3,"content":"上课上得很好。营销课给分很高"},{"id":144349,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2021-12-21 06:45:15","like_diff":4,"likes":6,"dislikes":2,"content":"平时事也不算多，大概一篇800字读书报告，一个计划表，几次选择题测试，期末小组展示，没有考试和论文，课堂发言还可以在MOOC上刷次数，最后给分也很不错，强推"},{"id":145730,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2022-01-01 05:18:09","like_diff":4,"likes":4,"dislikes":0,"content":"特别好"},{"id":147110,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2022-01-08 17:34:48","like_diff":4,"likes":6,"dislikes":2,"content":"现管 讲课很棒 事情稍多 收获也多（想划水的请出门右拐 不然给你划水的2学分干嘛~）"},{"id":161746,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2022-11-12 02:55:27","like_diff":4,"likes":4,"dislikes":0,"content":"上的课是现代管理基础\n\n老师讲课比较有意思，给分可以，不专门点名，课前点几个人回答问题，没有大作业，但作业种类多。\n\n小测比较简单，线上开卷，周计划和读后感按要求写就行，同学给分都不错，小组人比较多，所以小组展示分给每个人的任务就不算多。"},{"id":167404,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-01-16 05:07:19","like_diff":4,"likes":5,"dislikes":1,"content":"事好多，我不太喜欢组内互评和MOOC测试。本来就是一门通识课，还要整这么麻烦的小测，总有恶意评分现象。但打分比较公正，讲课比较有意思，总体来说还是比较推荐（如果不嫌事多的话）。"},{"id":58929,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-09-18 13:35:04","like_diff":3,"likes":5,"dislikes":2,"content":"不评价老师。现代管理基础这门课真的是恶心，事情比专业课还多，还用什么“翻转课堂”，慎选！"},{"id":61326,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-14 12:58:07","like_diff":3,"likes":6,"dislikes":3,"content":"现管的课上的不错，但作为一门通识课给的绩点是真的低，建议各位要拿高分的同学不选也罢，明明做了很多很认真了但分数还是很低。"},{"id":61441,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-17 08:47:26","like_diff":3,"likes":3,"dislikes":0,"content":"课堂干货还是很多的，是一门可以学到知识的通识课"},{"id":61560,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-18 13:53:21","like_diff":3,"likes":6,"dislikes":3,"content":"课真心讲的的不错，案例非常多，能给人以启发。虽然事情有些多，但做了都确实有所收获。上课发言很简单，读书笔记要认真写，小测也不难。老师人很好，给我了4.8，推荐大家选黄老师的课。"},{"id":61819,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-21 06:10:48","like_diff":3,"likes":3,"dislikes":0,"content":"讲的不错的 ，有听下去的愿望，是一位十分实事求是的老师，作为一门通识课，事情较多，想水的不推荐选，想认真学的推荐。"},{"id":63259,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-29 14:23:17","like_diff":3,"likes":4,"dislikes":1,"content":"好老师啊"},{"id":64454,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-12-24 04:49:38","like_diff":3,"likes":4,"dislikes":1,"content":"堪称绩好。上课很有意思，积极发言有加分，羞涩的同学可以在网上发言。现代管理基础的上课方式改了，如今没有期末考试，一学期个人只有一篇读书报告，600字就了，还是同学互评。小组做一PPT演讲就行。最后一节课演讲简直是狂欢夜。平时事稍多，毕竟是学分2.0的课，轻松飘过。"},{"id":69335,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-01-24 13:30:55","like_diff":3,"likes":3,"dislikes":0,"content":"黄老师o(^o^)o真心很好，上课有很多案例，给分也很好(✪▽✪)"},{"id":69383,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-01-24 14:49:22","like_diff":3,"likes":4,"dislikes":1,"content":"老师真的超级好，市场营销学一学期从来没有走过神，记了满满两万字的笔记，真的感觉收获超级大，最后给分也很满意，真的是好老师！！！"},{"id":70144,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-01-26 07:18:59","like_diff":3,"likes":4,"dislikes":1,"content":"市场营销 专业课 非本专业学生修作个性 体验：干货满满 逻辑性不足 老师本人讲课有热情有方法有个性 实践经验足而不装b 课堂互动不少 ppt不分享 平时笔记做足期末开卷完全ok"},{"id":106398,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2019-04-27 05:01:16","like_diff":3,"likes":3,"dislikes":0,"content":"老师真的很好，谢谢老师给了满绩，慕课认真做基本分数拿满了，读书报告800字没有参与dl鹅颈，幸运遇到一个比较强的展示组，上课也真的挺有意思的，会学到一些管理思维，上课讲的案例也挺有趣的，只要认真了，分数应该不会低。"},{"id":122246,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2020-02-20 16:29:12","like_diff":3,"likes":3,"dislikes":0,"content":"事情实在太多了 线上线下教学 一次小组展示 一次读书报告 每节课都有网络测试 结课前还有一个老师自己做的小测试 小测试难度不大倒是真的 但是全是课上讲的东西 意味着听课效率要求高 实在是不适合水课"},{"id":127351,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2020-11-20 17:25:30","like_diff":3,"likes":6,"dislikes":3,"content":"没有期末考 平时事情不算太少 但也还好 只要每一部分都按部就班跟上认真做 分数挺好拿的"},{"id":142349,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2021-11-10 11:39:43","like_diff":3,"likes":8,"dislikes":5,"content":"猪队友毁我均绩"},{"id":142433,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2021-11-11 10:37:35","like_diff":3,"likes":4,"dislikes":1,"content":"老师人很好，是过程性考核，在中国大学MOOC上同步spoc课程，每一章完了会有测试，每一次作业测试都占分，所以上课要好好听，测试？。大作业是互评，用心完成，同学给分还是很好的。 这门课因为课时的原因对于对管理学只是一个相当粗略的介绍，但这是课程设置的原因。作为一门通识来说，它也足以向我们打开管理世界的大门。 最后给分刚好被卡了一分，总体来说还算满意叭。 只要用心的话，黄老师是很不错的。"},{"id":181949,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-11-06 08:09:30","like_diff":3,"likes":4,"dislikes":1,"content":"上课讲的真的很好！生动有趣，不念书，会分享很多她出去讲课的经历。任务量也不大，4次mooc小测网上有答案，就1000字读书报告+一周计划+小组展示比较费时间。整体来说体验超棒的！感谢老师带我进入管理学的大门"},{"id":11181,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2015-11-25 04:45:43","like_diff":2,"likes":4,"dislikes":2,"content":"给分一般"},{"id":12183,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2015-12-22 08:03:59","like_diff":2,"likes":11,"dislikes":9,"content":"要上现代管理基础就不要选她，我们整组绩点都没上4 我其他老师的线管同学全部上4"},{"id":37122,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-17 13:27:02","like_diff":2,"likes":5,"dislikes":3,"content":"老师的课讲的很好，现在多了mooc，老师也会给mooc忘记做的同学一次机会，给分也很好"},{"id":37123,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-17 13:29:35","like_diff":2,"likes":4,"dislikes":2,"content":"挺好的、上课很生动、案例很丰富……很有水平的一个老师"},{"id":37755,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-21 00:52:53","like_diff":2,"likes":4,"dislikes":2,"content":"课程挺好，事挺多，现在开始闭卷考试了。。。"},{"id":39069,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-12-21 03:31:30","like_diff":2,"likes":4,"dislikes":2,"content":"老师不错啊，讲的很吸引人，只是现管这门课本身坑，但是如果你很闲，把该背的背下来，得高分不难的。"},{"id":44308,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-01-17 14:59:45","like_diff":2,"likes":3,"dislikes":1,"content":"旅游学，上课没回答过问题，上四了。而且讲得挺好的，可以选来当个性。重点就是要记好笔记，每节课马不停蹄地记，开卷，考的都是讲的。"},{"id":61335,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-14 17:13:51","like_diff":2,"likes":7,"dislikes":5,"content":"其实黄老师现管给分还是可以的，我差一分就4.8了，如果你的小组真的认真做任务了，自己测试也没落下，给分是一定能上4的，另外，本学期开始，现管取消期末考试，所以，千万不要错过这门课。（这是我第一门上4的课）"},{"id":61340,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-15 01:32:21","like_diff":2,"likes":3,"dislikes":1,"content":"讲课很好，很多有趣的实例。虽然平时事情做有点多，但是抱紧组里的大腿还是很轻松的啊。期末没考试了，也不用背书了。美滋滋"},{"id":61369,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-15 10:51:32","like_diff":2,"likes":6,"dislikes":4,"content":"给分完全ojbk"},{"id":70173,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-01-26 07:57:40","like_diff":2,"likes":3,"dislikes":1,"content":"黄老师真的超级好，讲课分析案例特有意思，结课恋恋不舍，给分也很好。一个pre，一次调研，写个优质的调研报告，老师会跟进给你很多的指导性意见。最后期末开卷考试，老师会给你大致的范围。建议上课坐前排，多记笔记（电脑和手写都ok的），多复习笔记，对于一些不明白的地方可以多和老师交流，老师会特别热心给你讲。最感人的是，老师给分之后会私聊你，给每个同学一些点评。特好的老师！！！"},{"id":70309,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-01-26 12:05:13","like_diff":2,"likes":2,"dislikes":0,"content":"暖心！！强烈推荐黄老师的课！超级暖心！！！讲课讲得很好！认真学的话给分也不差的！"},{"id":77187,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-05-03 12:24:32","like_diff":2,"likes":2,"dislikes":0,"content":"太棒啦！"},{"id":85749,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-08-02 03:13:35","like_diff":2,"likes":2,"dislikes":0,"content":"老师上课不错，氛围生动，想要高绩点慎选现代管理基础。每周都会花很多时间看书和做mooc的小测，还有其他的ddl。网络测试基本满分，读书报告满分，课堂发言超出达标要求，小组pre和作业也都认真做了，最后被正态到80分以下的30%，同样的认真程度在其他通识就拿了满绩。有点失望，但至少可以逼自己认认真真把书看一遍也算学到很多了。"},{"id":118994,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2019-11-09 04:47:40","like_diff":2,"likes":2,"dislikes":0,"content":"黄老师人真的很好，讲课也不错。对同学们都很耐心，qq群里面允许匿名，也允许同学们讨论各种各样的问题。管理学院毕竟专业，考核机制很完善，既不会给学生压力又确保了学生真的学到了东西。虽然不点名，但会有其他形式抽查到课情况及听课情况。纯粹想水学分的同学就不必来了，但是真的对管理有兴趣或单纯想了解的同学都可以来！"},{"id":119248,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2019-11-11 23:22:22","like_diff":2,"likes":2,"dislikes":0,"content":"现代管理基础：讲的不错，课程事情多"},{"id":135051,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2021-04-28 08:05:23","like_diff":2,"likes":2,"dislikes":0,"content":"上课很棒，老师很不错 就是活有点多\n\n但是正态分布很sb，个人考核分几乎拿满了结果死在课堂发言\n\nuu们记得要多发言拿分啊"},{"id":142354,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2021-11-10 12:05:41","like_diff":2,"likes":2,"dislikes":0,"content":"现代管理基础\n\n老师很有趣，讲课很也有意思，自己感觉认真听会有一定收获。给分明确。\n\n但是课程任务很重，可能是最忙的通识课之一，要选就要做好在这一门通识课上花费很多时间的准备。而且绩点应该不算高，想要高分要花很大功夫。\n\n总之想高分慎入，想水勿入。不怕花时间又想学点相关知识可以考虑一下。"},{"id":152644,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2022-04-17 05:27:24","like_diff":2,"likes":3,"dislikes":1,"content":"市场营销\n\n上课一定要认真听+做笔记\n\n因为她不会给ppt"},{"id":164416,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2022-12-21 02:13:03","like_diff":2,"likes":4,"dislikes":2,"content":"老师上课好有激情，能学到很多东西。每次上课都会提前到教室，备课很充分，很有意思。个人认为事情不算很多，大概八次mooc小测，每次限时五分钟，都能找到答案。还有一张周计划表，一篇800字的读书报告，认真完成最后给的分也很好。"},{"id":165505,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-01-07 12:18:57","like_diff":2,"likes":3,"dislikes":1,"content":"一开始觉得老师看起来很凶，但其实人很好，特别关心学生，特别有活力，上课还被老师安利了好多好吃的好玩的，市场营销学任务也不多，给黄老师一个大大的赞！"},{"id":182392,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-11-15 12:32:11","like_diff":2,"likes":3,"dislikes":1,"content":"讲的挺好的，老师也很有水平，但是有点明显赶进度的感觉，后面就是为了讲知识点而讲，同时小测是真挺难的，不好拿高分，最后还被卡绩了，好伤心"},{"id":195221,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2024-06-27 09:23:08","like_diff":2,"likes":2,"dislikes":0,"content":"事情很多，给分每部分很明确。线上小测和小组展示最重要。想摆烂建议别来，可能分会不高"},{"id":12798,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2015-12-24 05:34:27","like_diff":1,"likes":7,"dislikes":6,"content":"真是后悔选了这个课"},{"id":18959,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-01-23 00:37:41","like_diff":1,"likes":3,"dislikes":2,"content":"很有收获"},{"id":34268,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-09-29 10:42:11","like_diff":1,"likes":10,"dislikes":9,"content":"我想说千万别选现代管理基础，巨坑！"},{"id":36934,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-16 15:07:50","like_diff":1,"likes":3,"dislikes":2,"content":"老师旅游的知识是讲的真心很好，而且在QQ群里也很可爱！给分也很好"},{"id":37142,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-17 14:29:46","like_diff":1,"likes":5,"dislikes":4,"content":"讲课很好，但是认真听课了，mooc几乎全五分，考试大题基本背上了，为啥绩点3.6？伤心!!!想听课建议选，想拿高分，不要考虑，努力了不一定有成果。"},{"id":42111,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-01-13 15:08:30","like_diff":1,"likes":2,"dislikes":1,"content":"绩杀，不说了"},{"id":49706,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-04-24 13:18:57","like_diff":1,"likes":2,"dislikes":1,"content":"老师讲课生动有趣！只要不挂科，我就敢选！学了很多很多有用的东西。"},{"id":50254,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-05-02 04:31:03","like_diff":1,"likes":3,"dislikes":2,"content":"老师讲课真的不错"},{"id":61442,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-17 08:57:28","like_diff":1,"likes":4,"dislikes":3,"content":"课程改革啦，没有期末考了，感觉也不是一门很麻烦的通识，认真完成每周线上十道题，写一篇按规定写一定可以得满分的读书报告(上限2000字)，做一次很水的小组展示，就是全部啦。老师上课还非常有趣！认真学可以学到很多！一条鱼的故事，小矮人的故事......总之听了好多有趣的例子，最后满绩了orz，认真对待成绩不会差！"},{"id":62294,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-24 04:32:10","like_diff":1,"likes":4,"dislikes":3,"content":"棒！给分超好！"},{"id":64944,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-12-28 04:12:17","like_diff":1,"likes":1,"dislikes":0,"content":"不错的感觉"},{"id":69309,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-01-24 12:32:14","like_diff":1,"likes":1,"dislikes":0,"content":"市场营销，给分好，讲课有意思很吸引人。一次展示+一次调研报告+期末开卷考。太好了。"},{"id":77097,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-05-02 04:06:29","like_diff":1,"likes":1,"dislikes":0,"content":"老师讲课真的非常的棒，上课就像在听故事一样，给分也很实在，炒鸡喜欢这个老师的辣！"},{"id":89914,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-11-21 08:14:32","like_diff":1,"likes":1,"dislikes":0,"content":"黄老师的课是我上大学以来最听得进去的课，超级有意思还能学到知识，每个知识点都配一个故事讲解！"},{"id":91040,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-11-29 06:43:05","like_diff":1,"likes":1,"dislikes":0,"content":"老师特别好，课堂能学到很多，事也不多"},{"id":92561,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2019-01-03 02:47:31","like_diff":1,"likes":1,"dislikes":0,"content":"超喜欢她的市场营销学，老师会给我们发红包，发零食！！bravo！"},{"id":110914,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2019-06-28 14:00:11","like_diff":1,"likes":1,"dislikes":0,"content":"广告学很有趣啊！"},{"id":119250,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2019-11-11 23:38:35","like_diff":1,"likes":2,"dislikes":1,"content":"真的用心学 3.3。。。"},{"id":120605,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2020-01-13 22:22:19","like_diff":1,"likes":1,"dislikes":0,"content":"旅游学，上课发小零食，因为班上基本没本专业的学生，直接闭卷改成开卷，还会在班上投票表决考试时间和题型，提前划重点，简直不要太贴心。如果每节课都记笔记（因为不会给PPT），然后在短学期考试周前的最后一次课会有一次突击课堂个人作业（画本课程的知识地图之类的，这个好像是老师的习惯，选了两门都会这样），只要把握好这两点，考试成绩不会差~"},{"id":121134,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2020-01-19 23:56:56","like_diff":1,"likes":1,"dislikes":0,"content":"吹爆黄老师，女神！给分好，人美心善，上课全是干货，工科生也能4.8！"},{"id":125282,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2020-09-05 13:10:39","like_diff":1,"likes":1,"dislikes":0,"content":"市场营销学力荐"},{"id":127192,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2020-11-12 12:23:30","like_diff":1,"likes":1,"dislikes":0,"content":"好，唯一不水的通识课..."},{"id":127283,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2020-11-19 14:13:42","like_diff":1,"likes":1,"dislikes":0,"content":"第一门出来的成绩，针不戳，只要好好做每章练习，作业按照要求仔细做，真的分数很OK的，就是可能小组作业要看运气，不过这个还是阔以的。多亏之前查老师过，看到有人说好好做作业就行，"},{"id":127286,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2020-11-19 14:33:39","like_diff":1,"likes":1,"dislikes":0,"content":"老师讲的很好，但是课程的内容有些繁杂，绩点也不是很高。想要高绩点的同学慎重哟"},{"id":138177,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2021-07-07 19:49:12","like_diff":1,"likes":1,"dislikes":0,"content":"给分很好"},{"id":139396,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2021-07-15 05:09:32","like_diff":1,"likes":5,"dislikes":4,"content":"现代管理基础强推！认真按要求完成的话，绩点不会低，而且老师讲课很有意思～"},{"id":144958,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2021-12-26 04:54:06","like_diff":1,"likes":2,"dislikes":1,"content":"。。。"},{"id":152928,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2022-04-22 01:34:58","like_diff":1,"likes":3,"dislikes":2,"content":"上的现代管理基础，相对通识课来说事情很多。但是上课能学到不少，老师上课也很幽默，给分说不上多好，但是公平公正，每一分的来源都很细化，总之不适合划水，还是要花点功夫。"},{"id":161728,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2022-11-11 12:02:26","like_diff":1,"likes":2,"dislikes":1,"content":"老师人超好，讲课有趣，给分也很棒，她真的我哭死，我都会忘记水课，xian dai guan li ji chu"},{"id":165535,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-01-08 05:30:58","like_diff":1,"likes":2,"dislikes":1,"content":"老师讲课很生动，但是不捞人"},{"id":182265,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-11-13 14:46:47","like_diff":1,"likes":3,"dislikes":2,"content":"给分很一般"},{"id":182272,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-11-13 18:05:19","like_diff":1,"likes":1,"dislikes":0,"content":"唉啊唉"},{"id":182286,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-11-14 05:04:57","like_diff":1,"likes":3,"dislikes":2,"content":"还不错啊，我也不是小组长，虽然没满绩，但也还不错。总共就两篇（一篇周计划+执行小结，一篇读书报告我记得是1000字）+四五次小测（题都可以搜到）+一次小组展示（自己内部协商管理规则）+十次发言（线下线上相加）。我是上课不听的，然后最后一周刷完所有智云，总的来说有些东西还是挺能增加点知识储备的。至于怎么把管理学应用，这门课基本没有，主要就是介绍管理。\n\n不要总觉得自己很牛了（对话下面写的很长，为了拉低老师评分的人），觉得老师讲的没用，我就问你第一节课讲的商业4.0模式还记得吗，难道没有一点启发作用吗，你不会真的指望有人每句话都很重要吧。你要是这么挑刺那最好像马林思维那样辍学自学。你多少带点有色眼镜看人了，十足的傲慢与偏见是你吧。"},{"id":182973,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-11-21 09:10:28","like_diff":1,"likes":3,"dislikes":2,"content":"老师 我家子涵一回家就哭了 还以为是在小组被孤立了 原来是被绩杀了 老师以后这种课我们家子涵不参加了"},{"id":183593,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-11-27 14:04:47","like_diff":1,"likes":2,"dislikes":1,"content":"在众多通识中，黄老师的课程真的不水，很有意思，可以学到有用的知识，大爱老师！"},{"id":185088,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-12-26 06:39:16","like_diff":1,"likes":2,"dislikes":1,"content":"想摆勿来，愿卷欢迎。"},{"id":201908,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2024-11-07 09:43:45","like_diff":1,"likes":1,"dislikes":0,"content":"666"},{"id":2668,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2015-05-05 05:03:57","like_diff":0,"likes":8,"dislikes":8,"content":"很不错的老师，让我这个工科生也对管理学萌生了兴趣"},{"id":11369,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2015-11-29 08:03:52","like_diff":0,"likes":7,"dislikes":7,"content":"给分可以，好好看书就行，不要听课。。。"},{"id":11819,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2015-12-16 06:24:30","like_diff":0,"likes":2,"dislikes":2,"content":"汗死了"},{"id":12825,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2015-12-24 07:02:22","like_diff":0,"likes":3,"dislikes":3,"content":"不想评价"},{"id":13179,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2015-12-25 05:25:22","like_diff":0,"likes":1,"dislikes":1,"content":"老师很好，上课挺有趣的，但是作业略多，给分的话是正态分布，小组作业不咋地的话就不一定会很好了。"},{"id":15543,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-01-15 08:09:00","like_diff":0,"likes":5,"dislikes":5,"content":"呵呵 坑爹"},{"id":18755,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-01-22 13:00:44","like_diff":0,"likes":2,"dislikes":2,"content":"以后选课还是选给分好的老师吧…手动再见"},{"id":19041,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-01-23 06:13:23","like_diff":0,"likes":1,"dislikes":1,"content":"营销给分不错"},{"id":21873,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-03-01 10:56:00","like_diff":0,"likes":3,"dislikes":3,"content":"上课挺有趣\n\n"},{"id":24388,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-04-30 08:00:05","like_diff":0,"likes":3,"dislikes":3,"content":"坐第一排听课，一直兴趣很浓老师讲的也很好。但是最后考试明明发挥很好却只有3.1……\n\n"},{"id":24570,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-05-02 01:49:45","like_diff":0,"likes":2,"dislikes":2,"content":"旅游学上的很有趣，我们这届期末是开卷考（似乎是头一次），成绩我很满意"},{"id":24613,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-05-02 08:31:34","like_diff":0,"likes":1,"dislikes":1,"content":"上课上的不错，至于给分。。。。"},{"id":24806,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-05-04 00:39:55","like_diff":0,"likes":2,"dislikes":2,"content":"不听枉为人"},{"id":33896,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-17 22:41:30","like_diff":0,"likes":2,"dislikes":2,"content":"挺有趣的^_^^_^"},{"id":34563,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-01-19 11:22:10","like_diff":0,"likes":3,"dislikes":3,"content":"市场营销学真的收获太大了，而且给分真的好，卷面没考好，老师还是给了很好的分数?????"},{"id":35398,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-17 13:21:44","like_diff":0,"likes":7,"dislikes":7,"content":"不说了。10分。事儿虽然多，但是功夫不负有心人。毕竟我满绩了"},{"id":35430,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-10 07:15:51","like_diff":0,"likes":1,"dislikes":1,"content":"作業多"},{"id":35622,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-10 07:35:07","like_diff":0,"likes":2,"dislikes":2,"content":"事情超多，选课需谨慎\n\n"},{"id":35795,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-10 09:40:53","like_diff":0,"likes":1,"dislikes":1,"content":"老师还是很有功底的。就是mooc比较坑啊！"},{"id":35839,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-17 11:27:17","like_diff":0,"likes":6,"dislikes":6,"content":"上课听故事，偶尔提问，自己举手，回答有分（最高1？）mooc是线上分，测试一定好好做，视频可以不看，考前两天背书，特别是老师画的重点（填空题是这），可以拿到不错的分"},{"id":37134,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-17 13:57:55","like_diff":0,"likes":4,"dislikes":4,"content":"黄老师的课会给我们展现很多生活中的例子，很有引发性和思考性。绩点的话一分努力一分收获。\n\n"},{"id":37165,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-17 16:03:09","like_diff":0,"likes":2,"dislikes":2,"content":"上课很有趣 课后事情很多 但给分还可以"},{"id":37167,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-17 16:16:53","like_diff":0,"likes":2,"dislikes":2,"content":"开心的来评价啦～\n\n其实只要好好背两天书就可以考的很好呦\n\n老师上课还是很有趣滴就是平时作业有点多…形式还多样啊哈哈哈\n\n总之不怕作业多的可以来试试呦\n\n"},{"id":37248,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-18 04:29:25","like_diff":0,"likes":2,"dislikes":2,"content":"讲课很有趣，有魅力而且关心学生，给分一般可能是自己不努力吧"},{"id":37631,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-20 01:29:59","like_diff":0,"likes":3,"dislikes":3,"content":"虽然平时事情多了点，不过毕竟两个学分的课，老师挺会举例子的，收获挺多的，平时认认真真完成各项任务，期末也是拿到了满绩，还是谢谢老师了。"},{"id":38082,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-24 03:05:49","like_diff":0,"likes":1,"dislikes":1,"content":"挺好的啊"},{"id":38453,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-12-05 11:49:42","like_diff":0,"likes":1,"dislikes":1,"content":"讲课不错，想拿高分的话一定要上课积极发言。事情是真的有点多。绩点高的也有4.5。"},{"id":40013,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-12-28 16:37:43","like_diff":0,"likes":3,"dislikes":3,"content":"黄老师讲课超级好。就是现代管理基础这门课事情都比较多。但是事多的课给分就超级好。真的能学到很多管理的知识，受益匪浅。"},{"id":42743,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-01-15 04:28:10","like_diff":0,"likes":1,"dislikes":1,"content":"讲的好"},{"id":49856,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-04-26 14:39:13","like_diff":0,"likes":2,"dislikes":2,"content":"老师的课还不错的，给分的话基本不看老师，事情还行，一个展示一篇报告，展示好好做书好好看基本没问题"},{"id":52060,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-06-14 11:16:20","like_diff":0,"likes":2,"dislikes":2,"content":"事情是课程组统一的，所以所有班都一样多。上课是真的很不错！可以从头到尾听完三节课！"},{"id":52628,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-09-10 16:25:59","like_diff":0,"likes":5,"dislikes":5,"content":"fuck\n\n"},{"id":61324,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-14 12:53:00","like_diff":0,"likes":3,"dislikes":3,"content":"绩杀。。。\n\n"},{"id":61328,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-14 13:45:03","like_diff":0,"likes":2,"dislikes":2,"content":"说不出来的心酸啊"},{"id":61582,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-19 01:37:21","like_diff":0,"likes":2,"dislikes":2,"content":"黄老师教的很好，但作为通识课来说的确作业有点多，如果好好听课就会收获很多。我自认是上的比较水，但因为有认真做mooc测验和论文作业，老师给的分还是比较高的，很感谢。"},{"id":62388,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-24 15:07:55","like_diff":0,"likes":1,"dislikes":1,"content":"很有趣的案例，老师讲的也很好。"},{"id":76339,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-05-01 10:06:57","like_diff":0,"likes":1,"dislikes":1,"content":"笔芯！"},{"id":77077,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-05-01 12:09:08","like_diff":0,"likes":1,"dislikes":1,"content":"老师的现管基课挺好哒，很生动，就是每周要刷个MOOC，得自己记得，略微任务有些碎，但绩点给分hin不错哒"},{"id":77135,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-05-02 14:58:31","like_diff":0,"likes":1,"dislikes":1,"content":"老师课讲得很好，给分也很棒棒哦！"},{"id":88874,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-11-11 09:42:06","like_diff":0,"likes":1,"dislikes":1,"content":"超级喜欢"},{"id":89958,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-11-21 11:31:20","like_diff":0,"likes":1,"dislikes":1,"content":"老师人很好，上课也很生动，期末对于分数有些问题，老师也去帮忙细致地查过了，后来发现是我自己网络测试错过了，感觉好可惜，但老师是真的很负责，对学生也很好！！笔芯～"},{"id":94963,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2019-01-18 13:56:25","like_diff":0,"likes":0,"dislikes":0,"content":"老师给我满绩，我当然给她10分！\n\n黄老师的课是我上过体验最好的课！\n\n本来只是修个个性，没想到收获这么大，我爱了呜呜呜"},{"id":94992,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2019-01-18 14:28:40","like_diff":0,"likes":0,"dislikes":0,"content":"旅游学中午考完晚上就出分了，老师效率很高。平时上课很有趣，期末开卷考试难度也不大，超级喜欢这门课还有黄老师！虽然我绩点不是特别高但是还是很有收获鸭！"},{"id":101904,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2019-01-29 14:59:10","like_diff":0,"likes":0,"dislikes":0,"content":"市场营销闭卷考了，一定要好好背概念"},{"id":106409,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2019-04-27 06:03:41","like_diff":0,"likes":0,"dislikes":0,"content":"给分公正，好评"},{"id":117101,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2019-09-19 07:06:48","like_diff":0,"likes":0,"dislikes":0,"content":"真的很好"},{"id":119270,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2019-11-12 01:47:46","like_diff":0,"likes":0,"dislikes":0,"content":"老师课挺有意思，介绍很多案例和故事。虽然后期进度比较赶，后面几节课此类分享少了点。每周都有网络测试，是需要花一定时间认真看书的，其实蛮辛苦。"},{"id":120020,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2019-11-17 05:05:57","like_diff":0,"likes":0,"dislikes":0,"content":"选了现代管理基础，事有点多但确实有收获，一门上课可以认真听并且积极参与的通识。老师人很好，会听取同学们的建议（qq群里开了匿名所以比较活跃）。付出回报成正比（我花的时间不少不过最后满了），建议想划水的同学绕道。\n\n"},{"id":121114,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2020-01-19 15:56:02","like_diff":0,"likes":0,"dislikes":0,"content":"我最喜欢的一门课！旅游学 老师经常征求大家意见 最后满了！"},{"id":129416,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2021-01-05 06:44:36","like_diff":0,"likes":0,"dislikes":0,"content":"平时任务挺多的，但给分很明确。"},{"id":141479,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2021-10-11 09:10:39","like_diff":0,"likes":1,"dislikes":1,"content":"有同学互评，作业挺多的，上课无聊，但是给分明确"},{"id":142363,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2021-11-10 12:50:36","like_diff":0,"likes":0,"dislikes":0,"content":"事比其他通识课多，要很努力才能绩点高"},{"id":142366,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2021-11-10 12:57:15","like_diff":0,"likes":1,"dislikes":1,"content":"现代管理基础请认准黄老师！\n\n人很善良，有什么问题都可以沟通，而且我感觉是所有老师里面最轻松的现管了吧？给分很合理！事情真的没有那么多啊！！！只要认真做每项任务绩点不会差！超级好课，选它！"},{"id":144247,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2021-12-21 02:26:35","like_diff":0,"likes":0,"dislikes":0,"content":"小测班级均分4.0+，我2.0平时基本不听，上课发言次数不足，最后2.7划过=-="},{"id":152961,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2022-04-22 12:26:05","like_diff":0,"likes":4,"dislikes":4,"content":"现代管理基础，老师很负责，专业能力很强，平时备课和ppt也非常仔细，是很好的老师，在课上认真听的话也能学到不少东西。选之前也很担心事多，但是感觉还好？每周一次小测，还有一个ppt小作业+一个自我计划小作业+最后的小组大作业，小组作业遇到了超级优秀的同学所以还挺顺利的，自己也是即使很多次都是ddl最后一刻才交但也认真完成了，最后给分还不错！（老师会给错过小测和作业的同学补测，因为考虑到线上的同学出勤也都记了满分"},{"id":157640,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2022-06-24 07:28:37","like_diff":0,"likes":2,"dislikes":2,"content":"推老师的《现代管理基础》，企业家精神其实就是我们的生活，管理学是管理他人，也是管理自己。除却课程的高质量内容，老师本身也是一个经验丰富的老师，给我这种小镇做题家开拓眼界，打开格局。"},{"id":161293,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2022-11-04 01:16:56","like_diff":0,"likes":3,"dislikes":3,"content":"事太多了"},{"id":181986,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-11-07 10:03:23","like_diff":0,"likes":0,"dislikes":0,"content":"不点名，但是事情很多。大二老狗当了组长，有点受不了，但是口才和教学水平都还是在线的。"},{"id":185061,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-12-26 05:02:14","like_diff":0,"likes":1,"dislikes":1,"content":"现代管理基础，老师上课很有意思，不是水课，作业里有上课的题，事情比较多，但没有期末考试，整体给分感觉挺好的，感觉认真的话就有4.5左右了"},{"id":192667,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2024-05-27 10:25:14","like_diff":0,"likes":2,"dislikes":2,"content":"在通识课里属于比较有意义的，老师讲课也很有激情。相比一些水课也确实会占用较多时间。给分倒是还可以"},{"id":207795,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2024-12-24 09:41:05","like_diff":0,"likes":0,"dislikes":0,"content":"太喜欢听黄老师的课了。真的每周脱口秀！"},{"id":210946,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2025-01-10 08:24:16","like_diff":0,"likes":0,"dislikes":0,"content":"太棒啦老师！市场营销上课很多案例，平时没什么事情，很幽默。推荐推荐"},{"id":215061,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2025-02-20 11:14:58","like_diff":0,"likes":0,"dislikes":0,"content":"还可以 发言也在慕课上"},{"id":218506,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2025-04-24 05:20:52","like_diff":0,"likes":0,"dislikes":0,"content":"真的不懂怎么给出这个绩点的，事情多分数低"},{"id":2571,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2015-07-08 14:08:12","like_diff":-1,"likes":4,"dislikes":5,"content":"赞"},{"id":61331,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-15 10:15:37","like_diff":-1,"likes":3,"dislikes":4,"content":"老师讲的还不错，但是给分太可怕了。如果硬要选这门课，建议整个小组相互辅助，否则会忙成狗。读书报告只有5分，不要花太多功夫，否则很坑。小测好好考，要人打辅助。另，忍不住吐槽，老师上课讲的是不错，但背那本现管的书有什么意义吗？好吧，为了正太。。。。"},{"id":89781,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-11-20 22:51:05","like_diff":-1,"likes":1,"dislikes":2,"content":"给分一般，要做mooc，小组合作并且要求组内排名。然后组内抱团，组长不商量就定下很多事情，很容易低分，慎选这门课"},{"id":142351,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2021-11-10 11:55:22","like_diff":-1,"likes":1,"dislikes":2,"content":"平时任务挺多的，这点老师也承认，不过感觉还好，可能是因为高三忙习惯了。每个任务都认真完成的话绩点不会差，小组作业抱住大腿就能躺赢。"},{"id":182264,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-11-13 14:36:34","like_diff":-1,"likes":0,"dislikes":1,"content":"还不错的"},{"id":184828,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-12-23 07:30:37","like_diff":-1,"likes":0,"dislikes":1,"content":"给分很棒的，也能考虑周全"},{"id":190055,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2024-02-17 14:11:57","like_diff":-1,"likes":0,"dislikes":1,"content":"老师真的很有意思！上课很多有趣的案例，不会觉得market枯燥！考试内容和上课内容是差不多的，专心听就可以！记得记笔记！！给分也很好哦～"},{"id":1734,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2015-03-24 01:11:00","like_diff":-2,"likes":9,"dislikes":11,"content":"上课很有趣 而且给分不错"},{"id":21617,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-06-07 02:40:42","like_diff":-2,"likes":1,"dislikes":3,"content":"营销课很有意思，给分也很好～"},{"id":25400,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-05-17 07:21:06","like_diff":-2,"likes":3,"dislikes":5,"content":"讲课超级好！特别是旅游的课！"},{"id":37636,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-20 01:49:45","like_diff":-2,"likes":2,"dislikes":4,"content":"讲课很有趣，课堂挺有意思的，给分挺不错的"},{"id":46008,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-01-20 11:35:52","like_diff":-2,"likes":2,"dislikes":4,"content":"讲课真的很好！如果上课认真的话期末分数不会不好的"},{"id":50198,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-05-01 06:51:31","like_diff":-2,"likes":2,"dislikes":4,"content":"老师讲课很有趣，给分也不错，事情也没有那么多\n\n"},{"id":59986,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-09-30 02:04:22","like_diff":-2,"likes":2,"dislikes":4,"content":"上课嘴里总在嚼东西…让人非常不舒服，讲话的方式也比较奇怪"},{"id":61330,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-14 14:09:27","like_diff":-2,"likes":2,"dislikes":4,"content":"emmm，有点恶竞，有点烦，给分还是不错的，都给到了最高标准。"},{"id":164424,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2022-12-21 02:38:55","like_diff":-2,"likes":1,"dislikes":3,"content":"其实还不错啦，平时mooc可以搜题，上课的答题次数都是自己报给课代表的（懂得都懂），也就期末考试稍微注重书本一些（老师讲理论认真听就行）\n\n小组作业不妨当个组长（组员给力的感觉好棒），老师会把pre的具体要求都告诉你，做到就行\n\n我没缺过勤，老师一般是用抽人回答代替点名的\n\n最后4.8还不错"},{"id":21891,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-03-01 12:39:14","like_diff":-3,"likes":5,"dislikes":8,"content":"给分多少不知道，听了第一节课就屁颠屁颠地来评分了"},{"id":37164,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2016-11-17 15:57:21","like_diff":-3,"likes":3,"dislikes":6,"content":"10分不解释，一分耕耘一分收获，认真完成任务成绩不会差"},{"id":61334,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-14 15:05:25","like_diff":-3,"likes":3,"dislikes":6,"content":"我选的现代管理基础\n\n上课一节都没听\n\n小组作业做了个ppt 花了四五个小时\n\n平时作业全靠组里其他队友辅助\n\n一次小测 组长强行辅助\n\n课堂发言为零\n\n最后小组总结全靠别人\n\n绩点4.2\n\n而且全班86个人20个90分以上\n\n老师真的不错"},{"id":182270,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-11-13 16:55:19","like_diff":-3,"likes":1,"dislikes":4,"content":"不是组长，认真完成各项任务，满绩啦~，蟹蟹老师"},{"id":23783,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-08-29 08:17:29","like_diff":-4,"likes":6,"dislikes":10,"content":"傻逼滚"},{"id":50197,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-05-01 06:49:34","like_diff":-4,"likes":6,"dislikes":10,"content":"垃圾老师\n\n毁我青春\n\n喜怒无常\n\n真的可怕\n\n所有事情都做了\n\n最后成绩惊人了我"},{"id":182276,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-11-14 01:53:59","like_diff":-4,"likes":1,"dislikes":5,"content":"讲课讲的生动有趣，给分也很好！必须十分"},{"id":90090,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-11-22 05:58:59","like_diff":-5,"likes":8,"dislikes":13,"content":"老师真的不错，给分也蛮好，想要刷绩点的同学参考如下：\n\n1.开小号刷分，确保网络小测全对。\n\n2.当组长，小组展示恶竞一波，拍视频或者演情景剧肯定必备的吧\n\n3.还有一个课堂小测，这个都是大题，就随便扯，写的多一点\n\n4.当课代表，我没当，也不知道课代表分数怎么样。\n\n本人开了小号刷分，网络小测满分，课堂小测那张A4纸密密麻麻全写满，并且当了组长，最后总评98了解一下~大爱黄老师，付出总有收获！"},{"id":108645,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2019-05-30 08:21:12","like_diff":-5,"likes":1,"dislikes":6,"content":"讲的真的烂  对小组作业的评价一点没有专业\n\n"},{"id":138176,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2021-07-07 18:31:50","like_diff":-5,"likes":4,"dislikes":9,"content":"一门勾八通识课拉低我0.05的均绩，就离谱我觉得，给分真的差快溜"},{"id":144248,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2021-12-21 02:26:36","like_diff":-5,"likes":0,"dislikes":5,"content":"小测班级均分4.0+，我2.0平时基本不听，上课发言次数不足，最后2.7划过=-="},{"id":181317,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-10-14 06:04:01","like_diff":-5,"likes":6,"dislikes":11,"content":"说实话，上她的通识课真学不到什么东西，讲的都很浅显，不如看书，搞些乌七八糟的作业，真nt，而且老师自己上课水平就那样，一节课大半时间问学生话去了，上课效率极低，自己的ppt也没什么逻辑，动画真的多，字没几个，希望后面的uu帮我顶上去，这老师真不值得这么多分"},{"id":50204,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-05-01 07:38:48","like_diff":-6,"likes":2,"dislikes":8,"content":"给分烂"},{"id":107590,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2019-05-07 07:40:36","like_diff":-6,"likes":0,"dislikes":6,"content":"广告学\n\n老师人好 讲课不好 动不动就带大家读推文 ppt毫无逻辑 跳来跳去 点名"},{"id":141639,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2021-10-18 13:42:00","like_diff":-6,"likes":2,"dislikes":8,"content":"不是卷王千万别选现代管理基础，最卷通识课，作业比微积分，线代都多，无语，已经被坑死了"},{"id":181908,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-11-04 13:17:20","like_diff":-6,"likes":7,"dislikes":13,"content":"相当程度的自以为是的傲慢。\n\n我这次打分，确实抱着拉低她分的意图，但她确实不值这么多分，在我看来甚至不如某些67分的老师。\n\n作业异于常人也nt地超乎寻常，莫名其妙的小组贡献制成功让我感到生存之艰辛（从共享到瓜分，谁还不会大打出手？），在我如小丑一般憎恨我的小组成员的时候，我也深知这一切都来自于那个罪恶之源。\n\n天天在课上讲又被啥啥组织邀请过去做顾问了，那想必那些组织的老董都是远超我这个zjuer的天才，才让我听了毫无收获的课能让他们趋之若鹜吧？\n\n讲课是经验管理学派，管人是科学管理学派，从不考虑行为管理学派，这显然是现实中没人给她一点深刻的经验导致的一些发癫症状。\n\n这个地方有很多人都该被打一巴掌来治治羊癫疯，她无疑是其中的佼佼者。"},{"id":12519,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2015-12-23 11:57:23","like_diff":-7,"likes":4,"dislikes":11,"content":"现管给分低，我论文班里第三，绩点才4.5，我室友别的老师上的课绩点4.8"},{"id":176701,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2023-06-29 18:07:39","like_diff":-7,"likes":3,"dislikes":10,"content":"《现代管理基础》想学东西的可以学到很多知识，想水课的也可以享受无论文，无考试，只是每周都会有mooc题目，拍题搜答案都能搜到，最后给分很不错，十分推荐"},{"id":161578,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2022-11-09 07:24:53","like_diff":-9,"likes":1,"dislikes":10,"content":"sb😅"},{"id":77449,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2018-05-05 15:19:17","like_diff":-10,"likes":1,"dislikes":11,"content":"有听课的气氛，啥都没当，竟然满绩"},{"id":62816,"teacher_id":1280,"teacher_name":"黄浏英","post_time":"2017-11-27 05:10:34","like_diff":-15,"likes":1,"dislikes":16,"content":"轻松满绩"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

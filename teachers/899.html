@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邢以群 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="邢以群教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="邢以群,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">邢以群</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.02</div>
+                    <div class="rating-participants">177人参与评分</div>
+                    <div class="attendance-info">39.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">现代管理基础</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.75</span>
+                            <span class="students">选课: 124人</span>
+                            <span class="std-dev">标准差: 0.94</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">管理学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.00</span>
+                            <span class="students">选课: 274人</span>
+                            <span class="std-dev">标准差: 0.87</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (153 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":3639,"teacher_id":899,"teacher_name":"邢以群","post_time":"2015-06-17 01:57:03","like_diff":57,"likes":82,"dislikes":25,"content":"老师上得超棒，值得一听"},{"id":37821,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-11-21 08:11:26","like_diff":35,"likes":52,"dislikes":17,"content":"邢老师讲课没得说，博识而且很精通管理，去听一听真的十分十分有意义！！可是问题还有很多的，作业太多太多了已经是一个巨大的负担了，管理太严格各种ddl...分明没有时间的大学生活被弄的更加紧张，每次小组会议都要留在半夜十一点半完成，最后有个考试真的是什么也不会...毕竟我们第一届翻转课堂就当试验品了吧...不过这种形式真的让学生负担太大了...其实希望邢老师能看到，并做出一点改变！"},{"id":448,"teacher_id":899,"teacher_name":"邢以群","post_time":"2015-03-15 02:35:27","like_diff":34,"likes":52,"dislikes":18,"content":"课程非常有吸引力！推荐大家都去选。学到就是赚到！"},{"id":6407,"teacher_id":899,"teacher_name":"邢以群","post_time":"2015-07-13 16:50:42","like_diff":32,"likes":40,"dislikes":8,"content":"严厉！有学识！"},{"id":76096,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-03-27 00:21:50","like_diff":30,"likes":35,"dislikes":5,"content":"六小龄童来浙大教书Σ(ŎдŎ|||)ﾉﾉ"},{"id":9976,"teacher_id":899,"teacher_name":"邢以群","post_time":"2015-11-13 16:16:28","like_diff":28,"likes":41,"dislikes":13,"content":"我是大一修的他的管理学，一句话，他就是给我零分我也要选他，课上得太！好！了！"},{"id":16020,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-01-23 01:24:33","like_diff":18,"likes":35,"dislikes":17,"content":"给分很不好 奉劝大一的同学别选他的课 旁听还是挺好的"},{"id":33627,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-05-02 11:24:00","like_diff":18,"likes":25,"dislikes":7,"content":"给分太低了"},{"id":36106,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-11-10 12:33:10","like_diff":16,"likes":21,"dislikes":5,"content":"虽然平均评分有点低，但是只要好好学，分绝对不低，评分公平…强烈安利，能学到很多东西~"},{"id":36098,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-11-18 01:28:06","like_diff":15,"likes":21,"dislikes":6,"content":"给分超低的体验"},{"id":66509,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-01-17 05:29:14","like_diff":14,"likes":15,"dislikes":1,"content":"作业：三个小组作业，两个个人作业，有点多。小组作业是老师给分，按要求做评分不会低，不会有主观因素扣你分。每节课都有线上测试，5分钟，略虚，需要花很多时间看书。发言不是问题，每个人应该都是满分。其实我觉得主要就是看个人作业，然而是互评的，就看人品喽。\n\n给分：我觉得不错，虽然有正态。但是4.5很多，很良心的课。\n\n上课：没的说，老师上课真心好，，干货很多，真的是教授啊！\n\n建议：每节课都会由课代表检查人有没有到齐\n\n没有办法水，不让玩手机\n\n想好好学的选，分数不会低\n\n想水的绕道吧\n\n\n\n"},{"id":19845,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-01-25 11:33:17","like_diff":10,"likes":16,"dislikes":6,"content":"老师很和蔼耐心 上课很用心 不过管理学这门课挺麻烦的 真正学到的很难说有多少 给分只能说挺合理透明的  付出多少收获多少"},{"id":20946,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-02-05 01:37:47","like_diff":9,"likes":15,"dislikes":6,"content":"不仅学到管理学知识，更有很多为人处事的学问。给分公正，一分耕耘一分收获。"},{"id":79372,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-06-01 05:34:13","like_diff":9,"likes":9,"dislikes":0,"content":"春学期上课的来给个10分 因为系统原因春学期有部分学生给分有误，本来过了四周以为不会回调了，今天居然改了！老师太负责了！讲课又好听，超爱邢老师的！"},{"id":2326,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-09-05 05:34:18","like_diff":8,"likes":17,"dislikes":9,"content":"老师很严厉"},{"id":10033,"teacher_id":899,"teacher_name":"邢以群","post_time":"2015-11-14 14:22:06","like_diff":8,"likes":13,"dislikes":5,"content":"真的能学到很多东西！"},{"id":147845,"teacher_id":899,"teacher_name":"邢以群","post_time":"2022-01-11 03:48:52","like_diff":8,"likes":9,"dislikes":1,"content":"累死累活，讲的不错，但给分我哭了，有亿点低"},{"id":37150,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-11-17 15:20:08","like_diff":7,"likes":9,"dislikes":2,"content":"真的能学到很多东西，但是作业很多，给分也不高"},{"id":106591,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-04-28 08:44:30","like_diff":7,"likes":11,"dislikes":4,"content":"我绝对没有半点想水课的意思，但是我不得不说事情超多，给分极低"},{"id":148551,"teacher_id":899,"teacher_name":"邢以群","post_time":"2022-01-13 00:55:47","like_diff":7,"likes":8,"dislikes":1,"content":"跟分真的不是很好，讲的真的是很好，非常有收获的，老师本人也很有人格魅力。各位选课之前一定要考虑好，来大学的追求是什么的。如果是为了拿绩点保研，别来了。如果单纯是为了得到知识，一定要来。"},{"id":35461,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-11-10 07:18:46","like_diff":6,"likes":9,"dislikes":3,"content":"值得满分的老师\n\n在他课上能学到一些课外知识\n\n教也教的很好\n\n管理学嘛，规则多了点哈哈\n\n但是，极力推荐！"},{"id":106777,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-04-29 11:37:39","like_diff":6,"likes":8,"dislikes":2,"content":"怎么说呢，老师是好老师，这门课也很好，但不水，能学到很多东西。想得高分需要好好学，不会吃亏的。想水水通识课的人慎报。"},{"id":106828,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-04-30 03:09:20","like_diff":6,"likes":8,"dislikes":2,"content":"老师上课的内容发人深省，没有主管评分因素，所以得分多少看自己努力，8个单元，课前每个单元小测5分，一般需要提前预习，推荐看不进书的同学看mooc，一般在4分左右，有些测试内容需要看书才知道，三次小组作业好好做不是一般不会扣太多分，两次个人作业按照老师要求写一般都有9分+，回答问题可以在课上抓紧机会和在mooc上每个单元每周23:30前回复、评论、提问，线上线下到10个就可以了，中间进行了一次模拟实验，获胜的小组还有赠书，老师每周一论真的是宝藏，给我们很多感触，特别是临终反思那一周。老师上课内容都干货，重在教我们怎样将理论转化到实际问题的解决中，所以需要我们对相关知识点有一定的熟悉度。\n\n课不水，但是能收获很多，绩点都是靠自己努力得来的。"},{"id":148057,"teacher_id":899,"teacher_name":"邢以群","post_time":"2022-01-11 12:14:41","like_diff":6,"likes":6,"dislikes":0,"content":"给分是真的不好 讲的可能还不错 如果在意绩点慎选"},{"id":166108,"teacher_id":899,"teacher_name":"邢以群","post_time":"2023-01-11 06:51:44","like_diff":6,"likes":6,"dislikes":0,"content":"给分真的不好，慎选"},{"id":37174,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-11-17 22:59:42","like_diff":5,"likes":7,"dislikes":2,"content":"虽然书本知识考完就忘，但有很多东西让我深感触动，受益匪浅。这门课简直是我大一上一堆水课中的清流。"},{"id":46907,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-01-23 01:14:41","like_diff":5,"likes":8,"dislikes":3,"content":"老师不错，给分不好，考试gg，mooc卵用。"},{"id":50440,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-05-03 02:11:16","like_diff":5,"likes":7,"dislikes":2,"content":"3.3其实老师上课挺有意思的 但是通识课有意思也听不下去 事情真的多 感觉自己挺认真的真的这个成绩太对不起自己了"},{"id":75641,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-03-14 12:16:00","like_diff":5,"likes":9,"dislikes":4,"content":"事多给分差"},{"id":127317,"teacher_id":899,"teacher_name":"邢以群","post_time":"2020-11-20 04:08:44","like_diff":5,"likes":6,"dislikes":1,"content":"老师讲的挺好的。作业较多，不过还好。同学互评是真的坑。别人可能是真的水，我大意了给的高了。结果我也就平均分。属实恶心。\n\n然后组长很重要，我们组分数分配就一言难尽。。。组长分配任务结果组长自己什么没做还分数最高（？？？）"},{"id":22841,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-03-13 10:42:33","like_diff":4,"likes":9,"dislikes":5,"content":"事情很多，给分一般般"},{"id":34360,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-10-07 02:17:58","like_diff":4,"likes":8,"dislikes":4,"content":"上课真心好，作业真心多."},{"id":35334,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-11-08 13:14:06","like_diff":4,"likes":7,"dislikes":3,"content":"老师讲的真的很有感触，对自己以后生活，很有帮助，而且布置的作业很锻炼能力，鼓励选这个老师动物课"},{"id":36272,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-11-11 11:48:06","like_diff":4,"likes":7,"dislikes":3,"content":"老师上课很赞，我上过的最有意义的通识课。"},{"id":68318,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-01-23 03:22:17","like_diff":4,"likes":6,"dislikes":2,"content":"邢老师的理论功底深厚，实践经验丰富，上课幽默，让人切实感受到管理的魅力，最棒的是在做人方面给人很多启示和触动…总之绝对是个好老师，好幸运选上他的课。但事情确实比较多，要做好心理准备，我属于那种尽了七成力学的人，绩点3.9也比较客观了。"},{"id":69092,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-01-24 08:10:48","like_diff":4,"likes":6,"dislikes":2,"content":"我听过的最值得的课！虽然作业多，但只要按要求做到位分数肯定给的高的。老师的每周一论很有深度，很值得一听。我只是按老师要求完成了作业，但给分也有4.2，努力一点就会很高，因为很公平。"},{"id":78669,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-05-14 10:26:14","like_diff":4,"likes":4,"dislikes":0,"content":"我觉得还是挺客观的，个人作业小组作业基本格式对了分不会低，看到有评论说作业认真做了绩点低我觉得那多半是课前测试做的太差了叭?八次课前测试最好控制在扣5分左右其他认真写了肯定会有4.5的，我是因为系统出了故障导致一次互评没评互评分直接是零分了，4.2。总结就是，选课的同学们提交作业的时候一定要手机电脑都检查一下，重视课前测试！（做得好的跟做的差的真的最后会差很多分的！）老师上课质量是没的说的，小组作业也是很有意思的，但是想水的人请绕边"},{"id":79002,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-05-20 02:30:14","like_diff":4,"likes":4,"dislikes":0,"content":"刚上这门课确实觉得事多不过习惯了也还好，而且小测个人觉得也没花多少时间……上课真很有料感觉是改变我人生的课程之一了……给分的话我觉得是很客观的，最主要就是小测成绩和平时作业完成得如何。总之觉得邢老师超男神的！"},{"id":88528,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-11-01 01:09:18","like_diff":4,"likes":4,"dislikes":0,"content":"邢老师做学问是严谨的，教学是认真的，学识是渊博的。非常棒的是深入浅出，非常受益。"},{"id":94984,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-01-18 14:14:52","like_diff":4,"likes":6,"dislikes":2,"content":"事很多，讲的很好，给分公正，没有考试"},{"id":126748,"teacher_id":899,"teacher_name":"邢以群","post_time":"2020-10-18 07:29:39","like_diff":4,"likes":4,"dislikes":0,"content":"“很难说！”老师讲课生动形象，应对案例信手拈来。"},{"id":165419,"teacher_id":899,"teacher_name":"邢以群","post_time":"2023-01-04 15:47:51","like_diff":4,"likes":8,"dislikes":4,"content":"希望老师能正确区分合理的管理和精神控制"},{"id":10713,"teacher_id":899,"teacher_name":"邢以群","post_time":"2015-11-23 02:52:45","like_diff":3,"likes":9,"dislikes":6,"content":"great"},{"id":35199,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-11-05 01:54:07","like_diff":3,"likes":5,"dislikes":2,"content":"作业多，但上课真心有意思！"},{"id":36105,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-11-10 12:31:13","like_diff":3,"likes":6,"dislikes":3,"content":"强烈推荐大家当他的课代表~"},{"id":37186,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-11-18 00:48:31","like_diff":3,"likes":6,"dislikes":3,"content":"老师很好，讲的东西也很有道理。但是如果你想水课的话千万不要选，因为事情很多。"},{"id":38049,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-11-23 15:31:25","like_diff":3,"likes":5,"dislikes":2,"content":"事很多……分很低……"},{"id":39129,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-12-23 03:26:42","like_diff":3,"likes":3,"dislikes":0,"content":"魔性声音"},{"id":50418,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-05-03 00:16:02","like_diff":3,"likes":6,"dislikes":3,"content":"想划水的建议退课，认真学能学到很多，助你走上人生巅峰，老师在外面讲课很贵，给分也不错"},{"id":50423,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-05-03 00:34:30","like_diff":3,"likes":5,"dislikes":2,"content":"事情贼多，期末考试贼恶心，给分呵呵哒，2分通识课3.0你问我什么感受"},{"id":52084,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-06-14 13:17:27","like_diff":3,"likes":4,"dislikes":1,"content":"很好的老师，虽然给了我2.4，但是我还是打心底里佩服这个老师! 想水的同学千万不要选。"},{"id":63721,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-12-13 12:37:35","like_diff":3,"likes":5,"dislikes":2,"content":"每次上课前都因为ddl一大堆想退课，，真的，，头秃\n\n但是上课老师真的有意思！贼幽默又搞笑又能学到好多哈哈哈哈真的！\n\n但是事情真的多，建议学分28以上的就不要报了。"},{"id":65260,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-01-02 05:58:56","like_diff":3,"likes":5,"dislikes":2,"content":"非常非常棒的老师！特别感谢他！这是一节必须要努力学的课，因为它真的对你有好处，努力过后会发现一切都是值得的。"},{"id":66501,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-01-17 04:57:14","like_diff":3,"likes":3,"dislikes":0,"content":"真的超级棒～这是我唯一一节觉得真有用真有收获的通识了。平时事情多但只要认真完成给分真的超好～邢老师是真良心上课的那种"},{"id":77959,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-05-09 03:29:46","like_diff":3,"likes":9,"dislikes":6,"content":"事是真的很多的 分数对我来说真的是很不合理了 小组作业个人作业全部认真完成了 课前视频好好看了 课后讨论也从来没缺过 发言十次全部完成...结果绩点3.0 兄弟们你们好好考虑一下.我反正去哭了"},{"id":92839,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-01-05 05:25:09","like_diff":3,"likes":6,"dislikes":3,"content":"管理学是我学过最好的课程，没有之一！！一点都不水，真的！！！老师很博学，性格很好，讲课语速很棒（虽然声音独特…）\n\n作业要求及评分标准都在慕课公告里写的很清楚。线上线下教学相结合，个人作业小组作业相结合。还会有二课邀请企业家讲座。会有一个作业：写一封家书，由他统一基寄出。在期末上直接加两分（算是拉高均绩的举措？）\n\n最后给分都是按照平时作业以及每节课之前的随堂测试，没有期末考。只要好好看教材，及时预习、复习，是没什么问题的（虽然我没做到）可能有些评论说他给分低，要求高什么的。但是觉得这才是教学该有的样子。满分！"},{"id":97484,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-01-22 09:18:36","like_diff":3,"likes":7,"dislikes":4,"content":"邢老师真的讲得很精彩，每日一论真的会开阔大家的眼界。有几堂课甚至会让你三观觉得很震撼（虽然上完后我突然觉得自己是个奸诈小人了orz总而言之很推荐，作业全部好好完成，课前记得花一小时看书，小测扣分控制在4分以内，基本可以上4.5甚至4.8quq邢老师安利给大家！！！"},{"id":106875,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-04-30 06:13:16","like_diff":3,"likes":5,"dislikes":2,"content":"不正态 给分太低 讲的不错"},{"id":108931,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-06-04 10:20:59","like_diff":3,"likes":4,"dislikes":1,"content":"给分超辣鸡"},{"id":133829,"teacher_id":899,"teacher_name":"邢以群","post_time":"2021-03-07 08:17:41","like_diff":3,"likes":3,"dislikes":0,"content":"现代管理基础，事情是真的多，让人很有压力，快跑，一个通识课还这么多事情"},{"id":147890,"teacher_id":899,"teacher_name":"邢以群","post_time":"2022-01-11 05:53:25","like_diff":3,"likes":4,"dislikes":1,"content":"课讲得不错，很有收获，给分算求是吧，认真做不会太离谱，但确实不会再往上捞。"},{"id":35294,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-11-07 15:18:06","like_diff":2,"likes":5,"dislikes":3,"content":"大一到目前为止最有收获的一门课。喜欢这个老师。"},{"id":66499,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-01-17 04:38:26","like_diff":2,"likes":3,"dislikes":1,"content":"课挺好的，真的好，绩点唉╯﹏╰不开心，真的不开心，真的很不不开心"},{"id":67267,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-01-20 14:27:53","like_diff":2,"likes":3,"dislikes":1,"content":"管理类的课 事儿多是同病\n\n但是开这门课的几个老师里还是首推邢老师了～\n\n没有考试很nice\n\n如果给分不好的话 先看看自己每次的小作业成绩还有网课上的内容是不是按要求完成了吧\n\n像我中规中矩 最后拿了4.5 很满意了"},{"id":87536,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-10-03 07:32:55","like_diff":2,"likes":2,"dislikes":0,"content":"比姚卫红上的好多了"},{"id":103660,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-03-04 01:29:26","like_diff":2,"likes":7,"dislikes":5,"content":"虽然绩点只有3，但也是情理之中，想要高分的话每节课的小测在课前一定一定一定要好好复习呀，讲的很棒，获益匪浅，强烈安利，但我课下没认真学，真是惭愧了。"},{"id":106592,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-04-28 08:45:13","like_diff":2,"likes":7,"dislikes":5,"content":"给分极低"},{"id":106778,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-04-29 11:37:58","like_diff":2,"likes":4,"dislikes":2,"content":"。。。"},{"id":121995,"teacher_id":899,"teacher_name":"邢以群","post_time":"2020-01-29 14:56:46","like_diff":2,"likes":2,"dislikes":0,"content":"事多但是学到更多！认真做就一定有回报！"},{"id":124381,"teacher_id":899,"teacher_name":"邢以群","post_time":"2020-06-30 03:42:13","like_diff":2,"likes":2,"dislikes":0,"content":"老师很负责，很用心的备课，讲课深入浅出，接受度很高。算是管院不多的良心老师了，所上的课程常常成为网红课。"},{"id":130743,"teacher_id":899,"teacher_name":"邢以群","post_time":"2021-01-24 12:14:29","like_diff":2,"likes":3,"dislikes":1,"content":"邢老师课上的很好，应该是管理学课里讲课最好的老师了，会有很多实际例子可以听，课堂氛围还蛮不错的。但是事情偏多，小测不能看书，课后还有一个其他班都没有的调研大作业非常耗时间，但是管理学课的组员们一般都不划水，好好做绩点不会低！想划水的建议另选。"},{"id":135013,"teacher_id":899,"teacher_name":"邢以群","post_time":"2021-04-27 03:03:47","like_diff":2,"likes":2,"dislikes":0,"content":"事是真的多"},{"id":145090,"teacher_id":899,"teacher_name":"邢以群","post_time":"2021-12-27 10:41:44","like_diff":2,"likes":2,"dislikes":0,"content":"没出成绩先给分了。作业确实非常多！有小组规则、智慧章讲、研究报告和四五个（大概）个人作业以及每一节课的课前小测。但是大一新生表示真的是为数不多能学到真东西的课程，老师讲得很好也很硬核，对于学生组织的工作和个人生活安排都会非常有帮助。"},{"id":19588,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-01-25 00:30:53","like_diff":1,"likes":8,"dislikes":7,"content":"上课超级棒，每周一论也超级有用，给分也不错，有付出就有回报~大一上最不水的课！！"},{"id":34411,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-10-10 02:47:53","like_diff":1,"likes":3,"dislikes":2,"content":"很幽默风趣！很实用！赞一个！"},{"id":35785,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-11-10 08:09:25","like_diff":1,"likes":2,"dislikes":1,"content":"事情略多，给分一般，但是课上得不错"},{"id":48211,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-03-01 08:15:33","like_diff":1,"likes":1,"dislikes":0,"content":"上课超好干货超多 任务有点重但是能学到很多 期末考闭卷但是占比很小大家都差不多主要看平时 只要认真做 给分超级好的 感觉老师就是智慧的化身 表白邢以群男神"},{"id":53732,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-06-27 12:04:48","like_diff":1,"likes":2,"dislikes":1,"content":"给分不能再低了"},{"id":60144,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-10-11 09:52:19","like_diff":1,"likes":1,"dislikes":0,"content":"还是可以，不过小组作业多，要求多"},{"id":61793,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-11-21 03:03:33","like_diff":1,"likes":3,"dislikes":2,"content":"不公平，很不爽\n\n"},{"id":65980,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-01-10 15:01:02","like_diff":1,"likes":3,"dislikes":2,"content":"千万别上"},{"id":77221,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-05-04 02:21:00","like_diff":1,"likes":1,"dislikes":0,"content":"老师讲课很好的"},{"id":77962,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-05-09 03:51:38","like_diff":1,"likes":2,"dislikes":1,"content":"老师很棒，事情有些多。另外，如果你们最终发现选出来的组长不靠谱，分到的组员不负责任，请立即退课，现代管理基础30分小组作业不是开玩笑的。"},{"id":78693,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-05-14 13:45:45","like_diff":1,"likes":1,"dislikes":0,"content":"很棒啊！"},{"id":80798,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-07-01 08:10:53","like_diff":1,"likes":3,"dislikes":2,"content":"讲课比周亚庆好太多"},{"id":106623,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-04-30 09:06:44","like_diff":1,"likes":6,"dislikes":5,"content":"自己感动自己最为致命"},{"id":106693,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-05-06 03:55:51","like_diff":1,"likes":6,"dislikes":5,"content":"心好累"},{"id":108498,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-05-27 03:41:55","like_diff":1,"likes":2,"dislikes":1,"content":"理论功底扎实，上课有趣有内容"},{"id":109344,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-06-13 07:06:35","like_diff":1,"likes":1,"dislikes":0,"content":"爱了!"},{"id":118898,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-11-07 12:11:24","like_diff":1,"likes":1,"dislikes":0,"content":"老师课讲的好，但是课后作业是真的多，小组讨论时每次都不清楚老师要我们做什么"},{"id":132060,"teacher_id":899,"teacher_name":"邢以群","post_time":"2021-01-30 04:59:14","like_diff":1,"likes":2,"dislikes":1,"content":"话不多说，选上要珍惜，讲得真的很好，会学到很多。认真对待每次作业，课本好好看，分数会很好的。"},{"id":146937,"teacher_id":899,"teacher_name":"邢以群","post_time":"2022-01-08 06:11:11","like_diff":1,"likes":2,"dislikes":1,"content":"虽然管理学不是我的专业课，但真的学到很多东西，印象最深的就是老师课程中提到的“很难说”，上课很有趣，老师教课也非常的好，有付出就会有回报，要拿水课的请绕道。"},{"id":183178,"teacher_id":899,"teacher_name":"邢以群","post_time":"2023-11-22 14:10:08","like_diff":1,"likes":1,"dislikes":0,"content":"事情真的很多，赚分好不容易，累死累活都拿不到分"},{"id":191494,"teacher_id":899,"teacher_name":"邢以群","post_time":"2024-04-23 15:20:41","like_diff":1,"likes":1,"dislikes":0,"content":"绩点杀手，在意成绩的还是别选了，忙了一学期忙了个勾石"},{"id":6409,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-03-10 07:27:43","like_diff":0,"likes":10,"dislikes":10,"content":"上课知识讲得很多学得很多 但是在所有管理学老师中光法最低"},{"id":7729,"teacher_id":899,"teacher_name":"邢以群","post_time":"2015-09-15 11:05:17","like_diff":0,"likes":7,"dislikes":7,"content":"收获很大 讲课有激情 风趣"},{"id":8601,"teacher_id":899,"teacher_name":"邢以群","post_time":"2015-09-23 05:06:25","like_diff":0,"likes":7,"dislikes":7,"content":"上课有激情"},{"id":22071,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-03-02 08:52:57","like_diff":0,"likes":5,"dislikes":5,"content":"非常好的老师，作业布置的量不多不少，但都是真正锻炼人的。上课讲得很好很好，学到了超级多实用的知识。管理，确实是不管哪里都需要用到的东西。选上邢老师的课太幸运。"},{"id":31235,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-07-03 12:27:38","like_diff":0,"likes":2,"dislikes":2,"content":"相比于其他管理学老师 布置的作业适量 投入产出比较高 老师很有学识和教授知识的能力 上课时很有激情也很幽默"},{"id":35411,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-12-29 09:04:08","like_diff":0,"likes":2,"dislikes":2,"content":"好老师\n\n"},{"id":35989,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-11-19 03:46:09","like_diff":0,"likes":10,"dislikes":10,"content":"因为上了管理学，对整个管理学院都失去了兴趣。有时候讲课很精彩，但更多的时候很无聊，我唯一会睡觉的课。"},{"id":37175,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-11-17 23:28:45","like_diff":0,"likes":1,"dislikes":1,"content":"作业考试太多"},{"id":44626,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-01-18 04:47:43","like_diff":0,"likes":0,"dislikes":0,"content":"上课讲的超好!能学到东西\n\n"},{"id":47311,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-01-25 07:28:19","like_diff":0,"likes":1,"dislikes":1,"content":"老师讲课认真，授课方式很特别，能学到真东西，"},{"id":47803,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-02-25 06:39:24","like_diff":0,"likes":0,"dislikes":0,"content":"上课挺有趣的，我上的是现代管理基础。虽然这门课相比别的通识，不是很水，但是真的每节课都能学到很多东西，还是推荐大家去上。"},{"id":48036,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-02-28 06:00:48","like_diff":0,"likes":0,"dislikes":0,"content":"给分要靠自己考试和平时作业，平时老师会讲很多实用的东西。"},{"id":48248,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-03-01 11:59:12","like_diff":0,"likes":0,"dislikes":0,"content":"不错的老师"},{"id":49652,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-04-22 01:47:06","like_diff":0,"likes":0,"dislikes":0,"content":"人精\n\n赞\n\n但是任务太重"},{"id":50310,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-05-02 09:59:41","like_diff":0,"likes":0,"dislikes":0,"content":"课堂还行\n\n"},{"id":50359,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-05-02 12:30:40","like_diff":0,"likes":2,"dislikes":2,"content":"讲道理上课没有那么好，前两节课感觉很干，后面就是划水讲废话吹牛逼，当然老师自身很厉害。事情贼多就不说了，给分真的迷"},{"id":51494,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-06-06 13:04:42","like_diff":0,"likes":1,"dislikes":1,"content":"不错，4.2"},{"id":52551,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-06-21 03:33:56","like_diff":0,"likes":0,"dislikes":0,"content":"一个学期就讲计划组织领导控制四大方面，平时分，作业分大多数满分是5分，老师给分基本上都是4分以上，挺高的了。又是课本编写者，又是课程组组长，安排的事情相对于其它老师来说也不多，挺好的了，学了一个学期管理学是有不小收获的"},{"id":59528,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-09-22 06:06:32","like_diff":0,"likes":2,"dislikes":2,"content":"看了Mooc被圈粉，男神啊"},{"id":60839,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-10-31 05:17:06","like_diff":0,"likes":2,"dislikes":2,"content":"给分怎么样先不说，有一点就让人贼气。不负责任，没有一点做老师的责任心。系统出了问题就不管了吗？系统出了问题就只能跟我说一句怪它坑爹吗？差差差"},{"id":66495,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-01-17 03:55:22","like_diff":0,"likes":1,"dislikes":1,"content":"现代管理基础其实事情并不是那么多\n\n没有期末考试没有论文\n\n就平时小组作业线上听课答题\n\n一点都不复杂\n\n老师人真的很好\n\n虽然有点严格 但听他讲课是种享受\n\n是一个有内涵有学问的老师\n\n也能学到人生道理 觉得这个课真的很好\n\n你付出 就会有回报 成绩考核也都公开透明\n\n反正我4.5 挺满足了"},{"id":67624,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-01-22 02:37:05","like_diff":0,"likes":2,"dislikes":2,"content":"绝对的男神，果断10分"},{"id":67634,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-01-22 03:00:50","like_diff":0,"likes":1,"dislikes":1,"content":"老师讲课挺好，人也很不错，见识广博，但是事情不算少，给分也不是那么好，我们小组基本上都是3.6，拉了0.4的均绩，唉，老师比较严格，但是我还是觉得自己比较认真的"},{"id":76397,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-04-07 11:22:35","like_diff":0,"likes":2,"dislikes":2,"content":"呵呵，视频里讲的和小测答案不一样，有意思？"},{"id":78751,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-05-15 04:22:46","like_diff":0,"likes":0,"dislikes":0,"content":"啦啦啦"},{"id":93783,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-01-13 16:01:30","like_diff":0,"likes":2,"dislikes":2,"content":"比周亚庆好多了"},{"id":106893,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-04-30 07:21:48","like_diff":0,"likes":3,"dislikes":3,"content":"超级好的老师，就像成为像老师那样的人！"},{"id":133929,"teacher_id":899,"teacher_name":"邢以群","post_time":"2021-03-10 02:20:41","like_diff":0,"likes":2,"dislikes":2,"content":"很棒的老师，很棒的课。管理学因为没有考试，所以平时学习和作业会很忙，很多东西要自己提前学习，课前有小测。虽然很忙，也抱怨过，但真的学到了很多东西，老师很有学识，超级棒。课上同学们的章讲也很有意思。"},{"id":135143,"teacher_id":899,"teacher_name":"邢以群","post_time":"2021-05-03 12:25:16","like_diff":0,"likes":2,"dislikes":2,"content":"老师很博学，上课能学到很多东西，虽然平时作业很多，但最后也会调分，认真上完分数不会差的，最后95"},{"id":181161,"teacher_id":899,"teacher_name":"邢以群","post_time":"2023-10-10 10:24:30","like_diff":0,"likes":0,"dislikes":0,"content":"教得虽然挺好，但是课业作业是真的很烦，各种小组作业m9( ｀д´ )!!!!"},{"id":181422,"teacher_id":899,"teacher_name":"邢以群","post_time":"2023-10-17 11:29:42","like_diff":0,"likes":0,"dislikes":0,"content":"学校里跟他打招呼，爱答不理的，好吧，我默认他那天心情不好。"},{"id":206433,"teacher_id":899,"teacher_name":"邢以群","post_time":"2024-12-15 06:05:22","like_diff":0,"likes":0,"dislikes":0,"content":"管院明星老师！没说的，赞"},{"id":208898,"teacher_id":899,"teacher_name":"邢以群","post_time":"2025-01-03 08:00:23","like_diff":0,"likes":0,"dislikes":0,"content":"给分比我想象中的好了很多，老师很努力在捞了，谢谢老师…全是平时分，没有期末考，事情确实比较多而且小组作业考验心态，但是回头看还是可以学到很多宝贵的经验的"},{"id":35631,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-11-10 07:36:07","like_diff":-1,"likes":3,"dislikes":4,"content":"讲得真心不错，作业真心多"},{"id":46868,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-01-22 14:42:19","like_diff":-1,"likes":1,"dislikes":2,"content":"五分给老师 讲得有意思 但是翻转课堂…0分?无fuck可说 每星期花这么多时间网上做题期末闭卷 ?呵呵?我有一句妈卖批一定要讲???"},{"id":50834,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-05-06 07:44:05","like_diff":-1,"likes":2,"dislikes":3,"content":"邢老师的课讲的很好，听完可以对管理有一个比较不错的认识。但是给分真的无fuck说，个人认为基本是付出5分得5分，付出4分得3分，付出2分得0分。不能付出5分，建议自己在MOOC上听。"},{"id":64641,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-12-26 02:00:33","like_diff":-1,"likes":3,"dislikes":4,"content":"辣鸡！！！没的说！！完全符合标准的作业特么都给莫名其妙的扣分。为人虚伪！！！莫入坑"},{"id":66801,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-01-19 06:08:55","like_diff":-1,"likes":3,"dislikes":4,"content":"感觉老师实战经验丰富，收获很大，虽然相比于其他老师的课事情更多，知识网络图，课堂小测，但听老师的课真的有收获，没有水过去，超级棒。作业要认真完成，第一个满绩，hhhhhhh"},{"id":77970,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-05-14 14:44:18","like_diff":-1,"likes":4,"dislikes":5,"content":"事多给分查"},{"id":106898,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-04-30 07:34:07","like_diff":-1,"likes":4,"dislikes":5,"content":"给了3.0，大概平均水平，辣鸡辣鸡辣鸡，选个给分那么垃圾的是我瞎了眼"},{"id":165462,"teacher_id":899,"teacher_name":"邢以群","post_time":"2023-01-06 11:58:32","like_diff":-1,"likes":5,"dislikes":6,"content":"管理学的xyq老师真的是进浙大以来最喜欢的老师了\n\n在老师课堂上学到了很多东西，不只是课程知识，老师是非常正能量的人，从老师本人身上也学到了很多\n\n会看课堂讨论区，给我们评论留言\n\n每份作业都会认真给出评价，提改进建议\n\n而且我呆的管理学小组真的是慢慢变好（从小组管理和氛围上面都有！）\n\n给分是很求是的，个人作业和小组作业都有很清晰的评价标准，知道努力的方向\n\n但老师好像也有小小地捞捞？\n\n感觉要看见老师正面的评价才会放心地选择\n\n希望这样的老师都能被看到"},{"id":165978,"teacher_id":899,"teacher_name":"邢以群","post_time":"2023-01-10 14:25:02","like_diff":-1,"likes":3,"dislikes":4,"content":"事多，不过管理学事都多，给分比较求是但是还可以，家书加两分感觉就是在捞了😭平时线上发言也有加分，平时很水但是作业小测好好做，虽然小组作业分一般，但是绩点还是蛮好看的"},{"id":50332,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-05-02 11:28:40","like_diff":-2,"likes":1,"dislikes":3,"content":"弱爆了，建议退课"},{"id":146938,"teacher_id":899,"teacher_name":"邢以群","post_time":"2022-01-08 06:13:11","like_diff":-2,"likes":0,"dislikes":2,"content":"虽然不是我的专业课，作业也有点多，但是是收获很多的一门课。所得到的都是付出的结果。很好的老师！"},{"id":66920,"teacher_id":899,"teacher_name":"邢以群","post_time":"2018-01-19 09:42:02","like_diff":-3,"likes":1,"dislikes":4,"content":"很棒，老师学识渊博，每次讲课都刷新三观，而且事情也还好，个人感觉没有传言中这么多，我觉得给分挺好的呀，我看到好多人都4.5+"},{"id":106772,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-04-29 11:25:25","like_diff":-3,"likes":6,"dislikes":9,"content":"老师非常非常棒！只要自己认真学就能拿高分！非常轻松！是真正能学到东西的课！"},{"id":107007,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-04-30 16:32:05","like_diff":-3,"likes":3,"dislikes":6,"content":"绩点还不错嘻嘻嘻\n\n不枉我认真对待这门课！\n\n但是考完这一章的试再讲这一章的课 感觉就不太容易听进课了"},{"id":166046,"teacher_id":899,"teacher_name":"邢以群","post_time":"2023-01-11 02:46:24","like_diff":-3,"likes":2,"dislikes":5,"content":"老师很好，有小小地捞，本人比较划水，最后也满意了，事挺多，但挺有收获的。"},{"id":36165,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-11-10 16:46:16","like_diff":-5,"likes":1,"dislikes":6,"content":"哈哈哈"},{"id":10908,"teacher_id":899,"teacher_name":"邢以群","post_time":"2015-11-23 08:54:26","like_diff":-6,"likes":7,"dislikes":13,"content":"收获很多。感觉老师魅力爆棚"},{"id":33329,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-09-18 08:00:18","like_diff":-6,"likes":1,"dislikes":7,"content":"啦啦啦"},{"id":39005,"teacher_id":899,"teacher_name":"邢以群","post_time":"2017-01-22 15:18:13","like_diff":-6,"likes":1,"dislikes":7,"content":"太棒了！多少付出多少收获。"},{"id":275,"teacher_id":899,"teacher_name":"邢以群","post_time":"2015-03-14 23:54:13","like_diff":-7,"likes":14,"dislikes":21,"content":"郉老师上的管理咨询是MBA学生都应该选的课才是，作为选修，他上课的思路清晰，由浅入深，漂亮的板书，赞！"},{"id":33097,"teacher_id":899,"teacher_name":"邢以群","post_time":"2016-09-12 16:54:45","like_diff":-7,"likes":4,"dislikes":11,"content":"上课有点水 给分不高"},{"id":97384,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-01-22 08:28:58","like_diff":-7,"likes":7,"dislikes":14,"content":"我吹爆邢老师!!!!!!!\n\n大学第一门满绩!!!!\n\n邢老师绝对是讲的最好的老师!!!永生难忘!!\n\n大学就是来学知识开阔视野提高情商的\n\n累也真的值了!!!!!(一定要当组长，很累但分很高)\n\n邢老师真的是给人老谋深算深不可测的感觉，邢老师笑起来真的有一种眯眯眼的都是怪物的感觉hhhhhh\n\n疯狂表白邢老师!!\n\n8.1真的太低了!!!十分必须的!!"},{"id":106599,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-04-29 11:24:22","like_diff":-7,"likes":7,"dislikes":14,"content":"不是我说 就这 还自诩为科学 这老师就是吉吉国王？ 社科通识强行搞成这样 上课听相声美其名曰翻转课堂 量化考核 导致任务繁重 绩点极低 上课听吹牛 绩点死翘翘 极品"},{"id":106618,"teacher_id":899,"teacher_name":"邢以群","post_time":"2019-04-29 11:24:01","like_diff":-11,"likes":4,"dislikes":15,"content":"傻逼呵呵"},{"id":11188,"teacher_id":899,"teacher_name":"邢以群","post_time":"2015-11-25 06:02:43","like_diff":-22,"likes":9,"dislikes":31,"content":"整天上课就是扯淡，给的分低，内容没什么新意"},{"id":106760,"teacher_id":899,"teacher_name":"邢以群","post_time":"2020-02-05 01:12:22","like_diff":-28,"likes":9,"dislikes":37,"content":"讲得再好，给分不良心，也没有人听你的课，混蛋，活该被骂"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

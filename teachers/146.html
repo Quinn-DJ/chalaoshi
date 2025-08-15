@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>唐素萍 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="唐素萍教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="唐素萍,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">唐素萍</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">3.82</div>
+                    <div class="rating-participants">58人参与评分</div>
+                    <div class="attendance-info">36.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息</h3>
+                <p class="no-data">暂无课程GPA数据</p>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (55 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":13323,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2015-12-26 15:48:53","like_diff":30,"likes":35,"dislikes":5,"content":"没有收获任何，完全靠自学。嗯，一分不能再多了。。"},{"id":1574,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2015-03-22 16:01:00","like_diff":11,"likes":17,"dislikes":6,"content":"几乎学不到任何东西，感觉她从不备课，都是照着PPT念，课堂非常差劲"},{"id":116815,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2019-09-16 05:03:04","like_diff":10,"likes":12,"dislikes":2,"content":"老师讲得是很差，但是管理学大家好像都不怎么听。课长王渊希小姐姐人超好，对留学生很有耐心，很负责人，性格也很好。"},{"id":294,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2015-03-15 00:24:56","like_diff":9,"likes":15,"dislikes":6,"content":"老师上课基本上没什么准备，很多时间都是让学生自己来报告，没有学到任何东西"},{"id":463,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2015-03-15 02:48:05","like_diff":8,"likes":17,"dislikes":9,"content":"比起管理学，这堂课重视的是ppt展示技巧！\n\n她不太讲课的，大家都自己读了，连考试方式、内容她都不知道……"},{"id":13324,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2015-12-27 00:09:16","like_diff":8,"likes":11,"dislikes":3,"content":"我只是来打个一分。\n\n"},{"id":9718,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2015-11-05 09:16:06","like_diff":7,"likes":10,"dislikes":3,"content":"基本靠自学."},{"id":14828,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2016-01-09 15:11:29","like_diff":7,"likes":9,"dislikes":2,"content":"一个什么都不知道的老师和什么都不知道的我们。"},{"id":16868,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2016-01-19 06:14:43","like_diff":5,"likes":9,"dislikes":4,"content":"全部在同学章讲，怀疑老师是到底有没有关于管理学的知识，感觉从不备课，讲话逻辑也乱。同学的问题也解答不出来，自己布置的课前小测自己都给不出准确答案和回答。"},{"id":37033,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2017-03-01 16:23:58","like_diff":5,"likes":9,"dislikes":4,"content":"超级水 可能是在大学最失望的一个老师了 完全没传授任何知识 感觉她其实也没有任何水平 那些说给分好的 我就想问 学不到东西绩点再高有什么nuan用？？？"},{"id":102369,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2019-02-01 09:19:48","like_diff":5,"likes":5,"dislikes":0,"content":"课是讲得不好，不过给分是真的好，很容易就满绩。反正管理学这种课，我又不听，给分好就行了。(总比隔壁鲁伯祥好多了，听说上课不能看手机，不能写其他作业，还作业贼多。请问你管理学课凭啥占用我这么多时间啊？)"},{"id":13839,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2019-05-31 00:40:39","like_diff":4,"likes":9,"dislikes":5,"content":"cao"},{"id":17306,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2016-01-20 04:19:32","like_diff":4,"likes":5,"dislikes":1,"content":"呵呵了"},{"id":69446,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2018-01-24 16:17:05","like_diff":4,"likes":4,"dislikes":0,"content":"虽然没什么收获，感觉所有知识都是自己看书来的，但是给分不能太好"},{"id":102404,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2019-02-01 13:32:59","like_diff":4,"likes":4,"dislikes":0,"content":"老师人很好，真的不知道评分为什么这么低，最后给分也超好，赞?"},{"id":19969,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2016-01-25 16:53:09","like_diff":3,"likes":5,"dislikes":2,"content":"简直不知道她的博士学位是怎么来的\n\n"},{"id":20792,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2016-01-31 12:27:47","like_diff":3,"likes":5,"dislikes":2,"content":"什么都没学到。。绩杀且出成绩慢的要死。：受不了"},{"id":20843,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2016-02-02 02:58:07","like_diff":3,"likes":5,"dislikes":2,"content":"说实话 不怎么样 学不到任何东西 水了一学期的手机 上课就靠同学展示 本来看给分也不好。但是最后发现给分还不错。就酱"},{"id":52090,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2017-06-14 14:38:01","like_diff":3,"likes":4,"dislikes":1,"content":"老师明明很努力的好不好，自己看不到的话，也不能这么说。"},{"id":86581,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2018-09-17 10:15:03","like_diff":3,"likes":4,"dislikes":1,"content":"100个人还嫌多嫌累教不了，只教70个人是么，潜规则就是让那三十个人退课呗。。。。教微积分的陈景辉老师原来只教100人，后来加上旁听的大概有260个，人家嫌多了不教了吗？这就是差距。除了失望就是失望"},{"id":88346,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2018-10-29 06:37:18","like_diff":3,"likes":3,"dislikes":0,"content":"不知道她在干什么"},{"id":91029,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2018-11-29 05:38:36","like_diff":3,"likes":3,"dislikes":0,"content":"照读PPT都能都出乱逻辑。。。。。。"},{"id":20828,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2016-02-01 11:13:08","like_diff":2,"likes":3,"dislikes":1,"content":"呵呵哒"},{"id":27830,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2016-06-27 19:34:30","like_diff":2,"likes":3,"dislikes":1,"content":"完全靠自学，读PPT，根本学不到任何东西"},{"id":39343,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2016-12-22 06:34:38","like_diff":2,"likes":3,"dislikes":1,"content":"确实上课都是小组章讲 现在没考完试不知道给分给的怎么样 但是怎么说 讲课也不是完全不讲 觉得她个人性格就是很随"},{"id":72349,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2018-01-30 02:44:59","like_diff":2,"likes":2,"dislikes":0,"content":"每个公司的资源都是一样的。这个公司的老板比较奇葩，同事水平也很低。如果你是想提升自我的请另谋高就，如果你只是想赚点钱回家过年，在这里你会更容易拿到你想要的。如何处理好人际关系并在圈子中获得认可，这是管理能力的重要体现。"},{"id":73263,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2018-02-01 08:57:13","like_diff":2,"likes":2,"dislikes":0,"content":"很好的老师，讲课很无聊，事情很多"},{"id":93552,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2019-01-10 10:11:27","like_diff":2,"likes":6,"dislikes":4,"content":"老师讲课虽然较无聊，但认真听依然收获颇多"},{"id":95254,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2019-01-19 05:54:58","like_diff":2,"likes":4,"dislikes":2,"content":"辣鸡 天天考试不讲课 屁事贼多\n\n\n\n\n\n"},{"id":102028,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2019-01-30 05:32:16","like_diff":2,"likes":3,"dislikes":1,"content":"事情多到结课一个月了还处理不了数据出不了分"},{"id":102366,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2019-02-01 08:54:49","like_diff":2,"likes":2,"dislikes":0,"content":"老师上课比较无聊，收获比较少，平时事情比较多，但是只要有付出就会有回报的！"},{"id":17981,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2016-01-21 05:19:21","like_diff":1,"likes":3,"dislikes":2,"content":"不讲课"},{"id":20899,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2016-02-03 08:46:04","like_diff":1,"likes":5,"dislikes":4,"content":"并不绩杀，给分不错"},{"id":20901,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2016-02-03 10:14:59","like_diff":1,"likes":3,"dislikes":2,"content":"管理学这门课的水平应该还是有的 但是上课的。。。好吧反正上课一直水水水 考试前两天把整本书预习了 然后给分很高"},{"id":34258,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2017-03-30 03:34:48","like_diff":1,"likes":2,"dislikes":1,"content":"哈哈哈"},{"id":34752,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2016-10-20 06:04:50","like_diff":1,"likes":2,"dislikes":1,"content":"上课毫无准备，无厘头"},{"id":52189,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2017-06-15 15:32:44","like_diff":1,"likes":2,"dislikes":1,"content":"给分还可以，但是收获不大"},{"id":20827,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2016-02-01 10:23:37","like_diff":0,"likes":5,"dislikes":5,"content":"给分高\n\n"},{"id":21974,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2016-03-02 03:15:52","like_diff":0,"likes":3,"dislikes":3,"content":"不清楚她讲课的水平，但给分是真好。\n\n"},{"id":22217,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2016-03-03 03:25:22","like_diff":0,"likes":3,"dislikes":3,"content":"给分超差 上课超水"},{"id":34724,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2016-10-19 08:36:53","like_diff":0,"likes":1,"dislikes":1,"content":"什么都学不到，讲课只念ppt，ppt就是课本内容，而且大部分同学章讲"},{"id":44487,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2017-01-18 01:18:28","like_diff":0,"likes":1,"dislikes":1,"content":"几乎没有什么收获，水水过。。。"},{"id":105348,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2019-04-10 09:04:34","like_diff":0,"likes":0,"dislikes":0,"content":"虽说管理学是很难说的玄学，但老师给分一点不玄乎"},{"id":121033,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2020-01-19 09:48:17","like_diff":0,"likes":0,"dislikes":0,"content":"管理学。在这门课上想学到什么知识是不太可能了，不如想办法混个高点的绩点，以下是混绩点的方法。\n\n评分规则：老师会执行第一节课给出的评分规则，并且在学期末上演实力捞人，但是到课考勤和组内互评对个人的最终总成绩会有比较大的影响。\n\n水这门课的策略：1、当管理学课程的领导层。管理学课程有一个三人组成的课程团队和十个组长，在第一节课的时候课程团队的人需要竞选，但组长是先到先得的写名字就行。不管想不想发表竞选发言，只要愿意拉下这一次脸皮写上你的名字，期末的给分就有基本保障。因为这门课的特点，组长在前几节课会比较煎熬，但后期小组稳定了就好了。2、线上小测。线上小测占据很大一部分的客观分，有一定难度，但可以用别人的mooc号刷题库，把正确答案搞到手。这门课的题库每年都不一样，所以往年题库刷完了只能保证新题库70%左右的正确率，还是需要开别人的号刷一下新题库。3、到课考勤。缺课一次平时分暴跌，缺课两三次基本就在及格线边缘，超过四次直接挂科，真狠。4、团队作业。分分锅就好了，这一块有基本分数，不是很能拉开。5、小组评分。平时在小组里多承担任务或者和组长打好关系，最后小组评分的权重要足够高，这也是一项决定性的数据。5、个人作业。只要做了分数就不会低。最后，由于这门课唐素萍老师不怎么管，班级里留学生比较多，做好以上几点拿满绩还是很容易的，但是上课体验的确不行。给4分。"},{"id":102371,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2019-02-01 09:26:41","like_diff":-1,"likes":1,"dislikes":2,"content":"老师超负责！给分巨好！说老师不好的大概自己没认真学吧"},{"id":47422,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2017-01-26 07:56:23","like_diff":-2,"likes":3,"dislikes":5,"content":"怀疑她的博士学位，给分是闭着眼睛瞎给的吧，课长助教什么的分都高，要不是必修才不选这个课!!!"},{"id":76406,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2018-04-08 02:16:35","like_diff":-2,"likes":0,"dislikes":2,"content":"很好的"},{"id":97497,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2019-01-22 09:27:43","like_diff":-2,"likes":1,"dislikes":3,"content":"出分有点慢，还没出，但老师人挺好的。"},{"id":102389,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2019-02-01 11:03:30","like_diff":-3,"likes":0,"dislikes":3,"content":"满绩，赞赞赞"},{"id":102578,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2019-02-10 02:54:00","like_diff":-3,"likes":0,"dislikes":3,"content":"课不怎么样，但事情确实少，给分也不错"},{"id":117016,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2019-09-18 09:27:59","like_diff":-3,"likes":0,"dislikes":3,"content":"市井泼妇 只想负分"},{"id":39698,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2017-01-26 05:50:45","like_diff":-4,"likes":6,"dislikes":10,"content":"哇老师好到飞起，人人满绩，快来快活吧"},{"id":47418,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2017-03-01 16:27:08","like_diff":-4,"likes":7,"dislikes":11,"content":"老师其实人不错的 努力的给干活 给分也不错虽然很累 很满意 拿了4.8 大家如果分数不高也请反思一下付出了多少好吗"},{"id":59788,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2017-09-27 03:25:49","like_diff":-6,"likes":2,"dislikes":8,"content":"大一上全程划水4.8"},{"id":12988,"teacher_id":146,"teacher_name":"唐素萍","post_time":"2015-12-24 12:39:54","like_diff":-14,"likes":5,"dislikes":19,"content":"感觉老师其实挺有水平的，但是可能语言表达能力不太好，很多问题解释得不太清楚。大部分课都是小组章讲和答疑，挺锻炼团队协作和个人素质的，这也许就是在实践中学习吧。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

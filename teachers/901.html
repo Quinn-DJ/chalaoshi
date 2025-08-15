@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黄擎 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="黄擎教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="黄擎,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">黄擎</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.73</div>
+                    <div class="rating-participants">80人参与评分</div>
+                    <div class="attendance-info">11.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">中国现当代小说赏析</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.07</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.52</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">文学理论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.31</span>
+                            <span class="students">选课: 334人</span>
+                            <span class="std-dev">标准差: 0.60</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (68 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":61411,"teacher_id":901,"teacher_name":"黄擎","post_time":"2017-11-16 13:48:21","like_diff":30,"likes":35,"dislikes":5,"content":"非常谦卑，总是在说，不好意思，谢谢。\n\n非常礼貌，各种同学都平等对待。\n\n非常平易近人，为学生考虑各种情况，但又不失公平。\n\n非常有修养，有内涵，每周从紫金港赶去听她一节小说鉴赏，超满足。"},{"id":3704,"teacher_id":901,"teacher_name":"黄擎","post_time":"2015-06-17 02:31:35","like_diff":26,"likes":33,"dislikes":7,"content":"很有活力，讲课生动，结合影视片段"},{"id":89854,"teacher_id":901,"teacher_name":"黄擎","post_time":"2018-11-21 04:41:53","like_diff":22,"likes":22,"dislikes":0,"content":"黄老师是位非常负责任的老师，老师的讲课热情将我们带入一个个精彩的小说王国，领略名家的魅力。这门“低定”才选上的课后来竟然还有人退课，我只能说他们亏大了。尽管每周三都要从紫金港赶到西溪，但结课后的我心里甚至有些空落落的，还想继续听老师讲课。\n\n事少、分高、干货十足、老师负责、可水，（但我觉得认真听才对得起老师的精心准备，还有从港到西溪的奔波）。强推这门课！建议大家提前阅读参考书目，哪怕每位作家只读一篇代表作，上课就能产生共鸣。"},{"id":41031,"teacher_id":901,"teacher_name":"黄擎","post_time":"2017-01-08 12:57:57","like_diff":13,"likes":14,"dislikes":1,"content":"老师超棒，给分也好，听课超级享受。虽然从紫金港马不停蹄赶去西溪累得够呛，上课想睡觉，但是听着听着就清醒了。很惭愧没有好好在课前看推荐书目。但是拿到了4.2超开心～干货多，事情挺少，就只有一次随堂测验写观后感和最后的测试，挺好拿分的。\n\n上课可以适当记点笔记啥的吧，老师公邮里面的课件比上课用的要精简一些，最后考试的时候有些题目是课件里出现过的。\n\n以及最后的测试里边有800字的大作文。\n\n老师好有气质呀呀呀人文底蕴足。"},{"id":61408,"teacher_id":901,"teacher_name":"黄擎","post_time":"2017-11-16 11:54:22","like_diff":10,"likes":12,"dislikes":2,"content":"来给老师打call了!平时上课签到就有三十分，小测验占十分，最后的随堂开卷考试占六十分，就是几个填空题和一个八百字左右的赏析，写出自己的观点就好。老师人很温柔，讲的很仔细，会引用各种读者观点还会讲解一部分原文，认真听会有很大收获的。这门课是第一门出的成绩，满绩美滋滋。老师给分真的很好了。"},{"id":61496,"teacher_id":901,"teacher_name":"黄擎","post_time":"2017-11-17 16:25:40","like_diff":8,"likes":8,"dislikes":0,"content":"老师很有人问底蕴呀，不会叫同学发言，每节课都要签到，课外事情不多，考试也是开卷，但是自己要有一定文学修养，最后是有800字赏析的。想听的会收获很多，不听的老师也不会怎么来管你吧，很好的老师，有很多自己的思想，我这个工科生能力不足，每次赶去西溪上课，但感觉最后结果不错呢，也更加了解了平常不太熟悉的一些作家，挺不错的老师"},{"id":36470,"teacher_id":901,"teacher_name":"黄擎","post_time":"2016-11-14 04:29:25","like_diff":7,"likes":8,"dislikes":1,"content":"老师人很好^_^会推荐阅读书目 如果课前去看再听老师讲课的话会有更多收获"},{"id":36479,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-01-04 03:57:43","like_diff":7,"likes":8,"dislikes":1,"content":"老师讲的很好 感觉很有文学修养"},{"id":131503,"teacher_id":901,"teacher_name":"黄擎","post_time":"2021-01-27 21:49:21","like_diff":7,"likes":7,"dislikes":0,"content":"进入浙大以后感觉最好的老师"},{"id":36677,"teacher_id":901,"teacher_name":"黄擎","post_time":"2016-11-15 10:22:28","like_diff":6,"likes":6,"dislikes":0,"content":"作为一个工科生，能够被老师所讲的内容吸引住，真心讲的好！老师的用词描述十分到位，言辞之间显得很有修养～"},{"id":65364,"teacher_id":901,"teacher_name":"黄擎","post_time":"2018-01-03 11:15:48","like_diff":6,"likes":6,"dislikes":0,"content":"很有涵养的老师，讲课娓娓道来。可是，每节课都超认真的做笔记，最后的文章也认真写了，只有3.6呜呜呜呜呜 被正太了"},{"id":118984,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-11-09 02:56:10","like_diff":6,"likes":6,"dislikes":0,"content":"我爱黄老师，求大家选小说赏析。老师人很谦逊，讲课逻辑很清晰，语言很美，听起来超级享受。上完课后，会觉得看小说不能再只是打发时间，也完全不应是高中应考那种解剖般地生硬解读，能获得一种欣赏的视角。就像老师说的“选择即是温度”，小说赏析给我的美学享受我觉得很棒。谢谢黄老师！"},{"id":120139,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-11-17 23:54:32","like_diff":5,"likes":5,"dislikes":0,"content":"老师很有气质，娓娓道来，甚有意趣。如果你热爱小说阅读，这门一定适合你。老师很博学，曾经远赴韩国授课，博士论文的主题也让我惊叹不已。张爱玲小说迷们，想要听老师现场解说张爱玲的小说吗？就快选吧！！老师给分也很不错，期末事情并不多，这样的选修课上起来特别惬意。"},{"id":61396,"teacher_id":901,"teacher_name":"黄擎","post_time":"2017-11-16 08:56:41","like_diff":4,"likes":7,"dislikes":3,"content":"老师讲课改不错，会讲很多作家喝作品，但是由于课时少，整体进度比较快，最后成绩大概是考试主观性太大没发挥好？不错老师还是不错的?"},{"id":61658,"teacher_id":901,"teacher_name":"黄擎","post_time":"2017-11-20 01:31:38","like_diff":4,"likes":4,"dislikes":0,"content":"老师讲课很棒呀，上课氛围很好，对很多作家和作品有了新的认识，给分也很好"},{"id":182626,"teacher_id":901,"teacher_name":"黄擎","post_time":"2023-11-18 12:12:22","like_diff":4,"likes":5,"dislikes":1,"content":"每节课都有写名签到，上课没听，后期有一个小测，随便写的，期末赏析论文没有什么新立意但是原创，最后4.2，总评：这门课中规中矩"},{"id":37094,"teacher_id":901,"teacher_name":"黄擎","post_time":"2016-11-17 11:24:32","like_diff":3,"likes":4,"dislikes":1,"content":"老师语言组织能力很强，能让人静下心来体会文字的魅力"},{"id":61784,"teacher_id":901,"teacher_name":"黄擎","post_time":"2017-11-21 02:08:14","like_diff":3,"likes":3,"dislikes":0,"content":"老师讲得超级棒，一次小测试一次课堂上的最终考试，到课一次10分哦，所以别旷课呀总体给分不错，不是特别累的课"},{"id":89145,"teacher_id":901,"teacher_name":"黄擎","post_time":"2018-11-16 05:05:05","like_diff":3,"likes":3,"dislikes":0,"content":"很好哟"},{"id":110412,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-06-26 12:22:47","like_diff":3,"likes":3,"dislikes":0,"content":"好喜欢黄老师啊，很温柔，很有知识。虽然去西溪有点累，但是绝对值得。对老师上课说的作家以及作品有了更多新的认识，因为要写课程论文所以又去看了一遍《边城》，那句“爷爷，你的船也在下青浪滩吗”真让我心的沉了好几下555555"},{"id":119413,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-11-12 23:43:26","like_diff":3,"likes":3,"dislikes":0,"content":"老师真的太温柔有礼貌了，很幸运在紫金港学到了老师的课，辛苦老师来回奔波，绩点也很满意，只要认真写论文，总会有回报。吹爆老师的课，每次下课忍不住全员为老师鼓掌。"},{"id":173643,"teacher_id":901,"teacher_name":"黄擎","post_time":"2023-05-31 03:24:58","like_diff":3,"likes":3,"dislikes":0,"content":"老师真的太好太好了。在职业选择方面有一些想要咨询黄老师的问题，试着给她发了邮件，老师很快就回复了。虽然老师身体有些不适，但还是告诉我可以钉钉私信她，我私信后她发了语音非常认真地解答了我的疑惑。真的很感动很感动，第一次在大学感受到了老师带来的温暖。“所谓大学之大，非有大楼之谓也，乃有大师之谓也。” 在黄擎老师身上，我感受到了身为老师对学生发自内心的尊重和关切，这才是真正的好老师。（写到这里居然有点想哭。）最后，祝黄老师早日康复，健康快乐地度过每一天！！！！！！"},{"id":184097,"teacher_id":901,"teacher_name":"黄擎","post_time":"2023-12-08 15:51:19","like_diff":3,"likes":4,"dislikes":1,"content":"黄老师认真负责、尊重学生、会从学生的角度去考虑事情，真的是太好的老师了！！！"},{"id":38018,"teacher_id":901,"teacher_name":"黄擎","post_time":"2016-11-23 07:06:53","like_diff":2,"likes":3,"dislikes":1,"content":"老师本人就是研究文学的，讲课超棒，课上的小作业也满满的干货。给分也不错。不枉每周敢去西溪上课。"},{"id":51858,"teacher_id":901,"teacher_name":"黄擎","post_time":"2017-06-13 00:48:06","like_diff":2,"likes":2,"dislikes":0,"content":"看重思想的好老师。"},{"id":61459,"teacher_id":901,"teacher_name":"黄擎","post_time":"2017-11-17 11:42:52","like_diff":2,"likes":2,"dislikes":0,"content":"虽然绩点爆炸 是因为自己本身文学素养低啦 作文水平惨不忍睹 但是老师很温柔 上课很舒服了 算是享受了吧\n\n"},{"id":89905,"teacher_id":901,"teacher_name":"黄擎","post_time":"2018-11-21 08:01:54","like_diff":2,"likes":2,"dislikes":0,"content":"老师文学功底超棒，工科生学到了好多。跑西溪辛苦点，但可以接受"},{"id":117154,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-09-20 02:06:53","like_diff":2,"likes":2,"dislikes":0,"content":"听黄老师上课实在太舒服了，可以说是激情澎湃而不失娓娓道来，我太爱她了。"},{"id":119520,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-11-13 08:14:04","like_diff":2,"likes":3,"dislikes":1,"content":"出分快，老师优雅有气质。上课的时候小说片段赏析很细致，老师也会分享她自己的看法，赏析思考的角度常常给人启发。有时还会结合影视剧和广播剧进行赏析。虽然赏析前的文学常识没记住多少，但是对理解作品有了整体的背景感知。"},{"id":119579,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-11-14 02:00:18","like_diff":2,"likes":2,"dislikes":0,"content":"是真的很好的老师！大概作为人文学者的谦逊平和又思想自由就是这样的感觉吧，老师讲课很棒，尽可能给我们讲得更多一点。结课赏析选了金锁记，我想啊，那可能就是月亮。"},{"id":144399,"teacher_id":901,"teacher_name":"黄擎","post_time":"2021-12-21 10:51:28","like_diff":2,"likes":2,"dislikes":0,"content":"好棒的"},{"id":172137,"teacher_id":901,"teacher_name":"黄擎","post_time":"2023-04-20 08:24:59","like_diff":2,"likes":2,"dislikes":0,"content":"满分，没毛病"},{"id":172808,"teacher_id":901,"teacher_name":"黄擎","post_time":"2023-05-07 15:02:50","like_diff":2,"likes":2,"dislikes":0,"content":"有幸同时上了黄擎老师的文学理论和中国现当代小说赏析，黄老师是我在浙大遇到的第一位愿意给我的课程论文提修改建议的老师TT耐心、温柔、知识渊博，钉钉消息几乎都是秒回，上课也非常有水平，太感谢老师了，给分也超好！"},{"id":184525,"teacher_id":901,"teacher_name":"黄擎","post_time":"2023-12-21 11:27:44","like_diff":2,"likes":3,"dislikes":1,"content":"真的特别特别特别好的老师 每周从紫金港极限一小时赶西溪也特别值 虽然下午的课有时候有点困 但是黄老师永远热情真诚的分享真的让我不敢打一点瞌睡 爱文学的孩子速速速速入 不爱的也入 上了你就爱 有点后悔没跟人品学术双高的黄老师合个影 下次不知道还有没有机会了"},{"id":94317,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-01-16 06:19:59","like_diff":1,"likes":2,"dislikes":1,"content":"一个小时不吃饭赶到西溪有点辛苦，但课很值得听，老师安利的书也很有意思。就是给分略迷，书读得没我多的同学比我高0.9是我考场作文偏题了吗?"},{"id":119427,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-11-13 00:30:53","like_diff":1,"likes":1,"dislikes":0,"content":"课上有关文本分析都部分固然很好，但是时间太长了，建议适当控制一点时间，多讲讲理论…老师还是很谦和温柔的学者。"},{"id":119507,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-11-13 06:49:40","like_diff":1,"likes":1,"dislikes":0,"content":"老师讲课好，奈何我不好?被正态了也没办法，老师真的棒！"},{"id":119534,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-11-13 10:30:13","like_diff":1,"likes":1,"dislikes":0,"content":"非常好 情不自禁鼓掌?"},{"id":134842,"teacher_id":901,"teacher_name":"黄擎","post_time":"2021-04-18 13:40:27","like_diff":1,"likes":1,"dislikes":0,"content":"每周往返一次西溪校区就为了黄老师这节课 非常非常值得"},{"id":153247,"teacher_id":901,"teacher_name":"黄擎","post_time":"2022-04-27 05:34:09","like_diff":1,"likes":2,"dislikes":1,"content":"老师上课太精彩了"},{"id":181168,"teacher_id":901,"teacher_name":"黄擎","post_time":"2023-10-10 12:38:35","like_diff":1,"likes":3,"dislikes":2,"content":"很喜欢讲那10年，很喜欢讲。"},{"id":182058,"teacher_id":901,"teacher_name":"黄擎","post_time":"2023-11-09 07:01:12","like_diff":1,"likes":2,"dislikes":1,"content":"老师很好，课质量很高，值得一上，高中语文老师讲课，都集中于讲知识点，碰到黄老师声情并茂地讲小说，实是一种享受。\n\n比起这个，这课事少，可摸鱼都算不上什么突出的优点了。"},{"id":193158,"teacher_id":901,"teacher_name":"黄擎","post_time":"2024-06-04 05:31:45","like_diff":1,"likes":3,"dislikes":2,"content":"很温柔很有气质的老师～普通话很标准，上课赏析文学作品的时候也很自然流畅，可以收获到很多！先后上了黄老师的现当代小说赏析和文学理论，强推前一个，可听可水！虽然最后给分被卡绩了……文学理论过于抽象了不建议外专业来选。"},{"id":33103,"teacher_id":901,"teacher_name":"黄擎","post_time":"2016-09-13 01:27:34","like_diff":0,"likes":0,"dislikes":0,"content":"太爽了"},{"id":34392,"teacher_id":901,"teacher_name":"黄擎","post_time":"2016-10-09 03:01:51","like_diff":0,"likes":0,"dislikes":0,"content":"棒棒哒"},{"id":36482,"teacher_id":901,"teacher_name":"黄擎","post_time":"2016-11-14 06:13:50","like_diff":0,"likes":0,"dislikes":0,"content":"感觉很爽"},{"id":61478,"teacher_id":901,"teacher_name":"黄擎","post_time":"2017-11-17 14:11:14","like_diff":0,"likes":0,"dislikes":0,"content":"老师讲的很好，仔细听的话会喜欢上这些书的，虽然是三节课却一点也不枯燥。"},{"id":65083,"teacher_id":901,"teacher_name":"黄擎","post_time":"2017-12-28 14:16:06","like_diff":0,"likes":0,"dislikes":0,"content":"老师人很好，声音很温柔，理科生也收获蛮多的"},{"id":92063,"teacher_id":901,"teacher_name":"黄擎","post_time":"2018-12-25 23:52:58","like_diff":0,"likes":0,"dislikes":0,"content":"很好的老师呀，而且课堂上也挺放松的，不绩杀事情也不多"},{"id":110324,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-06-25 15:49:40","like_diff":0,"likes":1,"dislikes":1,"content":"听课体验还是很好的，老师很有文学素养，学到了很多。虽然我的绩点不是很漂亮，还被卡绩了，但是我知道这真的是因为我自己菜，也希望老师以后的评分方式对理工学生友好一点吧。"},{"id":116236,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-09-06 12:02:58","like_diff":0,"likes":0,"dislikes":0,"content":"学到很多 对于喜欢中国现当代小说的人来说真的是一门收获满满的课"},{"id":119434,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-11-13 00:54:51","like_diff":0,"likes":0,"dislikes":0,"content":"被正态了……\n\n当然老师课上的很好"},{"id":119439,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-11-13 00:58:35","like_diff":0,"likes":0,"dislikes":0,"content":"相当于出分还愿吧，老师很温柔，我好几次忘记一些事情问她总能耐心回答，我最后结课的时候写的赏析很粗糙，但是依然4.5很出乎意料，真的很不错"},{"id":119444,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-11-13 01:08:36","like_diff":0,"likes":0,"dislikes":0,"content":"听老师讲了很舒服"},{"id":119445,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-11-13 01:10:36","like_diff":0,"likes":0,"dislikes":0,"content":"听老师上课真的是一种享受！！每节下课都忍不住鼓掌！！个人感觉自己论文写得一般，最后绩点超出预期！！是不后悔选上的通识课！！！"},{"id":119449,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-11-13 01:35:47","like_diff":0,"likes":0,"dislikes":0,"content":"老师非常好，奈何我不好?"},{"id":119466,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-11-13 02:43:59","like_diff":0,"likes":2,"dislikes":2,"content":"现当代小说鉴赏真的体验感极佳！！！"},{"id":119469,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-11-13 03:09:24","like_diff":0,"likes":1,"dislikes":1,"content":"真的很棒 正态也是没办法 讲的是真的好 真的温柔"},{"id":119509,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-11-13 07:06:08","like_diff":0,"likes":2,"dislikes":2,"content":"被正态。。。"},{"id":127713,"teacher_id":901,"teacher_name":"黄擎","post_time":"2020-11-26 03:26:54","like_diff":0,"likes":1,"dislikes":1,"content":"想过躺着就行，想拿高分得很认真，不说了又是被正太的狗一枚"},{"id":152590,"teacher_id":901,"teacher_name":"黄擎","post_time":"2022-04-15 10:52:37","like_diff":0,"likes":0,"dislikes":0,"content":"听了老师的课很有收获！老师做事情很认真仔细，消息秒回！"},{"id":153115,"teacher_id":901,"teacher_name":"黄擎","post_time":"2022-04-25 15:23:18","like_diff":0,"likes":1,"dislikes":1,"content":"呜呜呜，老师真的好好，因为我的成绩不是很好，比较着急，没注意十一点多给老师私信，问她我的论文修改意见，真的是很快就回了，指出来一些错误，真的太好了吧。都冲啊"},{"id":182503,"teacher_id":901,"teacher_name":"黄擎","post_time":"2023-11-16 16:30:44","like_diff":0,"likes":1,"dislikes":1,"content":"出分了，来评价一下，老师讲课讲得特别好，引人入胜，被安利到很多作品，不过我是水一会儿听一会儿那种，没听课的时候是在看这节课涉及到的文学作品，上大学以后很少看书了，这门课给了我一个看书的契机，每周从zjg赶去西溪也值！\n\n        老师每节课都有纸质签到的，就算没签到也很值得去听，我觉得黄擎老师的课不像其他通识课，结合历史和作家生平以及一些有启发意义的作品其实更像心理+生涯规划（个人感觉），真的特别符合我过去对大学课程的期待，虽然我是工科生。\n\n        课程考核方式是一次小测一篇期末赏析，事情很少。小测赏析一篇文章，不用准备，我是谈自己的想法，没有按高中阅读理解那样答题（因为一直很讨厌这种模版套路，都大学了我要反抗（bushi）），分数也不低。老师推荐的优秀小测答题感觉是高中学过政治或者人文社科选手答的，对我来说还是太超前了点…期末赏析一篇老师给定范围里的作品，这个前两三周就会布置，可以提前准备，3000字左右就OK。\n\n        总之老师讲课好事少给分高，还等什么，速选！！"},{"id":190164,"teacher_id":901,"teacher_name":"黄擎","post_time":"2024-02-24 06:53:35","like_diff":0,"likes":1,"dislikes":1,"content":"很知性优雅的一位老师。每周一次往返西溪和紫金港完全值得！一扇文学大门豁然洞开的感觉\n\n上课娓娓道来，选取的段落和对内涵的剖析都很深刻。有些时候会抛砖引玉，剩下一些让大家自己去思考探索。\n\n可以把结课作业提前拿给老师看，她会给出修改意见。钉钉也几乎秒回，绝赞！\n\n给分也不错，感觉被捞了（嘿嘿）\n\n总之就是非常推荐（还是美育课啊这不冲吗）\n\n\n\nPS：线下表格传递签名签到，接近结课有一次指定段落赏析小测，结课作业会一开始就布置（一篇3000字的赏析文）"},{"id":218336,"teacher_id":901,"teacher_name":"黄擎","post_time":"2025-04-22 16:28:13","like_diff":0,"likes":0,"dislikes":0,"content":"非常认真温柔有思想的老师，把文学鉴赏变得更平易近人，通过这门课让我被很多小说吸引，给分也很好，谢谢老师"},{"id":196694,"teacher_id":901,"teacher_name":"黄擎","post_time":"2024-07-04 19:40:20","like_diff":-2,"likes":3,"dislikes":5,"content":"文学理论给分烂，还卡绩"},{"id":110370,"teacher_id":901,"teacher_name":"黄擎","post_time":"2019-10-31 05:09:06","like_diff":-7,"likes":4,"dislikes":11,"content":"讲得还行，最后4.2有点点不满足。。。"},{"id":37028,"teacher_id":901,"teacher_name":"黄擎","post_time":"2016-11-17 07:05:09","like_diff":-27,"likes":12,"dislikes":39,"content":"厉害了我的哥，每节课都去了，签到一次没落下，成功得了3.3分，呵呵"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

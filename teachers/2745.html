@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>茅锐 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="茅锐教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="茅锐,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">茅锐</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.49</div>
+                    <div class="rating-participants">48人参与评分</div>
+                    <div class="attendance-info">25.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (6 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">专业实习</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.62</span>
+                            <span class="students">选课: 24人</span>
+                            <span class="std-dev">标准差: 0.85</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">中级微观经济学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.51</span>
+                            <span class="students">选课: 161人</span>
+                            <span class="std-dev">标准差: 1.06</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大学写作——写作·社会</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.22</span>
+                            <span class="students">选课: 34人</span>
+                            <span class="std-dev">标准差: 0.49</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">毕业实习</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.50</span>
+                            <span class="students">选课: 22人</span>
+                            <span class="std-dev">标准差: 0.00</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">毕业论文</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.82</span>
+                            <span class="students">选课: 24人</span>
+                            <span class="std-dev">标准差: 0.53</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会调查</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.36</span>
+                            <span class="students">选课: 22人</span>
+                            <span class="std-dev">标准差: 1.08</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (44 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":45338,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2017-01-19 11:35:09","like_diff":17,"likes":24,"dislikes":7,"content":"老师学生时代是学霸，书生气质很浓~人极善!"},{"id":150292,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2022-01-21 15:59:10","like_diff":9,"likes":23,"dislikes":14,"content":"哈哈，上课是一回事，行政又是一回事了，不否认茅老师的学术水平和知识水平，但他对毕业班学生是真好啊。\n\n在考研时间12.25，本校人文社科学部几乎所有的专业都在考研之后进行毕业论文开题答辩的前提下，在2018级农经的班主任老师和大多数学生的苦苦请求下，在7位考研学生的考试临近的情况下，还敢冒天下之大不韪，一意孤行将开题答辩时间放在12.17，也就是考研前一周，您太厉害了！全体2018级农经学生感谢，感恩，感怀您！\n\n无论多少次的沟通和协调，您就是不理解，找到了学院领导来协调，您也是阳奉阴违，表面上答应考研学生可以不参加，背地里干着那么多出尔反尔的龌龊的事情，以“高水平论文是高质量毕业的必要条件”为借口，以“农经系没有不参加一轮答辩的先例”为挡箭牌，忽视参加考研的7位学生的时间安排与心理健康状态，戏能演成您这样子，我真是佩服，您的行政职务和党内职务就让您做这个的？您的一路保送的学业就是让您不知民生疾苦的？茅老师，农经系有您这样的领导，毕业班本科生真是倒了八辈子霉。\n\n槽多无口，暂且说那么多，剩下就交给其他同学来评价了。"},{"id":153979,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2022-05-18 10:57:49","like_diff":9,"likes":21,"dislikes":12,"content":"我咋听说茅老师压榨、pua研究生啊"},{"id":194229,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2024-06-22 16:44:55","like_diff":9,"likes":11,"dislikes":2,"content":"老师教学和学术都是极好的，但是行政方面，真的不敢苟同。感觉老师人生太顺了，根本不懂普通学生的生活和心。"},{"id":146228,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2022-01-06 02:35:07","like_diff":6,"likes":9,"dislikes":3,"content":"老师人很好，期末也会划重点；成绩构成大概是平时30（40），期末70（60）的样子，每周会有几道作业，还会有一个经典文献展示。可能是我太烂了吧，虽然把中微的圣才教育复习书都翻烂了，但绩点也只有2.7。建议选茅老师中微的师弟师妹们着重复习作业题，期末基本是原题，只有我这个笨比会刷圣才教育的主观题。"},{"id":8198,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2015-09-17 11:41:31","like_diff":4,"likes":16,"dislikes":12,"content":"长得太年轻了，有种小鲜肉的既视感。北大双学位，直博，然而上课真是分分钟让人睡着…声音太小了！"},{"id":45304,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2017-01-19 09:36:34","like_diff":4,"likes":10,"dislikes":6,"content":"老师上课讲的很有条理很清晰，但是声音有些轻，如果坐前面大概会好一些。答疑的时候脾气特别好。赞"},{"id":14614,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2016-01-08 03:07:41","like_diff":3,"likes":5,"dislikes":2,"content":"老师声音有点小，人很温柔……关了手机认真听还是可以的"},{"id":34491,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2016-10-12 02:44:51","like_diff":3,"likes":3,"dislikes":0,"content":"讲得很好可是为什么好困啊"},{"id":161635,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2022-11-10 00:37:09","like_diff":3,"likes":5,"dislikes":2,"content":"讲得太快，大家都说不理解但是他不听"},{"id":16871,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2016-01-19 06:30:20","like_diff":2,"likes":5,"dislikes":3,"content":"老师声音很好听，讲课很细致"},{"id":34470,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2016-10-11 10:55:45","like_diff":2,"likes":5,"dislikes":3,"content":"老师人挺温柔的，专业知识过硬"},{"id":44830,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2017-01-18 10:21:20","like_diff":2,"likes":7,"dislikes":5,"content":"老师声音超级好听，人也很温柔，一学期认真听课都是为了男神呀～明天考中微，希望男神光环照耀嘻嘻"},{"id":45289,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2017-01-19 09:19:04","like_diff":2,"likes":5,"dislikes":3,"content":"啊老师出分数好快，真效率\n\n人真的超级好，老师我爱你嗯(´-ω-`)\n\n其实老师上课很有条理也很清楚\n\n虽然我是个只听了一半的课的水货吧?"},{"id":68426,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2018-01-23 07:50:46","like_diff":2,"likes":4,"dislikes":2,"content":"老师上课讲的很清楚，就是我听的有点昏昏沉沉的。。。不过老师给分真的超级好！！"},{"id":134045,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2021-03-14 06:41:42","like_diff":2,"likes":8,"dislikes":6,"content":"茅老师上课条例很清晰！超有书生气质！夸！"},{"id":21727,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2016-03-01 02:01:37","like_diff":1,"likes":6,"dislikes":5,"content":"其实是好老师，人很好。给分也不错。"},{"id":45294,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2017-01-19 09:23:02","like_diff":1,"likes":5,"dislikes":4,"content":"老师人超棒"},{"id":45457,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2017-01-19 14:46:10","like_diff":1,"likes":5,"dislikes":4,"content":"老师人真的很温柔。讲课认真听还是不错的，小组展示后还会提出中肯的意见，鼓励我们继续研究下去，很nice，给分也还不错。"},{"id":96056,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2019-01-20 12:06:02","like_diff":1,"likes":2,"dislikes":1,"content":"出分超快，给分也很快，但上课声音小，主要靠自学"},{"id":96081,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2019-01-20 12:33:10","like_diff":1,"likes":2,"dislikes":1,"content":"老师虽然讲课声音很小(基本坐在五排往后就听不太清还不用话筒? )，但是人很温柔，出分快给分也贼好，人帅心善?"},{"id":166322,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2023-01-12 02:42:34","like_diff":1,"likes":2,"dislikes":1,"content":"茅老师很温柔，声音很好听，出分也快。就是英文上中微不怎么听得懂，或许应该课前看ppt预习一下，不过我没有，但是作业认真做认真复习还是能得到不错的分数的"},{"id":48495,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2017-03-06 14:25:28","like_diff":0,"likes":3,"dislikes":3,"content":"棒棒哒"},{"id":60726,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2017-10-28 08:43:58","like_diff":0,"likes":5,"dislikes":5,"content":"可爱得太犯规了"},{"id":68584,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2018-01-23 11:42:56","like_diff":0,"likes":4,"dislikes":4,"content":"我觉得老师人真的太太太太太太太太太太好了…笑起来羞涩莫名觉得可爱"},{"id":94510,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2019-01-17 03:57:54","like_diff":0,"likes":2,"dislikes":2,"content":"老师上课声音有点小，但讲课很棒，最后给分超级赞！！"},{"id":94481,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2019-01-17 00:43:13","like_diff":-1,"likes":4,"dislikes":5,"content":"老师真的声音又好听人又帅，不过声音有点小是真的啦，认真听的话可以坐第一排，仔细听老师的每一节课，跟着北大双学位的老师的思路，你会发现中微其实很简单～（可能管院的中微本来就不难）\n\n老师给分也炒鸡好，出分也很速度，本咸鱼拿到了入学最高分99，幸福地哭辽"},{"id":94595,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2019-01-17 09:54:44","like_diff":-1,"likes":2,"dislikes":3,"content":"给老师10分没商量，老师一身温柔气，脾气超好，一个学期没怎么听课，老师竟然还给了4.2，真的是十分感激老师了"},{"id":114133,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2019-07-09 00:52:02","like_diff":-1,"likes":2,"dislikes":3,"content":"茅老师太有气质了＼(^▽^)／\n\n!!!awsl"},{"id":68166,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2018-01-22 16:05:07","like_diff":-2,"likes":2,"dislikes":4,"content":"茅锐爸爸(=^▽^=)太感动了"},{"id":122924,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2020-04-21 03:04:54","like_diff":-2,"likes":2,"dislikes":4,"content":"虽然没上过茅锐老师的课 但还是很崇拜\n\n期待有机会可以听"},{"id":156628,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2022-06-20 12:22:59","like_diff":-2,"likes":3,"dislikes":5,"content":"本科最喜欢的老师"},{"id":46137,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2017-01-20 16:12:02","like_diff":-3,"likes":2,"dislikes":5,"content":"脾气超好 讲课思路清晰"},{"id":68215,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2018-01-23 00:12:17","like_diff":-3,"likes":1,"dislikes":4,"content":"老师脾气实在太棒了！上课答疑都很和善！坐了一学期前两排上课体验很好~本学期最喜欢的老师之一o(^o^)o"},{"id":68767,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2018-01-24 00:44:27","like_diff":-3,"likes":1,"dislikes":4,"content":"很负责任的老师，课堂展示还会提出建议，真的能学到东西的课！！"},{"id":192847,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2024-05-31 03:58:18","like_diff":-3,"likes":2,"dislikes":5,"content":"茅锐我是你的偶像……不对你是我的偶像"},{"id":199325,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2024-09-21 04:15:17","like_diff":-3,"likes":0,"dislikes":3,"content":"还不错"},{"id":199327,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2024-09-21 05:03:36","like_diff":-3,"likes":0,"dislikes":3,"content":"很耐心，很友善"},{"id":69405,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2018-01-24 15:17:01","like_diff":-4,"likes":1,"dislikes":5,"content":"很好的老师，出分快，真的超级仰慕超级学霸超级厉害的老师～"},{"id":94493,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2019-01-17 01:59:03","like_diff":-4,"likes":2,"dislikes":6,"content":"居然第二天就出成绩了，给分太好了，我爱茅老师！！"},{"id":130892,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2021-01-25 06:39:48","like_diff":-4,"likes":1,"dislikes":5,"content":"茅老师的中微值得满分，讲的清晰透彻，给分也高"},{"id":131410,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2021-01-27 11:44:09","like_diff":-4,"likes":1,"dislikes":5,"content":"很喜欢茅老师的课，给分也是棒棒的"},{"id":190054,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2024-02-17 14:09:17","like_diff":-4,"likes":1,"dislikes":5,"content":"老师真的很好很好非常有气质的学者！上课认真听真的可以听懂，微信答疑也是很快就回复了，特别有耐心。中微课堂虽然是英文，但是学到很多！记得记笔记哦～出分很快，快到难以想象，给分很好的呜呜呜满了呜呜呜"},{"id":192849,"teacher_id":2745,"teacher_name":"茅锐","post_time":"2024-05-31 04:02:40","like_diff":-5,"likes":1,"dislikes":6,"content":"锐，牛，爱。茅锐男神"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

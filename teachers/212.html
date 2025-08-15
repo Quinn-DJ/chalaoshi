@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>叶兵 - 经济学院 - 浙大教评</title>
+    <meta name="description" content="叶兵教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="叶兵,经济学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">叶兵</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">经济学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">4.61</div>
+                    <div class="rating-participants">83人参与评分</div>
+                    <div class="attendance-info">12.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (4 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">中国改革开放史</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.86</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.57</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">产业组织理论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.05</span>
+                            <span class="students">选课: 164人</span>
+                            <span class="std-dev">标准差: 1.05</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">本土化与现代经济学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.23</span>
+                            <span class="students">选课: 127人</span>
+                            <span class="std-dev">标准差: 0.35</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">激励理论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.74</span>
+                            <span class="students">选课: 106人</span>
+                            <span class="std-dev">标准差: 1.16</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (69 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":6816,"teacher_id":212,"teacher_name":"叶兵","post_time":"2015-07-23 06:44:29","like_diff":47,"likes":50,"dislikes":3,"content":"英语口语待加强"},{"id":134497,"teacher_id":212,"teacher_name":"叶兵","post_time":"2021-03-30 07:00:36","like_diff":43,"likes":46,"dislikes":3,"content":"说点内心话。首先，讲课确实说不上好，没有让人想深入听下去的欲望；其次，展示啊作业什么的，在经济学系专业课里面确实算比较多，但如果不带偏见去看的话，熬一熬勉强也还能接受；给分不太清楚因为还没到考试，但就算是汪sir这样铁面无私不给调分的老师，也不至于像他这么差的口碑啊。不妨来比较一下，人家汪sir上课点名，会就是会，不会就是不会，讲的不好就让你坐下，干净利落一点不拖泥带水，有啥疑问留到下课去找他，保证给你回答地妥妥帖帖；可yb这家伙点名呢，“你回答不上来呀？回答不上来就说明你没认真听课啊”“你要是没有回答我就给你这次平时分打个叉了啊”我光速打出无穷多个问号，就算您认为到了大学学生还必须好好听课是一种礼仪的话，您为什么不反思一下自己讲的课的质量呢，回答不上来就一定是没有听课么？只是听了一遍您那质量不敢恭维的授课就能理解激励理论这门本来就不算简单的课程的内容，学生们各个都是神仙么？好歹也体谅一下不同学生的理解能力啊？至于什么作业随手布置而且要求都不说清楚、至于什么展示的时候一个劲抓住ppt的细枝末节评价个不停、至于什么提问学生的时候宛若逼供一般的不耐烦地好似刁难学生一般的语气，我也就不多评论了，毕竟这种事可能只是在我们学生眼里看起来一点都不讨喜，而且还甚至有可能带有极大的主观倾向。当年上汪sir的课，有的时候也会觉得汪sir过分严格让人不适，考完试看到分数也没有让人很开心，但这似乎都没有影响汪sir的整体印象：仍然是个值得尊敬的，甚至可以说有人格魅力、让人值得回味的好老师、好学者啊。但是现在每次坐在yb讲课的教室里，很难让人涌起强烈的求知欲，留下的仿佛只剩下那浑身的生理性不适，就个人而言，我或许真的理解不了这个老师吧。"},{"id":71330,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-02-20 09:05:32","like_diff":28,"likes":31,"dislikes":3,"content":"事多给分差。"},{"id":105454,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-04-14 10:01:54","like_diff":25,"likes":25,"dislikes":0,"content":"事多讲的烂(真的是经济学事最多的人老师\n\n全靠自学，很费时间"},{"id":49387,"teacher_id":212,"teacher_name":"叶兵","post_time":"2017-04-10 02:56:12","like_diff":23,"likes":26,"dislikes":3,"content":"受不了的差"},{"id":170503,"teacher_id":212,"teacher_name":"叶兵","post_time":"2023-03-06 03:30:45","like_diff":22,"likes":24,"dislikes":2,"content":"上课啥也不讲，一直在提问留学生，一节课问了几个人就下课了，原来浙大老师这么好当啊"},{"id":105143,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-04-04 10:32:56","like_diff":21,"likes":21,"dislikes":0,"content":"上课经常提问，却会推托学生提问，讲得不够清楚。"},{"id":117255,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-09-21 10:51:30","like_diff":21,"likes":22,"dislikes":1,"content":"真的是我见过最差的老师 没有之一。不到2的绩点我也是醉了，偏偏还是专业课，真的毁了我太多，评奖评优没了可能连保研都受影响，上课瞎讲，极其不负责任。总评:事儿多，讲课垃圾，给分差出天际！评一分真的嫌多！"},{"id":103158,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-02-26 08:48:29","like_diff":19,"likes":19,"dislikes":0,"content":"无聊透了…"},{"id":78741,"teacher_id":212,"teacher_name":"叶兵","post_time":"2018-05-15 03:00:31","like_diff":18,"likes":19,"dislikes":1,"content":"给一分我都嫌多"},{"id":104609,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-03-25 05:35:29","like_diff":18,"likes":21,"dislikes":3,"content":"真的太过分了，随便就加了个期中考试?自己讲的太快就怪我们喽?只有一个mmp送个这个垃圾老师"},{"id":118767,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-10-31 15:48:24","like_diff":18,"likes":18,"dislikes":0,"content":"讲得特别差，全靠自学。给分毫无道理的那种，预估80分以上(考试不难)结果刚及格。mmp！"},{"id":106001,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-04-24 07:22:09","like_diff":17,"likes":17,"dislikes":0,"content":"自学太浪费时间了，快吐了，课件内容完全从教材上扒下来，真是第一次见\n\n(已经找不到词表达不满了"},{"id":109052,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-06-06 07:15:43","like_diff":17,"likes":18,"dislikes":1,"content":"只恨没有零分这个选项"},{"id":112139,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-07-03 17:24:42","like_diff":17,"likes":17,"dislikes":0,"content":"讲课烂给分差 受不了 吐血"},{"id":170878,"teacher_id":212,"teacher_name":"叶兵","post_time":"2023-03-11 06:25:05","like_diff":17,"likes":17,"dislikes":0,"content":"上课就是一场折磨，又没学到啥，讲课不清不楚的，混日子授课"},{"id":112155,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-07-03 17:50:11","like_diff":16,"likes":18,"dislikes":2,"content":"讲课一般，不如自己看书，ppt从英文课本抄下来的。感觉自己期末考的还行，然后卡绩，仔细算算我觉得平时分真的不手下留情，就那样吧...给分不算好，奈何只有他开课呢?"},{"id":112407,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-07-04 04:29:40","like_diff":15,"likes":15,"dislikes":0,"content":"完全没有体验   给分和上课都太糟糕了"},{"id":112151,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-07-03 17:41:26","like_diff":13,"likes":14,"dislikes":1,"content":"讲的烂，给分查，绝了emmm"},{"id":112502,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-07-04 14:41:51","like_diff":13,"likes":13,"dislikes":0,"content":"产组给分差是什么传统吗？期末很简单，结果真的出乎意料"},{"id":128441,"teacher_id":212,"teacher_name":"叶兵","post_time":"2020-12-23 06:06:16","like_diff":13,"likes":13,"dislikes":0,"content":"上课提问作业多考试难给分低"},{"id":107540,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-05-06 10:38:58","like_diff":11,"likes":12,"dislikes":1,"content":"讲的也很差 给分也很差 事情还多"},{"id":112220,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-07-03 23:28:29","like_diff":11,"likes":11,"dislikes":0,"content":"不可描述。。。。"},{"id":88095,"teacher_id":212,"teacher_name":"叶兵","post_time":"2018-10-22 06:20:15","like_diff":9,"likes":12,"dislikes":3,"content":"按座位给成绩 玄学老师"},{"id":112425,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-07-04 06:17:57","like_diff":9,"likes":9,"dislikes":0,"content":"佛了，不想说啥"},{"id":107537,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-05-06 10:27:22","like_diff":8,"likes":8,"dislikes":0,"content":"考砸了，自己烂也不能说什么，唉"},{"id":129964,"teacher_id":212,"teacher_name":"叶兵","post_time":"2021-01-14 06:40:17","like_diff":7,"likes":7,"dislikes":0,"content":"主要是经济学院其他好老师太多了"},{"id":120346,"teacher_id":212,"teacher_name":"叶兵","post_time":"2019-11-29 11:44:25","like_diff":6,"likes":6,"dislikes":0,"content":"讲课水平有待提高QAQ"},{"id":128050,"teacher_id":212,"teacher_name":"叶兵","post_time":"2020-12-04 11:21:01","like_diff":6,"likes":6,"dislikes":0,"content":"不想评价"},{"id":164560,"teacher_id":212,"teacher_name":"叶兵","post_time":"2022-12-22 01:56:40","like_diff":6,"likes":7,"dislikes":1,"content":"再也不想听"},{"id":151402,"teacher_id":212,"teacher_name":"叶兵","post_time":"2022-03-02 10:41:16","like_diff":5,"likes":5,"dislikes":0,"content":"事多又难，整无语了"},{"id":174777,"teacher_id":212,"teacher_name":"叶兵","post_time":"2023-06-17 14:15:57","like_diff":5,"likes":7,"dislikes":2,"content":"一学期上完了再来评价一下，老师人其实确实还不错，也很想把课上好，但是上课的能力实在有些一言难尽..."},{"id":130408,"teacher_id":212,"teacher_name":"叶兵","post_time":"2021-01-22 06:05:39","like_diff":4,"likes":4,"dislikes":0,"content":"老师给分很差"},{"id":136197,"teacher_id":212,"teacher_name":"叶兵","post_time":"2021-06-12 10:14:46","like_diff":4,"likes":4,"dislikes":0,"content":"和其他评论没有多大的区别，自己看吧。"},{"id":141078,"teacher_id":212,"teacher_name":"叶兵","post_time":"2021-09-23 02:27:26","like_diff":4,"likes":4,"dislikes":0,"content":"产组真差"},{"id":153613,"teacher_id":212,"teacher_name":"叶兵","post_time":"2022-05-06 03:04:07","like_diff":3,"likes":7,"dislikes":4,"content":"不至于2分。老师上课讲的比较清楚，两次作业+小论文，事也不算多。他的slides补充了课本上一些说的不太清楚的地方，课本+slides配合使用比较好。考试也没有为难人，考试难度和给分都符合预期。个人感觉老师水平还是比较高的。"},{"id":171328,"teacher_id":212,"teacher_name":"叶兵","post_time":"2023-03-22 00:18:31","like_diff":3,"likes":4,"dislikes":1,"content":"没想到zju还有这么离谱的老师。说话讲课一团糟，口齿不清，然后目中无人，对学生趾高气扬。对考研学生存在严重歧视。"},{"id":185214,"teacher_id":212,"teacher_name":"叶兵","post_time":"2023-12-27 06:01:37","like_diff":3,"likes":4,"dislikes":1,"content":"陈述叶兵老师授课需改进部分如下：1，吐字不清。正常语速下可以理解，但有时遇到老师着急、符号拗口的部分，叶老师讲话就会含糊不清，常常听不清老师在讲什么了。2，喜欢偏题。希望老师讲课可以集中在目标知识上，而不是花大部分时间扯课外的话题，再讲回来时早已忘了之前正经知识讲到哪里（也可能是我注意力不够集中，也可能是我专业基础不够扎实，各位同学批判性看待）。3，不备课或备课不完全。老师讲课套话太多，不能通过简单的语言形容清楚一个问题或概念，更多依赖读PPT，这样的效果不如直接看书或PPT好。4，态度不好。面对学生的课后提问，不能正面解答问题，反而追问其他的问题。主观评价，望各位选课同学理性看待。"},{"id":185690,"teacher_id":212,"teacher_name":"叶兵","post_time":"2024-01-03 14:22:25","like_diff":2,"likes":2,"dislikes":0,"content":"讲的真的好烂......"},{"id":186196,"teacher_id":212,"teacher_name":"叶兵","post_time":"2024-01-09 10:01:34","like_diff":2,"likes":3,"dislikes":1,"content":"我觉得叶老师挺好的，钉钉回答问题也很及时"},{"id":188419,"teacher_id":212,"teacher_name":"叶兵","post_time":"2024-01-19 03:08:49","like_diff":2,"likes":2,"dislikes":0,"content":"我觉得讲的挺好的，上课也会关心大家有没有听懂，产组本来知识点就多，最后考卷也不难，大概写的差不多给分就很好。喜欢叶老师"},{"id":206173,"teacher_id":212,"teacher_name":"叶兵","post_time":"2024-12-13 07:02:58","like_diff":2,"likes":2,"dislikes":0,"content":"讲的非常非常差，全程没有逻辑，就是一整个讲不明白，事情还很多，发了作业在学在浙大上从来不说，等着自己发现是吧……"},{"id":214547,"teacher_id":212,"teacher_name":"叶兵","post_time":"2025-02-12 04:54:41","like_diff":1,"likes":1,"dislikes":0,"content":"高微叶老师给我们上了两个月的课之后换成柯老师给我们上一个月的课，柯老师上完一个月之后又换成他来给我们上最后一个月的课。听叶兵老师讲的最好笑的一句话是：“今天来的人怎么这么少？是柯老师给你们讲怕了还是你们知道我回来了？我要去问问柯老师怎么给你们吓成这样？”......其他的不过多评价，经历了才懂得。"},{"id":153928,"teacher_id":212,"teacher_name":"叶兵","post_time":"2022-05-17 05:05:29","like_diff":0,"likes":6,"dislikes":6,"content":"国际校区ECON101\n\n英语的确不太行，但是老师人还挺好（可能也知道我们都是理工科的，来水个学分）。平时不太点名，每堂课有4词左右提问。有不懂的问题私下问也会比较详细的解答。当然ZJU经济学院的就别来杠了，你们是靠这个吃饭的，别跟我们比。"},{"id":184514,"teacher_id":212,"teacher_name":"叶兵","post_time":"2023-12-21 08:19:05","like_diff":0,"likes":2,"dislikes":2,"content":"上课还挺好的啊"},{"id":187624,"teacher_id":212,"teacher_name":"叶兵","post_time":"2024-01-17 01:42:07","like_diff":0,"likes":1,"dislikes":1,"content":"国际校区ECON103\n\n叶老师非常认真负责"},{"id":188396,"teacher_id":212,"teacher_name":"叶兵","post_time":"2024-01-19 02:00:28","like_diff":0,"likes":1,"dislikes":1,"content":"给分真好！人也好！"},{"id":189222,"teacher_id":212,"teacher_name":"叶兵","post_time":"2024-01-22 12:09:25","like_diff":0,"likes":2,"dislikes":2,"content":"大绩杀，期末卷挺简单的，和作业题目差不多，后半学期的内容基本没有考，没想到出分这样低，和保研无缘了。"},{"id":214490,"teacher_id":212,"teacher_name":"叶兵","post_time":"2025-02-08 09:10:48","like_diff":0,"likes":1,"dislikes":1,"content":"研究生高级微观经济学（管理学院开课），平时：期末=7：3，很为学生着想的成绩占比。老师讲话比较吞音，有一些听不清。课程内容是围绕博弈论展开的，知识量非常大，最后的考试五道大题，看得出来出题也是用了心思的，每道大题的各个小问循序渐进，能体现出区分度。出分85和本人预期很匹配。"},{"id":192280,"teacher_id":212,"teacher_name":"叶兵","post_time":"2024-05-13 11:30:46","like_diff":-2,"likes":1,"dislikes":3,"content":"给分极好，上了两门一个5一个4.8"},{"id":171878,"teacher_id":212,"teacher_name":"叶兵","post_time":"2023-04-10 06:55:04","like_diff":-3,"likes":0,"dislikes":3,"content":"讲课时需要认真听讲，不然很有可能漏掉练习题目。"},{"id":177878,"teacher_id":212,"teacher_name":"叶兵","post_time":"2023-07-05 08:05:31","like_diff":-3,"likes":2,"dislikes":5,"content":"这给分，还有啥好说的。谢谢老师！"},{"id":125457,"teacher_id":212,"teacher_name":"叶兵","post_time":"2020-09-09 13:12:58","like_diff":-4,"likes":1,"dislikes":5,"content":"还行还行"},{"id":153605,"teacher_id":212,"teacher_name":"叶兵","post_time":"2022-05-05 14:00:17","like_diff":-4,"likes":2,"dislikes":6,"content":"不至于2分，平衡一下"},{"id":171125,"teacher_id":212,"teacher_name":"叶兵","post_time":"2023-03-16 09:16:42","like_diff":-4,"likes":1,"dislikes":5,"content":"老师上课还是挺认真的。"},{"id":165262,"teacher_id":212,"teacher_name":"叶兵","post_time":"2022-12-30 14:37:48","like_diff":-7,"likes":0,"dislikes":7,"content":"还可以"},{"id":172549,"teacher_id":212,"teacher_name":"叶兵","post_time":"2023-04-29 11:52:24","like_diff":-7,"likes":0,"dislikes":7,"content":"兵门！"},{"id":172586,"teacher_id":212,"teacher_name":"叶兵","post_time":"2023-05-01 03:24:16","like_diff":-7,"likes":1,"dislikes":8,"content":"老师给分超好的，至少激励理论是一门你只要努力（指16个早八）就有收获的课"},{"id":163262,"teacher_id":212,"teacher_name":"叶兵","post_time":"2022-12-11 12:15:37","like_diff":-8,"likes":1,"dislikes":9,"content":"感觉水平还是可以的"},{"id":172548,"teacher_id":212,"teacher_name":"叶兵","post_time":"2023-04-29 11:52:03","like_diff":-8,"likes":0,"dislikes":8,"content":"激励理论，每节点名，讲课一般，课程不难，给分很好"},{"id":172545,"teacher_id":212,"teacher_name":"叶兵","post_time":"2023-04-30 00:43:38","like_diff":-9,"likes":0,"dislikes":9,"content":"老师其实挺好"},{"id":172546,"teacher_id":212,"teacher_name":"叶兵","post_time":"2023-04-29 11:27:56","like_diff":-10,"likes":1,"dislikes":11,"content":"老师其实挺好的"},{"id":90794,"teacher_id":212,"teacher_name":"叶兵","post_time":"2018-11-26 05:33:50","like_diff":-12,"likes":5,"dislikes":17,"content":"老师好，英语有待加强"},{"id":169311,"teacher_id":212,"teacher_name":"叶兵","post_time":"2023-02-25 10:53:29","like_diff":-12,"likes":0,"dislikes":12,"content":"老师人挺好的，讲课备课很用心"},{"id":172547,"teacher_id":212,"teacher_name":"叶兵","post_time":"2023-04-29 11:27:56","like_diff":-12,"likes":0,"dislikes":12,"content":"老师其实挺好的"},{"id":55938,"teacher_id":212,"teacher_name":"叶兵","post_time":"2017-07-02 16:51:02","like_diff":-18,"likes":2,"dislikes":20,"content":"萌萌的"},{"id":40929,"teacher_id":212,"teacher_name":"叶兵","post_time":"2017-01-19 11:59:05","like_diff":-19,"likes":2,"dislikes":21,"content":"老师人挺好的…不过学好这门课还需要课后努力…"},{"id":50997,"teacher_id":212,"teacher_name":"叶兵","post_time":"2017-05-11 10:17:48","like_diff":-19,"likes":2,"dislikes":21,"content":"挺好的老师"},{"id":66248,"teacher_id":212,"teacher_name":"叶兵","post_time":"2018-01-14 06:08:42","like_diff":-23,"likes":4,"dislikes":27,"content":"老师超棒的"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

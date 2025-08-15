@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>郦菁 - 公共管理学院 - 浙大教评</title>
+    <meta name="description" content="郦菁教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="郦菁,公共管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">郦菁</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">公共管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.64</div>
+                    <div class="rating-participants">37人参与评分</div>
+                    <div class="attendance-info">29.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (6 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">历史社会学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.38</span>
+                            <span class="students">选课: 180人</span>
+                            <span class="std-dev">标准差: 0.54</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">学年论文</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.33</span>
+                            <span class="students">选课: 28人</span>
+                            <span class="std-dev">标准差: 0.44</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会学入门（H）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.40</span>
+                            <span class="students">选课: 215人</span>
+                            <span class="std-dev">标准差: 0.41</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会实践</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.13</span>
+                            <span class="students">选课: 27人</span>
+                            <span class="std-dev">标准差: 0.74</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会访谈</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.77</span>
+                            <span class="students">选课: 30人</span>
+                            <span class="std-dev">标准差: 0.74</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会调查</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.81</span>
+                            <span class="students">选课: 26人</span>
+                            <span class="std-dev">标准差: 0.62</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (30 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":122469,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2020-02-29 03:30:35","like_diff":25,"likes":30,"dislikes":5,"content":"啊啊啊终于有郦菁了，十分冲！\n\n也是上的社会学入门H，老师的教学大纲非常清晰并且会有序执行，讲课慢条斯理，说话温柔，只和郦菁老师待一起就简直是神仙般享受了~除了一次非常困睡着了（忏悔脸）以及有事翘了一节课，其他基本每节课都认真听。\n\n关于课程内容：1.平常要阅读的文献还蛮多的，不过你没读也没人发现哈哈哈哈，当然读了也不亏呀知识长在自己脑袋里 2.有三篇3k字左右论文，最后写出来总共一w多，虽然很脱发，但是收获颇丰~ 3.一次小组展示，根据不同的影视书籍作品进行展示分析。\n\n给分应该是很不错的，有社会学大佬A+满绩（非常想知道自己哪里做的不好才只有A 5555）\n\n助教哥哥zy也非常好~论文给的评语看得出来很走心，平常也可以去问他问题。上这门课简直幸福感爆棚！于是打算辅修社会学辽（好的光荣掉码）\n\n最后，我爱郦菁！！！"},{"id":208569,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2024-12-29 13:51:44","like_diff":21,"likes":21,"dislikes":0,"content":"老师不要走啊！\n\n蠹僵疯，引咎辞职！弹劾史上最差校长蠹僵疯！！！！"},{"id":208279,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2024-12-26 12:54:36","like_diff":20,"likes":21,"dislikes":1,"content":"听到了一些传闻。不论怎么说，学校放弃了lj老师，绝对是学校和后来学生的大损失。学生难道会不需要这样会讲课、循循善诱的老师吗？只看科研留人的话，谈何大学教育？当然，lj老师的科研能力有目共睹，只是感叹风云变幻、时运不济。"},{"id":122150,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2020-02-17 11:05:03","like_diff":12,"likes":13,"dislikes":1,"content":"大一上学期选修了老师社会学入门，真的是一门收获颇丰的课。虽然文献阅读略微有些多，但绝对能收获关于社会学的初步知识。老师上课是非常有趣的，绝对不会无聊到睡过去，前提是认真地阅读了老师课前布置的文献。老师也是个很喜欢亲近学生的人，每次下课后都会非常耐心地答疑解惑，有时候甚至8点下课老师可以留到9点多。印象中也从来没有点过名…来不来纯属自愿，不来亏的只有自己。"},{"id":208712,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2024-12-31 08:50:26","like_diff":11,"likes":13,"dislikes":2,"content":"赵鼎新3月“卸任”后，赵和他重用的老师们将会逐步“淡出”社会学系，郦菁也在2024年的12月29日上完了她在浙大的最后一课。当然这可能只是个开始，赵担任社会学系期间引进的老师，可能大多都要和浙大告别。"},{"id":208609,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2024-12-30 05:21:37","like_diff":10,"likes":10,"dislikes":0,"content":"跨专业选上了郦菁老师的历史社会学，顶级好课、完美老师，但可惜今后或许再也听不到这样的课了"},{"id":208699,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2024-12-31 05:46:04","like_diff":9,"likes":9,"dislikes":0,"content":"lj妈妈永远满分"},{"id":133290,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2021-02-23 13:06:21","like_diff":8,"likes":8,"dislikes":0,"content":"不点名，给分好。老师特别温柔知性。工作量略大，对社会学小白可能略有些不友好。高赞回答夸得对！"},{"id":210138,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2025-01-10 08:39:09","like_diff":7,"likes":12,"dislikes":5,"content":"起初我们以为这是一场普通的非升即走，后来却发现这是浙大人文社科衰败的开始。"},{"id":161610,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2022-11-09 11:47:19","like_diff":6,"likes":6,"dislikes":0,"content":"绩点已经无关紧要了，郦菁教授是我目前最钦佩的人文科学学者，没有之一。上她的社会学入门（H）可以得到新的视角和教益。一定要选，选了血赚。"},{"id":214247,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2025-02-20 00:47:57","like_diff":6,"likes":7,"dislikes":1,"content":"浙大社科的教育部最高科研成果奖，ssci ，国际化一流人才引进早就超过南京大学了，很多人刻板印象罢了。只能说吴朝晖确实牛，杜江峰确实烂\n\n杜走了，希望学校返聘郦老师"},{"id":133668,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2021-03-03 11:41:25","like_diff":5,"likes":5,"dislikes":0,"content":"赞美的话不多说，10分！"},{"id":150416,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2022-01-25 02:13:02","like_diff":5,"likes":5,"dislikes":0,"content":"好的很"},{"id":153296,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2022-04-27 22:11:45","like_diff":4,"likes":6,"dislikes":2,"content":"老师好"},{"id":168130,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2023-01-29 14:46:45","like_diff":4,"likes":6,"dislikes":2,"content":"社会学入门（H）\n\n郦老师非常有意思，上课非常敢讲（偶尔说完之后我都会心想这是能说的吗），同时老师也很有知识，对社会学感兴趣的话可以听的很开心很有收获。\n\n分数的话是平时10%+论文3*30%，老师开始上课时会列出课程计划，基本按照计划进行，每个论文在什么时间布置都会提前说而且留的时间也会照顾我们。论文每篇字数3k左右，给分很好的，基本写出自己的思路想法都可以有不错的分数，如果高中纯理科也不用怕，指定的书感兴趣可以看（真来不及看也可以挑着看）\n\n平时分的话计算方法个人猜测是所有人10分，如果平时有发言额外加上1到2分，这个加分老师会在群里面问，平时有发言的同学自己去私聊老师，由于我没发言这项是没加分的算了一下给了10分应该是默认10分，发言附加。\n\n老师下课了一般会留一段时间，有问题想讨论的同学可以自由去问（不得不说有很多同学是发自兴趣去问而不是为了分数，非常好的课堂氛围，负责的老师）这次我们结课了，老师在群里还补充了最后一次作业做的好的文章，语音分析了布置的题目，可以说是非常负责的。\n\n总结：对社会学有兴趣，直接选！\n\n兴趣一般，愿意认真写三篇文章，直接选！\n\n给分很好的，如果想要满的话平时可以发发言期末申请附加，论文可以清晰点（本人前两篇都是直接长篇大论没有分几块，但给分也不错）和内容丰富一点。"},{"id":208655,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2024-12-30 13:07:19","like_diff":4,"likes":4,"dislikes":0,"content":"上课再好，走了之后就会被遗忘"},{"id":151592,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2022-03-08 13:46:13","like_diff":3,"likes":3,"dislikes":0,"content":"郦老师会很用心的回答你的问题！\n\n除了社会学入门，我也强烈建议去听一听她的讲座，多和老师交流！"},{"id":145154,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2021-12-28 01:44:38","like_diff":2,"likes":2,"dislikes":0,"content":"好老师，讲课有意思"},{"id":150420,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2022-01-25 03:46:31","like_diff":2,"likes":2,"dislikes":0,"content":"老师讲的好，给分好"},{"id":161062,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2022-10-25 10:36:25","like_diff":2,"likes":2,"dislikes":0,"content":"好好好，超有意思的老师，温柔善良，观点独特，真的让我在各种课里死去的大脑复活了"},{"id":162609,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2022-11-28 15:20:58","like_diff":2,"likes":3,"dislikes":1,"content":"我的人生楷模…希望未来能成为像老师一样的人"},{"id":170270,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2023-03-02 11:12:02","like_diff":2,"likes":3,"dislikes":1,"content":"社会学入门（h），是大一上过的通识课里最值得的一门。\n\n培养对社会学和经济学的兴趣就不用说，上课让我感受到了一位人文社科的学者应该有什么样的素养：客观，理性，求是。当然给分很好（如果认真写论文的话）。写邮件给老师老师也会很认真回答，下课后往往答疑很久。写论文更像是自主学习的过程而非简单地完成作业。\n\n总之是给我了一个从未有过的科学的角度看待整个社会和其中的一些现象与问题，一言以蔽之就是还没上够。\n\n\n\n又，谢谢助教老师，您对我第一篇论文的评语真正教会了我如何写一篇专业的论文"},{"id":208582,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2024-12-29 16:08:12","like_diff":2,"likes":3,"dislikes":1,"content":"有没有人能讲一下整个经过呀？大一新来的完全不知道发生了什么www"},{"id":142906,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2021-11-17 09:05:38","like_diff":1,"likes":1,"dislikes":0,"content":"迟到好久的评论。话不多说，我好爱她！！"},{"id":165146,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2022-12-29 10:22:35","like_diff":1,"likes":2,"dislikes":1,"content":"全宇宙最完美的老师"},{"id":168131,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2023-01-29 15:21:26","like_diff":0,"likes":1,"dislikes":1,"content":"社会学入门h，10分满上\n\n深入浅出，很有意思，给分好"},{"id":168132,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2023-01-29 15:21:50","like_diff":0,"likes":0,"dislikes":0,"content":"打分很nice，会收获社会学的想象力"},{"id":169613,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2023-02-27 06:23:22","like_diff":0,"likes":1,"dislikes":1,"content":"很不错的老师"},{"id":169679,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2023-02-27 10:44:50","like_diff":0,"likes":1,"dislikes":1,"content":"超级棒的老师！巨捞，社会学入门的神！"},{"id":160403,"teacher_id":5779,"teacher_name":"郦菁","post_time":"2022-09-21 11:19:26","like_diff":-68,"likes":6,"dislikes":74,"content":"讲的挺好，但是怎么打拳啊，说选美都是男性凝视，符合男性审美，性别对立言论一套一套的，这拳法我猝不及防"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

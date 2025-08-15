@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>斯科 - 光电科学与工程学院 - 浙大教评</title>
+    <meta name="description" content="斯科教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="斯科,光电科学与工程学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">斯科</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">光电科学与工程学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.01</div>
+                    <div class="rating-participants">80人参与评分</div>
+                    <div class="attendance-info">37.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (5 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">光基科技与人类文明</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.11</span>
+                            <span class="students">选课: 178人</span>
+                            <span class="std-dev">标准差: 0.52</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">双脑与心理健康</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.58</span>
+                            <span class="students">选课: 107人</span>
+                            <span class="std-dev">标准差: 0.80</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">文献综述与科技写作</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.27</span>
+                            <span class="students">选课: 126人</span>
+                            <span class="std-dev">标准差: 0.48</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">细胞机器学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.45</span>
+                            <span class="students">选课: 12人</span>
+                            <span class="std-dev">标准差: 0.45</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">脑与脑机融合</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.29</span>
+                            <span class="students">选课: 69人</span>
+                            <span class="std-dev">标准差: 0.69</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (67 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":103979,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-03-08 07:39:57","like_diff":21,"likes":32,"dislikes":11,"content":"道不同"},{"id":103968,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-04-25 06:23:01","like_diff":20,"likes":25,"dislikes":5,"content":"仁者见仁"},{"id":112866,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-07-05 07:02:06","like_diff":17,"likes":20,"dislikes":3,"content":"感觉通核的作业实在太多了，每二周都要交讨论报告"},{"id":150002,"teacher_id":3477,"teacher_name":"斯科","post_time":"2022-01-18 09:10:16","like_diff":16,"likes":27,"dislikes":11,"content":"研究生一年放10天，日薪10元，真有你的"},{"id":112870,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-07-11 02:57:15","like_diff":14,"likes":17,"dislikes":3,"content":"本来在课程网站上分数给的好好的 输入教务网说修改就修改了 刚好降了一分分被卡绩了 非常难受 这0.3的差距让我感觉这个学期的讨论报告都白写了 建议大家千万别选这门通识核心"},{"id":104947,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-03-31 23:57:23","like_diff":13,"likes":15,"dislikes":2,"content":"emmm，各需所长吧"},{"id":112865,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-07-05 07:00:41","like_diff":13,"likes":15,"dislikes":2,"content":"个人不太喜欢讲课风格"},{"id":114555,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-07-10 15:42:01","like_diff":13,"likes":16,"dislikes":3,"content":"这课满不了，慎选"},{"id":114722,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-07-11 06:21:36","like_diff":13,"likes":15,"dislikes":2,"content":"怎么说呢，老师还是很强的，虽然不是很喜欢这种风格的...最后的给分嘛...只能说我还是比较不满意吧，这是我上的最认真的一门通识课，花在上面的时间都快赶上微积分，结果最后确是上过所有通识课中绩点最低的...可能还是期末考没考好吧...感觉光基课给我带来的最大收获应该就是会自己去检索很多新知识，试着去理解一些前沿的东西，然后写成报告和讲稿，看了看一学期下来这么多的报告，多少还有点成就感吧?"},{"id":114905,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-07-12 16:35:35","like_diff":12,"likes":13,"dislikes":1,"content":"最后输入分数的时候以正态为由给所有人都扣了一分，本来很多人都是压线的，但是最后被卡绩了。但是正态只要处理80以下与90以上就可以了，结果他无缘无故的无脑全部降低，有点和我们过不去的感觉。btw，这个课作业多的要死，浪费了我很多时间，但是最后大部分只是在生产学术垃圾。总结：事情多，给分差！！！"},{"id":115957,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-08-27 03:10:45","like_diff":10,"likes":12,"dislikes":2,"content":"确实，给分差，事情多，上课很多一部分是在吹牛"},{"id":20691,"teacher_id":3477,"teacher_name":"斯科","post_time":"2016-01-30 01:11:50","like_diff":8,"likes":24,"dislikes":16,"content":"光基科技的通识课逼格果然不一样"},{"id":114518,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-07-10 09:35:41","like_diff":8,"likes":11,"dislikes":3,"content":"人很好，最后被正太。给分不咋的，光基课慎选"},{"id":151755,"teacher_id":3477,"teacher_name":"斯科","post_time":"2022-03-14 15:57:01","like_diff":8,"likes":10,"dislikes":2,"content":"珍妮玛丽普，不针对这个老师，针对文献综述这门🐶课，1分走起"},{"id":115688,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-08-18 13:31:27","like_diff":7,"likes":8,"dislikes":1,"content":"不好，上课感觉沒有实质内容，太空泛"},{"id":119817,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-11-16 02:47:34","like_diff":6,"likes":8,"dislikes":2,"content":"老师的学术我不知道，但真的不适合上课"},{"id":143919,"teacher_id":3477,"teacher_name":"斯科","post_time":"2021-12-12 18:25:09","like_diff":6,"likes":8,"dislikes":2,"content":"凌晨一点十五发邮件，凌晨一点四十二回复\n\n感恩老师！"},{"id":115877,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-08-23 02:26:58","like_diff":5,"likes":6,"dislikes":1,"content":"一个通识核心那么多作业，比其它5学分的大专业课都多，而且全是无用功，最后分也不咋地，血坑"},{"id":107189,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-07-07 07:36:51","like_diff":4,"likes":15,"dislikes":11,"content":"垃圾  没话讲  只会装逼"},{"id":154246,"teacher_id":3477,"teacher_name":"斯科","post_time":"2022-05-27 03:18:39","like_diff":4,"likes":5,"dislikes":1,"content":"爱装b，anyway，给分还行"},{"id":30678,"teacher_id":3477,"teacher_name":"斯科","post_time":"2016-07-02 07:48:34","like_diff":3,"likes":23,"dislikes":20,"content":"老师学术成就很高，既是光电学院的教授有是医学院的教授，他导师的导师一直推上去就推到牛顿了！！人也很好，很负责，上课也很有趣"},{"id":77040,"teacher_id":3477,"teacher_name":"斯科","post_time":"2018-04-29 04:13:28","like_diff":3,"likes":16,"dislikes":13,"content":"很喜欢很喜欢斯科老师 虽然作业很难 又有些麻烦 但真的从老师那学到了不少东西 最后还要到了和老师的合照 耶"},{"id":125591,"teacher_id":3477,"teacher_name":"斯科","post_time":"2020-09-12 03:07:18","like_diff":3,"likes":5,"dislikes":2,"content":"光基科技这课说实话不知所云，知识体系混乱，考试写小故事更是离谱，最离谱的是，斯老师还说如果最后成绩好可以找他写推荐信。很好奇这一通识课可以推荐出什么：写小故事的本领？鹅颈展示的本领？吹逼牛顿是祖师爷的本领？"},{"id":26092,"teacher_id":3477,"teacher_name":"斯科","post_time":"2016-06-15 15:45:49","like_diff":2,"likes":12,"dislikes":10,"content":"老师学术水平很高，人也很好，不是很懂一个汉子居然会给我一种萌萌哒的感觉，反反正上了他的光基通识就膝盖献上了"},{"id":103211,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-03-27 23:32:45","like_diff":2,"likes":14,"dislikes":12,"content":"————"},{"id":112919,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-07-05 10:52:43","like_diff":2,"likes":8,"dislikes":6,"content":"skrskr"},{"id":118862,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-11-07 06:07:35","like_diff":2,"likes":4,"dislikes":2,"content":"就算最后导致我们几乎所有人被1分卡绩的是助教，责任也是在任课老师，这样的事情为什么可以随便交给助教，给分的波动为什么可以这么随意？！！"},{"id":134921,"teacher_id":3477,"teacher_name":"斯科","post_time":"2021-04-22 12:05:35","like_diff":1,"likes":1,"dislikes":0,"content":"总干没用的"},{"id":135458,"teacher_id":3477,"teacher_name":"斯科","post_time":"2021-05-11 03:14:13","like_diff":1,"likes":1,"dislikes":0,"content":"出分好慢……先给个10分求高分"},{"id":144209,"teacher_id":3477,"teacher_name":"斯科","post_time":"2021-12-20 12:44:04","like_diff":1,"likes":1,"dislikes":0,"content":"很好，就是喜欢问问题"},{"id":151328,"teacher_id":3477,"teacher_name":"斯科","post_time":"2022-02-28 13:46:52","like_diff":1,"likes":2,"dislikes":1,"content":"光基通核事贼多，快跑！不要信别人说的什么这个课很好之类的话。事实就是这门课就是一门事很多，上课很卷的课！"},{"id":183899,"teacher_id":3477,"teacher_name":"斯科","post_time":"2023-12-03 07:13:16","like_diff":1,"likes":2,"dislikes":1,"content":"上的老师的双脑心理与健康\n\n绩杀3.3\n\n别报这门课，纯纯绩杀"},{"id":198894,"teacher_id":3477,"teacher_name":"斯科","post_time":"2024-09-12 13:46:37","like_diff":1,"likes":1,"dislikes":0,"content":"刚上完课火速前来为老师应援！其实我选双脑的课是因为教务系统把我想上的课掉得光光的…选课时查老师感觉评价不高还非常心塞来着，但是今天上课真的有听爽到！需要承认对于通识课来说，本课的课程知识容量大 专业性较强（大概是我比较菜啊啊每张PPT上的字都长成我看不懂的样子）但老师会举例并细致讲解，语言也生动幽默，跟上讲课步伐完全不成问题！感谢sk 让我打破晚课永远想睡的魔咒🫡 当然对于给分问题目前还不清楚，反正老师讲得很好（算是一些还没被绩杀的开朗吧👍🏼"},{"id":218091,"teacher_id":3477,"teacher_name":"斯科","post_time":"2025-04-21 01:25:26","like_diff":1,"likes":1,"dislikes":0,"content":"虽然文献综述是逆天💩课，但是老师还是很好的，给分也不错，我们小组做pre也没有大费周章，最后4.5"},{"id":38959,"teacher_id":3477,"teacher_name":"斯科","post_time":"2017-04-26 13:33:26","like_diff":0,"likes":11,"dislikes":11,"content":"诶呦，不错哦"},{"id":76826,"teacher_id":3477,"teacher_name":"斯科","post_time":"2018-04-24 08:01:10","like_diff":0,"likes":13,"dislikes":13,"content":"值得尊敬的好老师！！！优秀的科研工作者！！！中国需要的脊梁！！"},{"id":78931,"teacher_id":3477,"teacher_name":"斯科","post_time":"2018-05-17 04:42:25","like_diff":0,"likes":12,"dislikes":12,"content":"隔壁班的羡慕你们，金毅的课太水了，很无聊"},{"id":119821,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-11-16 02:53:41","like_diff":0,"likes":3,"dislikes":3,"content":"垃圾通核，毁我人生"},{"id":126358,"teacher_id":3477,"teacher_name":"斯科","post_time":"2020-09-23 15:02:58","like_diff":0,"likes":1,"dislikes":1,"content":"都给我上课发言.jpg。（）"},{"id":134464,"teacher_id":3477,"teacher_name":"斯科","post_time":"2021-04-22 07:51:31","like_diff":0,"likes":3,"dislikes":3,"content":"二逼一个"},{"id":151347,"teacher_id":3477,"teacher_name":"斯科","post_time":"2022-03-01 03:24:42","like_diff":0,"likes":1,"dislikes":1,"content":"不下课 还拖堂 学生叫苦不迭。讲课条理性和逻辑性问题很大 听不大懂。"},{"id":171260,"teacher_id":3477,"teacher_name":"斯科","post_time":"2023-03-20 06:57:21","like_diff":0,"likes":2,"dislikes":2,"content":"＊＊通核，事多分少，毫无东西"},{"id":192455,"teacher_id":3477,"teacher_name":"斯科","post_time":"2024-05-20 12:01:12","like_diff":0,"likes":2,"dislikes":2,"content":"针对文献综述这个傻逼课"},{"id":39014,"teacher_id":3477,"teacher_name":"斯科","post_time":"2016-12-24 02:24:30","like_diff":-1,"likes":14,"dislikes":15,"content":"anyway，这个老师真的很好，浙大最年轻的正教授，诺贝尔奖的邻座同事，学术方面不用说了。上课交流的时候也超级风趣，气氛很轻松的，人也超级好!男神候选之一!"},{"id":50006,"teacher_id":3477,"teacher_name":"斯科","post_time":"2017-04-28 11:30:59","like_diff":-1,"likes":12,"dislikes":13,"content":"真的很特别的老师，第一节课会让大家自我介绍，会给我们科普很多知识，总是用鼓励欣赏的眼神肯定你，anyway，如此优秀的萌萌的老师，绝对男神！"},{"id":77180,"teacher_id":3477,"teacher_name":"斯科","post_time":"2018-05-03 11:06:36","like_diff":-1,"likes":10,"dislikes":11,"content":"超级棒的老师，学了这门课收获很多，必将受益终身，老师也是一位十分敬业的人。"},{"id":47793,"teacher_id":3477,"teacher_name":"斯科","post_time":"2017-02-25 04:02:08","like_diff":-2,"likes":9,"dislikes":11,"content":"功力不浅，上课不沉"},{"id":79044,"teacher_id":3477,"teacher_name":"斯科","post_time":"2018-05-21 10:29:37","like_diff":-2,"likes":10,"dislikes":12,"content":"风趣幽默，功底很深。Anyway，是个非常优秀的老师。课程的负担可能会有点重，不过属于够一够就能够到的难度。一定会有收获的。"},{"id":39810,"teacher_id":3477,"teacher_name":"斯科","post_time":"2016-12-28 01:08:35","like_diff":-4,"likes":7,"dislikes":11,"content":"水平很高 人很好"},{"id":47436,"teacher_id":3477,"teacher_name":"斯科","post_time":"2017-01-26 10:41:46","like_diff":-4,"likes":7,"dislikes":11,"content":"超赞呐\n\n"},{"id":47925,"teacher_id":3477,"teacher_name":"斯科","post_time":"2017-02-27 10:17:52","like_diff":-4,"likes":6,"dislikes":10,"content":"老师很有内涵，学术水平很高，讲课非常好听，反正我是一下都没水手机。"},{"id":49842,"teacher_id":3477,"teacher_name":"斯科","post_time":"2017-04-26 12:43:39","like_diff":-4,"likes":6,"dislikes":10,"content":"老师以鼓励为主，真的很有耐心见识也广，真正给我们开拓国际意识，谢谢斯科老师在我第一门专业课上的鼓励。"},{"id":103017,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-02-25 11:43:16","like_diff":-4,"likes":30,"dislikes":34,"content":"对不起，我给一分，您在第一节课上让我们报高考成绩，您毁了我一天的心情，有些事情是所有人一辈子都不想回忆的，但是永远都不会忘记。"},{"id":112860,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-07-05 06:48:58","like_diff":-6,"likes":4,"dislikes":10,"content":"one step more"},{"id":104350,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-03-18 11:34:56","like_diff":-7,"likes":4,"dislikes":11,"content":"很硬核"},{"id":104841,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-03-28 15:09:46","like_diff":-7,"likes":5,"dislikes":12,"content":"爽，听斯科装一波究极B"},{"id":105675,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-04-18 08:16:47","like_diff":-7,"likes":4,"dislikes":11,"content":"啊斯科男神tql。讲得不错，课挺硬核，作业挺多，人真很好！自己去调研一个东西确实挺有趣的。看看自己的Endnote满满的文献，就感觉这个春学期过得很充实。。。"},{"id":106207,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-04-25 14:02:37","like_diff":-7,"likes":3,"dislikes":10,"content":"比较硬核，作业也挺多，不过光基文明是通核。anyway，老师很好。"},{"id":80458,"teacher_id":3477,"teacher_name":"斯科","post_time":"2018-06-27 00:12:08","like_diff":-8,"likes":7,"dislikes":15,"content":"颓废消极拯救者，坚决与自我放弃斗争到底，感谢老师振奋了我的春学期。"},{"id":112858,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-07-05 06:43:57","like_diff":-8,"likes":2,"dislikes":10,"content":"课程有点难 但是认真完成任务最后给分不错呀 还是有所收获的 讨论课的组员们都很可爱(*˘︶˘*).。.:*♡"},{"id":95063,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-01-18 15:51:03","like_diff":-9,"likes":2,"dislikes":11,"content":"anyway老师真的很厉害！上课有趣讲了很多例子（逼格超高233）"},{"id":104934,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-03-31 12:03:36","like_diff":-9,"likes":1,"dislikes":10,"content":"课上的很好，很负责"},{"id":106135,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-04-25 06:29:13","like_diff":-10,"likes":2,"dislikes":12,"content":"超好的老师"},{"id":112889,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-07-05 08:57:07","like_diff":-10,"likes":3,"dislikes":13,"content":"给分很好，课很充实"},{"id":45780,"teacher_id":3477,"teacher_name":"斯科","post_time":"2017-01-20 05:21:26","like_diff":-12,"likes":6,"dislikes":18,"content":"老师很帅"},{"id":114393,"teacher_id":3477,"teacher_name":"斯科","post_time":"2019-07-10 00:40:48","like_diff":-12,"likes":4,"dislikes":16,"content":"呢个说最后分数降了0.3了的，我劝你善良，这和斯科老师没关系好吗？是助教改的。斯科老师人呢么好你来这里说真的好吗？"},{"id":89160,"teacher_id":3477,"teacher_name":"斯科","post_time":"2018-11-16 06:17:38","like_diff":-14,"likes":10,"dislikes":24,"content":"anyway，这是一位自己是大神并且鼓励和鞭策学生成为大神的老师。“比你牛逼的人比你更努力”斯老师的话仍然绕在耳边。作为斯老师的学生，实在是件有意思的事。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

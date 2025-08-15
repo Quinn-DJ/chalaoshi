@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>牟绿叶 - 光华法学院 - 浙大教评</title>
+    <meta name="description" content="牟绿叶教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="牟绿叶,光华法学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">牟绿叶</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">光华法学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.76</div>
+                    <div class="rating-participants">59人参与评分</div>
+                    <div class="attendance-info">17.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (4 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">刑事诉讼法</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.16</span>
+                            <span class="students">选课: 350人</span>
+                            <span class="std-dev">标准差: 0.76</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">在线法庭</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.11</span>
+                            <span class="students">选课: 254人</span>
+                            <span class="std-dev">标准差: 0.58</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">比较刑事司法</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.77</span>
+                            <span class="students">选课: 118人</span>
+                            <span class="std-dev">标准差: 0.37</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">证据法学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.42</span>
+                            <span class="students">选课: 94人</span>
+                            <span class="std-dev">标准差: 0.64</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (45 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":127872,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2020-11-29 12:53:48","like_diff":37,"likes":42,"dislikes":5,"content":"老师真的好帅啊，声音好好听"},{"id":155642,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2022-06-15 02:51:43","like_diff":27,"likes":27,"dislikes":0,"content":"晚上要考了，现在来有感而发。\n\n绿叶真的好温柔又强大，和老师交流如沐春风，细小琐碎的刑诉知识也就好像春风化雨般流入心中（虽然不知道我记住了多少orz。\n\n我觉得法学院的老师很多都有很明显的自己的气质，人如其名，绿叶就像南方小城的春风，谷神就像巍峨厚重的高山深谷，周院（和他的PPT）则像大海一样宽广慈悲（多）……不论成绩如何，非常感谢这一路有这么多可爱的老师们陪我们走来，希望大家都生活愉快，一切顺利。"},{"id":131217,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2021-01-26 14:32:08","like_diff":18,"likes":18,"dislikes":0,"content":"点名提前会告知\n\n讲课很好\n\n老师真的很帅\n\n超温柔！"},{"id":173311,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2023-05-18 09:01:00","like_diff":18,"likes":18,"dislikes":0,"content":"老师好\n\n我好爱\n\n想嫁\n\n我是男生\n\n上课好\n\n温柔\n\n给分好"},{"id":134747,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2021-04-13 07:57:14","like_diff":13,"likes":13,"dislikes":0,"content":"我特别讨厌刑诉，但是我爱牟绿叶😭"},{"id":216346,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2025-03-14 01:03:07","like_diff":13,"likes":15,"dislikes":2,"content":"不知道是老师要鼓励恶竞还是比刑的课上有些人已经疯了呢（笑）"},{"id":158596,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2022-06-30 13:36:51","like_diff":11,"likes":11,"dislikes":0,"content":"绿叶就是男菩萨！！！！！想嫁！！！！！"},{"id":216370,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2025-03-14 12:55:03","like_diff":11,"likes":13,"dislikes":2,"content":"牟老师有学识也很善良，但有些人是不是滥用了老师的善良，视规则于无物，破坏良好的课程交流与竞争环境呢～"},{"id":134830,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2021-04-17 11:31:22","like_diff":10,"likes":10,"dislikes":0,"content":"又帅又温柔给分又好，老师学术能力还特别强，简直yyds，我是永远的叶绿素！"},{"id":174236,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2023-06-08 05:13:45","like_diff":9,"likes":9,"dislikes":0,"content":"好喜欢绿叶，人的一生就是反复爱上绿叶的一生"},{"id":132149,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2021-01-30 14:01:41","like_diff":7,"likes":8,"dislikes":1,"content":"本科最喜欢的老师！没有之一"},{"id":133186,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2021-02-15 06:28:14","like_diff":7,"likes":7,"dislikes":0,"content":"特别好"},{"id":135893,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2021-06-01 07:35:35","like_diff":7,"likes":7,"dislikes":0,"content":"好想嫁"},{"id":158606,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2022-06-30 15:46:48","like_diff":7,"likes":7,"dislikes":0,"content":"男菩萨！！\n\n讲课真的讲得很好，课件做的也很好\n\n辅修线上班。因为没法点名就写了500－800的小论文当做30％平时成绩。\n\n复习的时候按照重点使劲背，因为涉及到程序就自己顺了好几遍\n\n期末考试个人觉得难，考完感觉天塌地陷，生怕挂科\n\n看到成绩之后只想大喊，牟老师，你是我的神"},{"id":135021,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2021-04-27 08:22:22","like_diff":5,"likes":5,"dislikes":0,"content":"想嫁(*/ω＼*)"},{"id":135065,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2021-04-28 15:35:57","like_diff":5,"likes":5,"dislikes":0,"content":"爱老师"},{"id":138065,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2021-07-07 08:40:52","like_diff":5,"likes":5,"dislikes":0,"content":"老师好帅，我好爱，想嫁（我是男生也想）上课好，温柔，给分好"},{"id":134537,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2021-04-01 00:58:39","like_diff":4,"likes":4,"dislikes":0,"content":"男神！"},{"id":155090,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2022-06-08 07:04:27","like_diff":4,"likes":4,"dislikes":0,"content":"在被期末摧残的时候特别怀念春学期的刑诉课，来给牟老师评个分。不得不说，上牟老师的刑诉课是种享受，讲课方式是春风化雨般的，讲课内容也很丰富。性格也非常nice~虽然脸盲的我经常把老师跟一个博士师兄认错，但也可能说明牟老师心态好，显年轻~打满分~~"},{"id":155426,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2022-06-12 14:20:27","like_diff":4,"likes":4,"dislikes":0,"content":"法学院最好最好的人之一！！"},{"id":177946,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2023-07-05 16:33:15","like_diff":4,"likes":5,"dislikes":1,"content":"好老师快选"},{"id":217465,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2025-04-11 00:40:58","like_diff":4,"likes":4,"dislikes":0,"content":"老师真的人很好很善良很温柔很温良很有学识也很谦虚TTTTTTTTTTTTTT我要哭了哦不他真的是很好的老师TTTTT虽然还没有出分但是还是来怒打满分TTTTT老师真的很好呜呜呜呜呜呜特别善良的一位特别和颜悦色特别善解人意.....老师人好到因为有事没去一节课会特别愧疚啊啊啊啊啊.... 最后一节课老师还给发了巧克力....绿叶酱我们真的要爱你一辈子了TTTTT"},{"id":134219,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2021-03-19 14:26:13","like_diff":3,"likes":3,"dislikes":0,"content":"好喜欢老师o(^o^)o"},{"id":134649,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2021-04-07 13:40:45","like_diff":3,"likes":3,"dislikes":0,"content":"不错！好温柔的老师！讲的也清楚！"},{"id":145447,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2021-12-29 15:45:07","like_diff":3,"likes":3,"dislikes":0,"content":"我宣布绿叶是我男神，谁支持谁反对"},{"id":151126,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2022-02-23 09:13:27","like_diff":3,"likes":4,"dislikes":1,"content":"讲的太好了 输出量很大 知识渊博 真的爱了"},{"id":158608,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2022-06-30 15:52:20","like_diff":3,"likes":3,"dislikes":0,"content":"我爱绿叶老师！！！讲课特别清楚、强调重点、助力复习，好好学给分都超好的！完完全全的付出多少就能得到多少的刑诉！"},{"id":171915,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2023-04-12 12:24:01","like_diff":3,"likes":3,"dislikes":0,"content":"特别特别有人格魅力的一个老师"},{"id":139483,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2021-07-16 10:56:19","like_diff":2,"likes":2,"dislikes":0,"content":"期末好好背一定能高分的"},{"id":142246,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2021-11-09 08:33:57","like_diff":2,"likes":2,"dislikes":0,"content":"这还不10吗"},{"id":172508,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2023-04-28 06:17:26","like_diff":2,"likes":2,"dislikes":0,"content":"牟老师温文尔雅，讲课的难度深度也很会从学生们的角度出发，毕设开题也有幸受到绿叶老师的悉心指导，非常喜欢他！"},{"id":217305,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2025-04-08 06:24:59","like_diff":2,"likes":2,"dislikes":0,"content":"re楼下 比刑发生什么了"},{"id":139885,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2021-08-09 07:00:27","like_diff":1,"likes":1,"dislikes":0,"content":"好喜欢😭😭😭😭😭😭😭"},{"id":154282,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2022-05-28 08:06:17","like_diff":1,"likes":1,"dislikes":0,"content":"老师真的太好了😿 ，上他的课就是很有收获，事儿也少，人也温柔"},{"id":155911,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2022-06-16 13:48:42","like_diff":1,"likes":1,"dislikes":0,"content":"完美老师"},{"id":170374,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2023-03-03 08:16:34","like_diff":1,"likes":1,"dislikes":0,"content":"超喜欢牟老师！！"},{"id":171198,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2023-03-18 05:41:33","like_diff":1,"likes":1,"dislikes":0,"content":"不多说"},{"id":175720,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2023-06-26 10:06:35","like_diff":1,"likes":2,"dislikes":1,"content":"老师人超好～"},{"id":216438,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2025-03-16 13:25:03","like_diff":1,"likes":5,"dislikes":4,"content":"我觉得老师您开学自己制定的规则，就要贯彻落实，如果有人破坏规则，至少制止一下吧？"},{"id":139467,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2021-07-16 08:14:43","like_diff":0,"likes":1,"dislikes":1,"content":"吹爆绿叶大帅哥！！！！！"},{"id":139879,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2021-08-07 15:51:44","like_diff":0,"likes":1,"dislikes":1,"content":"牟老师太棒了，羽毛球也打得超级好！"},{"id":150642,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2022-02-08 01:58:20","like_diff":0,"likes":1,"dislikes":1,"content":"班主任!特别喜欢的老师!完美"},{"id":152062,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2022-03-24 11:35:40","like_diff":0,"likes":1,"dislikes":1,"content":"喜欢！"},{"id":172263,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2023-04-24 03:19:07","like_diff":0,"likes":0,"dislikes":0,"content":"好老师！！！"},{"id":159140,"teacher_id":5887,"teacher_name":"牟绿叶","post_time":"2022-07-06 16:12:47","like_diff":-60,"likes":13,"dislikes":73,"content":"给分高就一顿吹捧，这舔分的模样真难看啊。一心只想要个好绩点，给高绩点就是你爸爸了啊"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

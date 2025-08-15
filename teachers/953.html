@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>朱茶芬 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="朱茶芬教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="朱茶芬,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">朱茶芬</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">6.49</div>
+                    <div class="rating-participants">74人参与评分</div>
+                    <div class="attendance-info">33.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">会计学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.86</span>
+                            <span class="students">选课: 90人</span>
+                            <span class="std-dev">标准差: 0.86</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">智能财务共享</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.21</span>
+                            <span class="students">选课: 23人</span>
+                            <span class="std-dev">标准差: 0.57</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">管理会计</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.17</span>
+                            <span class="students">选课: 404人</span>
+                            <span class="std-dev">标准差: 0.82</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (62 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":192082,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2024-05-09 03:00:58","like_diff":28,"likes":29,"dislikes":1,"content":"emmmmm\n\n真的有认真听完每一节课，做笔记，复习\n\n就是说给分实在一言难尽，期末九十几，最终分就八十几🙃作业也都将近满了，考勤也都签了，咱也不懂是咋给的分，难道就因为孩子发言少吗🥲"},{"id":27648,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2016-06-27 06:42:15","like_diff":25,"likes":48,"dislikes":23,"content":"1 上课很温和 不明白大家为什么说老师病歪歪 只是声音小一些吧 速度偏慢一点 2 人很好 脾气很舒服 没大声说过同学 3 作业每周在公邮上 但不是每周都要交 4很负责的老师 每节课都担心后面的同学看不清楚 作业布置有问题都在邮件里道歉 5考试给的范围非常清楚 有相关的重点和类型题 跟着复习的文件走就没有什么问题 6每节课有签到表  总之是脾气很好很温和的老师，不觉得应该是这个分"},{"id":192079,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2024-05-09 01:24:27","like_diff":21,"likes":25,"dislikes":4,"content":"孩子 快跑吧\n\n根本不知道这个逆天给分怎么来的\n\n认认真真学完一看绩点给的还不如微积分…"},{"id":203795,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2024-11-21 06:02:51","like_diff":19,"likes":19,"dislikes":0,"content":"上过zcf的管理会计和智能财务共享：\n\n管理会计：作业难度比较大，而且算总分是作业得多少分就算进去多少分，导致很多同学期末考成绩还高出总评。\n\n智能财务共享：感觉老师自己对于相关技术了解很不够，翻来覆去就是“数据”“挖掘”“机器”“学习”“预测”等关键词任意排列组合，说的也很抽象，甚至问出过哪些算法是分类的哪些是预测的这样的问题。讲课内容也很抽象，和管院的好多课一样学不到什么东西。\n\n除此之外，两门课都是次次雷达点名，成绩构成都有发言分，两门课都是逮着华为财经狠狠讲，老师声音病歪歪的让人昏昏欲睡还动不动就下来转并请同学回答问题。\n\n不得不说，在上kxw老师的人工智能与商业分析时（虽然这门课也很烂），kxw起码会开诚布公地坦明自己不懂商业分析，并且对上课同学们管的没那么宽。zcf这样不懂装懂地糊弄授课完了还想着法地强迫学生听也是无敌了。\n\n哦对，还以这个月有督导为由雷达点名就开放五分钟迟到也不补的😅\n\n总的来说，从来没有这么讨厌一个老师过，zcf和她的课以及管院和智财由衷地让我感到无比的恶心反胃"},{"id":203623,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2024-11-20 07:36:59","like_diff":17,"likes":17,"dislikes":0,"content":"sb智能财务共享"},{"id":203630,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2024-11-20 08:05:48","like_diff":16,"likes":16,"dislikes":0,"content":"智能财务共享你无敌了"},{"id":204645,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2024-11-27 07:27:08","like_diff":15,"likes":15,"dislikes":0,"content":"智能财务共享****"},{"id":204776,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2024-11-28 01:13:16","like_diff":15,"likes":15,"dislikes":0,"content":"。。。不要上她的课"},{"id":192155,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2024-05-11 14:56:48","like_diff":12,"likes":13,"dislikes":1,"content":"不太行。一点也不捞，每节课都雷达点名，平时作业周周有，不是交了就有分的，得多少分给多少分；期末考试也没见得捞了多少。快跑。。。性价比完全不如相同地位的其他课程。"},{"id":205686,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2024-12-11 07:59:24","like_diff":10,"likes":10,"dislikes":0,"content":"不嘻嘻，上课在看营销号视频"},{"id":206238,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2024-12-13 10:25:59","like_diff":9,"likes":9,"dislikes":0,"content":"离谱他妈给他开门，离谱到家了"},{"id":85354,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2018-07-17 07:56:01","like_diff":8,"likes":12,"dislikes":4,"content":"不好，上课让你听不清楚结构框架，而且很容易睡着。。。"},{"id":192104,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2024-05-09 07:27:27","like_diff":8,"likes":8,"dislikes":0,"content":"给分差，感觉不至于这么差劲，就因为没有发言么。。。。"},{"id":211384,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2025-01-11 09:53:32","like_diff":8,"likes":8,"dislikes":0,"content":"无敌了爱楠姐🤣😅😅😅我也想挂别人二作发诗江南当浙大副教授"},{"id":27802,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2016-06-27 15:31:49","like_diff":7,"likes":19,"dislikes":12,"content":"困……但是出卷简单范围明确，而且复习资料给得全，人也不错。满绩"},{"id":55685,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2017-07-02 07:39:17","like_diff":7,"likes":8,"dislikes":1,"content":"上课：知识点讲的比较准确细致，会补充一些东西。但没有带领大家梳理逻辑，有的时候有点懵。作业：分为课后习题和补充作业，补充作业的质量很好，也会下发答案。如果不想水这门课，确实能从作业中有所提高。考试：考前给范围给重点，出题难度适中，平时分尽量给多，反正给我的分很好。???"},{"id":79072,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2018-05-22 06:05:37","like_diff":7,"likes":12,"dislikes":5,"content":"上课照本宣科却让学生根本找不到到底在哪里，一点逻辑都没有。\n\n布置的作业不解释清楚，也不知道自己做的对不对。\n\n每天不知道在讲什么，大家都听不懂，乱七八糟的\n\n"},{"id":192102,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2024-05-09 06:10:42","like_diff":6,"likes":7,"dislikes":1,"content":"要选管理会计的快逃，认真复习+完整签到，但是绩点好低，付出和得到的完全不匹配，唯一好的就是考前会给考试重点，仅此而已😭"},{"id":205789,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2024-12-12 03:58:27","like_diff":6,"likes":6,"dislikes":0,"content":"智能财务笑话两则：\n\n\n\n“智能财务与大作业”\n\n一位学生向老师询问：“老师，人工智能与商业分析的关系是什么？”\n\n老师不耐烦地说：“这不重要，重要的是你们的大作业！”\n\n学生：“那大作业和商业分析有什么关系？”\n\n老师答：“大作业和商业分析没有关系，但和你们的期末成绩有关系。”\n\n学生：“那我们到底学了什么？”\n\n老师深沉地答：“你们学会了如何完成大作业。”\n\n\n\n智能财务的伟大预测\n\n一位学生向老师请教：“老师，这个‘机器学习’到底能学到什么呢？”\n\n老师微笑着答道：“机器学习可以预测未来，未来会更好！”\n\n学生：“那能不能预测你什么时候停止重复那些‘数据’、‘机器’、‘学习’之类的词？”\n\n老师有些不耐烦：“这些词是基础！没有它们，我们怎能知道未来的伟大变化？”\n\n学生：“哦，那我等着机器学会如何给我解释课程。”"},{"id":206886,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2024-12-18 07:20:54","like_diff":6,"likes":7,"dislikes":1,"content":"傻逼，pre一句反问十句\n\n傻逼，3点下课拖到3点20才下课\n\n傻逼，“狗粮”“我没用过”"},{"id":211501,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2025-01-11 18:23:14","like_diff":6,"likes":6,"dislikes":0,"content":"作业没到提交截止日期就出分，出分还是随机依托，爱男二作集大成者，建议直播分享如何靠男人挂二作成为全管院最水副教授～"},{"id":85197,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2018-07-16 04:16:25","like_diff":5,"likes":6,"dislikes":1,"content":"耐心仔细 但是上课很想睡 不太激情 卡绩了呜呜呜呜"},{"id":192097,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2024-05-09 05:11:54","like_diff":5,"likes":5,"dislikes":0,"content":"给分差"},{"id":192107,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2024-05-09 07:51:33","like_diff":4,"likes":4,"dislikes":0,"content":"不理解这个给分。。。"},{"id":8902,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2015-09-30 06:11:47","like_diff":3,"likes":6,"dislikes":3,"content":"讲课。很催眠。"},{"id":27901,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2016-06-28 04:04:27","like_diff":3,"likes":5,"dislikes":2,"content":"讲课虽然比较无聊但是讲的还比较清楚，出题简单，复习范围明确，作业多了点…给分没有很差，稍微用心点学成绩不会很烂"},{"id":55683,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2017-07-02 07:29:37","like_diff":3,"likes":5,"dislikes":2,"content":"老师讲课真的超好的！认真学的话老师给分也超好哒！"},{"id":55688,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2017-07-02 07:50:07","like_diff":3,"likes":6,"dislikes":3,"content":"10分好老师，讲课条理清晰，态度温柔，事情也不算多，很容易就能学会，我是退了预制课选的老师，选对了?\n\n"},{"id":7936,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2015-09-16 07:18:07","like_diff":2,"likes":10,"dislikes":8,"content":"上课病歪歪的 一点激情没有"},{"id":17026,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2016-01-19 13:10:12","like_diff":2,"likes":3,"dislikes":1,"content":"讲的没激情"},{"id":28714,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2016-06-28 12:46:38","like_diff":2,"likes":2,"dislikes":0,"content":"老师人很好，很温柔，确实没什么激情但是讲会计要很激情么……是我自己不努力所以分很差，刚到均绩…反正老师很耐心对同学也很好，答疑很仔细，考前提醒重点，出分快～"},{"id":49013,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2017-03-26 23:57:04","like_diff":2,"likes":3,"dislikes":1,"content":"给分不好"},{"id":55777,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2017-07-02 11:15:04","like_diff":2,"likes":2,"dislikes":0,"content":"老师虽然上课有些催眠，但很细心很认真负责，考前会给重点，个人觉得给分挺好。还有，会计学这门课主要还是靠自己。"},{"id":85199,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2018-07-16 04:22:06","like_diff":2,"likes":4,"dislikes":2,"content":"讲课细致，答疑耐心，跟着好好学成绩不会差的"},{"id":172697,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2023-05-04 12:45:49","like_diff":2,"likes":3,"dislikes":1,"content":"说考什么就考什么，不会背刺。但是课程是有点拖沓的，不过基础还是讲透了"},{"id":6487,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2015-11-18 01:16:23","like_diff":1,"likes":9,"dislikes":8,"content":"上课一般般 给分一般般"},{"id":14983,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2016-01-11 11:43:04","like_diff":1,"likes":2,"dislikes":1,"content":"不好。"},{"id":27655,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2016-06-27 07:03:37","like_diff":1,"likes":4,"dislikes":3,"content":"很棒的老师"},{"id":35090,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2018-01-12 06:06:45","like_diff":1,"likes":2,"dislikes":1,"content":"老师挺温和的，比较慢热，主动找她问问题挺有耐心的。最后给分不错，估计是看作业和考试"},{"id":55907,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2017-07-02 15:26:23","like_diff":1,"likes":1,"dislikes":0,"content":"声音太细\n\n"},{"id":56462,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2017-07-04 00:59:04","like_diff":1,"likes":1,"dislikes":0,"content":"上课困 但是复习范围明确 认真复习还是能好的"},{"id":56499,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2017-07-04 02:02:49","like_diff":1,"likes":1,"dislikes":0,"content":"老师人还是很好的，主要看掌握程度，不会故意为难同学。"},{"id":217337,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2025-04-09 00:58:27","like_diff":1,"likes":1,"dislikes":0,"content":"太有招了这个老师 一开始雷达点名 后来都在楼下签完跑了 就开始雷达之后再次在教室口头点名 以前是回答问题加平时分 现在是直接抽人回答问题\n\n关键是课程的逻辑还乱乱的 课后复习要在教材里找半天 学在浙大ppt每次要输密码 还不全"},{"id":55692,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2017-07-02 07:53:50","like_diff":0,"likes":2,"dislikes":2,"content":"客观点  给分如何还是看自己的学习态度  老师只是助推  另外  老师真的很好的"},{"id":55835,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2017-07-02 12:38:44","like_diff":0,"likes":1,"dislikes":1,"content":"老师很温柔，但讲的算清楚，考前划重点，考试很基础，满?"},{"id":113530,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2019-07-06 23:09:31","like_diff":0,"likes":3,"dislikes":3,"content":"老师真是越看越可爱呀！！"},{"id":158264,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2022-06-28 02:22:40","like_diff":0,"likes":1,"dislikes":1,"content":"老师什么时候才要出分啊"},{"id":218644,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2025-04-28 05:47:55","like_diff":0,"likes":1,"dislikes":1,"content":"针对管理会计\n\n平时作业扣了七分，全勤＋发言，不知道期末考（应该考的不错），最后4.5。期末考和平时作业基本一致，老师讲课也还好，中等水平～（不听把课后作业学会了也不错）挺温柔的\n\n管理会计应该不至于6.4，至少8+，给分不错！"},{"id":14186,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2016-01-05 08:02:35","like_diff":-1,"likes":1,"dislikes":2,"content":"教的还行吧"},{"id":16046,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2016-01-17 05:11:09","like_diff":-1,"likes":1,"dislikes":2,"content":"会计学作业多，给分不好"},{"id":22506,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2016-03-07 05:26:43","like_diff":-1,"likes":1,"dislikes":2,"content":"不知道怎么样，选了她的课，"},{"id":17212,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2016-01-20 01:30:18","like_diff":-2,"likes":1,"dislikes":3,"content":"会计学，没激情，不过讲的算清楚，作业多，不过都不收"},{"id":87116,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2018-09-20 12:41:20","like_diff":-2,"likes":2,"dislikes":4,"content":"虽然给分不错，但是真心听不懂在讲什么，希望想好好学会计的同学慎重考虑。"},{"id":139438,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2021-07-15 13:40:57","like_diff":-2,"likes":1,"dislikes":3,"content":"老师上课很认真负责的 很认真的帮忙解决问题"},{"id":158491,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2022-06-29 16:46:36","like_diff":-2,"likes":2,"dislikes":4,"content":"讲的很清楚，给分也很好，绝对没有其他回答里说的昏昏欲睡。会计学本来就是一门不太难的学科，只要认真跟着老师的思路走，作业认真做就可以，最后满了"},{"id":172431,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2023-04-27 01:28:24","like_diff":-2,"likes":1,"dislikes":3,"content":"老师很负责，讲课很认真，给分也好"},{"id":172596,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2023-05-01 10:18:47","like_diff":-3,"likes":0,"dislikes":3,"content":"老师给分好且负责任"},{"id":31124,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2016-07-03 08:50:15","like_diff":-5,"likes":1,"dislikes":6,"content":"作业迟一点交也没关系。满绩"},{"id":192330,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2024-05-15 10:45:13","like_diff":-8,"likes":1,"dislikes":9,"content":"（管理会计）给分比较玄学，每节课都签到，事情也很多。不过相比另一位老师可能还能矮子里拔个高个。"},{"id":192321,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2024-05-15 04:04:21","like_diff":-16,"likes":2,"dislikes":18,"content":"老师授课水平很高（比隔壁bln高很多），每个知识点都会有案例帮助理解，下课有问题问老师也会很耐心的解答\n\n听完之后对管理会计了解深入很多，非常有帮助\n\n每节课都会雷达签到，每章节都会有课后作业\n\n回答问题超过两次参与分就会给满了（5分）\n\n最后会有期末复习，说考什么就考什么，蛮好的\n\n说绩点不高的大概率是因为期末考试太简单了，90分以上的人实在是不少，老师下学期出题应该也会出难一点"},{"id":85213,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2018-07-16 05:34:45","like_diff":-21,"likes":3,"dislikes":24,"content":"老师超好，如果不卡绩点就好了，94，可能是期中考的不太好"},{"id":85389,"teacher_id":953,"teacher_name":"朱茶芬","post_time":"2018-07-17 10:58:43","like_diff":-21,"likes":2,"dislikes":23,"content":"十分好老师 简单明确 然而老师考前说过的必考题我错了_(:3 」∠)_不过满了"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

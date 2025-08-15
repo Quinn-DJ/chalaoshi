@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>申文博 - 计算机科学与技术学院 - 浙大教评</title>
+    <meta name="description" content="申文博教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="申文博,计算机科学与技术学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">申文博</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">计算机科学与技术学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.38</div>
+                    <div class="rating-participants">53人参与评分</div>
+                    <div class="attendance-info">29.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (5 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">操作系统</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.15</span>
+                            <span class="students">选课: 29人</span>
+                            <span class="std-dev">标准差: 1.09</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">操作系统原理与实践</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.26</span>
+                            <span class="students">选课: 287人</span>
+                            <span class="std-dev">标准差: 0.90</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">系统安全</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.26</span>
+                            <span class="students">选课: 65人</span>
+                            <span class="std-dev">标准差: 0.91</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">计算机系统Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.46</span>
+                            <span class="students">选课: 77人</span>
+                            <span class="std-dev">标准差: 0.68</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">课程综合实践Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.49</span>
+                            <span class="students">选课: 119人</span>
+                            <span class="std-dev">标准差: 0.93</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (48 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":122319,"teacher_id":5929,"teacher_name":"申文博","post_time":"2020-02-24 05:01:19","like_diff":20,"likes":26,"dislikes":6,"content":"今年老师第一次开课，给我一种老师已经带过20多届学生的稳重，对操作系统内容如数家珍，科研能力也很强，以后应该会成为所有学生必争的os老师。有幸，今年老师还叫外聘，我随意就补到了hhh"},{"id":166729,"teacher_id":5929,"teacher_name":"申文博","post_time":"2023-01-13 10:31:51","like_diff":16,"likes":17,"dislikes":1,"content":"申士本人还是可以的，上课讲的也比别的老师会清晰一些\n\n但是。。。\n\n今年这lab为啥能比去年多这么多啊，而且实验指导写的也就一般般，有的地方不是很清晰\n\n而且这查重系统是不是有些毛病，八竿子打不着的说我抄袭\n\n然后拉扯半天也不说咋搞\n\n为啥有的助教很好有的助教脾气很差呢\n\n很烦\n\n今年的期末考线上考也巨难，emmm课程组的锅吧，不是申士的锅\n\n本来给申士能打10分，加上一些不对的只能给点低了"},{"id":134201,"teacher_id":5929,"teacher_name":"申文博","post_time":"2021-03-19 07:01:22","like_diff":12,"likes":12,"dislikes":0,"content":"申老师是我上大学以来接触到的最强的老师了。"},{"id":209926,"teacher_id":5929,"teacher_name":"申文博","post_time":"2025-01-07 12:32:11","like_diff":12,"likes":12,"dislikes":0,"content":"我们首先有几个 announcement ～\n\n这是小白的回答，有没有更 professional 一点的回答\n\n最后一排的同学准备一下，来回答一下这个问题"},{"id":147398,"teacher_id":5929,"teacher_name":"申文博","post_time":"2022-01-10 02:36:09","like_diff":10,"likes":10,"dislikes":0,"content":"我们都很nice的"},{"id":205593,"teacher_id":5929,"teacher_name":"申文博","post_time":"2024-12-10 03:05:15","like_diff":10,"likes":10,"dislikes":0,"content":"professional!\n\n能回答出来这个的一定是大神啦！"},{"id":167046,"teacher_id":5929,"teacher_name":"申文博","post_time":"2023-01-14 17:19:16","like_diff":8,"likes":10,"dislikes":2,"content":"老师确实很好，从备课角度来说就很认真，每节课前都会提炼一下之前所学的重点，并且发现同学掌握不好的情况下还会及时更改自己的PPT等方式重新给大家讲一遍，很负责。实验内容方面就一言难尽了，本身设计就很难让人读懂具体要做什么，另外在群里问问题某个助教态度也很不尊重。另外每个班的实验内容以及考察的点也有差异（感觉是一份祖传文档以及代码，每个班的助教自己魔改一些）个人觉得计院课程一个很大的问题就在这里，考核标准不统一，就像之前体验很差的计组，某班的助教要求极高且验收极其严格，倒不是说要求高不好，只是对比另外的平行班实验报告两三页解决我们要十几页还不一定拿高分，心理多少有点不平衡。不过申士这边的课程号和其他班不同，实验多一些也无可厚非，可是最后考卷却和其他班一样，一些平时讲授的重点考卷上反而考察较少，让人感觉很不公平。个人觉得课程的难度等等都可以接受，就是很不能接受：1.班级之间关于考试的信息差过大问题。2.考核给分标准的差别过大问题。"},{"id":131240,"teacher_id":5929,"teacher_name":"申文博","post_time":"2021-01-26 18:41:59","like_diff":7,"likes":7,"dislikes":0,"content":"申老师太萌了，给分超级好，36人的教学班有19个不少于90分的。教改班头有点秃，其他简直完美。"},{"id":148649,"teacher_id":5929,"teacher_name":"申文博","post_time":"2022-01-13 06:07:13","like_diff":7,"likes":7,"dislikes":0,"content":"我们都很nice的"},{"id":171929,"teacher_id":5929,"teacher_name":"申文博","post_time":"2023-04-12 18:07:57","like_diff":7,"likes":7,"dislikes":0,"content":"上课很认真，能结合实际进行讲解，不过听学长说申士有点push，导学关系不太好。。。"},{"id":129903,"teacher_id":5929,"teacher_name":"申文博","post_time":"2021-01-13 10:37:48","like_diff":6,"likes":6,"dislikes":0,"content":"虽然没有出分，但很难不给到10分。"},{"id":130191,"teacher_id":5929,"teacher_name":"申文博","post_time":"2021-01-18 17:41:26","like_diff":6,"likes":6,"dislikes":0,"content":"老师非常好，讲课清楚，很耐心。因为我们听不懂英文，硬把全英改成了基本全中，总之选他就对了。虽然lab很难&&分还没出，但相信出分之后我还是会给他打10分滴！"},{"id":130350,"teacher_id":5929,"teacher_name":"申文博","post_time":"2021-01-21 08:36:12","like_diff":6,"likes":6,"dislikes":0,"content":"人很萌，讲课很好，助教很好"},{"id":166970,"teacher_id":5929,"teacher_name":"申文博","post_time":"2023-01-14 12:20:43","like_diff":6,"likes":7,"dislikes":1,"content":"老师人很有意思，对待教学很认真，虽然感觉讲的不是特别有条理，听得有点云里雾里\n\n实验部分一言难尽吧，虽然感觉助教们也挺努力的了，但是总感觉让人有点摸不着头脑，花很多时间才知道想让我们实现什么，不过最后把fork作为bonus，实验补满了\n\n今年考试比较偏怪，大家整体比较低；也没调分，最后总绩没上4，当然也有我的问题，没复习到位吧；给分算是中规中矩，比较求是，对于我这种平均水平的普通学生也就这样了\n\n今年整体来讲期末卷面平均大概70左右，所以总成绩3.9-4.2左右的人居多，4.5以上比较困难，我认为给分要比去年差一些\n\n总之考试还得认真复习，另外实验要认真做，查重很严别乱抄，好好做这部分还是能满的"},{"id":166732,"teacher_id":5929,"teacher_name":"申文博","post_time":"2023-01-13 11:00:02","like_diff":5,"likes":5,"dislikes":0,"content":"老师上课讲得很好，水平很高，但是实验希望改进，唉"},{"id":167176,"teacher_id":5929,"teacher_name":"申文博","post_time":"2023-01-15 04:50:10","like_diff":5,"likes":5,"dislikes":0,"content":"老师很好，很professional，个人认为讲课讲的挺不错的，实验部分确实实验指导可以再清晰明确一些"},{"id":189255,"teacher_id":5929,"teacher_name":"申文博","post_time":"2024-01-22 15:35:52","like_diff":5,"likes":7,"dislikes":2,"content":"OS，能感觉出来老师的水平很高，科研能力也非常强，人也非常好，也挺有趣的。老师的授课也是很不错的，个人感觉有些比重要比较难的地方讲的有些快，但会重复地讲很多遍尽量让大家弄懂\n\n关于实验， OS的实验设计是非常不错的，虽然有难度，但本身是非常成体系的，一整套下来确实能让你巩固、学到不少东西。个人觉得是真得给申老师课程组积累下来的这套实验本身点赞的\n\n但我认为实验也有很多问题，部分实验指导个人认为有待完善，很多细节和问题都没有涉及，这往往需要我们花费很多额外的时间。其次就是给分，个人体验是实验报告中记录的过程和思路详不详细不重要，差不多的话分就会给，反而真正的扣分往往都在思考题上。做不对的话扣的也比较多，有的一下就是-5，反映到总评基本就是0.4-0.5之间，个人认为还是挺多的，这种扣分方式我个人认为有点畸形的，如果思考题都必须写对，我认为其称之为问答题更合适。另外某些助教的评分方式实在是让人有点难以接受，会因为“没有回答问题中没有的问题”扣分，以及还会因为“心情不同”导致同样的问题扣分不同，这是我不太认可的\n\n最重要的，希望后面的学弟学妹们注意查重的问题。在这里只要你“以任何方式让你的代码被别人看到并被鉴定为抄袭”，不论是否知情，你扣分是跑不了的了。查重的逻辑大概是是否有完全相同的变量名，和完全相似的控制逻辑，而且总体是比较严的。据我所知，这学期班上有挺多大佬也被卷入这个问题中了，导致有的大佬最后就算bonus做满也补不满平时分，真的很可惜，因为一般来说其实只要正常得分了，最后即使只做bonus简单的前半部分，平时分就能满或者很高。所以在这里再次奉劝大家自重，如果有人找你借代码学习，一定要掂量掂量\n\n大佬们在这门课一定会收获非常好的体验，但如果能力一般的话就需要考虑一下如何应对Labs写不出来的问题了。最后祝选择了申士的同学们实验没困难，绩点棒棒棒，也祝申士和这门课越来越好"},{"id":142276,"teacher_id":5929,"teacher_name":"申文博","post_time":"2021-11-09 16:18:36","like_diff":4,"likes":4,"dislikes":0,"content":"如果你对操作系统感兴趣，申老师绝对是你的第一选择"},{"id":142277,"teacher_id":5929,"teacher_name":"申文博","post_time":"2021-11-09 16:26:28","like_diff":4,"likes":5,"dislikes":1,"content":"申老师在系统方面很有经验和心得，绝对算得上青年才俊了，对学生也很好，会认真地给向他咨询的同学给出中肯的建议（学习和生涯规划等等都是），每个lab和作业布置之前都会和助教沟通完善文档，是一位很优秀的研究者和教师！"},{"id":148540,"teacher_id":5929,"teacher_name":"申文博","post_time":"2022-01-13 00:11:39","like_diff":4,"likes":4,"dislikes":0,"content":"我们都很nice的"},{"id":148722,"teacher_id":5929,"teacher_name":"申文博","post_time":"2022-01-13 10:02:35","like_diff":4,"likes":4,"dislikes":0,"content":"我们都很nice的~"},{"id":159279,"teacher_id":5929,"teacher_name":"申文博","post_time":"2022-07-10 14:08:02","like_diff":4,"likes":4,"dislikes":0,"content":"挺好，但是人push，lab的指导也不是特别清楚，美中不足"},{"id":166958,"teacher_id":5929,"teacher_name":"申文博","post_time":"2023-01-14 10:45:07","like_diff":4,"likes":5,"dislikes":1,"content":"professional in professionals!\n\n\n\n客观地讲，老师课讲得很不错，今年的大部分助教也很负责。基本上有问必答，而且还组织了答疑群。文档虽然写的确实不够好，但是可以看出助教还是在努力的，会接受反馈并多次更新。\n\n\n\n但是期末考试题目有些偏且怪，老师细讲的很多深入的东西没考，反而考了很多边边角角的细节，不过这应该是课程组的问题，老师本人还是很 nice 的~\n\n\n\n在上课之前也与申老师有过一些交流，可以说他对于本科生还是很用心的，总之绝对是个不错的老师~"},{"id":195735,"teacher_id":5929,"teacher_name":"申文博","post_time":"2024-06-30 19:12:17","like_diff":4,"likes":5,"dislikes":1,"content":"课程跟实验考试都结合得很好，而且老师本身就是手撕源代码的大牛，把实验带着virtio文件系统的bonus做一遍，你能对操作系统kernel和体系结构的概念有深刻理解\n\n实验设计为数不多的不足就是思考题出得太糊了，而且事后只有第一章思考题有助教解析。有个思考题导致我搓了一个openSBI之后才得知只要给出想法就可以，有点黑色幽默了\n\n查重确实很严，每个实验代码量一般几十行汇编或者十几行C，最麻烦的虚拟内存与fork调用估计100行C左右，主要是理解，工作量真算是其次。要抄就自己重构一遍为好，理解之后记得改变量名再乱插几个goto，会赢的"},{"id":148741,"teacher_id":5929,"teacher_name":"申文博","post_time":"2022-01-13 11:17:55","like_diff":3,"likes":3,"dislikes":0,"content":"我们都很nice的"},{"id":148746,"teacher_id":5929,"teacher_name":"申文博","post_time":"2022-01-13 11:36:13","like_diff":3,"likes":3,"dislikes":0,"content":"我们都很nice的"},{"id":148757,"teacher_id":5929,"teacher_name":"申文博","post_time":"2022-01-13 12:20:50","like_diff":3,"likes":3,"dislikes":0,"content":"我们都很nice的"},{"id":149640,"teacher_id":5929,"teacher_name":"申文博","post_time":"2022-01-16 08:49:26","like_diff":3,"likes":3,"dislikes":0,"content":"nice~的老师"},{"id":166965,"teacher_id":5929,"teacher_name":"申文博","post_time":"2023-01-14 11:27:04","like_diff":3,"likes":3,"dislikes":0,"content":"好课十分！"},{"id":210952,"teacher_id":5929,"teacher_name":"申文博","post_time":"2025-01-10 08:32:06","like_diff":3,"likes":5,"dislikes":2,"content":"sys2课堂小测相当于就是考勤，一次不去总评扣1.5，哈哈"},{"id":142275,"teacher_id":5929,"teacher_name":"申文博","post_time":"2021-11-09 16:16:44","like_diff":1,"likes":2,"dislikes":1,"content":"绝对是好老师"},{"id":143016,"teacher_id":5929,"teacher_name":"申文博","post_time":"2021-11-18 08:18:56","like_diff":1,"likes":2,"dislikes":1,"content":"非常好！"},{"id":181545,"teacher_id":5929,"teacher_name":"申文博","post_time":"2023-10-22 10:56:15","like_diff":1,"likes":3,"dislikes":2,"content":"听课两分钟思绪就满天飞、所有课摆摆烂、课本和PPT战士的我，听申士的课听的津津有味"},{"id":187337,"teacher_id":5929,"teacher_name":"申文博","post_time":"2024-01-15 13:46:18","like_diff":1,"likes":2,"dislikes":1,"content":"老师就是太nice了"},{"id":186261,"teacher_id":5929,"teacher_name":"申文博","post_time":"2024-01-10 07:26:41","like_diff":0,"likes":1,"dislikes":1,"content":"professional的大神"},{"id":188679,"teacher_id":5929,"teacher_name":"申文博","post_time":"2024-01-19 14:05:57","like_diff":0,"likes":1,"dislikes":1,"content":"23秋冬OS（图灵），能感觉到老师是朝着professional的方向去讲了。重点的内容喜欢多次课重复很多遍，大部分内容感觉讲的还是很清楚的（虽然我感觉文件系统有些乱，也许是我没学好，悲）。50分lab50分期末，lab有5分不溢出的bonus。上课前喜欢数人头但是不点名。后半学期看人数稀少开始有预告和没预告的小测，但基本都是讲答案的那种，最后也不拿来扣分说是只拿来捞及格边缘的同学，据说明年可能考虑加小测分。总之推荐。"},{"id":189542,"teacher_id":5929,"teacher_name":"申文博","post_time":"2024-01-25 09:51:38","like_diff":0,"likes":0,"dislikes":0,"content":"实验会查重哦，而且挺严的，一定认真对待"},{"id":203669,"teacher_id":5929,"teacher_name":"申文博","post_time":"2024-11-20 11:48:24","like_diff":0,"likes":3,"dislikes":3,"content":"普信男，网安转导第一"},{"id":212618,"teacher_id":5929,"teacher_name":"申文博","post_time":"2025-01-14 09:41:29","like_diff":0,"likes":0,"dislikes":0,"content":"os给分挺好，老师上课有些地方感觉讲不清楚，但总体还行。大家上课一定要区分 stack 和 heap ，还要记住 virtual page 和 physical frame 的区别。非常professional。"},{"id":212708,"teacher_id":5929,"teacher_name":"申文博","post_time":"2025-01-14 14:04:47","like_diff":0,"likes":0,"dislikes":0,"content":"讲课水平真的很高"},{"id":214024,"teacher_id":5929,"teacher_name":"申文博","post_time":"2025-01-23 04:01:22","like_diff":0,"likes":0,"dislikes":0,"content":"无需多言"},{"id":215587,"teacher_id":5929,"teacher_name":"申文博","post_time":"2025-03-02 01:27:43","like_diff":0,"likes":0,"dislikes":0,"content":"能看得出来老师在尽力把课上的有趣，最后考试前的实验课，感觉老师也在尽力把分喂给大家。如果要是小测点名少一点就好了。"},{"id":217780,"teacher_id":5929,"teacher_name":"申文博","post_time":"2025-04-16 10:13:48","like_diff":0,"likes":0,"dislikes":0,"content":"操作系统领域唯一真神"},{"id":167239,"teacher_id":5929,"teacher_name":"申文博","post_time":"2023-01-15 07:27:30","like_diff":-1,"likes":0,"dislikes":1,"content":"很nice，很professional"},{"id":167475,"teacher_id":5929,"teacher_name":"申文博","post_time":"2023-01-16 14:11:45","like_diff":-1,"likes":0,"dislikes":1,"content":"professional"},{"id":162302,"teacher_id":5929,"teacher_name":"申文博","post_time":"2022-11-19 14:06:48","like_diff":-5,"likes":10,"dislikes":15,"content":"普信男 😅"},{"id":166460,"teacher_id":5929,"teacher_name":"申文博","post_time":"2023-01-12 10:00:40","like_diff":-5,"likes":1,"dislikes":6,"content":"楼下那个是刷分吗\n\n老师确实还不错"},{"id":200058,"teacher_id":5929,"teacher_name":"申文博","post_time":"2024-10-12 03:38:34","like_diff":-9,"likes":11,"dislikes":20,"content":"逆天玩意，刁难学生，讲的不知所云，让最后一排一个个站起来回答为什么坐在最后一排，第一次见到这样的"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>厉刚 - 化学系 - 浙大教评</title>
+    <meta name="description" content="厉刚教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="厉刚,化学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">厉刚</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">化学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.72</div>
+                    <div class="rating-participants">238人参与评分</div>
+                    <div class="attendance-info">37.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">普通化学（乙）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.87</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.85</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">普通化学（甲）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.40</span>
+                            <span class="students">选课: 168人</span>
+                            <span class="std-dev">标准差: 0.90</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">物理化学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.12</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 1.02</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (205 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":667,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2015-03-15 11:19:38","like_diff":71,"likes":107,"dislikes":36,"content":"我这辈子最感谢的人就是历刚老师，谢谢您"},{"id":66756,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2018-01-19 01:23:40","like_diff":38,"likes":46,"dislikes":8,"content":"不好意思，讲的飞速。听不懂，只能自学"},{"id":65521,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2018-01-05 03:53:36","like_diff":31,"likes":45,"dislikes":14,"content":"这老师讲课真的有人能听懂？？？"},{"id":45880,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-01-20 08:16:32","like_diff":29,"likes":36,"dislikes":7,"content":"老师讲的特别好，但是就是有时和同学互动时得不到回应会有点急，最最最重要的是给分超级良心！！！上过的都懂，不解释！"},{"id":30393,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2016-07-01 13:06:39","like_diff":27,"likes":34,"dislikes":7,"content":"没人觉得讲课速度不合理吗？急速2节课然后……"},{"id":65413,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2018-01-03 17:21:53","like_diff":27,"likes":33,"dislikes":6,"content":"老师自己水平很高，但真没办法讲到我能听懂，也许我自己水平低？总之化学靠自学啦。"},{"id":3334,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2015-06-02 11:20:13","like_diff":21,"likes":32,"dislikes":11,"content":"讲得不错"},{"id":45916,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-01-20 09:05:19","like_diff":21,"likes":29,"dislikes":8,"content":"老师超可爱啊，作业也不多，期末考试很多都是书上的，师生情逆天，只做出2道大题，填空没对几道，居然有3.9！"},{"id":60394,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-10-19 03:27:49","like_diff":19,"likes":20,"dislikes":1,"content":"普通化学速度起飞……mad愣是让我这个听什么课都没劲的人目不转睛地盯着他的嘴巴"},{"id":106525,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2019-04-28 04:00:02","like_diff":19,"likes":22,"dislikes":3,"content":"上课老师思路不够清楚，课堂小测四次计入平时分。。。"},{"id":44024,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-01-17 08:21:53","like_diff":17,"likes":21,"dislikes":4,"content":"老师人真的超级赞  看着他莫名笑超可爱   讲课很清楚   认真听  物化没问题的?"},{"id":103151,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2019-02-26 15:44:47","like_diff":16,"likes":19,"dislikes":3,"content":"我觉得老师好像大司马啊哈哈哈"},{"id":43652,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-01-16 16:41:56","like_diff":15,"likes":20,"dislikes":5,"content":"强烈推荐，这个老师讲课又有意思有爱笑，答疑超级耐心不把你讲懂了还拉着你不让你走!"},{"id":183340,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-11-24 02:54:49","like_diff":15,"likes":15,"dislikes":0,"content":"老师人很好，但我觉得是课程设置有问题\n\n高中不选化学的人很难很难学起来"},{"id":65075,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-12-28 13:31:11","like_diff":14,"likes":17,"dislikes":3,"content":"听不进去...自己的问题 可是我不觉得简单啊 满绩什么的也从来没想过 膜楼上轻松学普化的大佬们 我挺吃力的"},{"id":16999,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2016-01-19 12:11:06","like_diff":13,"likes":18,"dislikes":5,"content":"老师很细致，很认真，虽然我是那种喜欢自己看书的"},{"id":17049,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2016-01-19 13:53:43","like_diff":12,"likes":16,"dislikes":4,"content":"老师讲的超级棒！上课认真听不仅有知识的收获还有学习方法和思维方面的收获，人也超级好！"},{"id":8164,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2015-11-30 03:12:46","like_diff":11,"likes":18,"dislikes":7,"content":"报警了"},{"id":106544,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2019-04-28 05:13:29","like_diff":11,"likes":16,"dislikes":5,"content":"讲的不清楚，以为自己很有思路，实际上乱的一匹。平时小测占分数。普化要学好还是靠自己看书吧。"},{"id":183152,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-11-22 12:05:43","like_diff":9,"likes":10,"dislikes":1,"content":"我是刚哥的🐶"},{"id":183208,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-11-23 01:01:55","like_diff":9,"likes":9,"dislikes":0,"content":"上的是普化乙，小测有点多，但是是六次小测取四次最高分算进总成绩，其实可以说测得越多对大家越有利。就算两次没考好也没关系。\n\n出分后老师在钉钉群发了一长串消息，先是说出分慢了很抱歉（其实才考完三天），后面是在鼓励大家，以及感谢和祝福之类。虽然都是老生常谈，但是发这样一段话也确实是老师有心了。\n\n老师平常在钉钉群很活跃，回消息也及时，这学期因为上课的人太多还去联系学校换大教室，之后上课前就一直会在钉钉群里提醒同学们不要走错教室了。确实是关心学生的好老师。"},{"id":201486,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-04 00:51:26","like_diff":7,"likes":7,"dislikes":0,"content":"坐标普通化学，令我怀念的第一个老师\n\n上课讲的比较快，如果没有时间提前复习的话，写作业前一定要好好看书和ppt，小测6取4最高，小测前复习好基本上能拿满。\n\n考前给了模拟卷，钉钉答疑群里氛围也很好"},{"id":94172,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2019-01-15 12:10:36","like_diff":6,"likes":7,"dislikes":1,"content":"不学无术的悲哀，嘤嘤嘤qaq。老师很热心，不过讲到重点时声音不自主放低。所以听课请在前2排。✧٩(ˊωˋ*)و✧"},{"id":146351,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-01-06 09:50:50","like_diff":6,"likes":8,"dislikes":2,"content":"厉老师捞人能力一流"},{"id":196831,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-07-05 11:15:59","like_diff":6,"likes":6,"dislikes":0,"content":"首先说明我高中时没有选化学，在学这门课之前一直担心学不好甚至挂科，还好在这个学期时间还算够，也可能是因为转专业退掉了一些课的原因，所以在春学期花了大量时间在这门课上，最后也是意外地拿了满绩，说明非化学选考生普化乙考一个好的分数还是很可能的。厉刚老师上课还是讲的很好的，加上我每节课前看ppt预习，所以上课相对轻松。小测的话都是比较基础的选择题（5分钟），且跟往年重合度较大，可参考。平时作业可以对完答案交，考勤的话一共五次雷达点名。老师上课上的还是挺好，对于没有化学基础的学生基本上也能够听懂，然后老师人也很好，多次问他问题都很耐心地解答。然后给分应该也是挺捞的，选普化乙应该首选lg老师。\n\n对于非化学选考生来说，感觉有必要过一遍高中物质结构那本书，基本概念搞搞懂，其实认真学相对还是好应付的，没有想象中这么可怕，然后把厉刚老师发的模拟卷题目都搞懂，知识点主要看ppt，仅靠记忆的内容还是能拿很多分的。然后挺意外的，大学第一门满绩居然是高中最害怕的化学。\n\n资源：【学习天地】2023-2024春学期lg老师普化（乙）资料 https://www.cc98.org/topic/5876021\n\n【学习天地】【普化乙】2023秋学期普通化学（乙）笔记与资料 https://www.cc98.org/topic/5757371"},{"id":46219,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-01-21 03:05:09","like_diff":5,"likes":7,"dislikes":2,"content":"老师给分棒！上课也很萌，很耐心，是个超可爱的老师"},{"id":122011,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2020-01-31 01:46:37","like_diff":5,"likes":10,"dislikes":5,"content":"讲的难考的易，而且助教答疑非常棒\n\n感谢老师让我物化满了，我有次小测因为去外地找女朋友去了未到课，lmc助教记我到了，特别好的老师+特别好的助教，给10分"},{"id":181104,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-10-08 14:18:55","like_diff":5,"likes":6,"dislikes":1,"content":"讲课好快😢😢"},{"id":183149,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-11-22 12:04:29","like_diff":5,"likes":5,"dislikes":0,"content":"我真的，我哭死，他是真的能捞啊——"},{"id":201713,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-05 15:00:39","like_diff":5,"likes":5,"dislikes":0,"content":"没有上过老师的课，但是有幸参加过老师的答疑，老师讲得很认真很清楚，受益匪浅。"},{"id":201976,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-08 01:55:20","like_diff":5,"likes":5,"dislikes":0,"content":"老师是好老师但显然没捞我"},{"id":211311,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2025-01-11 07:33:36","like_diff":5,"likes":5,"dislikes":0,"content":"物理化学\n\n老师人还是很好的，也会经常关注同学们的反馈。但是个人感觉讲课可能听起来有点凌乱，跟不太上（建议可以多看看教材或者多看看b站上pxg老师的课）。6选4的课前5分钟课堂小测，每次5道选择题，一般都是讲完一个单元测一次，大多是概念题，个人感受是还是有些难度的，尤其是时间很短、早八小测、经常涉及一些细小知识点（小测从来没有得过一次满分的菜菜难受了o(╥﹏╥)o）平时一般不会点名，这学期只点了两次，一次雷达点名一次纸质签到。期中考试和期末考试老师和助教改卷子判得还是比较松的，并不会在分数上为难大家。这门课本身难度摆在这，所以成绩可能并不会很高，不过能感受到老师还是很希望大家都能拿到好成绩的。"},{"id":43507,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-01-16 11:34:42","like_diff":4,"likes":7,"dislikes":3,"content":"老师很负责 很和蔼 会提醒考试重点 虽然课程比较杂乱 那是因为考试大纲乱 水一水也有90+  开心"},{"id":45921,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-01-20 09:09:18","like_diff":4,"likes":5,"dislikes":1,"content":"超赞的老师"},{"id":46070,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-01-20 14:34:03","like_diff":4,"likes":7,"dislikes":3,"content":"老师很随和 给分也很好～"},{"id":48642,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-03-09 01:23:46","like_diff":4,"likes":5,"dislikes":1,"content":"物理化学讲的很好，但是自己刷题也很重要\n\n"},{"id":135581,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2021-05-15 06:32:41","like_diff":4,"likes":6,"dislikes":2,"content":"讲的不错，但是不会捞人啦。期末98，总评93~，想水的同学注意一下子"},{"id":146339,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-01-06 09:11:05","like_diff":4,"likes":5,"dislikes":1,"content":"感谢老师和助教呜呜呜，嗯是给我捞到及格，在这给老师和助教磕一个\n\n老师讲的很好很不错，是我没有好好学才需要捞的，呜呜呜"},{"id":165378,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-01-03 19:20:30","like_diff":4,"likes":4,"dislikes":0,"content":"讲课稍微有点小声，看回放比较困难，不过讲得挺好的，问问题也会很耐心的解答。整个课程签过两次到，六次小测选最佳的四次计入最终成绩。是个好老师，感恩！"},{"id":184554,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-12-21 15:10:29","like_diff":4,"likes":4,"dislikes":0,"content":"硬捞啊哥"},{"id":17305,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2016-01-20 04:16:05","like_diff":3,"likes":10,"dislikes":7,"content":"讲的太好了，听他的课，真的轻松满绩，又负责任，作业改错了，还给你改回来了，棒，蟹蟹厉老师，爱你！"},{"id":20620,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2016-01-29 05:33:49","like_diff":3,"likes":5,"dislikes":2,"content":"不错的"},{"id":46174,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-01-21 00:53:03","like_diff":3,"likes":4,"dislikes":1,"content":"绝对要选他"},{"id":96490,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2019-01-21 05:10:23","like_diff":3,"likes":6,"dislikes":3,"content":"这门课由于高中大部分学过，课下也很花时间所以拿了满绩点。老师吗，首先他是个好老师，非常关心学生，你有不会的会抓住你不让你走，直到讲清楚，但老师讲课的时候确实有时候突然低沉，这点不太好，而且到重点有一丢丢快。\n\n真的是个好老师，我和我同学考前去问题，老师非常热心，他肯定会给你讲懂，而不只是如何做对（直到考前十几分钟问他，他还是拒绝直接告诉我是还是不是，而是问我原理，推了出来）\n\n关于期末考，所有的知识点课本上都有，如果能花时间看一看（我整本书做了30多页笔记）会很不错的。"},{"id":96509,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2019-01-21 05:23:46","like_diff":3,"likes":3,"dislikes":0,"content":"好老师。"},{"id":106749,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2019-04-29 08:27:23","like_diff":3,"likes":5,"dislikes":2,"content":"虽然不点名 但是一周两节课 一节交作业一节发作业 时不时来个quiz 上的还是可以的 就是拿到考卷我蒙的一批 考书上理论？这种不是只有知道有它的存在就ok的理论吗？？？本来内容就多 还抠细节 反正我普化绩点最低 史无前例 清醒做人"},{"id":161583,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-11-09 07:55:53","like_diff":3,"likes":4,"dislikes":1,"content":"如图所示"},{"id":162685,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-12-04 05:58:34","like_diff":3,"likes":4,"dislikes":1,"content":"老师人很好  但是讲课真的太快了5555"},{"id":163841,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-12-16 08:19:21","like_diff":3,"likes":4,"dislikes":1,"content":"老师人算OK，作业稍微多一点。就是说话不太清楚导致同学们听不懂。"},{"id":183217,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-11-23 01:45:39","like_diff":3,"likes":3,"dislikes":0,"content":"惨遭卡绩。。。🥹🥹🥹🥹🥹老师讲课还可以，正常教书，但是比较快。主要是有点口糊…但是老师人很好"},{"id":183562,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-11-27 11:22:30","like_diff":3,"likes":3,"dislikes":0,"content":"超级好的老师！课堂重视原理，而不是单纯让你记住。感谢您！"},{"id":184393,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-12-19 00:35:00","like_diff":3,"likes":3,"dislikes":0,"content":"捞。讲课快是课的问题，老师真的希望学生能学到东西"},{"id":191769,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-04-30 04:28:25","like_diff":3,"likes":5,"dislikes":2,"content":"为义父给的100分磕个头"},{"id":191771,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-04-30 04:37:39","like_diff":3,"likes":3,"dislikes":0,"content":"义父！"},{"id":199470,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-09-24 07:17:19","like_diff":3,"likes":4,"dislikes":1,"content":"个人化学是不错的，因为高中学化竞也听过不少老师的课，能听出老师是有水平的，但表达能力有大问题，语气太平重点不突出上课很困，上课问问题有时候大家都不知道在问什么，下课问问题也是说不太清楚沟通很费劲，总之水平是不错的但真的需要改善下表达技巧"},{"id":201590,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-04 14:51:11","like_diff":3,"likes":3,"dislikes":0,"content":"不点名。上课速度偏快，且声音稍有点模糊，有时间最好提前看一眼ppt。小测6选4，这个学期的小测有五次都是考概念，有一次全是计算的比较难。复习可以直接用ppt，写的很清楚。"},{"id":201972,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-08 01:18:14","like_diff":3,"likes":3,"dislikes":0,"content":"很好的老师，小测成绩六考选四次，考失一两次也没事"},{"id":202024,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-08 08:58:53","like_diff":3,"likes":4,"dislikes":1,"content":"老师还是挺好的，感觉给我的绩点挺客观的，我也是认真听课和做作业的，最后普化乙绩点3.3，大家不要盲目期待被捞，那些说自己轻松满绩的同学可能是比较聪明且谦虚。另外可能是个人原因，我听这节课特别特别容易困，感觉老师说话的声音比较轻，而且总感觉听懂的是高中本来就会的内容，其他部分感觉听得不是那么明白，当然我化学本来就一般。老师还是挺认真负责的，希望选这门课的同学都能收获理想的分数和绩点。"},{"id":206283,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-12-13 14:03:46","like_diff":3,"likes":4,"dislikes":1,"content":"老师讲得还可以吧，不过需要有一定基础，或者课前有预习过，不然很容易跟不上老师跳跃的思路。会点名，喜欢小测，平时成绩是作业＋小测六选四"},{"id":218186,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2025-04-22 02:58:50","like_diff":3,"likes":3,"dislikes":0,"content":"为什么没有近年的评论了"},{"id":218576,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2025-04-25 01:34:35","like_diff":3,"likes":3,"dislikes":0,"content":"厉刚老师是我最感谢的人。离了厉老师谁还把我当小孩🥺"},{"id":16606,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2016-01-18 13:34:48","like_diff":2,"likes":8,"dislikes":6,"content":"平时分几乎没有用"},{"id":27192,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2016-07-01 12:57:13","like_diff":2,"likes":6,"dislikes":4,"content":"老师是会短信回我问题的负责任的暖男"},{"id":43552,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-01-16 13:59:11","like_diff":2,"likes":8,"dislikes":6,"content":"上课老师讲课不是很清楚，蜜汁笑点，经常觉得大家都是会的。平时每节课都去，作业认真做，考试前认真复习，我感觉考得应该还不错，结果，我的绩点出来？？瞎了我的眼"},{"id":43680,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-01-16 22:47:15","like_diff":2,"likes":6,"dislikes":4,"content":"老师还是不错的。\n\n不过普化真心水，上课不是很有趣，给分还不错，但考试大家都考得好，比较容易被正态吧"},{"id":45889,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-01-20 08:33:38","like_diff":2,"likes":5,"dislikes":3,"content":"老师很好很好 是我自己没好好学…考试有两道大题没算出来 真的很感谢老师…给分极赞"},{"id":48962,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-03-19 10:23:13","like_diff":2,"likes":4,"dislikes":2,"content":"楼下下的是称耗麦"},{"id":73450,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2018-02-01 14:42:46","like_diff":2,"likes":5,"dislikes":3,"content":"讲的很难，考的很简单。这大概就是普化的样子吧"},{"id":88253,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2018-10-25 03:39:16","like_diff":2,"likes":3,"dislikes":1,"content":"老师人很好，水平很高，问问题也很耐心，但是普化真的听不懂：）。是我太菜了……"},{"id":96517,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2019-01-21 05:26:53","like_diff":2,"likes":2,"dislikes":0,"content":"特别好的老师♡上课有趣并且很清晰，还会讲一些人生道理（？) 总之上课体验极佳！为了欣赏老师的人格魅力每次都抢前两排！群里的助教也很可爱哈哈哈哈哈哈！但是因为自己菜所以被卡?了QAQ"},{"id":96544,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2019-01-21 06:08:25","like_diff":2,"likes":2,"dislikes":0,"content":"老师超棒，超可爱，上课体验很棒。但是普化也不是靠老师好就可以学好的吧。emmm花了蛮多时间，但是结果没有十分理想，只能是自己菜了吧。然后老师小测的卷子一定要弄懂，期末会出到，还有课后题也要仔细看。"},{"id":109309,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2019-06-13 04:29:13","like_diff":2,"likes":6,"dislikes":4,"content":"没评论中说得那么好吧，讲得挺一般的，不过速度是很快。就是老师居然不知道姜泰勒效应真的让我无语=_=考试太坑了出了里德堡公式考得不好也没办法，但卡绩真的心塞\n\n"},{"id":161620,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-11-09 12:54:55","like_diff":2,"likes":5,"dislikes":3,"content":"普通化学乙，老师上课给分个人感觉非常好，讲的也很详细，虽然讲话声音会比较小，建议要认真听的同学做前排。老师很耐心，会解答问题，有一次已经很晚了老师还回复了我的问题。小测是五到六次，取最好的四次，每次是五个选择题，小测占总评20%。作业占20%，一定要认真做，做了也要扫一下答案或者拍一下考途订正！作业是会按对错给实时分数的（不过认真写了有错好像也会有80%以上的分数？），考勤10%，但老师从来不点名，估计是通过小测来判断考勤的吧！这门课关键要多看书，考试大题事后老师说都来自书上，这也会令没过45分斩杀线的同学汗颜吧！想学普通化学的选这位老师就对了！（当然这门课程由于时间短节奏快高中没学化学或者没学物质结构的学这门课程是会有些吃力的，需要花更多时间）"},{"id":161932,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-11-15 06:11:39","like_diff":2,"likes":6,"dislikes":4,"content":"不捞是真"},{"id":163886,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-12-16 11:13:39","like_diff":2,"likes":6,"dislikes":4,"content":"斩杀线。。。不捞人，靠自己，无语了"},{"id":172843,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-05-08 10:51:59","like_diff":2,"likes":3,"dislikes":1,"content":"老师真的很棒，不过普化还是得自己下去看"},{"id":183255,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-11-23 07:45:08","like_diff":2,"likes":2,"dislikes":0,"content":"还行吧"},{"id":188058,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-01-18 06:25:29","like_diff":2,"likes":2,"dislikes":0,"content":"义父受孩儿一拜！"},{"id":191709,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-04-30 04:53:03","like_diff":2,"likes":3,"dislikes":1,"content":"认真看老师的ppt，认真听老师讲，没有高中化学基础也是能学好普化乙的。出分了，喜提满绩"},{"id":191770,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-04-30 04:32:29","like_diff":2,"likes":3,"dislikes":1,"content":"厉刚我真义父，赐我满绩"},{"id":193011,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-06-02 12:04:01","like_diff":2,"likes":3,"dislikes":1,"content":"lg老师人真的特别好！24春学期的普化乙6次小测取4次最高分，小测是5道概念判断的选择题（上课认真听+课前翻书复习就能做对，上课不听的话只能怪你自己），不过要看准时间免得忘记提交（我就是因为这个小测少了2分QAQ）。温馨提示：高考没选化学的同学请做好心理准备。期末考试还算简单。老师给分应该还可以，反正我最后狠狠拿下5.0！"},{"id":201714,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-08 08:13:38","like_diff":2,"likes":2,"dislikes":0,"content":"厉老师讲的很认真详细，为人也很和蔼，但是讲的稍微有点快，期末出题有点难，还是很推荐选厉老师的课。"},{"id":201957,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-07 23:56:20","like_diff":2,"likes":2,"dislikes":0,"content":"讲课:有点催眠(声音起伏不大，音量小)但是讲得挺好的，不过老师默认大家都学过化学了，高中没学过化学的同学可能要课前自学，高中学过化学的要课后自学\n\n成绩:捞人大师，会捞人 肯捞人 能捞人\n\n课下:建议线下去问问题，老师可能不太想要被占用课外时间，而且他好像想象不到我们的化学竟然那样差"},{"id":201962,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-08 00:19:58","like_diff":2,"likes":2,"dislikes":0,"content":"虽然我2.70但是厉刚老师确实好"},{"id":201967,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-08 00:50:36","like_diff":2,"likes":2,"dislikes":0,"content":"挺温柔的老师，但是感觉有时候好快，不过这应该是我自己的问题。"},{"id":201974,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-08 01:31:06","like_diff":2,"likes":2,"dislikes":0,"content":"全力捞人，说讲的快单纯是因为普化乙是一个学期的课，内容又多，所以要提提速，这算是学校课程安排的问题。历老师本身非常和蔼，希望大家学到更多的东西，会经常鼓励学生。觉得讲的快的同学可以课后多熟悉一下课本。期末的题目主要看基础扎不扎实，平时认真听课就行（甚至还有书本作业原题？！）第一印象老师很爽朗真挚，是真的在乎学生学业的好老师。"},{"id":202136,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-10 03:03:42","like_diff":2,"likes":3,"dislikes":1,"content":"老师水平很高，但是表达能力可能有点问题，不过这个应该是没法改的。上课进度快是教学安排的问题。同学们不要期待老师捞你，老师捞你是情分，不捞你是本分，在这门课的学习上一定要谦虚和踏实，最好做到预习加复习，期末复习压力就可以小一点了，刷刷题就行。这次的期末卷我认为较难，考的内容很灵活也很细，最后还是收获了一个还行的分数，4.2，谢谢厉老师。"},{"id":207058,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-12-19 06:05:47","like_diff":2,"likes":2,"dislikes":0,"content":"ppt很好，讲课稍快一点，下了课自己要好好回顾，选普化乙直接冲"},{"id":209046,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2025-01-04 09:32:48","like_diff":2,"likes":2,"dislikes":0,"content":"上课比较犯困，但其实老师的逻辑还是很清楚的，下课把作业认真做了，面向历年卷复习一下还是可以拿到不错的分数"},{"id":210033,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2025-01-08 03:19:38","like_diff":2,"likes":3,"dislikes":1,"content":"上过老师的普化乙，当时就很喜欢老师的上课方式，老师是真的很关心自己的课程，ppt每年都会有更新，课后问老师题目也会很好的解答，回消息很快啊！普化乙平时小测6选4，学在浙大五道选择题，小测前会点名。\n\n之后又选过老师的物化（这课本身太硬了），讲课方式差不多，平时小测6选4，点过两三次名（有一次是接近期末了，早八课很多人没来，老师来了次纸质签到┐(´-｀)┌）。\n\n给分还是不错的，就普化我认识的几位表示有被捞，神！总的来说挺不错的老师，十分！\n\n可惜以后没有厉刚老师的课了……"},{"id":218586,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2025-04-25 10:12:10","like_diff":2,"likes":2,"dislikes":0,"content":"普化乙 出分后来感谢老师捞捞！"},{"id":14371,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2016-01-06 14:19:00","like_diff":1,"likes":6,"dislikes":5,"content":"老师很耐心，很愿意帮助你解答各种问题"},{"id":34376,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2016-10-08 07:25:15","like_diff":1,"likes":8,"dislikes":7,"content":"讲课速度贼快，根本听不懂好吧，老是以为我们学过"},{"id":43497,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-01-16 11:14:20","like_diff":1,"likes":6,"dislikes":5,"content":"分数不好。"},{"id":46372,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-01-21 11:06:15","like_diff":1,"likes":3,"dislikes":2,"content":"浓浓的师生情"},{"id":63305,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-11-30 09:20:18","like_diff":1,"likes":3,"dislikes":2,"content":"灰常好的老丝"},{"id":89004,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2018-11-13 15:14:24","like_diff":1,"likes":3,"dislikes":2,"content":"老师讲得超仔细！！课文内容详细解读配套例题巩固，保证你们能听得懂，那些说不懂多半是因为没有认真听。而且老师人很温柔和蔼，非常好！！"},{"id":93548,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2019-01-10 09:45:33","like_diff":1,"likes":3,"dislikes":2,"content":"老师总是强调：不同的学生当然有差异，这个是很正常的。但是无论如何这门课程基本的要求要达到。\n\n每次拿着都是叉的试卷问问题，老师不仅给我耐心地讲。还总告诉我：分数不要太在意，重要的是把题目弄懂。助教也经常鼓励我。\n\n我很喜欢有这些想法的老师，就像高中的天文老师一样，上他们的课可以由衷地感受到自由和快乐。"},{"id":96529,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2019-01-21 05:34:34","like_diff":1,"likes":1,"dislikes":0,"content":"感觉有点快"},{"id":131098,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2021-01-26 02:48:56","like_diff":1,"likes":3,"dislikes":2,"content":"出分真的快，普化开始几章热力学会比较难，到后面会容易一些，老师讲的很详细，上课认真听一定会有收获的，老师讲课给人一种很有风度的感觉，感谢老师"},{"id":131102,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2021-01-26 03:11:34","like_diff":1,"likes":1,"dislikes":0,"content":"老师真的很好啊呜呜呜呜呜期中考考差了老师还会安慰鼓励我呜呜呜呜真的太好了大学里真的很少有这种老师吧呜呜呜虽然绩点不高但是真的强推老师普化还是靠自己的吧"},{"id":131116,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2021-01-26 04:36:07","like_diff":1,"likes":2,"dislikes":1,"content":"给分针不戳"},{"id":146343,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-01-06 09:31:45","like_diff":1,"likes":2,"dislikes":1,"content":"如果老师不小测的话，是没有点名的"},{"id":159566,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-08-13 01:30:56","like_diff":1,"likes":2,"dislikes":1,"content":"讲得很清楚啊，没有像某些老师一样一路狂奔，充分照顾了大部分学生"},{"id":161571,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-11-09 07:01:12","like_diff":1,"likes":3,"dislikes":2,"content":"特别好"},{"id":161587,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-11-09 08:10:26","like_diff":1,"likes":5,"dislikes":4,"content":"老师真的超级有耐心！！高中没选化学的人到了大学忽然一下子塞了这么多化学知识真的很迷茫，每次在钉钉上问老师老师都很耐心地解答了。考试的时候其实也挺慌的，但是成绩出来真的超乎我的预料。普化真的很需要花时间去理解书本，再次感谢老师！！"},{"id":162546,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-11-25 04:09:42","like_diff":1,"likes":3,"dislikes":2,"content":"老师人很好，除了说话稍微有点不清楚，10分"},{"id":165411,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-01-04 13:39:12","like_diff":1,"likes":3,"dislikes":2,"content":"厉老师不说是物化老师里讲得最清楚的，也肯定是物化老师中讲得非常好的。上课PPT和板书结合，重要公式都在PPT上，推导过程结合书本然后自己板书手推，而且会请同学来回答问题，迫使学生去思考。课后答疑的感觉也非常好，线下答疑完全就是讨论的氛围；本人一共线上提问4次，每次都是秒回。唯一的缺点就是当老师翻到下一页PPT，讲完下一个知识点的时候，你可能还在翻书找公式。所以上这门课一定要预习，上课专心听讲，自己整理笔记，千万不要边翻书边听课。"},{"id":168842,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-02-22 15:59:36","like_diff":1,"likes":2,"dislikes":1,"content":"物化是一门需要静下心来好好研究的课，平常上课的时候过于浮躁根本没好好学，寒假听回放才感受到这门课的奥妙，虽然最后绩点爆炸，但老师的教学水平依然是在线的，大伙放心选\n\n最后感谢刚子不挂之恩！"},{"id":173493,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-05-26 06:14:02","like_diff":1,"likes":4,"dislikes":3,"content":"讲得真不怎么样，高中没有化学基础的听着就根本听不懂"},{"id":180851,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-09-27 07:16:27","like_diff":1,"likes":3,"dislikes":2,"content":"老师非常耐心也很nice，问到自己都不好意思的时候他还会问你懂没有，没有又再讲，可以讲到下节课开始了被迫结束后在钉钉上继续跟你解释，为人也非常和气，很好的老师~"},{"id":183191,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-11-22 14:42:23","like_diff":1,"likes":1,"dislikes":0,"content":"老师教的很好，给分也很好！"},{"id":183249,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-11-23 06:36:52","like_diff":1,"likes":3,"dislikes":2,"content":"普化乙\n\n老师讲课速度快是因为教学安排的不合理，内容较多课时少，老师讲的还是很不错的，但课下需要多看书，多做做题，感悟一下方法。（对自学能力有要求）\n\n六次小测选四次作为成绩是真的感人，给你机会你不中用就没办法了\n\n平时作业好好写过程，看样子老师是有认真看的，别指望后面二维码抄个答案，不会有好分数的\n\n最后期末复习，看老师给的模拟卷还有平时小测，答案对不对不重要，重要的是思路和知识点，做完后，去书中找，公式不可避免地要记一记\n\n最后4.8，感谢厉老师。"},{"id":183827,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-11-30 14:08:47","like_diff":1,"likes":1,"dislikes":0,"content":"很好的老师，不多说了，10分，能看出来老师是真的有在认真想让学生学会知识，也非常关心学生"},{"id":183831,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-11-30 16:53:05","like_diff":1,"likes":1,"dislikes":0,"content":"普化乙。\n\n厉刚老师是一个很nice的老师！问问题会及时回，不会摆架子，上课很认真，考试也会捞捞！上课不点名，小测六取四，很友善啦！（虽然本人卡绩😭）\n\n普化乙对高中学过化学的人还算是蛮友好的，我基本上上课没怎么听过全靠自学（确实上课会有点无聊，一般我最多坚持一个小时认真听，我比较容易走神bhys），最后出来绩点也蛮满意的！"},{"id":184463,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-12-20 07:18:23","like_diff":1,"likes":1,"dislikes":0,"content":"厉刚老师真的很好！！！上课风趣幽默，而且期末考狠狠捞人，爱了爱了。"},{"id":191785,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-04-30 07:05:46","like_diff":1,"likes":1,"dislikes":0,"content":"宝藏老师🤩"},{"id":191786,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-04-30 07:06:36","like_diff":1,"likes":1,"dislikes":0,"content":"中国好老师，满绩前来感谢😊"},{"id":192317,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-05-15 02:56:30","like_diff":1,"likes":2,"dislikes":1,"content":"厉刚老师是真正在为学生的学业考虑的，人很亲切和蔼，强推啊"},{"id":195326,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-06-27 17:44:28","like_diff":1,"likes":2,"dislikes":1,"content":"选物化的别被普化乙的评论诱骗了。物化是真的……讲的挺一般的……小测是六取四最高，每次五道选择题。身边统计学普遍认为给分没有其他老师好，完全不捞……建议直接看pxg老师的课就行"},{"id":199469,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-09-24 07:13:04","like_diff":1,"likes":1,"dislikes":0,"content":"好快啊"},{"id":201384,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-01 10:10:24","like_diff":1,"likes":1,"dislikes":0,"content":"老师特别好，上课很有趣，对于我这种ddl的学生很合适，有六次小测，选取四次计入成绩，会强迫自己复习，知识点也能掌握，PPT超级棒，但是上课最好抢前排，老师声音不怎么清楚"},{"id":201646,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-05 06:15:02","like_diff":1,"likes":2,"dislikes":1,"content":"10分送给老师，非常棒\n\n\n\n高中化学菜狗，希望别挂\n\n\n\n老师人很有意思，讲话风趣幽默，上课博采众长，采用一些课外的外国教材图标印证教材观点\n\n\n\n小测六次取4，还是不错的，大小知识点都能涉及到，对考试有帮助\n\n\n\n上课进度太快了。。。虽然是课时问题但是必须要预习不然跟不上（个人观点）"},{"id":201955,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-07 23:07:04","like_diff":1,"likes":1,"dislikes":0,"content":"完美，无需多言"},{"id":201959,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-08 00:07:39","like_diff":1,"likes":1,"dislikes":0,"content":"最好的老师"},{"id":202021,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-08 08:52:49","like_diff":1,"likes":2,"dislikes":1,"content":"第一条查老师献给lg老师，厉刚老师你是我唯一的神！！！\n\n老师讲的很好，深入浅出，还会引导大家思考，但是讲的比较快（节奏快并且声音可能有一点含糊）。老师的PPT做的超级详细，可以直接下载下来做笔记！复习的时候也很适合用这个。\n\n老师人很好，可以直接去问他成绩组成或者问题什么的，老师会很风趣地解答问题。\n\n普化乙不算难，大概就是高中化学和高中原子物理的延拓（探寻原理），公式更多，但是半学期学这么多的话，可能会有点恼火。高中没有学过化学的同学可以考虑多花点时间预习，看书，上课认真听！期末考试其实比较简单，98上有回忆卷，老师自己也会发模拟卷，只用熟悉一下题型，然后很多题都是小测或者课后习题甚至例题的原题或者变式题。平时一定要认真做作业，把公式多记一记。复习的时候拉通看一遍公式，做做课后习题就可以了！\n\n老师真的讲很好（虽然我国庆节之后就开始在课上划水玩手机了），最后我裸分本来就是满绩的，但是平时作业不怎么对答案，可能跟很多同学比起来略低了一点，但是老师还是给我满了！！！谢谢老师！！！"},{"id":202826,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-14 15:01:30","like_diff":1,"likes":1,"dislikes":0,"content":"厉老师讲的非常好！考前答疑的晚上在办公室里为去的同学详细解答问题。讲课幽默风趣，从来不训斥学生。"},{"id":204115,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-24 11:03:07","like_diff":1,"likes":1,"dislikes":0,"content":"老师讲课声音有点轻（不是小）不要缺觉的时候妄图去听课。。。老师人真的很好 小测会提前通知无点名 但是更适合有一定基础的同学听不然非常容易听不懂（）"},{"id":207140,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-12-19 11:32:34","like_diff":1,"likes":2,"dislikes":1,"content":"普化乙，不点名，小测全测就算全勤，小测成绩六选四，算是很好了。讲课水平不清楚，感觉高中化学老师都讲过（？）所以就没听。每次小测前和期末自学一下，绩点也还行了。适合化学基础好的同学吧。"},{"id":214812,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2025-02-18 04:56:11","like_diff":1,"likes":1,"dislikes":0,"content":"老师是很负责的，但是感觉物化太难了，上课有点跟不上😢"},{"id":218742,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2025-04-30 06:25:21","like_diff":1,"likes":1,"dislikes":0,"content":"出分了，满绩前来还愿！\n\n老师上课讲的结构很清晰，重点突出，由于不会所有都讲，需要一定的预习。\n\n比起掌握知识点，老师更想让你了解普化这门课各种概念的来源，深究背后原因。\n\n课程设置上六次小测容错率极高，期末考难度偏大，但是认真学一定没问题！相信厉老师就行了！"},{"id":18924,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2016-01-22 22:56:25","like_diff":0,"likes":3,"dislikes":3,"content":"救命恩人。"},{"id":30483,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2016-09-29 02:05:21","like_diff":0,"likes":6,"dislikes":6,"content":"厉刚老师上课是读PPT和讲解相结合吧，不过节奏比较慢。有时候提问得不到反应有种很无奈的感觉。不过课堂质量还是高的，认真上能理解好。"},{"id":39164,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2016-12-21 11:52:02","like_diff":0,"likes":1,"dislikes":1,"content":"真的很棒"},{"id":68613,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2018-01-23 13:02:36","like_diff":0,"likes":4,"dislikes":4,"content":"厉刚老师真的很好，喜欢他的笑容。普化的话光是靠上课是不可能完全吃透的，需要多消化，自己多看几遍书才能消化。"},{"id":70337,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2018-01-26 13:08:21","like_diff":0,"likes":3,"dislikes":3,"content":"物化不错，成绩不怎么样，怪自己咯"},{"id":94487,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2019-01-17 01:18:41","like_diff":0,"likes":1,"dislikes":1,"content":"厉刚老师太棒啦，对学生很有耐心，还会引导我们自己掌握学习方法"},{"id":96617,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2019-01-21 07:52:13","like_diff":0,"likes":2,"dislikes":2,"content":"老师不错 小测要做 公式挺烦 背下不难"},{"id":97411,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2019-01-22 08:43:05","like_diff":0,"likes":1,"dislikes":1,"content":"平时分很高，老师人超好！"},{"id":131121,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2021-01-26 04:51:23","like_diff":0,"likes":1,"dislikes":1,"content":"老师挺好的，最后的给分超出我预期"},{"id":146504,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-01-06 17:41:28","like_diff":0,"likes":1,"dislikes":1,"content":"老师人贼好！！超级好"},{"id":148432,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-01-12 12:31:15","like_diff":0,"likes":2,"dislikes":2,"content":"BEST TEACHER IN THE WORLD!!!!!!!!"},{"id":161586,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-11-09 08:05:26","like_diff":0,"likes":2,"dislikes":2,"content":"口音很重，声音很糊，从不点名。以前学过化学的话还是蛮有趣的"},{"id":161672,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-11-10 08:39:57","like_diff":0,"likes":2,"dislikes":2,"content":"老师好好，期末会捞捞，讲得很好，问问题也很热情"},{"id":175535,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-06-25 11:41:28","like_diff":0,"likes":0,"dislikes":0,"content":"老师很细，阳寿抽卡很好用"},{"id":183151,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-11-22 12:04:52","like_diff":0,"likes":2,"dislikes":2,"content":"我觉得老师讲的还是不错的，也比较认真，但是由于不点名需要自己的自制力很强，而且要认真听。"},{"id":183171,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-11-22 13:14:29","like_diff":0,"likes":0,"dislikes":0,"content":"不错的老师，人很好"},{"id":183923,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-12-04 01:23:25","like_diff":0,"likes":1,"dislikes":1,"content":"超级好的老师，虽然上课没怎么听，但是被捞上来了"},{"id":185120,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-12-26 11:25:27","like_diff":0,"likes":0,"dislikes":0,"content":"超好！！！！！！！！！！！！！！真的很有耐心，在钉钉上问问题基本上都秒回，还会鼓励你！！！最后绩点也很好看！！超好的老师！！"},{"id":191772,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-04-30 04:43:01","like_diff":0,"likes":1,"dislikes":1,"content":"lg老师真的好，答疑细心，每次都及时回复，给分也很好"},{"id":191883,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-05-03 11:37:22","like_diff":0,"likes":1,"dislikes":1,"content":"把老师讲过的话记下来，尤其是不在PPT上的，然后把小测题，PPT上的所有例题以及作业题都弄懂，不会就问老师，老师回应比较及时，然后就OK了。"},{"id":201363,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-01 06:17:01","like_diff":0,"likes":0,"dislikes":0,"content":"老师很可爱，讲的也很好！"},{"id":201553,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-04 08:31:03","like_diff":0,"likes":0,"dislikes":0,"content":"非常好"},{"id":201786,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-06 09:30:22","like_diff":0,"likes":1,"dislikes":1,"content":"老师人真的很好啊，建立答疑群，耐心回答同学问题，上课中同学有问题也会耐心回答，期末因为我自己听课的问题不做评价，但是据说给分很好，平时去上课认真写作业平时分基本就给满，总是笑眯眯的很和蔼，虽然语调平平会让人想睡觉（可能只是我自己容易困），但是真的很赞，10分！"},{"id":201960,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-08 00:13:51","like_diff":0,"likes":0,"dislikes":0,"content":"小测与智云组成了我的普化课程。。。\n\n厉老师讲得还挺好的！！！"},{"id":202005,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-08 04:48:45","like_diff":0,"likes":0,"dislikes":0,"content":"很好的老师，不点名，只要小测都去考了就是全勤。但是上课速度很快，语调很平，有时候会跟不上节奏。考前刷98历年卷和老师给的模拟卷，把不会的点都搞懂，平时作业认真完成，上课听不懂也没什么问题。期末考试的计算部分和历年卷和作业的题目重合挺大，选填和简答题还是要认真把概念搞懂"},{"id":202275,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-11 07:02:26","like_diff":0,"likes":3,"dislikes":3,"content":"老师讲话不太清楚，但从周围人的反应，给分好像不错，虽然我认真自学才3.9，我感觉我考试都会写啊，就离谱，反正我看不到试卷也没办法。。"},{"id":202390,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-12 09:31:09","like_diff":0,"likes":1,"dislikes":1,"content":"很用心的老师"},{"id":203146,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-17 11:49:10","like_diff":0,"likes":0,"dislikes":0,"content":"确实讲的挺快，得自学一些，厉刚老师人确实挺好，找他都会回复的"},{"id":205384,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-12-05 10:41:56","like_diff":0,"likes":1,"dislikes":1,"content":"厉刚老师人很好，小测六取四，基本不点名，就是可能说话方式的原因（？），困的时候非常容易走神，课其实讲的不错"},{"id":205767,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-12-12 03:14:25","like_diff":0,"likes":1,"dislikes":1,"content":"讲课速度不合理，薛定谔方程这种不考的东西讲的很细，考试重点反而匆匆略过，重点不清晰。非常离谱的是说话声音会在重点出变轻！！！如果不得不选他的课的话，化学基础一般的建议上课不听直接自学"},{"id":205880,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-12-12 12:23:34","like_diff":0,"likes":2,"dislikes":2,"content":"老师人真的很好，大学第一门满绩！期末考试只要认真复习ppt，平时上课认真听，作业认真做就一定能学好"},{"id":29158,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2016-06-29 10:06:31","like_diff":-1,"likes":2,"dislikes":3,"content":"整体上还是挺好的"},{"id":62950,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-11-27 12:19:08","like_diff":-1,"likes":1,"dislikes":2,"content":"很和蔼的老师"},{"id":68596,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2018-01-23 12:25:49","like_diff":-1,"likes":2,"dislikes":3,"content":"普化真的好好听讲再做些题就好了，"},{"id":82047,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2018-07-07 02:43:09","like_diff":-1,"likes":1,"dislikes":2,"content":"习题课的老师 真的非常负责用心 很好的老师"},{"id":96527,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2019-01-21 05:33:37","like_diff":-1,"likes":0,"dislikes":1,"content":"老师人很好，解答问题也很耐心。不过，上课是真的有丶听不懂，特别是一开始就有讲到公式推导关于定积分的知识的时候，自己很菜，期中没考好，期末也只救回来了点……\n\n\n\n大家，公式推导不会就跳过，重点是例题和课后题，一定要做一遍，然后历年卷也一定要刷！！！"},{"id":131115,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2021-01-26 04:35:14","like_diff":-1,"likes":1,"dislikes":2,"content":"讲的好"},{"id":146359,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-01-06 10:10:14","like_diff":-1,"likes":0,"dislikes":1,"content":"老师人真的好好！下课他总是耐心为同学解答问题，有时候一讲就是四十多分钟。特别喜欢老师的笑容，真的很温暖！"},{"id":152173,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-03-29 11:44:26","like_diff":-1,"likes":1,"dislikes":2,"content":"老师超级好"},{"id":161056,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-10-25 07:27:10","like_diff":-1,"likes":0,"dislikes":1,"content":"很好的老师，上课细致，人很好"},{"id":161590,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-11-09 08:13:40","like_diff":-1,"likes":2,"dislikes":3,"content":"老师讲课很清晰 有自己的一套方法 事少能捞 小测都是选择qwq（不知道以后会如何"},{"id":161673,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-11-10 08:41:38","like_diff":-1,"likes":2,"dislikes":3,"content":"爱死厉刚老师😻😻"},{"id":161718,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-11-11 05:01:43","like_diff":-1,"likes":2,"dislikes":3,"content":"说话不太清楚，但讲得可能还行，人挺好的"},{"id":161769,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-11-13 01:18:38","like_diff":-1,"likes":4,"dislikes":5,"content":"老师声音小，重点听不清，但是没关系，考前冲一晚，轻松3.9绩（厉刚老师）无脑室友学一学期，以为自己能满绩，考完发现挂科了，清早怒吼没人性（bpf老师）"},{"id":164764,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-12-25 13:29:08","like_diff":-1,"likes":1,"dislikes":2,"content":"绩点说明一切，分是真不调"},{"id":182233,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-11-13 05:11:00","like_diff":-1,"likes":1,"dislikes":2,"content":"很关心学生，就是后面赶进度有点快"},{"id":183175,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-11-22 13:54:53","like_diff":-1,"likes":0,"dislikes":1,"content":"高中有学过化学，上老师的课感觉还是很好的。"},{"id":183201,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-11-22 16:24:14","like_diff":-1,"likes":0,"dislikes":1,"content":"感恩的心🥹"},{"id":184754,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-12-22 12:45:37","like_diff":-1,"likes":0,"dislikes":1,"content":"谢谢老师，满级了"},{"id":191774,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-04-30 05:27:48","like_diff":-1,"likes":0,"dislikes":1,"content":"挺好的老师，钉钉回消息很及时，有一次半夜还在回我消息，讲课稍微有点逻辑不清，也比较快，高中没学过化学需要自己看看站自学一下。捞的话感觉不是很明显，感觉期末考多少分就是多少，但是最后分数还算满意，总体来说是好老师"},{"id":191933,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-05-06 00:29:55","like_diff":-1,"likes":1,"dislikes":2,"content":"给分好"},{"id":201506,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-07 23:07:41","like_diff":-1,"likes":0,"dislikes":1,"content":"厉老师好！！！！"},{"id":201897,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-07 08:41:31","like_diff":-1,"likes":0,"dislikes":1,"content":"大爱厉刚"},{"id":201956,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-07 23:48:39","like_diff":-1,"likes":0,"dislikes":1,"content":"说话快，模糊，但挺认真热情的"},{"id":201977,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-08 01:58:09","like_diff":-1,"likes":0,"dislikes":1,"content":"很好的老师，知识很渊博，PPT做的也很详细，问他问题他都会及时解答，在答疑群很活跃，都来报厉老师的课啊啊啊"},{"id":202012,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-08 07:07:24","like_diff":-1,"likes":0,"dislikes":1,"content":"老师其实很好，对知识点的讲解详略得当。但限于课程只有一个短学期，对于没提前学过的讲课速度确实很快。蛮后悔自己明知这门课时间短却没有投入心思去学。虽然自己没问过问题但老师在群里答疑很认真，平时也会督促学生，挺好的。学不好、跟不上只能怪自己，没投入心思和精力。其实我觉得好好学4.0闭眼拿，我虽然差一点点3.9，但我觉得不是老师的问题。"},{"id":206553,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-12-16 04:23:16","like_diff":-1,"likes":0,"dislikes":1,"content":"好怀念他的课"},{"id":99959,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2019-01-25 10:47:26","like_diff":-2,"likes":0,"dislikes":2,"content":"老师上的很好啊，就是有的时候讲太深了。对于我这样比较差的同学可能就…不过还是挺感谢老师哒，很棒的一个人"},{"id":146345,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-01-06 09:33:19","like_diff":-2,"likes":1,"dislikes":3,"content":"厉刚老师的小测就离谱，错一道题扣14分，并且平常上课有时候的口音让我听不太懂……"},{"id":201973,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-11-08 01:24:19","like_diff":-2,"likes":0,"dislikes":2,"content":"老师讲课风趣幽默，通俗易懂！解答问题也十分耐心啊！还有六次五分钟的小测取4次高分，给我们容错几率。最后期末也是海底捞啊啊啊啊啊啊！爱死lg了"},{"id":211099,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2025-01-10 15:30:01","like_diff":-2,"likes":2,"dislikes":4,"content":"怎么上完物化没人来评分？我敢肯定他绝对不会捞已经及格的人，总评就是各项分数加和。但助教改卷非常宽松，努力学了完全不用担心被绩杀"},{"id":12547,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2016-01-04 01:52:39","like_diff":-3,"likes":8,"dislikes":11,"content":"没意思"},{"id":146348,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2022-01-06 09:42:21","like_diff":-3,"likes":1,"dislikes":4,"content":"感谢老师捞我呜呜呜呜呜呜！厉刚老师我的超人！！孩子高中没学过化学，大学上来一整个看天书的状态，期中考只有二十几分，期末考前疯狂补天，最后低空过了！老师讲课很清楚，答疑也很耐心"},{"id":29168,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2016-06-29 10:20:02","like_diff":-4,"likes":9,"dislikes":13,"content":"有点昏昏欲睡，听不下去，不过看学霸们学得很high，自学吧•﹏•"},{"id":183157,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2023-11-22 12:33:38","like_diff":-4,"likes":4,"dislikes":8,"content":"上课稀里哗啦的根本听不清在讲什么，而且经常要下课了还要加速。上课经常自己西里哇啦讲PPT跳的巨快。不是高中学过的完全不会。考前一周就在复习了。但最后考出来只有2.7。说实话不是自学能力有自信的别选"},{"id":69289,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2018-01-24 12:04:55","like_diff":-5,"likes":3,"dislikes":8,"content":"普化很简单的，好好学的话我觉得比高中化学简单的多"},{"id":16769,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2016-01-19 02:44:26","like_diff":-6,"likes":2,"dislikes":8,"content":"。。。"},{"id":65783,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2018-01-09 06:05:30","like_diff":-6,"likes":0,"dislikes":6,"content":"不止讲化学"},{"id":96586,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2019-01-21 06:59:45","like_diff":-7,"likes":0,"dislikes":7,"content":"老师是特别负责那种！上课知识点讲的挺细也很清楚，考前一定要翻PPT和笔记！然后还会有很多次小测hhh但是只要做了小测就会有分数这种操作还是很令人心动！而且给分也很好hhh"},{"id":21101,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2016-02-17 07:50:30","like_diff":-8,"likes":11,"dislikes":19,"content":"老师挺负责的但是讲得太差了。后来都不想去上课了，无奈他抽点名不去扣分。纯自学（；￣ェ￣）"},{"id":70169,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2018-01-26 07:52:43","like_diff":-10,"likes":3,"dislikes":13,"content":"老师给分真的太好了，感觉自己要挂了，还有4"},{"id":214052,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2025-01-23 10:03:37","like_diff":-12,"likes":3,"dislikes":15,"content":"本人普化物化都在厉老师手下拿了满绩。普化不用说了，课程跟物化比真是太简单了，难度差个五六倍吧，期末也随便满分。这物化课程虽然很难，但期中期末也都挺水的，很多原题，老师为了捞人是煞费苦心啊，满绩其实不难。从来不去上课，考前一天补天的人也不会被斩杀，可见改卷真的很捞。如果学的是物化，一定要特别重视期中考，这可占30%啊"},{"id":197090,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2024-07-07 13:15:17","like_diff":-17,"likes":1,"dislikes":18,"content":"100分有手就行"},{"id":48961,"teacher_id":1947,"teacher_name":"厉刚","post_time":"2017-03-19 10:22:29","like_diff":-23,"likes":11,"dislikes":34,"content":"管他老师好不好，反正我满绩(￣O￣）"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>骆严 - 医学院 - 浙大教评</title>
+    <meta name="description" content="骆严教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="骆严,医学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">骆严</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">医学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.10</div>
+                    <div class="rating-participants">131人参与评分</div>
+                    <div class="attendance-info">33.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">医学生物化学与分子生物学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.49</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.97</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">细胞与生物分子Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.25</span>
+                            <span class="students">选课: 64人</span>
+                            <span class="std-dev">标准差: 0.65</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (114 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":115129,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 01:57:05","like_diff":51,"likes":63,"dislikes":12,"content":"以前同学们对老师教学的认真负责的态度说了很多我就不在此多说了。\n\n我学习过老师的生化课程，如果有学过竞赛的同学那这门课真的是再友好不过了(不过我并不是)\n\n这门课的评分标准是50分的期中考试，50分的期末考试，平时分？不但没有还会倒扣哦，这点要小心了，大家平时的笔记要跟上，因为本来就是学习的一部分。\n\n如果这评价10里，5分是上课，5分是下课的话，老师的上课5分一定是满的，但是剩下的5分我只想给2分。\n\n首先老师经常提到自己是教巴德年班级的，是“精英班”，ok，我们只是普通的5+3，我们临床医生和巴德年的水平和要求从高考进来就不同，我们的目标也不同，所以总把我们和他们比较，扣1分。\n\n其次，做比较是很容易理解的事情，就像一个家里有两个孩子，老大学习好，老二差一点，但是激将法有用的话，为什么老二还是不听呢。我们需要的是真诚的理解，而不是“大部分临床学生都在混学分”这样有失偏颇的言论，并不符合事实的理解我们不但不会懂您的苦心，而且会有反感，医学生哪个不想把每一门医学课学好呢？激将法用得太猛扣1分。\n\n最后，从老师的话里能明显感觉到，我们已经不是您“亲生的孩子”，“刀在我们临床医生手里，不在那些科学家手里”，科学重要，巴德年学生很牛，但我们是贴身感受疾病的痛苦，给病人关怀和安慰，站在前线，成为一个字优秀的医生是我们所有人的目标，请不要看不起白衣天使好吗？"},{"id":76303,"teacher_id":2453,"teacher_name":"骆严","post_time":"2018-04-02 09:07:02","like_diff":44,"likes":49,"dislikes":5,"content":"跑马拉松前积累了一公斤糖原 第二天睡过了忘去跑了 于是成了板油"},{"id":3099,"teacher_id":2453,"teacher_name":"骆严","post_time":"2015-09-14 11:28:27","like_diff":43,"likes":57,"dislikes":14,"content":"骆老师对于课程的用心程度值得很多浙大老师学习\n\n"},{"id":49581,"teacher_id":2453,"teacher_name":"骆严","post_time":"2017-04-19 09:13:40","like_diff":37,"likes":42,"dislikes":5,"content":"骆邦邦要减肥了"},{"id":115120,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 00:31:25","like_diff":32,"likes":37,"dislikes":5,"content":"老师讲挺好这没啥可质疑的，上课有趣，但是我觉得对于刚刚开始接触生化的同学来说，讲太多英文啥的可能有点难\n\n另外我怎么觉得老师对于5+3有种“算了大家肯定会对我打低分你们随意”的感觉，相对的，对巴德年的同学更加看好（这段话是从老师让我们来查老师评价的事情里感受到的）\n\n虽然巴德年是很厉害但是我们5+3也并不全是渣滓叭（就算我们考不好学得不咋地但是并不意味着我们就是来混学分的啊，我花了最多的时间来学生化但是我也很无奈只有这点成绩啊）\n\n唉，老师可能是随口一说，但是有点伤心"},{"id":115091,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 02:24:26","like_diff":29,"likes":31,"dislikes":2,"content":"上一个9分给上课，这一个6分给发微信传播让学生上查老师，不否认临床的同学与求生培养目标不同，我不敢保证说5+3的同学易如反掌，但是显然在座的绝大部分人都有远高于求生同学的高考分，我们选择临床，绝不是因为考不上求生，甚至很多人已经有了巴德年的分数，或许在老师眼里我们这群立志做临床医生的人目光狭隘没有追求，基础和临床本就是相辅相成的，为何要贬低临床？热爱又有什么错？不否认两百个人的临床与二十个人的求生平均成绩和下限有差距，但这是客观规律决定的，课程标准也是学校的要求，侧重不同也是专业性质决定的。看不起我们也罢，我们的心里装的是“救死扶伤”，哪怕只能救几个人。"},{"id":115135,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 03:47:55","like_diff":29,"likes":32,"dislikes":3,"content":"我觉得检查笔记真的很不必要，不是所有人都适合抄笔记复习巩固知识的。骆严老师的课我个人觉得是有点不知所云的，虽然有重点但并不清晰而且老是说英文（也不知道评论里为什么都说他讲课好的。我觉得讲的最好的是第三篇的李学坤老师啊！课前课后都会带着我们复习一遍，也很有教师的情怀会激励我们。不像某人，激将法是有什么用，捧高踩低吗？也不懂为什么这么执着于让我们来查老师给他打分，有什么意义吗？众口难调的吧。"},{"id":115130,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 02:25:52","like_diff":24,"likes":25,"dislikes":1,"content":"“大部分临床学生都在混学分”，我不懂这叫什么激将法，我只是觉得这么盖棺定论特别让学生心凉。客观上讲老师上课很不错，讲代谢的部分也挺幽默的，教学能力不容置疑。但是感觉总是拿5+3和巴德年做比较，本身就是对学生的不公平，我们高考分数就决定了我们不是巴德年的未来走科研道路的精英，可是与病人最近距离接触的，最直面疾病和死亡的，是临床医生。没有说巴德年的同学不好的意思，只是希望老师因材施教，如果您认为我们是混学分的，那我们怎么努力都是混学分的。"},{"id":115141,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 05:00:02","like_diff":23,"likes":26,"dislikes":3,"content":"【接上】有一点不得不说，也是我希望每个老师做到的即使难度较大的一点，就是上课时的条理清晰，希望骆严老师在这方面能够更上一层楼。此外，我非常赞赏平时的笔记检查这点，骆严老师能有让学生注重平时，而不是期中、期末速成的意识十分难得（起码这是我第一次遇到课检查平时绩效，也督促了我的日积月累）。这也引发了另一个问题，就是没有平时分，难免会有速成的漏网之鱼（当然平时的作业检查还可以再细致一点，助教小姐姐还是很宽容我们的～）。\n\n    最后我想说一下大家都很在意的“5+3的学生大多在混学分”这句话。首先，我们5+3学生需要反思一下自己的心态，在知道成绩出了之后，可能大多数学生表现出的焦急、焦灼蔓延到了生化老师们那里（但是想知道成绩的心无可厚非，人之常情，这也是中国整个大形势促成的，我相信巴德年的学生也会有，此外他们没有正态，这个心理就会相对弱一些），老师都希望学生能真正学到知识而不是在意结果，我们也需要理解老师。其次，我自己也并不认同甚至是完全反对这个说法，我想与骆严老师说的是，我们医学试验班5+3都是相当优秀的同学，我来到大学，最难得的就是来到这个每天没有在混日子，还在努力学习、上进拼搏的集体，在这里面我进步了许多；更何况这个专业真的有很多本来能考得上清北的同学，绝不比“精英班”差（我们也是蓝田均绩最高的专业，虽然我拉低了整体水平哈哈哈）。大学的学习尤为重要，大学也是一个能让人与人之间的差距拉得越来越大的地方。学校培养方式有别，但是假如医学院的老师也一开始看低了我们，这样不是在侧面上拉开我们和所谓“精英”的差距吗？人权在觉醒，这不是一个老师该对学生采取的正确的“激将法”。我们并不是一句言语听不得，而是我们绝不会看低自己，也不想被别人所看低，一时难以对这样的言语应付裕如也没有关系。希望18级5+3的同学通过自己的努力，几年后大部分都是巴德年班同学留在附属医院的情形，再也不会出现。"},{"id":115145,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 10:12:36","like_diff":23,"likes":27,"dislikes":4,"content":"有些做法真的不配在9分，甚至7分都不配，那何苦还要让同学们传播评价呢？而且评价的本意只是希望老师或多或少能做出些改进，但从老师的反馈上，对自己降分“沾沾自喜”，可见学生对他的评价也只是他之后课上用来“吹嘘”的谈资罢了，而不是用来改进的目标。素来知晓老师评价之无意义，即使老师要让评价，也没想来评，但是从他不断的反馈真的看不出丝毫真心，所以难耐胸中丘壑，便来一评。"},{"id":49629,"teacher_id":2453,"teacher_name":"骆严","post_time":"2017-04-20 15:35:16","like_diff":22,"likes":25,"dislikes":3,"content":"上的是老师的生化课，老师上课会讲故事来具像化，下课时间很合理（因为要补充ATP～）很爱笑很活泼～（我不参与出题所以我可以给你们画重点）总之已经被圈粉啦超可爱～"},{"id":134343,"teacher_id":2453,"teacher_name":"骆严","post_time":"2021-03-25 01:39:18","like_diff":21,"likes":21,"dislikes":0,"content":"Homeostasis"},{"id":134359,"teacher_id":2453,"teacher_name":"骆严","post_time":"2021-03-25 00:32:45","like_diff":21,"likes":22,"dislikes":1,"content":"为啥骆老师评分这么高....听他说话我都快一口气喘不过来了...."},{"id":52694,"teacher_id":2453,"teacher_name":"骆严","post_time":"2017-06-22 07:28:39","like_diff":19,"likes":21,"dislikes":2,"content":"15岁考入复旦"},{"id":76077,"teacher_id":2453,"teacher_name":"骆严","post_time":"2018-03-26 09:00:32","like_diff":18,"likes":20,"dislikes":2,"content":"alright？"},{"id":115139,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 04:49:39","like_diff":18,"likes":19,"dislikes":1,"content":"踩一捧一真的很没意思 可能高考成绩是原罪吧?用骆老师的逻辑接着推理Top2的学生学得比较认真 其他大学的大学生都是以混毕业证为主导 他也不会在乎?"},{"id":134325,"teacher_id":2453,"teacher_name":"骆严","post_time":"2021-04-13 03:51:56","like_diff":18,"likes":22,"dislikes":4,"content":"ok？alright？\n\n更新：骆老师我错了，直道龚老师上课我才明白你的好。"},{"id":134483,"teacher_id":2453,"teacher_name":"骆严","post_time":"2021-03-30 02:49:21","like_diff":18,"likes":18,"dislikes":0,"content":"每次说“同学们笔记可以记一下”后面就接着一大段废话"},{"id":135696,"teacher_id":2453,"teacher_name":"骆严","post_time":"2021-05-19 10:09:50","like_diff":17,"likes":22,"dislikes":5,"content":"有被今天的点名事件恶心到。不反对点名，但是这人在钉钉群里发表了好长一段高高在上不知所云的议论。。。"},{"id":135726,"teacher_id":2453,"teacher_name":"骆严","post_time":"2021-05-21 03:28:21","like_diff":17,"likes":17,"dislikes":0,"content":"讲的很一般，比李学坤老师差多了"},{"id":76353,"teacher_id":2453,"teacher_name":"骆严","post_time":"2018-04-04 04:03:19","like_diff":16,"likes":18,"dislikes":2,"content":"Homeostasis"},{"id":12290,"teacher_id":2453,"teacher_name":"骆严","post_time":"2015-12-23 00:52:00","like_diff":15,"likes":19,"dislikes":4,"content":"棒！超级nice！"},{"id":134370,"teacher_id":2453,"teacher_name":"骆严","post_time":"2021-03-25 04:18:53","like_diff":14,"likes":14,"dislikes":0,"content":"Note！Note！"},{"id":49534,"teacher_id":2453,"teacher_name":"骆严","post_time":"2017-04-18 03:26:18","like_diff":13,"likes":14,"dislikes":1,"content":"骆邦邦"},{"id":115134,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 03:31:47","like_diff":13,"likes":15,"dislikes":2,"content":"讲真本来是想给满分的，论教学真的是个很棒的老师。老师讲课幽默风趣而且重点突出，会把各个章节的知识联系起来讲(一开始听课会因为联系到还没讲过的知识跟不上，后来自己预习了一下后面的章节就能跟上了)，听完课以后再做整理会觉得思路很清晰。虽然我自己也觉得在这门课的学习上还有许多遗憾之处，也能够理解老师认为5+3的学生还可以更加努力的心情，但是这种激将法真的会让学临床的同学挺难过的。总之，希望下一届5+3继续努力吧，不卑不亢，向自己的目标全力前进就好。"},{"id":76651,"teacher_id":2453,"teacher_name":"骆严","post_time":"2018-04-17 07:19:54","like_diff":12,"likes":14,"dislikes":2,"content":"all right\n\nhomeostasis"},{"id":135849,"teacher_id":2453,"teacher_name":"骆严","post_time":"2021-05-29 07:18:12","like_diff":12,"likes":13,"dislikes":1,"content":"汉英夹杂不是槽点吧医学院很多老师都这样，毕竟医学生本来就需要英语好吧\n\n钉群说话高高在上的语气确实令人不太舒服，可能这就是课程组长吧hhh\n\n讲课一般般，主要是很多东西提前讲了让人很不适应，容易听得云里雾里，虽然你也可以说是我没预习的锅，但是抄笔记实在是花时间哪儿还有空预习呢；“recall”和“remember？”这两个板块很有用，能帮同学复习"},{"id":49677,"teacher_id":2453,"teacher_name":"骆严","post_time":"2017-04-23 11:00:03","like_diff":11,"likes":12,"dislikes":1,"content":"我今年不参与出题"},{"id":56945,"teacher_id":2453,"teacher_name":"骆严","post_time":"2017-07-05 04:19:02","like_diff":11,"likes":15,"dislikes":4,"content":"看背景介绍是个大佬中的大佬，上课很用心，但是貌似讲的有点快。口头禅是all right？"},{"id":115133,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-17 09:59:41","like_diff":11,"likes":12,"dislikes":1,"content":"真没那么好，不知道评分为什么这么高。"},{"id":115140,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 04:58:14","like_diff":11,"likes":13,"dislikes":2,"content":"骆严老师，人如其名，负重律己，严以律徒；能与骆严老师名字有一字之相同，与有荣焉。在评价骆严老师之前，我想先纠正一下前几个评价同学的错误。首先，期中考和期末考的分数占比是2:3，即40分和60分，并非1:1。其次，纵观同学们的评论，都认为巴德年都走上科研之路了，并非如此，几年后大部分能留在附属医院的其实还是骆严老师口中“精英班”的同学（虽然很无奈但事实就是如此，几年后大家就知道了），也并非我们5+3专业都走上了医生的道路，也不必给自己盖棺定论了；最后，有同学认为这门课对学过生物竞赛的同学很轻松，实际上并非如此，我参加了生物竞赛，但当时更多是死记硬背无法理解，而且生物竞赛中的“生物化学’并无医学两字，我个人认为”医学生物化学“中很重要的是对于疾病（生理紊乱）发生的生化原因也就是分子层面的认知。\n\n    现在来评价一下老师。老师是好老师，上课的时候思维较为开放，能横向联系的东西很多，和周天华老师有点相似，比较接近国外的上课风格（因为之前上过外教课大多都是这个样子），这可能和骆严老师在国外生活了20年有关系。需要注意的重点也做到了反复强调，对于其他小点，相信老师也想让我们自我学习所得，不用在课上多花时间，这点需要每个大学生适应，课本内容太多，不可能面面俱到，我认为老师这点做得很好。另外，上课中英交叉已经成为浙大很多老师上课的常态了，况且对于医学这样一个国外比中国发展迅猛百倍的学科，与国际接轨应该是我们浙大学子应有的认知，当然，你只想在国内好好当一名医生不走任何研究之路，这样的说辞也能理解。【接下】"},{"id":135702,"teacher_id":2453,"teacher_name":"骆严","post_time":"2021-05-19 13:03:59","like_diff":11,"likes":19,"dislikes":8,"content":"在国外待久了，一身资本主义习气～\n\n中国话都不好好说\n\n课上课下都喜欢汉语中夹杂英文，不会好好说话吗？\n\n阴阳怪气，捧高踩低，学临床就是原罪，看来中国不需要临床医生，有研究员就够了，让患者都等死、都去国外求医？"},{"id":53724,"teacher_id":2453,"teacher_name":"骆严","post_time":"2017-06-27 11:25:46","like_diff":9,"likes":10,"dislikes":1,"content":"医学院里唯一备课的人"},{"id":137595,"teacher_id":2453,"teacher_name":"骆严","post_time":"2021-07-05 08:31:16","like_diff":8,"likes":14,"dislikes":6,"content":"讲课很一般，高高在上的语气让人不太舒服，可能国外呆的时间久了中文表达能力出了点问题，发的通知内容词不达意前后矛盾不知所云，点名事件堪称人类迷惑行为"},{"id":107336,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-05-04 03:41:22","like_diff":7,"likes":8,"dislikes":1,"content":"肉包 or 豆沙包…… 山西某小村庄的故事……"},{"id":115229,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-17 02:04:09","like_diff":7,"likes":7,"dislikes":0,"content":"讲真，课上的还是很好的，讲课很有激情，备课也很认真。唯一算得上是我认真听的一位老师吧。不过我觉得老师对临床学生有点成见，这不太好。说实话，生化这门课，临床混学分的不少，但想学真知识，将来想把临床与研究结合的也很多。毕竟医学院的研究员临床出身的也大有人在。"},{"id":115406,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-21 10:54:10","like_diff":7,"likes":7,"dislikes":0,"content":"It’s hard to understand what the professors are saying"},{"id":139497,"teacher_id":2453,"teacher_name":"骆严","post_time":"2021-07-16 14:13:38","like_diff":7,"likes":11,"dislikes":4,"content":"“希望能继续得到你们的支持，同时也希望医学生化这门课就此永远摘除不及格率太高的帽子并且也还能久远地保持成一门非水课。为培养医学生的人文与爱国之理想，逻辑与思辨之能力，责任与担当之情操，贡献我们理应贡献的力量。”"},{"id":152155,"teacher_id":2453,"teacher_name":"骆严","post_time":"2022-03-29 03:38:03","like_diff":7,"likes":7,"dislikes":0,"content":"老师上课很有激情，上课语气和说话节奏听得很费劲？？（可能是我太菜）"},{"id":153387,"teacher_id":2453,"teacher_name":"骆严","post_time":"2022-04-29 02:22:48","like_diff":7,"likes":8,"dislikes":1,"content":"老师教学很认真，课后也回答了同学问题，除了措辞比较高傲以外...老师还是不错的"},{"id":115155,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 09:01:40","like_diff":5,"likes":6,"dislikes":1,"content":"emm我感觉还是跟不上老师的课，粉许均瑜老师"},{"id":115158,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 09:52:13","like_diff":5,"likes":7,"dislikes":2,"content":"并不是所有人都适合做笔记这种方式来复习，至少我的室友们常常都是为了临时补笔记熬夜，我个人觉得抄笔记对我也起不到什么记忆作用，上课真的听不懂"},{"id":115243,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-17 02:48:53","like_diff":5,"likes":5,"dislikes":0,"content":"呵呵（至少三个字？ \n\n呵呵呵"},{"id":118566,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-10-28 14:10:19","like_diff":5,"likes":5,"dislikes":0,"content":"骆严老师所指的精英班应该是“求是科学班(生物医学)”，几年前是有这个专业的；不是所谓的巴德年班，也不是“求是科学班(生物科学)”！不要弄混了！"},{"id":151759,"teacher_id":2453,"teacher_name":"骆严","post_time":"2022-03-15 00:40:17","like_diff":5,"likes":6,"dislikes":1,"content":"真的sb"},{"id":50817,"teacher_id":2453,"teacher_name":"骆严","post_time":"2017-05-05 16:49:51","like_diff":4,"likes":6,"dislikes":2,"content":"生化上的挺逗的"},{"id":79558,"teacher_id":2453,"teacher_name":"骆严","post_time":"2018-06-09 08:01:50","like_diff":4,"likes":6,"dislikes":2,"content":"骆老师棒棒哒"},{"id":79560,"teacher_id":2453,"teacher_name":"骆严","post_time":"2018-06-09 08:12:32","like_diff":4,"likes":7,"dislikes":3,"content":"棒棒的，知识渊博，思路清晰，对后进生很有耐心，中英文对照介绍游刃有余。"},{"id":107744,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-05-09 01:39:56","like_diff":4,"likes":8,"dislikes":4,"content":"反正我跟不上他的思路，他上的那几节课我都不知道是怎么过的。还是粉许均瑜老师。"},{"id":115099,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-15 13:38:45","like_diff":4,"likes":7,"dislikes":3,"content":"【生化】骆严老师真的超级好的，备课认真，上课有趣也很有精神，课后也很关心学生的学习状况（“你们没必要怵生化，有机学的好，生化不用愁，物理化学有基础更是锦上添花。”）老师上课会讲很多有趣但也有专业性的故事来提神！（肉包子，鸡蛋，骆邦邦，橄榄油哈哈哈老师很有表现力真的百听不厌）不过第二篇代谢本来就是重点，有很多圈（循环和物质的运输都有，是的又成环了? ），一开始也会有一些物质的名称很有机，所以可能会是个挑战，但看着记着也就还好啦～然后我觉得 骆老师的确有教书育人的心境/情怀/信念吧。如果说改进，可能提高检查笔记的频率？（请务必在整合之前检查！）可能我们这一届5+3有些人有些心急，所以希望下一届的学弟学妹拜托一定要给骆老师展示我们5+3同学真实的精神风貌哇！！！"},{"id":115122,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 00:39:49","like_diff":4,"likes":4,"dislikes":0,"content":"老师上课认真，但就是话听不太懂"},{"id":125084,"teacher_id":2453,"teacher_name":"骆严","post_time":"2020-08-29 08:29:46","like_diff":4,"likes":4,"dislikes":0,"content":"朝夕令改只为提高浙大声誉！"},{"id":149045,"teacher_id":2453,"teacher_name":"骆严","post_time":"2022-01-14 08:08:33","like_diff":4,"likes":7,"dislikes":3,"content":"不否认老师很厉害，但是他上课和给分真的使人很不舒服，阴阳怪气、捧高踩低是真的离谱。"},{"id":78544,"teacher_id":2453,"teacher_name":"骆严","post_time":"2018-05-13 01:11:17","like_diff":3,"likes":5,"dislikes":2,"content":"骆老师超可爱的考试的时候说大家先拿到的不要开始写 等他喊开始再写，然后铃响了他真的喊了开始哈哈哈哈大家都笑出了声"},{"id":79675,"teacher_id":2453,"teacher_name":"骆严","post_time":"2018-06-12 14:45:52","like_diff":3,"likes":4,"dislikes":1,"content":"老师人很nice  认真准备上课内容 还很别出心裁地设计讲课方式，并鼓励大家思考～最后考试还会给大家准备小零食补充体力^_^"},{"id":85383,"teacher_id":2453,"teacher_name":"骆严","post_time":"2018-07-17 10:17:15","like_diff":3,"likes":3,"dislikes":0,"content":"老师超可爱，好好上课收获会很多"},{"id":85411,"teacher_id":2453,"teacher_name":"骆严","post_time":"2018-07-17 13:03:18","like_diff":3,"likes":4,"dislikes":1,"content":"很好的很喜欢的，很公正的，好好学习绝对不会差的！"},{"id":112482,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-04 13:34:42","like_diff":3,"likes":3,"dislikes":0,"content":"乳糜微粒与卡布奇诺……"},{"id":115110,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-15 22:52:11","like_diff":3,"likes":3,"dislikes":0,"content":"老师上课很生动也很有激情，但是思路和课本有点不一样而且英语比较多，听课之前最好提前预习一下。"},{"id":115111,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-15 23:18:57","like_diff":3,"likes":3,"dislikes":0,"content":"老师讲的课很细，会现身说法，然后举些例子，让本来比较难的生化知识会感觉更通俗易懂一些。"},{"id":115115,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 00:05:34","like_diff":3,"likes":3,"dislikes":0,"content":"老师语速有点快，但是上课很生动，老师讲的例子要重点关注，不仅让课更生动，还有可能是期末考试题，希望复习重点能早点发，有时候复习重点发迟了，会减慢整个整理笔记的进度"},{"id":115153,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 08:36:57","like_diff":3,"likes":3,"dislikes":0,"content":"在今天之前骆老师一直是我很尊重的一位老师，有自己的看法，上课风格幽默，善于和学生交流?"},{"id":147940,"teacher_id":2453,"teacher_name":"骆严","post_time":"2022-01-11 07:44:49","like_diff":3,"likes":5,"dislikes":2,"content":"【基础小班生化】\n\n讲课有激情，喜欢的人会很喜欢，不喜欢的人会听不下去。ppt制作emmmm（但是重点都标出来了）\n\n以下为骆老师原话：\n\n“这是第一年实施重大考试必须有50%英文题的培养方案。有同学抱怨理解英文题意就费了太多时间。问题是：这是双一流大学精英班的要求。我不敢怠慢习大大的伟大布局：培养逻辑思辨能力强大的研究型人才；并且需要双语。”"},{"id":152153,"teacher_id":2453,"teacher_name":"骆严","post_time":"2022-03-29 03:21:49","like_diff":3,"likes":3,"dislikes":0,"content":"老师太强，是我太菜"},{"id":49627,"teacher_id":2453,"teacher_name":"骆严","post_time":"2017-04-20 15:30:34","like_diff":2,"likes":5,"dislikes":3,"content":"老师的课超级好！超级推荐！细胞生物学上的特别好！！！！"},{"id":57993,"teacher_id":2453,"teacher_name":"骆严","post_time":"2017-07-21 05:44:11","like_diff":2,"likes":3,"dislikes":1,"content":"很享受很有趣"},{"id":76585,"teacher_id":2453,"teacher_name":"骆严","post_time":"2018-04-16 01:28:27","like_diff":2,"likes":3,"dislikes":1,"content":"emm"},{"id":79561,"teacher_id":2453,"teacher_name":"骆严","post_time":"2018-06-09 08:42:42","like_diff":2,"likes":2,"dislikes":0,"content":"很nice的老师呦~"},{"id":85388,"teacher_id":2453,"teacher_name":"骆严","post_time":"2018-07-17 10:58:40","like_diff":2,"likes":2,"dislikes":0,"content":"很好的老师，上课很投入"},{"id":104356,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-04-14 10:50:36","like_diff":2,"likes":5,"dislikes":3,"content":"老师真的perfect！课后有不懂的可以直接微信问！而且你发一行他回十行！爱了！"},{"id":114591,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-10 23:25:37","like_diff":2,"likes":2,"dislikes":0,"content":"超级好"},{"id":114655,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-11 02:51:52","like_diff":2,"likes":3,"dislikes":1,"content":"讲真骆邦邦到现在还未减肥成功，骆老师肚子上的板油还会经常在看课上听到?"},{"id":115100,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-15 14:13:45","like_diff":2,"likes":2,"dislikes":0,"content":"骆老师讲课会结合生活例子，我永远记得早上要吃肉包子以防低血糖。而且骆老师讲课也很有自己的风格，考前还会给我们编打油诗帮助记忆。"},{"id":120271,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-11-27 07:26:15","like_diff":2,"likes":2,"dislikes":0,"content":"骆严-义乌李唐-杭州浙大"},{"id":126483,"teacher_id":2453,"teacher_name":"骆严","post_time":"2020-09-28 06:19:26","like_diff":2,"likes":5,"dislikes":3,"content":"老师很好，讲代谢的这一块非常细致耐心。还有骆邦邦陪我们一起上课冲鸭٩(•ω•ଓ)=33。期末给分也很合理照顾学生！"},{"id":151928,"teacher_id":2453,"teacher_name":"骆严","post_time":"2022-03-21 04:18:36","like_diff":2,"likes":3,"dislikes":1,"content":"屁事多，拖堂"},{"id":152263,"teacher_id":2453,"teacher_name":"骆严","post_time":"2022-03-31 23:57:16","like_diff":2,"likes":2,"dislikes":0,"content":"已读不回"},{"id":153363,"teacher_id":2453,"teacher_name":"骆严","post_time":"2022-04-28 13:48:10","like_diff":2,"likes":5,"dislikes":3,"content":"心浮气躁，心高气傲，好高骛远，粉饰虚张。大师之才有余，却无大师之虚怀若谷。"},{"id":158789,"teacher_id":2453,"teacher_name":"骆严","post_time":"2022-07-02 07:46:44","like_diff":2,"likes":2,"dislikes":0,"content":"yanluo给分真的好"},{"id":187793,"teacher_id":2453,"teacher_name":"骆严","post_time":"2024-01-17 12:51:17","like_diff":2,"likes":2,"dislikes":0,"content":"老师出分很快。。。。"},{"id":115093,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-15 11:57:21","like_diff":1,"likes":1,"dislikes":0,"content":"骆严老师棒棒哒！很可爱很亲切的一个老师捏！回答问题也很风趣生动，强推！"},{"id":115106,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-15 16:24:59","like_diff":1,"likes":4,"dislikes":3,"content":"虽然认为试卷改的很迷但是还是很喜欢骆严老师！板油肉包一两半饭真的记忆犹新。第二章内容很多很复杂但是老师也讲的很清楚（可能是我唯一从头到尾认真听下来的一章），可能很想提的一点建议就是笔记检查别强制吧，每个人学习方法都不一样，并不是所有人都适合拿笔去抄大段的文字吧（也可能我少的那0.5绩点就是笔记抄的不认真导致）。希望老师越来越好！"},{"id":115112,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-15 23:23:22","like_diff":1,"likes":1,"dislikes":0,"content":"喜欢狗子骆邦邦"},{"id":115136,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 04:25:27","like_diff":1,"likes":2,"dislikes":1,"content":"多年不变的梗，课略有些枯燥，认真听课至少是对老师的尊重，但是最后课程考试什么的主要看自学"},{"id":115258,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-17 07:03:49","like_diff":1,"likes":1,"dislikes":0,"content":"。。。"},{"id":115405,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-21 10:50:34","like_diff":1,"likes":1,"dislikes":0,"content":"..."},{"id":120272,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-11-27 07:28:50","like_diff":1,"likes":1,"dislikes":0,"content":"李唐村的人大多姓骆，乃初唐四杰之一骆宾王的后裔。"},{"id":120273,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-11-27 07:35:56","like_diff":1,"likes":1,"dislikes":0,"content":"唐朝时的李唐叫骆宅，传说骆宅当时有十八宅、十八店，从现在的横下塘一直到骆宅口，都是骆宅村的范围。现在的陶店与丁店之间的上枫塘，当时也是骆宅人所有。"},{"id":124875,"teacher_id":2453,"teacher_name":"骆严","post_time":"2020-07-14 06:42:14","like_diff":1,"likes":1,"dislikes":0,"content":"网课期间录制的课底噪大的惊人，说话声音也略带有有气无力的感觉，让人昏昏欲睡，也许这就是线上的坏处。但PPT制作还算OK。"},{"id":134545,"teacher_id":2453,"teacher_name":"骆严","post_time":"2021-04-01 06:00:56","like_diff":1,"likes":8,"dislikes":7,"content":"说实在的，老师上课时的停顿和语速听着不太习惯，有点费劲，可能只是个人原因。感觉老师有的时候抛的所谓肉包子的梗真的不好笑哎"},{"id":137819,"teacher_id":2453,"teacher_name":"骆严","post_time":"2021-07-06 08:41:25","like_diff":1,"likes":7,"dislikes":6,"content":"大国教师水准，国家道义担当，人类灯塔，学生希望，和普朗克常量并列的骆严常数发明者，homeostasis～"},{"id":187909,"teacher_id":2453,"teacher_name":"骆严","post_time":"2024-01-17 18:21:19","like_diff":1,"likes":1,"dislikes":0,"content":"【细生Ⅱ】\n\n这学期最后一次上了，虽然期末补绪论很抽象……但确实也有情怀吧\n\n差一点挂掉了，感慨4.3的平均绩点是真实的么……"},{"id":57142,"teacher_id":2453,"teacher_name":"骆严","post_time":"2017-07-05 16:28:56","like_diff":0,"likes":9,"dislikes":9,"content":"生化给分太严了，我期中70+最后挂了，不知道期末我特么考了几分...我们寝室挂了俩，其他人分数也很低，反正我是绝望了"},{"id":115090,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-15 11:49:08","like_diff":0,"likes":1,"dislikes":1,"content":"老师的生化课是四篇里面唯一好好听了的，上课真的也能学到很多啊！"},{"id":115092,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-15 11:54:36","like_diff":0,"likes":0,"dislikes":0,"content":"老师很有趣啦，备课也很认真。"},{"id":115107,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-15 17:12:26","like_diff":0,"likes":0,"dislikes":0,"content":"很有趣的老师！"},{"id":115113,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-15 23:26:59","like_diff":0,"likes":0,"dislikes":0,"content":"老师备课很认真，上课也挺好的，是我太垃圾了"},{"id":115114,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-15 23:45:31","like_diff":0,"likes":0,"dislikes":0,"content":"还不错"},{"id":115116,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 00:06:51","like_diff":0,"likes":4,"dislikes":4,"content":"虽然老师觉得临床学生学习态度不佳（其实老师讲的也有道理…），但是还是很喜欢老师讲的课！！老师很负责也极有趣！祝老师以后诸事顺遂！"},{"id":115162,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 12:29:20","like_diff":0,"likes":0,"dislikes":0,"content":"嘤嘤嘤"},{"id":115352,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-19 09:15:00","like_diff":0,"likes":2,"dislikes":2,"content":"A perfect professor"},{"id":126070,"teacher_id":2453,"teacher_name":"骆严","post_time":"2020-09-17 05:21:42","like_diff":0,"likes":1,"dislikes":1,"content":"老师还是很好的，期末捞的力度很大。挂的一般都是自己放弃了，期末卷面过于空白。生化总归还是很重要的，在这看老师评价也没必要，还是认真学吧。"},{"id":151929,"teacher_id":2453,"teacher_name":"骆严","post_time":"2022-03-21 04:18:10","like_diff":0,"likes":2,"dislikes":2,"content":"屁事多，拖堂"},{"id":166133,"teacher_id":2453,"teacher_name":"骆严","post_time":"2023-01-11 07:23:30","like_diff":0,"likes":0,"dislikes":0,"content":"生化给分不错，讲的一般"},{"id":115124,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 00:43:57","like_diff":-1,"likes":1,"dislikes":2,"content":"能感受到老师的用心，讲课既能很系统，又把细节讲得很到位。"},{"id":115126,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 01:45:35","like_diff":-1,"likes":1,"dislikes":2,"content":"老师很好"},{"id":115342,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-19 04:10:25","like_diff":-1,"likes":0,"dislikes":1,"content":"讲的方式及内容挺有意思的\n\n"},{"id":115407,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-21 11:30:28","like_diff":-2,"likes":0,"dislikes":2,"content":"So interesting，best DNA ppt"},{"id":115408,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-21 12:22:50","like_diff":-2,"likes":0,"dislikes":2,"content":"His explanations are all concepts of biochemistry and not the memorizing thing which is a good point of his teaching method"},{"id":126467,"teacher_id":2453,"teacher_name":"骆严","post_time":"2020-09-27 23:59:00","like_diff":-2,"likes":0,"dislikes":2,"content":"很好的老师，给分非常合理"},{"id":115137,"teacher_id":2453,"teacher_name":"骆严","post_time":"2019-07-16 04:29:57","like_diff":-3,"likes":1,"dislikes":4,"content":"真的是很nice了，谢谢老师不挂之恩"},{"id":152312,"teacher_id":2453,"teacher_name":"骆严","post_time":"2022-04-03 08:07:24","like_diff":-4,"likes":1,"dislikes":5,"content":"好老师啊"},{"id":134841,"teacher_id":2453,"teacher_name":"骆严","post_time":"2021-04-18 13:29:39","like_diff":-6,"likes":4,"dislikes":10,"content":"老师讲课挺有意思的"},{"id":48598,"teacher_id":2453,"teacher_name":"骆严","post_time":"2017-04-22 08:47:59","like_diff":-9,"likes":8,"dislikes":17,"content":"不是和尚念什么经"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

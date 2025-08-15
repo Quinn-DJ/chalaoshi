@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>沈颖 - 医学院 - 浙大教评</title>
+    <meta name="description" content="沈颖教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="沈颖,医学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">沈颖</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">医学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">6.59</div>
+                    <div class="rating-participants">98人参与评分</div>
+                    <div class="attendance-info">25.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">神经生物学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.47</span>
+                            <span class="students">选课: 311人</span>
+                            <span class="std-dev">标准差: 0.69</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">进化的大脑与偶成的意识</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.72</span>
+                            <span class="students">选课: 347人</span>
+                            <span class="std-dev">标准差: 0.64</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (88 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":55241,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2019-03-07 13:35:46","like_diff":36,"likes":57,"dislikes":21,"content":"楼上评论都说给分好，但是我论文不说质量，至少主观上是觉得好好写了，字数也够，交的也算比较早；考试也写的很认真，结果2.4，有些疑惑。"},{"id":55528,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2017-07-01 23:31:20","like_diff":19,"likes":21,"dislikes":2,"content":"一定要打印PPT，这是学长用血与泪换来的教训"},{"id":102360,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2019-02-01 07:23:27","like_diff":17,"likes":22,"dislikes":5,"content":"进化的大脑，我真的是被赋予我们记忆爱情和美梦这一个名字吸引的文科生，没想到老师上课这么无聊（中英夹杂含糊不清几本就是读ppt+放一小段电影）说实话要是对这方面感兴趣的话别上这个通识，自己看一些科普杂志或者读书也是可以的，这课没有什么特别的帮助。但是老师不点名，考试就是抄ppt，拿分就靠两篇2000字论文吧。不解的是为什么大家说自己论文写得好都爱说自己写了要求字数的两倍呢，我感觉字数不是重点，关键是能不能写出东西吧。对论题没有自己的观点，就算写到8000字又如何呢？文章还不是一包花拳绣腿言之无物的空壳吗？反而自己写的时候也痛苦，老师读起来也累，给这样的论文高分，是老师看你辛苦，给低分也是老师求是罢了，学生又有何理由心生怨怼呢？"},{"id":30379,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2018-05-07 05:09:01","like_diff":14,"likes":25,"dislikes":11,"content":"第一门满绩的课！！！哈哈哈。不过感觉论文还是挺用心的写的，还有就是考试的时候一定要写得多一点！"},{"id":2615,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2015-05-04 17:34:36","like_diff":13,"likes":40,"dislikes":27,"content":"老师很博学啊 讲的很有意思 对于大一新生来说都能听得懂大部分 给分很好！"},{"id":72643,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2018-01-30 15:10:51","like_diff":8,"likes":9,"dislikes":1,"content":"论文有认真写 上课有积极回答问题 开卷考试自认为都做对了 最后连均绩都没上也是不懂…"},{"id":84777,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2018-07-14 00:47:41","like_diff":8,"likes":9,"dislikes":1,"content":"？？？给分高？？？？真的不懂。被卡绩，还只有3.0，上课好好发言，期考开卷考大家都差不多，论文觉得好好写了，不知道怎么给分的，心态很炸"},{"id":91892,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2018-12-24 11:48:44","like_diff":8,"likes":18,"dislikes":10,"content":"我非常不喜欢老师的三观。至少跟我的想法出入太大。\n\n我不认为同性恋是应该和约炮滥交并列的行为。\n\n我也不认为今天平安夜获得的祝福和快乐是因为崇洋媚外。\n\n我也不认可老师关于男女差异的观念。\n\n如果只是想水学分的话，请注意有两篇论文+一次考试。\n\n选课请谨慎。"},{"id":45612,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2017-01-20 00:45:53","like_diff":7,"likes":7,"dislikes":0,"content":"给分超不好 可能论文写得在老师看来很糊弄？"},{"id":72686,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2018-01-31 01:28:16","like_diff":7,"likes":11,"dislikes":4,"content":"老师不错，但是给分比较迷。认真听课，论文也写的挺多，上课回答问题，考试写挺多，最后3.3\n\nemmm"},{"id":143636,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2021-11-29 11:13:01","like_diff":7,"likes":7,"dislikes":0,"content":"不是很认可老师的某些观点以及不懂老师的某些操作\n\n老师试图论证同性婚姻会对传统一夫一妻制造成冲击和不利于人类繁衍\n\n首先这个观点我本身就不赞同，其次，该老师的论证方式是给我们看了一个视频\n\n该视频讲了在美国选美比赛中一个评委对某位女生问是否支持同性婚姻，该女子不赞同并给出理由：一个男人应该与一个女人绑定，事后这个评委恶意给低分，并在网络上开骂这个女生。我不知道老师放这个这个视频想表达什么，是想论证他的观点吗？无非说明了某一个支持同性婚姻的人很激进很不理性，除此之外还能说明什么呢？属实觉得没有播放这个视频的必要。"},{"id":122827,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2020-04-11 12:14:53","like_diff":6,"likes":7,"dislikes":1,"content":"医学生，而且是学过神经生物学的医学生，论文(自认为）写的挺专业，最后3.3，去找过老师，大概是，论文要有自己的想法，要很多字数，要理论和很多例子结合，考试要写很多，要加入自己的观点balabala反正才1.5学分通识课，大家也别太计较"},{"id":55249,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2017-07-01 05:43:39","like_diff":5,"likes":5,"dislikes":0,"content":"评分标准太迷。"},{"id":69843,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2018-01-25 13:39:38","like_diff":5,"likes":5,"dislikes":0,"content":"出绩点前来评论一波吧，出了绩点怕评论显得不那么公正。这个课你可以选择不去听 但我感觉听听还是挺有趣的。作为一个理科生看来，老师讲的作为科普真的是很有趣了。不过上课不能水电脑，去了还是好好听课吧。希望绩点high high."},{"id":84773,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2018-07-19 16:50:24","like_diff":5,"likes":5,"dislikes":0,"content":"佛系给分，莫名其妙"},{"id":84789,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2018-07-14 07:47:21","like_diff":5,"likes":7,"dislikes":2,"content":"论文认真写了8000多字，查了很多资料。每节课坐第二排认真听，基本没有水过手机，考试题都是ppt上的很简单，结果3.6，可能是没有发过言吧。（虽然楼上也有发过言但是绩点很低的）真的是我听得最认真的通识课了，可是结果实在让人心凉凉。但是抛开这些不说课还是很有趣的，就当长点见识吧，唉！"},{"id":100891,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2019-01-27 04:37:48","like_diff":5,"likes":6,"dislikes":1,"content":"短学期花费心思最多的一门通识课，两篇论文是秋冬学期写得最认真而且自认为质量最高的两篇。考试前复习了两天，自认为考试题目也都完整答上了，也别说字数，估计没几个人写得比我多。上课也积极发言登记了，最后的绩点拉低均绩，为了凑学分选得这门课，呵呵，宁愿没学分也不选这种课，再见。"},{"id":125850,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2020-09-15 01:25:19","like_diff":5,"likes":5,"dislikes":0,"content":"吐了 2.1两年来绩点最低的一门"},{"id":143647,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2021-11-30 02:27:51","like_diff":5,"likes":5,"dislikes":0,"content":"课程论文写了5000字，用邮件发给了老师，过了几天出分被绩杀了，打开邮箱发现老师不仅没有回复，根本就没有打开我的邮件，可能是老师一直如此，也可能是把我漏掉了，如此不负责任的老师，给分完全靠运气或者考试吧，大家只想玩玩的可以去选。"},{"id":30401,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2016-07-01 13:19:36","like_diff":4,"likes":9,"dislikes":5,"content":"上课很有趣 形式也超丰富 放电影什么的 我们这学期只有一篇论文而且题目不是太难 期末是开卷 有书和ppt都还好 我是一枚文科狗 觉得是很棒的体验"},{"id":41278,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2018-07-07 06:45:41","like_diff":4,"likes":11,"dislikes":7,"content":"我觉得老师很好啊，上课本来就不应该玩手机电脑，第一门我认真听的通识课，很博学，讲得也很有意思。还没考试，但是无所谓绩点了我就是喜欢这个老师怎样。"},{"id":45723,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2017-01-20 03:44:39","like_diff":4,"likes":4,"dislikes":0,"content":"老师说话语速有些快，讲的知识面很广。我感觉我考试和论文都有好好写，但是得分并不好。"},{"id":55198,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2017-07-01 03:35:49","like_diff":4,"likes":11,"dislikes":7,"content":"上课没发过言最后导致3.9惨剧emmm 一个夏学期的课 因为很多节日导致课少了好几节 回答问题竞争还是蛮激烈的 有两次举了手最后都没叫到 作业就是一篇论文一个考试 考试一定要打印ppt 大多都在ppt上 老师讲的东西还是蛮有趣的 确实是有通识课的感觉 至于上课不能玩手机开电脑 额就见仁见智了 其实我觉得也没什么必要 有点矫枉过正了"},{"id":72634,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2018-01-30 14:43:47","like_diff":4,"likes":4,"dislikes":0,"content":"呵呵呵"},{"id":72639,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2018-01-30 15:04:28","like_diff":4,"likes":6,"dislikes":2,"content":"考试很简单，书PPT上都有答案，自认为都做对了，这次自认为论文一般，但没有想到2.7，学期绩点最低真让人心痛，之前觉得老师讲课很好，但是现在后悔选了"},{"id":123140,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2020-05-12 15:23:11","like_diff":4,"likes":4,"dislikes":0,"content":"神经生物学讲的简直差劲 基本全程念书 下课全靠自学"},{"id":14854,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2016-01-10 07:19:18","like_diff":3,"likes":13,"dislikes":10,"content":"无聊，除了期末考试还让写两篇论文，注意了，短学期的课两篇论文！真是够了"},{"id":17169,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2016-01-19 23:28:29","like_diff":3,"likes":6,"dislikes":3,"content":"挺不错的"},{"id":100951,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2019-01-27 07:49:56","like_diff":3,"likes":3,"dislikes":0,"content":"课程内容非常有意思，认真听课真的收获很大。老师也是好老师，要求都说得明明白白，不点名，反复提醒交论文。平时发言要积极，论文写多点字吧还是，考前记得先看一遍ppt，考试就猛写就好了。老师出分蛮快的。"},{"id":125857,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2020-09-15 03:18:49","like_diff":3,"likes":3,"dislikes":0,"content":"讲课中上，给分一般，思想比较偏激，跟学生的交流比较糟糕，有时候比较奇怪。"},{"id":151283,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2022-02-27 13:50:49","like_diff":3,"likes":3,"dislikes":0,"content":"课是有趣的，老师是博学的，收获是颇丰的，但绩点是裂开的"},{"id":16528,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2016-01-18 10:11:20","like_diff":2,"likes":7,"dislikes":5,"content":"老师上课内容比较容易懂，会放关于脑科学的视频，给分超级好"},{"id":18218,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2016-01-21 09:37:26","like_diff":2,"likes":4,"dislikes":2,"content":"讲课挺有意思的 可是我认真写了论文得分依然不好"},{"id":19315,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2018-12-04 11:27:56","like_diff":2,"likes":11,"dislikes":9,"content":"给分极差"},{"id":20966,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2016-02-05 13:06:58","like_diff":2,"likes":4,"dislikes":2,"content":"略重口"},{"id":26625,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2016-06-20 11:52:47","like_diff":2,"likes":6,"dislikes":4,"content":"内容不错 人有点偏激"},{"id":55199,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2017-07-01 03:36:15","like_diff":2,"likes":3,"dislikes":1,"content":"为什么我就听不进去呢 给分也不好 唉\n\n"},{"id":100861,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2019-01-27 03:16:12","like_diff":2,"likes":2,"dislikes":0,"content":"进化的大脑与偶成的意识。\n\n课是好课，但老师观点偏激进，非常直男，比较歧视（）女性和文科。\n\n给分并不好，短学期两篇论文加上考试，但这门课本身挺好的。\n\n选课慎重。"},{"id":100868,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2019-01-27 03:35:36","like_diff":2,"likes":2,"dislikes":0,"content":"老师布置的两篇论文我都有很认真写字数都超出了一倍以上，考试也写的很多，上课也发过言，最后给分很迷很迷，第一门通识课就这样被正态，佛了。。\n\n"},{"id":100885,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2019-01-27 04:17:04","like_diff":2,"likes":2,"dislikes":0,"content":"理论上来说内容是有趣的，但老师讲得挺无聊。我的确不怎么认真，惨遭正态，姑且不怪老师。"},{"id":101662,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2019-01-29 00:18:16","like_diff":2,"likes":2,"dislikes":0,"content":"给分比较公正，课挺有趣但老师只读ppt的确有些无趣。"},{"id":132537,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2021-02-02 06:57:00","like_diff":2,"likes":2,"dislikes":0,"content":"进化的大脑与偶成的意识不失为一门有趣的通识课，至少对于医学院以外对脑科学有兴趣的同学是这样的，但是老师给分真的不怎么好，想选的同学请谨慎。"},{"id":133629,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2021-03-03 03:48:32","like_diff":2,"likes":4,"dislikes":2,"content":"拿了4.5的成绩，虽然这么说有点对不起我的成绩，但坦白的说这课并不是十分有趣。\n\n老师给分个人感觉还行，毕竟均绩摆在那里。\n\n我觉得老师有些时候思想有些偏激（尽管不得不承认强大的竞争压力之下确实会有优秀的人出现）\n\n老师讲课有些无聊很多时候也只是念PPT\n\n如果你是想水课的，那这门课可能真的不是很好（老师给高的很高低的很低）\n\n但你认真搞，确实能做得很好\n\n还有这门课并没有很卷 论文要求2000字我只写了4000字\n\n总而言之是一门努力与回报正相关的课程吧\n\n8分"},{"id":136210,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2021-06-13 00:35:23","like_diff":2,"likes":3,"dislikes":1,"content":"上课讲的让人想睡觉，全班没多少人抬头，但我好好听了，8节课回答三次问题，最后论文认真查资料，认真分析，提出问题写了几天字数6000多，考试自以为答的还不错，结果绩点3.3，怀疑老师随即给分凑均绩，运气好的人可以选，想靠努力拿高绩点的就算了"},{"id":172366,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2023-04-25 12:01:06","like_diff":2,"likes":2,"dislikes":0,"content":"讲课思路有点乱。。。"},{"id":173888,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2023-06-04 06:45:24","like_diff":2,"likes":3,"dislikes":1,"content":"害…绩杀，真不知道为什么当时要选这门课。"},{"id":191199,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2024-04-11 15:34:22","like_diff":2,"likes":2,"dislikes":0,"content":"认真写但没有好点子好角度老师也不会给高分的，要一些和实际相关、稍微带点创新的地方！\n\n（即使是伪装成文献综述的社会评论再伪装成学术论文也没有关系，毕竟是essay而不是让本科生搞科研，比如我的）\n\n这大概是楼上关于认真写但没得高分的原因吧。\n\n包括考试论述题也是，说了要好好讲自己身边的例子、自己的观察啊，毕竟大家都是抄了超多，怎么区分分数就看其中加入的创意啦！\n\n老师真的是个很重视好角度好例子和学生上这门课能联想到的实践和生活中的例子的！\n\n得高分的诀窍就是以上！！！学姐好心相劝啊！！！得高分其实很简单的！！！\n\n搞清楚每个老师用的教学体系和重视点很关键，老师也讲了他用的是什么教材又是因为什么因素不能给学生用了吧。。。大概能看出老师重视的点并不是国内学者写的纯基础教材所重视的或纯科研了。\n\n再说一遍，让写的是essay不是论文，知网缝合怪真拿不了高分，并且别用知网用google吧，关键词直接搜索，后面太麻烦就不说了，以上"},{"id":16380,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2016-01-18 04:07:53","like_diff":1,"likes":9,"dislikes":8,"content":"没想到老师给分这么好"},{"id":42692,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2017-01-15 02:46:18","like_diff":1,"likes":4,"dislikes":3,"content":"上课不玩手机 并且认真写了论文 上课也发了言 表示有回报 把我的均绩拉高了"},{"id":45770,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2017-01-20 05:05:27","like_diff":1,"likes":3,"dislikes":2,"content":"作为一个文科生，我表示老师的课还是很易懂的，绩点也能接受，上课要多发言"},{"id":55637,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2017-07-02 05:28:09","like_diff":1,"likes":1,"dislikes":0,"content":"老师人挺好的，会放视频(电影片段)给我们看，也玩的一手好吐槽。上课发言这东西吧，见仁见智，我发言挺多的，只是最后论文因为搞错了DDL以为自己迟交了所以写的很水，拿到的绩点自己不是很满意，但应该还能接受。文科生学习点生物知识?也挺好。"},{"id":85397,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2018-07-17 11:30:49","like_diff":1,"likes":2,"dislikes":1,"content":"上的是老师的通识课。个人感觉给分还不错，平时不点名，不能用电脑，手机不怎么管。期末考试开卷，结合ppt和教材认真写都能写上。"},{"id":115019,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2019-07-14 07:50:39","like_diff":1,"likes":1,"dislikes":0,"content":"老师上课上的很无聊，一直昏昏欲睡，考试是开卷考答案全部找到了还是低分，上课也不允许看手机，真的是又水给分又不好"},{"id":167881,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2023-01-19 19:08:16","like_diff":1,"likes":1,"dislikes":0,"content":"怎么说呢… 害绩点就那样吧 课有点无聊 不怎么感兴趣的话 就那样咯"},{"id":188862,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2024-01-20 10:08:10","like_diff":1,"likes":1,"dislikes":0,"content":"上课内容比较简单，很好接受，老师也讲得还算清楚，就是稍微有些散，就当是科普吧。\n\n平时不点名，发言有加分。作业是一篇小论文，自己收集资料写。期末考都是课件上的东西。但我要提醒大家，对于论文老师比较在乎要有“自己的想法”，但这多少有些不切实际了，一个非脑科学专业的本科生能有什么自己的想法，很多论文我压根都看不懂，不要说自己的想法了。\n\n关于给分，一般，我论文写了万字，期末正常吧，上课无发言，最后4.2。可能是因为我没有“自己的想法”吧。"},{"id":11923,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2015-12-21 10:44:11","like_diff":0,"likes":11,"dislikes":11,"content":"坑爹的严，不让开电脑不让玩手机！而且除了考试还要写两篇论文！"},{"id":85694,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2018-07-26 07:11:45","like_diff":0,"likes":0,"dislikes":0,"content":"我记得最后一节课，因为讲课时间比较紧，所以没叫人发言啊……为什么考试时，监考老师统计最后一节课发言人数，那么多人都去登记了？老师可能自己忘了吧，但是大家……？？?好吧，讲回课本身。上课的内容挺有意思的，很推荐大家选一些关于脑科学的K类课。开卷考试不难，这样也就导致给分标准略迷，或许多写一点会比较好。"},{"id":93113,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2019-01-07 11:41:38","like_diff":0,"likes":2,"dislikes":2,"content":"为老师疯狂打抠！！！ 真的很喜欢这门课 成绩还没出考试还没考所以先不说 老师声音很不清楚又常常讲英文ppt也不是特别精致 可是真的内容很充实!资源也很丰富说的也清楚 如果有机会跟老师说话会发现他真的很有想法也很有知识 如果认真听真的很有收获 一不注意会错过很多 不能玩手机电脑 我觉得很正常啊 而且不要太夸张他其实不管你 也不管你出不出席 想要水的真的不用来啦 \n\n就是很喜欢这门课! (每次老师上课放的电影都会成为待看清单)"},{"id":99898,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2019-01-25 09:19:07","like_diff":0,"likes":2,"dislikes":2,"content":"就说一点，老师会去搞搞清楚三分一档和正态是怎么操作的然后让大家的成绩尽量highhigh这还不够么"},{"id":100922,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2019-01-27 06:20:36","like_diff":0,"likes":0,"dislikes":0,"content":"课有点无聊，有点催眠。两篇论文和考试都认真准备了，结果被正态，呵呵哒。如果是为了凑学分，建议别选，事多，分低。\n\n"},{"id":109836,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2019-06-19 14:27:34","like_diff":0,"likes":2,"dislikes":2,"content":"课程:进化的大脑和偶成的意思\n\n上课不允许玩手机 但允许不上课。无生物学基础上课大概率听不懂。有期末考还要写两篇话题论文（类似高中话题作文），负担比较重。老师对学生学习情况也不关心。总之，不推荐。"},{"id":112662,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2019-07-04 23:51:41","like_diff":0,"likes":1,"dislikes":1,"content":"别的还行。\n\n给分随机。\n\n坑"},{"id":113093,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2019-07-05 23:17:48","like_diff":0,"likes":1,"dislikes":1,"content":"一句话：两篇论文加起来5k字，给分就不错了，别写太多，没意思。"},{"id":113687,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2019-07-07 04:00:21","like_diff":0,"likes":0,"dislikes":0,"content":"很一般"},{"id":125787,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2020-09-14 08:40:17","like_diff":0,"likes":0,"dislikes":0,"content":"无语中"},{"id":125789,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2020-09-14 08:53:31","like_diff":0,"likes":0,"dislikes":0,"content":"就那样"},{"id":185813,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2024-01-04 14:06:20","like_diff":0,"likes":0,"dislikes":0,"content":"是真的不知道为什么当时要选这门课，，，还是补选，给我绩杀惨了"},{"id":188845,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2024-01-20 08:04:27","like_diff":0,"likes":0,"dislikes":0,"content":"上课去不去是不管的 但是给分特别特别不好"},{"id":188853,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2024-01-20 09:32:12","like_diff":0,"likes":0,"dislikes":0,"content":"3.6，我只能说我尽力了，的确不知道老师是怎么要求“非医学（或生理学）专业的本科生”的。论文写了3500字，我承认是从知网上缝合出来的，但我也尽量加入自己的体验和思考了，难不成还要我当场做个实验写篇报告？（不过我写的时候发现我的论文和老师的课件大部分来源于同一篇硕士论文，如果因为这个原因分低，我不认为这是我的问题）期末考试，我知道老师要考查我们有没有听课，因此我前两天还把智云课堂能看的全看了一遍（平时一边做题一边听课），考试的时候把自己能想起来的都写上去了。ppt上的确有“答案”，但很多时候只是一句话或者两张图片，想要写出内容还是得记住老师上课说的话——老师自己能够做到这件事，毕竟他就是靠回忆讲课的，但对于一节两个月前回放还出故障的课，我的确无能为力。总而言之，老师的博学和能力是毋庸置疑的，但“进化的大脑与偶成的意识”作为一门面向全校本科生的新通识选修课，其要求之高的确容易让非相关专业的学生感到沮丧。"},{"id":188975,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2024-01-21 03:51:07","like_diff":0,"likes":0,"dislikes":0,"content":"给分特别垃圾！！如果不是凑学分尽量别来！！虽然不点名很爽但是期末考试莫名其妙的题，比如这次给科学家的照片问我他是谁有什么贡献，ppt上照片跟考场给的根本就是两个人找半天我不知道是谁！！别选"},{"id":213928,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2025-01-21 12:26:44","like_diff":0,"likes":0,"dislikes":0,"content":"这老师还在开课吗？不是犯事儿被刑拘了吗"},{"id":24971,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2016-05-04 14:40:42","like_diff":-1,"likes":3,"dislikes":4,"content":"出分极快，不管楼上怎么说我觉得给分真的很好。可能是你考试每道题只写两句话吧"},{"id":30769,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2016-07-02 12:29:36","like_diff":-1,"likes":3,"dislikes":4,"content":"很不错"},{"id":32927,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2016-08-04 11:00:52","like_diff":-1,"likes":6,"dislikes":7,"content":"讲的还可以，会放电影，考评虽然要写一篇论文还要考试，但是给分真的很好，考试也是ppt和书上有的内容。刚发现老师入选杰青…好厉害！"},{"id":41288,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2017-01-10 11:58:05","like_diff":-1,"likes":3,"dislikes":4,"content":"老师讲的很精彩，有时候想水都会不自觉听起来"},{"id":45601,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2017-01-20 00:19:15","like_diff":-1,"likes":1,"dislikes":2,"content":"不考虑绩点的话，听这样一门新生研讨课的话，还是挺有趣的"},{"id":51770,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2017-06-09 08:57:36","like_diff":-1,"likes":2,"dislikes":3,"content":"现在每个短学期一篇论文啦，给分超棒！"},{"id":53361,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2017-06-26 12:37:21","like_diff":-1,"likes":0,"dislikes":1,"content":"一门不错的通识，老师很好，只有一篇论文和一场考试，考试题目全是书和ppt上有的。建议有兴趣的同学可以听一听。考试一定要记得打印PPT！"},{"id":84847,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2018-07-14 05:05:41","like_diff":-1,"likes":2,"dislikes":3,"content":"老师给分真的很好哎，满了！真的只要论文好好写，认真写，绩点不会太差，因为考试内容PPT上基本都有，或许多答一点会更好?课本身也是比较有趣的，推荐。"},{"id":86585,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2018-09-17 10:37:11","like_diff":-1,"likes":0,"dislikes":1,"content":"新生研讨课上，老师很和蔼，对大一新生来说，简单易懂，期末不考试，两篇论文和辩论课，认真写了，给分也不错"},{"id":119134,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2019-11-11 00:12:36","like_diff":-1,"likes":2,"dislikes":3,"content":"有个心理学效应是:老师给你的分越低，你反而越是会倾向于给老师高分。老师好像深谙心此道。"},{"id":120707,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2020-01-15 15:39:05","like_diff":-1,"likes":0,"dislikes":1,"content":"水过来加睡过来的，绩点4.5 主要是靠论文和考试好好写吧。\n\n"},{"id":43565,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2017-01-16 14:23:34","like_diff":-3,"likes":2,"dislikes":5,"content":"给分超好啊不得不说！人生第一个满绩。\n\n讲课还好啦，上课放的电影很不错，但是把本来很有趣的东西讲的一般般吧。事情略多，就一个冬学期但是要写两篇论文，现在取消了考试。上课要积极发言，最后的讨论课一定要好好准备。个人感觉回报还是蛮大的，而且能学到一点干货～推荐！"},{"id":120808,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2020-01-17 10:49:43","like_diff":-3,"likes":2,"dislikes":5,"content":"上课要认真听，老师人很好，很和善，论文主要看自己的想法，结合自己实际，虽然考试开卷，但不听还是很难的。虽然没满，还是感谢老师的4.8。"},{"id":45777,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2017-01-20 05:18:02","like_diff":-4,"likes":1,"dislikes":5,"content":"讲得好，给分好，推荐选啊～"},{"id":74410,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2018-02-20 01:38:51","like_diff":-4,"likes":2,"dislikes":6,"content":"喜欢老师上课，最后绩点4.2不如想象中高，可能因为是文科生吧。考试比较简单，答案都在课本和课件上。另外虽然老师不准，但上课还是可以偷偷玩手机的，不过电脑可能就拿不出来了"},{"id":46947,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2017-01-23 04:49:46","like_diff":-5,"likes":1,"dislikes":6,"content":"作为一门通识课长长姿势挺好的啦，给分不错啦，事情也很少。"},{"id":55233,"teacher_id":3405,"teacher_name":"沈颖","post_time":"2017-07-01 05:13:33","like_diff":-8,"likes":1,"dislikes":9,"content":"老师超级棒！！！！第一门满记的课哈哈哈！能收获到很多"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

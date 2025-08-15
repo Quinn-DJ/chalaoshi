@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>施卫星 - 医学院 - 浙大教评</title>
+    <meta name="description" content="施卫星教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="施卫星,医学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">施卫星</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">医学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.09</div>
+                    <div class="rating-participants">69人参与评分</div>
+                    <div class="attendance-info">23.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息</h3>
+                <p class="no-data">暂无课程GPA数据</p>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (65 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":24631,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-05-14 07:57:59","like_diff":15,"likes":21,"dislikes":6,"content":"给分坑。。。。"},{"id":31477,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-07-04 03:10:49","like_diff":15,"likes":17,"dislikes":2,"content":"不知道为什么很多人说老师给分不好而且说老师讲课好的人都被挤下去了，平时上课听了的话其实答题和作业完全没问题。老师讲课很不错，有热情，而且一直微笑，让人觉得如沐春风，推荐大家上。又想水又想得高分的人请避开谢谢"},{"id":1570,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2015-03-22 15:30:54","like_diff":14,"likes":16,"dislikes":2,"content":"有激情"},{"id":10466,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2015-11-19 03:30:24","like_diff":13,"likes":18,"dislikes":5,"content":"给分个人不是很满意，上课很有热情"},{"id":13037,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2015-12-24 15:03:45","like_diff":12,"likes":16,"dislikes":4,"content":"讲的还算有趣吧，但给分真的不好"},{"id":24615,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-05-02 08:45:26","like_diff":12,"likes":14,"dislikes":2,"content":"上课还可以吧，互动比较少，是他一个人在对话的感觉，有点无聊的，不过平时很水，只有一次小作业，考试开卷考。考试我答得蛮认真的，但默默表示最后被正态了，宝宝心里苦啊为什么分数才那么点"},{"id":24661,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-07-03 07:23:34","like_diff":12,"likes":15,"dislikes":3,"content":"认真学了复习了却是拿过最低绩点的课。"},{"id":3365,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2015-06-07 07:20:43","like_diff":11,"likes":11,"dislikes":0,"content":"可以很水，听了也可以挺有意思"},{"id":24639,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-05-02 14:38:53","like_diff":11,"likes":16,"dislikes":5,"content":"给分不好，明明作业做的很认真，考试基本都能在书上找到，从头写到尾。觉得最后分数是随意给的。"},{"id":25040,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-05-05 02:49:59","like_diff":8,"likes":11,"dislikes":3,"content":"给分坑坑坑，这么说吧，不学习的室友九十三，我基本全会做答上去83"},{"id":2879,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2015-05-10 08:22:02","like_diff":7,"likes":9,"dislikes":2,"content":"赞，课上的有意思"},{"id":2985,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2015-05-12 08:08:07","like_diff":7,"likes":11,"dislikes":4,"content":"老师挺好的，但给我的分不算高，不知道其他人怎么样"},{"id":48251,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2017-03-01 12:16:18","like_diff":7,"likes":8,"dislikes":1,"content":"单口相声王！"},{"id":6636,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2015-07-16 16:57:27","like_diff":6,"likes":12,"dislikes":6,"content":"给分倒是很随意…也没觉得讲得好…骗骗热血青年吧"},{"id":37152,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-11-17 15:22:18","like_diff":4,"likes":6,"dislikes":2,"content":"上课很有激情，但是课真的挺无聊的，课程问题，不怪老师。平时不点名，就一次作业，开卷考试，全是案例分析题，感觉考政治题一样，挺难的，给分坑。"},{"id":38846,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-12-19 14:34:50","like_diff":4,"likes":5,"dislikes":1,"content":"老师超棒，长得帅，上课认真，声音好听，超爱的！"},{"id":3491,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2015-06-16 14:50:20","like_diff":3,"likes":7,"dislikes":4,"content":"听施老师的课，有一种发自内心的激动，逢人必推荐"},{"id":5174,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2015-07-05 14:34:07","like_diff":3,"likes":6,"dislikes":3,"content":"课堂很生动！像讲评书！"},{"id":77549,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2018-05-06 11:33:20","like_diff":3,"likes":3,"dislikes":0,"content":"老师上课能将一句话扩充成一个故事，能饱满而又热情地持续讲整整三节课（不下课），下面的同学都没怎么听? 感觉认真学还是很有意义的一门课程。"},{"id":28209,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-06-28 08:16:12","like_diff":2,"likes":3,"dislikes":1,"content":"给分不好"},{"id":38847,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-12-19 14:36:14","like_diff":2,"likes":3,"dislikes":1,"content":"老师富有人格魅力，长的帅，讲课有趣"},{"id":50650,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2017-05-04 05:19:02","like_diff":2,"likes":4,"dislikes":2,"content":"给分很失望"},{"id":1736,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2015-03-24 01:14:13","like_diff":1,"likes":5,"dislikes":4,"content":"老师人好棒！"},{"id":22734,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-03-10 08:12:14","like_diff":1,"likes":3,"dislikes":2,"content":"不拘泥于课本，各种例子"},{"id":23200,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-03-21 15:19:22","like_diff":1,"likes":4,"dislikes":3,"content":"讲得很生动，好老师！"},{"id":31997,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-07-05 10:43:19","like_diff":1,"likes":1,"dislikes":0,"content":"给分太差，通识课竟然是我大学最低分。"},{"id":32090,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-07-05 14:47:39","like_diff":1,"likes":1,"dislikes":0,"content":"给分乱给"},{"id":37179,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-11-17 23:58:42","like_diff":1,"likes":3,"dislikes":2,"content":"老师上课非常好，但给分.....\n\n上课都听的，考前ppt也看了，3.3，蓝瘦"},{"id":37225,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-11-18 03:09:22","like_diff":1,"likes":1,"dislikes":0,"content":"老师上课挺好的，也没啥事。不过给分方式个人感觉不是很合理。毕竟与我均绩差了1.多。"},{"id":37441,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-11-19 00:17:20","like_diff":1,"likes":3,"dislikes":2,"content":"作业认真做了考试认真考了最后给了3.3 不是很懂。"},{"id":50683,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2017-05-04 08:36:38","like_diff":1,"likes":1,"dislikes":0,"content":"给分不高 考试前仔仔细细看了书和ppt 感觉一点用都没有 垃圾点太厉害 就当凑个学分"},{"id":75044,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2018-03-07 06:30:10","like_diff":1,"likes":1,"dislikes":0,"content":"给分太低"},{"id":75281,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2018-03-08 12:17:31","like_diff":1,"likes":1,"dislikes":0,"content":"emmmm"},{"id":76530,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2018-04-12 11:41:35","like_diff":1,"likes":1,"dislikes":0,"content":"讲课挺差的\n\n难道除了“启发式教育”以外 ，不表达自己观点就能上一学期的课？实在泛泛而谈。\n\n书也写的一样差，令人有所启发的、有“理性”的分析很少。\n\n不是要听标准答案，只是能不能不要只讲故事。"},{"id":78531,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2018-05-12 16:02:02","like_diff":1,"likes":1,"dislikes":0,"content":"这门课一直在抛出问题，说实话也没有教我们到底要怎么去解决问题，大概是让我们自己思考吧。老师人还好，比较有激情。但是，给分，我真的不知道说什么了。摊手，很迷，看其他评论就知道了"},{"id":78534,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2018-05-12 16:26:48","like_diff":1,"likes":1,"dislikes":0,"content":"给分坑"},{"id":78565,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2018-05-13 06:17:38","like_diff":1,"likes":1,"dislikes":0,"content":"给分很失望"},{"id":862,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2015-03-18 02:54:48","like_diff":0,"likes":4,"dislikes":4,"content":"很有趣！很棒！"},{"id":3978,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2015-06-17 11:44:00","like_diff":0,"likes":4,"dislikes":4,"content":"老师讲课超赞 人很nice"},{"id":10262,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2015-11-18 00:40:43","like_diff":0,"likes":3,"dislikes":3,"content":"老师讲课很风趣，有热情，欣赏这样的老师。给分也很好。"},{"id":24728,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-05-03 08:16:20","like_diff":0,"likes":2,"dislikes":2,"content":"好多好故事"},{"id":31558,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-07-04 06:23:02","like_diff":0,"likes":1,"dislikes":1,"content":"好奇怪，我是上个学期上的当时是因为别人推荐说老师给分好，我自己也觉得挺好的，怎么现在看评论变成给分不好了？"},{"id":31985,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-07-05 10:25:14","like_diff":0,"likes":2,"dislikes":2,"content":"上课巨水无比，给分巨坑无比。"},{"id":32106,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-07-05 15:43:10","like_diff":0,"likes":1,"dislikes":1,"content":"上课有趣有激情！人很好，作业少，给分也挺好~很棒的老师，点赞！"},{"id":37020,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-11-17 06:44:53","like_diff":0,"likes":0,"dislikes":0,"content":"课程内容很有意思呀  老师讲课也有意思  态度很好"},{"id":37987,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-11-22 17:19:50","like_diff":0,"likes":1,"dislikes":1,"content":"老师人很好很热心"},{"id":39977,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-12-28 11:49:59","like_diff":0,"likes":0,"dislikes":0,"content":"考试会翻书和ppt，多写点就行"},{"id":40845,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2017-01-06 02:21:28","like_diff":0,"likes":1,"dislikes":1,"content":"上课很有热情，一刻不停可以讲三节课。考试也是开卷"},{"id":48243,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2017-03-01 11:32:13","like_diff":0,"likes":1,"dislikes":1,"content":"骗骗热血青年"},{"id":50907,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2017-05-08 10:18:50","like_diff":0,"likes":1,"dislikes":1,"content":"一个老教师，讲课很有意思，有一种老一辈医生对新一辈的期望与传承的感觉，虽然不是我医学院的学生，但是任然能体会到这一点。至于给分什么的，考试主观题多，所以可能会比较看中你自己对案例的看法和书本知识的结合。最后还是推荐大家选施老师的课哒。"},{"id":2984,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2015-05-12 07:58:30","like_diff":-1,"likes":6,"dislikes":7,"content":"老师讲课 有意思 例子有很多 虽然有正态分布但给分还是很好的"},{"id":4504,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2015-06-24 04:20:23","like_diff":-1,"likes":5,"dislikes":6,"content":"老师很赞，讲课有激情，给我打分不错，考试挺轻松"},{"id":32034,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-07-05 12:29:10","like_diff":-1,"likes":1,"dislikes":2,"content":"这老师给分绝对是有病，完全没有依据乱给。"},{"id":32069,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-07-05 14:15:39","like_diff":-1,"likes":0,"dislikes":1,"content":"我的绩点一般就三点几，不过客观来讲，我觉得老师本人和授课内容都是挺有趣的，也不点名，作业也很少。"},{"id":37905,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-11-22 02:40:03","like_diff":-1,"likes":0,"dislikes":1,"content":"有激情 给分还不错"},{"id":51583,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2017-06-07 10:04:45","like_diff":-1,"likes":0,"dislikes":1,"content":"老师很棒啊 声音好听 上课某激情 会用大量事例 事情不多 又很认真 给分也很好"},{"id":114116,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2019-07-10 23:12:41","like_diff":-1,"likes":0,"dislikes":1,"content":"给分不是坑，我不是医学专业的，最后4.5"},{"id":10278,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2015-11-18 01:23:08","like_diff":-2,"likes":5,"dislikes":7,"content":"给分还好"},{"id":24618,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-05-02 09:23:45","like_diff":-2,"likes":1,"dislikes":3,"content":"nice"},{"id":24619,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-05-02 09:50:12","like_diff":-2,"likes":3,"dislikes":5,"content":"讲课真的很有激情，案例挺有趣的（有时候认真听你会发现有些逻辑会有小bg(￣y▽￣)~*捂嘴偷笑），给分也挺好哒"},{"id":25511,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-05-24 05:10:56","like_diff":-2,"likes":2,"dislikes":4,"content":"平时可以很水 作业很少 个人觉得给分还是挺好的～"},{"id":27177,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2016-06-23 11:37:30","like_diff":-2,"likes":1,"dislikes":3,"content":"讲的真的很好，很有意思"},{"id":50655,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2017-05-04 05:42:37","like_diff":-3,"likes":4,"dislikes":7,"content":"这大概是我学得最努力的一门课了，最后成绩还好_(:з」∠)_\n\n如果觉得老师给分不好的话，可以静下心来想一想自己有没有学到东西，觉得是因为自己不好好听讲没努力看书才没有学到东西就不要再吐槽老师了好吧，我到最后是可以把老师上课讲的东西归纳出一个框架并背出来的_(:з」∠)_\n\n据说有题库，然而非医学生并没有找到，考试时按照自己归纳的框架写了很多，基本照顾到了全书的知识点，大概考试成绩是不错的吧，希望能有助于大家"},{"id":10243,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2015-11-17 15:19:11","like_diff":-4,"likes":4,"dislikes":8,"content":"好好好好好好"},{"id":50640,"teacher_id":1573,"teacher_name":"施卫星","post_time":"2017-05-04 04:02:31","like_diff":-4,"likes":2,"dislikes":6,"content":"给分不错"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>周韧 - 医学院 - 浙大教评</title>
+    <meta name="description" content="周韧教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="周韧,医学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">周韧</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">医学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">7.63</div>
+                    <div class="rating-participants">73人参与评分</div>
+                    <div class="attendance-info">37.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (7 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">Medical Chinese Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.46</span>
+                            <span class="students">选课: 74人</span>
+                            <span class="std-dev">标准差: 0.73</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">Pathology</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.33</span>
+                            <span class="students">选课: 90人</span>
+                            <span class="std-dev">标准差: 0.72</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">人体探秘——认识自己，预防疾病</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.13</span>
+                            <span class="students">选课: 53人</span>
+                            <span class="std-dev">标准差: 0.53</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">人类学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.09</span>
+                            <span class="students">选课: 38人</span>
+                            <span class="std-dev">标准差: 0.44</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">医疗纠纷与司法鉴定</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.80</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.72</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">基础医学各论Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.64</span>
+                            <span class="students">选课: 157人</span>
+                            <span class="std-dev">标准差: 0.72</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">法医学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.24</span>
+                            <span class="students">选课: 48人</span>
+                            <span class="std-dev">标准差: 0.92</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (63 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":2426,"teacher_id":1437,"teacher_name":"周韧","post_time":"2015-04-30 11:43:53","like_diff":46,"likes":57,"dislikes":11,"content":"周老师简直医学院男神"},{"id":107133,"teacher_id":1437,"teacher_name":"周韧","post_time":"2019-05-02 01:15:33","like_diff":24,"likes":28,"dislikes":4,"content":"医疗纠纷与司法鉴定这门课程的设置很有问题，首先，多个老师轮流授课的方式很不错，但讲课内容会重复且难免有不同，甚至基本概念让同学听得很混乱；其次，体系性太弱，虽然课程是交叉学科性质，本身就涉及多方面知识，但是一个学期下来，如果不自己搜索其他资料学习，基本体系都难以构建；再次，考核方式实在不好，平时作业和期末考试都可以上网查，这种拉不开差距的考核方式跟正态制度结合，所以普遍觉得给分差；还有，这种上百人的大课，硬要每人展示，还是临时通知的，显然展示效果很差。 \n\n虽然问题很多，老师们个个还是魅力挺大的，上课很享受，但我觉得我们学校的通识课还是太水了，甚至连基础也学不到，只能走马观花地了解一下有这样的学科罢了。"},{"id":39881,"teacher_id":1437,"teacher_name":"周韧","post_time":"2016-12-28 05:41:04","like_diff":23,"likes":26,"dislikes":3,"content":"电视剧里那种饱经沧桑说啥都对的老警察气质，感觉说啥都对。上课不是以考试为目的，更多讲一些临床上需要的内容，所以不适合应试，但真的学到很多很有用也很有意思的东西。"},{"id":2104,"teacher_id":1437,"teacher_name":"周韧","post_time":"2015-04-01 12:04:31","like_diff":22,"likes":29,"dislikes":7,"content":"最喜欢周韧的课了，周韧的人格魅力是医学院很多老师没有的"},{"id":45590,"teacher_id":1437,"teacher_name":"周韧","post_time":"2017-01-20 00:02:05","like_diff":18,"likes":20,"dislikes":2,"content":"老师确实不错。。。但给分。。。。。。"},{"id":45611,"teacher_id":1437,"teacher_name":"周韧","post_time":"2017-01-20 00:43:09","like_diff":16,"likes":22,"dislikes":6,"content":"要是知道这种给分方式我是不会选的。。作为通识课太坑"},{"id":107119,"teacher_id":1437,"teacher_name":"周韧","post_time":"2019-05-01 21:36:03","like_diff":15,"likes":18,"dislikes":3,"content":"医疗纠纷与司法鉴定，毫无任何有效评分标准可言。每节课留一个思考题，所有人网络互通，抄写上交。不点名，无出勤率考察。课程内容，八次课下来，多次重复，没有实质性的收获。完全是绩杀，让有兴趣且认真思考的同学十分失望。"},{"id":107157,"teacher_id":1437,"teacher_name":"周韧","post_time":"2019-05-02 03:00:59","like_diff":12,"likes":13,"dislikes":1,"content":"司法鉴定这门课感觉自己平时挺认真的，平时作业按时认真完成，期末考试前也仔细复习ppt好几遍，老师最后给分还是让自己有些失望，感觉对不上自己平时的付出，认真学习的同学和作业考试抄资料上网搜答案的同学没有什么差别了。好在自己平时上课认真，还是学到了不少相关的知识，就这一点来说还是不后悔的，总的来讲这门课还有一些值得改进的地方"},{"id":84385,"teacher_id":1437,"teacher_name":"周韧","post_time":"2018-07-12 16:34:16","like_diff":9,"likes":9,"dislikes":0,"content":"最初上课还有点意思，后来就是翻来覆去重复，换一个老师又重复一遍。。。BTW，作为参与了课堂展示的一半同学之一，作业都按时完成，绩点却被杀到全班均绩以下。。"},{"id":91180,"teacher_id":1437,"teacher_name":"周韧","post_time":"2018-12-03 00:37:45","like_diff":9,"likes":10,"dislikes":1,"content":"课有点意思，其实偏人文社科，但成绩的话…50%都是3.5，各位保重"},{"id":45556,"teacher_id":1437,"teacher_name":"周韧","post_time":"2017-01-19 20:19:06","like_diff":7,"likes":11,"dislikes":4,"content":"呵呵 中等 2.5作为一个通识课你还能再坑点么   \n\n"},{"id":55982,"teacher_id":1437,"teacher_name":"周韧","post_time":"2017-07-03 01:17:47","like_diff":7,"likes":8,"dislikes":1,"content":"老师超有魅力。但是这个给分我就呵呵了"},{"id":6798,"teacher_id":1437,"teacher_name":"周韧","post_time":"2017-09-14 06:04:56","like_diff":6,"likes":11,"dislikes":5,"content":"上周韧老师的新生研讨课被老师的人格魅力征服了……然而就是绩点给的略坑(按档评分)，虽然我依然爱老师"},{"id":45621,"teacher_id":1437,"teacher_name":"周韧","post_time":"2017-01-20 01:08:17","like_diff":6,"likes":8,"dislikes":2,"content":"给分好低好低啊....不过可能是对论文要求比较高吧...."},{"id":55950,"teacher_id":1437,"teacher_name":"周韧","post_time":"2017-07-02 17:43:54","like_diff":6,"likes":8,"dislikes":2,"content":"给分真心不好"},{"id":66446,"teacher_id":1437,"teacher_name":"周韧","post_time":"2018-01-16 13:31:44","like_diff":6,"likes":7,"dislikes":1,"content":"给分超级坑，中等2.5，看到绩点你会后悔的"},{"id":74298,"teacher_id":1437,"teacher_name":"周韧","post_time":"2018-02-10 02:37:17","like_diff":5,"likes":5,"dislikes":0,"content":"绩杀a"},{"id":84371,"teacher_id":1437,"teacher_name":"周韧","post_time":"2018-07-12 16:03:29","like_diff":5,"likes":5,"dislikes":0,"content":"为什么我认真上了课，认真做了展示，论文也是自己写的3000左右，最后绩杀了，创通识新低，不知道评分机制是什么。很迷"},{"id":123359,"teacher_id":1437,"teacher_name":"周韧","post_time":"2020-06-05 15:17:40","like_diff":5,"likes":5,"dislikes":0,"content":"“我讲慢一点，让音画同步起来”"},{"id":132838,"teacher_id":1437,"teacher_name":"周韧","post_time":"2021-02-04 05:10:23","like_diff":5,"likes":7,"dislikes":2,"content":"不知道楼下说的医法课是不是指医疗纠纷这门课\n\n如果是的话 希望考虑选这门课的同学别参考他说的\n\n4～5次作业都是小作业 一般来说就是一两道案例分析题 只要把自己心里真正的想法写清楚就好了 几百字就能说明的问题 您写2000字 是个人都嫌烦好吗  \n\n我觉得你被绩杀的一大原因就是你卷过头了\n\n课堂展示也不是必要的东西\n\n总而言之 听这门课 本身是能学到很多东西的 如果是为了拿分的话\n\n作业、小测都要写清楚 尽量简练（但是也要多多查资料） 小测题目比较多 要抓紧时间\n\n（ps小测是开卷 可以讨论的 建议找大佬坐一起）"},{"id":74330,"teacher_id":1437,"teacher_name":"周韧","post_time":"2018-02-11 07:47:18","like_diff":4,"likes":6,"dislikes":2,"content":"如果仅仅是听老师讲会感觉有点乱的，最好根据课件内容去查一查文献，仔细看看会发现很多关于医疗时间、法学、伦理有趣的事实，针对老师上课提出的问题写论文就好啦\n\n有一次讨论课，会点名上去，最后一次课上会留半小时小测下，题目不难，有ppt就行，开卷，烤柿粥开始之前交一篇论文。\n\n不水，能学到很多，医学新生也没开始学专业课，所以不是医学专业又怎样？对于大家来说都是新的知识"},{"id":51435,"teacher_id":1437,"teacher_name":"周韧","post_time":"2017-06-05 11:43:18","like_diff":3,"likes":6,"dislikes":3,"content":"医学院男神！！！！把病理学讲的超级超级赞！！！"},{"id":120322,"teacher_id":1437,"teacher_name":"周韧","post_time":"2019-11-28 11:17:55","like_diff":3,"likes":3,"dislikes":0,"content":"老师讲课还是很有趣的，但是给分emmmm"},{"id":126224,"teacher_id":1437,"teacher_name":"周韧","post_time":"2020-09-20 05:58:46","like_diff":3,"likes":3,"dislikes":0,"content":"医疗纠纷和司法鉴定，这门课很吸引人，但是真的是绩杀.......老师很有人格魅力，但是考核方式弊端明显，答案可以互抄，平时分拉不开差距，展示又通知的过于匆忙，导致很多人展示课的时候毫无准备，想到什么说什么。这些评分方式再加上正态......课很有趣，但是想要多高的绩点怕是不能够了"},{"id":129336,"teacher_id":1437,"teacher_name":"周韧","post_time":"2021-01-04 10:03:57","like_diff":3,"likes":3,"dislikes":0,"content":"怎么说呢，要是不在乎绩点可以选一选，课挺有意思的，最后考试开卷可以上网查，评分大概就是平时作业按时完成其实大概80+吧，当然有些人绩点很高"},{"id":132701,"teacher_id":1437,"teacher_name":"周韧","post_time":"2021-02-05 07:22:16","like_diff":3,"likes":7,"dislikes":4,"content":"医法课还挺有意思的，老师讲的挺好，给人阅历丰富又博学的感觉。但是绩杀。做过4.5次作业，每次2000字左右，主动做了一次小展示，最后给分也不理想…期末考占百分之五十，题量很大，主要是案例分析题较多，给了一大堆文字让你判断责任比例并分析。虽然开卷但网上查不到答案，也没有时间查，全凭感觉做了。是否复习平常的ppt和期末考结果可以说几乎无关。所以付出与收获在这门课上是不挂钩的。\n\n\n\n注意:一定不要错过ddl，老师不会给你开补交通道，你比别人少了一次成绩!!!\n\n\n\n如果在意绩点，对自己临场发挥能力没有把握的朋友，就不要选了。"},{"id":48136,"teacher_id":1437,"teacher_name":"周韧","post_time":"2017-03-01 00:53:35","like_diff":2,"likes":3,"dislikes":1,"content":"新生研讨课不得不说是真水。感觉他有很多想交给我们的但是上起课来有点乱，同一个点八节课讲了八次。"},{"id":55968,"teacher_id":1437,"teacher_name":"周韧","post_time":"2017-07-02 23:41:20","like_diff":2,"likes":4,"dislikes":2,"content":"等级制给分真的神坑。不过有几节课还是蛮有意思。"},{"id":127189,"teacher_id":1437,"teacher_name":"周韧","post_time":"2020-11-12 11:15:29","like_diff":2,"likes":2,"dislikes":0,"content":"周老师特别好，会让迟到的同学补签，还让大家回去拿电脑，讲课也有意思\n\n但是医疗纠纷这课，有位老师上课态度真的，不是很好，对学生很不耐烦\n\n再加上内容重复，比较绩杀，还是不建议选"},{"id":6457,"teacher_id":1437,"teacher_name":"周韧","post_time":"2015-07-14 05:26:16","like_diff":1,"likes":5,"dislikes":4,"content":"很有意思的老师～超有个人魅力，课也讲的超棒～"},{"id":65052,"teacher_id":1437,"teacher_name":"周韧","post_time":"2017-12-28 11:18:29","like_diff":1,"likes":7,"dislikes":6,"content":"医学院男神！室友基础医学的还来蹭我们的临床病理专业课！妥妥的迷妹没错了！真的是因为老师的个人魅力，上课会讲一些课堂以外的东西，但是都和课堂内容相关度高，不会乱扯！总结一下就是！真羡慕大一新生可以选他的通识课！！！！"},{"id":80328,"teacher_id":1437,"teacher_name":"周韧","post_time":"2018-06-25 07:01:49","like_diff":1,"likes":2,"dislikes":1,"content":"非常好的老师"},{"id":90837,"teacher_id":1437,"teacher_name":"周韧","post_time":"2018-11-26 11:46:43","like_diff":1,"likes":1,"dislikes":0,"content":"别的不问，出分是不是太慢了点？"},{"id":93781,"teacher_id":1437,"teacher_name":"周韧","post_time":"2019-01-13 14:32:48","like_diff":1,"likes":1,"dislikes":0,"content":"不知所云"},{"id":114820,"teacher_id":1437,"teacher_name":"周韧","post_time":"2019-07-12 01:06:56","like_diff":1,"likes":2,"dislikes":1,"content":"医疗纠纷与司法鉴定这门课，老师们不错，很有魅力，但是课程设置和考核方式存在很大的问题，非医药类学生慎选！虽然有些医药类同学说给分也很差，就这样吧，认真做作业，展示被选中，期末认真写然后70+"},{"id":116335,"teacher_id":1437,"teacher_name":"周韧","post_time":"2019-09-08 13:42:00","like_diff":1,"likes":2,"dislikes":1,"content":"医疗纠纷与司法鉴定，绩杀，慎选。历史最低分，一门通识，我佛了。。"},{"id":129920,"teacher_id":1437,"teacher_name":"周韧","post_time":"2021-01-13 13:36:59","like_diff":1,"likes":1,"dislikes":0,"content":"上课讲的很好"},{"id":130390,"teacher_id":1437,"teacher_name":"周韧","post_time":"2021-01-21 15:19:01","like_diff":1,"likes":1,"dislikes":0,"content":"上课真的非常风趣！周老师不仅是很厉害的病理教授，还是自己做法医的，会讲许多硬核高能的案例！"},{"id":136500,"teacher_id":1437,"teacher_name":"周韧","post_time":"2021-06-19 10:48:59","like_diff":1,"likes":1,"dislikes":0,"content":"医疗纠纷与司法鉴定\n\n没翘过一节课，每次点名都在\n\n每次作业都认真做了\n\n个人感觉真的花了不少精力在这门课上\n\n最后3.3，想选的保重"},{"id":123635,"teacher_id":1437,"teacher_name":"周韧","post_time":"2020-06-11 02:11:10","like_diff":0,"likes":0,"dislikes":0,"content":"老师很有意思，讲课能学到很多"},{"id":123795,"teacher_id":1437,"teacher_name":"周韧","post_time":"2020-06-14 09:11:08","like_diff":0,"likes":2,"dislikes":2,"content":"利益纠纷这门课真的巨好！一节课没听，认真做了PPT，然后最后的期末考试是开卷的，可以上网查，总之就是分好事少，认真听的话也能学到不少。"},{"id":126325,"teacher_id":1437,"teacher_name":"周韧","post_time":"2020-09-22 14:39:59","like_diff":0,"likes":0,"dislikes":0,"content":"周老师充满了阅历，听他上课就像听小说一样，又相当充实"},{"id":132676,"teacher_id":1437,"teacher_name":"周韧","post_time":"2021-02-03 09:38:30","like_diff":0,"likes":0,"dislikes":0,"content":"讲课会有让人听下去的欲望\n\n挺幽默风趣的"},{"id":133022,"teacher_id":1437,"teacher_name":"周韧","post_time":"2021-02-06 11:00:49","like_diff":0,"likes":1,"dislikes":1,"content":"不建议"},{"id":133203,"teacher_id":1437,"teacher_name":"周韧","post_time":"2021-02-17 04:47:21","like_diff":0,"likes":2,"dislikes":2,"content":"确实，这门课不需要卷，作业和考试只需要简明扼要的准确答案，不用扯很多字，把事情搞清楚，关系理清楚，学好分析就能得高分"},{"id":133353,"teacher_id":1437,"teacher_name":"周韧","post_time":"2021-02-26 06:32:36","like_diff":0,"likes":1,"dislikes":1,"content":"上的是医疗纠纷与司法鉴定，课很有趣，有很多个老师分别负责某一部分内容进行授课，对于拓展视野还是很有帮助的，但是不同老师的上课内容可能会重复，上课的同学来自各个专业，很多都是医学生，老师上课也比较喜欢cue医学生，每节课有课后思考题，最后一节课课堂上开卷回答几个题目，案例题要自己分析，开不开卷基本上没啥区别（个人感觉）。总的来说这门课还是很值得一选的～"},{"id":133717,"teacher_id":1437,"teacher_name":"周韧","post_time":"2021-03-04 07:12:12","like_diff":0,"likes":0,"dislikes":0,"content":"就难过"},{"id":20466,"teacher_id":1437,"teacher_name":"周韧","post_time":"2016-01-27 16:41:36","like_diff":-1,"likes":6,"dislikes":7,"content":"通识课不错的，反正给我的分蛮好。通识课还是蛮培养自己看事情能力的"},{"id":45625,"teacher_id":1437,"teacher_name":"周韧","post_time":"2017-01-20 01:14:29","like_diff":-1,"likes":4,"dislikes":5,"content":"非常好的老师，见多识广而且很有人格魅力！希望大二能选上专业课！"},{"id":65051,"teacher_id":1437,"teacher_name":"周韧","post_time":"2017-12-28 11:18:11","like_diff":-1,"likes":3,"dislikes":4,"content":"不多说了 妥妥的男神啊"},{"id":113096,"teacher_id":1437,"teacher_name":"周韧","post_time":"2019-07-05 23:19:23","like_diff":-1,"likes":2,"dislikes":3,"content":"上的医疗鉴定司法纠纷，首先要承认各位老师都很有水平。但是课的确有点坑，感觉老师们互相之间没有沟通交流好？课程内容很多重复，而且考评方式有点迷，展示人选是通过直接筛选PPT，导致选中的是PPT上满满都是字的组；平时小作业还挺多的，老师是说变相点名趴；期末开卷考，而且是在最后一节课上考的，好评！"},{"id":121201,"teacher_id":1437,"teacher_name":"周韧","post_time":"2019-12-30 10:34:22","like_diff":-1,"likes":1,"dislikes":2,"content":"周韧老师的课还是蛮有趣的，剩下记得有一个老师一直念ppt和文书检验的教材，别的也没多大印象了…记得有1～2道思考题+讨论课+一次课开卷案例分析+一次课开卷法律问题的回答…感觉大部分还是靠百度吧，案例分析的话周老师会领着做，我们小组展示自己研究了一个问题并解决，最后绩点4.5，好像组内成绩都不错。"},{"id":129167,"teacher_id":1437,"teacher_name":"周韧","post_time":"2020-12-31 01:35:05","like_diff":-1,"likes":1,"dislikes":2,"content":"医疗纠纷与司法鉴定这门课很有趣，讨论的问题也很深刻，所有老师都很负责，认真听能学到不少东西，作业一直是自己认真完成的，最后成绩还不错。不管别人如何评价，在这门课上，我还是体会到了付出终有回报"},{"id":32838,"teacher_id":1437,"teacher_name":"周韧","post_time":"2016-07-17 13:36:59","like_diff":-2,"likes":5,"dislikes":7,"content":"新生研讨课比较水，不过每节课点名都到后认真写了论文交上去，给分真的好……真的非常好……非常开心……还想继续跟着老师学……"},{"id":45585,"teacher_id":1437,"teacher_name":"周韧","post_time":"2017-01-19 23:51:45","like_diff":-2,"likes":4,"dislikes":6,"content":"研讨课4.5嗯应该是按档给分的，课上普及了很多医学及法律知识，但是作为一个工科狗很多听着就是一脸懵逼，分几个老师来上课的，还有几次研讨，也经常点名吧，作业考试就是调研报告或者论文之类的，参考一大堆东西写了几天才写出5000字的论文，不是医学生选这个课还是能学到挺多的。"},{"id":55983,"teacher_id":1437,"teacher_name":"周韧","post_time":"2017-07-03 01:17:49","like_diff":-2,"likes":1,"dislikes":3,"content":"老师的新生研讨课很赞，好几个老师授课，课堂上讨论和生活很相近的事情，并且很尊重同学们的意见~点名有几次，最后是一个很开放的课堂作业和一篇论文~~"},{"id":63593,"teacher_id":1437,"teacher_name":"周韧","post_time":"2017-12-08 06:42:32","like_diff":-2,"likes":1,"dislikes":3,"content":"临床知识多"},{"id":74852,"teacher_id":1437,"teacher_name":"周韧","post_time":"2018-03-06 06:16:08","like_diff":-2,"likes":3,"dislikes":5,"content":"等级制有点坑...但是最后认真写论文绩点不会低的!!写了3000字论文，绩点4.5，反正是我最高的一门通识~"},{"id":84341,"teacher_id":1437,"teacher_name":"周韧","post_time":"2018-07-12 15:06:29","like_diff":-2,"likes":4,"dislikes":6,"content":"这个课认真听真的能学到很多东西的。老师们都很认真?最后考核是一篇论文+最后一节课的开卷答题。论文认真写，写出自己的想法，给分不会低的！！最后4.8，谢谢老师！！"},{"id":126217,"teacher_id":1437,"teacher_name":"周韧","post_time":"2020-09-20 03:06:07","like_diff":-2,"likes":4,"dislikes":6,"content":"医疗纠纷与司法鉴定，事情少给分好~"},{"id":45634,"teacher_id":1437,"teacher_name":"周韧","post_time":"2017-03-07 03:15:46","like_diff":-3,"likes":8,"dislikes":11,"content":"垃圾老师，格局小得很。伤不起"},{"id":52885,"teacher_id":1437,"teacher_name":"周韧","post_time":"2017-07-02 19:09:19","like_diff":-5,"likes":4,"dislikes":9,"content":"五千字论文绩点2.5 垃圾老师不想多说"},{"id":107174,"teacher_id":1437,"teacher_name":"周韧","post_time":"2019-05-02 05:16:54","like_diff":-7,"likes":2,"dislikes":9,"content":"上课有趣，案例丰富，收获颇丰，绩点满了。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

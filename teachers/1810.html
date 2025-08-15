@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李心北 - 教育学院 - 浙大教评</title>
+    <meta name="description" content="李心北教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="李心北,教育学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">李心北</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">教育学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.44</div>
+                    <div class="rating-participants">273人参与评分</div>
+                    <div class="attendance-info">20.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (1 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">军事理论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.91</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.66</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (245 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":1904,"teacher_id":1810,"teacher_name":"李心北","post_time":"2015-03-26 05:29:12","like_diff":97,"likes":136,"dislikes":39,"content":"上课很有意思，百家讲坛式老师，就是考试前给的资料不怎么有用，没有吕强的资料好用。"},{"id":8704,"teacher_id":1810,"teacher_name":"李心北","post_time":"2015-09-24 07:42:08","like_diff":74,"likes":89,"dislikes":15,"content":"带了数分的书想来写点作业，然后90分钟后猛然发现自己认真的听了两节课。真的很有趣"},{"id":8258,"teacher_id":1810,"teacher_name":"李心北","post_time":"2015-09-18 01:24:31","like_diff":54,"likes":61,"dislikes":7,"content":"老师承诺不点名，而且可以做其他专业作业，人很好，讲的深入浅出"},{"id":18330,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-01-21 12:49:11","like_diff":54,"likes":81,"dislikes":27,"content":"老师是好老师，可是我作业全都到，论文写好久，考试也全都书上有找到，为什么绩点如此之低！！成绩是随机给的吗！"},{"id":13939,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-01-02 14:56:01","like_diff":36,"likes":39,"dislikes":3,"content":"虽然给我的分是不高的，但是不妨碍他成为一个好老师！上课很激动"},{"id":5518,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-08-24 11:05:26","like_diff":33,"likes":53,"dislikes":20,"content":"军事知识渊博，深入浅出，很适合对军事感兴趣的同学。。然而书上地内容讲得太少，完全自学。但对军事入门级同学上课不困有难度。"},{"id":15785,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-01-21 12:53:54","like_diff":32,"likes":54,"dislikes":22,"content":"分数是随机给的好像，明明考的蛮好，绩点低，绩杀"},{"id":19928,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-01-25 14:34:40","like_diff":32,"likes":41,"dislikes":9,"content":"人好绩点低\n\n"},{"id":71443,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-28 12:57:07","like_diff":26,"likes":33,"dislikes":7,"content":"论文查了很多文献，自认很认真，开卷考试预估90，从没缺过课。总评三点几，比史纲等花了同等心思的课分低不少。思政课中的最低分，很郁闷。"},{"id":22718,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-03-10 06:46:32","like_diff":25,"likes":30,"dislikes":5,"content":"有磁性的低音炮，耳朵会怀孕"},{"id":19426,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-01-24 07:52:16","like_diff":21,"likes":34,"dislikes":13,"content":"不点名的坏处就是给分没依据随机给"},{"id":121926,"teacher_id":1810,"teacher_name":"李心北","post_time":"2020-01-24 06:52:29","like_diff":21,"likes":23,"dislikes":2,"content":"万年不变的两次作业题+论文题目（论文提前1~2个月就会告知）+上课回答问题有加分。总的来说老师上课讲解很清楚，对军事学的理解也很透彻！期末考试打印吕强的目录+直接翻书，4.8/94到手（也许是上课摸鱼没回答问题被卡了？）。"},{"id":31002,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-03 05:57:16","like_diff":19,"likes":25,"dislikes":6,"content":"给分很迷啊最后考试每道题基本都找出来了，就算是论文差也不会这么低吧，失望"},{"id":71512,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-28 14:20:48","like_diff":19,"likes":22,"dislikes":3,"content":"评分三点几，和预期差太多，自认为绝对不是期末考的原因，论文也很认真写，实在不知道为什么"},{"id":98524,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-23 15:00:45","like_diff":19,"likes":24,"dislikes":5,"content":"看到楼上有些喷老师给分坑的，没有装13的意思。。就想给后来人排一下雷。。。每次课都到了，小测课上提交可以加一分(相当于点名吧)，回答问题好像也可以加分(长期后排写实验报告这个与我无关hhh)，论文老师允许\"借鉴\"只要不全抄就好了，我就是知网上找了五六篇论文花了一下午拼起来大概就三四千字吧，自己写的内容其实几乎没有。。最后考试前一天看了三个小时书大概把各个章节大致内容在哪熟悉一下方便翻书 考试的时候用了文印店的提纲，开卷考大概就两三道题没找到原话，最后4.8，估计是靠考试拉了些分上来 平时真的很佛系。。希望码了点字有点用，后面学的同学都拿高分~"},{"id":31036,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-03 07:12:56","like_diff":18,"likes":30,"dislikes":12,"content":"给分他妈的太低了吧   论文写了六千多  翻书翻文献写了那么久     考试基本每道题都找到了     最后只有3.3？    卧槽了   服气哦"},{"id":26282,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-06-16 13:42:10","like_diff":14,"likes":16,"dislikes":2,"content":"很和蔼的老爷爷～人好精神也好～"},{"id":71526,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-28 14:41:15","like_diff":14,"likes":17,"dislikes":3,"content":"“往前面坐，没关系，你们听不听课，做什么事情我都不管的。”听了他的课以后领会了他是以怎么样的自信讲出这话的，他有办法让你听课。"},{"id":104121,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-03-12 12:02:58","like_diff":13,"likes":13,"dislikes":0,"content":"两次题目永恒不变的小测当点名，当堂到+1分，课后补也不倒扣。平时也没什么事情，只需要一篇论文。上课嘛我个人听卫星和印度那两块比较入神，讲得真挺好的。至于给分嘛，老师都明说“我能给89就绝不给88”之类的了...最后成绩果然是卡下限的，很满足了。"},{"id":99040,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-24 07:35:01","like_diff":11,"likes":13,"dislikes":2,"content":"还是评论一下吧，两次小测当堂交了，课堂还有一次参与加分，论文花了时间按时交了，考试用的吕强的资料，可能是最后考试莫名错的多的问题（我以为自己后面多选都找到了的），最后仍然被正态3.3，有史以来最低的思政类课程还要算主修...发邮件问老师分数情况，老师把我所有错题题号列出来了，承认平常分被正态拉低了5分，因为学校要求79分及以下必须要超过30%...\n\n最后，老师是好老师，阅历丰富，上课会让你忍不住想听听，课堂比较有趣。\n\n以上。"},{"id":3721,"teacher_id":1810,"teacher_name":"李心北","post_time":"2015-06-17 02:40:07","like_diff":10,"likes":17,"dislikes":7,"content":"挺好的"},{"id":110800,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-06-28 09:00:28","like_diff":10,"likes":11,"dislikes":1,"content":"再补充一下，评论区里有很多说自己应该分不低但只有3.3的，这真的不是李老师的锅，因为正态分布要求80分以下的比例至少百分之三十，而军理的考试难度不会有这个比例的，所以如果你在全班后30%，就算你95满了，也得3.3，李老师给的都是79，也是无奈之举。请大家一起抵制正态分布制度，而不是抨击老师绩杀"},{"id":18301,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-01-21 11:59:25","like_diff":9,"likes":18,"dislikes":9,"content":"一般般，军理给分不给力啊"},{"id":54460,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-05-07 10:33:56","like_diff":8,"likes":22,"dislikes":14,"content":"老师很好，讲的有趣。个人感觉分数和老师关系不大，考试比较主要。我4.8"},{"id":98160,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-23 06:34:22","like_diff":8,"likes":9,"dislikes":1,"content":"讲的很好，旷课可以，但两次小测当天要交上，旷课还没队友就凉凉。论文好好写，期末基本找到，给分4.8。"},{"id":98557,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-23 14:52:50","like_diff":8,"likes":9,"dislikes":1,"content":"老师和吕强老师都是难得不绩杀的军理老师啊，老师最后一节课说过平时分都会给90分，除非你小测和论文没写没交，最后还是看考试的成绩吧，考前翻了吕强PPT带了提纲进考场，就妥了，给后来的学弟学妹参考一下"},{"id":110708,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-07-07 05:25:23","like_diff":8,"likes":10,"dislikes":2,"content":"对军事不感兴趣的不要选了，老师讲课真的很好，可是他会区别对待，喜欢本身就有军事知识的学生，仅代表个人观点，军理这种课是要让所有学生都能对这方面有所了解，而不是让本就喜欢的同学更加专业，在这一点上您真的做的不好"},{"id":71475,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-28 13:38:41","like_diff":7,"likes":9,"dislikes":2,"content":"感觉老师给分标准有点奇怪，和自己的预期有差距。"},{"id":84246,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-12 10:30:36","like_diff":7,"likes":11,"dislikes":4,"content":"老师人真的很好，不点名，但分数真的是随便给的吗？每节课都到，做笔记，每次作业按时交，花费好久写论文，考试也准备了很久，最后七十几分，绩点迷之低，拉低好多均绩，真的很无语O__O\"…"},{"id":84256,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-12 11:03:53","like_diff":7,"likes":8,"dislikes":1,"content":"每节课都到，作业论文都很认真完成，绩杀。。。"},{"id":122991,"teacher_id":1810,"teacher_name":"李心北","post_time":"2020-04-28 03:23:45","like_diff":7,"likes":7,"dislikes":0,"content":"落了两次小测还有3.3，谢谢老师"},{"id":6164,"teacher_id":1810,"teacher_name":"李心北","post_time":"2015-07-11 13:38:08","like_diff":6,"likes":11,"dislikes":5,"content":"每次听都感觉很有意思"},{"id":18198,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-01-21 09:14:44","like_diff":6,"likes":8,"dislikes":2,"content":"点名只有一次，就是课堂小作业"},{"id":20610,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-05-24 06:59:05","like_diff":6,"likes":7,"dislikes":1,"content":"就是听课吧，除了几节课比较重要其他不听也没关系，考试比较重要，用的是吕强的资料。"},{"id":31531,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-04 05:23:44","like_diff":6,"likes":10,"dislikes":4,"content":"不知别人是怎样的，虽然老师说过给分基本完全是看自己的考试，但是结合其他人的评价和我自己的体会来看，给分可能确实和其他通识课一样，会有误差的存在。"},{"id":71550,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-28 15:14:27","like_diff":6,"likes":7,"dislikes":1,"content":"绩点没预期高，但老师是真的好老师\n\n"},{"id":99752,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-25 06:26:36","like_diff":6,"likes":7,"dislikes":1,"content":"ezezez，平时事少，一论文两次课堂作业，期末裸考轻松上四，说绩杀的dd们请先找找自己原因?"},{"id":18311,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-01-21 12:21:42","like_diff":5,"likes":11,"dislikes":6,"content":"虽然我得分不好，但是是我自己的问题，老师真的很良心，讲得很好，对学生也很体贴"},{"id":21625,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-02-29 10:56:11","like_diff":5,"likes":7,"dislikes":2,"content":"很好的老师，不过他重点讲军事科技、军事思想几乎不讲，靠自己"},{"id":29590,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-06-30 04:27:31","like_diff":5,"likes":6,"dislikes":1,"content":"不点名，可以写其他专业作业。然而感触最深的是昨天考试一个一个找没交论文的的同学。"},{"id":98212,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-23 07:51:54","like_diff":5,"likes":6,"dislikes":1,"content":"老师人很好啊，经常给我们讲他在世界各地的经历，感觉是一个很有经历的男人。一学期的军理课几乎一节不落地听了，每次都听得入神。唯一不好的就是书上的内容很多不讲，但实际上不影响考试，考前花一天看了吕强老师的ppt，就4.8了。"},{"id":138294,"teacher_id":1810,"teacher_name":"李心北","post_time":"2021-07-08 11:13:03","like_diff":5,"likes":6,"dislikes":1,"content":"给分太不好了 论文有好好写，从来不缺勤，考试的时候准备了很多资料，也在努力地查找，基本上都找到了，最后的绩点却很低"},{"id":4819,"teacher_id":1810,"teacher_name":"李心北","post_time":"2015-06-29 08:37:34","like_diff":4,"likes":15,"dislikes":11,"content":"最后两节课听了下发现讲得很好，后悔前几节课都在刷作业水手机小考试也是乱写的了……"},{"id":8151,"teacher_id":1810,"teacher_name":"李心北","post_time":"2015-09-17 06:50:08","like_diff":4,"likes":7,"dislikes":3,"content":"讲的特别棒"},{"id":12194,"teacher_id":1810,"teacher_name":"李心北","post_time":"2015-12-22 09:12:09","like_diff":4,"likes":6,"dislikes":2,"content":"\\(≧▽≦)/赞"},{"id":33287,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-09-18 01:14:00","like_diff":4,"likes":7,"dislikes":3,"content":"今天第一节课，虽然大二忙的要死但以后这课我绝对不翘。太棒，都是我想听的东西，武器发展历史，军备竞赛，各国军事实力评估等等。比自己看那些过期的书有用多了，知道了很多从未想到的对抗技术……视野变宽了，兴奋。\n\n然而讲课有点慢……而且，恕我直言个人对浙大做了什么贡献不是很有兴趣……"},{"id":45945,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-20 09:37:31","like_diff":4,"likes":6,"dislikes":2,"content":"老师知识很渊博，上课不无聊的，其实给分挺好的，挺合理的"},{"id":46328,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-21 08:38:23","like_diff":4,"likes":10,"dislikes":6,"content":"老师给分挺客观的啊，楼上那么多考试找到考试那么大比重确定自己找的全是对的？老师自己都说过这个问题"},{"id":48683,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-29 08:07:49","like_diff":4,"likes":6,"dislikes":2,"content":"诶，陈建斌？"},{"id":54367,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-29 07:53:26","like_diff":4,"likes":7,"dislikes":3,"content":"只有春学期去上过，夏学期再也没去过了……还记得李心北上的第一堂课就直接讲可以在课上做任何其他课的作业，能让你们六级过了也是一种功德。考试前一定认认真真看一下书，理清框架，考试内容书上都有。但是不看书根本来不及找，考的内容很多。好好复习了，绩点4.2"},{"id":71500,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-28 14:08:04","like_diff":4,"likes":6,"dislikes":2,"content":"有点迷"},{"id":84163,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-12 07:09:08","like_diff":4,"likes":8,"dislikes":4,"content":"目测又是一波自己菜怪老师系列。考试实打实的分数还怪老师给分随机?题目陷阱很多，书上有时翻到的并不是直接的答案，考前不把书和资料过一遍不可能考好的。4.8感恩老师。"},{"id":98117,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-23 05:39:27","like_diff":4,"likes":5,"dislikes":1,"content":"客观的说，如果之前思政类课程绩点一直还行的话，李老师军理这一般也不会碰壁"},{"id":8158,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-06-08 11:24:19","like_diff":3,"likes":5,"dislikes":2,"content":"很好的课，刺激。"},{"id":14580,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-02-23 09:53:46","like_diff":3,"likes":5,"dislikes":2,"content":"上得好"},{"id":18196,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-01-21 09:10:12","like_diff":3,"likes":3,"dislikes":0,"content":"好老师，上课有趣"},{"id":26339,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-06-17 03:30:30","like_diff":3,"likes":4,"dislikes":1,"content":"对喜欢军事的人来说简直就是享受\n\n"},{"id":28083,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-06-28 08:05:20","like_diff":3,"likes":5,"dislikes":2,"content":"老师人很棒的 讲军事理论讲的很生动的 他第一节课就说我知道你们后来会翘课的 就不点名了吧 老师人挺实在的 不知道给分好不好 明天就要考试了orz"},{"id":31020,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-03 06:21:11","like_diff":3,"likes":5,"dislikes":2,"content":"给分迷"},{"id":31051,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-03 07:10:26","like_diff":3,"likes":7,"dislikes":4,"content":"反正我觉得给分不错，上课也不错，其实打印店资料没用，你只需要考前看一遍书就够了"},{"id":54555,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-30 18:25:27","like_diff":3,"likes":4,"dislikes":1,"content":"考前对着提纲看一遍书，考试的时候翻的快才是硬道理。上课有意思就听一下，不听也没事，主要看最后的考试吧，和老师给分没什么关系。基本翻到了，最后4.2"},{"id":54626,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-30 02:44:16","like_diff":3,"likes":11,"dislikes":8,"content":"4.8，考试很简单，没学好别怪老师"},{"id":93023,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-07 03:17:09","like_diff":3,"likes":4,"dislikes":1,"content":"老师超级棒！啊啊啊啊啊！二号迷妹呐喊！"},{"id":98119,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-23 05:43:08","like_diff":3,"likes":4,"dislikes":1,"content":"老师人很好呀，讲的东西我也都听得懂，很有趣的。给分的话，其实我思政课一直不好，但是这次军理竟然有4.5，！论文好好写，两次小测都对，期末大部分都找到答案了。反正我很喜欢李老师！"},{"id":98464,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-23 13:10:11","like_diff":3,"likes":4,"dislikes":1,"content":"是我的错。没有好好复习。论文4500＋。考试很多都是自己编的 结果3.3呜呜呜呜呜"},{"id":99623,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-25 04:14:06","like_diff":3,"likes":8,"dislikes":5,"content":"不知道楼上好几个说是绩杀的是为什么…小测和论文的平时分心北基本给满了 最多不会扣5分 所以绩点基本直接由考试决定 考试前认真翻一遍书 带上吕强中篇ppt 虽然细节坑多 但整张卷子不超过5道题找不到  \n\n利益相关：5.0"},{"id":102387,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-02-01 10:52:55","like_diff":3,"likes":3,"dislikes":0,"content":"老师是挺好的，我被绩杀了，也许涂卡涂错了？"},{"id":110888,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-06-28 13:00:27","like_diff":3,"likes":4,"dislikes":1,"content":"北叔人真的很好，给分也好。\n\n\n\n可能是我真的太菜了，期末按正态要80以下的才会给79分。\n\n抵制正态分布和吴朝吹校长\n\n\n\n"},{"id":801,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-16 06:41:00","like_diff":2,"likes":18,"dislikes":16,"content":"讲了很多东西，给分也好"},{"id":5896,"teacher_id":1810,"teacher_name":"李心北","post_time":"2015-07-10 00:44:13","like_diff":2,"likes":16,"dislikes":14,"content":"老师给的分数挺好…虽然我个人一直没听课上课玩手机（但我确实是听不懂可能换老师也一样…）点名是课堂写题的形式，来了就满分…论文分数不知道…但目测态度到了就宽松的"},{"id":8216,"teacher_id":1810,"teacher_name":"李心北","post_time":"2015-09-17 14:06:59","like_diff":2,"likes":4,"dislikes":2,"content":"很棒的老师"},{"id":18200,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-01-21 09:17:54","like_diff":2,"likes":3,"dislikes":1,"content":"老师很好啊。据说给分很好虽然我很低应该是我自己的问题反正挺好的"},{"id":18209,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-01-21 09:31:21","like_diff":2,"likes":2,"dislikes":0,"content":"很好的老师。讲课深入浅出，知识丰富，结合最新的军事信息讲解。"},{"id":18297,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-01-21 11:51:08","like_diff":2,"likes":2,"dislikes":0,"content":"。。。\n\n"},{"id":29299,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-06-29 14:42:22","like_diff":2,"likes":3,"dislikes":1,"content":"超级棒"},{"id":31033,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-03 06:34:25","like_diff":2,"likes":5,"dislikes":3,"content":"给分有点失望，但是上课还是挺好的，老师很认真，然后就是2次小测试一定要做，因为交了就是10分"},{"id":44277,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-17 13:57:43","like_diff":2,"likes":2,"dislikes":0,"content":"一种娓娓道来的积淀"},{"id":56552,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-07-04 03:27:11","like_diff":2,"likes":5,"dislikes":3,"content":"3.0，别问我怎么知道。"},{"id":71812,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-29 03:40:59","like_diff":2,"likes":3,"dislikes":1,"content":"感觉给分随机的啊！！！！生气！！！！"},{"id":71893,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-29 05:11:44","like_diff":2,"likes":3,"dislikes":1,"content":"除了小测论文考试其余确实没什么付出 绩点也确实低的可以"},{"id":72127,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-05 14:07:59","like_diff":2,"likes":4,"dislikes":2,"content":"不点名平时分看两次课堂作业 论文和考试都很重要 给分应该都是正态的吧 反正我论文写得一般般 考试都找到了 拿了个均绩 \n\n老师很好！人格魅力?"},{"id":84189,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-12 07:51:40","like_diff":2,"likes":3,"dislikes":1,"content":"大家都考得好高\n\n"},{"id":84198,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-12 08:13:24","like_diff":2,"likes":4,"dislikes":2,"content":"希望老师认真一点，负责一点，就算讲的有意思但是给分的时候不要这么随意"},{"id":86494,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-09-17 01:41:26","like_diff":2,"likes":4,"dislikes":2,"content":"第一节课老师腰痛，于是走了"},{"id":93020,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-07 03:14:45","like_diff":2,"likes":3,"dislikes":1,"content":"老师超级棒！啊啊啊啊啊！迷妹呐喊！"},{"id":98295,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-23 09:30:14","like_diff":2,"likes":4,"dislikes":2,"content":"老师人不错，不过我考前看了一天的吕强的PPT还打印了下来，论文写了两天，全勤，最后3.9，还是有点难受的"},{"id":104969,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-04-01 07:24:32","like_diff":2,"likes":2,"dislikes":0,"content":"很不错"},{"id":113204,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-07-06 01:35:04","like_diff":2,"likes":4,"dislikes":2,"content":"超级有趣的军理课！我本来想去课上写微积分，结果听入迷了听了整整一节课，最后老师给分也超级好哦"},{"id":113301,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-07-06 04:57:48","like_diff":2,"likes":3,"dislikes":1,"content":"事少给分高，李老师男神！"},{"id":134071,"teacher_id":1810,"teacher_name":"李心北","post_time":"2021-03-15 04:40:16","like_diff":2,"likes":2,"dislikes":0,"content":"老师上课很有意思，看得出来对军事和国际形势有非常细致的了解。而且老师上周做了心脏手术，这周就来上课了。极其负责的好老师，肃然起敬！"},{"id":4994,"teacher_id":1810,"teacher_name":"李心北","post_time":"2015-07-02 02:35:01","like_diff":1,"likes":7,"dislikes":6,"content":"讲的很好的老师！"},{"id":6461,"teacher_id":1810,"teacher_name":"李心北","post_time":"2015-07-14 06:04:04","like_diff":1,"likes":4,"dislikes":3,"content":"很好的老师"},{"id":7164,"teacher_id":1810,"teacher_name":"李心北","post_time":"2015-09-09 08:41:47","like_diff":1,"likes":9,"dislikes":8,"content":"挺好的老师，给分良心，讲课讲的也挺好【没有带作业于是听了三四次课感觉还是很有趣的】，平时不点名课堂测验类似签到，只要人到了交了东西就给分"},{"id":8157,"teacher_id":1810,"teacher_name":"李心北","post_time":"2015-09-17 07:23:20","like_diff":1,"likes":7,"dislikes":6,"content":"永不点名。。。大爱\n\n"},{"id":20921,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-02-04 05:27:53","like_diff":1,"likes":13,"dislikes":12,"content":"莫名其妙给个2.7  我能说脏话么"},{"id":22451,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-03-06 06:41:47","like_diff":1,"likes":3,"dislikes":2,"content":"上学期上了李老师军理，这个学期继续来蹭课听他的精道分析"},{"id":26057,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-06-15 09:14:05","like_diff":1,"likes":2,"dislikes":1,"content":"只能说现在很后悔错过了这么好的老师的许多节课"},{"id":27311,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-06-24 15:05:56","like_diff":1,"likes":3,"dislikes":2,"content":"人很好，课程内容个人不喜欢军事不评价，不过感觉还是挺好的。另外记住的就是他说的说给分差的无非就是考得烂还自我感觉良好……"},{"id":31030,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-03 06:32:02","like_diff":1,"likes":2,"dislikes":1,"content":"老师声音真好听啊～～讲的蛮有意思的。小测认真对待，对错不太重要，但一定要交！"},{"id":31038,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-03 06:45:46","like_diff":1,"likes":3,"dislikes":2,"content":"用作业当点名，又一次迟交了还没扣我分。给分很好，谢谢老师～虽然水过了你的课但真的好喜欢你"},{"id":31079,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-03 07:56:42","like_diff":1,"likes":6,"dislikes":5,"content":"上课很好，老师知识面广，讲的也好，也很幽默，给分已报警…论文一万二考试基本都找到了平时上课每次都去作业按时交考试基本都找到了有6、7个不确定吧3.6，均绩降了好多。不想说啥"},{"id":31322,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-03 15:57:41","like_diff":1,"likes":3,"dislikes":2,"content":"老师上课真的比一般的军事评论节目还有意思"},{"id":43245,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-16 04:38:09","like_diff":1,"likes":2,"dislikes":1,"content":"知识和阅历都非常丰富的一个老师，认真学绩点不会差"},{"id":43254,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-16 04:53:36","like_diff":1,"likes":3,"dislikes":2,"content":"不说了，感恩李心北霸霸，本来还有点担心自己论文水水的，没什么专业知识......"},{"id":43711,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-17 00:52:42","like_diff":1,"likes":1,"dislikes":0,"content":"绝逼好老师，丰富的人生阅历。\n\n"},{"id":44507,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-18 01:59:45","like_diff":1,"likes":1,"dislikes":0,"content":"成绩虽然不好，但是不妨碍好老师！这学期上了马原，可以强行把你入睡的那种，而军理是能把你唤醒的那种，好几节课本来水手机准备，但是听着听着就听进去了。真的很不错！老先生很有水准，说话声音也好听，浙大良心，成绩真的不要在意太多～能碰到一个好老师也值得。"},{"id":45114,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-19 03:55:55","like_diff":1,"likes":1,"dislikes":0,"content":"讲课很有趣，听课跟听故事一样，老师还会和我们分享他游历大江南北的故事，对于军理知识感兴趣的推荐。不过期末不会划重点，所以复习相对麻烦，想水水过的不推荐，给分倒是不错"},{"id":54503,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-29 12:39:56","like_diff":1,"likes":2,"dislikes":1,"content":"平时分给的真不低，期末百分之六十就看个人手速了。"},{"id":55410,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-07-01 12:41:02","like_diff":1,"likes":2,"dislikes":1,"content":"老师超放松…虽然有时候讲的非军理的内容会有点小错…但是给分好啊～渣渣理科女能给我的论文这么高分超级感动…"},{"id":58023,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-07-24 03:52:19","like_diff":1,"likes":2,"dislikes":1,"content":"3.0，好老师可惜我没学好，吧"},{"id":71462,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-28 13:20:36","like_diff":1,"likes":3,"dislikes":2,"content":"谁选谁知道"},{"id":71951,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-29 06:31:40","like_diff":1,"likes":1,"dislikes":0,"content":"讲课很有意思，声音也好听。考试靠自己"},{"id":72255,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-29 15:59:54","like_diff":1,"likes":1,"dislikes":0,"content":"老师人真心挺好的，最后成绩不好也是我自己水的原因。毕竟什么课都是要看态度的，自己努力了才有资格期待好的分数。"},{"id":72315,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-30 01:45:11","like_diff":1,"likes":2,"dislikes":1,"content":"因为自己成绩太低怕说出的评价是不客观的。。。其实老师人很好一学期很认真的讲解最后也热心帮我查分，但如果是我这种对军事一无所知考试完全没谱的人还是慎选"},{"id":84156,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-12 07:01:35","like_diff":1,"likes":3,"dislikes":2,"content":"事情很少 但是的确不如其他老师！ 个人认为给分不是很好！慎选！"},{"id":84166,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-12 07:16:59","like_diff":1,"likes":2,"dislikes":1,"content":"不点名很自由\n\n百家讲坛式老师\n\n给分是比较客观的，对得起你付出的努力。\n\n如果考前没过书本资料当然会觉得给分不好，虽然我也就堪堪拿了个均绩，但我还是觉得，老师真的不错。"},{"id":84167,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-12 07:17:03","like_diff":1,"likes":2,"dislikes":1,"content":"好的一批"},{"id":84179,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-12 07:33:42","like_diff":1,"likes":2,"dislikes":1,"content":"给分好的呀！可能因为自己也比较感兴趣所以平常上课都有认真听，考试前没复习直接带书进去大概都知道考的东西在哪找所以考得也挺不错的，努力了就会有回报的吧！老师人格魅力满分！男神本人了！"},{"id":84196,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-12 08:04:39","like_diff":1,"likes":3,"dislikes":2,"content":"虽然最后的绩点一般，这也只能说我的学习态度配不上高分，但是这不能阻止我夸李老师，修养很高，博闻广识，会分享自己的实践经验。现在真的后悔自己没好好听课(╥_╥)"},{"id":84208,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-12 08:33:13","like_diff":1,"likes":4,"dislikes":3,"content":"为什么我分数这么低..."},{"id":84250,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-12 10:43:31","like_diff":1,"likes":4,"dislikes":3,"content":"听老师讲课还是比较有意思的 （虽然我和大部分时间没有好好听..）老师不点名 两次小作业 一篇论文 （论文我迟了一天才交的 老师说迟交没有大关系 只会扣点小分...） 但是最后好好复习了 考试的时候也基本翻到了 最后4.8～"},{"id":94532,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-17 05:45:27","like_diff":1,"likes":2,"dislikes":1,"content":"言而有信，说了不点名就是不点名。很有趣的一个人，善良和蔼，很负责任，对学生很宽容，而且会提前结课，真的很完美了"},{"id":98703,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-23 23:48:33","like_diff":1,"likes":3,"dislikes":2,"content":"给分好迷啊\n\n"},{"id":99920,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-25 09:50:37","like_diff":1,"likes":4,"dislikes":3,"content":"老师讲课真的太棒了 每次拿出作业 唔 老师在讲啥 én 好有意思 就这样听了一节课 啥也没写 成绩的话最重要的还是期末考试 需要把书和资料都过一遍 老师最后的习题讲解也很有用 觉得很多人说给分不好的应该都是以为自己期末都翻到了 我是看了很久的书 但是考试还是有很多不确定的 不过还是有4.8  老师很好啦 但是成绩真的看自己"},{"id":113191,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-07-06 01:24:14","like_diff":1,"likes":2,"dislikes":1,"content":"虽然一个学期没怎么听，但是给分和我的努力程度相符了 谢谢老师！"},{"id":126261,"teacher_id":1810,"teacher_name":"李心北","post_time":"2020-09-21 06:15:47","like_diff":1,"likes":1,"dislikes":0,"content":"李老师说他花十年走了哈萨克斯坦部分的边界线，肃然起敬！！！"},{"id":133241,"teacher_id":1810,"teacher_name":"李心北","post_time":"2021-02-20 11:00:28","like_diff":1,"likes":1,"dislikes":0,"content":"两次小测（作业题？）+一篇论文，没有点名。阅读速度较快的同学完全不需要听课，打印吕强课件+翻书就可以应付考试了。"},{"id":18226,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-01-21 09:59:08","like_diff":0,"likes":9,"dislikes":9,"content":"很好的老师，只要在认真听，绩点上4很简单的。"},{"id":20408,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-01-27 13:33:55","like_diff":0,"likes":2,"dislikes":2,"content":"真心体贴"},{"id":28087,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-06-28 08:05:44","like_diff":0,"likes":3,"dislikes":3,"content":"老师讲课很好，给分也很好"},{"id":30512,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-01 23:18:53","like_diff":0,"likes":2,"dislikes":2,"content":"棒，虽然自己从来没有认真听过"},{"id":30566,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-02 03:36:04","like_diff":0,"likes":2,"dislikes":2,"content":"waiting"},{"id":31010,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-03 06:11:19","like_diff":0,"likes":2,"dislikes":2,"content":"老师超级好，讲课很有意思的，我对军事不是太感兴趣都挺有感触的。论文字数不太够，考试很多没翻到，给分还是很好，感恩"},{"id":31052,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-03 07:12:33","like_diff":0,"likes":2,"dislikes":2,"content":"老师真的很好，本来打算上课水一下的，后面竟然认认真真听了一节课，后面的每节课都挺有意思，能学到不少东西。话说老师的声音好有磁性～其实老师平时分给的差不多的，最后一节课他也说了，主要是考试的分数会有差异。感觉还是看自己吧，最后的成绩还是不错滴～"},{"id":31148,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-03 09:33:24","like_diff":0,"likes":0,"dislikes":0,"content":"还可以吧"},{"id":31237,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-03 12:30:13","like_diff":0,"likes":0,"dislikes":0,"content":"不错，真百家讲坛，可惜是第一节课，老是想翘"},{"id":31258,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-03 13:20:26","like_diff":0,"likes":2,"dislikes":2,"content":"讲的好，人也实在，点赞！！"},{"id":31980,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-05 10:19:53","like_diff":0,"likes":2,"dislikes":2,"content":"基本没怎么听-_-  最后3.6我也认了。。老师还是讲得不错的。是期末变难了？有些题没在书上找到。"},{"id":32031,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-05 12:21:36","like_diff":0,"likes":3,"dislikes":3,"content":"不错呢，给分可能试还是要考好吧"},{"id":32146,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-05 22:07:40","like_diff":0,"likes":2,"dislikes":2,"content":"同楼上，百家讲坛式的老师，还经常在课上给我们看纪录片之类。最后给分还不错～"},{"id":32388,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-06 11:41:58","like_diff":0,"likes":4,"dislikes":4,"content":"听不下去，给分低"},{"id":32489,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-07 05:34:38","like_diff":0,"likes":1,"dislikes":1,"content":"军理讲得很好，很值得听"},{"id":32621,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-08 07:16:47","like_diff":0,"likes":4,"dislikes":4,"content":"用两次小测试代替点名，没来的还能补交。老师人很好，但是给分确实有问题。平时不点名，一个教室人数比通识还多，考试开卷也没啥区分度。于是很多人都觉得自己很努力但没得到好结果。当然有些自我感觉太良好，论文写上万字就一定能拿高分？！感觉给分应该再透明一点吧。还是很喜欢这个老师的，上课认真，有学识。"},{"id":35632,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-11-10 07:36:11","like_diff":0,"likes":1,"dislikes":1,"content":"很生动不想睡觉\n\n"},{"id":41491,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-12 03:46:30","like_diff":0,"likes":1,"dislikes":1,"content":"军事科技大佬，而且貌似他去过的地方很多"},{"id":43248,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-16 04:43:47","like_diff":0,"likes":2,"dislikes":2,"content":"老师上课不点名，有两次小作业，一篇论文！讲这一类的课也能讲的很生动～考题最后基本都能翻到，所以给分也不错！老师真的是好老师～"},{"id":43259,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-16 04:58:09","like_diff":0,"likes":2,"dislikes":2,"content":"只想说。。。明明都找到了，为什么绩点那么低啊。。。感觉这种课给分真的很没有依据"},{"id":43302,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-16 06:07:39","like_diff":0,"likes":1,"dislikes":1,"content":"给分有毒"},{"id":43335,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-17 15:49:18","like_diff":0,"likes":3,"dislikes":3,"content":"自己绩点低就说老师乱给分的简直了吧。。跟老师交流过就知道论文评分不是说写得多就高分，开卷考找到了也未必选对（尤其是不定项）。不要乱喷老师"},{"id":43618,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-16 15:38:31","like_diff":0,"likes":1,"dislikes":1,"content":"老师不点名，有两次课堂小测验，讲课内容深入浅出。"},{"id":45225,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-19 07:39:11","like_diff":0,"likes":4,"dislikes":4,"content":"老师上课基本只讲重点，像导弹、卫星等等，对于军事思想和军事史不大提但偶尔也会融合在上课内容里。一个学期还有好几次视频课，对写论文有帮助。总的来说，上课还是有意思的，老师知识面挺广的！考试的话，考前看了一整天的书，把军事科技部分理解清楚了，最后也满了！当然论文很重要，占30％，一定要有自己的想法！"},{"id":48397,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-03-03 01:21:27","like_diff":0,"likes":1,"dislikes":1,"content":"太可爱了这老师！！！我连手机都不玩了"},{"id":51710,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-08 12:27:44","like_diff":0,"likes":1,"dislikes":1,"content":"给分不错?"},{"id":51940,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-13 16:20:18","like_diff":0,"likes":1,"dislikes":1,"content":"李心北老师超级棒！大四了决定再回到大一上过的军理课堂，重温老师精彩的讲述！"},{"id":54356,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-29 07:16:41","like_diff":0,"likes":1,"dislikes":1,"content":"人很和蔼。上课幽默风趣，能学到东西，事情少，给分也好"},{"id":54539,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-29 14:23:05","like_diff":0,"likes":2,"dislikes":2,"content":"特别喜欢听老师讲课，我觉得绩点还ok啦，开心最重要ヽ(○^㉨^)ﾉ♪"},{"id":54674,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-30 04:01:29","like_diff":0,"likes":1,"dislikes":1,"content":"老师从不点名，对于喜欢军事的同学来说应该是挺喜欢的，论文好好写，考试之前翻下书，绩点不会太差的！！"},{"id":55075,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-30 18:41:36","like_diff":0,"likes":1,"dislikes":1,"content":"觉得老师人很好啊，因为是早课所以很多次都没去但两次课堂作业都到了，论文迟了十天才交本来以为要被正态了结果绩点上四了。考试基本还是用的书。"},{"id":56487,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-07-04 01:40:27","like_diff":0,"likes":0,"dislikes":0,"content":"听说讲的很棒但我一学期没去过几次。。关键靠考试翻书快不快吧。。。"},{"id":56670,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-07-04 08:22:37","like_diff":0,"likes":0,"dislikes":0,"content":"还好吧 虽然讲课书上的讲的不多但重点还是讲了的 听他讲自己的见闻和军事相关的也蛮有趣的啊 考试本来就看自己 吕强的提纲确实蛮好用的记得考试前去打一份 虽然有小测但基本只要当天交就满分 论文基本分数也还是蛮高的只要不乱写不乱抄 十分"},{"id":57101,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-07-05 14:11:17","like_diff":0,"likes":0,"dislikes":0,"content":"好！没什么要说的，军理还是有点看翻书能力的。"},{"id":59566,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-28 23:17:08","like_diff":0,"likes":3,"dislikes":3,"content":"?⚾⚾⚾⚾⚾??????⚾???????????????????????\n\n"},{"id":60040,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-10-08 01:33:42","like_diff":0,"likes":1,"dislikes":1,"content":"很好，多少还是可以有所获得的。"},{"id":60788,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-10-30 06:44:01","like_diff":0,"likes":1,"dislikes":1,"content":"值得尊敬的老师，有知识有气度"},{"id":71454,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-28 13:06:46","like_diff":0,"likes":3,"dislikes":3,"content":"小测全到 论文基本认真 考试感觉也还不错 4.2很满足了和预期差不多，上课可能没有吕强老师那么有趣但是感觉老师人也不错？"},{"id":71843,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-29 04:25:12","like_diff":0,"likes":2,"dislikes":2,"content":"好老师！！老师讲课很好，人也很好。感觉自己的论文写的一点也不具有专业性（毕竟作为女生对军理不感兴趣），但是到最后绩点上四了，很满意了"},{"id":71931,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-29 06:09:04","like_diff":0,"likes":3,"dislikes":3,"content":"给分神tm低，乱给的吗？明明考试很多我都找到了"},{"id":73039,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-31 17:05:32","like_diff":0,"likes":3,"dislikes":3,"content":"给分跟预期落差大大大"},{"id":74870,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-03-06 07:13:29","like_diff":0,"likes":0,"dislikes":0,"content":"可以坐第一排唐而皇之地写作业。吼啊"},{"id":76996,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-04-27 23:45:21","like_diff":0,"likes":0,"dislikes":0,"content":"没听过，我看挺好"},{"id":84204,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-12 08:23:00","like_diff":0,"likes":4,"dislikes":4,"content":"论文基本没有什么个人见解，上课一直是在写微积分，偶尔会听一点，考试的时候是第一次翻书，这种情况下4.2还是很不错了"},{"id":95698,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-20 02:06:40","like_diff":0,"likes":1,"dislikes":1,"content":"百家讲坛"},{"id":98489,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-23 13:35:32","like_diff":0,"likes":1,"dislikes":1,"content":"老师真的超棒了，讲什么都可以信手拈来那种。特别喜欢听他讲自己去某某地方的见闻感受，特别涨知识了。关于给分反正我是很满意的了，而且老师的论文要求挺低的，不要求原创，只需要凑的合理就行，小测做点名要求也不高，最后考试靠自己。所以真的不亏的！！！！"},{"id":98498,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-23 13:42:21","like_diff":0,"likes":5,"dislikes":5,"content":"给分差"},{"id":98537,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-23 14:35:55","like_diff":0,"likes":0,"dislikes":0,"content":"老师讲课会让你情不自禁放下作业开始听，给分也好。"},{"id":98568,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-23 15:03:53","like_diff":0,"likes":1,"dislikes":1,"content":"我觉得自己论文写得挺糟糕的，可能考试考得还不错，最后有4.8 太感谢老师了！给分太好惹！"},{"id":99060,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-24 08:14:30","like_diff":0,"likes":4,"dislikes":4,"content":"绩杀，这个学期简直是低谷期，他妈连军理都那么差，思政绩点最低"},{"id":108516,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-05-27 13:52:36","like_diff":0,"likes":0,"dislikes":0,"content":"对不起"},{"id":109625,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-06-18 04:01:04","like_diff":0,"likes":0,"dislikes":0,"content":"周一一早上课好困 肯能我真的没有学军理的兴趣吧 老师人挺好"},{"id":113112,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-07-05 23:38:44","like_diff":0,"likes":2,"dislikes":2,"content":"李老师是我男神！"},{"id":121100,"teacher_id":1810,"teacher_name":"李心北","post_time":"2020-01-19 14:49:26","like_diff":0,"likes":0,"dislikes":0,"content":"老师讲国际形势的那一段是真的很透彻"},{"id":121370,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-12-17 11:14:34","like_diff":0,"likes":0,"dislikes":0,"content":"呵呵呵"},{"id":139684,"teacher_id":1810,"teacher_name":"李心北","post_time":"2021-07-20 02:09:18","like_diff":0,"likes":1,"dislikes":1,"content":"上了老师的军理课\n\n老师讲课很有趣，会分享很多故事\n\n今年题好像变难了，我有几个没找到，其他还好。两次小测+论文+考试，感觉任务不太重\n\n给分我感觉挺好的，当然如果没有4.5就是给分不好的话当我没说"},{"id":21370,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-02-28 10:17:09","like_diff":-1,"likes":2,"dislikes":3,"content":"很棒的老师，学到很多"},{"id":26411,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-06-18 05:27:06","like_diff":-1,"likes":2,"dislikes":3,"content":"不点名，课上会偶尔有小测验，不管做的对不对只要交上去了十分就到手了，专业知识非常好，强烈建议选"},{"id":26708,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-06-21 03:02:25","like_diff":-1,"likes":5,"dislikes":6,"content":"成绩就是随便给的，怎么这么不负责任"},{"id":31089,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-03 08:11:15","like_diff":-1,"likes":7,"dislikes":8,"content":"讲的好，但是给分真的不好，考试内容都有在书上找到，作业论文全交，给分太差了，对不起学生的努力，很失望，尤其是看到一个你很欣赏的老师和你认真对待的课最后没有一个好结果的时候。"},{"id":32771,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-13 00:35:37","like_diff":-1,"likes":1,"dislikes":2,"content":"老师人很好，给分很好，很满意"},{"id":43268,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-16 05:08:05","like_diff":-1,"likes":1,"dislikes":2,"content":"好气啊"},{"id":47012,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-23 09:28:59","like_diff":-1,"likes":0,"dislikes":1,"content":"老师讲课很有趣，虽然很困但依然不想睡。老师也很宽容，不点名，两次课堂作业当天晚上交也行。反正最后考试准备好资料就能翻到了。"},{"id":47270,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-25 04:38:55","like_diff":-1,"likes":0,"dislikes":1,"content":"讲课内容很有意思，有科普也有实践体验，虽然考试内容还是要自己准备不少"},{"id":54383,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-29 08:32:48","like_diff":-1,"likes":0,"dislikes":1,"content":"感觉个人论文写得不好，考试也没怎么翻到，但是给分好，我已经满足了"},{"id":54399,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-29 09:06:05","like_diff":-1,"likes":1,"dislikes":2,"content":"讲得确实很好。。。。不过其实不提前看书现翻是来得及的。。。\n\n论文水水过去作业也水水过去最后拿了一个4.5，还被卡了1分不然就4.8了"},{"id":54454,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-29 10:28:59","like_diff":-1,"likes":2,"dislikes":3,"content":"我觉得考试挺难的 最后3.6 就酱"},{"id":54696,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-30 04:57:33","like_diff":-1,"likes":0,"dislikes":1,"content":"老师讲的挺好的，可惜听不懂。老师很和蔼，两次小作业是课上布置当天上传就好，估计是点名用的。一次期中论文。给分挺好的，期末卷子小半空着最后有这个分挺满意了。（吕强老师的提纲据说很好用，建议考前看吕强老师的重点）"},{"id":54838,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-30 09:46:49","like_diff":-1,"likes":2,"dislikes":3,"content":"讲的还行\n\n给分太迷了\n\n真的迷\n\n垃圾绩点"},{"id":71465,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-28 13:24:10","like_diff":-1,"likes":3,"dislikes":4,"content":"上课真的很有意思，最后考试基本都能找到，给分还是不错的，推荐一波~"},{"id":71787,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-29 03:06:45","like_diff":-1,"likes":0,"dislikes":1,"content":"没啥好说的...上课挺水的，动不动看视频...但老师知识还是挺丰富的，喜欢军事的听听也没毛病。"},{"id":79124,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-12 12:50:01","like_diff":-1,"likes":2,"dislikes":3,"content":"老师讲课很有趣！！"},{"id":84230,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-12 09:47:34","like_diff":-1,"likes":0,"dislikes":1,"content":"老师上课讲得很好，平时事情也不多，想了解一下军理的强烈推荐，想水课的话也行。考试前认真看一遍书基本就没问题了。"},{"id":84390,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-12 16:48:37","like_diff":-1,"likes":1,"dislikes":2,"content":"给分很随缘，论文考试我觉得自己都不算特别认真，最后也还行吧。老师人挺好的"},{"id":85330,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-17 04:53:02","like_diff":-1,"likes":1,"dislikes":2,"content":"好老师\n\n"},{"id":86496,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-09-17 01:56:39","like_diff":-1,"likes":2,"dislikes":3,"content":"结石警告\n\n"},{"id":88250,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-10-25 02:54:41","like_diff":-1,"likes":0,"dislikes":1,"content":"很好的"},{"id":89223,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-11-17 04:31:39","like_diff":-1,"likes":0,"dislikes":1,"content":"超级棒！文科生的我每次都认真听 就想一直听下去！"},{"id":98659,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-23 16:53:32","like_diff":-1,"likes":3,"dislikes":4,"content":"水，给分好，男神"},{"id":43719,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-17 01:14:28","like_diff":-2,"likes":3,"dislikes":5,"content":"虽然给分很差不过上课还算有意思。\n\n很难受，这种给分"},{"id":54890,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-30 18:24:21","like_diff":-2,"likes":4,"dislikes":6,"content":"军理一出，血都凉了。两次点名按时交，论文认真写，考试翻到85%，绩点只有3，均绩拉下0.06。3分的军理，特地买了吕强的资料还有题库，认真复习了，承认只认真听了两节课不过每次都到了。很无力，老师人很好，但不清楚给分标准，欲哭无泪。"},{"id":98671,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-23 17:50:17","like_diff":-2,"likes":2,"dislikes":4,"content":"给分好"},{"id":43340,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-16 07:12:34","like_diff":-3,"likes":4,"dislikes":7,"content":"给学弟学妹一些经验吧，两次课堂小测和课程论文一定要记得按时上传(我不会告诉你每次全班至少有四分之一的人没有按时交qwq)，一次课堂小测5分呐，你迟交一次你基本就要被正态了。期末考不用慌也不用买题库，题目基本都在书上，我就是用了一本学长学姐留下来的书orz，最后4.5，谢谢心北老师。"},{"id":55796,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-07-02 11:34:39","like_diff":-3,"likes":1,"dislikes":4,"content":"军事知识很丰富的一个老师，课也可以不怎么听，最后4.2，感觉一般吧，给分比吕强差"},{"id":71485,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-28 13:49:12","like_diff":-3,"likes":4,"dislikes":7,"content":"军理 作为一个从没接触过军事知识的女生听老师课觉得很有意思很不错！而且给分也很好！而且老师很帅气很有风度！（不过考试还是得用吕强老师的PPT……）"},{"id":78814,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-05-15 09:28:49","like_diff":-3,"likes":3,"dislikes":6,"content":"想水课 听李心北 想学知识 听吕强"},{"id":113110,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-07-05 23:36:33","like_diff":-3,"likes":3,"dislikes":6,"content":"是很棒的军理老师！虽然自己被卡绩（不是说不会卡绩的吗55555"},{"id":120829,"teacher_id":1810,"teacher_name":"李心北","post_time":"2020-01-17 17:09:44","like_diff":-3,"likes":1,"dislikes":4,"content":"吹爆老师了！！两次作业都延迟交了以为自己凉了，期末可能考的还行，最后4.2！呜呜呜呜呜呜呜呜呜知足了感恩老师！！！"},{"id":99154,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-24 10:39:25","like_diff":-4,"likes":1,"dislikes":5,"content":"不点名，两次课堂小测，课后也可以提交但是课上完成的加分。讲课讲的很好，有兴趣的同学应该很有收获。就是期末给分随缘，题都找到了论文也很认真在写，只有3.3真的很难受。"},{"id":43275,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-01-16 05:11:44","like_diff":-5,"likes":1,"dislikes":6,"content":"感谢老师，绩点好高啊"},{"id":54357,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-29 07:16:58","like_diff":-5,"likes":1,"dislikes":6,"content":"给分垃圾 ?杀无疑"},{"id":54490,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-29 11:38:12","like_diff":-5,"likes":1,"dislikes":6,"content":"有什么办法可以联系到老师，觉得给分很奇怪，请给个理由！拉均绩！不能接受！"},{"id":71748,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-29 02:27:59","like_diff":-6,"likes":4,"dislikes":10,"content":"我基本没怎么听过课，都在写微积分作业，期末论文感觉写的一般吧，期末考基本每道题都找到了，绩点4.5"},{"id":113222,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-07-06 02:08:14","like_diff":-6,"likes":6,"dislikes":12,"content":"划了一个学期水，最后绩点还可以，虽然没有复习但是有4.5，满意了。\n\n属实给劲嗷。"},{"id":18522,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-01-22 01:48:54","like_diff":-7,"likes":4,"dislikes":11,"content":"平时没听过课，论文随便写的，最后分数还不错……老师其实讲课水平也挺高的，我自己不感兴趣而已……"},{"id":57732,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-07-25 13:45:01","like_diff":-7,"likes":2,"dislikes":9,"content":"反正我是没看出下面的学生有兴趣听课。不信的自己看咯，手机电脑水水过呗。"},{"id":71497,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-28 14:05:41","like_diff":-7,"likes":5,"dislikes":12,"content":"sb老师"},{"id":71621,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-28 17:30:39","like_diff":-7,"likes":1,"dislikes":8,"content":"考试挺简单的。一学期没听过课，最后4.2，挺满足的。"},{"id":84183,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-12 07:39:07","like_diff":-7,"likes":2,"dislikes":9,"content":"正如老师所说他改论文主要看个人见解，我的论文不到两千字，个人见解大概八百不到，说实话我之前没看过军理的书，全靠考试的时候翻，你翻的慢怪谁呢？感谢老师给的4.5"},{"id":31072,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-07-03 07:45:54","like_diff":-8,"likes":6,"dislikes":14,"content":"百家讲坛浙大版，考试基本都找得到，给分居然上90了。。。"},{"id":84300,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-07-12 13:10:56","like_diff":-10,"likes":1,"dislikes":11,"content":"人生第一门满绩，出分的时候有点被吓到hhh  作业按时交，论文好好写，选题跟知网最好不要重合吧，我有努力往降低查重率方向走，也许这也是论文得高分的原因？？  期末考的话有文印店的资料，是吕强的ppt以及一份详细目录（超好用，很好翻），书上基本上都能找到。试卷陷阱真的是很多……   97分满的，再一次感谢李心北老师！"},{"id":20562,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-01-28 11:07:03","like_diff":-11,"likes":4,"dislikes":15,"content":"很好啊 ，绩点给力"},{"id":54451,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-06-29 10:27:30","like_diff":-13,"likes":0,"dislikes":13,"content":"听他上课真jb无聊，就喜欢讲什么他去西藏，没有中美军事对比之类的有趣的，很菜"},{"id":73983,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-02-04 03:13:42","like_diff":-14,"likes":5,"dislikes":19,"content":"每次课都去 所有的都很认真的完成 考前还通宵复习 结果拉低均? 0.03 不懂老师为什么这样给分"},{"id":101802,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-29 06:32:21","like_diff":-14,"likes":4,"dislikes":18,"content":"老师上课是真的好 但是我平时quiz全对，论文8000+，期末考差不多都找到始终原文，最后3.3是咋回事，除非我论文写的真的差，考试涂错，不然我不信 :-(老师是真的好，我只能这么说，预制这么好的老师都救不了我吗，直接把满绩的拉高的均绩拉回远点，我枯了"},{"id":68430,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-23 07:54:17","like_diff":-15,"likes":2,"dislikes":17,"content":"课有意思，考试巨简单。"},{"id":102795,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-02-23 06:32:44","like_diff":-15,"likes":1,"dislikes":16,"content":"轻松满绩"},{"id":98588,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-26 03:13:05","like_diff":-16,"likes":6,"dislikes":22,"content":"垃圾老师，乱打分"},{"id":18207,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-01-21 09:29:20","like_diff":-21,"likes":3,"dislikes":24,"content":"爽，给分挺高的"},{"id":21130,"teacher_id":1810,"teacher_name":"李心北","post_time":"2016-02-20 09:53:33","like_diff":-21,"likes":6,"dislikes":27,"content":"论文不要全部照抄 写点自己的话说的东西。最后开卷考都差不多。第一门满绩"},{"id":98499,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-26 03:14:03","like_diff":-21,"likes":4,"dislikes":25,"content":"讲课归讲课 你有什么用"},{"id":71490,"teacher_id":1810,"teacher_name":"李心北","post_time":"2018-01-29 07:34:31","like_diff":-24,"likes":3,"dislikes":27,"content":"哈哈，没搞到吕强的ppt，考前看了5遍书，书上有的全找到，精确制导的题目书上没有，几乎都瞎蒙，结果竟然有4.8。前来感恩。前面几位3点几的，问下老师小分不就知道了？期末翻到的不一定能做对"},{"id":115415,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-07-22 09:44:38","like_diff":-27,"likes":3,"dislikes":30,"content":"事少给分好，平时没听课，可能期末分比较高还是满了"},{"id":64626,"teacher_id":1810,"teacher_name":"李心北","post_time":"2017-12-25 15:37:39","like_diff":-34,"likes":2,"dislikes":36,"content":"天天不去上课，然后4.5，老师给分真心好"},{"id":100227,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-06-02 03:21:45","like_diff":-36,"likes":2,"dislikes":38,"content":"轻松满绩，开心?"},{"id":7331,"teacher_id":1810,"teacher_name":"李心北","post_time":"2015-09-13 14:58:13","like_diff":-37,"likes":10,"dislikes":47,"content":"平时水也没关系，讲得真的很值得听，一次小考试翘了考前没看过书还给了4.5"},{"id":91501,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-01-20 12:33:03","like_diff":-43,"likes":3,"dislikes":46,"content":"作业好好做 论文写了很久 最后出来2.4...\n\n问他为什么 说我一次作业都没交 扣我十分呵呵cnm"},{"id":105214,"teacher_id":1810,"teacher_name":"李心北","post_time":"2019-07-05 15:33:21","like_diff":-51,"likes":8,"dislikes":59,"content":"我是ikun，考前刷蔡徐坤nmsl，看蔡徐坤打篮球，结果我满了"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

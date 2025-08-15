@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>康熙 - 物理学系 - 浙大教评</title>
+    <meta name="description" content="康熙教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="康熙,物理学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">康熙</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">物理学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.69</div>
+                    <div class="rating-participants">44人参与评分</div>
+                    <div class="attendance-info">36.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">天文学导论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.19</span>
+                            <span class="students">选课: 419人</span>
+                            <span class="std-dev">标准差: 0.63</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">星系天文学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.19</span>
+                            <span class="students">选课: 176人</span>
+                            <span class="std-dev">标准差: 0.62</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (32 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":137182,"teacher_id":7886,"teacher_name":"康熙","post_time":"2021-07-02 03:23:15","like_diff":21,"likes":26,"dislikes":5,"content":"赶在出分前写个首评。\n\n这学期的星系天文学课程是康老师在浙大开设的第一门课程。星系天文学在不同学校都会有不同的讲法，康老师的这门课是从天文学基础知识开始，逐步拓展视野，讨论宇宙中的各种大尺度结构，也涉及了相当一部分的宇宙学知识——总之内容非常丰富，深度和难度也是远超通识类的天文课程。\n\n康老师讲课风趣幽默，人也非常nice，还有就是名字格外霸气～\n\n课程任务包括平时作业和一次文献阅读（报告和展示），没有期末考试。"},{"id":152765,"teacher_id":7886,"teacher_name":"康熙","post_time":"2022-04-19 10:59:33","like_diff":10,"likes":10,"dislikes":0,"content":"讲课风格轻松幽默 专业知识过硬"},{"id":140187,"teacher_id":7886,"teacher_name":"康熙","post_time":"2021-09-03 12:24:03","like_diff":9,"likes":15,"dislikes":6,"content":"康熙老师开的第一门课，不得不说，大佬就是大佬，水平非常可以\n\n最重要的是，康老师上课非常幽默轻松，让你在不知不觉中掌握了知识\n\n另外，没有考试，而是采取了期末报告的形式，鄙人认为这样才能让学生真正掌握知识，而不是单纯死记硬背应付考试"},{"id":155892,"teacher_id":7886,"teacher_name":"康熙","post_time":"2022-06-16 13:03:23","like_diff":9,"likes":9,"dislikes":0,"content":"康老师真的很优秀，上课不是死气沉沉，能够调动学生的积极性，真的很好！同时，康老师有自己的一套授课方法，科普课程有很广的知识面，也会跟我们分享天文新闻，讲故事，妙趣丛生。这种老师不打10分良心不会痛吗！"},{"id":164909,"teacher_id":7886,"teacher_name":"康熙","post_time":"2022-12-27 12:44:07","like_diff":8,"likes":8,"dislikes":0,"content":"已经开始期待了，康熙大帝"},{"id":156010,"teacher_id":7886,"teacher_name":"康熙","post_time":"2022-06-17 05:51:03","like_diff":7,"likes":7,"dislikes":0,"content":"康熙老师人真的很nice，而且履历真的好牛\n\n强推天文学导论，如果喜欢天文学但是又不知道怎么入门，这是很好的通识课，讲得非常细致，助教人也很好每次问问题都秒回，最后给分也很不错"},{"id":176959,"teacher_id":7886,"teacher_name":"康熙","post_time":"2023-07-01 01:22:29","like_diff":7,"likes":7,"dislikes":0,"content":"我系少有的极有个人魅力的中年教师"},{"id":190849,"teacher_id":7886,"teacher_name":"康熙","post_time":"2024-03-21 11:57:39","like_diff":7,"likes":7,"dislikes":0,"content":"康熙：夜观天象我觉得特别玄乎，还把皇帝说的一愣一愣的，反正我是不信的，如果我是皇帝，呵！"},{"id":155996,"teacher_id":7886,"teacher_name":"康熙","post_time":"2022-06-17 04:39:01","like_diff":6,"likes":6,"dislikes":0,"content":"以后见到人就推荐这门课"},{"id":156450,"teacher_id":7886,"teacher_name":"康熙","post_time":"2022-06-19 18:53:44","like_diff":6,"likes":8,"dislikes":2,"content":"考试之前：woc完蛋我啥都不会啊什么都没记住。虽然老师都好牛好牛，讲的也还好，但不妨碍我没有听进去\n\n考试之后：我就知道会考这些但是看了也记不住啊瞎写了属于是\n\n出分之后：天啦噜天文学给分真的好好，我以后一定逢人就推"},{"id":174683,"teacher_id":7886,"teacher_name":"康熙","post_time":"2023-06-15 13:31:15","like_diff":6,"likes":6,"dislikes":0,"content":"康熙老师学术水平非常高，是天文学的大牛，但是一点架子没有，每天看起来乐呵呵的。老师讲课很认真，而且讲的也很好，不过星系天文学本身内容多难度大，真的想学好需要扎实的基本功和课外花时间。没有考试，每周一次作业，最后一次文献阅读。所以为啥大帝没有十分？"},{"id":155920,"teacher_id":7886,"teacher_name":"康熙","post_time":"2022-06-16 14:14:23","like_diff":5,"likes":5,"dislikes":0,"content":"好老师 “我不是一个天文学爱好者”哈哈哈哈 经常在课件中加表情包 老师很幽默 助教也很好"},{"id":156100,"teacher_id":7886,"teacher_name":"康熙","post_time":"2022-06-17 14:06:54","like_diff":5,"likes":7,"dislikes":2,"content":"康熙老师真的很幽默风趣，讲课特别有意思，很多乍一看复杂的公式和概念都能讲得简单易懂，虽然作业题有点难度，但是听过课一般都能写出来，助教也随时欢迎我们提问，最后会有一堂复习课，考试也不算难，复习半个下午够了。\n\n虽然都说这门课硬核，但天文学导论是我体育课之外第一门满绩，也是我觉得学到了知识、收获颇丰的第一门通识课，不像之前很多为了水学分而上的课，而是真正能够领略到天文学的魅力、了解基本天文学知识的课。实话说一开始的兴趣点主要在老师的名字真的很有意思（？），快结课的时候感叹过有幸上过这些老师的课，也算是我平庸的大学生活里一些不平凡的经历，总之感谢老师和助教一个学期以来的付出，也想感谢我自己的认真。"},{"id":178110,"teacher_id":7886,"teacher_name":"康熙","post_time":"2023-07-07 03:10:07","like_diff":5,"likes":6,"dislikes":1,"content":"上课内容很硬核很充实，但是没有考试，每次课后的作业量很少，都是一两道题，甚至还有观星活动，你还在等什么？"},{"id":178279,"teacher_id":7886,"teacher_name":"康熙","post_time":"2023-07-09 09:25:01","like_diff":5,"likes":7,"dislikes":2,"content":"康熙老师讲课深入浅出，对天文学有兴趣的同学可以冲，比较不错，其他也可以试试看自己对天文有没有兴趣。我这门课拿了通识最低绩点3.6，但是我很感谢老师，因为占比40%的期末大作业我不知道是因为学在浙大吞了还是我的失误没有提交成功，最后截止学在浙大也没有提醒我。但是出分后我联系老师，老师居然愿意给我期末改成60分。这门通识课证实了我确实没有天文方面的兴趣，可能是单纯的喜欢科幻。60分的期末是仁慈也是教育，或许这才是我学到的最有价值的东西，再次谢谢康熙老师。"},{"id":178995,"teacher_id":7886,"teacher_name":"康熙","post_time":"2023-08-16 03:55:10","like_diff":5,"likes":5,"dislikes":0,"content":"康熙老师的前室友陈寿元老师有点意思！"},{"id":140482,"teacher_id":7886,"teacher_name":"康熙","post_time":"2021-09-13 03:29:30","like_diff":4,"likes":5,"dislikes":1,"content":"好！"},{"id":155942,"teacher_id":7886,"teacher_name":"康熙","post_time":"2022-06-16 15:55:55","like_diff":4,"likes":4,"dislikes":0,"content":"康熙老师我的超人！超级可爱！天文学导论，深入浅出，对文科生挺友好的（？）"},{"id":158167,"teacher_id":7886,"teacher_name":"康熙","post_time":"2022-06-27 08:50:52","like_diff":4,"likes":5,"dislikes":1,"content":"天文学导论yyds！真的学到了超级多！虽然康熙老师讲的比刘老师量大一点，但是很多知识点刘老师也讲到过，所以接受起来也不算困难。虽然考试闭卷，但只要上课认真听，作业认真写，考前把知识点稍微过一下，考试一点问题都没有～作为一个纯小白上了一学期后也拿到了很不错的分数，如果对天文学感兴趣一定要试试！"},{"id":156017,"teacher_id":7886,"teacher_name":"康熙","post_time":"2022-06-17 06:42:00","like_diff":3,"likes":3,"dislikes":0,"content":"很好。"},{"id":171255,"teacher_id":7886,"teacher_name":"康熙","post_time":"2023-03-20 06:46:34","like_diff":3,"likes":3,"dislikes":0,"content":"讲课清晰风趣而不失科学性，激起我对天体物理的兴趣"},{"id":171256,"teacher_id":7886,"teacher_name":"康熙","post_time":"2023-03-20 06:47:34","like_diff":3,"likes":3,"dislikes":0,"content":"非常非常认真负责有趣的好老师，讲课深入浅出，富有专业性，作为导师也非常负责，很有学术视野，对本科生的科研培养也都非常上心"},{"id":171258,"teacher_id":7886,"teacher_name":"康熙","post_time":"2023-03-20 06:48:46","like_diff":3,"likes":3,"dislikes":0,"content":"科研水平高\n\n对待学生好\n\n上课教得棒\n\n我爱康老师❤️"},{"id":171259,"teacher_id":7886,"teacher_name":"康熙","post_time":"2023-03-20 06:49:03","like_diff":3,"likes":3,"dislikes":0,"content":"康熙爸爸"},{"id":174682,"teacher_id":7886,"teacher_name":"康熙","post_time":"2023-06-15 13:28:02","like_diff":3,"likes":3,"dislikes":0,"content":"好老师！！！康熙大帝，他真的，我哭死！！！！"},{"id":197024,"teacher_id":7886,"teacher_name":"康熙","post_time":"2024-07-18 06:40:54","like_diff":3,"likes":5,"dislikes":2,"content":"助教cxy发朵朵上十大，希望大家理性沟通，结果钉钉消息根本不读，是又换号跑路了吗，真难评"},{"id":177980,"teacher_id":7886,"teacher_name":"康熙","post_time":"2023-07-06 02:48:54","like_diff":2,"likes":3,"dislikes":1,"content":"给分好，点名前老师通知，无考试，只有一个大作业（报告）"},{"id":178146,"teacher_id":7886,"teacher_name":"康熙","post_time":"2023-07-07 07:26:00","like_diff":2,"likes":2,"dislikes":0,"content":"老师风趣幽默，上课能学到很多知识，点名会提前通知，扛起康熙大帝大旗！"},{"id":155918,"teacher_id":7886,"teacher_name":"康熙","post_time":"2022-06-16 14:07:00","like_diff":1,"likes":1,"dislikes":0,"content":"上课有趣，给分也不错"},{"id":173863,"teacher_id":7886,"teacher_name":"康熙","post_time":"2023-06-04 02:28:21","like_diff":1,"likes":1,"dislikes":0,"content":"好老师，幽默且认真"},{"id":197028,"teacher_id":7886,"teacher_name":"康熙","post_time":"2024-07-06 22:22:43","like_diff":1,"likes":2,"dislikes":1,"content":"kx老师人很好，总是对你笑呵呵的，很慈祥的。\n\n给分方面kx老师的星系天文学和天文学导论都上过，给分都不错，4.8。我也不是物理学专业的，上课也不太听得进去，都是课后做作业补ppt学，平常作业多问问助教或者讨论一下保证了一下正确率。\n\nkx老师的助教也发朵朵上了十大了，说老师让他按教务处优秀率的上限给分。总体给分的方面应该不差吧。"},{"id":197145,"teacher_id":7886,"teacher_name":"康熙","post_time":"2024-07-08 06:29:07","like_diff":1,"likes":4,"dislikes":3,"content":"这学期的天文学导论，供大家参考：\n\n十次小作业+一篇两千字论文（不硬核，科普向）+两次点到\n\n内容比较硬核，物理公式很多，文科生慎选\n\n少用gpt，不然像我一样，作业一次不落签到都到了的情况下绩点2.1"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

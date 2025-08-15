@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王秀云 - 理学院 - 浙大教评</title>
+    <meta name="description" content="王秀云教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="王秀云,理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">王秀云</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.77</div>
+                    <div class="rating-participants">169人参与评分</div>
+                    <div class="attendance-info">35.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (5 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">园林植物学Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.78</span>
+                            <span class="students">选课: 43人</span>
+                            <span class="std-dev">标准差: 0.71</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">时间序列分析</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.88</span>
+                            <span class="students">选课: 325人</span>
+                            <span class="std-dev">标准差: 0.97</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">概率论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.93</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 1.00</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">概率论与数理统计</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.61</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 1.04</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">随机过程</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.69</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 1.01</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (154 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":49385,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2017-12-27 04:44:16","like_diff":443,"likes":470,"dislikes":27,"content":"他的概统课不建群，有喜欢的妹子根本不能要联系方式，真的很郁闷。或许这次错过，就是一辈子的遗憾。?"},{"id":59531,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-09-09 07:13:55","like_diff":82,"likes":89,"dislikes":7,"content":"大家好，我们终于有群了！"},{"id":65517,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-01-05 03:36:19","like_diff":49,"likes":52,"dislikes":3,"content":"有一种秀叫做王秀云的秀。\n\n讲课速度可以说像是坐了火箭，不仅上了天，而且用不停步。\n\n复习课，你有体验过一节课复习完6章的嘛？\n\n王老师真的好，下次我还会再来。"},{"id":17643,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2016-01-20 14:27:05","like_diff":32,"likes":35,"dislikes":3,"content":"讲课当你会了一样讲 然而给分超好"},{"id":8812,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2015-09-28 06:43:32","like_diff":27,"likes":35,"dislikes":8,"content":"讲课思维跳跃，重点不清晰"},{"id":46095,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2017-01-20 15:10:16","like_diff":27,"likes":28,"dislikes":1,"content":"讲得其实还是不错的，当然前提是你懂他在讲什么..."},{"id":87512,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-09-30 04:24:58","like_diff":23,"likes":25,"dislikes":2,"content":"时间序列就是在刁难我胖虎"},{"id":11871,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2015-12-19 10:46:04","like_diff":17,"likes":18,"dislikes":1,"content":"老师特别可爱，人也很和蔼。\n\n"},{"id":70430,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-06-13 10:47:28","like_diff":16,"likes":17,"dislikes":1,"content":"对我这个听过唐炳康微积分的人来说，王老师的口音真的算不了啥hhh"},{"id":18581,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2016-01-22 05:24:24","like_diff":15,"likes":18,"dislikes":3,"content":"老师字超漂亮，讲的好"},{"id":143780,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2021-12-06 03:49:55","like_diff":15,"likes":17,"dislikes":2,"content":"老师人很好，点名会提前说。人品铁十分\n\n上课实在很一般，讲的很快很快，领先其他老师进度一大截，上课难听明白。课后得自己多花很多时间。问问题最好线下问，线上经常已读不回复，不过大学老师都挺忙也能理解。教学这块只能给7分吧，综合起来打了9分吧"},{"id":13864,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2016-01-01 10:50:33","like_diff":14,"likes":16,"dislikes":2,"content":"讲得极好"},{"id":156666,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2022-06-20 14:24:35","like_diff":14,"likes":17,"dislikes":3,"content":"下面那个同学，首先只出了两个空，而且最后一个空答案是0不会做蒙对的也不少。第一个空不是背公式吗。就算没学过，一个100分的期末考，考6分谱密度，很过分吗，你干脆直接让数院把谱密度这部分知识从随机过程中删了得了。"},{"id":66518,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-01-17 06:32:29","like_diff":13,"likes":15,"dislikes":2,"content":"每天上课，挥舞着他的魔仙棒，坐在后面完全听不到，节奏平缓，体验不错，下次再来。"},{"id":87504,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-09-30 03:17:30","like_diff":13,"likes":16,"dislikes":3,"content":"时间序列是什么神仙课程。。。"},{"id":121826,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2020-01-22 06:39:24","like_diff":13,"likes":15,"dislikes":2,"content":"我上的是老师秋学期的概率论！老师讲的超级清楚！口头禅是“这个要去背住”“这个结论要记牢”（考试果然都出现了哈哈）。PPT等资料随便拷贝，答疑超级耐心超级好！！！轻松收获数学课第一个满绩！！！"},{"id":87551,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-10-04 13:16:21","like_diff":12,"likes":13,"dislikes":1,"content":"时间序列谁退课谁是狗"},{"id":34825,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-09-11 10:02:26","like_diff":10,"likes":14,"dislikes":4,"content":"老师尽力了，不过讲的真的不是很好。人很好的"},{"id":189205,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2024-01-22 10:16:49","like_diff":10,"likes":10,"dislikes":0,"content":"王老师讲课力求面面俱到，不会错过每一张PPT的讲解；点名的话，老师每一次都是数字点名，之前有某位前排同学问老师为什么不雷达点名，老师表示：那看智云的同学就没办法点名了，真的很为学生着想。最后给分的话，我和我身边的同学一致认为，给分很好，真的是海底捞！老师的缺点就是讲的有点快和普通话一般，北方同学听起来有的时候会觉得黏黏糊糊的，但还是可以听懂的。"},{"id":157131,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2022-06-22 03:46:34","like_diff":9,"likes":9,"dislikes":0,"content":"公道点说，老师上课速度很快，不管下面的人听不听得懂。不建议数学基础一般的人选择，不然学的很累。问问题，反正我问的线上从来已读不回，但是线下很认真。给分方面，应该还行，和自我预期差不多，已经比较满意。"},{"id":37817,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2016-12-05 06:41:19","like_diff":8,"likes":9,"dislikes":1,"content":"口音～北方人表示蓝瘦"},{"id":46683,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2017-01-22 07:07:08","like_diff":8,"likes":11,"dislikes":3,"content":"老师虽然有口音，但是对于一个南方人来说，其实完全听得懂，讲得很细致 给分也好，谢谢老师！"},{"id":49412,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-06-12 13:42:51","like_diff":8,"likes":9,"dislikes":1,"content":"求老师讲例题的时候慢一点……至少在课上给大家试着做一做的机会啊……题目出来马上就讲答案了完全来不及自己思考啊"},{"id":98194,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-01-23 07:27:16","like_diff":8,"likes":8,"dislikes":0,"content":"我只想问问什么时候出分"},{"id":117732,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-09-30 03:08:29","like_diff":7,"likes":10,"dislikes":3,"content":"高分怎么来的？我觉得他讲的很累，讲的也不是很清楚啊……"},{"id":122948,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2020-04-24 04:15:49","like_diff":7,"likes":7,"dislikes":0,"content":"刚听完第一节随机过程，讲课是真的好快啊，基本没听明白，全靠课后自学"},{"id":154084,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2022-05-23 02:57:25","like_diff":6,"likes":7,"dislikes":1,"content":"小测好难啊"},{"id":178740,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2023-07-21 07:56:33","like_diff":6,"likes":8,"dislikes":2,"content":"课程：随过（1.5学分）\n\n个人情况：（100/5.0）作业几次有一次是9，其他都是10，小测满。  外专业（非数学），当个性修读。\n\n\n\n考试情况：这门课的难度并不高，书也很薄，题型非常固定，我那个考场有好多人都提前交卷子了，题量我记得还是选择加5道大题吧。\n\n\n\n课程感受：我个人是自学的，没有怎么听过课（跪求老师放过），但是坐在后排有时候会因为兴趣，稍微听一下老师讲课，整体而言非常清晰，没有什么问题，老师态度也非常严谨专注，可以说很难得看到还有这么负责的老师，可以和老师多交流一下，老师人非常好，水平也足够高，放心大胆选（基本每节课课件都点名）。\n\n\n\n个人学习方法：整本书的考点可以说是少到可以打表出来复习，再加之每一个题型又非常固定，只要认真复习了，这门课没有什么难点，更多的是对书上许多定理的理解，我个人建议是不要死记，多去推一推，想一下内部的关联，可能也是因为自学的缘故，我对书本上的知识还是比较熟悉的，所以考试的时候也没有什么压力。\n\n\n\n学习资料：98上有前辈给出课后题目过程，可以在写完平时作业之后看看其他的题目，整个课后题是非常具有代表性的，只是跟着老师给的课后题其实也够用了，总之不要担心，这门课的难度和微积分比起来完全可以说是小儿科了，认真学还是有所收获的。\n\n\n\nps：复变那一块一直在争论，我并不理解，所有的内容并没有非常超越的东西，新的东西只有 Fourier Transform的形式，以及delta function的广义函数定义。多的只有形式和定义，那些公式都不叫什么公式，直接用微积分的知识积分可以做了，没有涉及到包括留数、大圆弧、卷积等在内各种定理的应用，考的可以说非常浅了，没有任何觉得超纲的必要，考场上现推都行，真不行就记住。个人认为把这种事情推给超纲是没有好好学的体现吧。"},{"id":11759,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2015-12-14 08:07:51","like_diff":5,"likes":10,"dislikes":5,"content":"老师很憨…口音让人听起来不舒服…"},{"id":31086,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2016-07-03 08:07:17","like_diff":5,"likes":11,"dislikes":6,"content":"讲课不怎么样，但是给分很好，平时交了4次给满分，大二下第一门满绩就是云哥给的"},{"id":51431,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2017-06-05 11:38:02","like_diff":5,"likes":5,"dislikes":0,"content":"老师讲的还算是不错的，认真听课会有收获，给分感觉不错\n\nP.S.老师不会建群，课件也要主动找他要"},{"id":70729,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-01-27 12:41:04","like_diff":5,"likes":6,"dislikes":1,"content":"快！\n\n秀！\n\n自学了一个学期，个人觉得难度不大，没什么问题，按时作业、小测，最后就满了。\n\n感谢秀哥培养我的自学能力！秀哥给分还是挺好的！"},{"id":46617,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2017-01-22 04:09:03","like_diff":4,"likes":6,"dislikes":2,"content":"老师啥时候出分啊啊啊"},{"id":46670,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2017-01-22 06:18:36","like_diff":4,"likes":5,"dislikes":1,"content":"老师给分超棒！！！"},{"id":48010,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2017-02-28 04:11:49","like_diff":4,"likes":5,"dislikes":1,"content":"今天第一次听老师的课，其实在之前已经预习过概统，然而在第一节还是学到很多新东西，绝不是完全念课本，虽然有口音但不影响听讲。很不错"},{"id":48416,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2017-03-03 03:35:52","like_diff":4,"likes":4,"dislikes":0,"content":"老师讲课很认真负责，而且给分很好！"},{"id":57528,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2017-07-09 10:37:17","like_diff":4,"likes":4,"dislikes":0,"content":"老师超nice，给分很好，不过统计部分可能会让人难以理解一些，老师会经常说“这个你们自己体会一下???”。概率论部分真的很好，统计么确实需要自己脑子里构建模型嘛~反正最后老师为了让我不掉档把我小测，作业全拉满了，简直开森~"},{"id":68901,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-01-24 05:34:59","like_diff":4,"likes":4,"dislikes":0,"content":"讲课速度真是王秀云老师的秀\n\n个人觉得他的ppt质量真的是挺不错的 \n\n思路很清晰\n\n大概这样一来我们自学起来就会轻松点吧..."},{"id":158095,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2022-06-27 03:34:19","like_diff":4,"likes":9,"dislikes":5,"content":"分奴们闻着味就来了"},{"id":18182,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2016-01-21 08:48:16","like_diff":3,"likes":6,"dislikes":3,"content":"老师负责任且认真。\n\n但口音确实有点重。\n\n给分还不错！"},{"id":47439,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2017-01-26 10:51:37","like_diff":3,"likes":3,"dislikes":0,"content":"很nice啊！"},{"id":70403,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-01-26 14:43:46","like_diff":3,"likes":3,"dislikes":0,"content":"老师讲的真好^O^"},{"id":85774,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-08-06 07:48:09","like_diff":3,"likes":3,"dislikes":0,"content":"老师讲的挺不错的，条例清楚，要点明确，最后还会有复习。顺便分享一下学习概统的经验，上课时只要理清思路，当时不会做题目没关系的，重点是知识点思路要明确！考试的时候再话一两天刷题，满绩不是梦，概统真心不难"},{"id":113889,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-07-07 23:34:46","like_diff":3,"likes":4,"dislikes":1,"content":"给分超好，满绩了，开心"},{"id":119123,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-11-10 14:47:11","like_diff":3,"likes":3,"dislikes":0,"content":"我也觉得老师讲的一般，但是这次考试不难，甚至可以说偏简单，楼上过激了"},{"id":119764,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-11-15 12:12:25","like_diff":3,"likes":3,"dislikes":0,"content":"上课讲重点！every single word he said will be in the exam！"},{"id":130793,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2021-01-24 14:50:37","like_diff":3,"likes":3,"dislikes":0,"content":"老师是真的不错，虽然概统分现在还没出，课讲的也确实比较快，但是我重复看智云课堂的时候发现老师其实讲的挺清楚的，就是我线下上课没好好听"},{"id":142300,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2021-11-10 03:24:08","like_diff":3,"likes":3,"dislikes":0,"content":"老师人很好，点名还会在群里说。问问题也乐于解答。讲课虽然速度快，但实在一般，经常一知半解，课后要花大量时间重温才能弄明白"},{"id":157847,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2022-06-25 06:10:40","like_diff":3,"likes":5,"dislikes":2,"content":"师生情满满！！！给分真的好！！\n\n说实在老师上课讲的还是有点听不懂的\n\n不过大家可以去听其他老师的智云，zmz老师讲的确实很清楚\n\n但是wxy真的给分，感动地眼泪都流下来了！\n\nbtw上面那个金融的同学，谱密度老师上课说过只考那七组公式了吧，你国金计量中宏都背得下来，那七组公式你背不下来？第八周老师的作业题里面的几个谱密度，是不是有一道是期末的原题？？虽然我作为金融的也不理解为啥要学谱密度，但是这不是你骂老师的借口叭？让工科的同学看金融的笑话，真有你的……"},{"id":177208,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2023-07-02 07:42:36","like_diff":3,"likes":3,"dislikes":0,"content":"随机过程，每节课数字点名，课程内容较简单，概统好的同学可以选来当个性学分，期末考试内容较为固定，难度和作业题相似"},{"id":177209,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2023-07-02 07:50:32","like_diff":3,"likes":3,"dislikes":0,"content":"随机过程1.5学分经院出分前评：\n\n老师讲课对我个人而言是有点快的（本人文科生且排斥数学），通常要花很多时间来学习这门1.5学分的课。但是老师讲课还是很好的，尤其是ppt的例题都是很经典的。\n\n出分后评（97 5.0）：能有这个分数真的很开心！在这里留下一些学习这门课建议，未来的经院学弟学妹可以参考一下。应试角度而言可以忽略证明（王老师上课会讲一些概念证明），考试的考察角度还是一些性质的应用和计算。个人认为这门课主要还是在于花时间弄懂会做老师PPT上的例题和布置的课后题，考试考点基本上就那些。可以在CC98上找一个补考卷（虽然好像是假的），大致结构就是这样。随过大概就是，这个知识点、这个性质你知道并且做过类似题目，那么考试中你一定是会做的。希望未来的学弟学妹可以取得很好的成绩！"},{"id":15578,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2016-01-15 12:42:47","like_diff":2,"likes":3,"dislikes":1,"content":"听不懂"},{"id":43934,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2017-01-17 06:44:23","like_diff":2,"likes":6,"dislikes":4,"content":"虽然口音有点重，但是数学都是靠自学嘛，没关系啦。"},{"id":67000,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-01-19 23:49:14","like_diff":2,"likes":2,"dislikes":0,"content":"时间序列挺给力的，人很好，不过考试难，哭泣…"},{"id":70586,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-01-27 09:00:19","like_diff":2,"likes":5,"dislikes":3,"content":"讲得很好，总评99，期末满了，谢谢云哥"},{"id":89635,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-11-20 05:37:39","like_diff":2,"likes":2,"dislikes":0,"content":"概率论建群的，还给课件！"},{"id":100462,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-01-26 07:08:06","like_diff":2,"likes":2,"dislikes":0,"content":"出分前来攒人品，老师人很好，讲课很努力，可能自己太菜，所以有些没听明白"},{"id":100648,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-01-26 13:22:16","like_diff":2,"likes":2,"dislikes":0,"content":"老师人很棒完全没有架子的那种，就是上课速度有点秀，最后给分也还行吧"},{"id":120478,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-12-09 06:40:45","like_diff":2,"likes":2,"dislikes":0,"content":"emmm老师人不错也挺负责，平时真的很认真的在讲课了，但速度太快了，而且效果也不好，基本靠自学。但给分挺好的！给分好！！"},{"id":130936,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2021-01-25 09:47:39","like_diff":2,"likes":2,"dislikes":0,"content":"从不点名，就是教的快导致作业超前别人"},{"id":131821,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2021-01-29 04:17:56","like_diff":2,"likes":2,"dislikes":0,"content":"声音不太清楚，讲课进度较快，给分好"},{"id":147778,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2022-01-10 23:50:03","like_diff":2,"likes":3,"dislikes":1,"content":"时间序列分析给分太好了"},{"id":156287,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2022-06-18 16:49:13","like_diff":2,"likes":4,"dislikes":2,"content":"pua松分布\n\n有一种秀叫王秀云的秀"},{"id":157830,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2022-06-25 04:23:56","like_diff":2,"likes":4,"dislikes":2,"content":"楼下差不多得了，没必要拉踩，两个老师都很好\n\n王老师确实很好，小测做的老差了期末好好考也可以上4的\n\n（为啥作业全对跟错一两道题都是一样的8、9分）\n\n\n\n能不能不要丢金融学生的脸啊，，有些人真的无语了"},{"id":195861,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2024-06-30 11:13:03","like_diff":2,"likes":2,"dislikes":0,"content":"随机过程，给分还可以，讲课感觉中规中矩"},{"id":46824,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2017-01-22 11:30:02","like_diff":1,"likes":4,"dislikes":3,"content":"听不懂"},{"id":63871,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2017-12-18 06:16:23","like_diff":1,"likes":2,"dislikes":1,"content":"数理统计部分真的听不懂……"},{"id":70357,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-01-26 13:44:42","like_diff":1,"likes":1,"dislikes":0,"content":"给分很好 我爱老师 谢老师抬我一手"},{"id":80516,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-06-27 10:54:55","like_diff":1,"likes":1,"dislikes":0,"content":"很可爱呀"},{"id":83324,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-07-10 05:53:19","like_diff":1,"likes":1,"dislikes":0,"content":"大爱秀云老师 很可爱 给分超好！期末会调分的！"},{"id":85097,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-07-15 09:48:47","like_diff":1,"likes":1,"dislikes":0,"content":"讲得挺好的，标志动作中指推眼镜，超级可爱！"},{"id":85106,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-07-15 11:21:24","like_diff":1,"likes":1,"dislikes":0,"content":"王老师讲课很快，上课想听懂并且跟得上挺难的，不过给分真的好，只复习了4章奔着及格去的我居然考了74，谢谢王老师！"},{"id":85641,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-07-23 19:53:49","like_diff":1,"likes":1,"dislikes":0,"content":"给分妙啊"},{"id":88999,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-11-13 14:13:45","like_diff":1,"likes":1,"dislikes":0,"content":"概率论轻松愉快"},{"id":89486,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-11-19 09:51:01","like_diff":1,"likes":1,"dislikes":0,"content":"真的超秀了！"},{"id":89756,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-11-20 15:23:00","like_diff":1,"likes":1,"dislikes":0,"content":"老师人超好，不过讲课确实有点快，但答疑什么的都特别有耐心，赞"},{"id":90193,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-11-22 11:42:45","like_diff":1,"likes":1,"dislikes":0,"content":"上课当你什么都会，不过概率论只要把例题弄懂考试就没问题，课后题比较变态。"},{"id":100828,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-01-27 01:40:51","like_diff":1,"likes":1,"dislikes":0,"content":"老师人真的很可爱，超级喜欢～给分也好"},{"id":113955,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-07-08 02:33:48","like_diff":1,"likes":1,"dislikes":0,"content":"老师真的给分超好啊！！而且上课时候太萌了，吹爆pua松分布、平均wei转时间～反正真的太可爱了"},{"id":114533,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-07-10 11:31:30","like_diff":1,"likes":2,"dislikes":1,"content":"随机过程不是很难，老师口音比唐炳康重，亲测，给分不错"},{"id":119564,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-11-14 00:12:57","like_diff":1,"likes":2,"dislikes":1,"content":"虽然啥都听不懂但是给分还是挺好的（雾"},{"id":120683,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2020-01-15 07:28:01","like_diff":1,"likes":1,"dislikes":0,"content":"老师还是挺好的，虽然我根本听不懂.."},{"id":121787,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2020-01-22 01:44:30","like_diff":1,"likes":1,"dislikes":0,"content":"王老师海底捞，我这种菜鸡居然过了。感觉讲得很好，是我太菜了，作业也没好好做，出分真的感受到浓浓师生情。"},{"id":121795,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2020-01-22 02:40:05","like_diff":1,"likes":1,"dislikes":0,"content":"讲课确实比较快，上课也没怎么听，不过概统也好自学，关键还是多做题，熟悉了就简单了"},{"id":135966,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2021-06-06 05:49:54","like_diff":1,"likes":1,"dislikes":0,"content":"老师黑板擦的特别干净"},{"id":142301,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2021-11-10 03:22:52","like_diff":1,"likes":1,"dislikes":0,"content":"老师人很好，点名还会在群里说。问问题也乐于解答。讲课虽然速度快，但实在一般，经常一知半解，课后要花大量时间重温才能弄明白"},{"id":142573,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2021-11-13 13:45:35","like_diff":1,"likes":2,"dislikes":1,"content":"我爱王秀云老师"},{"id":153915,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2022-05-16 14:36:40","like_diff":1,"likes":3,"dislikes":2,"content":"讲课很一般"},{"id":162313,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2022-11-20 02:45:47","like_diff":1,"likes":1,"dislikes":0,"content":"短学期概率论最后一节复习课一定要好好听，基本会包涵所有要考的重点"},{"id":169542,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2023-02-27 01:16:30","like_diff":1,"likes":1,"dislikes":0,"content":"很好很好"},{"id":169868,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2023-02-28 07:17:25","like_diff":1,"likes":1,"dislikes":0,"content":"下课问了老师很傻的问题也很耐心的解答www\n\n给分很好，很喜欢点名，22-23时序助教哥哥好好ww"},{"id":193390,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2024-06-08 14:05:09","like_diff":1,"likes":1,"dislikes":0,"content":"相比于其他老师，他的班级概统挂了不少人。。。而且上课说话真的听不清楚听不懂"},{"id":195390,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2024-06-28 02:43:46","like_diff":1,"likes":1,"dislikes":0,"content":"上课稍微口音有点重，但是习惯了就好。点名非常友好，是数字点名。给分也很好。"},{"id":195421,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2024-06-28 04:01:15","like_diff":1,"likes":1,"dislikes":0,"content":"上的是随机过程，老师有一点口音，但是讲课还是蛮有条理的。老师人真的特别好，小测有点问题线下找他立马就解决了。"},{"id":202526,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2024-11-13 03:28:21","like_diff":1,"likes":1,"dislikes":0,"content":"赞赞赞"},{"id":211477,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2025-01-11 14:47:57","like_diff":1,"likes":1,"dislikes":0,"content":"老师就是神！！！"},{"id":55848,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2017-07-02 12:57:00","like_diff":0,"likes":0,"dislikes":0,"content":"给分好，好老师"},{"id":56446,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2017-07-04 00:28:45","like_diff":0,"likes":0,"dislikes":0,"content":"还可以"},{"id":65279,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-01-02 08:34:23","like_diff":0,"likes":2,"dislikes":2,"content":"不知所云\n\n"},{"id":70448,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-01-26 15:48:58","like_diff":0,"likes":1,"dislikes":1,"content":"老师讲得超级快，不过很可爱！\n\n"},{"id":76656,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-04-17 08:59:29","like_diff":0,"likes":0,"dislikes":0,"content":"有没有同学知道老师办公室在哪或者老师联系方式？谢谢！"},{"id":85009,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-07-15 03:11:31","like_diff":0,"likes":0,"dislikes":0,"content":"人可爱～出分慢"},{"id":85012,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-07-15 03:16:36","like_diff":0,"likes":0,"dislikes":0,"content":"谢谢老师！"},{"id":85470,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-07-18 07:09:37","like_diff":0,"likes":0,"dislikes":0,"content":"说实话 觉得老师讲的不是特别清楚 要自己看的 给分和人都挺好的"},{"id":89499,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-11-19 10:28:38","like_diff":0,"likes":0,"dislikes":0,"content":"老师很不错。讲课很清楚，不过稍微有些枯燥"},{"id":89590,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-11-20 01:38:36","like_diff":0,"likes":0,"dislikes":0,"content":"讲课一般，但是真香"},{"id":100636,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-01-26 13:00:42","like_diff":0,"likes":2,"dislikes":2,"content":"老师很好，但是又被卡了一分。三分一档真的智障。"},{"id":101403,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-01-28 06:53:56","like_diff":0,"likes":2,"dislikes":2,"content":"我想和那位穿aj4xkaws和yeezy750的帅哥当兄弟"},{"id":113883,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-07-07 23:06:08","like_diff":0,"likes":0,"dislikes":0,"content":"讲课思路清晰，十分推荐，唯一的缺点是讲拓展书上没有，也不知道考不考。。。\n\n"},{"id":113890,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-07-07 23:37:33","like_diff":0,"likes":1,"dislikes":1,"content":"给分不错，挺体贴学生的，划得重点挺靠谱的，相比之下csp就呵呵了……"},{"id":113893,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-07-07 23:48:57","like_diff":0,"likes":1,"dislikes":1,"content":"给分好，上课一直在强调不要挂科，就是讲得有点快。"},{"id":114491,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-07-10 05:51:55","like_diff":0,"likes":1,"dislikes":1,"content":"大类课随机过程，老师讲得很仔细，不要求的内容也会讲，是个好老师。这门课很简单，因为考试有套路，和概统一样。复习课认真听！但从学习角度来说考试和作业还是太单一了，课后可以自己专研一下"},{"id":117247,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-09-21 07:08:04","like_diff":0,"likes":0,"dislikes":0,"content":"非常喜欢"},{"id":119149,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-11-11 01:36:58","like_diff":0,"likes":0,"dislikes":0,"content":"很认真呐"},{"id":119847,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-11-16 05:34:40","like_diff":0,"likes":0,"dislikes":0,"content":"懵懵懂懂"},{"id":130375,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2021-01-21 13:06:44","like_diff":0,"likes":0,"dislikes":0,"content":"真的是好老师，很热心的"},{"id":130930,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2021-01-25 09:10:59","like_diff":0,"likes":0,"dislikes":0,"content":"谢老师不挂之恩"},{"id":138442,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2021-07-09 08:13:12","like_diff":0,"likes":0,"dislikes":0,"content":"随机过程 今年卷子偏难 但老师捞得一手好人 整体课程事少好水 强推"},{"id":142093,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2021-11-05 12:52:03","like_diff":0,"likes":0,"dislikes":0,"content":"21春夏考试偏难，老师人挺好"},{"id":142562,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2021-11-13 10:07:15","like_diff":0,"likes":1,"dislikes":1,"content":"我太爱老师了，秀云老师浓浓师生情"},{"id":142579,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2021-11-13 14:51:32","like_diff":0,"likes":3,"dislikes":3,"content":"大学第一门100，太感谢老师了"},{"id":147807,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2022-01-11 01:46:17","like_diff":0,"likes":1,"dislikes":1,"content":"老师人超好，给分也超好的！！"},{"id":150224,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2022-01-20 15:44:38","like_diff":0,"likes":1,"dislikes":1,"content":"给分好"},{"id":156327,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2022-06-19 05:43:50","like_diff":0,"likes":1,"dislikes":1,"content":"讲的好啊"},{"id":162315,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2022-11-20 03:17:28","like_diff":0,"likes":0,"dislikes":0,"content":"老师讲得非常好，上课讲得有点快，我是自学PPT的，给分超级好"},{"id":168951,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2023-02-23 15:52:50","like_diff":0,"likes":0,"dislikes":0,"content":"概统 感觉老师给分很好 但是可能是个人问题 一上数学课就困 每节课都去但是没听过几次课 老师雷打不动每节课点名 但是都是数字点名 助教gg人很好 之前常微分的助教也是这位 这里感谢他一下 每次作业都会给几份高分模板 考前复习（预习）的时候真的救大命 十分奉上"},{"id":177257,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2023-07-02 12:23:07","like_diff":0,"likes":1,"dislikes":1,"content":"跨专业选的随过，最后满了，老师的口音认真听还是能听懂的，随过的内容也不难（难的谱密度部分背那几类变换就可以了），给分感觉还不错的，讲课思路也挺清晰的"},{"id":187971,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2024-01-18 02:30:33","like_diff":0,"likes":0,"dislikes":0,"content":"好的不得了"},{"id":188435,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2024-01-19 03:55:28","like_diff":0,"likes":1,"dislikes":1,"content":"爹 概统给我捞过了"},{"id":188664,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2024-01-19 13:27:23","like_diff":0,"likes":0,"dislikes":0,"content":"谢谢老师捞捞！！！"},{"id":193047,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2024-06-03 03:37:38","like_diff":0,"likes":0,"dislikes":0,"content":"老师好，老师好"},{"id":195332,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2024-06-27 17:58:42","like_diff":0,"likes":0,"dislikes":0,"content":"真的人很好"},{"id":198126,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2024-09-01 11:37:03","like_diff":0,"likes":0,"dislikes":0,"content":"人很好，很和善也很关心学生，答疑时问问题都很有耐心地解答了，上课讲的也很细很全面，不过有时候会比较快，因为我数学底子不太好都是预习后再上课，这样好一些。最后给分和付出成正比，感谢王老师！"},{"id":201078,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2024-10-28 07:41:23","like_diff":0,"likes":0,"dislikes":0,"content":"非常认真负责的老师"},{"id":201158,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2024-10-29 12:06:08","like_diff":0,"likes":0,"dislikes":0,"content":"100分 好老师 很贴心 讲课一切以让学生听懂为目的 很赞"},{"id":202638,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2024-11-13 13:43:28","like_diff":0,"likes":0,"dislikes":0,"content":"概率论 好"},{"id":211455,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2025-01-11 13:20:29","like_diff":0,"likes":0,"dislikes":0,"content":"概统，我的神"},{"id":65685,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2018-01-08 08:27:49","like_diff":-1,"likes":1,"dislikes":2,"content":"概统课的讲授不注重对内容的理解"},{"id":183376,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2023-11-24 12:04:36","like_diff":-1,"likes":7,"dislikes":8,"content":"你讲的是什么东西自己有点数吗，速度比窜稀还快"},{"id":157878,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2022-06-25 09:42:32","like_diff":-3,"likes":2,"dislikes":5,"content":"感觉都做对了结果只有86，这门课比较吃计算能力，不细心可能就做错了"},{"id":158615,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2022-06-30 17:22:56","like_diff":-3,"likes":2,"dislikes":5,"content":"那个，我提一嘴吧。由于Rx（τ）是实的偶函数。所以其傅里叶变换也是实的偶函数，书上有写在奇偶性作用下的傅里叶积分会变成关于三角函数的积分，从而其实你会不会复变影响不会很大。麻烦爆粗口的人仔细看看书好吗？究竟是你积分功底不牢固，还是说老师的问题？"},{"id":63798,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2017-12-15 03:25:31","like_diff":-4,"likes":0,"dislikes":4,"content":"实在不知道在讲啥"},{"id":183372,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2023-11-24 09:56:18","like_diff":-4,"likes":3,"dislikes":7,"content":"今年1.5的概率论考试真的简单，100分拿下"},{"id":101229,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-01-28 02:27:05","like_diff":-7,"likes":0,"dislikes":7,"content":"考卷完全不考虑学生有没有学过复数相关的内容，出了一大堆谱密度，让人很憋屈"},{"id":125531,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2020-09-11 04:22:30","like_diff":-7,"likes":5,"dislikes":12,"content":"1.5学分的随机过程很简单，就像玩一样。文印店卖的卷子前三张基本覆盖了全部考点，全部搞懂就很容易满"},{"id":118878,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-11-07 09:48:59","like_diff":-8,"likes":3,"dislikes":11,"content":"垃圾课程毁我青春，讲的比火箭还快，考的比偏微分还难"},{"id":157828,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2022-06-25 04:08:45","like_diff":-11,"likes":7,"dislikes":18,"content":"在傻逼何樟勇出分以后，王秀云简直是我新的男神，太会捞了，我真的谢谢王秀云！你永远可以相信他的给分！！！！！！！"},{"id":125547,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2020-09-11 08:22:03","like_diff":-13,"likes":2,"dislikes":15,"content":"随机过程给分好好~谱密度没背还是给满了，谢谢老师:)"},{"id":127798,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2020-11-27 07:51:31","like_diff":-16,"likes":7,"dislikes":23,"content":"我选的是王老师秋学期的概率论。作为大一学生，没有微积分基础其实是挺吃亏的，老师讲的很快，而且觉得我们都会。。。不过只要作业认真做，考前把知识点过一遍，问题是不大的。感觉老师的平时分给的很好，期中考考到了后面的内容，写不出来，最后绩点4.8。不管怎么样，我给老师十分o(^o^)o。"},{"id":100711,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2019-01-26 15:12:33","like_diff":-36,"likes":6,"dislikes":42,"content":"学期第三门满绩，谢谢老师!"},{"id":46828,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2017-01-22 11:36:54","like_diff":-41,"likes":8,"dislikes":49,"content":"虽然有点口音， 讲课可能也可能不是特别好。不过给分很好。我又满了。。。"},{"id":125569,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2020-09-11 14:33:40","like_diff":-44,"likes":4,"dislikes":48,"content":"居然只有4.8，失误了"},{"id":156171,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2022-06-20 10:48:28","like_diff":-49,"likes":5,"dislikes":54,"content":"贱比 这么多人跟他说金融没学过谱密度 复变 还特意出了三个谱密度"},{"id":193527,"teacher_id":3295,"teacher_name":"王秀云","post_time":"2024-06-12 09:12:21","like_diff":-87,"likes":1,"dislikes":88,"content":"小测很简单，满分，平时作业也很简单（高中水平），感觉期末完全没有任何难度，轻松满分吧，100，普通学生考个90没多大问题（本人智商比较高微积分，线代均98+）"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

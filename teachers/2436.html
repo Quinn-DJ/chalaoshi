@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>余海 - 医学院 - 浙大教评</title>
+    <meta name="description" content="余海教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="余海,医学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">余海</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">医学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.30</div>
+                    <div class="rating-participants">103人参与评分</div>
+                    <div class="attendance-info">16.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">Community Medicine</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.25</span>
+                            <span class="students">选课: 129人</span>
+                            <span class="std-dev">标准差: 0.64</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">History of Medicine</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.88</span>
+                            <span class="students">选课: 185人</span>
+                            <span class="std-dev">标准差: 0.79</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">医学史—医学的过去，现在和未来</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.74</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.54</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (88 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":954,"teacher_id":2436,"teacher_name":"余海","post_time":"2015-03-19 14:28:40","like_diff":39,"likes":69,"dislikes":30,"content":"推荐所有学医的和打算学医的孩子去听…能了解很多的东西~\n\n期末是一篇和医学史相关的文章~~"},{"id":189091,"teacher_id":2436,"teacher_name":"余海","post_time":"2024-01-21 17:46:39","like_diff":27,"likes":28,"dislikes":1,"content":"医学史：\n\n老师很和蔼，讲课也很有水平，幽默风趣，能很好地了解医学史（可惜后半学期忙于写作业了没怎么听课）。每节课纸质点名，可水可听。事感觉是比较少的，期中一篇1200字A4纸手写文章，期末一篇3000字电子版论文，不过总评也就全凭这两篇文章决定（好像期中30%期末70%），所以可能比较容易出现绩杀。学医的同学和文笔比较好的同学也许会比较有优势，不过个人感觉一般同学也可冲，认真写应该分就不会很低。23-24冬的两篇内容分别是，期中：以《微生物与人类》为题；期末：以《三年抗疫回顾》为题（可以从全球或全国角度宏观地回顾三年抗疫历史；也可叙述地区，城市的抗疫经历；或叙述个人、家庭、社区的心路历程，有事实、有分析、有观点）。感觉这学期的两篇文章算是比较好入手写，和上课内容、医学史的关系也不是很大。\n\n本人理工科学生，写文章水平算比较烂的，为了水完通识学分选的这门课。期中的文章查了比较多的资料，从多角度来写微生物与人类的关系；期末是写了家乡城市的三年抗疫历程。两篇文笔都不咋地，不过都是自己用心写出来的（期中是从各种资料里自己概括总结出各个方面，期末除了一些政策措施外基本都是自己敲出来的），最后有4.5，很满意了。所以感觉老师可能比起文笔，更看重文章中有没有自己的思考。不过也是个人情况，大家可以参考参考。"},{"id":5982,"teacher_id":2436,"teacher_name":"余海","post_time":"2015-07-10 06:21:58","like_diff":18,"likes":19,"dislikes":1,"content":"老师很好 然后要好好写论文。。不要大段从网上抄。。"},{"id":45076,"teacher_id":2436,"teacher_name":"余海","post_time":"2017-01-19 02:33:32","like_diff":18,"likes":27,"dislikes":9,"content":"很喜欢甚至是目前最喜欢的老师，两次论文也因为很有想写的冲动认认真真又充满激情的写了，结果绩点3.3...我也不知道该怎样评价了，打个平均分好了"},{"id":10396,"teacher_id":2436,"teacher_name":"余海","post_time":"2015-11-18 11:37:44","like_diff":13,"likes":14,"dislikes":1,"content":"英文很好，而且很幽默≥﹏≤非常可爱的老师"},{"id":13727,"teacher_id":2436,"teacher_name":"余海","post_time":"2015-12-30 12:10:16","like_diff":13,"likes":13,"dislikes":0,"content":"课好人好。医学生都应该去听听，有用又有趣。很不舍得余老师！"},{"id":5061,"teacher_id":2436,"teacher_name":"余海","post_time":"2015-07-03 02:58:26","like_diff":11,"likes":15,"dislikes":4,"content":"老师讲得很好很有趣！"},{"id":46126,"teacher_id":2436,"teacher_name":"余海","post_time":"2018-11-24 01:32:56","like_diff":11,"likes":13,"dislikes":2,"content":"老师也是段子手呀\n\n课堂上超多韩国妹子和小哥\n\n最后绩点比较低可能是小作业字太差？期末论文写的太肤浅？"},{"id":71146,"teacher_id":2436,"teacher_name":"余海","post_time":"2018-05-07 02:12:36","like_diff":10,"likes":12,"dislikes":2,"content":"上课挺有意思很轻松可水 但给分懵逼 我的通识最低"},{"id":73805,"teacher_id":2436,"teacher_name":"余海","post_time":"2018-02-03 06:21:18","like_diff":10,"likes":12,"dislikes":2,"content":"我只能说，对于文笔不好的人还是不要选了……课堂很有趣，也从来不点名，但是作业只有两次，成绩就从这两次里决定，太难了（尤其是对于我这种根本不会写论文的人来说QAQ）哎，还是选自己感兴趣的课吧，不要老听别人xx课有趣好玩就跟着去上，还是听自己的吧"},{"id":130966,"teacher_id":2436,"teacher_name":"余海","post_time":"2021-01-25 12:08:18","like_diff":9,"likes":10,"dislikes":1,"content":"个人感觉余老师真的是一个很棒的老师！\n\n之前看过《无影灯下》纪录片（讲真对这门课很有帮助）对医学史很感兴趣也就选了。\n\n余老师非常和蔼可亲，偶尔还会来两句英文特别可爱！根本不像评论说的那样倚老卖老或者权力欲望很足什么的。\n\n平时按时到，论文认认真真写，不会差的！\n\n最后附上他的一句话：不要博爱，我们只要爱一个就够了！"},{"id":40559,"teacher_id":2436,"teacher_name":"余海","post_time":"2017-01-04 05:16:36","like_diff":8,"likes":8,"dislikes":0,"content":"这么好的老师，还有什么好挑剔的？学者！上完课两年没见，我还能认出来！"},{"id":80530,"teacher_id":2436,"teacher_name":"余海","post_time":"2018-06-27 12:21:12","like_diff":8,"likes":8,"dislikes":0,"content":"老师超级和蔼超级棒的！听他上课自己完全不想水！除了论文难写一点完全没有缺点……论文对不学医也不学生物的同学好像是有点难度_(:з」∠)_\n\n然而这并不影响给老爷子满分！"},{"id":81149,"teacher_id":2436,"teacher_name":"余海","post_time":"2018-07-04 07:07:40","like_diff":8,"likes":8,"dislikes":0,"content":"老师很棒 现在分还没有出 但冲老师每次上课认真的态度就很喜欢他 适合所有医学和非医学的小朋友去选呀（虽然已经是大三老学姐了? \n\n 关于作业 一次期中的1000字手写论文 一次期末3000字电子版\n\n 关于点名 老师从来不点名 而且基本上都会给签条子\n\n 以上。"},{"id":112538,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-07-04 17:16:29","like_diff":7,"likes":8,"dislikes":1,"content":"正态。。。。"},{"id":124470,"teacher_id":2436,"teacher_name":"余海","post_time":"2020-07-01 16:12:54","like_diff":7,"likes":8,"dislikes":1,"content":"给个10分！我觉得很有趣，对于通识来说，能学到很多，最后4.8"},{"id":5150,"teacher_id":2436,"teacher_name":"余海","post_time":"2015-07-05 04:42:41","like_diff":6,"likes":7,"dislikes":1,"content":"讲课很好  强烈推荐"},{"id":14202,"teacher_id":2436,"teacher_name":"余海","post_time":"2016-01-05 09:21:27","like_diff":6,"likes":7,"dislikes":1,"content":"特别棒！"},{"id":82720,"teacher_id":2436,"teacher_name":"余海","post_time":"2018-07-09 04:20:38","like_diff":6,"likes":8,"dislikes":2,"content":"课比较有趣也较水可听可不听 考核要求只有1000字手写论文和期末3000字论文 今年的题目是1000医学是科学吗？3000现代科学技术对医学的推动作用  建议文笔好一点的同学选这门课！"},{"id":83397,"teacher_id":2436,"teacher_name":"余海","post_time":"2018-07-10 08:00:39","like_diff":6,"likes":6,"dislikes":0,"content":"课堂内容可听可不听，但是私以为老师讲的内容很有意思很有条理能够让门外人了解医学史。然后两篇论文，争取不偏题有自己的观点就好了，算是有收获吧"},{"id":129520,"teacher_id":2436,"teacher_name":"余海","post_time":"2021-01-06 14:23:03","like_diff":6,"likes":6,"dislikes":0,"content":"“一门从未点过名但我一节也不想翘的通识课。”，楼上的这句话我100%认同。第一节课水手机后悔了呜呜呜。没啥好说的，选就是了。"},{"id":163923,"teacher_id":2436,"teacher_name":"余海","post_time":"2022-12-16 14:32:00","like_diff":6,"likes":6,"dislikes":0,"content":"只能说，老师讲的特别特别好，事情也很少，就点名+两篇论文，但是对文笔不好的同学不太友好，给分会不太好看，对语文功底没什么自信的同学慎选，我绩点3.6，同班同学3.3，供大家参考"},{"id":110734,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-07-04 18:07:03","like_diff":5,"likes":5,"dislikes":0,"content":"真惨。"},{"id":130843,"teacher_id":2436,"teacher_name":"余海","post_time":"2021-01-25 02:43:36","like_diff":5,"likes":5,"dislikes":0,"content":"后来才知道余海老先生是以前医学院的副院长！老师学识渊博，英语不错～还很幽默（比如开脑洞）论文好好写了 最后4.2 挺满意的"},{"id":13683,"teacher_id":2436,"teacher_name":"余海","post_time":"2015-12-30 10:36:09","like_diff":4,"likes":5,"dislikes":1,"content":"老师很幽默，挺好的"},{"id":13932,"teacher_id":2436,"teacher_name":"余海","post_time":"2016-01-02 12:54:02","like_diff":4,"likes":5,"dislikes":1,"content":"推荐对医学有兴趣的小伙伴去听~老师上课很有趣"},{"id":17444,"teacher_id":2436,"teacher_name":"余海","post_time":"2016-01-20 08:20:53","like_diff":4,"likes":4,"dislikes":0,"content":"讲课好评给分一般"},{"id":64198,"teacher_id":2436,"teacher_name":"余海","post_time":"2017-12-21 10:54:31","like_diff":4,"likes":4,"dislikes":0,"content":"老师真的很有学问  英文水平超高  佩服"},{"id":93415,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-01-09 12:47:28","like_diff":4,"likes":4,"dislikes":0,"content":"一堂真正听进去有内容的通识课，虽然我不是医学专业，但深深被老师的人格魅力打动，好老师"},{"id":94018,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-01-15 02:21:02","like_diff":4,"likes":6,"dislikes":2,"content":"老师真的好好！就是那种由内而外的气质！男神！听了老师的课对医学发展的整个框架都有了一个了解！上课内容一点都不枯燥！真的！强推！"},{"id":13933,"teacher_id":2436,"teacher_name":"余海","post_time":"2016-01-02 13:29:01","like_diff":3,"likes":3,"dislikes":0,"content":"段子手"},{"id":39928,"teacher_id":2436,"teacher_name":"余海","post_time":"2016-12-28 07:52:48","like_diff":3,"likes":3,"dislikes":0,"content":"很有趣 长知识了 \n\nppt也不会有长篇大论 以图片为主 想走神都难\n\n"},{"id":40302,"teacher_id":2436,"teacher_name":"余海","post_time":"2017-01-02 02:38:03","like_diff":3,"likes":4,"dislikes":1,"content":"余老师很幽默，认真听会学到很多东西，一本正经的用英语开车，棒??"},{"id":45068,"teacher_id":2436,"teacher_name":"余海","post_time":"2017-01-19 02:25:24","like_diff":3,"likes":3,"dislikes":0,"content":"太厉害了，知识渊博，真正的好老师。"},{"id":66007,"teacher_id":2436,"teacher_name":"余海","post_time":"2018-01-11 02:12:53","like_diff":3,"likes":3,"dislikes":0,"content":"超级幽默可爱的老头子，讲的内容其实非常有趣，一些特别的例子特别的小故事都很耐人寻味，而且不断给我们灌输医生的人文关怀，学医的小朋友都应该去听听！(⁎⁍̴̛ᴗ⁍̴̛⁎)"},{"id":155868,"teacher_id":2436,"teacher_name":"余海","post_time":"2022-06-16 10:47:36","like_diff":3,"likes":3,"dislikes":0,"content":"给分不大行，论文写了，每节课到了认真听讲而且都坐前排，而且也没有发言的要求，最后直接拖低我的均绩0.1，慎选"},{"id":188425,"teacher_id":2436,"teacher_name":"余海","post_time":"2024-01-19 03:33:02","like_diff":3,"likes":3,"dislikes":0,"content":"绩杀，别太荒谬"},{"id":188536,"teacher_id":2436,"teacher_name":"余海","post_time":"2024-01-19 07:40:36","like_diff":3,"likes":5,"dislikes":2,"content":"讲座式授课，还不错，可水可听，每节课纸质点名\n\n期中1张A4纸手写论文，题目为《微生物与人类》\n\n期末3000+电子稿论文，有格式要求，题目为《三年抗疫回顾》\n\n我论文不卷字数，文采也不好，4.5满足啦，也对医学有了基本认识\n\nps：好像身边还是有不少绩杀的"},{"id":188909,"teacher_id":2436,"teacher_name":"余海","post_time":"2024-01-20 14:09:50","like_diff":3,"likes":3,"dislikes":0,"content":"容易绩杀"},{"id":9738,"teacher_id":2436,"teacher_name":"余海","post_time":"2015-11-06 15:17:33","like_diff":2,"likes":3,"dislikes":1,"content":"很好的老师"},{"id":65950,"teacher_id":2436,"teacher_name":"余海","post_time":"2018-01-10 12:20:59","like_diff":2,"likes":2,"dislikes":0,"content":"我一定是爱上了他"},{"id":66392,"teacher_id":2436,"teacher_name":"余海","post_time":"2018-01-16 00:56:13","like_diff":2,"likes":2,"dislikes":0,"content":"很棒很好的老师。。！！！"},{"id":72782,"teacher_id":2436,"teacher_name":"余海","post_time":"2018-01-31 05:29:47","like_diff":2,"likes":2,"dislikes":0,"content":"老师博学多才而且很可爱 能学到很多 对于医学生 真的可以学到医者是什么 医学是什么"},{"id":85643,"teacher_id":2436,"teacher_name":"余海","post_time":"2018-07-23 20:17:39","like_diff":2,"likes":3,"dislikes":1,"content":"上课敲棒 给分一般般"},{"id":92746,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-01-04 06:37:58","like_diff":2,"likes":2,"dislikes":0,"content":"老师讲的超有趣 想给老师一百分！"},{"id":93402,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-01-09 12:01:33","like_diff":2,"likes":2,"dislikes":0,"content":"老师上课认真也很有趣，作业任务也不太重"},{"id":100209,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-01-25 23:23:17","like_diff":2,"likes":2,"dislikes":0,"content":"上老先生的课就没玩过手机，推荐"},{"id":155532,"teacher_id":2436,"teacher_name":"余海","post_time":"2022-06-14 05:28:02","like_diff":2,"likes":3,"dislikes":1,"content":"论文达到字数上限了，每节课也是坐在最前面听的，最后绩点3.6，有些通识课确实是给分有些随意吧"},{"id":161820,"teacher_id":2436,"teacher_name":"余海","post_time":"2022-11-14 04:44:22","like_diff":2,"likes":2,"dislikes":0,"content":"挺有意思的，不考试不点名期末交两篇论文。最后我绩点一般般，不过老师讲的挺好的，我自己太水了hh"},{"id":161872,"teacher_id":2436,"teacher_name":"余海","post_time":"2022-11-14 15:48:36","like_diff":2,"likes":2,"dislikes":0,"content":"给分一般，但是事少，两篇论文即可"},{"id":163856,"teacher_id":2436,"teacher_name":"余海","post_time":"2022-12-16 08:55:38","like_diff":2,"likes":3,"dislikes":1,"content":"讲课很棒，干货十足，每节课我都画思维导图，很有收获。\n\n但是给分真不怎么样，两篇论文都写得很认真，最后还被正态。"},{"id":9947,"teacher_id":2436,"teacher_name":"余海","post_time":"2015-11-13 05:13:55","like_diff":1,"likes":2,"dislikes":1,"content":"很有意思，老师随和"},{"id":22379,"teacher_id":2436,"teacher_name":"余海","post_time":"2016-03-04 03:57:50","like_diff":1,"likes":4,"dislikes":3,"content":"感觉老师是个暖男"},{"id":39724,"teacher_id":2436,"teacher_name":"余海","post_time":"2016-12-27 07:29:34","like_diff":1,"likes":2,"dislikes":1,"content":"大爱余老师啊，超级赞的老师，有学识，英文又好，选了绝对不后悔"},{"id":39897,"teacher_id":2436,"teacher_name":"余海","post_time":"2016-12-28 06:43:28","like_diff":1,"likes":2,"dislikes":1,"content":"从各个纬度讲医学的历史 治疗方法的发展 疾病史的发展等等 感觉能选上这样的通识已经很满意了 。另外，感觉这个老师特别喜欢留学生嘻嘻嘻(虽然我不是留学生"},{"id":44757,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-05-18 11:17:52","like_diff":1,"likes":2,"dislikes":1,"content":"老师超级男神！很可爱很幽默！"},{"id":59749,"teacher_id":2436,"teacher_name":"余海","post_time":"2017-09-26 14:05:09","like_diff":1,"likes":1,"dislikes":0,"content":"有趣生动的课堂  不会想要玩手机"},{"id":99632,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-01-25 04:20:48","like_diff":1,"likes":2,"dislikes":1,"content":"一门从未点过名但我一节也不想翘的通识课。而且给分也超好。"},{"id":113751,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-07-07 07:57:27","like_diff":1,"likes":5,"dislikes":4,"content":"3.9"},{"id":113766,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-07-07 10:49:02","like_diff":1,"likes":2,"dislikes":1,"content":"来浙大一年遇见过最好的老师之一"},{"id":124461,"teacher_id":2436,"teacher_name":"余海","post_time":"2020-07-01 14:25:17","like_diff":1,"likes":1,"dislikes":0,"content":"吹爆，有学识有修养给分好，上的最好的课之一"},{"id":152165,"teacher_id":2436,"teacher_name":"余海","post_time":"2022-03-29 07:06:10","like_diff":1,"likes":1,"dislikes":0,"content":"老师讲的真的很好，医学生建议好好听一听，可以看出来老师非常有学识，而且非常幽默，英语也很好。可惜上课同学都在写自己的作业。"},{"id":164330,"teacher_id":2436,"teacher_name":"余海","post_time":"2022-12-20 09:31:44","like_diff":1,"likes":1,"dislikes":0,"content":"给分等级制。慎选。"},{"id":189090,"teacher_id":2436,"teacher_name":"余海","post_time":"2024-01-21 15:48:32","like_diff":1,"likes":1,"dislikes":0,"content":"老师很好，但是课程给分不怎么样。\n\n事少，两篇文章。评分可能比较看文采了。"},{"id":190119,"teacher_id":2436,"teacher_name":"余海","post_time":"2024-02-22 14:57:00","like_diff":1,"likes":1,"dislikes":0,"content":"水课，老师很和蔼，讲的挺有意思的，但是绩点确实不高"},{"id":44900,"teacher_id":2436,"teacher_name":"余海","post_time":"2017-01-18 12:55:34","like_diff":0,"likes":1,"dislikes":1,"content":"给分好棒啊～认真写了两篇论文花不了多少时间的"},{"id":101367,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-01-28 05:52:48","like_diff":0,"likes":1,"dislikes":1,"content":"老师人超好 本人医学生\n\n认真写论文 嘻嘻嘻嘻嘻\n\n给分超级棒"},{"id":108510,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-05-27 10:16:18","like_diff":0,"likes":0,"dislikes":0,"content":"啥时候布置作业？\n\n"},{"id":112599,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-07-04 22:11:36","like_diff":0,"likes":1,"dislikes":1,"content":"非常棒的老师！看得出来医学水平和人文涵养很高！上课幽默风趣，布置作业的时候会反复强调，感觉很贴心。事情也不是很多，很有收获的一门课！"},{"id":112663,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-07-04 23:51:57","like_diff":0,"likes":1,"dislikes":1,"content":"老师讲的很有趣"},{"id":144312,"teacher_id":2436,"teacher_name":"余海","post_time":"2021-12-21 05:32:32","like_diff":0,"likes":0,"dislikes":0,"content":"上课评书讲的很不错，课很吸引人，但是内容其实和论文关系不大。论文一定要认真卷啊"},{"id":189782,"teacher_id":2436,"teacher_name":"余海","post_time":"2024-01-29 03:03:54","like_diff":0,"likes":0,"dislikes":0,"content":"每次都点名"},{"id":212906,"teacher_id":2436,"teacher_name":"余海","post_time":"2025-01-15 08:15:35","like_diff":0,"likes":0,"dislikes":0,"content":"课堂节奏很好 事少 绩慎"},{"id":217209,"teacher_id":2436,"teacher_name":"余海","post_time":"2025-04-04 10:36:50","like_diff":0,"likes":0,"dislikes":0,"content":"有趣的课堂"},{"id":218311,"teacher_id":2436,"teacher_name":"余海","post_time":"2025-04-22 12:09:46","like_diff":0,"likes":0,"dislikes":0,"content":"讲课讲的非常好，能看出来是很有水平的老师"},{"id":218446,"teacher_id":2436,"teacher_name":"余海","post_time":"2025-04-23 14:37:42","like_diff":0,"likes":0,"dislikes":0,"content":"绩点低"},{"id":99539,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-01-25 02:27:39","like_diff":-1,"likes":0,"dislikes":1,"content":"给分棒！"},{"id":162855,"teacher_id":2436,"teacher_name":"余海","post_time":"2022-12-06 15:17:12","like_diff":-1,"likes":2,"dislikes":3,"content":"余海老师的讲座能把无聊的内容讲的很生动~很喜欢这样的老师啦\n\n每节课都点名，人到了就没问题啦\n\n能学到很多知识，可以算科普的！！！\n\n期末论文好好写最后就没问题 4.8好拿的(＾－＾)V"},{"id":188321,"teacher_id":2436,"teacher_name":"余海","post_time":"2024-01-18 15:32:58","like_diff":-1,"likes":0,"dislikes":1,"content":"老师上的医学史很有意思，上课很风趣幽默！事少给分好（本人感觉）学了不亏"},{"id":100409,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-01-26 05:37:40","like_diff":-2,"likes":1,"dislikes":3,"content":"【医学史】老师是医者，学者，也是教育者啊。强烈安利医学史，能学到好多！（最喜欢在课上和小伙伴就老师讲授内容进行讨论啦！）日常不点名，期中一篇1000手写，期末一篇3000电子，论文都是医学主题的，感兴趣并且上课认真听的话很好写的！最后一节课老师还带我们梳理了一下3000的论文可以从哪些角度来写呢～不太清楚有没有正态 不过我差一分就能满绩呜呜呜呜 不过，能学到这么多东西我已经很满足啦！如果对医学感兴趣，真的推荐这门课程呐！"},{"id":172639,"teacher_id":2436,"teacher_name":"余海","post_time":"2023-05-03 03:38:49","like_diff":-4,"likes":0,"dislikes":4,"content":"水课，高分，冲"},{"id":190010,"teacher_id":2436,"teacher_name":"余海","post_time":"2024-02-08 14:13:26","like_diff":-9,"likes":2,"dislikes":11,"content":"md给了个85，不仅是我通识唯一一个没有上4的，还给我卡绩，服了"},{"id":112735,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-07-05 01:41:36","like_diff":-13,"likes":1,"dislikes":14,"content":"满绩了开心"},{"id":131066,"teacher_id":2436,"teacher_name":"余海","post_time":"2021-01-25 23:23:10","like_diff":-15,"likes":3,"dislikes":18,"content":"绩杀！认真写的论文，拉我均绩！！把我均绩往下拉了0.55气死了！！上课无聊的要死，还喜欢彪尬英语，无语！巨坑！"},{"id":89509,"teacher_id":2436,"teacher_name":"余海","post_time":"2019-01-04 06:36:10","like_diff":-18,"likes":3,"dislikes":21,"content":"正儿八经的论文一篇没有 权利欲望很重"},{"id":76625,"teacher_id":2436,"teacher_name":"余海","post_time":"2018-04-16 14:08:13","like_diff":-28,"likes":3,"dislikes":31,"content":"真的是 玩弄权利 不搞实际 这种老师 寄生虫"},{"id":75800,"teacher_id":2436,"teacher_name":"余海","post_time":"2018-07-17 07:04:32","like_diff":-41,"likes":5,"dislikes":46,"content":"心胸邪恶 社会毒瘤"},{"id":17537,"teacher_id":2436,"teacher_name":"余海","post_time":"2018-07-17 07:04:23","like_diff":-48,"likes":14,"dislikes":62,"content":"医学史绩点低！辣鸡！"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

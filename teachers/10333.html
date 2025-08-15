@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>雷海 - 物理学院 - 浙大教评</title>
+    <meta name="description" content="雷海教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="雷海,物理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">雷海</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">物理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">7.02</div>
+                    <div class="rating-participants">31人参与评分</div>
+                    <div class="attendance-info">23.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (1 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">大学物理（甲）Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.63</span>
+                            <span class="students">选课: 120人</span>
+                            <span class="std-dev">标准差: 1.04</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (26 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":201755,"teacher_id":10333,"teacher_name":"雷海","post_time":"2024-11-06 03:26:27","like_diff":21,"likes":21,"dislikes":0,"content":"不知道为啥评分那么低，我给的是10分\n\n好的方面：\n\n1，点名居然会提前通知！这可是大学物理啊，点名提前通知超过99%的大物老师，而且是数字点名\n\n2，作业不多，小测压力不大，作业每次不超过6道题，都是书上的，小测压力完全不大\n\n3，老师真的想教我们点什么，而不只是应付于大物考试，他是新老师，并不愿意完全按学校要求教一些死知识（这也正是不好的地方之一）\n\n不好的方面：\n\n主要是上课内容的问题，他上课很快，极快！其他老师讲到期中考时，他已经快讲到期末考了（这是真的，不是夸张）。但是小测的内容和其他老师是一样的，这点不用担心。他可能讲到第十章，但第一次小测和其他老师一样依然只考第一章 第二三次小测依然如此。还有就是上课英语教学，有时候叽里咕噜讲些什么我完全听不懂。\n\n\n\n总结一下：为什么我打10分呢，因为我选上了他的课但不听，而是听其他老师的智云。如果你选上他的课，建议还是别听了，听其他老师的智云。那你将会收获最好的大学物理体验"},{"id":199010,"teacher_id":10333,"teacher_name":"雷海","post_time":"2024-09-14 02:51:24","like_diff":14,"likes":19,"dislikes":5,"content":"抽象抽象"},{"id":202249,"teacher_id":10333,"teacher_name":"雷海","post_time":"2024-11-13 08:05:17","like_diff":10,"likes":11,"dislikes":1,"content":"点名是数字点名而且会提前通知，小测的形式与难度均很友善，老师和助教的性格也都很好，唯一的缺点是上课内容过得很快而且不以做题为导向。个人认为雷海老师的课非常适合有能力自学大雾或平时不学考试周速通的同学选\n\n更新：搞了个突袭雷达点名，无敌了"},{"id":199360,"teacher_id":10333,"teacher_name":"雷海","post_time":"2024-09-22 03:14:05","like_diff":9,"likes":12,"dislikes":3,"content":"抽象，讲得贼快，本来电场电容静电屏蔽那一块就很难，他直接带过了，现在开学两周直接干到磁场，根本消化不了这么快。此外全英文ppt，本来拿中文写ppt我都需要相当部分时间去理解物理原理了，现在还要花费额外的时间去理解英文，效率低了很多。大佬或许听得很爽，但对普通学生来说可能有点难吧。"},{"id":199092,"teacher_id":10333,"teacher_name":"雷海","post_time":"2024-09-30 01:57:02","like_diff":8,"likes":12,"dislikes":4,"content":"英文ppt，起飞的讲课速度，超多的作业量"},{"id":199106,"teacher_id":10333,"teacher_name":"雷海","post_time":"2024-09-18 00:32:47","like_diff":7,"likes":11,"dislikes":4,"content":"抽象至极，老师不要来折磨我们这些不是物理专业的学生了😭😭"},{"id":200934,"teacher_id":10333,"teacher_name":"雷海","post_time":"2024-10-25 04:13:38","like_diff":7,"likes":7,"dislikes":0,"content":"老师人很不错，很幽默对学生也很认真很耐心。对于教学有一套自己的想法，和其他老师不同，但是因为刚刚开始上大物课，对于要应试的同学来说，全英ppt，飞快的上课速度，知识的简单讲述，本身就需要加强学习的同学听起来会非常非常折磨，整个学期下来全在自学，只能说是一位很优秀的老师，但不适合来上大物这一门应试为主的课程"},{"id":209124,"teacher_id":10333,"teacher_name":"雷海","post_time":"2025-01-11 05:17:11","like_diff":7,"likes":7,"dislikes":0,"content":"小测压力几乎没有，很少点名，对物理学很有见解。给他打10分，因为不想辜负一个新老师对教学的热情。老师真的很爱物理学吧。\n\n\n\n出分了编辑：给分超特么好。"},{"id":199928,"teacher_id":10333,"teacher_name":"雷海","post_time":"2024-10-08 13:46:33","like_diff":6,"likes":7,"dislikes":1,"content":"很有水平的老师，全英ppt，注重物理思维培养，不关心解题应试，完全有去竺院教普物H的水准，只给我们上上大物真的是屈才了"},{"id":200314,"teacher_id":10333,"teacher_name":"雷海","post_time":"2024-10-16 01:34:03","like_diff":6,"likes":6,"dislikes":0,"content":"老师基本都是在拓展内容，PPT里的方法也比较超纲。非常适合有比较好的物理和数学基础，对于物理水平有自信，渴望得到提升，对于物理有兴趣的同学；很不适合本来学习物理就较为吃力的同学。老师人还是不错的，数字点名。"},{"id":205794,"teacher_id":10333,"teacher_name":"雷海","post_time":"2024-12-12 04:22:35","like_diff":6,"likes":6,"dislikes":0,"content":"老师人其实挺好的，作业不会很多，小测压力也不大，就是讲课全英文有点不好理解，估计大多数人都跟不上的吧，他是真的想教一些深层次的不拘泥于课本的知识，只不过是我太菜了，还是给十分吧，看其他老师的课也是能自学的"},{"id":211171,"teacher_id":10333,"teacher_name":"雷海","post_time":"2025-01-11 03:11:37","like_diff":5,"likes":5,"dislikes":0,"content":"不准黑我们伟大的雷海老师😭😭😭雷海是真好老师啊"},{"id":208234,"teacher_id":10333,"teacher_name":"雷海","post_time":"2024-12-26 09:16:47","like_diff":4,"likes":4,"dislikes":0,"content":"期末再评一次，老师后面的ppt换中文了。。。也是在不断调整自己的教学吧。总之老师人很好，讲课也不错，但是会偏难，对自己物理有自信的同学大胆选就行了，可以学很多东西"},{"id":211132,"teacher_id":10333,"teacher_name":"雷海","post_time":"2025-01-11 01:14:15","like_diff":4,"likes":4,"dislikes":0,"content":"老师是好人。不过第一次带大物课，导致上的内容比书上的难，要靠自学。"},{"id":199378,"teacher_id":10333,"teacher_name":"雷海","post_time":"2024-09-22 12:42:16","like_diff":3,"likes":4,"dislikes":1,"content":"折磨，虽然有基础但还是很折磨，主要是讲的太糙了"},{"id":201037,"teacher_id":10333,"teacher_name":"雷海","post_time":"2024-10-27 15:11:00","like_diff":3,"likes":3,"dislikes":0,"content":"不好，是雷神，我们没救了"},{"id":201677,"teacher_id":10333,"teacher_name":"雷海","post_time":"2024-11-05 10:19:41","like_diff":3,"likes":3,"dislikes":0,"content":"还可以"},{"id":211161,"teacher_id":10333,"teacher_name":"雷海","post_time":"2025-01-11 02:56:52","like_diff":3,"likes":3,"dislikes":0,"content":"讲的有点抽象…不过老师人挺好"},{"id":201025,"teacher_id":10333,"teacher_name":"雷海","post_time":"2024-10-27 08:51:45","like_diff":2,"likes":4,"dislikes":2,"content":"雷海老师好像是新老师，所以讲课的速度节奏会比较快，一般跟不太上，但是自学的话也差不多。老师之前好像一直是在国外授课，24秋讲课纯英文，理解起来确实问题很大，也导致自学任务加重了。不知道以后会不会改善。课内外拓展知识讲的很多，适合想要拓展自己视野的同学。作业量不太多，每次下课布置6道题左右，偶尔会有老师自己加的题目，但是题量不会增加。之前的小测是8选4做，感觉还行，认真复习是可以做出来的。老师人也比较平易近人，有的时候挺幽默的。点名基本都会提前通知，数字点名也有。\n\n总的来说我觉得适合喜欢拓展自己能力的同学，其他同学也可以选，只是学习感受可能不太充足。如果老师能够在以后的教学中有改进自己的教学模式方法的话就更好了。"},{"id":209180,"teacher_id":10333,"teacher_name":"雷海","post_time":"2025-01-05 02:34:28","like_diff":2,"likes":2,"dislikes":0,"content":"点名会提前说，小测也会提前说，小测压力小，老师和助教人都非常好，唯独就是对内容上有自己的见解，对大物有自信的可以选"},{"id":212480,"teacher_id":10333,"teacher_name":"雷海","post_time":"2025-01-14 05:14:48","like_diff":2,"likes":3,"dislikes":1,"content":"老师和助教都好好，出分很捞，感谢！"},{"id":199743,"teacher_id":10333,"teacher_name":"雷海","post_time":"2024-09-28 15:50:34","like_diff":1,"likes":2,"dislikes":1,"content":"据我朋友说很抽象"},{"id":200043,"teacher_id":10333,"teacher_name":"雷海","post_time":"2024-10-11 15:30:16","like_diff":1,"likes":3,"dislikes":2,"content":"大物甲全英文ppt你是心高气傲……0人听懂他在讲啥"},{"id":211142,"teacher_id":10333,"teacher_name":"雷海","post_time":"2025-01-11 01:41:21","like_diff":1,"likes":3,"dislikes":2,"content":"给分好"},{"id":200693,"teacher_id":10333,"teacher_name":"雷海","post_time":"2024-10-21 04:21:46","like_diff":0,"likes":0,"dislikes":0,"content":"笑飞了，讲什么啊在"},{"id":211456,"teacher_id":10333,"teacher_name":"雷海","post_time":"2025-01-11 13:20:41","like_diff":0,"likes":0,"dislikes":0,"content":"给分很好，老师和助教性格也很好！"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

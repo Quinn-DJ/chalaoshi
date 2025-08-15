@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赵璐 - 医学院 - 浙大教评</title>
+    <meta name="description" content="赵璐教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="赵璐,医学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">赵璐</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">医学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.65</div>
+                    <div class="rating-participants">101人参与评分</div>
+                    <div class="attendance-info">30.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (8 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">Medical Philosophy</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.03</span>
+                            <span class="students">选课: 6人</span>
+                            <span class="std-dev">标准差: 1.16</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">专业外语</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.43</span>
+                            <span class="students">选课: 27人</span>
+                            <span class="std-dev">标准差: 0.77</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">中药新药创制理论及设计</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.58</span>
+                            <span class="students">选课: 87人</span>
+                            <span class="std-dev">标准差: 0.31</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">从神农本草到现代中药</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.33</span>
+                            <span class="students">选课: 149人</span>
+                            <span class="std-dev">标准差: 0.33</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">现代医学概论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.84</span>
+                            <span class="students">选课: 24人</span>
+                            <span class="std-dev">标准差: 0.59</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">生命科学经典发现解读</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.20</span>
+                            <span class="students">选课: 442人</span>
+                            <span class="std-dev">标准差: 0.58</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">生理学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 2.91</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.86</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">药学专业英语</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.31</span>
+                            <span class="students">选课: 67人</span>
+                            <span class="std-dev">标准差: 0.53</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (83 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":61317,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2017-11-14 09:14:15","like_diff":35,"likes":41,"dislikes":6,"content":"真的真的很棒！上老师的课不仅在于生命科学知识，还有展示中我们平时不会注意的要点，最重要的是，文科生表示给分炒鸡好啊！"},{"id":76927,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-04-26 04:04:55","like_diff":22,"likes":30,"dislikes":8,"content":"不发言就等着被绩杀"},{"id":14081,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2016-01-04 06:24:29","like_diff":14,"likes":21,"dislikes":7,"content":"超级喜欢老师的课，而且很喜欢老师的气质！"},{"id":39905,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2016-12-28 06:57:56","like_diff":14,"likes":17,"dislikes":3,"content":"女神！！！"},{"id":32538,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2016-07-07 12:22:40","like_diff":13,"likes":16,"dislikes":3,"content":"老师气质非常宜人，而且表达流畅，语调亲切～～感觉老师的能力、态度、仪表等都是我们学习的榜样"},{"id":77227,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-05-04 03:52:48","like_diff":11,"likes":14,"dislikes":3,"content":"血的经验告诉大家...没发言的都奇低"},{"id":103553,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2019-03-01 03:40:10","like_diff":11,"likes":12,"dislikes":1,"content":"有人说没发言的成绩低，我觉得是真的。因为平时成绩按发言次数给分。其实老师的目的就是让大家走出来，勇于交流。生物好不好其实问题不大，主要评分标准是你是否认真对待发言和展示以及最后的论文。论文有字数上限，所以不用担心恶竞。老师很有气质，年龄方面代沟和我们也很小，给分超好，只要你勇敢发言！另外这门课对于ppt制作和展示也有很大的指导帮助，很能锻炼我们的综合能力！全班都会听课而不是水手机，作为通识课，这门课很棒！我上的是生命科学经典发现解读。?不过还有一个建议，因为有的同学为了避免被正态，会去选那些没回答过问题的，即使他们不举手不积极，美其名曰给没回答过问题的同学一个机会。这样正态的还是那些不回答问题的，但是提问者自身会更安全。我非常支持回答问题得分制度，但希望老师能够考虑下这个缺陷。"},{"id":66160,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-01-12 08:05:54","like_diff":9,"likes":9,"dislikes":0,"content":"人长得美学识丰富性格很好\n\n偶尔幽默 很贴近学生"},{"id":73315,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-02-01 10:09:35","like_diff":9,"likes":13,"dislikes":4,"content":"表示很佩服老师对通识课的精准定位，可能很多老师都没有认清通识到底是为了什么才要不就水，要不就给分差上的还不清楚，赵璐老师我觉得很注意让我们在课上锻炼展示的能力吧，文科生表示从老师身上也可以学习到很多，对医学生物学的同学帮助当然更大，给分真不差，不知道老师怎么做到的，开心O(∩_∩)O"},{"id":16465,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-07-08 09:01:51","like_diff":7,"likes":10,"dislikes":3,"content":"气质，有才！"},{"id":41943,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2017-01-13 09:21:14","like_diff":7,"likes":10,"dislikes":3,"content":"事少。讲得有趣。养生小讲堂。人亲和。绩点一般。"},{"id":90129,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-11-22 07:30:33","like_diff":6,"likes":6,"dislikes":0,"content":"不爱发言等着被绩杀"},{"id":90308,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-11-23 05:58:14","like_diff":6,"likes":6,"dislikes":0,"content":"抢不到发言的机会就哭唧唧了。。。"},{"id":41355,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2017-01-11 04:14:25","like_diff":5,"likes":8,"dislikes":3,"content":"老师很好，yale博士啊！课的事情也不多，虽然最后绩点有点渣"},{"id":61315,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2017-11-14 09:05:08","like_diff":5,"likes":7,"dislikes":2,"content":"很棒的老师"},{"id":80238,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-06-22 09:34:28","like_diff":5,"likes":5,"dislikes":0,"content":"耶鲁女神！人超萌超温柔超漂亮～课很有趣！事情也很少！好好做展示成绩不会差的！"},{"id":41353,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2017-01-11 04:05:14","like_diff":4,"likes":6,"dislikes":2,"content":"老师很好，很和蔼可亲，平易近人。课后事情不多，挺轻松的，还能学到好多知识。老师真的很棒！"},{"id":63979,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2017-12-20 11:34:28","like_diff":4,"likes":7,"dislikes":3,"content":"收获很大。。没作业\n\n有两次小组展示PPT，绩点不太高"},{"id":89515,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-11-19 10:59:01","like_diff":4,"likes":5,"dislikes":1,"content":"老师很可爱啊。虽然如果高中学了生物的话一些知识会比较重复，但还是有一些比较有意思的东西。课上发言很重要。最后写英文论文的话比较累，可以提前准备下，写的有意思的话分还是很高的。给分很好啊不多说了。\n\n"},{"id":124743,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2020-07-07 17:15:37","like_diff":4,"likes":5,"dislikes":1,"content":"棒！通识3.3，虽然正太，但是感觉上课很舒服，也没有什么遗憾。建议大家选通识课不要选14个人左右的小班，容易成为大佬们的跳板～"},{"id":41361,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2017-01-11 04:52:13","like_diff":3,"likes":6,"dislikes":3,"content":"上的是老师的营养健康之艺术，通识，上课就像养生讲座，比较放松吧，课后没作业，有时课堂小测，期末展示PPT，没有论文。还是能学到很多的，比较接地气的课程，压力小，给分也好。"},{"id":76925,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-04-26 03:51:04","like_diff":3,"likes":4,"dislikes":1,"content":"太棒啦!"},{"id":91354,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-12-06 07:39:42","like_diff":3,"likes":3,"dislikes":0,"content":"教训，一定要积极回答问题"},{"id":92208,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-12-27 04:58:30","like_diff":3,"likes":4,"dislikes":1,"content":"老师脾气很好，也很漂亮，讲的内容很多是和高中生物差不多的，不过这门课最大的收获是展示和ppt的制作。然后就是要发言，恶竞很激烈，并且很多人问的问题质量真不怎么样，希望老师能把这个制度再改进改进。一个学期一次展示一个英文论文，还好吧"},{"id":161424,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2022-11-07 01:39:48","like_diff":3,"likes":3,"dislikes":0,"content":"赵璐老师真的是女神级别的老师！！！强力推荐赵老师的课(●°u°●)​ 」\n\n在老师的课上收获了大学的第一门满绩，更收获了很多有趣的生物知识以及敢于去交流和展示的勇气。作为Yale毕业的doctor，老师真正诠释了何为深入浅出，讲授专业知识点时不忘穿插时事热点及各种好笑的point，attractive enough and fruitful enough！"},{"id":39112,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2016-12-21 07:59:53","like_diff":2,"likes":4,"dislikes":2,"content":"。。。。"},{"id":39113,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2016-12-21 07:59:55","like_diff":2,"likes":4,"dislikes":2,"content":"。。。"},{"id":61403,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2017-11-16 10:32:57","like_diff":2,"likes":3,"dislikes":1,"content":"老师是真的好看！"},{"id":84848,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-07-14 05:06:46","like_diff":2,"likes":2,"dislikes":0,"content":"老师人很温柔，给分也很好！不过我是上的营养与健康这门课"},{"id":89529,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-11-19 11:40:00","like_diff":2,"likes":2,"dislikes":0,"content":"给分很好，老师气质也很好，最后的论文定上限太优秀了！！"},{"id":89531,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-11-19 11:43:38","like_diff":2,"likes":2,"dislikes":0,"content":"老师很有气质，讲课也很有内容，认真听收获也蛮多，文科孩子觉得给分也很好"},{"id":119329,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2019-11-12 05:58:35","like_diff":2,"likes":3,"dislikes":1,"content":"自己认真查资料写期末论文 改改写写弄了很久 最后论文满分? 老师评分真的蛮合理的 女神！"},{"id":161444,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2022-11-07 03:58:02","like_diff":2,"likes":2,"dislikes":0,"content":"课上完了，绩点4，8简单评价一下\n\n1 一定要发言！！！！！平时成绩占十分呢！\n\n2 论文一定要好好写 就当拓展知识面 只要有自己的想法 有逻辑 别抄袭 分都会很高\n\n3 小组展示一定不要超时了 控制好时间 内容贵精不贵多 ppt字数以一定要少一点 展示的时候要有互动 英语不好不要硬凹 讲清楚是最重要的 \n\n总之 你好好学了，老师会给高分的 努力和收获还是成正比的！"},{"id":182580,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2023-11-17 16:17:28","like_diff":2,"likes":4,"dislikes":2,"content":"老师人超好，挺温柔的\n\n这学期说要转国际化了但是还是保留了很多的中文说明，对我这种英语学渣很友好，不清楚下次开课如何\n\n一定要回答问题！本人就抢到了一次发言，但是起评分挺高的\n\n老师对pre的要求挺高的，经常提意见（比如不要在PPT上放长段文字，此外老师好像挺认可组员切换的时候互相介绍的），内容不是完全专业化的内容（而且因为受众也不建议太专业化），也会混杂一些人文相关的选题\n\n论文限制篇幅上限所以根本不会卷！我一时不慎选了一篇水论文读但是最后论文部分打分不错\n\n上课可以水但是听一听也蛮有意思，大部分是高中生物范畴的知识，讲的很易懂"},{"id":41350,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2017-01-11 03:51:30","like_diff":1,"likes":3,"dislikes":2,"content":"给分很好呀，课后事情也不多，而且是女神~"},{"id":42135,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2017-01-13 15:50:56","like_diff":1,"likes":6,"dislikes":5,"content":"很有收获 给分很好。没作业，期末没考试，只要好好听课就有高绩点"},{"id":61316,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2017-11-14 09:09:18","like_diff":1,"likes":3,"dislikes":2,"content":"差一点满了"},{"id":61339,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2017-11-15 00:57:03","like_diff":1,"likes":2,"dislikes":1,"content":"老师可爱又温柔 给分好～(￣▽￣～)~"},{"id":76923,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-04-26 03:36:55","like_diff":1,"likes":5,"dislikes":4,"content":"我的天，神仙老师，课上得好，事不多，给分还好，不选不是人啊兄弟"},{"id":81031,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-07-03 11:20:41","like_diff":1,"likes":2,"dislikes":1,"content":"营养与健康之艺术强推！事儿少分高"},{"id":89543,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-11-19 12:39:45","like_diff":1,"likes":3,"dislikes":2,"content":"中文授课，英文ppt，一次展示加一篇两页纸以内的期末英语论文，上课举手发言算分。\n\n抢不到举手发言机会，难受。展示第一个组，难受。期末论文满分，小开心。4.8。"},{"id":89701,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-11-20 10:19:09","like_diff":1,"likes":3,"dislikes":2,"content":"wonderful!\n\n生物渣渣，4.8"},{"id":90305,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-11-23 05:47:40","like_diff":1,"likes":3,"dislikes":2,"content":"只要你发言够多 论文好好写 绩点就很好 课程内容挺丰富的 但感觉发言分占太高了 许多同学的发言都是为了发言而发言。绩点很好 但感觉没学到什么东西。老师人还是很可爱的"},{"id":106458,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2019-04-27 14:38:03","like_diff":1,"likes":1,"dislikes":0,"content":"论文查重很严格，被查到大段抄袭绩点会很低。"},{"id":106676,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2019-04-29 02:21:10","like_diff":1,"likes":2,"dislikes":1,"content":"小组里要有学生物的大佬带就可以躺赢，没有的好好举手写论文。老师给调分了超级感动！"},{"id":119332,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2019-11-12 06:02:49","like_diff":1,"likes":2,"dislikes":1,"content":"我真的好爱她啊啊啊，她真的是一个很好很好的老师，很会体贴人，气质巨好，很照顾我们学文科的没有什么理论背景的同学。展示爆炸，只举手了一次，论文满分，绩点强行拉我上4。我还想上老师的课。"},{"id":119333,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2019-11-12 06:02:27","like_diff":1,"likes":2,"dislikes":1,"content":"很喜欢老师，特别温柔可爱，虽然最后被正态了，还是给老师十分。只能说论文和发言真的很重要。"},{"id":119342,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2019-11-12 07:03:05","like_diff":1,"likes":2,"dislikes":1,"content":"人超棒，论文不存在恶竞，必须10"},{"id":135659,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2021-05-18 06:39:34","like_diff":1,"likes":1,"dislikes":0,"content":"老师好美(´，，•ω•，，)♡兼具学识与气质的优雅女性！！"},{"id":152725,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2022-04-19 02:34:33","like_diff":1,"likes":1,"dislikes":0,"content":"上的是老师的通识课，老师很负责任，最后的打分也很公平细致透明，上课的内容也很充实，能感受到老师真的是喜欢生物的，不仅仅是应付式的上课。而且老师很漂亮温柔，也很有智慧，上老师的课是一种享受"},{"id":161480,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2022-11-07 12:29:06","like_diff":1,"likes":1,"dislikes":0,"content":"老师非常好，10分。给分很好（我只回答一次问题，绩点4.5，还担心过回答问题少会被绩杀，基本不是这样的）。鼓励学生回答问题，不过回答问题会很卷的…强烈建议高中没选生物的同学选！"},{"id":163087,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2022-12-07 07:20:37","like_diff":1,"likes":1,"dislikes":0,"content":"老师很好！课还蛮适合文科生的，事情很少，不过要注意发言！还有就是pre要好好弄。"},{"id":164623,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2022-12-22 09:28:43","like_diff":1,"likes":2,"dislikes":1,"content":"上课认真发几次言，分就不会太低"},{"id":172122,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2023-04-20 03:08:17","like_diff":1,"likes":2,"dislikes":1,"content":"吹爆赵老师好吧，给分简直太好了，课也非常有意思"},{"id":192361,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2024-05-16 11:18:46","like_diff":1,"likes":1,"dislikes":0,"content":"老师很有气质，好好听一定有收获的"},{"id":197357,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2024-07-11 09:09:41","like_diff":1,"likes":1,"dislikes":0,"content":"好老师，发言能反应一个人的水平，对学生很公正"},{"id":217323,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2025-04-08 12:42:17","like_diff":1,"likes":1,"dislikes":0,"content":"我是上的老师的那个生命科学经典的国际化，我觉得老师真的很好啊！人美心善负责任，钉钉上戳她她都很快能回的，然后课程内容也很丰富，英语口语也很不错，感觉无论是不是医学药学生物相关专业的同学都可以听听，很好的一门生物类的通识课！虽然我不是这类专业的，而且生物只有高中学考水平，但其实也不咋影响，整体是蛮充实有趣的，我每节课都有认真听，也学到了很多。而且归根到底这课的任务就只有小组展示+写一篇约等于两篇英语高考大作文量的英文小短文。课堂发言其实也不用很多，课上会有很多机会，大胆举手就好，事少分高，而且老师出分很快，很不错很不错。非常推荐大家选！"},{"id":61224,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2017-11-12 14:57:35","like_diff":0,"likes":4,"dislikes":4,"content":"十分没商量"},{"id":61341,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2017-11-15 02:04:38","like_diff":0,"likes":2,"dislikes":2,"content":"上的是老师的生命科学新发现，老师很可爱，课也很有趣，能学到很多东西，平时就两个展示和一篇课程总结，文科生对生命科学有兴趣的可以来哦，推荐推荐，老师超好的，给分也高哦～"},{"id":61418,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2017-11-17 02:59:31","like_diff":0,"likes":4,"dislikes":4,"content":"老师是真的可爱，给分也好~差一点就满了"},{"id":74867,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-03-06 07:06:40","like_diff":0,"likes":3,"dislikes":3,"content":"老师萌萌哒超级棒～生命科学新发现概论 平时上课挺有意思 没有考试 两次简单的小展示就好了（第一次有主题第二次自选主题）老师分组会文理搭配 很照顾文科生啊超有爱超友好～ 最后一个几百字的课程总结及建议，超省事儿！既有料又不烦！给分也不错呢～"},{"id":89513,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-11-19 10:57:01","like_diff":0,"likes":2,"dislikes":2,"content":"真的很好满绩，给分超级温柔啊啊啊啊啊啊啊，今天查到分数了，真的觉得自己没做什么，居然满绩了"},{"id":89538,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-11-19 12:15:45","like_diff":0,"likes":1,"dislikes":1,"content":"老师是耶鲁博士，超级有气质，只要认真写论文，多发言，给分就很好！"},{"id":89970,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-11-21 11:59:55","like_diff":0,"likes":1,"dislikes":1,"content":"吹爆老师！温柔好看给分好！"},{"id":91439,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-12-10 08:14:57","like_diff":0,"likes":1,"dislikes":1,"content":"理科生可能会觉得内容不足，但是老师教的东西不只是生科知识，上课风格很温柔。一定要多回答问题！"},{"id":92940,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2019-01-06 05:48:19","like_diff":0,"likes":3,"dislikes":3,"content":"很年轻的学霸老师，课程作业包括一次小组展示，一个全英文的论文（不超过两页word她说她懒得看），要是不感兴趣就不要选了，压力还是很大的，绩点是真的低，尤其对我这种水的。"},{"id":119322,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2019-11-12 05:37:39","like_diff":0,"likes":1,"dislikes":1,"content":"给分不迷"},{"id":130733,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2021-01-24 11:53:23","like_diff":0,"likes":1,"dislikes":1,"content":"老师很有气质很温柔\n\n生命科学经典发现解读对文科生很友好，分组会根据专业进行调整，发言次数会计入成绩（有两次发言忘记报上去，枯辽）。总共就一次pre和期末小论文，事少分高。"},{"id":163816,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2022-12-16 07:25:01","like_diff":0,"likes":2,"dislikes":2,"content":"老师真的yyds\n\n只要上课发言，绩点不会差，老师特别有气质，讲的真的好，能学到很多，水的话也可，不水也可"},{"id":165926,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2023-01-10 11:42:57","like_diff":0,"likes":2,"dislikes":2,"content":"生命科学经典发现解读：上课很难抢到发言机会，最后发言分5/10有点难过。但是老师的论文给分还是很友好的!只要英语水平不错，愿意认真阅读英文科研报告并进行paraphrase的友友都可以选～"},{"id":182992,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2023-11-21 11:09:38","like_diff":0,"likes":1,"dislikes":1,"content":"老师超好超温柔，一直注重培养我们解决问题的能力，就是全英文强度有点大，拿不到满绩怪我英语太差了"},{"id":201900,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2024-11-07 09:00:08","like_diff":0,"likes":0,"dislikes":0,"content":"虽然她说展示环节的问答也算问答，回答了三个问题左右，可是最后没有算。"},{"id":41529,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2017-01-12 06:35:41","like_diff":-1,"likes":4,"dislikes":5,"content":"讲的好。给分不好，经常小测"},{"id":61352,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2017-11-15 04:59:12","like_diff":-1,"likes":1,"dislikes":2,"content":"生命科学新发现概论，以老师教学和小组展示的形式为主。期末有一篇反思报告。不仅能了解更多的知识，给分也不错。"},{"id":66213,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-01-13 09:39:02","like_diff":-1,"likes":2,"dislikes":3,"content":"还不错。。讲课跟讲故事一样\n\n\n\n两次展示，一次读书报告，事不多"},{"id":90815,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2018-11-26 08:45:17","like_diff":-1,"likes":0,"dislikes":1,"content":"老师的课挺好的，给分也不错。不过上课一定要发言"},{"id":108038,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2019-05-13 16:50:42","like_diff":-1,"likes":0,"dislikes":1,"content":"棒！开心"},{"id":119334,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2019-11-12 06:04:39","like_diff":-1,"likes":0,"dislikes":1,"content":"人美心善好老师！给分很好！上课也很有趣！虽然发言也没抢到几次但是课堂表现的分给的还是很高呀！爱宁！"},{"id":119540,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2019-11-13 11:12:16","like_diff":-1,"likes":1,"dislikes":2,"content":"老师超好，气质不凡，温柔宽容，男生福利！"},{"id":106231,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2019-04-26 01:03:34","like_diff":-2,"likes":2,"dislikes":4,"content":"给分好奇怪"},{"id":123873,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2020-06-15 14:25:49","like_diff":-2,"likes":0,"dislikes":2,"content":"事情不多，给分相当好，人美心善，i了i了"},{"id":60176,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2017-10-12 06:31:43","like_diff":-3,"likes":2,"dislikes":5,"content":"老师很有气质，但是比较倾向于医科，生物的同学，像我这种文科生只有崩(ಥ_ಥ)"},{"id":100508,"teacher_id":1880,"teacher_name":"赵璐","post_time":"2019-01-26 08:25:22","like_diff":-4,"likes":5,"dislikes":9,"content":"期末论文要求是近五年最新的生科方面的研究成果 辛辛苦苦看了nature翻了很多文献写的全英论文 分数奇低 想不通问老师 老师说：你没有提出自己的质疑。 我要是能对nature研究成果提出质疑我还上你这个课干嘛请问？你质疑一下nature看看？ 另外 不发言等着被绩杀 不要等最后发言 你发言了一次之后 后面的机会都会被让给没有发过言的同学…"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

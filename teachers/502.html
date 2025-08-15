@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陶磊 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="陶磊教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="陶磊,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">陶磊</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">7.05</div>
+                    <div class="rating-participants">237人参与评分</div>
+                    <div class="attendance-info">32.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (5 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">《周易》与中国文化</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.45</span>
+                            <span class="students">选课: 21人</span>
+                            <span class="std-dev">标准差: 0.41</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">中国古代史（上）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.54</span>
+                            <span class="students">选课: 93人</span>
+                            <span class="std-dev">标准差: 0.72</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">古史传说研究</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.36</span>
+                            <span class="students">选课: 11人</span>
+                            <span class="std-dev">标准差: 0.16</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">四书与中华民族精神</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.95</span>
+                            <span class="students">选课: 269人</span>
+                            <span class="std-dev">标准差: 0.63</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">秦汉法制史研究</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.30</span>
+                            <span class="students">选课: 118人</span>
+                            <span class="std-dev">标准差: 0.37</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (207 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":16720,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-11-25 16:36:42","like_diff":68,"likes":145,"dislikes":77,"content":"努力背了64卦 努力写了接近10000字的论文。只有66分 室友挂了，不多说了。"},{"id":38500,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-12-07 07:04:04","like_diff":64,"likes":109,"dislikes":45,"content":"估计我的评论是没人看得到了，但是还是忍不住说几句。前面的同学有点过分了，被挂科不开心我能理解，但骂老师垃圾这种话是浙大学生应该说的吗？我是历史系的，刚刚上过陶老师的中国古代史专业课，分数还没出，但上老师的课受益确实匪浅。陶老师很有水平，前面乱喷的人请先读一读他的《斯文及其转型研究》以及他的博士论文，读懂了再来对他的水平进行评价。顺便一说，陶老师的博导是李学勤先生。所以那些东拼西凑的一万字论文就不要拿出来说了，自己的水平达不到老师的要求是你的问题。"},{"id":16926,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-11-25 16:36:50","like_diff":60,"likes":104,"dislikes":44,"content":"哈哈哈哈哈哈哈【苦笑】这不是绩杀可以形容了这他妈就是绩点食人花啊"},{"id":16782,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-11-25 16:36:46","like_diff":36,"likes":81,"dislikes":45,"content":"我挂了。而且58挂的。我论文大概写了7000字每节课都去，只是因为测验题写的不对。挂科了。不多说了吧，我跨不了大类了。"},{"id":38558,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-12-08 11:59:23","like_diff":32,"likes":55,"dislikes":23,"content":"看不惯那些嘴里不干净的学生，身为浙大的学生就这种水平吗？陶老师当年是社科院和中科院双培养的，是李学勤先生的高足。难道你们都是抱着水课的目的来浙大的吗！"},{"id":65325,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-01-03 04:08:54","like_diff":32,"likes":41,"dislikes":9,"content":"说老师差的人不知道是抱着怎样的心态来选这门课的。。。。陶磊老师专业水平很好，讲课很投入，能学到很多东西。人也很好，会很耐心地答疑(哪怕是因为上课走神没听到的内容)。周易课没有作业，期中考只要认真背了六十四卦都可以过，期末论文好好写，怎么会绩杀"},{"id":16812,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-19 04:22:54","like_diff":28,"likes":64,"dislikes":36,"content":"他毁了我专业 如果我自己没听课没交论文那我认 我花心血8000字论文光参考文献都十几本 还是挂了 gpa掉了0.3对跨大类门槛的人伤害致命  无话可说"},{"id":10959,"teacher_id":502,"teacher_name":"陶磊","post_time":"2015-11-23 12:38:36","like_diff":25,"likes":44,"dislikes":19,"content":"认真老师的考试都是坑爹的这句话没有错\n\n╭(°A°`)╮"},{"id":14200,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-11-25 16:36:56","like_diff":24,"likes":58,"dislikes":34,"content":"呵呵哒了 给分低 反正我分低据说还有挂科的"},{"id":14971,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-11 10:06:30","like_diff":23,"likes":35,"dislikes":12,"content":"给分低 上课太催眠了"},{"id":15545,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-15 08:22:44","like_diff":23,"likes":47,"dislikes":24,"content":"给分机制挺坑的 没有平时出勤分 就算课认真听每次都去上课考不好也都拿低分 他上课时说测验没考好的论文分数不高的就有可能挂 我现在一万个后悔选了这课"},{"id":16786,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-12-09 09:57:47","like_diff":23,"likes":63,"dislikes":40,"content":"64卦我背了。论文我写了两倍要求字数。但58挂的科。一开始就打算去自己喜欢的专业，但因为这门课绩点怒掉。去不了了，心如死灰。万万没想到死在一门通识"},{"id":23202,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-03-21 23:50:19","like_diff":23,"likes":33,"dislikes":10,"content":"大家的意思是写了那么多字至少给及格吧，而不是说自己写的多好。通识课啊，这么较真给不及格的老师我真是服了。期中考试100分很容易和别人拉开50+的差距，这样折算就是总评直接差了15分以上 期末论文的相对来说差距并不会很大，期中考爆，期末你就一点机会都没有，不是不及格就是低分划过。"},{"id":50537,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-05-03 10:25:33","like_diff":23,"likes":33,"dislikes":10,"content":"评论好惨烈，但是我想说四书最后93，绩点4.8  期中是默写论语述而，这个满分不难，期末是3000字论文，我写了6000字，不知道评论挂科和低空的怎么回事。讲课是真心好，虽然催眠，但是材料翔实，观点有深度，很温厚的风格。现在最后悔的就是没有好好听课，只认真听了几次...多大的损失啊。"},{"id":14108,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-04 14:07:41","like_diff":22,"likes":53,"dislikes":31,"content":"考试巨坑爹…还有…他的通识课是能挂科的 高亮 慎选！！！"},{"id":15150,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-11-25 16:37:02","like_diff":22,"likes":53,"dislikes":31,"content":"上课每次都去听，期末论文拼死了的写了个七千多，还给我挂掉，专业什么的已无欲无求。"},{"id":16889,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-19 07:23:58","like_diff":21,"likes":40,"dislikes":19,"content":"大一新生还是不要选他的课吧 风险太大了 我挂啦哈哈哈哈哈哈"},{"id":16892,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-19 07:45:33","like_diff":21,"likes":41,"dislikes":20,"content":"如果评选全浙大最坑爹通识课 此课称第二别的课不敢称第一"},{"id":14988,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-11 12:08:45","like_diff":20,"likes":33,"dislikes":13,"content":"真的好困啊。。。我数了一下全班估计就六个人能在听的。。。。"},{"id":31685,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-07-04 13:10:29","like_diff":20,"likes":42,"dislikes":22,"content":"感觉是历史系最牛的老师之一！学识渊博，治学严谨。上老师的秦汉法制史思路很清晰，越上越有兴趣！就是论文有些难写。。还有，通识挂科是自己做死抄袭，和老师没有关系。连学术道德都不讲还想保研？私以为不按照考场作弊取消学位已经算轻的了←_←"},{"id":32814,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-07-15 04:48:44","like_diff":20,"likes":35,"dislikes":15,"content":"陶老师的课是那种不好好听课、论文写不好、考试考不好就会挂科的人……论文写得好不好，不是看你写了多少字，也不是看你引用了多少文献，好论文就是好论文，渣论文就是渣论文……看到上面的论文十分寒心……陶老师最大的问题，大概就是不水吧？"},{"id":41465,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-01-12 00:41:59","like_diff":20,"likes":23,"dislikes":3,"content":"虽然只有61还是给了10分，老师水平还是挺高的\n\n"},{"id":50680,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-05-04 08:08:51","like_diff":19,"likes":23,"dislikes":4,"content":"历史系学术能力最好的老师之一，也是目前历史系魏晋南北朝以前唯一的一位老师。对待学术认真严肃，想水水过的人最好不要选。"},{"id":16822,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-11-25 16:37:27","like_diff":18,"likes":41,"dislikes":23,"content":"挂咯 呵呵 通识课也能挂 活久见"},{"id":16838,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-11-25 16:37:22","like_diff":17,"likes":39,"dislikes":22,"content":"挂了 呵呵"},{"id":77113,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-05-02 08:28:40","like_diff":17,"likes":19,"dislikes":2,"content":"真的要来证明陶老师真的赞赞?\n\n课上的那么好的老师不多的！\n\n不点名 期中认真准备都给满\n\n论文写出见解要求也不会严\n\n我就三千多一点点4.8\n\n有兴趣的真的可以选 客观而真诚"},{"id":67616,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-01-22 02:00:51","like_diff":16,"likes":17,"dislikes":1,"content":"好好背卦 认真写论文（字数不用太多 认真写就行） 拿了4.8 \n\n  不要被有些人误导 老师上课很认真也严谨 是不水的课 真正想学东西推荐选"},{"id":11762,"teacher_id":502,"teacher_name":"陶磊","post_time":"2015-12-28 07:11:16","like_diff":15,"likes":28,"dislikes":13,"content":"困死了"},{"id":16748,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-11-25 16:37:47","like_diff":15,"likes":31,"dislikes":16,"content":"给分低，后悔选课了"},{"id":16921,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-11-25 16:37:37","like_diff":15,"likes":30,"dislikes":15,"content":"挂了哦 真无语"},{"id":16923,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-19 09:15:21","like_diff":15,"likes":31,"dislikes":16,"content":"选他的课是我大一最错误的决定 不仅给分垃圾 人态度也不好"},{"id":24459,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-04-30 14:32:49","like_diff":15,"likes":25,"dislikes":10,"content":"看了那么评论，不好意思说了，他似乎只对我们历史系学生有偏爱。从上面均绩看应该是的。"},{"id":49960,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-04-27 15:55:50","like_diff":15,"likes":22,"dislikes":7,"content":"上了陶老师的《四书》，感觉他每次上课一开始听起来比较无聊，但讲着讲着总会讲到很能给人启发的东西。有一次《论语·述而》默写，平时背一背《论语》，满分不难；最后交一篇论文，注明参考文献，写一些自己的感悟，不必写太多，三四千字就够。我最后拿了4.5。"},{"id":69718,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-01-25 09:10:48","like_diff":14,"likes":14,"dislikes":0,"content":"老师讲课挺深刻的，内容充实，只要自己认真对待，成绩也不会太差，老师给分挺不错的。"},{"id":16928,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-19 09:23:44","like_diff":13,"likes":27,"dislikes":14,"content":"光我知道的就好几个挂科的了 包括我"},{"id":17515,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-21 00:57:43","like_diff":13,"likes":24,"dislikes":11,"content":"这门课挂了 不给活路"},{"id":51699,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-06-08 11:06:47","like_diff":13,"likes":18,"dislikes":5,"content":"槽点难道不是学生学了作业交了他还给挂么。。这里说的人没看见要求高分了什么的。。你拿你自己的标准去要求可以啊，接受低分啊，为什么没旷课没旷考给人挂科？恕我直言我论文自己写的一个字没抄，59，对你没看错就是59。评论里有些同学没经历过莫名被挂的同学的心情就别站着说话不腰疼了行么。"},{"id":16758,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-11-25 16:37:53","like_diff":12,"likes":27,"dislikes":15,"content":"上课讲的很无聊，给分不好。"},{"id":41651,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-01-12 09:51:08","like_diff":11,"likes":12,"dislikes":1,"content":"如果不是非常感兴趣、千万不要去听，上课一不留神就跟丢，不过老师还是很认真的吧……没有其他评论说的这么恐怖"},{"id":22125,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-03-02 12:06:56","like_diff":10,"likes":18,"dislikes":8,"content":"论文没深度分低可以理解…………但挂科真的挺……大家也都是认真写的字数全超额"},{"id":22128,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-03-02 12:13:37","like_diff":10,"likes":19,"dislikes":9,"content":"我是挂科的，虽然并不认为自己论文写的非常有深度，也不要求高分，但是我觉得我字数超很多也有很多参考应该足够及格啊………我也写了很久的，还是挂了，打电话感觉老师有点逃避这个事情然后态度一般"},{"id":62916,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-11-27 10:42:47","like_diff":9,"likes":10,"dislikes":1,"content":"老师上的历史系的专业选修课是很有收获的，陶老师有很多自己的独到见解，他的课你认真听是可以学到很多的"},{"id":67670,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-01-22 04:46:09","like_diff":9,"likes":15,"dislikes":6,"content":"上的是周易与中国文化，不同同学境遇也不一样，我就说说我的看法。个人认为周老师讲得挺好的，如果你感兴趣的话他说的内容还是挺有意思的，也好接受。问他问题他也会耐心解答。64卦好好背啊，论文不是前人说的内容的堆砌来添字数，说说自己的观点想法。（本来以为能满绩，结果只有4.8…【删除】哎我知道你们要踩的，那就踩吧，可怜的我也就只能靠靠通识课拉拉学分了）"},{"id":105922,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-04-28 09:26:04","like_diff":9,"likes":9,"dislikes":0,"content":"老实讲，老师水平太高，上通识课太可惜了，浪费时间精力"},{"id":176315,"teacher_id":502,"teacher_name":"陶磊","post_time":"2023-06-28 10:50:59","like_diff":9,"likes":9,"dislikes":0,"content":"7／10\n\n上的中国古代史课，老师讲课自成体系，有自己对于历史的思考，但是学到的先秦史具体知识很少，更多得讲理论。很爱谈哲学，但是谈到哲学范畴，就会讲得混乱，思维不清晰，存在中西偏见。"},{"id":16990,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-19 11:32:09","like_diff":8,"likes":19,"dislikes":11,"content":"呵呵 绩杀"},{"id":17022,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-19 13:05:30","like_diff":8,"likes":20,"dislikes":12,"content":"看到分数的我是崩溃的"},{"id":17615,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-20 13:39:38","like_diff":8,"likes":23,"dislikes":15,"content":"珍爱生命，远离陶磊"},{"id":22829,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-03-13 06:59:29","like_diff":8,"likes":16,"dislikes":8,"content":"之前的分明明2.7 为嘛突然变成7点多？"},{"id":74933,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-03-06 13:55:00","like_diff":8,"likes":11,"dislikes":3,"content":"很有水平的老师。看了那么多评论。只想说大一学生确实在诸多方面欠缺，遇到高水平高要求的老师是很大的挑战，问题在于，多次退课机会都没有退课，为什么不好好提升自己的知识水平与论文写作水平呢？\n\n另外论文不在于字数，也不在于你是不是都是自己写的，一点都不参考的论文，恕我直言，学者都写不出来吧？论文的质量在于行文逻辑参考文献是否有新见解新方法新材料等等。见过许多大一学生盲目恶竞，确实是不认清自己的水平就好高骛远。"},{"id":77110,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-05-02 08:15:14","like_diff":8,"likes":11,"dislikes":3,"content":"4.8嘻嘻。真的是很好的老师，绝对不水，讲课超级棒满堂都是干货每节课笔记能记一大堆老师特别严谨认真学术，结合当下的时代问题确实能引发很多思考，被哲学三问困惑得不行的时候好好听课感觉能得到灵魂的升华。期中测验默写论语述而篇只要好好背很容易满分。论文好好写保持严谨就行，我就写了3k。我是中文系的。"},{"id":77554,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-05-06 12:13:35","like_diff":8,"likes":8,"dislikes":0,"content":"很渊博，认真听很有收获，很感谢老师的高绩点，比心(｡･ω･｡)ﾉ♡"},{"id":134674,"teacher_id":502,"teacher_name":"陶磊","post_time":"2021-04-08 10:34:57","like_diff":8,"likes":9,"dislikes":1,"content":"有时候真的很心疼老师。老师人蛮好的其实"},{"id":156569,"teacher_id":502,"teacher_name":"陶磊","post_time":"2022-06-20 09:33:08","like_diff":8,"likes":9,"dislikes":1,"content":"磊磊，为了你，我变成狼人模样，守护全世界最好的磊磊。（他真的很可爱，长的很凶但其实很随和，对学生很有礼貌，解答问题你说谢谢他一定要回一句不客气的那种，思想也很深刻虽然我现在还理解不了，但是不妨碍我崇拜磊磊!）"},{"id":16930,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-19 09:29:05","like_diff":7,"likes":22,"dislikes":15,"content":"上面的评论就是我要说的"},{"id":16934,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-19 09:31:19","like_diff":7,"likes":20,"dislikes":13,"content":"很想知道那个3.58是不是真实数据"},{"id":16989,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-19 11:28:40","like_diff":7,"likes":17,"dislikes":10,"content":"挂了 世界再见吧 很后悔"},{"id":17360,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-20 05:46:06","like_diff":7,"likes":18,"dislikes":11,"content":"别选 巨坑"},{"id":21365,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-02-28 09:14:06","like_diff":7,"likes":16,"dislikes":9,"content":"很差 讲的困 给分烂"},{"id":21811,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-03-01 07:05:27","like_diff":7,"likes":17,"dislikes":10,"content":"分为什么突然变高了？"},{"id":21837,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-03-01 08:00:23","like_diff":7,"likes":14,"dislikes":7,"content":"分数有毒"},{"id":55744,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-07-02 10:04:21","like_diff":7,"likes":9,"dislikes":2,"content":"论文评分不是按字数来算的，是按论文质量来算的"},{"id":67997,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-01-22 12:56:00","like_diff":7,"likes":11,"dislikes":4,"content":"觉得每个学周易的人都特别可爱，因为都认为自己的理解很有道理hhh我觉得陶老师水平还是蛮高的，上课材料准备也很充分。教给了我读周易的另一种路径，开阔了我的思路。最后我决定以后回浙大教周易，给诸位都满绩。（逃"},{"id":77109,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-05-02 08:11:51","like_diff":7,"likes":7,"dislikes":0,"content":"老师人真的很nice啊，课上讲的东西其实超优秀的。平时不点名，最后一次期中考试，37条论语稍微背一下都没问题，期末论文完全没有恶竞啊，要求3000字以上，4000左右就OK了！除了老师本人的确是不修边幅........但是课很好啊"},{"id":156455,"teacher_id":502,"teacher_name":"陶磊","post_time":"2022-06-20 00:32:01","like_diff":7,"likes":8,"dislikes":1,"content":"好老师!水平很高!上的是秦汉法制史研究，内容会有些听不懂，但认真听收获还是很多的，考核是一篇读书报告/研究综述，期末一篇论文/研究综述，我觉得自己写的很垃圾，但还是有4.5。"},{"id":16929,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-19 09:26:07","like_diff":6,"likes":17,"dislikes":11,"content":"给分低"},{"id":75009,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-03-07 03:38:14","like_diff":6,"likes":6,"dislikes":0,"content":"上课干货满满，上课水平很好，很有趣。对论文抄袭肯定不允许。给分也好。历史系学生评。"},{"id":77171,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-05-03 09:34:29","like_diff":6,"likes":6,"dislikes":0,"content":"刚上完老师的四书课，收获满满真的，中间有个论语默写背背绝对满占30分，最后论文我写了最低字数最后绩点4.5，最有意义的通识课，真的，不要瞎信某些评论，多找找自己的问题吧。"},{"id":108894,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-06-04 00:11:10","like_diff":6,"likes":6,"dislikes":0,"content":"历史系学生，很高兴大家遇到了我最喜欢的历史老师。"},{"id":137806,"teacher_id":502,"teacher_name":"陶磊","post_time":"2021-07-06 08:16:51","like_diff":6,"likes":7,"dislikes":1,"content":"我觉得陶老师学识渊博，讲课有深度，认真听会有收获的。只是可能略微有点催眠罢了。这学期机缘巧合的选了两次陶老师的课，一次是《四书》与中华民族精神，这门课是中期要默写论语，结课时交一篇论文，我因为默写没有好好准备，导致绩点只有三点多。另外一课就是秦汉法制史研究了，交中期交一次读书报告，结课交论文。老师不点名，课程内容也挺有意思的。因为写论文去看了一下老师的著作《斯文及其转型研究》，对历史分析角度独到，专业水平也很高。最后绩点4.5了。总之，老师给分挺好的，认真写论文绩点不会差。"},{"id":183025,"teacher_id":502,"teacher_name":"陶磊","post_time":"2023-11-21 14:44:20","like_diff":6,"likes":8,"dislikes":2,"content":"现在不算绩杀了，也不点名，给个好评，谢谢老师"},{"id":16952,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-01-19 09:57:37","like_diff":5,"likes":24,"dislikes":19,"content":"差点挂科。老师我谢谢你全家，你特么"},{"id":24410,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-12-15 06:03:34","like_diff":5,"likes":17,"dislikes":12,"content":"上面的评论讲的难道不是事实？他给的分数本来就非常苛刻还不准人讲了？或许一万字论文是达不到他要的水平但是作为刚进大学的学生拼死拼活写了一万字给人挂就很合理？"},{"id":38191,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-11-25 16:36:33","like_diff":5,"likes":19,"dislikes":14,"content":"这里算恶意刷低分吧，那个1.19号发了那么多差评的人，而且很多低分表述都很像，而且给那些为陶老师澄清的人打负分让人家的评论下降有意思吗，自己挂科不检讨自己的问题，跑来刷低分。"},{"id":62246,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-11-23 11:53:07","like_diff":5,"likes":7,"dislikes":2,"content":"感觉评分不应该这么低，老师讲课是有点波澜不惊，但仔细听还是挺有意思的，给分的话，只要认真对待，论文认真写，应该分数也不会低，作为一个外系的修了秦汉法制史研究，有4.8，不过建议感兴趣的同学选，不感兴趣会觉得很枯燥"},{"id":67595,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-01-21 15:39:28","like_diff":5,"likes":6,"dislikes":1,"content":"周易 。我平时也水 期中也没怎么背 期末也就凑了3000字 82分班级平均吧 。不知道挂科的人是在干啥"},{"id":67608,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-01-22 00:23:26","like_diff":5,"likes":8,"dislikes":3,"content":"期中拿了80分，论文连着写了四天，因为听说论文不好，可能会挂。后来绩点3.9，相对于挂科而言，我还是很开心的。你认认真真怎么会挂。"},{"id":74402,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-02-19 07:09:29","like_diff":5,"likes":6,"dislikes":1,"content":"周易与中国文化：老师给分好像也没这么坑吧。上课听好，做好笔记，背好卦及与之相关的知识点，论文认真写（按老师上课时讲解的思路也可以），成绩不会差的，除非你论文抄袭了。还有，论文不以字数定优劣，自己的观点很重要！！"},{"id":77475,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-05-06 02:54:04","like_diff":5,"likes":5,"dislikes":0,"content":"老师的知识真的很渊博，虽然有时候会有些偏激，但他是很冷静的分析出来的，也是给了大家一个新的视角。四书课并未投入多大精力，把老师布置的任务认真完成，最后给分很好。"},{"id":81165,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-07-04 07:52:11","like_diff":5,"likes":7,"dislikes":2,"content":"历史系目前水平最高，没有之一。"},{"id":86368,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-09-14 05:05:18","like_diff":5,"likes":5,"dislikes":0,"content":"之前看查老师评论非常忐忑，但还是真的太像上这门课了，就抱着挂了就挂了，没关系的心态。 结果真的是太让人惊喜了，陶老师讲的很好，听进去了就会觉得非常有意思!真的学到了东西，很开心～"},{"id":110505,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-06-27 07:40:35","like_diff":5,"likes":6,"dislikes":1,"content":"老师的秦汉法制史很有意思，这节课还是有很多收获的，我不是历史系的学生，刚开始老师的书不太看得懂，不过老师的斯文及其转型研究和德礼 道法 斯文重建挺好看的(^^)"},{"id":24616,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-05-02 08:59:57","like_diff":4,"likes":13,"dislikes":9,"content":"论文写了3000字一半自己写的 一半引用  引用的标在后面参考文献了 述而篇背得很熟  因为看到上面的评论比较害怕  才背得 最后上4了  还挺好呀我觉得 讲的也好\n\n"},{"id":56852,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-07-05 01:09:10","like_diff":4,"likes":5,"dislikes":1,"content":"老师还是不错的吧"},{"id":59105,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-09-19 13:12:57","like_diff":4,"likes":6,"dislikes":2,"content":"我怀着一颗忐忑的心情去上四书，只求不要挂科，结果最后有3.9，陶老师真的不是故意给低分啊，论文认真点就不会太差，虽然也不会高......\n\n不过除非是对孔孟有兴趣的人，上这门课其实挺治疗失眠症，看得出陶老师学问之高"},{"id":87293,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-09-26 16:15:13","like_diff":4,"likes":5,"dislikes":1,"content":"老师真的是知识渊博，而且思考问题非常深入，课上学到了很多东西。很荣幸能上到陶老师的课∩_∩"},{"id":94420,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-01-16 11:21:48","like_diff":4,"likes":4,"dislikes":0,"content":"老师讲课很好啊，虽然我是一个工科生，但对中华的传统文化很感兴趣。期中考的很简单，期末论文想好好写来着，但拖到最后还是有点匆忙。也只写了要求的三千字，最后成绩85，虽然不高，但感觉就是正常通识课的成绩啊。不知道上面各位同学10000字还挂的是为什么。（记得老师说过抄袭零分？）"},{"id":95268,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-01-19 06:22:45","like_diff":4,"likes":4,"dislikes":0,"content":"虽然我没好好听过，但是老师水平很高，论文用心写就行，我写了4K，最后4.2"},{"id":105970,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-04-24 01:12:55","like_diff":4,"likes":4,"dislikes":0,"content":"《四书》要求背一章论语写一篇论文。论文我认真写了，最后成绩还可。原本是抱着评论里说的都不是《四书》的大胆猜想选的课，结果确实没令我失望。帮老师拉高一点评分吧。"},{"id":119101,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-11-10 10:08:51","like_diff":4,"likes":4,"dislikes":0,"content":"老师是很有真才实学的，论文的话，一定要有自己的见解"},{"id":121253,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-12-25 10:43:33","like_diff":4,"likes":4,"dislikes":0,"content":"老师讲课真的很好，可惜下面的学生多是水的，不好好学，还骂老师，真是丢脸，浙大……\n\n"},{"id":134924,"teacher_id":502,"teacher_name":"陶磊","post_time":"2021-04-22 15:59:33","like_diff":4,"likes":4,"dislikes":0,"content":"刚刚结课，感觉老师的学术水平是很高的，观点也非常具有启发性，虽然不知道成绩如何，作为非历史系学生还是很喜欢老师上课的"},{"id":151197,"teacher_id":502,"teacher_name":"陶磊","post_time":"2022-02-24 10:20:08","like_diff":4,"likes":4,"dislikes":0,"content":"大一的时候上了陶磊老师的古史传说研究，老师讲课有一种娓娓道来的感觉，虽然是大三专业课但是老师发现班级里基本上没有大三历史系的同学后真的非常耐心，讲了很多感觉对于大三历史系来说是常识的东西，挺感动的qwq以及感觉我当时写的就是学术垃圾，老师也没有挂我，说明老师对于低年级学生还是挺宽容的，态度端正一点就行了吧orz"},{"id":155319,"teacher_id":502,"teacher_name":"陶磊","post_time":"2022-06-10 17:32:04","like_diff":4,"likes":4,"dislikes":0,"content":"我爱我爱磊磊！！！！！我的男神！！"},{"id":156543,"teacher_id":502,"teacher_name":"陶磊","post_time":"2022-06-20 08:24:22","like_diff":4,"likes":4,"dislikes":0,"content":"老师很博学，讲课有点困困（我的原因），为了写读书报告硬啃完了《斯文及其转型研究》，虽然费劲但是收获很大，对于先秦哲学思想史和政治理论有了很大认识，推荐！"},{"id":156681,"teacher_id":502,"teacher_name":"陶磊","post_time":"2022-06-20 15:09:36","like_diff":4,"likes":4,"dislikes":0,"content":"老师是一个很有思想的人，长得比较凶（刮了胡子之后会好很多甚至有点可爱），老师有一套自己的完备的理论，这点真的非常厉害（虽然感觉混入亚里士多德四因说有点奇怪）。总之真的很喜欢他，他的书也很好看！"},{"id":195485,"teacher_id":502,"teacher_name":"陶磊","post_time":"2024-06-28 09:22:38","like_diff":4,"likes":5,"dislikes":1,"content":"秦汉法制史研究，，，之前看查老师上的评论，心里还很忐忑，因为是跨专业，没有深入研究的时间和兴趣，期中读书报告和期末论文都是缝缝补补的，最后居然拿了4.5，虽然只比上面的均绩高了一点点，对我来说已经很好了，而且陶老师不点名啊，讲的很棒（虽然翘了很多早八），有兴趣的听一听还是很不错的"},{"id":23181,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-03-21 06:00:27","like_diff":3,"likes":12,"dislikes":9,"content":"在选这门课以前，我以为，讲的好，给分好，老师人好，起码是能有一样的，然而。→_→"},{"id":25596,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-05-27 02:54:07","like_diff":3,"likes":7,"dislikes":4,"content":"强无敌"},{"id":28176,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-06-28 08:12:54","like_diff":3,"likes":5,"dislikes":2,"content":"论文真的不看字数。。有自己的观点最重要。。以及期中全对就是王道。。"},{"id":36147,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-11-10 15:01:45","like_diff":3,"likes":13,"dislikes":10,"content":"上课没听过，作业认真做了，论文刚达到字数要求。。。。但是4.8。。。\n\n对前边评论。。。有点无语"},{"id":49662,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-04-22 11:29:46","like_diff":3,"likes":13,"dislikes":10,"content":"忍不住说几句。感觉这里有很多同学有点过分了，挂科不开心能理解，但是说出这些话真的好吗？！我是历史系的，上过陶老师的中国古代史专业课，分数尚可，但重要的是陶老师确实有水平，如果保证出勤率、论文东拼西凑就想着拿高分，那我就不多说了。是什么情况给大家一种学习很容易、不付出不给你高分是一种罪的错觉？一个认真对待自己的教学的老师，难道有错？"},{"id":50010,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-04-28 12:41:36","like_diff":3,"likes":6,"dislikes":3,"content":"他是不会给学生机会的那种老师"},{"id":50030,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-04-28 15:56:27","like_diff":3,"likes":7,"dislikes":4,"content":"给分真的很差，我明明每节课都认真听了，而且课外还在看书，明明一个通识课，难度怎么高吗？简易这个老师的课还是别选。"},{"id":51501,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-06-06 15:15:16","like_diff":3,"likes":9,"dislikes":6,"content":"评论里有些言辞真的过激了。只为分数来的学生你大可不必选陶老师的课。"},{"id":74414,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-02-20 06:09:34","like_diff":3,"likes":3,"dislikes":0,"content":"观点和知识储备很丰富，蛮不错的"},{"id":77529,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-05-06 09:19:18","like_diff":3,"likes":3,"dislikes":0,"content":"理科生，连着两个学期上了老师的两门通识，周易与四书，期中测验都满分，期末论文都写4000左右，最后都有4.8。老师人很好hhh"},{"id":92127,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-12-26 13:39:49","like_diff":3,"likes":4,"dislikes":1,"content":"上过古代史，超喜欢听老师讲课，觉得老师超级有思想。自从上过他的课后，又偷偷跑去旁听通识课，每次听课都会深受启发。对于一些评论，我想说，你可以对老师给低分表示不满，但请你不要随便质疑老师的学术水平以及老师的为人。请不要“唯分数论”。"},{"id":95780,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-01-20 04:36:56","like_diff":3,"likes":3,"dislikes":0,"content":"给大家安利老师的一本书 斯文及其转型研究~ps这里的一些评论真的是自己菜怪老师的典型代表。"},{"id":97846,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-01-22 23:50:07","like_diff":3,"likes":3,"dislikes":0,"content":"老师有时候会讲一些有点老，比较冷的梗，会有一点点小尬。但是人挺好的。哈哈哈。"},{"id":105912,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-05-06 04:51:56","like_diff":3,"likes":4,"dislikes":1,"content":"挺好的，非常认真负责\n\n"},{"id":105990,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-04-24 04:59:56","like_diff":3,"likes":3,"dislikes":0,"content":"《四书》。陶老师的课气氛确实比较沉闷，但认认真真听了之后发现很有意思，会产生对自我人格的思考。事情不多，也就期中默写加期末论文，认真点绩点不会低的。"},{"id":106030,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-04-24 11:59:41","like_diff":3,"likes":3,"dislikes":0,"content":"如沐春风"},{"id":106285,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-04-26 06:38:15","like_diff":3,"likes":3,"dislikes":0,"content":"【秦汉法制史研究】上个学期上了老师的课，跑过来评论一下，这门课还是很不错的，上课干货比较多，讲的一些案例还挺有趣。不过老师声音有点催眠是真的。期末是文献综述，写了5000字，平时作业是两篇读书报告，最后4.2，我觉得还可以了。因为我也不是学历史的学生，学术水平也不咋地，老师给这个分还是挺客观的。"},{"id":116104,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-09-03 16:28:24","like_diff":3,"likes":3,"dislikes":0,"content":"台上讲课，台下打论文"},{"id":135084,"teacher_id":502,"teacher_name":"陶磊","post_time":"2021-04-29 12:48:22","like_diff":3,"likes":3,"dislikes":0,"content":"老师的四书课挺不错的，事少给分好"},{"id":156838,"teacher_id":502,"teacher_name":"陶磊","post_time":"2022-06-21 05:35:59","like_diff":3,"likes":3,"dislikes":0,"content":"古史传说研究均绩掉了？之前上的时候均绩挺高的好像\n\n陶磊老师人挺好的，可惜我太废物了呜呜。听他的课确实挺累，但是真的启发特别大，虽然感觉他的研究方式有点奇怪，但是他作为任课老师绝对合格。上个学期学四书与中华民族精神，整体而言比较推荐有一定文史兴趣/基础的同学选（如果只是想选个通识水学分的同学还是避开吧，老师是以对待专业课的态度教学的，部分内容也比较学术，而且老师重要的研究方式是中西方对比，会涉及到一点点希腊哲学内容）"},{"id":172388,"teacher_id":502,"teacher_name":"陶磊","post_time":"2023-04-26 03:19:16","like_diff":3,"likes":5,"dislikes":2,"content":"就是按时交了作业，也没有卷论文字数，最后给了4.2"},{"id":22828,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-03-13 06:54:17","like_diff":2,"likes":11,"dislikes":9,"content":"这门课挂了QAQ 被坑惨了 导致专业正好卡在边缘线上 很多推优资格也因为这个没有了"},{"id":23730,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-04-14 01:57:03","like_diff":2,"likes":10,"dislikes":8,"content":"我是真的奉劝大一上的人，以我大一上通识挂科的悲惨经历，千万别选这课，最起码大一别选。当我无数次看着因为通识挂科而远去的心仪专业，那种日了狗的心情我真的不想你们也体验一次。。。"},{"id":25990,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-06-15 02:50:57","like_diff":2,"likes":10,"dislikes":8,"content":"看评论原来这么可怕，我一直觉得我周易4.2算通识里挺低的了，原来给分这么不好。期中考试我错了两题80分，论文写了很多。对了，我觉得论文要多写一点，3000字据老师的意思是很少很少的，大家加油。其实讲的也还可以啊，只是觉得周易好随意，怎么解释都可以TAT"},{"id":67582,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-01-21 14:58:45","like_diff":2,"likes":3,"dislikes":1,"content":"虽然绩点。。。不过好歹合格了，10分！老师的学问确实高深，相信有兴趣且愿花额外时间学习的同学会大有所获！"},{"id":94378,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-01-16 09:03:28","like_diff":2,"likes":2,"dislikes":0,"content":"? 后悔没有好好多听点老师的课，不点名又给分好，爱了"},{"id":95280,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-01-19 06:44:47","like_diff":2,"likes":2,"dislikes":0,"content":"真好，没有挂"},{"id":95449,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-01-19 12:02:19","like_diff":2,"likes":2,"dislikes":0,"content":"说实话对这门课的绩点一开始是没抱什么希望的，甚至都做好了挂的打算（大一选课学分少才没敢退）。刚开始上的几门课觉得挺无聊的，讲的东西没什么用，但越听到后面越觉得有意思，收获很大，挺后悔为了应付其他课的考试有几节课没怎么认真听的。平时两篇读书报告，期末一篇论文，3000多字就足够，字数多也不会占优势，可能更在意的是内容吧。其实我自己感觉写的东西都不怎么好，但真真实实是有感而发，差不多都是自己敲出来的文字。期末拿了4.5的绩点真的太出乎意料了，开心的要在寝室飞起来。下学期也选了老师的课，这次一定认认真真的听完每一堂课。"},{"id":100444,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-01-26 06:39:36","like_diff":2,"likes":2,"dislikes":0,"content":"老师学问渊博上课一本正经，评分标准就是一场考试加一篇论文，没有任何签到。但是不建群不给复习资料，想复习去网上一搜全是风水，论文要求还很高，老师不喜欢就是低分预定。。建议为了拿学分去上的就死了这个心。。"},{"id":102106,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-01-30 12:46:36","like_diff":2,"likes":2,"dislikes":0,"content":"4分确实低了"},{"id":104625,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-03-25 11:07:00","like_diff":2,"likes":3,"dislikes":1,"content":"我不知道该怎么说。给大家一个教训吧。我是四书，期中考试的默写内容不是自己选的。我是因为这个平时分30得0分，估计要挂了，大家引以为戒吧。"},{"id":106287,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-04-26 06:56:53","like_diff":2,"likes":2,"dislikes":0,"content":"真的好好背论语，写好论文，分就不会低，那些说给分不好的，是不是需要从自己身上找找原因呢？"},{"id":107778,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-05-09 11:00:01","like_diff":2,"likes":2,"dislikes":0,"content":"给分还可以的"},{"id":116004,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-08-29 02:33:47","like_diff":2,"likes":2,"dislikes":0,"content":"老师知识水平整体来说还是很高的，为我打开了理解问题的新角度，但是讲课思路不是很清楚，导致听课听得有点混乱。"},{"id":138210,"teacher_id":502,"teacher_name":"陶磊","post_time":"2021-07-08 02:47:56","like_diff":2,"likes":2,"dislikes":0,"content":"蛮好的，很喜欢宇宙论的理论"},{"id":152713,"teacher_id":502,"teacher_name":"陶磊","post_time":"2022-04-18 16:34:24","like_diff":2,"likes":2,"dislikes":0,"content":"四书课很有收获\n\n作为一个没什么人文素养的理工科学生，选不到别的通识课了不得已选了这样一门人文的通识课，做好了文章写得差被绩杀的准备，出分居然上四了，感恩（\n\n不过这学期事情不算少，而且对我来说写文章真的很难，属于特别不擅长的事，所以也花了不少时间，这个分数也算是对得起努力憋字的我吧"},{"id":18027,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-01-17 10:37:27","like_diff":1,"likes":21,"dislikes":20,"content":"挂了，现在均绩快低到不及格了。好绝望，课也没听懂过什么都没学到。这老师太恐怖。他该给自己算一卦了。免得走路上被人泼粪。\n\n"},{"id":22160,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-03-02 23:46:23","like_diff":1,"likes":20,"dislikes":19,"content":"我实在不太理解前面同学的吐槽，我觉得论文根本不是看字数，而是看质量吧，否则写得多并没有什么卵用。我就只写了6000多，然后期中满分。4.8飘过"},{"id":23350,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-03-25 14:33:34","like_diff":1,"likes":9,"dislikes":8,"content":"因为这门课挂科正好掉在心仪专业门槛之下，阴沟里翻船的日了狗的心情。。。真是醉了。。。。。。。啊啊啊我真的没水啊啊啊为什么！！！！！！！！！！"},{"id":94293,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-01-16 06:02:12","like_diff":1,"likes":1,"dislikes":0,"content":"很好的一门通识课，真的了解了很多周易的知识，适合感兴趣的同学，给分也挺好的，论文只要不是抄的，考试准备下，分数就没问题"},{"id":95329,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-01-19 08:23:55","like_diff":1,"likes":1,"dislikes":0,"content":"真的好\n\n老师知识渊博比较严肃，但是会认真听学生问题，给分也很好呀"},{"id":102205,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-01-31 10:57:15","like_diff":1,"likes":2,"dislikes":1,"content":"真不明白为什么《周易与中国文化》会挂，期中考试只要背好六十四卦30分简直就像白捡一样，希望那些标榜自己论文写得很用心的人也稍微透露一下自己的期中分数，不按老师的要求来却抱怨老师给分不好，真是宽以侓己，严于待人啊"},{"id":105863,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-04-22 08:02:57","like_diff":1,"likes":1,"dislikes":0,"content":"我要强推这门课！不点名，写论文只要注意学术规范，这种通识课真的很nice，默写也是轻松的，放题前陶老师还叫我们不要紧张hhh，作为一个要转校区的人只想着不要被挂科，成绩一出来真的很惊喜，论文认真码了两天，改了一天，引用的都标出来，在老师看来这是阅读量的体现，虽然查老师评分并不高，但陶老师的通识课还是坐满的。"},{"id":107851,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-05-10 11:11:14","like_diff":1,"likes":1,"dislikes":0,"content":"之前给分低了"},{"id":110683,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-06-28 04:19:06","like_diff":1,"likes":2,"dislikes":1,"content":"秦汉法制史 我不是历史系的 老师的书看的不是很懂  但是老师讲课如果认真听的话真的讲的很好   不知道为什么评分那么低  事儿也不多  期中一个读书报告期末一个文献综述  我都只写了2900多  三千都没到  但还是给了4.5    很满意"},{"id":111629,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-07-02 09:00:45","like_diff":1,"likes":2,"dislikes":1,"content":"1.讲得很好。\n\n2.感觉跟我一个高中同学很像。\n\n3.本人佛系，不计较绩点，但也不低。"},{"id":123018,"teacher_id":502,"teacher_name":"陶磊","post_time":"2020-04-30 17:12:32","like_diff":1,"likes":1,"dislikes":0,"content":"还是想谢谢老师，打破了我的侥幸心理，提醒了我一个大学生应该有的学习态度。"},{"id":176036,"teacher_id":502,"teacher_name":"陶磊","post_time":"2023-06-27 13:04:03","like_diff":1,"likes":2,"dislikes":1,"content":"听陶老师的课真的可以收获很多！虽然老师有自己的一套体系，经常听不懂，但是他一直很耐心，回钉钉消息也很快，而且非常温和，这就是大儒吧（星星眼）"},{"id":41965,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-01-13 10:15:32","like_diff":0,"likes":3,"dislikes":3,"content":"修行忍性"},{"id":58244,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-08-27 12:40:01","like_diff":0,"likes":0,"dislikes":0,"content":"不太好"},{"id":62078,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-11-22 10:47:59","like_diff":0,"likes":1,"dislikes":1,"content":"……哈哈哈"},{"id":89752,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-11-20 15:02:32","like_diff":0,"likes":0,"dislikes":0,"content":"很有深度"},{"id":92197,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-12-27 04:03:57","like_diff":0,"likes":1,"dislikes":1,"content":"陶老师真的是好老师，专业水平非常高，听他上课好像在听讲座，真的能学到很多东西，上面的评论太让人难过了，不知道你们的评价标准是什么。"},{"id":93043,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-01-07 06:00:10","like_diff":0,"likes":0,"dislikes":0,"content":""},{"id":105871,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-04-22 12:02:22","like_diff":0,"likes":1,"dislikes":1,"content":"认真听老师的规范，期中认真背，论文认真写，绝对不会挂，给分蛮好。"},{"id":105889,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-04-22 15:57:42","like_diff":0,"likes":0,"dislikes":0,"content":"绩点无语"},{"id":105896,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-04-23 01:29:19","like_diff":0,"likes":0,"dislikes":0,"content":"这学期上的四书，期中认真背了感觉写的没问题30分应该是拿到了的，我不知道期末论文给分怎么会这样，绩点一出来简直吓了我一跳，这得烂成啥样期末成绩才这么点分，只能说勉强没挂"},{"id":105913,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-04-23 04:11:25","like_diff":0,"likes":2,"dislikes":2,"content":"（不给10分对不起老师给我的4.8）我期中论语述而认认真真背的 默写自认为全对hhh 然后期末老师要求的三千字论文我其实只写了两千五的大白话 但是都是自己写的 那些动不动一万七千的没必要真没必要"},{"id":105968,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-04-24 00:38:18","like_diff":0,"likes":0,"dislikes":0,"content":"还可以"},{"id":105979,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-04-24 03:13:20","like_diff":0,"likes":3,"dislikes":3,"content":"老师讲课确实催眠 喜欢抨击现实 怀念过去 感觉是一个对现实并无希望的中年油腻 看啥都看不惯 但是据说学术上很严谨 看了他《斯文及其转型研究》不敢妄发评论 只能说陶先生并不像有些人说得那么差劲 但是也确实难以让人 十分喜愛"},{"id":107990,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-05-12 14:38:11","like_diff":0,"likes":0,"dislikes":0,"content":"不点名，课还不错"},{"id":116103,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-09-03 16:28:21","like_diff":0,"likes":2,"dislikes":2,"content":"求求你做个人吧"},{"id":122962,"teacher_id":502,"teacher_name":"陶磊","post_time":"2020-04-26 07:46:47","like_diff":0,"likes":0,"dislikes":0,"content":"学术水平没得说，很厉害。论文还请好好写。四书听了很有收获。"},{"id":135078,"teacher_id":502,"teacher_name":"陶磊","post_time":"2021-04-29 08:20:53","like_diff":0,"likes":1,"dislikes":1,"content":"一般般"},{"id":152718,"teacher_id":502,"teacher_name":"陶磊","post_time":"2022-04-19 01:49:13","like_diff":0,"likes":1,"dislikes":1,"content":"老师水平很高，讲的真的也很好，如果你对四书有关的内容感兴趣，陶老师的这门课可以开拓这方面的视野，非常适合。"},{"id":152798,"teacher_id":502,"teacher_name":"陶磊","post_time":"2022-04-20 03:14:26","like_diff":0,"likes":1,"dislikes":1,"content":"老师事情不多，平时只有三篇文章+三千字期末论文。但是感觉自己写得还算认真的，只有3.9。有点难过。"},{"id":164383,"teacher_id":502,"teacher_name":"陶磊","post_time":"2022-12-20 13:22:44","like_diff":0,"likes":1,"dislikes":1,"content":"磊磊真的超级不错的，看起来很凶但是超级温和，有很多自己的想法，而且回钉钉消息超级快，很负责也很友善的老师！"},{"id":193071,"teacher_id":502,"teacher_name":"陶磊","post_time":"2024-06-03 08:19:58","like_diff":0,"likes":2,"dislikes":2,"content":"3.3bd，有点伤心，最低的一门通识。虽然期末论文写的确实不怎么样，但是听助教说平时分45%几乎给满，陶磊老师感觉要求会比较严格"},{"id":23924,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-04-21 08:28:32","like_diff":-1,"likes":8,"dislikes":9,"content":"辣鸡中的战斗机。我怀疑他反社会，真的，通识挂人也就算了，全58 59挂，什么意思啊我操，要是没见论文没去考试你给我挂我服，挂的不明不白，qnmlgb，专业被毁，我心里就是有怨气"},{"id":24273,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-04-29 04:39:08","like_diff":-1,"likes":10,"dislikes":11,"content":"不把学生前途当回事，随意给挂的老师"},{"id":24331,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-04-29 12:45:47","like_diff":-1,"likes":4,"dislikes":5,"content":"呵呵哒。"},{"id":25686,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-06-26 11:04:16","like_diff":-1,"likes":3,"dislikes":4,"content":"呵呵呵呵呵呵"},{"id":25715,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-06-04 11:39:58","like_diff":-1,"likes":5,"dislikes":6,"content":"给分差劲"},{"id":58645,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-09-12 05:38:47","like_diff":-1,"likes":0,"dislikes":1,"content":"困死我"},{"id":59113,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-09-19 22:53:25","like_diff":-1,"likes":0,"dislikes":1,"content":"想睡觉 讲话之间停顿太久"},{"id":59166,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-09-20 04:43:24","like_diff":-1,"likes":0,"dislikes":1,"content":"上课略微枯燥"},{"id":71506,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-01-28 14:14:37","like_diff":-1,"likes":1,"dislikes":2,"content":"珍爱均绩"},{"id":76359,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-04-04 06:25:18","like_diff":-1,"likes":0,"dislikes":1,"content":""},{"id":101945,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-01-30 00:28:39","like_diff":-1,"likes":1,"dislikes":2,"content":"不咋滴\n\n"},{"id":218352,"teacher_id":502,"teacher_name":"陶磊","post_time":"2025-04-23 01:21:40","like_diff":-1,"likes":0,"dislikes":1,"content":"不建议非相关专业的学生和大一学生选课（我的是四书，不知道其他课怎么样），非专业学生上课听着真的很累，基本听不太明白。本人平时对这些古籍算是有兴趣的，论文和读书报告除了找资料和文献用了AI，整合和撰写主要观点论证的地方都是自己完成的，是有史以来写的最认真的文章，结果最后只有3.3的绩点，连八十分都没有，真的很伤心，也或许是我太不自量力了吧选这门课，本身难度就挺大的。（没有骂老师的意思，只是评价课程给分）"},{"id":24267,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-04-29 04:08:47","like_diff":-2,"likes":10,"dislikes":12,"content":"哈哈课上基本没听，测试满分过（你懂的），期末论文字数压线过。居然上4了。所以说，测试很重要"},{"id":24389,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-04-30 08:11:35","like_diff":-2,"likes":8,"dislikes":10,"content":"浙大挂一科就不能保研，通识还随意给人挂的老师，真是毁人前途"},{"id":41967,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-01-13 10:18:00","like_diff":-2,"likes":3,"dislikes":5,"content":"差，太差。给分巨低"},{"id":49694,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-04-24 12:36:47","like_diff":-2,"likes":7,"dislikes":9,"content":"发现评论里有恶意刷分的诶……2016.11.26那个是一个人写的吧？老师上课说只有学术不端才会给挂啊"},{"id":58329,"teacher_id":502,"teacher_name":"陶磊","post_time":"2017-08-28 18:42:23","like_diff":-2,"likes":0,"dislikes":2,"content":"差劲。\n\n"},{"id":121350,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-12-18 11:02:08","like_diff":-2,"likes":1,"dislikes":3,"content":"績點2.5"},{"id":24251,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-11-10 07:30:38","like_diff":-3,"likes":4,"dislikes":7,"content":"..."},{"id":75733,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-03-16 01:07:04","like_diff":-3,"likes":1,"dislikes":4,"content":"给分特别不好"},{"id":86823,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-09-19 02:51:48","like_diff":-3,"likes":4,"dislikes":7,"content":"上课没有逻辑，讲的内容关联性不够，越讲越扯。不知道给分怎么样。看到楼上有人说他是历史系最好的老师，是不是对我们历史系更多渊博优秀的老师有什么误解？??"},{"id":122972,"teacher_id":502,"teacher_name":"陶磊","post_time":"2020-04-27 05:52:38","like_diff":-3,"likes":2,"dislikes":5,"content":"钉钉时代前来评分。\n\n选的是四书。\n\n上课:其实仔细听老师讲得不错，但是我因为网课，都没有很认真地听课过，一般水手机或者做其他课作业，老师就让你签个到，不会提问，也不要求发言。\n\n作业:无。\n\n考试:期中本来是默写论语，网课的缘故取消啦。期末一篇论文，关于论语孟子的，高中语文120以上的话都可以应付了，写的时候认真一点，避免抄袭。\n\n给分:我4.5，论文写的嘛，自己觉得一般般吧"},{"id":191508,"teacher_id":502,"teacher_name":"陶磊","post_time":"2024-04-24 14:35:16","like_diff":-3,"likes":1,"dislikes":4,"content":"大水课绩点3.3，真的无语了。作业要求巨模糊，期末论文自己写的，我水平低，写得烂也就罢了，平时作业交上去也不知道自己写的好不好，问就是都差不多，连我进步的机会都不给。这么不负责你还当什么老师啊。也许其他人没这些问题吧，真心喜欢四书五经与古代传统文化大胆选吧。"},{"id":23773,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-04-16 03:45:47","like_diff":-4,"likes":11,"dislikes":15,"content":"有一种行为叫误人子弟，老师本应该给学生创造未来，谁能想象一门通识让稳进的专业必须参加面试，让可以面试的专业没有了机会，我就想好好说一句，不懂学生的你我枉叫你一声老师。"},{"id":25714,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-06-04 11:39:49","like_diff":-4,"likes":5,"dislikes":9,"content":"坑我兄弟前程，呵呵"},{"id":29200,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-06-29 11:36:37","like_diff":-4,"likes":4,"dislikes":8,"content":"没有听大家伙儿的选了他的课，绩点猛掉0.4，看到成绩的时候，用鲁迅先生的话说，就是，竟出离了愤怒！！！！！"},{"id":36339,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-11-12 04:18:46","like_diff":-4,"likes":2,"dislikes":6,"content":"讲的比较无聊。。。但还可以"},{"id":36667,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-11-15 09:09:57","like_diff":-4,"likes":4,"dislikes":8,"content":"渣渣老师"},{"id":39264,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-12-22 00:59:46","like_diff":-4,"likes":4,"dislikes":8,"content":"就是个智障\n\n"},{"id":22500,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-03-07 03:39:10","like_diff":-5,"likes":11,"dislikes":16,"content":"我的天当年我是怎么在他的课上期中期末都只写了3000字最后4.9的，看来不能再选了"},{"id":23390,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-03-28 12:44:44","like_diff":-5,"likes":8,"dislikes":13,"content":"听了很受益 比书上的翻译好得多"},{"id":65658,"teacher_id":502,"teacher_name":"陶磊","post_time":"2018-01-08 05:17:51","like_diff":-6,"likes":0,"dislikes":6,"content":"很苛刻"},{"id":23742,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-04-14 08:15:29","like_diff":-7,"likes":12,"dislikes":19,"content":"他特么期末考试前还2.点几的评分现在突然变这么高了？是不是暗箱操作？下面评论区一片的骂声你好意思顶着7点多的评分招摇撞骗？滚吧滚粗浙大，你毁了多少人的专业梦想你知道吗？花了整整一个星期熬夜的论文，你还想怎么样？62分？滚吧，滚粗浙大"},{"id":24298,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-04-29 08:55:21","like_diff":-8,"likes":3,"dislikes":11,"content":"讲课挺顺溜的，不过有推销自己的意思。"},{"id":22027,"teacher_id":502,"teacher_name":"陶磊","post_time":"2016-03-02 06:08:23","like_diff":-9,"likes":13,"dislikes":22,"content":"论文你确定写的有深度？考试你确定全写对了？我觉得老师讲课水平确实一般，但是前面的评论太过片面，4.5的飘过"},{"id":116105,"teacher_id":502,"teacher_name":"陶磊","post_time":"2019-09-03 16:26:59","like_diff":-11,"likes":3,"dislikes":14,"content":"讲课就跟打拳击一样 tm在打散打 左讲一点点右讲一点点 最后随便写个鸡巴论文"},{"id":171653,"teacher_id":502,"teacher_name":"陶磊","post_time":"2023-03-31 03:32:36","like_diff":-14,"likes":3,"dislikes":17,"content":"无可否认老师的历史水平 确实很高 但他试图为我们讲清历史的知识逻辑研究方法 就暴露出了他极其粗鄙而浅陋的哲学素养"},{"id":3157,"teacher_id":502,"teacher_name":"陶磊","post_time":"2015-05-18 05:21:11","like_diff":-20,"likes":30,"dislikes":50,"content":"很有深度"},{"id":9352,"teacher_id":502,"teacher_name":"陶磊","post_time":"2015-10-23 04:41:03","like_diff":-27,"likes":18,"dislikes":45,"content":"很深奥，有时候也是有趣的"},{"id":11017,"teacher_id":502,"teacher_name":"陶磊","post_time":"2015-11-24 01:07:19","like_diff":-32,"likes":17,"dislikes":49,"content":"老师对我想法很好。而且也很认真。挺喜欢。给分也非常好"},{"id":3201,"teacher_id":502,"teacher_name":"陶磊","post_time":"2015-09-15 07:50:25","like_diff":-38,"likes":12,"dislikes":50,"content":"很好很好\n\n"},{"id":10940,"teacher_id":502,"teacher_name":"陶磊","post_time":"2015-11-23 11:35:29","like_diff":-41,"likes":8,"dislikes":49,"content":"111"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王丽丽 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="王丽丽教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="王丽丽,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">王丽丽</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">7.41</div>
+                    <div class="rating-participants">86人参与评分</div>
+                    <div class="attendance-info">20.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">市场营销学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.19</span>
+                            <span class="students">选课: 50人</span>
+                            <span class="std-dev">标准差: 0.94</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">管理研究方法</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.86</span>
+                            <span class="students">选课: 248人</span>
+                            <span class="std-dev">标准差: 0.89</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (74 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":10038,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2015-11-14 15:34:28","like_diff":15,"likes":30,"dislikes":15,"content":"公平地说，学术能力强，但讲课确实有些点说不太清。但是觉得是个很可爱的人。认真学也完全能够拿到高分。至于说的默默记人脸什么的，至少看到证据再相信和传播吧。"},{"id":14274,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2016-01-06 04:01:13","like_diff":14,"likes":17,"dislikes":3,"content":"市场营销讲得挺好的，人也nice"},{"id":10181,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2015-11-17 07:01:32","like_diff":12,"likes":20,"dislikes":8,"content":"很好的老师啊，讲得东西也很实用。恶意差评太不好了吧"},{"id":61766,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2017-11-21 01:14:15","like_diff":11,"likes":12,"dislikes":1,"content":"老师很nice，特别认真负责，重点章节老师自愿补课答疑、以及，小魔王好可爱₍ ⸝⸝· ᴥ ·⸝⸝ ₎"},{"id":10200,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2015-11-17 10:49:22","like_diff":9,"likes":13,"dislikes":4,"content":"老师人很好！讲的也很好，请大家不要旷课，老师虽然不点名但是会记迟到的噢"},{"id":10506,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2015-11-19 09:31:12","like_diff":9,"likes":21,"dislikes":12,"content":"严重怀疑楼上给差评的是ITP的，他们经常旷课，所以王老师对他们比较严格。其实只要态度认真，王老师人很好的！"},{"id":10180,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2017-09-18 04:35:52","like_diff":8,"likes":20,"dislikes":12,"content":"严重觉得楼上全是ITP那帮一天到晚不知道自己是谁，从不来听课总是旷课，还觉得老师点名多对不起苍天上帝，因为自己旷课就给老师恶意差评的傻X"},{"id":10213,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2015-11-17 11:55:39","like_diff":8,"likes":14,"dislikes":6,"content":"老师是良心好老师，严要求，不想好好学的，就不要选她的课，不要受不了严要求就乱骂老师"},{"id":184036,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2023-12-07 02:49:12","like_diff":7,"likes":7,"dislikes":0,"content":"上的是管理研究方法\n\n老师上课很好，讲解的也很清晰有条理，课堂质量是很有保障的，学到了很多东西\n\n但是任务有点重，对于并没有那么想要追求科研学术的人来说要求可能有点高\n\n没有想到分数这么低，远低于设想的最低值\n\n但是老师教学还是很好的"},{"id":17434,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2016-01-20 07:57:39","like_diff":6,"likes":9,"dislikes":3,"content":"市场营销讲的挺好的，学到了挺多东西~考试也不难~"},{"id":36603,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2016-11-15 04:45:13","like_diff":6,"likes":6,"dislikes":0,"content":"在老师的帮助下搞懂了因子 方差和回归"},{"id":18119,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2016-01-21 07:56:39","like_diff":5,"likes":7,"dislikes":2,"content":"老师学术能力很强 认真和老师学可以学习到很多东西"},{"id":61762,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2017-11-20 16:39:26","like_diff":5,"likes":6,"dislikes":1,"content":"怎么说，其实感觉老师很有料。但就是讲不清，自己说的也很快。感觉上明明自己理解的很好。但从她的角度一看就都是问题。然后也其实上完管理研究方法也是根本不确定自己学的东西到底对不对????q就很难受?"},{"id":128192,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2020-12-11 15:35:12","like_diff":5,"likes":5,"dislikes":0,"content":"收获很大，非常喜欢丽丽老师的课堂教学氛围，结束了MBA的第一堂课。基本概念讲解透彻，尤其现在热门的案例手到擒来，隔壁班同学很羡慕我们。"},{"id":145137,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2021-12-27 15:51:47","like_diff":5,"likes":5,"dislikes":0,"content":"王老师真的很认真很负责很求是，虽然平时作业有点多但是不难，还没出分，但被老师的激情和负责和敬业和严谨的态度感动到，respect！想水的还是绕道吧…"},{"id":184073,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2023-12-08 01:10:38","like_diff":5,"likes":6,"dislikes":1,"content":"。。。。。。。。。。"},{"id":14613,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2016-01-08 03:05:50","like_diff":4,"likes":10,"dislikes":6,"content":"为什么恶意差评辣么多？老师人很nice，事情也不算多，一次展示一个大作业，期末也会把重点过一遍，不坑啊"},{"id":32824,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2016-07-16 09:08:43","like_diff":4,"likes":6,"dislikes":2,"content":"老师人很好啊，怎么那么多恶意差评"},{"id":36548,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2016-11-15 00:39:05","like_diff":4,"likes":8,"dislikes":4,"content":"上过她的营销和管理研究方法，老师的学术能力听说是很强，不过管理研究方法确实讲得不太清楚，台下众人懵逼，但是最后大部分人却都能考很好，不懂"},{"id":45572,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2017-01-19 23:15:02","like_diff":4,"likes":4,"dislikes":0,"content":"不懂为什么自己认真复习、考试以后绩点低的泪流"},{"id":72299,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2018-01-30 00:42:38","like_diff":4,"likes":4,"dislikes":0,"content":"上课认真听，好好做作业，总会有很好的收获的"},{"id":180463,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2023-09-22 00:36:36","like_diff":4,"likes":5,"dislikes":1,"content":"如果你是大三，恭喜你，好好学还是会有一点收获的\n\n如果你是大四，恭喜你，你的毕业生涯有难了\n\n管院似乎一直喜欢给毕业生整点这种破课，错误的，无意义的，浪费时间的。快逃。"},{"id":184067,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2023-12-07 14:40:44","like_diff":4,"likes":4,"dislikes":0,"content":"。。。。。。"},{"id":19790,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2016-01-25 09:20:08","like_diff":3,"likes":5,"dislikes":2,"content":"只要是好好听课学习就会有收获 因为自己不努力反而怪罪老师的人素质真的很可笑\n\n"},{"id":37861,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2016-11-21 11:57:22","like_diff":3,"likes":5,"dislikes":2,"content":"老师很好很可爱，考前会划重点，理PPT。"},{"id":46661,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2017-01-22 05:42:11","like_diff":3,"likes":4,"dislikes":1,"content":"王老师上课很有激情，人也超级好，她的课值得选"},{"id":46909,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2017-01-23 01:28:43","like_diff":3,"likes":4,"dislikes":1,"content":"老师人还是挺可爱的，但是考试之前说往年上90的人会有60%，我咋这么低呢呜呜呜呜呜呜"},{"id":59798,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2017-11-16 05:25:53","like_diff":3,"likes":9,"dislikes":6,"content":"为什么没有零分?\n\n"},{"id":61346,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2017-11-15 03:58:32","like_diff":3,"likes":4,"dislikes":1,"content":"我是真的学到很多东西。老师原理不太会讲，所以要有管理统计和概统的基础。但是老师人很好，知道的特别多"},{"id":72324,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2018-01-30 02:04:15","like_diff":3,"likes":3,"dislikes":0,"content":"老师的课是我这个学期感觉最有意思的一门课，干货很多，而且可以学到很多有趣的东西，虽然事情会比较多一点，但是认真做还是会很有收获的(作业不要堆到最后才赶)，而且给分很实在啊！想要水的同学慎选！"},{"id":121050,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2020-01-19 10:30:25","like_diff":3,"likes":3,"dislikes":0,"content":"王老师的课很好啊啊啊啊啊 有意思极了\n\n而且任务不多 市场营销就两次小组展示\n\n期末考试很正规 考的内容只要认真背了就做的出来！给分也很公道！"},{"id":121528,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2019-12-13 03:06:25","like_diff":3,"likes":4,"dislikes":1,"content":"老师人很好，挺关心学生的。"},{"id":147251,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2022-01-09 08:57:52","like_diff":3,"likes":3,"dislikes":0,"content":"老师无论是在讲课还是给分上都没话说非常的nice，在课业上遇到任何问题老师都热心为我们解答，希望有机会还能上到老师的课。"},{"id":180584,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2023-09-23 04:59:47","like_diff":3,"likes":4,"dislikes":1,"content":"mean"},{"id":17448,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2016-01-20 08:29:27","like_diff":2,"likes":6,"dislikes":4,"content":"老师真的是天使啊！讲的很贴近生活，对学生又好！天使！"},{"id":17958,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2016-01-21 04:49:48","like_diff":2,"likes":5,"dislikes":3,"content":"很好很有意思的老师，学术又生动！那些自己不好好上课好好学的人不要把责任推到老师身上"},{"id":21003,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2016-02-09 10:40:05","like_diff":2,"likes":4,"dislikes":2,"content":"老师是天使呀 大学遇到的最负责对学生最好的老师！"},{"id":35824,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2016-11-10 08:21:18","like_diff":2,"likes":5,"dislikes":3,"content":"消费心理很有趣，作业和考试类型也很nice，能检验学到的知识，考前会帮我们过一遍重点，胆汁型老师哈哈"},{"id":47777,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2017-02-24 10:34:52","like_diff":2,"likes":4,"dislikes":2,"content":"老师人挺好的啊，只要认真做自己的案例作业，认真做展示，期末最后一节课好好听，认真复习，给的分就是你复习的分。最后考试的时候老师也很可爱。会和学生有很多沟通，还会主动来询问学生情况，分也尽量给好。不知道哪里来的这么多恶意差评…太莫名其妙了吧？"},{"id":79031,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2018-05-21 06:40:03","like_diff":2,"likes":2,"dislikes":0,"content":"老师人很好，学术能力很强，给分真的很实在，不偏不倚！！"},{"id":125026,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2020-08-15 12:38:35","like_diff":2,"likes":2,"dislikes":0,"content":"老师很好很负责。"},{"id":147243,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2022-01-09 08:21:30","like_diff":2,"likes":4,"dislikes":2,"content":"老师讲课很好，很有激情，非常喜欢和学生交流，很亲切，给分也很不错，非常nice"},{"id":147338,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2022-01-09 15:19:16","like_diff":2,"likes":2,"dislikes":0,"content":"老师上课很认真，考前也很关心学生的复习情况，给分超级无敌好，但老师好像最后一年带市场营销了。"},{"id":147359,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2022-01-09 16:51:44","like_diff":2,"likes":2,"dislikes":0,"content":"好老师，大四🐶本来想水个性学分，没想到老师讲的好，来了兴趣，喜提高分"},{"id":150866,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2022-02-20 07:04:57","like_diff":2,"likes":2,"dislikes":0,"content":"丽丽老师人很不错！为学生着想，也会听取学生的意见，很好的老师，很幸运能上老师的课"},{"id":185760,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2024-01-04 07:25:31","like_diff":2,"likes":2,"dislikes":0,"content":"老师的科研能力很强，讲课内容也较充实，但是管理研究方法的个人作业很难评。。。每次反馈都说好，最后得分难以置信的低。感觉和老师关系混熟了会给高分，但根据身边同学的得分情况，低分是大多数。"},{"id":19988,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2016-01-26 00:33:29","like_diff":1,"likes":3,"dislikes":2,"content":"讲的非常基础啊，很适合我们学知识"},{"id":74798,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2018-03-06 02:23:33","like_diff":1,"likes":2,"dislikes":1,"content":"老师语速比较快，所以一定要一直跟着老师的思路，然后要及时理解上课的知识点去做课后作业，感觉老师作业不看字数注重质量，最后交上去之前还会给你提意见。期末闭卷，但是会划重点，所以其实要背的东西也不是特别多，提前一天杯就可以了，不要去和ppt一模一样，意思到了就可以啦。最后不要迟到哈哈哈，老师会在刚上课的时候点名"},{"id":119461,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2019-11-13 02:30:06","like_diff":1,"likes":2,"dislikes":1,"content":"老师讲课很有激情，也非常认真负责，还非常可爱，只要认真学满绩很有可能的!"},{"id":149585,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2022-01-16 04:50:38","like_diff":1,"likes":1,"dislikes":0,"content":"市场营销上的很好 老师超级认真，平常作业相比别的班多，但是学到的也很多"},{"id":150822,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2022-02-19 05:45:10","like_diff":1,"likes":2,"dislikes":1,"content":"市场营销满绩，10分"},{"id":152927,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2022-04-22 01:08:32","like_diff":1,"likes":1,"dislikes":0,"content":"可能17年之前会有些讲不清吧，我21年上市场营销课和nice的，老师条理清晰、上课例子多，考试也会带大家复习，很认真的老师。事情有些多，但是收获更多"},{"id":9494,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2017-02-24 09:52:11","like_diff":0,"likes":26,"dislikes":26,"content":"简直就是神经病一样。。。。都不知道她在干嘛就一个人自high"},{"id":17591,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2016-01-20 12:45:35","like_diff":0,"likes":3,"dislikes":3,"content":"一直讲苹果和小米"},{"id":61456,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2017-11-17 11:11:45","like_diff":0,"likes":3,"dislikes":3,"content":"今天刚考跪 还是来良心评一下。lili语速飞起，经常她讲的和我们理解的不是一个意思，所以一定要及时问她及时确认啊不然就是血的教训啊!!!!!!!!!!!!!!!真的，讲的很好很生动但是巨快……最后……老师你的儿子好可爱呀！！！！！！！！！"},{"id":143120,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2021-11-19 08:04:29","like_diff":0,"likes":3,"dislikes":3,"content":"给分贼差"},{"id":201890,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2024-11-07 08:03:28","like_diff":0,"likes":0,"dislikes":0,"content":"学在浙大点评：很好；课上点评：不错但还需改进；最后分数：差。只能说，老师学术能力的确很强，但给分真的不咋地，追求绩点的慎选"},{"id":204316,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2024-11-25 08:05:27","like_diff":0,"likes":0,"dislikes":0,"content":"学术能力强，但给分真的不咋滴，追求绩点的慎选"},{"id":206268,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2024-12-13 12:28:35","like_diff":0,"likes":0,"dislikes":0,"content":"上课感觉老师的学术能力确实很强，但是上课内容对于作业似乎并没有什么帮助，另外感觉课上夹杂了挺多课程无关的赘述，最后给分也不怎么好"},{"id":206429,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2024-12-15 06:01:17","like_diff":0,"likes":0,"dislikes":0,"content":"风趣幽默，性格直爽，讲课案例还是很赞的"},{"id":9493,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2015-10-29 03:13:54","like_diff":-1,"likes":13,"dislikes":14,"content":"从来不知道她在说些什么东西…"},{"id":155965,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2022-06-17 02:18:59","like_diff":-1,"likes":0,"dislikes":1,"content":"我爱王丽丽！！！"},{"id":161868,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2022-11-14 15:11:11","like_diff":-2,"likes":0,"dislikes":2,"content":"老师人蛮好的，讲课的条理很清晰，作业都是平时留的，期末只需要整合一下就可以了，最后考试周也不至于手忙脚乱。给分也不错。"},{"id":9166,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2016-10-18 01:19:59","like_diff":-4,"likes":14,"dislikes":18,"content":"老师傻！真的是傻！不骗你们！"},{"id":29520,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2016-11-16 12:52:41","like_diff":-5,"likes":2,"dislikes":7,"content":"这个课 最后听老师的总结就好了"},{"id":22256,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2016-03-03 06:17:06","like_diff":-6,"likes":3,"dislikes":9,"content":"没有一点师生情…\n\n"},{"id":62138,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2017-11-22 13:42:23","like_diff":-6,"likes":4,"dislikes":10,"content":"说老师记脸的我不知道是什么鬼，怕是自己考太烂了吧。作为一只每节课都坐在角落里的，和老师没有任何沟通也没留下任何印象的人，我最后也满了呀。"},{"id":9497,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2015-10-29 03:30:06","like_diff":-7,"likes":5,"dislikes":12,"content":"无语啊"},{"id":9496,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2015-10-29 03:26:44","like_diff":-8,"likes":10,"dislikes":18,"content":"讲的什么JB鬼"},{"id":9898,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2017-12-25 13:03:03","like_diff":-10,"likes":12,"dislikes":22,"content":"逻辑性蛮极品的，大概智商高思维太过跳跃。歧视外专业偏见严重，甚至直到考试都在自high严重干扰学生思维运转。"},{"id":9163,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2015-10-15 02:26:03","like_diff":-12,"likes":19,"dislikes":31,"content":"...3次不到挂科   而且  表示和少女心  缺乏常识  思考无逻辑的老师三观不和  如果可以  我想给负分  大学能遇到这么极品的老师也是服了"},{"id":9992,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2017-12-25 13:02:46","like_diff":-12,"likes":12,"dislikes":24,"content":"考前课堂说“你们不要等到十二点半再交嘞，那时候出去饭都吃不了人这么多，一般十二点我就 催 他们交了。”听说点到是她默默看人脸记到场没，呵呵。"},{"id":9173,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2017-12-25 13:03:20","like_diff":-13,"likes":19,"dislikes":32,"content":"讲课逻辑为负 英语口语为负 常识为负 人品为负"},{"id":9495,"teacher_id":2860,"teacher_name":"王丽丽","post_time":"2017-12-25 13:02:38","like_diff":-14,"likes":19,"dislikes":33,"content":"三次不到挂科，偷偷记人脸 不提醒。\n\n讲课水平差，观点低俗，风格恶俗。\n\n逻辑能力极差，想到哪里讲哪里。\n\n与本专业学生很无聊的互动，恶意排斥外专业学生\n\n\n\n"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

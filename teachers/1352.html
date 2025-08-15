@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赵晓庆 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="赵晓庆教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="赵晓庆,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">赵晓庆</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">4.69</div>
+                    <div class="rating-participants">69人参与评分</div>
+                    <div class="attendance-info">12.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">创业启程</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.47</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.63</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">博弈与信息</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.84</span>
+                            <span class="students">选课: 247人</span>
+                            <span class="std-dev">标准差: 0.71</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (61 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":114488,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2019-07-10 05:33:12","like_diff":41,"likes":54,"dislikes":13,"content":"创业启程是看清华的网课，原课程很好，看了之后收获颇丰，但我们的方式配不上原课程的精良。同时得到了大学以来最不能接受的成绩，网课是按时认真看的，线上分数满分，大作业、感想都认真写了（不必质疑我的能力，我认真做的事不会有差的），其中大作业中部分创业构思我已经得过创赛的奖，考试一丝不苟地答完了每一道题，考的知识点全都记得，材料分析也紧扣材料有理有据，字和排版都很认真（我们考试绝大多数同学都在一个小时左右交卷了，我是最后一个交卷的），我的心理预期是不可能低于四点五，因为我的付出绝对值得五的成绩，不管怎么评价绝对都在这门课的同学中排前十。结果最后的了个垫底的绩点，甚至许多考前刷完了网课，大作业感想考试都是随便写写，居然都能得4.5、4.8。这一门被绩杀其实对均绩影响只有零点零几，但我就是很难受很想不通，为自己付出得不到相应的回报感到悲哀和愤怒。之前也被绩杀过，但我绞尽脑汁，总可以找到不足之处。但这次我找不到任何自己做得不够好的地方，也想不到任何能被绩杀的理由。出成绩后我郁闷了好久，只感觉太不公平。甚至不能查卷，让我死的不明不白。有些事我们永远无法左右。"},{"id":63542,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-12-06 10:35:58","like_diff":24,"likes":35,"dislikes":11,"content":"新的绩杀"},{"id":63541,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-12-06 10:34:25","like_diff":9,"likes":16,"dislikes":7,"content":"水课，给分有点迷，期末开卷考，教材很有趣，可惜老师不讲，全是抽同学发言。\n\n"},{"id":63537,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-12-06 09:58:54","like_diff":7,"likes":18,"dislikes":11,"content":"博弈与信息：老师上课比较干，无论文，作业不多，小组展示大概就一次，而且展示重内容轻形式，所以还是比较轻松的。教学和考试内容都比较简单，不过教材内容很丰富。建议老师将试验改成学生不露面，在台下给老师发微信告知策略/选择，否则效果不好"},{"id":138593,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2021-07-10 02:45:35","like_diff":6,"likes":7,"dislikes":1,"content":"创业启程感觉给分还好，主要是大题要扯出作文的气势。"},{"id":70471,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2018-01-26 16:17:25","like_diff":5,"likes":9,"dislikes":4,"content":"上课挺无聊，绩杀"},{"id":72091,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2018-01-29 10:22:09","like_diff":5,"likes":11,"dislikes":6,"content":"绩杀啊，还让我卡绩，被正态，真的无语了。学期结束再回顾，这节课是我这学期所有通识里最低的，很无语，为什么自己平时作业跟着做，考试好好复习，这么低？？？"},{"id":75192,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2018-03-08 02:34:05","like_diff":5,"likes":6,"dislikes":1,"content":"话不多说，绩杀，别选。好好学还不如水过去的人。"},{"id":77561,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2018-05-06 13:38:43","like_diff":4,"likes":6,"dislikes":2,"content":"无聊绩杀\n\n"},{"id":90531,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2018-11-24 01:07:38","like_diff":4,"likes":6,"dislikes":2,"content":"上课巨水，不如自学；自学也罢，书本还厚；努力学习，绩点还低；付出回报不成正比，爽歪歪，谁选谁知道..."},{"id":108031,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2019-05-13 09:56:50","like_diff":4,"likes":5,"dislikes":1,"content":"创业启程真是绝了 谁选谁后悔"},{"id":120014,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2019-11-17 04:57:42","like_diff":4,"likes":8,"dislikes":4,"content":"博弈与信息：水课，随机给分\n\n组长都是直接按照序号任命的，不用选\n\n估计作业 发言 考试啥的都不看，直接随机rand了一波分，然后为了避免录不进教务系统就全给3.3 3.6 3.9\n\n\n\n给一本600+页的教材你学你? 呢\n\n考试内容全部来自ppt，和书没半毛钱关系\n\n\n\n上课感觉没带脑子来，不知道他自己会不会"},{"id":65308,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2018-01-03 02:04:13","like_diff":3,"likes":4,"dislikes":1,"content":"课本身内容有趣，但是这个老师讲的比较无聊。出分很慢，分也不高"},{"id":80134,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2018-06-20 11:09:26","like_diff":3,"likes":4,"dislikes":1,"content":"场外看戏，走马观花。"},{"id":82569,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2018-07-08 14:00:21","like_diff":3,"likes":6,"dislikes":3,"content":"这课 通识最低绩点 无语 被正态被卡绩 极其不公平 老师回答问题也很支吾 无语 辣鸡课 劝大家选选别的课吧"},{"id":123926,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2020-06-16 16:14:21","like_diff":3,"likes":3,"dislikes":0,"content":"2.7  不多说了"},{"id":128749,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2020-12-25 06:54:34","like_diff":3,"likes":3,"dislikes":0,"content":"拉屎均衡，参与者B—（第一声）选择了B—策略……"},{"id":63547,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-12-06 11:49:48","like_diff":2,"likes":9,"dislikes":7,"content":"极水，虽然课程很有意思，但是老师讲的有些乏味了，给我的绩点是3.9，估计应该还是偏低的，比我高的应该很多吧，\n\n还有老师把纳什说成拉屎也是一个莫名的萌点"},{"id":63715,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-12-13 10:24:30","like_diff":2,"likes":5,"dislikes":3,"content":"3.0呵呵"},{"id":63813,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-12-15 08:37:58","like_diff":2,"likes":5,"dislikes":3,"content":"第一节课有点无聊，后面只要你对博弈论感兴趣，这个课还是值得一听的。作业主要是看书，题不多，期末开卷考试，给分有点迷。"},{"id":64850,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-12-27 11:57:30","like_diff":2,"likes":2,"dislikes":0,"content":"水课啊"},{"id":70838,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2018-11-05 04:18:42","like_diff":2,"likes":3,"dislikes":1,"content":"大记杀"},{"id":79012,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2018-05-20 12:15:47","like_diff":2,"likes":5,"dislikes":3,"content":"给一分 不仅被卡绩 还是大学通识课最低绩点 无语 而且花的时间还不少 投入和收获完全不成比例 无语"},{"id":90535,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2018-11-24 01:25:15","like_diff":2,"likes":2,"dislikes":0,"content":"这课没什么收获，真的。而且给分很迷，我还好，班里有个1.8绩点的，我觉得这下手挺狠的。"},{"id":103902,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2019-03-07 06:31:46","like_diff":2,"likes":2,"dislikes":0,"content":"怎么说呢，没有一个明确的评价标准，平时没有点名，小组展示也没有记录。平时作业好好做了，最后50%的平时分只给我84。内容还是有些意思的，但问问题讲不清楚，邮件回得很少，恕我直言老师对待教学上还是有一些敷衍。"},{"id":58380,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-08-30 08:09:39","like_diff":1,"likes":5,"dislikes":4,"content":"感觉好好"},{"id":59267,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-09-20 11:54:29","like_diff":1,"likes":8,"dislikes":7,"content":"唉，同学们教务处订不到书了，你们自己去买吧给你们推荐个五六本（？？？通识课你让我看好几本博弈论的书？？？？）\n\n项羽很无赖，唉，很无赖（我看你最无赖）"},{"id":64981,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-12-28 06:19:06","like_diff":1,"likes":3,"dislikes":2,"content":"很好啊"},{"id":83845,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2018-07-11 10:04:44","like_diff":1,"likes":1,"dislikes":0,"content":"给分低"},{"id":83908,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2018-07-11 13:29:35","like_diff":1,"likes":3,"dislikes":2,"content":"期末考好好考！成绩不会难看的！"},{"id":111608,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2019-07-02 06:43:25","like_diff":1,"likes":1,"dislikes":0,"content":"无聊。。"},{"id":114326,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2019-07-09 20:36:22","like_diff":1,"likes":2,"dislikes":1,"content":"绩杀，水课，慎重"},{"id":127664,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2020-11-25 14:10:39","like_diff":1,"likes":2,"dislikes":1,"content":"上课确实挺无聊的，但是书比较有趣。考试内容极少，题目大部分都很简单。绩点居然给了我4.5（我上课一次也没回答过），喜出望外。"},{"id":146485,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2022-01-06 16:18:46","like_diff":1,"likes":1,"dislikes":0,"content":"秋学期学的老师的博弈与信息（才知道有查老师这么个东西所以才来评论）我打的6分，组是随机分的，组长也是随机选的，然后吧，对于教材我是真无语，直接整一个巨大巨大的教材，讲东西又不怎么用教材，考试内容百分之九十来自PPT。调不调分不知道，本人偏向于躺平甚至不知道绩点和成绩之间怎么转化。事情还可以，一次小组展示，最后有个博弈比赛（别被吓到了就是上课带着我们玩儿）。老师讲课有一点无聊，虽然通识课一般人都会水手机，我还是表示一下老师讲东西无聊"},{"id":157673,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2022-06-24 09:39:54","like_diff":1,"likes":2,"dislikes":1,"content":"创业启程嘿嘿，老师人很好，一周上5节课，每天都会耐心地一对一辅导，答疑解惑，后面几节课是复习课，老师带着复习知识点，严格按照评分细则给分，最后有5.0诶～～～"},{"id":59114,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-09-19 23:49:44","like_diff":0,"likes":4,"dislikes":4,"content":"挺好的\n\n"},{"id":64023,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2018-11-16 01:32:06","like_diff":0,"likes":0,"dislikes":0,"content":"一般般"},{"id":64656,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-12-26 05:52:05","like_diff":0,"likes":5,"dislikes":5,"content":"课挺水的，出分比较慢，如果好好看看PPT和教材的话，最后考试也很简单。平时事情很少，感觉挺适合混分的。"},{"id":90548,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2018-11-24 02:51:37","like_diff":0,"likes":0,"dislikes":0,"content":"谁做展示谁上去做博弈实验等老师都没有记录。老师自己上课没什么深度 挺水的 可能绩杀叭 案例还是有一点点意思的"},{"id":124554,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2020-07-03 01:17:20","like_diff":0,"likes":2,"dislikes":2,"content":"这学期比较特殊，都是线上课，前几节课老师会点名抽人回答问题，后面就没有点了，但是每节课前有签到，然后小组作业挺水的，组长是按照学号任命，组员也没有打分环节，free-rider常见，考试也线上，为了保证顺利进行没有主观题了，改成21道选择判断，选择5分一道，判断3分一道，内容比较基础，多看ppt和布置的作业题，再看看书上概念就可以了，最后满绩了。\n\n"},{"id":128045,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2020-12-04 08:48:15","like_diff":0,"likes":2,"dislikes":2,"content":"真的很水而且绩杀"},{"id":150964,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2022-02-21 11:32:59","like_diff":0,"likes":0,"dislikes":0,"content":"不好…"},{"id":157732,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2022-06-24 13:18:01","like_diff":0,"likes":0,"dislikes":0,"content":"垃圾"},{"id":157752,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2022-06-24 16:06:48","like_diff":0,"likes":0,"dislikes":0,"content":"给分垃圾，谨慎选择"},{"id":164811,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2022-12-26 08:21:01","like_diff":0,"likes":0,"dislikes":0,"content":"博弈论，没楼下说的那么离谱，ppt的知识点课本上大部分是有的，看过课本就知道ppt上好多案例都出自课本，但是课本确实巨厚（大部分内容不要求），建议搞本二手就够了，没必要花大钱买本新的，期末开卷，有稍微认真学的话真的不难，就和平时作业差不多，而且是开卷，不能说简单，没有学肯定写不出来，但个人感觉学了的话我相信还是可以拿到不错的分数。小组展示和博弈游戏看着来吧，感觉展示没有那些思政课那么卷，但展示和那个博弈都需要一定博弈论知识，所以还是要听课。当然当成水课上也可以，上课不听，看课本也可以的。省流的话就是给分比较求是的通识水课，当然这是个人的总结，不喜勿喷"},{"id":61092,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-11-08 11:33:47","like_diff":-1,"likes":4,"dislikes":5,"content":"老师很好\n\n\n\n"},{"id":63424,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-12-03 15:30:18","like_diff":-1,"likes":2,"dislikes":3,"content":"很不次"},{"id":63553,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-12-06 14:37:22","like_diff":-1,"likes":3,"dislikes":4,"content":"额，实验课不能让参与实验的学生露面啊\n\n不然就真成水课了。毕竟博弈论 看勾心斗角还是很好玩的 \n\n"},{"id":157654,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2022-06-24 08:30:02","like_diff":-1,"likes":0,"dislikes":1,"content":"创业启程给分好垃圾\n\n期末写了很多才3.6\n\n我网课成绩97多……"},{"id":59322,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-12-06 09:59:23","like_diff":-2,"likes":5,"dislikes":7,"content":"emmmmm 就课程本身而言 很有实用性 虽然教材很厚 但是认真学可以学到真正有用的东西 但是老师上课可能有点无趣 不过给分还不错 期末考开卷考"},{"id":59835,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-09-27 10:56:38","like_diff":-2,"likes":3,"dislikes":5,"content":"说话没有艺术感和活力，还结结巴巴的。比较无聊，ppt也被他说的索然无味唉。连教材都要我们自己选。"},{"id":127301,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2020-11-20 01:54:05","like_diff":-2,"likes":1,"dislikes":3,"content":"博弈与信息，超级水，就是每节课都会点名，玩了一个秋学期的手机，展示全靠大佬带飞，作业少，考试只要把老师上课的ppt打印下来开卷考就完全没问题。"},{"id":127575,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2020-11-24 14:16:09","like_diff":-2,"likes":0,"dislikes":2,"content":"棒棒棒"},{"id":61646,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-11-19 14:57:23","like_diff":-3,"likes":1,"dislikes":4,"content":"老师人很好，给分也很不错，上课有点无聊，但还是能学到不少东西的～推荐选"},{"id":62766,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-11-27 02:18:09","like_diff":-4,"likes":2,"dislikes":6,"content":"老师知识丰富，也很温柔，就是课有点平淡"},{"id":58250,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-08-28 01:38:21","like_diff":-5,"likes":4,"dislikes":9,"content":"完美啊"},{"id":63539,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2017-12-06 10:03:26","like_diff":-6,"likes":2,"dislikes":8,"content":"虽然讲课略微平淡，但讲的东西挺有用，给分还行"},{"id":114367,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2019-07-09 23:56:09","like_diff":-6,"likes":7,"dislikes":13,"content":"博弈与信息被卡绩了…94，大家上课都做坐在最后几排根本不听课，老师点名叫人才开始看PPT上的题，群里经常有同学作业迟交，期末开卷考试就带一本白白的教材，连PPT的内容都懒得复习和打印，成绩低太正常了。平时好好听课，作业自己做，课堂实验积极思考，期末前好好整理PPT和书上的方法，肯定没问题的。你认真听课，其实老师还是比较幽默的，你要是不听，当然觉得无聊。"},{"id":63558,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2018-05-31 08:17:10","like_diff":-7,"likes":6,"dislikes":13,"content":"给分可以说是相当相当迷了 上课听得比大部分人认真 作业绝对是认真仔细写的 考试也复了习 有些题目去问老师 老师也说的不清楚 最后…3.9 凉凉"},{"id":98573,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2019-01-23 15:04:46","like_diff":-13,"likes":1,"dislikes":14,"content":"半学期的早八，上课又无聊，最后绩杀\n\n3.9凉凉"},{"id":98514,"teacher_id":1352,"teacher_name":"赵晓庆","post_time":"2019-01-23 14:05:46","like_diff":-38,"likes":3,"dislikes":41,"content":"信息经济学给分一般，只有4.5"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

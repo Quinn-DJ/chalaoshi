@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吴师 - 化学系 - 浙大教评</title>
+    <meta name="description" content="吴师教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="吴师,化学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">吴师</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">化学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.71</div>
+                    <div class="rating-participants">88人参与评分</div>
+                    <div class="attendance-info">33.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (1 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">大学化学实验（O）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.20</span>
+                            <span class="students">选课: 49人</span>
+                            <span class="std-dev">标准差: 0.50</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (77 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":944,"teacher_id":2033,"teacher_name":"吴师","post_time":"2017-01-12 08:31:31","like_diff":43,"likes":46,"dislikes":3,"content":"老师严格～学的时候觉得有点受挫\n\n老师很认真\n\n收获很大～高尚的人～"},{"id":4250,"teacher_id":2033,"teacher_name":"吴师","post_time":"2015-06-18 10:37:15","like_diff":32,"likes":32,"dislikes":0,"content":"老师萌萌哒。最后理论考试还没开始的时候，老师看了看表，掏出手机，说：“还有几分钟，我们来合张影。”"},{"id":2809,"teacher_id":2033,"teacher_name":"吴师","post_time":"2015-05-08 02:30:46","like_diff":26,"likes":28,"dislikes":2,"content":"开始觉得挺严厉 ，后来发现可萌，东北大爷们用粉色的手机贴2333。上课提问略难，但属于只要认真就会有好成绩的课，想水的还是飘过～～"},{"id":5719,"teacher_id":2033,"teacher_name":"吴师","post_time":"2015-07-09 07:51:54","like_diff":17,"likes":17,"dislikes":0,"content":"白头发老帅的"},{"id":2135,"teacher_id":2033,"teacher_name":"吴师","post_time":"2015-04-02 08:38:20","like_diff":11,"likes":14,"dislikes":3,"content":"要求严格，搞科研的人很适合选他的实验"},{"id":3900,"teacher_id":2033,"teacher_name":"吴师","post_time":"2015-06-17 07:45:59","like_diff":11,"likes":12,"dislikes":1,"content":"老师很严格，但是真能学到东西。认真写讨论，认真预习。"},{"id":5354,"teacher_id":2033,"teacher_name":"吴师","post_time":"2015-07-07 02:51:38","like_diff":11,"likes":12,"dislikes":1,"content":"严格，但是很幽默，严肃的那种幽默(￣∇￣)"},{"id":8537,"teacher_id":2033,"teacher_name":"吴师","post_time":"2015-09-22 07:23:33","like_diff":11,"likes":12,"dislikes":1,"content":"超级认真的 而且我们大化o助教老师正好是夫妻～超萌"},{"id":573,"teacher_id":2033,"teacher_name":"吴师","post_time":"2015-03-15 05:41:31","like_diff":8,"likes":10,"dislikes":2,"content":"人好 打分也很好"},{"id":8568,"teacher_id":2033,"teacher_name":"吴师","post_time":"2015-09-22 11:32:17","like_diff":8,"likes":8,"dislikes":0,"content":"老师太帅啦！还非常萌！大一上完他的实验课，之后的实验写报告都觉得很简单了！多查文献！多写讨论！"},{"id":145,"teacher_id":2033,"teacher_name":"吴师","post_time":"2015-03-14 16:09:21","like_diff":7,"likes":9,"dislikes":2,"content":"德高望重"},{"id":18738,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-01-22 12:27:34","like_diff":7,"likes":7,"dislikes":0,"content":"很严 但是习惯了就好 讨论一定要\"见工夫\"(大物就。。)名言 \"做实验就像炒鸡蛋干饭\" 还有在吉大搞氟的奋斗史。老师要退休了，祝身体健康!(80字!"},{"id":15617,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-01-15 19:21:39","like_diff":6,"likes":6,"dislikes":0,"content":"老师挺好的。第一门满绩。"},{"id":4085,"teacher_id":2033,"teacher_name":"吴师","post_time":"2015-06-17 16:36:26","like_diff":5,"likes":7,"dislikes":2,"content":"老师很负责，讲解详细又清楚，真的可以学到知识"},{"id":4253,"teacher_id":2033,"teacher_name":"吴师","post_time":"2015-06-18 10:50:25","like_diff":5,"likes":6,"dislikes":1,"content":"人很好"},{"id":15050,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-01-11 16:48:44","like_diff":5,"likes":5,"dislikes":0,"content":"实验前讲得很多很久。但很负责。人很好"},{"id":28320,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-06-28 08:32:29","like_diff":5,"likes":5,"dislikes":0,"content":"东北大爷口音略萌啊233，平常来看我们实验操作的时候有点严，但感觉学到很多"},{"id":4083,"teacher_id":2033,"teacher_name":"吴师","post_time":"2015-06-17 16:35:08","like_diff":4,"likes":4,"dislikes":0,"content":"特别棒"},{"id":8690,"teacher_id":2033,"teacher_name":"吴师","post_time":"2015-09-24 05:31:58","like_diff":4,"likes":5,"dislikes":1,"content":"博学幽默慈祥和蔼，总之就是大师风范^_^"},{"id":15387,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-01-14 07:47:51","like_diff":3,"likes":3,"dislikes":0,"content":"挺严格的一个老师，非常负责"},{"id":25712,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-06-04 09:37:42","like_diff":3,"likes":4,"dislikes":1,"content":"真的很好的老师，对于助教超严格，对同学很好的"},{"id":30284,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-07-01 07:47:12","like_diff":3,"likes":4,"dislikes":1,"content":"老师超认真！我觉得就是一个老教授应有的样子hh然后仔仔细细做实验认认真真写报告会获得一个不错的分数^_^"},{"id":30358,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-07-01 11:31:03","like_diff":3,"likes":3,"dislikes":0,"content":"对助教真的要求很高/讲实验的时候话特别多2333/很可爱的老师/大化o还是很水的认真写报告满记不是梦"},{"id":111027,"teacher_id":2033,"teacher_name":"吴师","post_time":"2019-06-29 08:30:47","like_diff":3,"likes":3,"dislikes":0,"content":"老师超级超级无敌棒！可能刚开始觉得他很凶，但是其实后来会发现是个可爱的东北大爷呀！最后给分也很好，认真学不会后悔的！"},{"id":114918,"teacher_id":2033,"teacher_name":"吴师","post_time":"2019-07-12 17:20:16","like_diff":3,"likes":3,"dislikes":0,"content":"上课时候是最讨厌的老师，跟高中老师一样苛刻，所有课出分之后发现错怪你了。10"},{"id":8738,"teacher_id":2033,"teacher_name":"吴师","post_time":"2015-09-25 03:20:28","like_diff":2,"likes":3,"dislikes":1,"content":"谁上谁知道～"},{"id":10190,"teacher_id":2033,"teacher_name":"吴师","post_time":"2015-11-17 09:55:35","like_diff":2,"likes":2,"dislikes":0,"content":"好老师不解释\n\n"},{"id":15732,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-01-16 08:01:09","like_diff":2,"likes":2,"dislikes":0,"content":"人很萌，给分也好，认真负责"},{"id":17297,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-01-20 03:55:18","like_diff":2,"likes":2,"dislikes":0,"content":"老师很严肃但是很有趣，真的能学到很多东西，大师风范"},{"id":18061,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-01-21 07:15:42","like_diff":2,"likes":2,"dislikes":0,"content":"感觉超有范，很好的老师，对于助教比对学生严格，认真的能学到很多东西"},{"id":23346,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-03-25 12:31:25","like_diff":2,"likes":3,"dislikes":1,"content":"挺好的，让人崇敬的老师"},{"id":30406,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-07-01 13:32:58","like_diff":2,"likes":3,"dislikes":1,"content":"严谨的老师，很有风范！"},{"id":47984,"teacher_id":2033,"teacher_name":"吴师","post_time":"2017-02-28 01:48:35","like_diff":2,"likes":2,"dislikes":0,"content":"萌萌的东北老汉，实验的时候很严肃，对助教要求高，毕竟实验，认真地去做事情就能拿高分的，助教人特好，简直想再修一次大化！"},{"id":53648,"teacher_id":2033,"teacher_name":"吴师","post_time":"2017-06-27 08:41:29","like_diff":2,"likes":2,"dislikes":0,"content":"棒棒棒！助教也很赞！能学到很多！"},{"id":53672,"teacher_id":2033,"teacher_name":"吴师","post_time":"2017-06-27 09:38:11","like_diff":2,"likes":2,"dislikes":0,"content":"过誉了吧，大化o主要看助教，还有自己的态度，老师没什么关系"},{"id":67969,"teacher_id":2033,"teacher_name":"吴师","post_time":"2018-01-22 11:57:26","like_diff":2,"likes":2,"dislikes":0,"content":"助教超级耐心呐～颜值超高！"},{"id":68040,"teacher_id":2033,"teacher_name":"吴师","post_time":"2018-01-22 13:49:09","like_diff":2,"likes":2,"dislikes":0,"content":"我上的是大化O，所以一般是听助教讲，老师有时在的话会补充一下。助教真是nice，有什么问题都可以找他们帮忙解决，非常认真负责。弄碎了好几样玻璃仪器真是愧疚。绩点感人，大学第一门实验课就这么圆满结束了。再次感谢老师，感谢助教！"},{"id":74175,"teacher_id":2033,"teacher_name":"吴师","post_time":"2018-02-06 03:39:44","like_diff":2,"likes":2,"dislikes":0,"content":"好的不行"},{"id":108367,"teacher_id":2033,"teacher_name":"吴师","post_time":"2019-05-22 05:27:00","like_diff":2,"likes":2,"dislikes":0,"content":"有时严厉但很负责"},{"id":109357,"teacher_id":2033,"teacher_name":"吴师","post_time":"2019-06-13 08:23:58","like_diff":2,"likes":2,"dislikes":0,"content":"超级棒的老师！"},{"id":111650,"teacher_id":2033,"teacher_name":"吴师","post_time":"2019-07-02 10:39:56","like_diff":2,"likes":3,"dislikes":1,"content":"傻逼助教李君临"},{"id":15403,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-01-14 08:31:35","like_diff":1,"likes":1,"dislikes":0,"content":"老师很温和"},{"id":28365,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-06-28 08:40:54","like_diff":1,"likes":1,"dislikes":0,"content":"老师很严格"},{"id":30363,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-07-01 11:55:17","like_diff":1,"likes":1,"dislikes":0,"content":"老师人好好啊 超赞"},{"id":30460,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-07-01 15:53:46","like_diff":1,"likes":2,"dislikes":1,"content":"严格又幽默，东北音略萌。\n\n大化o可以满绩"},{"id":41779,"teacher_id":2033,"teacher_name":"吴师","post_time":"2017-01-12 14:22:32","like_diff":1,"likes":1,"dislikes":0,"content":"给分好啊～o(^_^)o"},{"id":42549,"teacher_id":2033,"teacher_name":"吴师","post_time":"2017-01-14 12:19:02","like_diff":1,"likes":2,"dislikes":1,"content":"东北大爷很和蔼"},{"id":47013,"teacher_id":2033,"teacher_name":"吴师","post_time":"2017-01-23 09:32:48","like_diff":1,"likes":1,"dislikes":0,"content":"刚好有两回实验课老师都在旁听，助教讲解完后都再补充了很多，很和蔼的老人家。"},{"id":47295,"teacher_id":2033,"teacher_name":"吴师","post_time":"2017-01-25 06:42:21","like_diff":1,"likes":1,"dislikes":0,"content":"很认真的老头"},{"id":52141,"teacher_id":2033,"teacher_name":"吴师","post_time":"2017-06-15 06:09:58","like_diff":1,"likes":1,"dislikes":0,"content":"老师很可爱 讲课认真负责 对学生要求高 实验报告一定要认真写 一个学期下来有了很大收获"},{"id":53610,"teacher_id":2033,"teacher_name":"吴师","post_time":"2017-06-27 07:17:27","like_diff":1,"likes":1,"dislikes":0,"content":"虽然成绩最后不太好 但是老师真的是科研方面的好老师。"},{"id":53723,"teacher_id":2033,"teacher_name":"吴师","post_time":"2017-06-27 11:20:39","like_diff":1,"likes":1,"dislikes":0,"content":"助教sb"},{"id":53753,"teacher_id":2033,"teacher_name":"吴师","post_time":"2017-06-27 13:16:00","like_diff":1,"likes":2,"dislikes":1,"content":"给分应该还好吧，有史以来第一个上4的课。。。。"},{"id":67683,"teacher_id":2033,"teacher_name":"吴师","post_time":"2018-01-22 05:03:54","like_diff":1,"likes":2,"dislikes":1,"content":"emmm均绩4.1左右结果绩点3.0"},{"id":67786,"teacher_id":2033,"teacher_name":"吴师","post_time":"2018-01-22 07:16:14","like_diff":1,"likes":2,"dislikes":1,"content":"一学期报告90左右 最后绩点才勉勉强强4.2   刘zx老师班级的同学报告80+也有4.2 而且最后做研究性试验还是失败的。有点受挫"},{"id":67923,"teacher_id":2033,"teacher_name":"吴师","post_time":"2018-01-22 10:17:16","like_diff":1,"likes":1,"dislikes":0,"content":"感觉老师很和蔼，助教讲实验的时候有时他会坐在旁边实验台看报告，助教讲完还会来补充细节。很负责，而且认真对待的话可以拿到很不错的绩点。很喜欢这样的老师。"},{"id":82326,"teacher_id":2033,"teacher_name":"吴师","post_time":"2018-07-08 01:36:45","like_diff":1,"likes":2,"dislikes":1,"content":"要求非常非常严格！是一个很认真的老师～"},{"id":97926,"teacher_id":2033,"teacher_name":"吴师","post_time":"2019-01-23 01:56:35","like_diff":1,"likes":1,"dislikes":0,"content":"老师很棒"},{"id":105478,"teacher_id":2033,"teacher_name":"吴师","post_time":"2019-04-15 05:48:47","like_diff":1,"likes":1,"dislikes":0,"content":"老师严格，"},{"id":110189,"teacher_id":2033,"teacher_name":"吴师","post_time":"2019-06-24 09:21:07","like_diff":1,"likes":1,"dislikes":0,"content":"别问！问就是超级无敌棒！助教小姐姐也超级无敌棒！"},{"id":111043,"teacher_id":2033,"teacher_name":"吴师","post_time":"2019-06-29 10:12:47","like_diff":1,"likes":1,"dislikes":0,"content":"”老师你最可爱啦”\n\n“老师当然最可爱”"},{"id":4385,"teacher_id":2033,"teacher_name":"吴师","post_time":"2015-06-20 15:07:49","like_diff":0,"likes":2,"dislikes":2,"content":"爽"},{"id":15420,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-01-14 10:26:52","like_diff":0,"likes":3,"dislikes":3,"content":"就是被正态了 平时报告勤勤恳恳 期末考考差就完全无视平时报告打分 各位好好复习考试吧"},{"id":30618,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-07-13 03:11:39","like_diff":0,"likes":1,"dislikes":1,"content":"录错成绩了…老师人还是不错的"},{"id":30637,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-07-02 06:02:21","like_diff":0,"likes":0,"dislikes":0,"content":"话多，真多，很多有的 没的，但是助教好，给分一般"},{"id":32455,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-07-07 02:34:00","like_diff":0,"likes":0,"dislikes":0,"content":"萌萌哒白发老爷爷。我是不会说，当助教讲课的时候，我和老师都在睡午觉滴。。。"},{"id":34277,"teacher_id":2033,"teacher_name":"吴师","post_time":"2016-09-29 13:38:58","like_diff":0,"likes":0,"dislikes":0,"content":"这个老师超赞\\(≧▽≦)/\n\n"},{"id":42021,"teacher_id":2033,"teacher_name":"吴师","post_time":"2017-01-13 12:25:16","like_diff":0,"likes":0,"dislikes":0,"content":"老师人不错，认真就有分数。大一第一学期就5的课，好感动呀"},{"id":42354,"teacher_id":2033,"teacher_name":"吴师","post_time":"2017-01-14 05:15:24","like_diff":0,"likes":0,"dislikes":0,"content":"很认真"},{"id":47983,"teacher_id":2033,"teacher_name":"吴师","post_time":"2017-02-28 01:30:45","like_diff":0,"likes":0,"dislikes":0,"content":"炒鸡棒"},{"id":53626,"teacher_id":2033,"teacher_name":"吴师","post_time":"2017-06-27 07:52:21","like_diff":0,"likes":1,"dislikes":1,"content":"太赞了 给分很好 遇上的助教都很好 感谢组里一直带我的大佬"},{"id":58207,"teacher_id":2033,"teacher_name":"吴师","post_time":"2017-08-22 09:15:03","like_diff":0,"likes":0,"dislikes":0,"content":"怎么会有这么棒的老师！其他班的同学只是听助教讲解一会儿，就直接开始实验，但吴师老师会讲很多有关实验甚至延伸的东西，对于今后的学习会很有用。虽然实验报告打分很严，但最后成绩很好～"},{"id":69997,"teacher_id":2033,"teacher_name":"吴师","post_time":"2018-01-26 02:12:07","like_diff":0,"likes":0,"dislikes":0,"content":"给分没有另一个大化O的老师好，但是老师教的很好"},{"id":70110,"teacher_id":2033,"teacher_name":"吴师","post_time":"2018-01-26 06:16:47","like_diff":0,"likes":0,"dislikes":0,"content":"一般实验课都是助教上跟老师没太大关系，但是助教讲的时老师也会在旁边补充，还是要靠自己实验报告好好写期末好好考吧～"},{"id":108302,"teacher_id":2033,"teacher_name":"吴师","post_time":"2019-05-20 14:33:56","like_diff":0,"likes":0,"dislikes":0,"content":"emmm一言难尽"},{"id":69524,"teacher_id":2033,"teacher_name":"吴师","post_time":"2018-01-25 02:34:48","like_diff":-1,"likes":2,"dislikes":3,"content":"助教人很好，平时的一些任务按时完成就行啦，态度要端正，最后理论我考的也不错，有了4.8的绩点，功夫不负有心人啊……"},{"id":65282,"teacher_id":2033,"teacher_name":"吴师","post_time":"2018-01-02 09:21:55","like_diff":-5,"likes":2,"dislikes":7,"content":"感觉这个老师跟助教基本没啥沟通，实验报告写讨论的要求也跟助教不一样，最后探究性实验居然说助教发过去的实验方案看都没看过，然后上课我们要的原料一半没有，还要临场改，不知道设计方案的意义在哪儿。感觉上课讲的要求的也没有前面吹得那么厉害，是关于本次实验选用的仪器，设计之类的，说实话百度上都有，出分的安排倒是挺快。趁还没出分先评价一波。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

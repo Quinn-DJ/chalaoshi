@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>颜波 - 物理学系 - 浙大教评</title>
+    <meta name="description" content="颜波教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="颜波,物理学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">颜波</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">物理学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.01</div>
+                    <div class="rating-participants">67人参与评分</div>
+                    <div class="attendance-info">34.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">原子光学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.50</span>
+                            <span class="students">选课: 7人</span>
+                            <span class="std-dev">标准差: 0.59</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大学物理（乙）Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.59</span>
+                            <span class="students">选课: 143人</span>
+                            <span class="std-dev">标准差: 1.05</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">物理学实验Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.54</span>
+                            <span class="students">选课: 118人</span>
+                            <span class="std-dev">标准差: 0.24</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (56 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":76112,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-03-27 04:42:38","like_diff":42,"likes":46,"dislikes":4,"content":"社会我波哥，脸上俩酒窝"},{"id":77343,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-05-16 06:14:42","like_diff":32,"likes":34,"dislikes":2,"content":"大物丙的速度，大物甲的难度。"},{"id":79661,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-10 04:15:04","like_diff":18,"likes":22,"dislikes":4,"content":"问了助教，了解大致情况了，期末填空题设了很多坑，老师又没有调分，就这样。我有问过很多同学，也有绩点4.8的，在此我再重申一遍：老师没有调分没有调分没有调分，有几位说老师往低了调的有点过分了。"},{"id":76492,"teacher_id":5034,"teacher_name":"颜波","post_time":"2019-02-22 14:51:25","like_diff":17,"likes":17,"dislikes":0,"content":"颜波男神\n\n希望后面的澳门情侣能闭上他们的嘴，整节课都在逼逼"},{"id":80118,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-06-20 07:06:23","like_diff":15,"likes":16,"dislikes":1,"content":"颜波小可爱下学期不教大雾了，难过。颜波小可爱真的很认真备课，手写板书，炒鸡萌。所有公式都会严谨推导，虽然考试用处不大。印象最深的一句话是这个不要求掌握，但是它的形式太美了所以我写下来了。小可爱的课如果数学基础好，真的能感受到物理的美感。可惜我太菜了。"},{"id":83231,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-10 03:05:55","like_diff":15,"likes":17,"dislikes":2,"content":"老师不是坏人……但是讲课是真的不行……也是真的不调分……"},{"id":84711,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-13 15:07:02","like_diff":13,"likes":15,"dislikes":2,"content":"说老师不调分的，，，感觉都是忘记了平时分是怎么给的，，，期中炸成那样只扣一点分不错了"},{"id":83175,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-10 03:58:25","like_diff":12,"likes":16,"dislikes":4,"content":"因为期末卷子难给了低分，但是为什么不根据每年试卷难度适当调分呢 ，比较在意的是隔壁老师调了，我们没调，这是否是不公平呢"},{"id":83210,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-10 02:32:05","like_diff":10,"likes":11,"dislikes":1,"content":"什么鬼，我的分数怎么这么低，难道我期末只考了不到60分吗？"},{"id":83233,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-10 03:28:29","like_diff":9,"likes":9,"dislikes":0,"content":"心态有点差，，，总评太低了吧。我想知道是为什么啊！"},{"id":76174,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-04-04 06:37:22","like_diff":8,"likes":9,"dislikes":1,"content":"“好现在我们来summerize一下”"},{"id":83217,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-10 02:46:46","like_diff":8,"likes":8,"dislikes":0,"content":"老师人很好讲得也很好，但是，我想知道为什么我总评这么低？？？"},{"id":83237,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-10 03:17:02","like_diff":7,"likes":8,"dislikes":1,"content":"真的不忍心给低分啊，但是总评真心低"},{"id":84465,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-13 02:28:26","like_diff":7,"likes":11,"dislikes":4,"content":"不调分。\n\n给分很真实。\n\n平时分期末前给出。\n\n上课无聊。\n\n全靠自学。\n\n突然小测。\n\n作业少。\n\n手书，不用PPT。\n\n暂时就想到这么多。。。。"},{"id":131684,"teacher_id":5034,"teacher_name":"颜波","post_time":"2021-01-28 12:02:15","like_diff":7,"likes":7,"dislikes":0,"content":"祝老师新年快乐"},{"id":83203,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-10 02:21:09","like_diff":6,"likes":8,"dislikes":2,"content":"为什么我的分数这么低"},{"id":83247,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-10 04:24:13","like_diff":6,"likes":8,"dislikes":2,"content":"对完答案发现确实错了很多，另外任课老师应该不能调卷面分数的"},{"id":111980,"teacher_id":5034,"teacher_name":"颜波","post_time":"2019-07-03 05:36:43","like_diff":6,"likes":7,"dislikes":1,"content":"卡绩了。好难受。差0.3就可以四舍五入往前进了。不过只怪自己期中没考好，考前摸底测试也没考好。\n\n助教挺好的，很可爱。\n\n老师的话，实力很强的。看PPT知道他是竺院本科的，后来也去了康奈尔还有上海的研究所学习。但我觉得老师授课偏向于信息单项传输，他会把公式来源很详细地推导一遍，也会偶尔讲些物理冷笑话，引用费曼物理讲义的故事。不过因为他真的是很单纯的学术人，所以讲得也蛮学术？会因为\"数学的美感\"写下对学习大物乙没啥用，但对学习物理本身有用的东西。\n\n另外，仔细看看大物甲乙试卷的对比，我真的觉得大物乙不难，虽然自己考得也不太好。但在个人我看来，书本公式记记牢，会一些很粗浅但灵活的应用，对付大物乙就够了。\n\n以上。"},{"id":79108,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-05-23 07:01:50","like_diff":5,"likes":6,"dislikes":1,"content":"希望老师突出一下重点\n\n还有，某些情侣上课能不能收敛点"},{"id":79835,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-06-14 07:50:55","like_diff":5,"likes":5,"dislikes":0,"content":"“这是一个比较general的结论”，哈哈超可爱的老师！思路也很清晰，跟着波波一起记笔记比看书还好"},{"id":74799,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-03-06 02:34:29","like_diff":4,"likes":8,"dislikes":4,"content":"就冲他这上课我给他10分；思路清晰，博学多才，语速适宜，声音还好听（x反正别的老师上课我想睡觉但是颜波男神的课能把我上醒。。感觉他上课时间过得好快（\n\n很久没有见过这么让人心旷神怡的老师了"},{"id":75521,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-03-20 02:36:44","like_diff":4,"likes":7,"dislikes":3,"content":"要仔细听，其实讲的不错"},{"id":76110,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-03-27 03:38:45","like_diff":3,"likes":5,"dislikes":2,"content":"不点名不签到\n\n例子多讲课好\n\n批改细作业少\n\n想水课选颜波\n\n（faq...最后压不上韵了）"},{"id":78363,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-05-11 06:10:36","like_diff":3,"likes":3,"dislikes":0,"content":"突然发现他在课上讲的推导类的板书是大物甲课本上的东西……"},{"id":79812,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-06-14 02:58:58","like_diff":3,"likes":3,"dislikes":0,"content":"老师萌萌哒，上课的时候会很仔细地推公式(虽然我听不懂，虽然不是考试重点……但是对记住公式还是很有帮助哒)，也会讲例题，认真听还是挺好的\n\n"},{"id":82050,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-07 02:52:37","like_diff":3,"likes":4,"dislikes":1,"content":"讲课好，作业少！"},{"id":83252,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-10 03:35:34","like_diff":3,"likes":6,"dislikes":3,"content":"给分真的不好。"},{"id":111998,"teacher_id":5034,"teacher_name":"颜波","post_time":"2019-07-03 06:15:54","like_diff":3,"likes":3,"dislikes":0,"content":"老师其实还挺好的，但是成绩是真的低....."},{"id":76101,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-03-27 02:32:33","like_diff":2,"likes":5,"dislikes":3,"content":"老师上课很认真，备课也很认真……\n\n就是好像会有自己的体系和讲法，和书上的讲法不太一样……可能上课听明白了回去还是要看一遍书。希望老师能有改进，结合书上的体系讲。"},{"id":79551,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-06-09 03:50:41","like_diff":2,"likes":2,"dislikes":0,"content":"老师超级好！讲课很认真，是真正喜欢物理的人，上课是写板书的，还有ppt准备给同学，唯一的缺点就是写的字比较小，但如果能抢到第一排就完美了"},{"id":115894,"teacher_id":5034,"teacher_name":"颜波","post_time":"2019-08-24 02:57:26","like_diff":2,"likes":2,"dislikes":0,"content":"老师十分敬业，每次都会认真备课，多次亲眼看见他手上厚厚的一叠手写讲课稿；上课内容也很精辟，很有深度。小测较多，难度不大，权当点名，最后给分还行。只可惜他这个学期不上大物了……"},{"id":111991,"teacher_id":5034,"teacher_name":"颜波","post_time":"2019-07-03 06:02:51","like_diff":1,"likes":1,"dislikes":0,"content":"总评分竟然比期末考试成绩低也是第一次见了。。。"},{"id":111995,"teacher_id":5034,"teacher_name":"颜波","post_time":"2019-07-03 06:11:51","like_diff":1,"likes":2,"dislikes":1,"content":"老师和助教都超好。讲课一直手写，非常清晰。认真对待成绩一定会好的！"},{"id":112007,"teacher_id":5034,"teacher_name":"颜波","post_time":"2019-07-03 07:05:52","like_diff":1,"likes":2,"dislikes":1,"content":"老师上课还行\n\n给分比较真实 不会刻意卡你绩点\n\n但也不会在差一分上一档的时候捞你一把"},{"id":115395,"teacher_id":5034,"teacher_name":"颜波","post_time":"2019-07-21 04:19:46","like_diff":1,"likes":1,"dislikes":0,"content":"老师其实挺好的，科研能力学术水平很高，推导很详细，总之上他的课能真正体会到物理的美感……只是小测真的有点多……"},{"id":79741,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-06-13 07:58:12","like_diff":0,"likes":1,"dislikes":1,"content":"颜四题\n\n"},{"id":79742,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-06-13 07:59:32","like_diff":0,"likes":0,"dislikes":0,"content":"思路清晰，很好！"},{"id":83543,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-10 14:39:23","like_diff":0,"likes":2,"dislikes":2,"content":"老师很厉害也很可爱，大雾乙本来就是自学的嘛，平时分给的挺好，期末考分数给的很真实。还是一分耕耘一分收获。"},{"id":85042,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-15 05:47:30","like_diff":0,"likes":1,"dislikes":1,"content":"老师很可爱，会拓展一些知识，但有时讲的很快，不过自学能跟上"},{"id":85380,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-17 10:05:07","like_diff":0,"likes":2,"dislikes":2,"content":"迷之给分:平时作业都交，小测都对，期中考七八十分，但算下来平时分只得了一半？"},{"id":103910,"teacher_id":5034,"teacher_name":"颜波","post_time":"2019-03-07 07:13:21","like_diff":0,"likes":2,"dislikes":2,"content":"老师很可爱，讲的知识让我这个高中物理还不错的人也能学到不少，先给八分"},{"id":112006,"teacher_id":5034,"teacher_name":"颜波","post_time":"2019-07-03 07:04:18","like_diff":0,"likes":1,"dislikes":1,"content":"老师，助教人挺好！！！！"},{"id":112009,"teacher_id":5034,"teacher_name":"颜波","post_time":"2019-07-03 07:10:02","like_diff":0,"likes":1,"dislikes":1,"content":"虽然有时会突然小测，但是题目都挺简单。其实上课没怎么听全靠高中物理竞赛，然而卡绩了有点伤心。特地问助教查了卷子也知道了自己错在哪里，我滴热学！果然大学老师改卷是不会手下留情的，答案错了过程分就是几乎没有。老师挺好的，助教老师还鼓励我让我好好复习下一门课，感动? ！下学期继续加油！"},{"id":112629,"teacher_id":5034,"teacher_name":"颜波","post_time":"2019-07-04 23:07:18","like_diff":0,"likes":0,"dislikes":0,"content":"不调分的意思是期末考前20分平时分会确定并公示，但感觉老师的平时分给的挺好的啊，绝大部分人19，有些人20。也有一些18，个别15。调分也就调平时分吧，还能怎么调。平时分给这样已经不错了，因为包括平时作业，课堂小测，还有期末的摸底考试。"},{"id":117407,"teacher_id":5034,"teacher_name":"颜波","post_time":"2019-09-24 03:30:37","like_diff":0,"likes":0,"dislikes":0,"content":"哈哈哈看到有说总评比期末考试还低，我也是，但是那是因为期末考得太好了，所以可见，调分是不可能调分的。大雾乙本身不难，我就期中期末考前突击复习也是能考好的，最后被平时分拖后腿了。老师很可爱，讲课也是很认真的，会拓展很多，虽然对考试影响不大而且可能听不懂，但是还是很充实啊。诸君且自勉吧。"},{"id":75618,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-03-14 06:00:33","like_diff":-3,"likes":1,"dislikes":4,"content":"怎么说呢，真的不知道他讲的这个例子他想讲出啥。就是我们来看一下。。。so我们看一下想看出啥(눈_눈)?"},{"id":83232,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-10 03:07:54","like_diff":-4,"likes":2,"dislikes":6,"content":"期中给分太松 结果期末调分\n\n落差感太大  难受 90左右 调完70多"},{"id":109244,"teacher_id":5034,"teacher_name":"颜波","post_time":"2019-06-12 08:36:39","like_diff":-4,"likes":2,"dislikes":6,"content":"呵呵，期末考试前还有大测验，还算平时分，简直愚蠢"},{"id":112103,"teacher_id":5034,"teacher_name":"颜波","post_time":"2019-07-03 14:31:19","like_diff":-4,"likes":2,"dislikes":6,"content":"对教物理很有热情，不调分给分很合理，上课讲例题真的很有用！！进度和速度都很好，学得认真就能像我一样4.8啦"},{"id":76188,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-03-28 12:55:48","like_diff":-5,"likes":1,"dislikes":6,"content":"和自习没区别\n\n"},{"id":76635,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-04-17 02:37:31","like_diff":-7,"likes":2,"dislikes":9,"content":"坐在最后很可能看不见黑板，听不清，还有，三周两次小测也是醉了，至于讲得好不好，无感，最后都自学，不过老师态度很认真，嗯，也就这样了"},{"id":83264,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-11 14:02:53","like_diff":-7,"likes":5,"dislikes":12,"content":"为什么总评那么低？？期末考总不可能考个60分吧？平时分满 总评80？调分也太恶心了吧？"},{"id":84713,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-13 15:16:29","like_diff":-16,"likes":2,"dislikes":18,"content":"有谁想要踩我的评论吗。。。"},{"id":131677,"teacher_id":5034,"teacher_name":"颜波","post_time":"2021-01-28 12:55:44","like_diff":-17,"likes":12,"dislikes":29,"content":"脑瘫一个怪不得招不到研究生"},{"id":85776,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-08-07 07:44:34","like_diff":-19,"likes":2,"dislikes":21,"content":"觉得大学里最简单的一门课就这样没拿到满分，气，怒发冲冠，平时分已经拿满，期末那么简单的题只给我总评贡献65？！"},{"id":83289,"teacher_id":5034,"teacher_name":"颜波","post_time":"2018-07-10 04:55:24","like_diff":-58,"likes":3,"dislikes":61,"content":"老师绝对是好老师，平时讲课很认真，很细致，讲的稍微难一点，但看看这张期末卷子，也别觉得大物乙就多好混分吧，还是认真对待一点。分数很难受，被卡了，差一分5.0"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

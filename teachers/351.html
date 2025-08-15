@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>康笛 - 经济学院 - 浙大教评</title>
+    <meta name="description" content="康笛教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="康笛,经济学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">康笛</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">经济学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.54</div>
+                    <div class="rating-participants">60人参与评分</div>
+                    <div class="attendance-info">31.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (1 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">国际税收</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.87</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.98</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (53 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":32955,"teacher_id":351,"teacher_name":"康笛","post_time":"2016-08-20 23:29:55","like_diff":24,"likes":27,"dislikes":3,"content":"康老师和鑫爷的爱情，终究可以让一群单身?不说话了！"},{"id":209791,"teacher_id":351,"teacher_name":"康笛","post_time":"2025-01-07 06:13:58","like_diff":9,"likes":9,"dislikes":0,"content":"康老师人很好～最后还会多开一次腾讯会议认真划重点，还说不然都是重点我们该失望了哈哈哈好可爱，试卷下面还会祝我们考试best luck很细节很走心诶～虽然自己学不咋样还没出分但觉得老师人特别好！"},{"id":32435,"teacher_id":351,"teacher_name":"康笛","post_time":"2019-02-02 03:14:33","like_diff":6,"likes":12,"dislikes":6,"content":"给分不好，但老师人真的很好"},{"id":134936,"teacher_id":351,"teacher_name":"康笛","post_time":"2021-04-23 14:40:26","like_diff":4,"likes":6,"dislikes":2,"content":"国际税收难度适中偏低，因为很多内容与其他专业课有重合。老师人非常好！！每节课会复习前一节课内容，老师性格超级可爱，最后还会BG（康老师好会搭衣服，想看老师衣柜ԅ(¯﹃¯ԅ)）"},{"id":186921,"teacher_id":351,"teacher_name":"康笛","post_time":"2024-01-13 14:08:08","like_diff":4,"likes":5,"dislikes":1,"content":"虽然今天考的国际税收没几题会的，但是真的好喜欢康老师/(ㄒoㄒ)/~~"},{"id":30905,"teacher_id":351,"teacher_name":"康笛","post_time":"2016-07-03 01:35:03","like_diff":3,"likes":6,"dislikes":3,"content":"外语教学的课堂老师会用中文再解释一遍，轻松易懂，课后作业不多，能真正收获知识～"},{"id":102340,"teacher_id":351,"teacher_name":"康笛","post_time":"2019-02-01 04:16:48","like_diff":3,"likes":6,"dislikes":3,"content":"康老师加油批卷子！"},{"id":102442,"teacher_id":351,"teacher_name":"康笛","post_time":"2019-02-02 06:47:25","like_diff":3,"likes":5,"dislikes":2,"content":"给分不好"},{"id":167747,"teacher_id":351,"teacher_name":"康笛","post_time":"2023-01-19 00:36:49","like_diff":3,"likes":7,"dislikes":4,"content":"康老师人美心善"},{"id":189778,"teacher_id":351,"teacher_name":"康笛","post_time":"2024-01-28 17:21:06","like_diff":3,"likes":4,"dislikes":1,"content":"线上组，考前疯狂补天+考场上两眼一黑，成绩出来居然还可以，康老师我爱你"},{"id":102361,"teacher_id":351,"teacher_name":"康笛","post_time":"2019-02-01 07:40:27","like_diff":2,"likes":5,"dislikes":3,"content":"康老师加油加油批卷子！"},{"id":121145,"teacher_id":351,"teacher_name":"康笛","post_time":"2020-01-20 00:48:03","like_diff":2,"likes":5,"dislikes":3,"content":"女神康老师女神女神女神\n\n"},{"id":167573,"teacher_id":351,"teacher_name":"康笛","post_time":"2023-01-17 11:50:00","like_diff":2,"likes":6,"dislikes":4,"content":"康老师是天使吗！"},{"id":167669,"teacher_id":351,"teacher_name":"康笛","post_time":"2023-01-18 07:43:50","like_diff":2,"likes":6,"dislikes":4,"content":"康老师你是我的神！国际税收给分超好！"},{"id":212558,"teacher_id":351,"teacher_name":"康笛","post_time":"2025-01-14 07:43:53","like_diff":2,"likes":2,"dislikes":0,"content":"选就完了"},{"id":25415,"teacher_id":351,"teacher_name":"康笛","post_time":"2016-06-25 09:08:05","like_diff":1,"likes":4,"dislikes":3,"content":"老师上课节奏不快 虽然内容可能少点但是能有所收获"},{"id":32698,"teacher_id":351,"teacher_name":"康笛","post_time":"2016-07-10 04:58:33","like_diff":1,"likes":7,"dislikes":6,"content":"上的国际税收，感觉内容比较基础简单，换成中文讲不了一学期，但是这也不全是康笛老师个人原因，学院课程设置也存在问题，税收筹划、国际税收都可以并入税法，税法课时可以调整。康笛老师还是很nice的，讲得也很细，老师很萌啊，展示课还BG了，给分也很好，没怎么听过课，考前突击的，大题有的都瞎写，而且最后来不及了觉得写很烂没写完整，有些点没答上，最后还是4.5+"},{"id":150013,"teacher_id":351,"teacher_name":"康笛","post_time":"2022-01-18 09:27:04","like_diff":1,"likes":4,"dislikes":3,"content":"老师真的绝好！给分也蛮好的，可能分数构成和以前不一样了（关国际税收）"},{"id":167625,"teacher_id":351,"teacher_name":"康笛","post_time":"2023-01-17 23:37:30","like_diff":1,"likes":4,"dislikes":3,"content":"康老师我的女神，期末认真复习，平时分给满了，直接给了意想不到的高分wwww"},{"id":212561,"teacher_id":351,"teacher_name":"康笛","post_time":"2025-01-14 07:56:02","like_diff":1,"likes":1,"dislikes":0,"content":"考场上很多计算题都不太确定，但是居然还是给了满绩！老师教得很好，考前也会划重点～人美心善啊啊啊"},{"id":212567,"teacher_id":351,"teacher_name":"康笛","post_time":"2025-01-14 08:04:42","like_diff":1,"likes":1,"dislikes":0,"content":"康笛yyds！！国际税收课程内容不多，只是英文ppt有点吓人，如果是财政专业的同学只要认真复习完全不用担心！康笛老师人美心善，考前还视频划重点和答疑（非常有用），出分也超级好！而且有很多次线上课，总体课程占用时间不多，大家都来选！！"},{"id":212573,"teacher_id":351,"teacher_name":"康笛","post_time":"2025-01-14 08:20:40","like_diff":1,"likes":1,"dislikes":0,"content":"给分爆炸好，选他！"},{"id":212581,"teacher_id":351,"teacher_name":"康笛","post_time":"2025-01-14 08:38:55","like_diff":1,"likes":1,"dislikes":0,"content":"我的试卷对不起康老师给的分数😭"},{"id":212585,"teacher_id":351,"teacher_name":"康笛","post_time":"2025-01-14 08:46:15","like_diff":1,"likes":1,"dislikes":0,"content":"非常善良非常美丽的老师～kdjj以后你就是我唯一的女神！"},{"id":212624,"teacher_id":351,"teacher_name":"康笛","post_time":"2025-01-14 09:51:39","like_diff":1,"likes":1,"dislikes":0,"content":"永远的女神！"},{"id":212633,"teacher_id":351,"teacher_name":"康笛","post_time":"2025-01-14 10:11:09","like_diff":1,"likes":1,"dislikes":0,"content":"女神我将永远追随你…"},{"id":212648,"teacher_id":351,"teacher_name":"康笛","post_time":"2025-01-14 10:36:28","like_diff":1,"likes":1,"dislikes":0,"content":"海底捞，选康老师的课就对了(。ˇε ˇ。）"},{"id":212662,"teacher_id":351,"teacher_name":"康笛","post_time":"2025-01-14 11:13:36","like_diff":1,"likes":1,"dislikes":0,"content":"给分无敌"},{"id":22470,"teacher_id":351,"teacher_name":"康笛","post_time":"2016-03-06 15:33:00","like_diff":0,"likes":5,"dislikes":5,"content":"上课有点催眠"},{"id":27361,"teacher_id":351,"teacher_name":"康笛","post_time":"2016-12-07 07:40:34","like_diff":0,"likes":2,"dislikes":2,"content":"哈哈哈"},{"id":31964,"teacher_id":351,"teacher_name":"康笛","post_time":"2016-07-05 08:45:27","like_diff":0,"likes":2,"dislikes":2,"content":"认真负责，很多不明白的知识点都会耐心的解释。"},{"id":32408,"teacher_id":351,"teacher_name":"康笛","post_time":"2016-07-06 14:14:20","like_diff":0,"likes":3,"dislikes":3,"content":"感觉老师回邮件不怎么积极 好久才给回 有事问她知识她也要再去翻书"},{"id":57256,"teacher_id":351,"teacher_name":"康笛","post_time":"2017-07-06 07:54:16","like_diff":0,"likes":1,"dislikes":1,"content":"哈哈哈"},{"id":57299,"teacher_id":351,"teacher_name":"康笛","post_time":"2017-07-06 13:17:21","like_diff":0,"likes":3,"dislikes":3,"content":"老师人很好，好好学绩点也不会低"},{"id":102431,"teacher_id":351,"teacher_name":"康笛","post_time":"2019-02-02 02:07:21","like_diff":0,"likes":4,"dislikes":4,"content":"老师太好了呜呜呜"},{"id":102432,"teacher_id":351,"teacher_name":"康笛","post_time":"2019-02-02 02:08:24","like_diff":0,"likes":5,"dislikes":5,"content":"给分好好 卷子都瞎做的还有这个分数"},{"id":128994,"teacher_id":351,"teacher_name":"康笛","post_time":"2020-12-28 05:18:37","like_diff":0,"likes":1,"dislikes":1,"content":"BGBGBGBGBGBGBG"},{"id":128995,"teacher_id":351,"teacher_name":"康笛","post_time":"2020-12-28 05:20:05","like_diff":0,"likes":2,"dislikes":2,"content":"可爱！"},{"id":132900,"teacher_id":351,"teacher_name":"康笛","post_time":"2021-02-04 16:47:37","like_diff":0,"likes":5,"dislikes":5,"content":"感觉讲课水平有限，ppt也不知谁做的反正挺烂的，课后都要自己整理一遍，复习都要看自己笔记。但是人还不错，国际税收到现在还没改完卷子真的是有她的风格😂\n\n不过会请大家吃pizza哦，还是可以选的，毕竟老师还是很可爱"},{"id":132951,"teacher_id":351,"teacher_name":"康笛","post_time":"2021-02-05 10:28:37","like_diff":0,"likes":3,"dislikes":3,"content":"三次不定期小测，一次小组展示，内容不多，事也不多，全英文考试，难度也挺友好的，给分主要看考试吧，感觉挺好的。\n\n老师人挺可爱的，还会请吃东西，展示也有奖品，主要是课程本身设置得太简单了。"},{"id":133161,"teacher_id":351,"teacher_name":"康笛","post_time":"2021-02-12 05:17:07","like_diff":0,"likes":3,"dislikes":3,"content":"康老师太强了，bg全班，过年有红包，课程也不难，好好准备可以考得很好，老师也不吝啬给分的。看得出来老师很忙，有些挤占备课时间，但就认真程度、对学生的态度而言，绝对是好老师。"},{"id":167599,"teacher_id":351,"teacher_name":"康笛","post_time":"2023-01-17 14:05:47","like_diff":0,"likes":4,"dislikes":4,"content":"大爱康老师！"},{"id":167681,"teacher_id":351,"teacher_name":"康笛","post_time":"2023-01-18 09:20:44","like_diff":0,"likes":4,"dislikes":4,"content":"老师人很好！"},{"id":212652,"teacher_id":351,"teacher_name":"康笛","post_time":"2025-01-14 10:50:05","like_diff":0,"likes":1,"dislikes":1,"content":"神中神，至少稍微学学都能有4.5"},{"id":212694,"teacher_id":351,"teacher_name":"康笛","post_time":"2025-01-14 13:29:30","like_diff":0,"likes":1,"dislikes":1,"content":"老师，我爱死你了、、海底捞啊啊啊、"},{"id":14725,"teacher_id":351,"teacher_name":"康笛","post_time":"2016-01-08 13:11:18","like_diff":-1,"likes":4,"dislikes":5,"content":"哈哈哈"},{"id":24118,"teacher_id":351,"teacher_name":"康笛","post_time":"2016-04-27 13:54:13","like_diff":-1,"likes":3,"dislikes":4,"content":"好好好"},{"id":31837,"teacher_id":351,"teacher_name":"康笛","post_time":"2016-07-05 03:53:11","like_diff":-1,"likes":3,"dislikes":4,"content":"可能是新老师 上课节奏把握不够好 课堂内容也比较基础 而且给分也不好"},{"id":48152,"teacher_id":351,"teacher_name":"康笛","post_time":"2017-03-01 02:46:15","like_diff":-1,"likes":4,"dislikes":5,"content":"废话多给分低"},{"id":57266,"teacher_id":351,"teacher_name":"康笛","post_time":"2017-07-06 09:41:02","like_diff":-1,"likes":1,"dislikes":2,"content":"给分太无语了。老师人挺好的。"},{"id":140528,"teacher_id":351,"teacher_name":"康笛","post_time":"2021-09-13 11:22:04","like_diff":-2,"likes":2,"dislikes":4,"content":"好好好"},{"id":184277,"teacher_id":351,"teacher_name":"康笛","post_time":"2023-12-15 04:14:28","like_diff":-5,"likes":5,"dislikes":10,"content":"作……"},{"id":30451,"teacher_id":351,"teacher_name":"康笛","post_time":"2016-07-01 15:28:45","like_diff":-7,"likes":0,"dislikes":7,"content":"可能是新人的缘故，和经院其他课的步调有些不一致，上的内容也太过基础简单"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

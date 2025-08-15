@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卓骏 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="卓骏教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="卓骏,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">卓骏</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">4.13</div>
+                    <div class="rating-participants">46人参与评分</div>
+                    <div class="attendance-info">21.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息</h3>
+                <p class="no-data">暂无课程GPA数据</p>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (37 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":38463,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2016-12-06 02:18:48","like_diff":15,"likes":30,"dislikes":15,"content":"证实：确实生活作风让人呕吐，不是造谣，会性骚扰，女生千万别选，不是给分的问题，我分数很高，但是这个老师真的是衣冠禽兽。真的很重要，女生要保护自己，学姐只能帮你们到这了。"},{"id":37972,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2020-02-13 11:17:22","like_diff":13,"likes":21,"dislikes":8,"content":"有零分就打零分了，喜欢给班上的女生搭讪发微信，找借口把女生单独带到校外，动手动脚。不知道浙大是有多海纳百川，这种人也能当老师。"},{"id":37860,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2016-11-21 11:53:44","like_diff":12,"likes":16,"dislikes":4,"content":"作业事情超级超级多，别的组都是8个中国人，给我们组分配四个留学生说是促进国际交流，结果我们每个中国人多做好多事情不说，我每次很认真的去完成个人思考题，小组作业大部分也都是我做的，熬了好几个晚上，考试前也认真复习了，结果考试考到的题目对我们国际思维的开拓真的没什么作用，都不知道在考什么，而且最后给分让我觉得我的努力不值得。或许是我没有天赋也不适合这个老师吧..."},{"id":62928,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2017-11-27 11:19:31","like_diff":8,"likes":10,"dislikes":2,"content":"谁都没有资格为另外一个人的人品打保票，那些义愤填膺说这个老师人品很好不会骚扰女生的，这是对受害者的二次伤害，这也是只敢在查老师这提醒学弟学妹的原因了，害怕成为被愚蠢的群体轮奸的受害者"},{"id":37580,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2016-11-19 13:59:14","like_diff":7,"likes":12,"dislikes":5,"content":"上课无聊口齿不清；作业神多无语至极；考试奇葩试卷有毒；我选他的课是我踩过最大的坑。"},{"id":51813,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2017-06-11 10:38:53","like_diff":7,"likes":9,"dislikes":2,"content":"对女生动手动脚\n\n用钱权骚扰\n\n别上他的车\n\n不要单独约\n\n不要加微信\n\n有证据要保留\n\n注意保护自己"},{"id":61964,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2017-11-22 03:13:25","like_diff":7,"likes":7,"dislikes":0,"content":"讲课什么都没有 人品差 屁事特多 乱发微信骚扰人 给分也一言难尽 多交流给分高？？呵呵 不敢交流"},{"id":37815,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2016-11-21 07:27:24","like_diff":6,"likes":12,"dislikes":6,"content":"老师人很好 很和蔼  答疑很认真 就是感觉讲课不是很熟练 可能第一次上本科生的课？"},{"id":61962,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2017-11-22 02:58:15","like_diff":6,"likes":6,"dislikes":0,"content":"整个课上下来只想呕吐，讲得呕吐，给分呕吐，大概是没被骚扰过，OK，怪他是个直男"},{"id":61969,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2017-11-22 03:48:09","like_diff":5,"likes":5,"dislikes":0,"content":"上的网络营销，作为一门个性选修课 \n\n然而感觉上课没有学到什么知识\n\n那位说考试的同学 我们秋学期有考试吗？\n\n作业有小组作业个人作业和课程作业\n\n个人作业是选做的 但是老师说他很看重这个\n\n总的来说 感觉上完这门课我并没有什么收获 真的想学知识的同学不建议选"},{"id":57893,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2017-07-17 03:34:17","like_diff":4,"likes":5,"dislikes":1,"content":"和这位老师交流很少，但他确实会莫名其妙例如看见发的朋友圈给女生（不止我一个）发微信。可能这种行为是否是骚扰见仁见智，但相比其他老师（例如只经常在朋友圈回复学生），我觉得还是有些不舒服的感觉。另外有些评论很搞笑了，没骚扰到你就证明这位老师不骚扰别人了？？？考试感觉书上都有但我背不得只能瞎bb，给我的分很好。"},{"id":35637,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2016-11-10 07:36:55","like_diff":3,"likes":5,"dislikes":2,"content":"什么也听不懂"},{"id":38090,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2016-11-24 03:51:00","like_diff":3,"likes":6,"dislikes":3,"content":"上课说话语速超慢 讲了些有的没的就跳到下一章去了 感觉上课没什么逻辑和体系 让人尴尬 还不如自己看书 然而最后发现期末考的内容并不是认真看书就能做的 总之就是 这是一门认真复习认真完成作业也很有可能得分很低的课 慎选"},{"id":61976,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2017-11-22 04:01:27","like_diff":3,"likes":3,"dislikes":0,"content":"网络营销，作为个性课，当初选了这门课还没退一定是因为我脑子进水了...本来选这门课是想知道网络与传统的市场营销有什么区别，有哪些营销手段、营销策略等等，做梦吧，这些都不存在的...完全不知道老师上课想讲什么...无聊至极...个人作业虽然他说选做，但还是都做了，然鹅...没什么用...分数给的还勉强可以接受？但是确实不高...慎选吧。不过对于那些真的想水水过又不看重绩点的，还是可以选的，因为你整个学期不去老师都不会知道..."},{"id":60617,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2017-10-25 09:29:39","like_diff":2,"likes":2,"dislikes":0,"content":"emmmmmmmmmm"},{"id":60762,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2017-10-29 15:21:29","like_diff":2,"likes":2,"dislikes":0,"content":"……………"},{"id":61995,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2017-11-22 05:37:31","like_diff":2,"likes":2,"dislikes":0,"content":"国际商务，大半学期没翘课，人少也不见他点名，第一次翘突然就点了....考试会出上课讲过的例题，的确会私讯女学生....给分有点迷，课堂作业讲不清楚，大家都不懂要干嘛"},{"id":90838,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2018-11-26 11:51:00","like_diff":2,"likes":2,"dislikes":0,"content":"感觉垃圾 上课根本学不到什么 最后迷一般给分"},{"id":38297,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2016-11-29 12:47:45","like_diff":1,"likes":3,"dislikes":2,"content":"差评差评"},{"id":61037,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2017-11-07 08:42:44","like_diff":1,"likes":1,"dislikes":0,"content":"无聊，而且老师讲课不熟"},{"id":62520,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2017-11-25 15:50:47","like_diff":1,"likes":1,"dislikes":0,"content":"呵呵呵，讲课磕绊，概念不熟，举例不丰富，上课实在是浪费时间? 不过老师总是笑眯眯地挺和善，唉唉这几分就给到这点上吧"},{"id":90512,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2018-11-23 17:15:55","like_diff":1,"likes":1,"dislikes":0,"content":"虽然每次写这门课的作业都很痛苦，因为要有自己的思考以及大量的阅读加上对理论的掌握再到应用，但也收获了很多。\n\n书本考的内容不多，考试重点都是老师课上讲的。\n\n老师骚扰可能是真的，我就被主动加微信了（但我没有通过），女同学们还是要注意小心为好。\n\n给分与付出成正比。"},{"id":89150,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2018-11-16 05:20:18","like_diff":0,"likes":0,"dislikes":0,"content":"希望老师下次上课能带用麦克风，不然下面真的听不清楚_(:з」∠)_还有考试（虽说是开卷）真的难，感觉复习不复习没啥区别，成绩还没出不知道给分怎么样，老师人还是很和蔼的，就是课比较迷…考试不怎么考书上的内容，都是老师上课提到的下面听不清楚的部分…考完试感到悲伤…"},{"id":90345,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2018-11-23 08:20:09","like_diff":0,"likes":1,"dislikes":1,"content":"国商，短学期两个小组作业一个必做个人作业一个选做个人作业。作业要写的和书里知识点有关，考试主要是上课讲的。千万不要以为上课讲的书里没有就不听，那个就是要考的。老师上课让回去思考的基本上就是考试的原题，看到卷子的一瞬间内心十分的苦涩。两个小组作业里的一个足足改了三遍，所有的加起来差不多五六万字，对不想恶竞的同学可能不太友好。"},{"id":92791,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2019-01-04 12:23:17","like_diff":0,"likes":0,"dislikes":0,"content":"作业布置得很偏经管院的风格啦，我不擅长文案，乱写了一通。个人觉得学习不该是负担，恶竞是很没意思的事情。不过，我上课有好好听了，书上的公式也自己正反推了几遍(个人习惯)，还上网查了资料，老师最后给我的分也很高\n\n"},{"id":98278,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2019-01-23 09:08:03","like_diff":0,"likes":0,"dislikes":0,"content":"上课讲东西基本就是念PPT，也讲不怎么透彻，要弄懂还是得靠自己看书（这里提醒千万别犯傻买英文版课本，这老师对英文没有什么要求，不然看书比阅读理解还痛苦）。说要互相交流，但是感觉问他问题他也听不懂，半天扯东扯西，毫无上课体验。慎重"},{"id":37591,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2016-11-30 01:50:15","like_diff":-1,"likes":5,"dislikes":6,"content":"老师人很好，经常答疑\n\n"},{"id":36627,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2016-11-15 06:19:26","like_diff":-2,"likes":6,"dislikes":8,"content":"国际商务，考的全没有教过"},{"id":51317,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2017-05-31 06:37:17","like_diff":-3,"likes":3,"dislikes":6,"content":"老师授课本意是让学生多思考，不会刻意取悦学生。"},{"id":61961,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2017-11-22 02:52:38","like_diff":-3,"likes":0,"dislikes":3,"content":"老师讲课确实不好，不过挺耐心的。考试不一定考书，主要是他自己讲的东西。甚至考试出现讲过的原题，很简单的计算。案例作业，越到后面要求越高，多交流就给分不错。"},{"id":39496,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2016-12-23 07:56:14","like_diff":-4,"likes":2,"dislikes":6,"content":"给分很好但是作业一点多"},{"id":61973,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2017-11-22 03:54:11","like_diff":-4,"likes":1,"dislikes":5,"content":"还不错满了，老师挺负责的"},{"id":55641,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2017-07-02 05:44:59","like_diff":-8,"likes":1,"dislikes":9,"content":"老师人很好，有问题都会耐心解答，希望那些散布谣言的人可以尊重老师"},{"id":37618,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2016-12-22 09:27:47","like_diff":-13,"likes":8,"dislikes":21,"content":"老师其实挺好的，不明白怎么会有人说骚扰"},{"id":47787,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2017-02-24 15:23:36","like_diff":-22,"likes":2,"dislikes":24,"content":"卓骏老师的人品绝对不是你们所说的这么不堪，乱说人坏话可以算诽谤好不好"},{"id":38175,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2016-11-25 08:24:44","like_diff":-26,"likes":6,"dislikes":32,"content":"我真的不懂评论里那个说带到校外动手动脚骚扰女生的是什么情况   (真的不是绩点不高在报复吗……)老师很亲切，很想为我们答疑，考试前勾重点并且大题基本告诉我们要考什么点了，很具体的，我都觉得有漏题的感觉。考试也考了两道课后原题。给分的话，我同组同学有的好有的不好(我是蛮好的)所以我评价也高咯"},{"id":38274,"teacher_id":2861,"teacher_name":"卓骏","post_time":"2016-11-29 02:10:04","like_diff":-28,"likes":3,"dislikes":31,"content":"我觉得挺好的，上面那个就算给分低也不用造谣吧"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

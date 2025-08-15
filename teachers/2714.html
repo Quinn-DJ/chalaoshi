@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>马光 - 法学院 - 浙大教评</title>
+    <meta name="description" content="马光教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="马光,法学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">马光</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">法学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.40</div>
+                    <div class="rating-participants">37人参与评分</div>
+                    <div class="attendance-info">24.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">国际争端解决理论与实务</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.79</span>
+                            <span class="students">选课: 191人</span>
+                            <span class="std-dev">标准差: 0.57</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">国际法</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.42</span>
+                            <span class="students">选课: 307人</span>
+                            <span class="std-dev">标准差: 0.49</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (33 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":41521,"teacher_id":2714,"teacher_name":"马光","post_time":"2017-01-12 06:07:20","like_diff":35,"likes":39,"dislikes":4,"content":"17年1月考试：\n\n辨析题：形式就是甲说如何如何，对不对。两道题一共十个小问题，涉及的知识点比如苏岩礁争端是不是领土争端，wto首要原则，国内法和国际法冲突是不是国内法一定无效等等。\n\n条约解释题：一个是海洋法公约关于领海基准线确定的两个条约，一个是wto的一个很长的条文，根据条文列出要件。这两道题只要记住条约解释的基本原则，再看一点相关文章很简单的。\n\n案例分析题：两道，关于外交特权与豁免和引渡。\n\n论述题：中日联合声明中放弃对日索赔的条款如何解释，中国公民诉日本企业要求索赔是否合法，外交保护，以及自己的看法。\n\n希望帮到大家！"},{"id":73989,"teacher_id":2714,"teacher_name":"马光","post_time":"2018-02-04 03:39:56","like_diff":17,"likes":20,"dislikes":3,"content":"光光是朝鲜族哦，韩语特别溜，去韩国的时候是萌萌哒的翻译~确实是一个很国际的老师，曾经在高丽大学做过助理教授的，学识渊博。考前会划重点的老师，考试内容侧重国际法总则部分，当然联合国，外交豁免也是重点。可能讲课的时间安排的不太好，在下午1:15，略催眠，但学弟学妹要打起精神来，努力听光光的案例，听清他的分析思路，对考试很有帮助。考试是闭卷，但只要之前笔记记得好，最后一夜豁得出去，是能背下来的。\n\n如果有室友是开卷，也不要被打扰，坚定不移地刷夜复习啊！\n\n－一个国际法刷夜到3点，6点又起来继续复习，首次收获专业课满绩的狗?"},{"id":98893,"teacher_id":2714,"teacher_name":"马光","post_time":"2019-01-24 04:38:00","like_diff":16,"likes":17,"dislikes":1,"content":"考完试有种被查老师评论骗了的感觉…但还是给八分，因为老师的确很认真负责，啊昨晚的夜都白熬了"},{"id":102580,"teacher_id":2714,"teacher_name":"马光","post_time":"2019-02-10 13:34:53","like_diff":7,"likes":9,"dislikes":2,"content":"像评论里说的那样一天是背不完的 提早复习吧……"},{"id":73924,"teacher_id":2714,"teacher_name":"马光","post_time":"2018-02-03 14:41:29","like_diff":5,"likes":6,"dislikes":1,"content":"老师人超级好特别可爱～讲课略有一点点催眠，但是都讲的很清楚明白，考试闭卷但是比较简单，考前会给重点，按照重点把ppt都看过就行～给分也挺好的～"},{"id":169939,"teacher_id":2714,"teacher_name":"马光","post_time":"2023-02-28 14:14:26","like_diff":5,"likes":5,"dislikes":0,"content":"老师人很好，很为学生着想，疫情期间还会关心我们，说有困难都可以找他帮忙，封楼期间狠狠感动；教得也很好，会讲案例有答疑；考试难度也比较适中。总之很赞！"},{"id":160658,"teacher_id":2714,"teacher_name":"马光","post_time":"2022-09-29 12:44:21","like_diff":3,"likes":4,"dislikes":1,"content":"光光人真的超级好超级好～向他求助都会帮你，也很关心学生😭我真的好幸运遇见光光"},{"id":73963,"teacher_id":2714,"teacher_name":"马光","post_time":"2018-02-04 00:37:10","like_diff":2,"likes":4,"dislikes":2,"content":"老师乍一看很严肃但其实超级温柔～～只要上课认真听考试就不难。上课提的案例都很好玩的……\n\n【外交邮袋里传出呻吟声……"},{"id":98928,"teacher_id":2714,"teacher_name":"马光","post_time":"2019-01-24 05:20:49","like_diff":2,"likes":4,"dislikes":2,"content":"老师很认真负责"},{"id":164774,"teacher_id":2714,"teacher_name":"马光","post_time":"2022-12-26 03:28:30","like_diff":2,"likes":3,"dislikes":1,"content":"很温和的老师，也很为学生着想"},{"id":189678,"teacher_id":2714,"teacher_name":"马光","post_time":"2024-01-26 15:00:37","like_diff":2,"likes":4,"dislikes":2,"content":"不点名，给分求是，和预期有很大差距，追求绩点的跑！"},{"id":73965,"teacher_id":2714,"teacher_name":"马光","post_time":"2018-02-04 02:22:55","like_diff":1,"likes":4,"dislikes":3,"content":"给分很不错，考试也相对简单！不过讲课声音不够波澜起伏有点容易睡着..."},{"id":132585,"teacher_id":2714,"teacher_name":"马光","post_time":"2021-02-02 13:04:42","like_diff":1,"likes":2,"dislikes":1,"content":"马光老师真的太！好！了！！虽然国际法我们班是唯一一个闭卷的，但是题目不难。而且考前有安排答疑，考完之后老师会公布答案，有自己的想法可以给老师提异议，老师真的会超级超级认真考虑和对待你的想法。最后给分非常非常好！老师人太温柔了5555必须10分！"},{"id":132631,"teacher_id":2714,"teacher_name":"马光","post_time":"2021-02-03 03:24:15","like_diff":1,"likes":3,"dislikes":2,"content":"马光老师太好啦！！虽然只有我们班是闭卷，但学弟学妹选了不会后悔的！"},{"id":160316,"teacher_id":2714,"teacher_name":"马光","post_time":"2022-09-19 03:04:45","like_diff":1,"likes":2,"dislikes":1,"content":"好困，就只想知道点名不"},{"id":20548,"teacher_id":2714,"teacher_name":"马光","post_time":"2016-01-28 09:55:07","like_diff":0,"likes":2,"dislikes":2,"content":"讲的还行，PPT太多。给分很好"},{"id":103522,"teacher_id":2714,"teacher_name":"马光","post_time":"2019-03-01 01:24:34","like_diff":0,"likes":2,"dislikes":2,"content":"超级nice"},{"id":104894,"teacher_id":2714,"teacher_name":"马光","post_time":"2019-03-30 02:27:23","like_diff":0,"likes":2,"dislikes":2,"content":"绝了 马老师的课我觉得很棒"},{"id":117966,"teacher_id":2714,"teacher_name":"马光","post_time":"2019-10-17 05:59:04","like_diff":0,"likes":2,"dislikes":2,"content":"我真的好困…但是我还是打10分算了 看着老师不忍心"},{"id":150357,"teacher_id":2714,"teacher_name":"马光","post_time":"2022-01-23 04:57:59","like_diff":0,"likes":1,"dislikes":1,"content":"马老师太好了！！！讲的很好（就是容易瞌睡）仔细听就好！给分也贼好！！"},{"id":169955,"teacher_id":2714,"teacher_name":"马光","post_time":"2023-02-28 15:27:46","like_diff":0,"likes":1,"dislikes":1,"content":"谢谢老师，让我在接连遭到绩点暴击的时候看到曙光"},{"id":173546,"teacher_id":2714,"teacher_name":"马光","post_time":"2023-05-28 13:16:57","like_diff":0,"likes":0,"dislikes":0,"content":"认真学了 绩点一般 感觉有点米"},{"id":180937,"teacher_id":2714,"teacher_name":"马光","post_time":"2023-09-28 12:00:42","like_diff":0,"likes":0,"dislikes":0,"content":"老师特别好🥺"},{"id":186454,"teacher_id":2714,"teacher_name":"马光","post_time":"2024-01-11 07:27:03","like_diff":0,"likes":0,"dislikes":0,"content":"老师好好"},{"id":189731,"teacher_id":2714,"teacher_name":"马光","post_time":"2024-01-27 16:41:52","like_diff":0,"likes":2,"dislikes":2,"content":"老师人很好啊 不push不鹅颈不点名任务少 考前会划重点 给分只要好好复习就不会低的"},{"id":201228,"teacher_id":2714,"teacher_name":"马光","post_time":"2024-10-30 12:46:48","like_diff":0,"likes":0,"dislikes":0,"content":"没有上过马老师的课，因为一些事务要拜托他，波折了几次，老师人特别好、反应很快，不刁难学生，很为学生着想"},{"id":213741,"teacher_id":2714,"teacher_name":"马光","post_time":"2025-01-19 11:32:46","like_diff":0,"likes":0,"dislikes":0,"content":"老师讲得很好，学到很多，但是给分很求是+卡绩"},{"id":213965,"teacher_id":2714,"teacher_name":"马光","post_time":"2025-01-22 07:04:14","like_diff":0,"likes":0,"dislikes":0,"content":"老师上课讲的很有条理，只要认真复习，把相近的概念理解清楚，考试很好写的，最后给分老师也捞捞了"},{"id":70248,"teacher_id":2714,"teacher_name":"马光","post_time":"2018-01-26 09:48:11","like_diff":-1,"likes":2,"dislikes":3,"content":"国际法比较灵活，上课有案例，考试都不难，认真听课就没问题，考试算是大三诸多专业课比较轻松的一门了"},{"id":189986,"teacher_id":2714,"teacher_name":"马光","post_time":"2024-02-05 17:25:04","like_diff":-1,"likes":0,"dislikes":1,"content":"给分较客观，追求高绩点建议前往隔壁。"},{"id":46465,"teacher_id":2714,"teacher_name":"马光","post_time":"2017-01-21 17:12:39","like_diff":-2,"likes":3,"dislikes":5,"content":"老师特别负责敬业"},{"id":159120,"teacher_id":2714,"teacher_name":"马光","post_time":"2022-07-06 13:07:06","like_diff":-4,"likes":2,"dislikes":6,"content":"눈_눈老师为什么特别喜欢加人vx，不想加还是不断发送好友请求😅"},{"id":73967,"teacher_id":2714,"teacher_name":"马光","post_time":"2018-02-04 02:28:43","like_diff":-9,"likes":10,"dislikes":19,"content":"给九分是因为给分超好，内容多但不难，期末有复习重点，闭卷考试也无压力，答案都很明确，题目里或多或少都有暗示。没给满分是因为1.94差一分满绩很蓝瘦，2.上课简直催眠，语气完全无起伏，三节课有两节课在睡眠中度过"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

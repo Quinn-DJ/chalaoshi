@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honold - 信息与电子工程学院 - 浙大教评</title>
+    <meta name="description" content="Honold教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="Honold,信息与电子工程学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">Honold</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">信息与电子工程学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">2.54</div>
+                    <div class="rating-participants">95人参与评分</div>
+                    <div class="attendance-info">28.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息</h3>
+                <p class="no-data">暂无课程GPA数据</p>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (79 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":63866,"teacher_id":1908,"teacher_name":"Honold","post_time":"2017-12-18 03:51:56","like_diff":45,"likes":49,"dislikes":4,"content":"aya"},{"id":78787,"teacher_id":1908,"teacher_name":"Honold","post_time":"2018-05-15 07:13:59","like_diff":39,"likes":43,"dislikes":4,"content":"Very intelligent teacher， very devoted in teaching， could explain very tough topics. However， the only problem is I cannot understand his teaching."},{"id":151517,"teacher_id":1908,"teacher_name":"Honold","post_time":"2022-03-06 15:22:23","like_diff":29,"likes":30,"dislikes":1,"content":"是个优秀的纯粹数学家，但不是个适合正常人的老师，他的课要是放成高难度选修数学课对纯粹理论数学很感兴趣的同学去学，他的分数可能会高很多。但作为专业必修课，完全不降低难度，这决定了他不适合做大多数人的老师。\n\n\n\n希望有一天老白能去顶级院校的数学系做选修课老师。不要把人才变成祸害。"},{"id":104825,"teacher_id":1908,"teacher_name":"Honold","post_time":"2019-03-28 10:12:07","like_diff":26,"likes":28,"dislikes":2,"content":"good at making things totally not understandable"},{"id":121243,"teacher_id":1908,"teacher_name":"Honold","post_time":"2019-12-26 01:11:36","like_diff":21,"likes":22,"dislikes":1,"content":"并不在意学生是否能懂，只在乎自己是否把课上得爽了，上一大堆没用的结果原本的课到期末了还上不完。。。不知道说啥，反正都是自学，都不知道上课有啥用。。。"},{"id":143244,"teacher_id":1908,"teacher_name":"Honold","post_time":"2021-11-22 06:29:55","like_diff":17,"likes":17,"dislikes":0,"content":"这是老白吗😂"},{"id":141208,"teacher_id":1908,"teacher_name":"Honold","post_time":"2021-09-26 06:54:30","like_diff":13,"likes":13,"dislikes":0,"content":"浪费了我整整一年时间，该学的没学多少，不该学的学了一堆，成绩单上还看不到"},{"id":87736,"teacher_id":1908,"teacher_name":"Honold","post_time":"2018-10-11 03:43:02","like_diff":12,"likes":12,"dislikes":0,"content":"上课速度是斯坦福的十倍 屁都没听懂?"},{"id":200399,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-10-16 14:57:59","like_diff":11,"likes":11,"dislikes":0,"content":"比亚迪给你玛莎拉"},{"id":57520,"teacher_id":1908,"teacher_name":"Honold","post_time":"2017-07-09 07:56:36","like_diff":10,"likes":11,"dislikes":1,"content":"上课听不太懂考试难度有点大自己本人比较渣所以最后成绩超级差"},{"id":145451,"teacher_id":1908,"teacher_name":"Honold","post_time":"2021-12-29 16:32:38","like_diff":9,"likes":9,"dislikes":0,"content":"大名鼎鼎的老白aya！评价都在名字里了"},{"id":184336,"teacher_id":1908,"teacher_name":"Honold","post_time":"2023-12-18 04:54:00","like_diff":8,"likes":8,"dislikes":0,"content":"因为打的分数不能比我的midterm高，所以我只能打1分。"},{"id":47575,"teacher_id":1908,"teacher_name":"Honold","post_time":"2017-02-02 04:08:01","like_diff":7,"likes":11,"dislikes":4,"content":"讲课慢，听不懂，给分太求是，期末考试题目看不懂，看最近几年试卷应该是呈现难度逐渐增长的趋势，大家还是慎选吧，建议选中文的，实在不行就当个个性学分吧，不过可能绩点会影响你本学年的奖学金评选。"},{"id":57340,"teacher_id":1908,"teacher_name":"Honold","post_time":"2017-07-07 00:14:09","like_diff":7,"likes":8,"dislikes":1,"content":"考试坑  题目看不懂"},{"id":144189,"teacher_id":1908,"teacher_name":"Honold","post_time":"2021-12-20 07:40:12","like_diff":7,"likes":7,"dislikes":0,"content":"纯纯的自己喜欢啥讲啥，积分课积分没学会，学到了数学哲学分析"},{"id":150703,"teacher_id":1908,"teacher_name":"Honold","post_time":"2022-02-15 05:59:34","like_diff":7,"likes":7,"dislikes":0,"content":"241和286真正的绩杀课"},{"id":160545,"teacher_id":1908,"teacher_name":"Honold","post_time":"2022-09-26 13:23:15","like_diff":7,"likes":7,"dislikes":0,"content":"老师水平很高，但上课完全不按大纲走。根本不在乎学生需要学哪些，光在满足他自己那极致数学追求了。\n\n真的不明白为什么逼工科生天天搞数论，为什么啊？？？\n\n明明线代在应用层面也是很美的，已经硬生生被老白搞成continuous suffering了！"},{"id":185988,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-01-07 07:10:08","like_diff":6,"likes":6,"dislikes":0,"content":"准备退课就行，无需多言"},{"id":13223,"teacher_id":1908,"teacher_name":"Honold","post_time":"2015-12-25 08:50:06","like_diff":5,"likes":6,"dislikes":1,"content":"^_^"},{"id":168683,"teacher_id":1908,"teacher_name":"Honold","post_time":"2023-02-21 03:41:09","like_diff":5,"likes":6,"dislikes":1,"content":"257建议自学，上课没有必要去，强烈推荐山东财经大学的教学视频（PS：257给分比较低）"},{"id":182042,"teacher_id":1908,"teacher_name":"Honold","post_time":"2023-12-13 04:26:55","like_diff":5,"likes":5,"dislikes":0,"content":"真的考不出一点，太难了真的，人品10分给他，考试0分给我"},{"id":186022,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-01-07 21:01:17","like_diff":5,"likes":5,"dislikes":0,"content":"公正来讲，人品值得认可，水平也很高，但对于普通同学来说课太难，让人头大。快跑，257能退就退，其他自求多福。——来自一位早九点考但五点还在复习的257同学"},{"id":200428,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-10-17 02:55:59","like_diff":5,"likes":5,"dislikes":0,"content":"老白击碎你的数学梦"},{"id":22280,"teacher_id":1908,"teacher_name":"Honold","post_time":"2016-03-03 07:37:30","like_diff":4,"likes":7,"dislikes":3,"content":"Interesting"},{"id":29006,"teacher_id":1908,"teacher_name":"Honold","post_time":"2016-06-29 06:07:30","like_diff":4,"likes":7,"dislikes":3,"content":"老师好，课好，考试坑。为绩点的慎选！！！"},{"id":78691,"teacher_id":1908,"teacher_name":"Honold","post_time":"2018-05-14 13:21:23","like_diff":4,"likes":4,"dislikes":0,"content":"爽到！"},{"id":78790,"teacher_id":1908,"teacher_name":"Honold","post_time":"2018-05-15 07:26:25","like_diff":4,"likes":4,"dislikes":0,"content":"very responsible teacher"},{"id":78791,"teacher_id":1908,"teacher_name":"Honold","post_time":"2018-05-15 07:26:27","like_diff":4,"likes":4,"dislikes":0,"content":"ya"},{"id":78792,"teacher_id":1908,"teacher_name":"Honold","post_time":"2018-05-15 07:27:29","like_diff":4,"likes":4,"dislikes":0,"content":"aya， you should know it， NO CALCULATOR!!! -oki"},{"id":94647,"teacher_id":1908,"teacher_name":"Honold","post_time":"2019-01-17 14:01:13","like_diff":4,"likes":4,"dislikes":0,"content":"aya"},{"id":136278,"teacher_id":1908,"teacher_name":"Honold","post_time":"2021-06-15 07:17:33","like_diff":4,"likes":5,"dislikes":1,"content":"I‘ve never seen such a fucking teacher."},{"id":174369,"teacher_id":1908,"teacher_name":"Honold","post_time":"2023-06-11 04:43:16","like_diff":4,"likes":4,"dislikes":0,"content":"听不了一点"},{"id":186002,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-01-07 12:23:48","like_diff":4,"likes":4,"dislikes":0,"content":"工科生搞数论真的够了 241byebye"},{"id":186053,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-01-08 04:36:40","like_diff":4,"likes":4,"dislikes":0,"content":"无力吐槽，将死之人，其言也善，两分是我的底线了"},{"id":200401,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-10-16 15:05:30","like_diff":4,"likes":4,"dislikes":0,"content":"邮电不诗人"},{"id":131668,"teacher_id":1908,"teacher_name":"Honold","post_time":"2021-01-28 10:38:49","like_diff":3,"likes":3,"dislikes":0,"content":"aya"},{"id":143764,"teacher_id":1908,"teacher_name":"Honold","post_time":"2021-12-05 10:40:22","like_diff":3,"likes":3,"dislikes":0,"content":"讲的内容不考虑学生能不能听懂，虽然确实是you 内在逻辑的"},{"id":169566,"teacher_id":1908,"teacher_name":"Honold","post_time":"2023-02-27 03:12:45","like_diff":3,"likes":3,"dislikes":0,"content":"有人说curve力度大，有人说完全不curve，期末均分20-/48，33+拿不到A"},{"id":184189,"teacher_id":1908,"teacher_name":"Honold","post_time":"2023-12-12 08:35:20","like_diff":3,"likes":3,"dislikes":0,"content":"我趣 老白分为什么那么高"},{"id":199458,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-09-24 03:46:39","like_diff":3,"likes":4,"dislikes":1,"content":"死人一个"},{"id":200429,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-10-17 03:02:53","like_diff":3,"likes":3,"dislikes":0,"content":"byd"},{"id":200462,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-10-17 08:56:44","like_diff":3,"likes":3,"dislikes":0,"content":"I hope you have a mother."},{"id":205238,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-12-03 06:03:24","like_diff":3,"likes":3,"dislikes":0,"content":"上课听不懂，课件看不懂，作业做不动，考试考不出，绩点全飞走。。。"},{"id":208935,"teacher_id":1908,"teacher_name":"Honold","post_time":"2025-01-03 12:44:28","like_diff":3,"likes":3,"dislikes":0,"content":"ppt符号诗人看的啊"},{"id":208936,"teacher_id":1908,"teacher_name":"Honold","post_time":"2025-01-03 12:44:30","like_diff":3,"likes":3,"dislikes":0,"content":"做老白学生不玩老北京鸡肉卷的是这个👍"},{"id":89237,"teacher_id":1908,"teacher_name":"Honold","post_time":"2018-11-17 08:19:39","like_diff":2,"likes":4,"dislikes":2,"content":"超级好超级负责的老师"},{"id":91409,"teacher_id":1908,"teacher_name":"Honold","post_time":"2018-12-09 08:29:09","like_diff":2,"likes":4,"dislikes":2,"content":"very good teach， but could be even better if he can omit some proof that nobody interests. \n\nhowever i like him very much!"},{"id":153854,"teacher_id":1908,"teacher_name":"Honold","post_time":"2022-05-13 07:07:12","like_diff":2,"likes":3,"dislikes":1,"content":"绩杀，但人和课至少比另一个德国抽象国家队队员强"},{"id":163171,"teacher_id":1908,"teacher_name":"Honold","post_time":"2022-12-08 23:23:47","like_diff":2,"likes":3,"dislikes":1,"content":"山东财经大学脱秋菊老师的MATH286不错 推荐！！！"},{"id":185253,"teacher_id":1908,"teacher_name":"Honold","post_time":"2023-12-27 10:48:42","like_diff":2,"likes":2,"dislikes":0,"content":"都叫老白了，还不明白么"},{"id":191203,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-04-11 16:29:20","like_diff":2,"likes":4,"dislikes":2,"content":"他码的老白\n\nThat motherfuckin Thomas Honold [Lol][Lol][Lol]\n\n\n\nGot B on MATH221\n\nGot A- on MATH231\n\nGot A on MATH257\n\nGot A- on MATH213\n\nBut I fuckin failed this motherfuckin MATH241\n\nGuess what， I dropped MATH285\n\n\n\nThis is a engineering major， not math major"},{"id":200400,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-10-16 15:01:35","like_diff":2,"likes":2,"dislikes":0,"content":"aya"},{"id":200431,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-10-17 03:08:14","like_diff":2,"likes":2,"dislikes":0,"content":"出生老师，我操你老母，这玩意儿教书就是为了恶心学生"},{"id":200443,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-10-17 05:15:48","like_diff":2,"likes":2,"dislikes":0,"content":"不是哥么，绩点守门人终于是坠绩了"},{"id":205237,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-12-03 06:03:08","like_diff":2,"likes":2,"dislikes":0,"content":"只能说不适合教书的人还是真别来教书了，至少不适合教绝大多数工科生，还是好好搞科研吧"},{"id":205356,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-12-05 03:28:46","like_diff":2,"likes":2,"dislikes":0,"content":"妈的，狗屎一个。自己期中出简单了，然后不服，把判卷标准gai狗屎一个。自己期中出简单了，然后不服，把判卷标准改的变态，很多地方是因为中国学生和他的数学符号习惯不同，他就硬扣，去找他recheck，他说不想理解。上课的ppt用到的数学符号根本不考虑中国学生之前的知识体系。第一次上课光逻辑符号好多都看不懂。简而言之，狗屎！！！"},{"id":14566,"teacher_id":1908,"teacher_name":"Honold","post_time":"2016-01-07 15:58:54","like_diff":1,"likes":1,"dislikes":0,"content":"想必是极好的"},{"id":150684,"teacher_id":1908,"teacher_name":"Honold","post_time":"2022-02-12 08:29:34","like_diff":1,"likes":1,"dislikes":0,"content":"ggggggg"},{"id":151535,"teacher_id":1908,"teacher_name":"Honold","post_time":"2022-03-07 03:27:08","like_diff":1,"likes":1,"dislikes":0,"content":"我炸了。。。"},{"id":153922,"teacher_id":1908,"teacher_name":"Honold","post_time":"2022-05-17 02:57:37","like_diff":1,"likes":2,"dislikes":1,"content":"what the hell"},{"id":156610,"teacher_id":1908,"teacher_name":"Honold","post_time":"2022-06-20 11:51:04","like_diff":1,"likes":1,"dislikes":0,"content":"没人上他的课，给分太差"},{"id":200402,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-10-16 15:08:00","like_diff":1,"likes":1,"dislikes":0,"content":"nnn"},{"id":201507,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-11-04 03:38:56","like_diff":1,"likes":1,"dislikes":0,"content":"生活不如意吗这样上课"},{"id":216699,"teacher_id":1908,"teacher_name":"Honold","post_time":"2025-03-21 08:30:01","like_diff":1,"likes":1,"dislikes":0,"content":"你的给分非常垃圾，但是你的讲课并没有弥补这一部分"},{"id":217450,"teacher_id":1908,"teacher_name":"Honold","post_time":"2025-04-10 13:22:50","like_diff":1,"likes":1,"dislikes":0,"content":"啥币，考个试一直狗叫，口音还难懂"},{"id":78786,"teacher_id":1908,"teacher_name":"Honold","post_time":"2018-05-15 07:09:23","like_diff":0,"likes":1,"dislikes":1,"content":"ja，aja，no calculator."},{"id":78796,"teacher_id":1908,"teacher_name":"Honold","post_time":"2018-05-15 07:29:23","like_diff":0,"likes":2,"dislikes":2,"content":"no calculator！Very responsible！ But the whole content is very challenging，you can know it"},{"id":168622,"teacher_id":1908,"teacher_name":"Honold","post_time":"2023-02-20 10:09:52","like_diff":0,"likes":1,"dislikes":1,"content":"难，还是必修"},{"id":168715,"teacher_id":1908,"teacher_name":"Honold","post_time":"2023-02-21 10:45:23","like_diff":0,"likes":1,"dislikes":1,"content":"懂得都懂，不做过多评价"},{"id":183276,"teacher_id":1908,"teacher_name":"Honold","post_time":"2023-11-23 11:00:20","like_diff":0,"likes":0,"dislikes":0,"content":"Please get back to German! 我听不懂啊啊啊啊，你在说什么啊啊啊啊啊啊，你在叫什么呀！（yah）啊啊啊啊啊你个死坏蛋啊啊啊啊啊。"},{"id":205007,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-11-29 12:30:04","like_diff":0,"likes":0,"dislikes":0,"content":"https://www.bilibili.com/video/BV1Sy4y117ot/?spm_id_from=333.1365.top_right_bar_window_custom_collection.content.click&vd_source=9077faf37bc2d8bbf1903624acd8e26a"},{"id":208939,"teacher_id":1908,"teacher_name":"Honold","post_time":"2025-01-03 12:46:21","like_diff":0,"likes":1,"dislikes":1,"content":"毛都不会"},{"id":216803,"teacher_id":1908,"teacher_name":"Honold","post_time":"2025-03-26 01:57:09","like_diff":0,"likes":0,"dislikes":0,"content":"ja?"},{"id":22283,"teacher_id":1908,"teacher_name":"Honold","post_time":"2016-03-03 07:37:08","like_diff":-2,"likes":0,"dislikes":2,"content":"(￣▽￣)\n\n"},{"id":40471,"teacher_id":1908,"teacher_name":"Honold","post_time":"2017-01-03 14:11:01","like_diff":-2,"likes":0,"dislikes":2,"content":"hai"},{"id":187766,"teacher_id":1908,"teacher_name":"Honold","post_time":"2024-01-25 14:15:44","like_diff":-2,"likes":0,"dislikes":2,"content":"i don't necessarily understand"},{"id":90774,"teacher_id":1908,"teacher_name":"Honold","post_time":"2018-11-26 03:26:20","like_diff":-9,"likes":3,"dislikes":12,"content":"听课极度舒适 强烈建议选他的课"},{"id":134862,"teacher_id":1908,"teacher_name":"Honold","post_time":"2021-04-19 09:12:19","like_diff":-9,"likes":0,"dislikes":9,"content":"赞赞赞"},{"id":134557,"teacher_id":1908,"teacher_name":"Honold","post_time":"2021-04-01 10:25:24","like_diff":-17,"likes":1,"dislikes":18,"content":"对数学感兴趣的话听他的课是很爽的！"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

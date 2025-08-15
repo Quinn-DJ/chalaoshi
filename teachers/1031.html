@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吴起 - 化学系 - 浙大教评</title>
+    <meta name="description" content="吴起教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="吴起,化学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">吴起</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">化学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.51</div>
+                    <div class="rating-participants">53人参与评分</div>
+                    <div class="attendance-info">21.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">化学生物学实验</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.23</span>
+                            <span class="students">选课: 43人</span>
+                            <span class="std-dev">标准差: 0.56</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">奇妙分子与科学创新</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.99</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.69</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (51 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":11094,"teacher_id":1031,"teacher_name":"吴起","post_time":"2015-11-24 06:27:20","like_diff":23,"likes":36,"dislikes":13,"content":"老师很好，课也很有趣，只要稍微努力一点，分一定不低，第一门出分的通识课，4.7。不过考试类型真的让我吃了一鲸。"},{"id":58894,"teacher_id":1031,"teacher_name":"吴起","post_time":"2017-09-18 09:52:47","like_diff":15,"likes":17,"dislikes":2,"content":"能听兵家亚圣吴起的课也是一种荣幸（滑稽）"},{"id":7982,"teacher_id":1031,"teacher_name":"吴起","post_time":"2015-09-16 13:44:36","like_diff":7,"likes":13,"dislikes":6,"content":"老师是不错，也很有热情，就是课太无聊了……"},{"id":63200,"teacher_id":1031,"teacher_name":"吴起","post_time":"2017-11-29 06:39:19","like_diff":7,"likes":8,"dislikes":1,"content":"老师人真的好哦，但平时上课要积极发言，ppt必须认真做，平时成绩才会高。开卷考，建议考前把书本复习一遍"},{"id":147366,"teacher_id":1031,"teacher_name":"吴起","post_time":"2022-01-09 17:53:19","like_diff":7,"likes":9,"dislikes":2,"content":"奇妙分子与科学创新，事少，讲课一般，对化学有兴趣的可以听听，主要是化学科普，但是真正化学专业的同学会觉得无聊。成绩构成是两次作业各占20％，课堂表现10％，期末50％。两次作业不多，比较简单。此外还有一个ppt作业，需要做一个介绍某个分子的ppt，然后每节课会让人上来展示自己的ppt。\n\n半个化学专业的觉得展示部分还是比较有意思的，印象最深刻的是一位讲AIE效应的同学，非常精彩，无论是作为科普还是前沿介绍都很好；还有一位讲甾体化合物和黄鸣龙的同学也很好；觉得不太行的是某位手推NH5分子轨道的同学，且不论推得对不对，大家是来听科普的不是学分子轨道的，有的梗可能也只有化学竞赛生能get。"},{"id":11009,"teacher_id":1031,"teacher_name":"吴起","post_time":"2015-11-24 00:24:59","like_diff":5,"likes":6,"dislikes":1,"content":"还可以。内容有些意思，有通识的感受。"},{"id":11014,"teacher_id":1031,"teacher_name":"吴起","post_time":"2015-11-24 00:47:35","like_diff":5,"likes":8,"dislikes":3,"content":"老师很认真，给分还不错"},{"id":213815,"teacher_id":1031,"teacher_name":"吴起","post_time":"2025-01-20 05:27:38","like_diff":5,"likes":5,"dislikes":0,"content":"卡绩，快跑"},{"id":73314,"teacher_id":1031,"teacher_name":"吴起","post_time":"2018-02-01 10:03:10","like_diff":4,"likes":5,"dislikes":1,"content":"给分垃圾"},{"id":63053,"teacher_id":1031,"teacher_name":"吴起","post_time":"2017-11-28 04:59:35","like_diff":3,"likes":6,"dislikes":3,"content":"开卷考 考的跟讲的没关系 给分超辣鸡"},{"id":90678,"teacher_id":1031,"teacher_name":"吴起","post_time":"2018-11-25 07:31:41","like_diff":3,"likes":5,"dislikes":2,"content":"老师为人挺忠厚老实的\n\n上课有点乏味\n\n考试就是翻课本\n\n而且很看运气\n\n比如给你一个结构式去书上找对应的信息，然后补充完善\n\n作为一门通识课 期末考核题量有些大了 我看了一下，全班有一半最后没有全部答完吧 \n\n主要问题还是要翻书碰运气\n\n除非考前真的非常认真的熟知课本内容\n\n最后3.3 算是通识里面最低了的吧"},{"id":91547,"teacher_id":1031,"teacher_name":"吴起","post_time":"2018-12-13 02:40:58","like_diff":3,"likes":4,"dislikes":1,"content":"题没做完4.5  单号抱枕自己做的都对"},{"id":9675,"teacher_id":1031,"teacher_name":"吴起","post_time":"2015-11-04 07:26:50","like_diff":2,"likes":3,"dislikes":1,"content":"还可以"},{"id":63019,"teacher_id":1031,"teacher_name":"吴起","post_time":"2017-11-28 02:46:10","like_diff":2,"likes":4,"dislikes":2,"content":"还可以吧挺水的一门课 考试是我没发挥好 有通识的感觉 老师很爱笑挺亲切的 给九分"},{"id":63196,"teacher_id":1031,"teacher_name":"吴起","post_time":"2017-11-29 06:12:46","like_diff":2,"likes":3,"dislikes":1,"content":"老师讲课很好，不管是为了学到些什么还是为了扩充知识面，选吴老师的通识课都是不错的选择！"},{"id":93341,"teacher_id":1031,"teacher_name":"吴起","post_time":"2019-01-09 05:20:03","like_diff":2,"likes":4,"dislikes":2,"content":"老师是一个很负责也很有趣的老师。平时不是点名的那种，但是在没有人回答问题的时候会看着名单抽人回答问题，所以上课一定要去啊！有的时候会点错名，把前一天的名单点成今天的......给分还可以吧……3.9"},{"id":213837,"teacher_id":1031,"teacher_name":"吴起","post_time":"2025-01-20 08:51:46","like_diff":2,"likes":2,"dislikes":0,"content":"每节课会随机抽人点名，最后有期末考试，可能对化学好的比较友好吧，我做了展示结果最终3.9卡绩，最后考试有些找不到吧"},{"id":9940,"teacher_id":1031,"teacher_name":"吴起","post_time":"2015-11-13 03:44:18","like_diff":1,"likes":2,"dislikes":1,"content":"课有点无聊，人不错哈"},{"id":10238,"teacher_id":1031,"teacher_name":"吴起","post_time":"2015-11-17 15:09:53","like_diff":1,"likes":3,"dislikes":2,"content":"有趣哦"},{"id":12401,"teacher_id":1031,"teacher_name":"吴起","post_time":"2015-12-23 07:53:03","like_diff":1,"likes":4,"dislikes":3,"content":"很有趣，平常可以水，难度大概高中竞赛水平"},{"id":63063,"teacher_id":1031,"teacher_name":"吴起","post_time":"2017-11-28 06:08:20","like_diff":1,"likes":3,"dislikes":2,"content":"老师爱笑，虽然我一直没怎么听qaq。考前通读课本有奇效。我4.2"},{"id":63099,"teacher_id":1031,"teacher_name":"吴起","post_time":"2017-11-28 09:04:27","like_diff":1,"likes":4,"dislikes":3,"content":"人还行，但是被正态了?"},{"id":90683,"teacher_id":1031,"teacher_name":"吴起","post_time":"2018-11-25 08:19:38","like_diff":1,"likes":3,"dislikes":2,"content":"建议医学生学这门课吧  感觉比较适合医学生  老师人很好  ppt大赛还给同学发奖品 很感谢那些给我投票的同学了 爱你们 也感谢老师一学期的照顾。最后的考试题量很大 建议之后选这门课的同学要提前看书，上课必须听讲。不好水。祝大家拿高分！"},{"id":165497,"teacher_id":1031,"teacher_name":"吴起","post_time":"2023-01-07 08:17:52","like_diff":1,"likes":1,"dislikes":0,"content":"奇妙分子很好，推荐推荐"},{"id":8655,"teacher_id":1031,"teacher_name":"吴起","post_time":"2015-09-23 15:36:07","like_diff":0,"likes":3,"dislikes":3,"content":"老师爱笑很随和 然而好像备课有点不充分 这个课也实在不好玩有点无聊"},{"id":73688,"teacher_id":1031,"teacher_name":"吴起","post_time":"2018-02-02 16:14:39","like_diff":0,"likes":1,"dislikes":1,"content":"挺好的:)"},{"id":121984,"teacher_id":1031,"teacher_name":"吴起","post_time":"2020-01-28 06:55:06","like_diff":0,"likes":0,"dislikes":0,"content":"老师人很好，授课内容方式多样"},{"id":123442,"teacher_id":1031,"teacher_name":"吴起","post_time":"2020-06-09 03:05:21","like_diff":0,"likes":2,"dislikes":2,"content":"上学期的课，老师已经很努力了，但是本来课程内容就比较无聊。展示自愿，随机点名（有可能整个课程都没有被点到）。平时有两次小作业，最后开卷考基本书上都有。"},{"id":135440,"teacher_id":1031,"teacher_name":"吴起","post_time":"2021-05-10 11:37:57","like_diff":0,"likes":2,"dislikes":2,"content":"这老师上课emmm会一直咳嗽听着有点不舒服，要求太多了，这个要求对于化学不好的我而言真的不行，上完一节课果断退课..."},{"id":135979,"teacher_id":1031,"teacher_name":"吴起","post_time":"2021-06-07 12:01:20","like_diff":0,"likes":2,"dislikes":2,"content":"这老师一直咳嗽诶听着有点难受\n\n化学课作业居然像文科那样分点给分....真的绝了"},{"id":162267,"teacher_id":1031,"teacher_name":"吴起","post_time":"2022-11-18 14:58:00","like_diff":0,"likes":1,"dislikes":1,"content":"老师很亲切。我喜欢坐中间列的第二排而且第一排没人，所以和老师互动很方便。挺有趣的。先给9分，如果最后成绩不错就回来给10分。"},{"id":165519,"teacher_id":1031,"teacher_name":"吴起","post_time":"2023-01-07 22:24:22","like_diff":0,"likes":0,"dislikes":0,"content":"老师非常好，讲课认真且事情很少，并且给分很好"},{"id":166323,"teacher_id":1031,"teacher_name":"吴起","post_time":"2023-01-12 02:43:55","like_diff":0,"likes":0,"dislikes":0,"content":"事情少，给分好，想学有东西，老师温柔"},{"id":166902,"teacher_id":1031,"teacher_name":"吴起","post_time":"2023-01-14 07:34:32","like_diff":0,"likes":0,"dislikes":0,"content":"老师人很好的"},{"id":213781,"teacher_id":1031,"teacher_name":"吴起","post_time":"2025-01-20 01:16:46","like_diff":0,"likes":1,"dislikes":1,"content":"老师给分巨好，人很和蔼，真正事少分高的通识课，选就对了"},{"id":218671,"teacher_id":1031,"teacher_name":"吴起","post_time":"2025-04-28 13:12:08","like_diff":0,"likes":0,"dislikes":0,"content":"说实话讲得挺烂的"},{"id":11903,"teacher_id":1031,"teacher_name":"吴起","post_time":"2015-12-21 03:59:44","like_diff":-1,"likes":2,"dislikes":3,"content":"上课很认真负责\n\n"},{"id":24588,"teacher_id":1031,"teacher_name":"吴起","post_time":"2016-05-02 04:28:58","like_diff":-1,"likes":2,"dislikes":3,"content":"老师人挺好的"},{"id":41022,"teacher_id":1031,"teacher_name":"吴起","post_time":"2017-01-08 10:08:32","like_diff":-1,"likes":4,"dislikes":5,"content":"超级棒的老师～"},{"id":57252,"teacher_id":1031,"teacher_name":"吴起","post_time":"2017-07-06 07:12:44","like_diff":-1,"likes":1,"dislikes":2,"content":"很好啊！"},{"id":169433,"teacher_id":1031,"teacher_name":"吴起","post_time":"2023-02-26 06:53:02","like_diff":-1,"likes":1,"dislikes":2,"content":"非常推荐奇妙分子，真正的分多事少棒棒通识课"},{"id":63042,"teacher_id":1031,"teacher_name":"吴起","post_time":"2017-11-28 04:02:50","like_diff":-3,"likes":3,"dislikes":6,"content":"课程分两部分，老师讲和学生展示。讲的内容大概都是高中化竞生竞的内容。学生展示的话看个人兴趣和学生的准备了。展示结束以后会有评选，个人感觉比较玄学因为很多人在水。不过只要不翘课做好作业分就不会低。最后，老师人真的超级好！！！"},{"id":63056,"teacher_id":1031,"teacher_name":"吴起","post_time":"2017-11-28 05:12:22","like_diff":-4,"likes":2,"dislikes":6,"content":"一般努力，平时上课不听，作业认真完成\n\n4.5  你懂这意思了吧"},{"id":91011,"teacher_id":1031,"teacher_name":"吴起","post_time":"2018-11-29 02:19:12","like_diff":-4,"likes":0,"dislikes":4,"content":"老师给分挺好的啊\n\n说给分差的都是自己太水了吧"},{"id":11044,"teacher_id":1031,"teacher_name":"吴起","post_time":"2018-06-21 13:24:22","like_diff":-5,"likes":4,"dislikes":9,"content":"好老师给分好我直接满了"},{"id":90695,"teacher_id":1031,"teacher_name":"吴起","post_time":"2018-11-25 10:00:49","like_diff":-5,"likes":1,"dislikes":6,"content":"考试考的什么几把玩意，分数奇差"},{"id":189376,"teacher_id":1031,"teacher_name":"吴起","post_time":"2024-01-23 13:42:10","like_diff":-6,"likes":3,"dislikes":9,"content":"给分挺好，我没有发言，没有上台展示，也有4.8"},{"id":11379,"teacher_id":1031,"teacher_name":"吴起","post_time":"2015-11-29 11:41:48","like_diff":-8,"likes":5,"dislikes":13,"content":"妈蛋，给3.2 简直了！"},{"id":10979,"teacher_id":1031,"teacher_name":"吴起","post_time":"2015-11-23 14:55:39","like_diff":-14,"likes":5,"dislikes":19,"content":"无聊  给分低\n\n"},{"id":90798,"teacher_id":1031,"teacher_name":"吴起","post_time":"2018-11-26 06:11:52","like_diff":-15,"likes":3,"dislikes":18,"content":"平时不点名，我也没怎么听，后来考试时开卷，我觉得我写的还不错，看到分以后震惊，呵呵啦，历来我分最低的通识课程。建议不要去上了，没意思。"},{"id":140629,"teacher_id":1031,"teacher_name":"吴起","post_time":"2021-09-14 13:10:46","like_diff":-154,"likes":2,"dislikes":156,"content":"老师很好，虽然我只有4.8"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

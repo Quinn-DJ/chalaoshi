@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>来雄翔 - 经济学院 - 浙大教评</title>
+    <meta name="description" content="来雄翔教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="来雄翔,经济学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">来雄翔</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">经济学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">4.46</div>
+                    <div class="rating-participants">480人参与评分</div>
+                    <div class="attendance-info">29.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (1 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">集邮与文化</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.66</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.98</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (424 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":6123,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-07-11 05:01:43","like_diff":143,"likes":215,"dislikes":72,"content":"第一节课和最后一节课去就行，另外最后一节课做好拖堂1小时得准备"},{"id":37914,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-22 02:56:31","like_diff":122,"likes":135,"dislikes":13,"content":"这门课也不是一无是处，至少我每节课都在练膀胱。\n\n"},{"id":16277,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-17 15:55:56","like_diff":101,"likes":129,"dislikes":28,"content":"明明作业做的很认真考试也认证复习了莫名其妙很低分……不想说什么了心塞"},{"id":22422,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-03-07 02:10:38","like_diff":85,"likes":130,"dislikes":45,"content":"看到成绩之后有感而发，真的不知道老师的评分标准是什么，辛辛苦苦做了两三天的虚拟邮集，考试题库也认真背了，等了将近一个半月，成绩出来后却是大一上所有成绩的最低绩点，直接拉低均绩0.1，而我恰好处于选专业的绩点分界线，这个成绩真的无法接受，肯定也有得分很高的同学，但是对于我来说真的是给分和努力不成正比，只能说自己倒霉吧⋯⋯"},{"id":14230,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-05 13:21:36","like_diff":62,"likes":78,"dislikes":16,"content":"作为一个短学期的通识课，要求确实有点多"},{"id":35168,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-22 02:30:56","like_diff":58,"likes":78,"dislikes":20,"content":"楼上楼下的别在再捧老师了\n\n绩点才是硬道理好不好！！！\n\n这老师不仅人傻还没同情心\n\n上个通识课给1.5你是不是\n\n总想搞个大新闻，感觉自己充\n\n满了人生的经验。布置作业\n\n谈笑风生。too young too\n\nsimple。naive！"},{"id":16270,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-17 15:31:10","like_diff":48,"likes":63,"dislikes":15,"content":"平时作业是虚拟邮集 要求很高 还不如写论文 最后考试看似会给答案 实则还不如其他考试没答案的好 给分又不好 真的不要相信有些人所说的好 实话"},{"id":16334,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-18 03:12:48","like_diff":44,"likes":54,"dislikes":10,"content":"给分哪里好了，投入产出根本不成比..比较坑，考试多的学期最好别选，不然就是作死"},{"id":15179,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-12 13:04:42","like_diff":37,"likes":44,"dislikes":7,"content":"上课很水..但邮集和考试前复习题的记忆很花时间..作为一门通识课来说太烧时间"},{"id":16183,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-17 12:07:47","like_diff":35,"likes":43,"dislikes":8,"content":"给分太低 不推荐选！"},{"id":14990,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-11 12:24:22","like_diff":29,"likes":43,"dislikes":14,"content":"要求真的太繁琐了\n\n"},{"id":20830,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-02-01 12:11:16","like_diff":29,"likes":37,"dislikes":8,"content":"哎明明作业很认真考试也背了很多但是绩点很低\n\n"},{"id":14056,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-04 03:49:25","like_diff":24,"likes":28,"dislikes":4,"content":"秋学期的课元旦后还没出成绩，吼吼，稍慢。"},{"id":4635,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-27 13:10:32","like_diff":22,"likes":39,"dislikes":17,"content":"通识课里最后成绩最低的"},{"id":41272,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-01-11 02:46:02","like_diff":22,"likes":27,"dislikes":5,"content":"助教网上点名。大 作业虚拟集邮册。考试靠背。如果你肯花时间，考试基本可以满分。但是作业就很主观了。下了功夫不一定高分。   我是不喜欢这课，培养兴趣没必要背这些玩意，几天就忘了。大学了还这么应式？"},{"id":18528,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-22 02:09:01","like_diff":21,"likes":26,"dislikes":5,"content":"投入产出不成正比。"},{"id":21352,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-02-28 07:28:23","like_diff":21,"likes":26,"dislikes":5,"content":"和文化没有关系，课堂上学不到什么东西，还要求做虚拟邮集，要求多，很烦人。最后一节课会拖一小时，把“复习”资料给你，要把4张纸的内容都背下来！讲话炒鸡慢，废话一大堆。出分特别慢，秋学期的课元旦才出来，我就呵呵了"},{"id":59456,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-09-21 12:53:44","like_diff":20,"likes":20,"dislikes":0,"content":"去上课前记得带上英语课本和线代作业，给手机充好电。"},{"id":4953,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-07-01 13:28:48","like_diff":19,"likes":38,"dislikes":19,"content":"说话100个墨迹，夏天上这个课自残"},{"id":16210,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-17 13:30:44","like_diff":19,"likes":21,"dislikes":2,"content":"给分低！"},{"id":40417,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-01-03 07:48:01","like_diff":19,"likes":22,"dislikes":3,"content":"垃圾老师 作业多得要死 还威胁学生分分钟不及格"},{"id":129549,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-01-07 05:33:37","like_diff":19,"likes":23,"dislikes":4,"content":"爷课都去，集邮册认真做，考试也准备了\n\n最后竟然挂了，你敢信，通识课挂了"},{"id":24003,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-04-25 04:43:32","like_diff":18,"likes":22,"dislikes":4,"content":"考试周前邮集做到天昏地暗，考试前背了一下午，最后得个低绩点"},{"id":39751,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-01-20 14:59:50","like_diff":18,"likes":22,"dislikes":4,"content":"辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡学不到东西的课要求多恶心给分差的要死，直接把均j拉了那么多，辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡千万不要选辣鸡辣鸡辣鸡辣鸡辣鸡辣鸡无力吐槽mlgb"},{"id":21450,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-02-29 01:45:17","like_diff":16,"likes":21,"dislikes":5,"content":"什么破老师"},{"id":16205,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-17 13:19:46","like_diff":15,"likes":20,"dislikes":5,"content":"cao"},{"id":14396,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-07 01:33:30","like_diff":13,"likes":19,"dislikes":6,"content":"说话啰嗦"},{"id":23860,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-04-19 02:58:32","like_diff":13,"likes":20,"dislikes":7,"content":"老师说选上这门课是人品炸裂，我只能呵呵了，讲道理的话，我觉得老师并不是那种考虑学生感受的人，听他讲课真的不要太要命，邮集的标准讲得不清不楚，基本都要重改，给分没出但我想肯定是不高的。如果你不想在最后一节了猝死，趁早退了吧(干脆就别选！)"},{"id":59575,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-09-23 10:41:28","like_diff":13,"likes":15,"dislikes":2,"content":"大家千万不要买他在课上推荐的书，完全没有用过"},{"id":172727,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2023-05-05 09:39:30","like_diff":12,"likes":19,"dislikes":7,"content":"虽然来老师讲课不行，一句话翻来覆去地讲，但是就算一个字不听，把大作业的要求记清楚，期末考前花两天背下题库，最后成绩不会低的。\n\n很多人说老师给分不好，实际上你们自己心里没点数？我期末考的时候看到大把大把的人写了半个小时就交卷，我估计这些人两道论述题几乎没怎么写，考卷都不写完还想拿高分？大作业的要求反复陈述，你们课都不来上，没听见要求还好意思说给分低？\n\n\n\n总之，如果你是对自己有要求的，这门课可以选，没有表面上的评分那么离谱。平时上课也不用认真听，但是务必到课，去了之后做作业或者摸鱼都行，课上不要错过老师在钉钉群里的互动（加平时分），老师说期末大作业要求时认真听（大作业提前一阵子做完，线下给老师看然后征求意见、修改），期末考试题库认真背就可以了。\n\n\n\n选这门课的人有大半都在摆烂，只要你不摆，即使大作业平庸，4.2+还是没问题的。\n\n最后推荐一个全球邮票目录网站：StampWorld （有时需要科学上网），邮集大作业全部截里面的邮品很快就能做完。"},{"id":144036,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-12-16 10:46:22","like_diff":11,"likes":11,"dislikes":0,"content":"挂科了嘿嘿嘿"},{"id":170134,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2023-03-01 12:54:27","like_diff":11,"likes":15,"dislikes":4,"content":"关于绩点：由大作业和期末组成，大作业就是做一个邮集，标准很早就给了，还有往期优秀作业示例，上课也会讲到一些，只要你选题选好，做完先拿给老师修改一两次，基本能拿高分。期末考前老师给题库，题目不多，对高中背过文科的人来说真的很简单。\n\n关于老师：艺高德深，有同学说上课无聊，但我私以为来老师集广博的学术知识与丰富的人生阅历于一生，有易见的文人风骨。老师每节课后都会给大家看大作业，排队的人很多，而且每个人的作业量是很大的，老师会辅导到很晚，有一次到了十一点多我走的时候后面还剩两三个人。此外平时分是只要在钉钉群别人回答的问题下面加一就可以了。\n\n最后想说，已经尽力客观，希望对有意选这门课的同学有所帮助。"},{"id":50610,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-05-04 00:59:17","like_diff":10,"likes":14,"dislikes":4,"content":"1.讲的东西不成系统，不管是喜欢集邮还是不喜欢集邮很抱歉都学不到东西。\n\n2.虚拟邮集作业要求一部分在学生上交后才讲。觉得学生惊愕的表情很好玩？\n\n3.谢谢老师让我认识到认真上课是没用的。\n\n4.果断一分。诶来老师别谢我，应该的，诶你咋还跪下了呢。\n\n\n\n别选！别选！别选！\n\n重要的话说三遍。"},{"id":7732,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-09-15 11:11:35","like_diff":9,"likes":16,"dislikes":7,"content":"要求好多好烦"},{"id":35216,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-23 05:23:45","like_diff":9,"likes":12,"dislikes":3,"content":"明明很认真的在做，最后也有背书，给那么点分，心塞！"},{"id":39229,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-12-21 16:03:15","like_diff":9,"likes":13,"dislikes":4,"content":"能给0分吗"},{"id":62990,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-28 00:06:59","like_diff":9,"likes":17,"dislikes":8,"content":"讲真的不喜欢这个老师，感觉他有点不尊重别人。这门课会请别的集邮大佬来讲课，其中不少老师讲的真的很好，比如张放老师我就超级喜欢，他用他的人生经历告诉我们一些真的有用的道理，所以下课的时候，大家都给了掌声。至于来老师嘛，他似乎有点喜欢在别的老师讲课的时候，打断、反驳，这令我很反感，感觉他缺乏对人的基本的尊重吧。至于作业和考试吧，个人感觉还行，反正不省力，但真的说花时间，也还好吧。至于绩点吧，原来做好了挂科或者3的准备，最后看到上4了，有点惊喜吧。"},{"id":163953,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-12-17 01:36:35","like_diff":9,"likes":15,"dislikes":6,"content":"fw，纯nm依托答辩"},{"id":6130,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-07-11 05:49:32","like_diff":8,"likes":17,"dislikes":9,"content":"通识课最低，上课无聊至极。"},{"id":16219,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-17 13:48:54","like_diff":8,"likes":12,"dislikes":4,"content":"woc\n\n"},{"id":20931,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-02-13 12:10:24","like_diff":8,"likes":11,"dislikes":3,"content":"不想多说"},{"id":35169,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-03 11:44:14","like_diff":8,"likes":11,"dislikes":3,"content":"听课不如不听，短学期的一门课要求多到哭泣，电子邮集做了三四天结果最后一节课告诉你怎么样是要不及格的，不能早说吗？请来的老师都不错，但是真的不喜欢这个老师"},{"id":35905,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-01-21 04:11:00","like_diff":8,"likes":20,"dislikes":12,"content":"老师人其实不错的 问问题都会很耐心的回答 平常上课会请很多老师过来讲故事和集邮心得 全凭兴趣吧 最后打分的话其实期末考试倒不是太重要 最重要的是那个虚拟邮集 每节课下课一定要去找老师问问做的怎么样 即使自己还没做好 也要看看老师怎么给别人点评的 很多细节要注意 要不然扣分点很多"},{"id":139428,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-07-15 11:46:07","like_diff":8,"likes":10,"dislikes":2,"content":"其实真的挺好的…建议都去找来老师面对面改一下作业哈 别自己想当然～而且我期末填空题空了四五个空最后都有96的总评 显然分数会有调整过的！还是推荐大家选一选滴～"},{"id":165166,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-12-29 14:07:41","like_diff":8,"likes":10,"dislikes":2,"content":"差不多得了，上课一句话来回讲五遍，给分标准抽象，难听的话不多讲，考完试成绩都没出着急忙慌把群删了，干嘛？怕学生在群里说“谢谢老师”？"},{"id":168649,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2023-02-20 14:24:40","like_diff":8,"likes":9,"dislikes":1,"content":"啥笔666"},{"id":172673,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2023-05-04 05:27:56","like_diff":8,"likes":13,"dislikes":5,"content":"这个人就是傻逼，别选就对了，听我的"},{"id":5420,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-07-07 09:19:59","like_diff":7,"likes":17,"dislikes":10,"content":"给分低…"},{"id":6452,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-07-14 04:38:44","like_diff":7,"likes":15,"dislikes":8,"content":"不好"},{"id":14539,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-07 13:17:38","like_diff":7,"likes":10,"dislikes":3,"content":"无聊。"},{"id":35850,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-27 23:43:12","like_diff":7,"likes":11,"dislikes":4,"content":"就是不开心"},{"id":37992,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-23 00:25:41","like_diff":7,"likes":8,"dislikes":1,"content":"客观来说，虚拟邮集的作业要求确实有点繁琐，我差不多重做了七八次，改动什么的就数不清了，到最后一节课来说要求确实是有点无语。"},{"id":46262,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-01-21 05:25:51","like_diff":7,"likes":10,"dislikes":3,"content":"不推荐选，明明很认真做的邮集，考试也背了一大堆就只有3.3，大家交邮集要用以前学长学姐的高分邮集，不然要完。"},{"id":53030,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-06-25 03:05:28","like_diff":7,"likes":8,"dislikes":1,"content":"一句话，我挂科了。作为通识，我没逃过课，作业都做了，就这样，分数给的很低。"},{"id":61048,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-07 11:34:07","like_diff":7,"likes":12,"dislikes":5,"content":"对于这门课，我只想说：千万别选!千万别选!千万别选!上课极水，布置个虚拟邮集不告诉要求，等都做好了再告诉你，这样，不及格，那样，不及格。就算认认真真做了一句话就不及格，完全用专业人士的做法要求我们，对集邮没有兴趣的千万别选!"},{"id":73468,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-03-14 09:50:36","like_diff":7,"likes":11,"dislikes":4,"content":"老师分数又降了啊"},{"id":78729,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-05-15 01:43:21","like_diff":7,"likes":7,"dislikes":0,"content":"即使是绩杀，也请绩杀快一点好吗...."},{"id":128269,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-12-16 01:38:15","like_diff":7,"likes":9,"dislikes":2,"content":"u1s1，上课时大部分人，甚至全部都在干自己的事情，可能就最后几堂课的要求和复习认真听了。最后成绩出来，有分高的也有分低的，来查老师抱怨的人明显比较多。选课的同学平常心选吧，作业就是一份电子邮集和一次考试。"},{"id":128821,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-12-25 15:00:02","like_diff":7,"likes":12,"dislikes":5,"content":"u1s1好吧，高中理科生，考前认真背背题库，大作业按老师要求来没什么问题吧？？?为什么都在黑老师，自己没有按要求来怪老师吗？"},{"id":129266,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-01-03 03:04:40","like_diff":7,"likes":7,"dislikes":0,"content":"平时水，可以做自己的事情，记一下上课讲的案例，期末考试编主观题用，期末略烦：\n\n虚拟邮集大作业，推荐会AI、PS的基础运用，不要用ppt或者word做，因为wps/office对图形/图片处理不是很友好，用AI很轻松地能制作那些该死的黑色边框并且编组方便调整（最新版word现在也有编组选项但用得不舒服，不管怎么说AI是万金油运行也流畅），AI导出pdf要注意格式（高品质打印），不然就会有100+mb的pdf，发邮件会让你哭死；而且一定要多，邮品种类、邮票种类往多去整（大概用了100+的素材），和邮集主题有关联就尽管整上去，反正可以在提交作业之前一直问他；\n\n期末考试是有复习题库让你背，但是会该选项顺序、改挖空（选择、填空都要改，反正我就有两道糟了），主观题有答案的背就完事，没答案的提前编好然后背，而且要编得多，少了我不知道后果也不要问我；\n\n还有平时成绩，主要是提问，是用钉钉群里发言的记录，反正不清楚计分规则；\n\n最后满绩，嗯，其实做邮集还是挺快乐的，因为有些邮票确实挺有意思，添加注释查资料的时候也看了很多平时不会了解的东西，也算是丰富了见视，但最烦的就是背东西……f"},{"id":154485,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-06-02 01:48:04","like_diff":7,"likes":8,"dislikes":1,"content":"作业要按要求做，考试一定要复习，如果都没做到，大概率会挂，就像我一样"},{"id":14901,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-11 02:03:57","like_diff":6,"likes":18,"dislikes":12,"content":"课是好课，老师可以真真切切交给你集邮的全部，不过作业有点坑"},{"id":21988,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-22 04:21:27","like_diff":6,"likes":13,"dislikes":7,"content":"秋学期的课到今天都没出成绩"},{"id":23986,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-04-24 07:42:25","like_diff":6,"likes":7,"dislikes":1,"content":"作业要求太高了   不知道花了多长时间  而且考试要背   真的付出太多了 建议不要选"},{"id":25004,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-05-05 00:05:30","like_diff":6,"likes":7,"dislikes":1,"content":"建议秋学期和春学期选，这样考试周背东西压力不会太大。冬学期和夏学期要期末考，再来一个集邮比较累。"},{"id":29295,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-06-29 14:39:14","like_diff":6,"likes":8,"dislikes":2,"content":"第一门挂的课555\n\n"},{"id":33910,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-22 03:07:00","like_diff":6,"likes":9,"dislikes":3,"content":"上这课什么感觉？ 没感觉   浪费了很多时间做16页ppt mdzz 给分还那么低 mdzz\n\n"},{"id":51145,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-05-18 16:21:06","like_diff":6,"likes":6,"dislikes":0,"content":"恕我直言，每次课都去，邮集认真做，考试复习了，只给我3.0。这老师就是个傻X"},{"id":57332,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-07-06 22:38:21","like_diff":6,"likes":6,"dislikes":0,"content":"醉了，集邮册想了一周的题目，做了三天才做完，晚上一直在做，考前背了两天的题库考试全都会做，3.9呵呵，给大家排雷"},{"id":61061,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-07 23:58:38","like_diff":6,"likes":13,"dislikes":7,"content":"我不想说任何东西，1.5分的通识课，花费我那么多精力，还要挂科，这个老师真的，事多，别说了，绩杀，呵呵，要不是没有0分，我一分都不想给"},{"id":61415,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-16 16:13:33","like_diff":6,"likes":9,"dislikes":3,"content":"听我一句劝  犹豫就是想退"},{"id":82648,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-07-09 02:05:03","like_diff":6,"likes":11,"dislikes":5,"content":"如果你要选的话，我有几点忠告：1.记得每节课都去，因为会有一次课点名，没到的人总分扣十分。2.认真做好邮集，找学长学姐讨教经验。3.确保考试周有充足的时间背4页纸的内容。4.拿走不谢。"},{"id":85491,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-07-18 13:03:22","like_diff":6,"likes":7,"dislikes":1,"content":"老师上课会拖堂，做好心理准备，记得提前做好邮集，然后可以去请教老师，找找问题，修改一下再交，上课会有一次点名，最好还是去上课啦，记得几位老师讲的内容大概看一下，随便记一些就行，期末考试会有一道大题让你结合几位老师讲的内容谈谈自己的兴趣(就是使劲夸他们啊～～）考试前留出半天背一下四页纸选择，填空，判断，问答，考试差不多半小时好多人都写完交卷啦，给分不错哒！"},{"id":121972,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-01-27 06:46:30","like_diff":6,"likes":14,"dislikes":8,"content":"很多人说来老师给分不好 我想问一下这些人你们是真的按照来老师的要求认真做虚拟邮集吗？你们考前有完完全全背会来老师给的题库吗？付出和回报一定是成正比的，每次下课都有一帮人去拿着自己做的邮集请教老师，这些人的分肯定不会低的。我虚拟邮集做了整整两周，考前背了一整天的题库，一字一句挨上背，最后4.8真的是很开心的。集邮是个大学问，制作虚拟邮集有很多规则，不是随随便便做了就可以拿高绩点的。"},{"id":124734,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-07-07 09:45:44","like_diff":6,"likes":7,"dislikes":1,"content":"有一说一，一份努力一份收获，网课结束后空余时间多，认真做了三天邮集，头都做晕了，最后94，建议超过30学分的同学慎选，要不然很难挤出时间做邮集"},{"id":136243,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-06-13 13:42:19","like_diff":6,"likes":7,"dislikes":1,"content":"老师真的有很大的改变了，下面那些喷子是不是上课没听老师的大作业要求？？？就一个字体位置讲了多少遍，小心眼？自己感觉良好？差不多得了吧？"},{"id":136353,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-06-17 02:36:07","like_diff":6,"likes":10,"dislikes":4,"content":"下面说背的痛苦的真的开玩笑，不和专业课比，和其他通识课相比都是很少的量。就一份集邮作业，不按照要求做，不找老师修改，网上找个主题搬运，想要拿高分？？？活梦里呢"},{"id":144435,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-12-21 13:05:02","like_diff":6,"likes":7,"dislikes":1,"content":"没想到过了这么多年，这个老师还是和人气评分第一的那条说的一样——去第一节和最后一节课就行，最后一节课得拖课半个多小时（上学期的亲身经历与感受）\n\n\n\n但是这门课的事真的算是很少了，一份邮集大作业，一场有题库的期末考试。\n\n\n\n我还算是挺喜欢这个老师的，上课轻松幽默，看得出来老师是一名集邮的狂热爱好者。\n\n\n\n第一节课和最后一节课去就行的说法是因为老师不点名，而且平常上课讲的内容考试基本不考（也许是我没认真听？），因为有题库所以课堂上不用很紧张地记知识点。然后最后一节课的拖课是为了给我们讲大作业邮集的格式和期末考试题库的用法（因为正式考试会改题）\n\n\n\n虽然我最后绩点只3.3，但毕竟这门课花费的时间相比其他课已经很少很少了"},{"id":164362,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-12-20 11:46:36","like_diff":6,"likes":8,"dislikes":2,"content":"老师分真的好低啊，按要求做大作业+期末前背题+上课在群里点+1，就满了，而且背题也不花什么时间，大题其实可以自由发挥，题量也不大，课完全不用听，而且老师人也挺好的，蛮可爱的。就是大作业要求一定要认真听！！！并且尽量早点发给老师看看，老师会提修改建议的"},{"id":170830,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2023-03-10 07:29:58","like_diff":6,"likes":11,"dislikes":5,"content":"Sb玩意"},{"id":2979,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-05-12 06:53:33","like_diff":5,"likes":14,"dislikes":9,"content":"不喜欢集邮的倒是没有觉得有意思，而且和文化不沾边不多，简单地说除了集邮知识学不到其他文化方面什东西，给分自己看均绩，通识课中属于一般。"},{"id":31767,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-07-06 10:22:55","like_diff":5,"likes":19,"dislikes":14,"content":"给分还行吧，我来来回回邮集改了三遍，最终91，但作为一门通识，真的要求太多了。还有大家说的给分不好，这我要为老师辩解一下，其实应该是邮集上出了问题。每次做好我都会给老师看，明明感觉自己做的很好，但老师总能指出一大堆错。而且最终考试成绩大家都差不多，关键就是邮集的好差。"},{"id":36276,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-22 01:50:50","like_diff":5,"likes":8,"dislikes":3,"content":"中间其他老师讲的都不错。。。就是最后的老师略坑。一帮对集邮没啥兴趣的人硬要被逼着背年份，事件。。。简直醉了"},{"id":61046,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-07 11:22:25","like_diff":5,"likes":6,"dislikes":1,"content":"作业要求凭空出现，上课内容与考试和作业无关"},{"id":61047,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-07 11:25:02","like_diff":5,"likes":6,"dislikes":1,"content":"如果有零分 呵呵"},{"id":73474,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-05-22 00:43:35","like_diff":5,"likes":20,"dislikes":15,"content":"哈哈哈，我绩点上4了。\n\n看看大家怎么踩我，你就知道什么叫绩杀了。"},{"id":80093,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-06-20 02:31:25","like_diff":5,"likes":9,"dislikes":4,"content":"1.我个人不喜欢这个老师 拖堂 无聊 端着架子 经常自我吹捧一番 其他老师讲的时候还经常打断插话 ；2.中间会有邀请其他老师来讲课 都很不错 ；3.但就事论事 说虚拟邮集做了很长时间但是得分很低的 你真的按照老师的要求去做了吗?我做邮集的时候也是做到昏天暗地 做完之后去请教了我一个这门课4.5+的同学 他给我讲的很多细节和要求我发现我根本没有注意过 都做错了 又花了很长时间去改 虽然说这门课确实无聊 但是实话讲我们上课都没好好听真的会注意那些很细节的点吗? 4.题库很恶心…网上可以找到答案…就是一直在背时间地点名称…还有最后那个论述…(最后一题是要么大段论述集邮 要么不用大段，写集邮对自己其他方面兴趣确立的影响 )而且【出题不一定按题库给的空去挖空】但是背熟了也没什么问题 我花了半天到一天去背 最后提前交卷 卷面分还可以；5.总的来说这是一门挺水的课 可以不听 但是做虚拟邮集一定要注意要求 背熟题库 绩点就还可以 但是我对这个老师实在喜欢不起来。以上。"},{"id":128547,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-12-23 23:13:09","like_diff":5,"likes":10,"dislikes":5,"content":"首先我想说的是老师真的很热爱集邮，所以大作业一定按照他的要求来。其次我想反驳一下，老师并没有拖堂一个小时，请客观一点，大致是5-10分钟。然后，ppt是挺坑，这个我也不评价，但是觉得自己很认真的那个同学，我ppt做了三个星期，大概是三十几个小时，题库给了，老师明确说了会改题目形式，考试前三天，每天花一个小时背一下，背不出是不可能（当然也可能是我高中背历史背出来的，觉得题库挺容易，这个确实有点主观了）。老师还是防止鹅颈一把好手，问问题也会耐心回答。总之我是推荐的"},{"id":139380,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-07-15 02:41:22","like_diff":5,"likes":7,"dislikes":2,"content":"来老师除了平时喜欢拖课，只要你大作业认真做，考前背一下他给的题库，最后给分很好的"},{"id":144551,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-12-22 08:26:49","like_diff":5,"likes":7,"dislikes":2,"content":"【集邮与文化】老师本人是很热爱集邮的，讲课内容也做了一定准备。最大的问题在于老师对于邮集（结课作业）的格式有执念性的要求，且如果没有按照格式（虽然上课都会讲，也会给出要求列表）来做作业的话给分奇低，根本不是通识课应该有的水平，可能只给你60-70分，甚至还会挂科，因此这是一个极大的避雷问题。建议非常追求通识绩点（有的专业的评奖评优并不看重非主修课程）的同学慎选，为了划水或是非常热爱的同学可以选，"},{"id":155462,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-06-13 06:18:53","like_diff":5,"likes":9,"dislikes":4,"content":"别选集邮与文化！别选集邮与文化！别选集邮与文化！"},{"id":4857,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-06-30 01:18:38","like_diff":4,"likes":11,"dislikes":7,"content":"呵"},{"id":23833,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-04-18 11:23:56","like_diff":4,"likes":6,"dislikes":2,"content":"血的教训！邮集真的全是坑！大坑！"},{"id":23840,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-04-18 13:12:07","like_diff":4,"likes":9,"dislikes":5,"content":"如果只是一般般喜欢集邮，那你上完这么课，可能就不会喜欢集邮了。同时这门课还考验你的耐性，讲道理，老师比较啰嗦，一件事能反反复复讲个好几遍，特别是最后一节课，嗯，要说一下复习题，建议八点五十五下课铃响了之后再来，他可能刚讲完废话开始说复习题。复习题里选择题答案全部是A，判断题全部正确，之后还可能会传到群文件，所以大概交个作业就可以走了。讲真，选课还真的要看看评价，不能直接看名字选。"},{"id":26066,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-06-15 09:58:59","like_diff":4,"likes":7,"dislikes":3,"content":"作为一门通识课，又有大作业又有考试。作业要求看似具体实则多且模糊；考试看似给题库，实则有误导倾向。（并不是说答案是错的，而是如果要答对题需要把题库所有关键数据背出来）。或许高分同学确实作业有独到之处，然而既然作业要求不明确我也不知道为什么给我这样一个分。毕竟作业有好好做，考试也认真背了。大概想拿高分凭运气，处于绩点关键期的同学请不要选。"},{"id":35393,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-01-11 10:11:20","like_diff":4,"likes":9,"dislikes":5,"content":"呵呵呵呵呵呵"},{"id":35446,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-10 07:16:57","like_diff":4,"likes":6,"dislikes":2,"content":"多么痛的领悟"},{"id":36549,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-22 03:00:12","like_diff":4,"likes":9,"dislikes":5,"content":"我会告诉你绩点1.5吗？分数是60，很任性的打分。\n\n\n\n\n\n\n\n"},{"id":37730,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-12-27 07:30:53","like_diff":4,"likes":6,"dislikes":2,"content":"上完冬学期的通识才知道集邮课要求有多少"},{"id":37871,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-21 14:54:33","like_diff":4,"likes":8,"dislikes":4,"content":"老师应该有包容的心态面对不同的观点，我小作文只是论证了集邮消亡的必然性，就只拿了2.7的绩点。上课还是各种集邮爱好者的朋友来上课，又要做邮集，又要考试。不要选。"},{"id":39073,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-12-21 03:37:36","like_diff":4,"likes":7,"dislikes":3,"content":"无聊 真的自残"},{"id":46076,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-01-20 14:43:32","like_diff":4,"likes":7,"dislikes":3,"content":"让你体验一把通识挂科的快感，10分！"},{"id":46120,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-01-20 15:35:47","like_diff":4,"likes":7,"dislikes":3,"content":"上完课只想知道课代表是怎么选出来的???"},{"id":46152,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-01-20 17:58:18","like_diff":4,"likes":4,"dislikes":0,"content":"腊鸡老师\n\n"},{"id":47549,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-01-30 09:43:12","like_diff":4,"likes":6,"dislikes":2,"content":"我想给个0分"},{"id":50637,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-05-04 12:49:03","like_diff":4,"likes":5,"dislikes":1,"content":"我现在觉得我很有成就感，随便一选就选了一个不能再烂的课。"},{"id":59149,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-09-20 03:16:11","like_diff":4,"likes":4,"dislikes":0,"content":"非常痛苦非常困=_="},{"id":61049,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-07 11:52:13","like_diff":4,"likes":6,"dislikes":2,"content":"作业想死\n\n要求太多太繁琐太过分太鸡蛋里挑骨头"},{"id":79449,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-02-19 02:40:33","like_diff":4,"likes":10,"dislikes":6,"content":"来雄翔怎么不吃翔"},{"id":86738,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-09-18 08:14:43","like_diff":4,"likes":6,"dislikes":2,"content":"现在要不要退课呢？"},{"id":90939,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-11-28 00:32:04","like_diff":4,"likes":5,"dislikes":1,"content":"有一次点名到了加十分。虚拟邮集做完要问，会ps去水印更好。"},{"id":114893,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2019-07-12 14:22:46","like_diff":4,"likes":8,"dislikes":4,"content":"当初也被评分劝退，但自己上了以后感觉不错，认真做了给分挺好。总结一下这门课的几个要点，第一是集邮认真做，做完请老师帮忙看，再修改一下。第二是点一次名，到的会有加分。第三是考前给的复习资料认真背。"},{"id":124726,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-07-07 07:06:39","like_diff":4,"likes":4,"dislikes":0,"content":"上的集邮与文化，老师明明很好啊，平时事情也不多，主要是虚拟邮集认真按要求做，给分好到出乎意料"},{"id":125678,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-09-13 02:08:09","like_diff":4,"likes":11,"dislikes":7,"content":"上学期非酋没换上啥课选到了集邮，看到查老师上的评价都很差已经做好死亡准备了。结果发现老师人其实很好啊！！上课讲自己的经历，穿插着集邮知识，可以从老师的表述中察觉到对集邮的热爱，以及捡漏的时候那种惊喜与激动，只是在网课上，真的是一个很可爱的老师了！！！说集邮要求高的，老师按照集邮界的规则来要求，没毛病啊，想水课又要拿高绩点本来就是侥幸心理，认真做了又拿不到高绩点的，因为不是你一个人在认真做，虽然绩点不高会很失望觉得努力白费，但是最后出的集邮成果，自己觉得真的够好吗？够好的话，自己也就有很大的收获了，而且也不是所有的认真与付出都有正比的回报，这个道理谁都知道吧....今年网课，集邮大作业提前了很久开始各种找邮票，去了好多网站国内国外网（可能很多人都局限在淘宝），找了好几百张邮票（看过第一次筛选的可能上千吧，反正看到眼昏..）最后精选集成了大作业，成绩96，还是希望学弟学妹按照兴趣选课，查老师上的评论极端的挺多的，不要永远以绩点为风向标~"},{"id":128270,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-12-16 01:45:16","like_diff":4,"likes":6,"dislikes":2,"content":"挺烧时间的"},{"id":130650,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-01-24 05:33:37","like_diff":4,"likes":6,"dislikes":2,"content":"绩点4.5\n\n做虚拟邮集确实费时间，而且老师回消息比较慢，已读但是不回，结果在我交了作业之后回了我哪里哪里要改，然后我改了重新交了一份。上课我觉得挺有意思，会讲自己的小故事，上完课我竟对集邮产生了兴趣hhhh期末考试比其他开卷或者闭卷的考试友好多了，会给指定的题库。"},{"id":135164,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-05-05 09:26:26","like_diff":4,"likes":7,"dislikes":3,"content":"这老师心眼小 很坏的一个人"},{"id":144067,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-12-17 07:54:11","like_diff":4,"likes":5,"dislikes":1,"content":"来老师上课喜欢讲废话，而且很多跟集邮无关，是一些小故事，如果有兴趣就听吧，没兴趣可以不听，完全可以，因为有三分之二的人都不会听的。最后花了三天做大作业（做了两次，第一次写的改革开放，写好了他才在上课说不能写大主题，重写了一次），花了半天背期末考试，最后4.5，也是令我很满意。所以只需要做好大作业，背好期末资料就行了！"},{"id":144081,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-12-17 09:22:17","like_diff":4,"likes":4,"dislikes":0,"content":"emmmm平时上课确实很水 会拖课也是真的 \n\n但是会感觉到老师真的很喜欢集邮 平时分享的一些集邮的故事也蛮有意思的\n\n只要期末那个虚拟邮集认真搞 老师期末还会给题库 选择填空简答 填空题考得比较细 背背其实就好\n\n邮集作业 不清楚的地方多问老师多问老师多问老师！！！\n\n老师知道的东西特别多hhhhh（就导致我之前问虚拟邮集的邮戳需不需要加边框结果他给我延申出了好多好多内容讲了大概有五六分钟（可能十几分钟？）\n\n噢对了  虚拟邮集的作业  不要想什么主题新颖……最简单的那些就好\n\n（我之前做了一个觉醒年代主题的老师说太抽象……交作业前几天疯狂重新做了一个新的\n\n（最后满绩hhhhh"},{"id":153601,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-05-05 12:11:27","like_diff":4,"likes":10,"dislikes":6,"content":"该干的是都干了，而且奔着拿一个好看的绩点去的，作为一门通识课也花了很多时间，最后给了一个2开头的绩点。谢谢你，温暖了四季！"},{"id":161112,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-10-27 11:01:36","like_diff":4,"likes":4,"dislikes":0,"content":"给老子爬"},{"id":162299,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-11-21 01:03:17","like_diff":4,"likes":9,"dislikes":5,"content":"绩点4.5，个人觉得前面几位同学太偏激了，作业要求前面就说过，后面也只是再强调，并没有反复改吧？但是他对邮集的要求感觉确实比较高的，可以早点做完让他指导一下，不过要早一点，我因为比较懒发的晚，ddl之后他才回我信息，就没有修改的机会了；期末考试确实时间比较紧张，我是周四课，周六考试，只有两天时间，中间还有一科其他考试，给的题库需要背一些名词时间地点之类的，而且会挖一些奇怪的空去填，这一点还是比较搞人心态的，有三道开放题，一道大概是学了这门课自己的感受之类的，另外两道他给答案，大概每个两三千字？没仔细数过，这个就看你个人想不想卷了，摆的话也不用背很多。不点名，偶尔会问一些问题在钉钉群里回答，就当签到了。对我来说纯纯大水课，课上都在写作业，有时候听一点作业要求和有趣的事。总结来看，大作业认真点，期末稍微好好背一下分肯定不低的，（我好像做大作业确实费了不少时间，但是课上水的话个人感觉是不亏的，这个看你们个人了），但是想冲满绩的应该很难我觉得，水课的话可以尝试。（写着写着突然对我的评价不自信了，但是一直觉得老师挺好的，那就重申一下难点吧：大作业要求比较高，期末有一点搞心态，大家自己衡量吧）"},{"id":164352,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-12-20 11:04:55","like_diff":4,"likes":4,"dislikes":0,"content":"一声长叹."},{"id":175213,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2023-06-22 12:23:38","like_diff":4,"likes":6,"dislikes":2,"content":"呵呵，大学第一门挂掉的课，居然是通识课……"},{"id":23842,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-04-18 13:36:39","like_diff":3,"likes":7,"dislikes":4,"content":"课是好课，会请很多集邮家分享集邮的经历，喜欢集邮的同学会长见识。但是拖堂概率大，如果后面有事就比较糟糕。"},{"id":25881,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-06-13 06:42:40","like_diff":3,"likes":6,"dislikes":3,"content":"我觉得老师很好啊课也很有趣，每次就是听故事”。理论考完全就是给答案了的\n\n"},{"id":26343,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-06-17 04:08:59","like_diff":3,"likes":5,"dislikes":2,"content":"只有清明放假点过一次名，给分垃圾，投入与产出不成比，不喜欢集邮的简直浪费时间。而且他的有些价值观真是呵呵，作为一个老师大讲特讲怎么占小便宜真的呆胶布？"},{"id":31821,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-07-05 03:13:06","like_diff":3,"likes":6,"dislikes":3,"content":"第一次给分那么低 通识课上的那么差 还要求那么多 还给分那么差 老师还一副很傲娇的样子 我觉得他真的应该来看看学习帝的存在 大写的呵呵 去你妹的2.5"},{"id":32153,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-07-05 23:58:07","like_diff":3,"likes":6,"dislikes":3,"content":"sb老师，做邮集全按他要求，该背的都背了，最后就3.3，真是心累，慎选。"},{"id":34877,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-10 08:56:31","like_diff":3,"likes":4,"dislikes":1,"content":"自己不讲课 整天瞎逼逼 要求贼多 最后一节课必拖课"},{"id":35164,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-22 01:08:07","like_diff":3,"likes":8,"dislikes":5,"content":"不想说什么了，zz老师辣鸡课，考试前准备了很多，作业也很认真，绩点给2.4tm是什么鬼，要求还这么多，你怎么不上天呢，lxx"},{"id":35165,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-03 11:29:20","like_diff":3,"likes":3,"dislikes":0,"content":"不要上他课真的\n\n"},{"id":35172,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-03 13:00:44","like_diff":3,"likes":5,"dislikes":2,"content":"可惜没有零分这个选项。"},{"id":36050,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-10 10:54:11","like_diff":3,"likes":5,"dislikes":2,"content":"大概就是一种认真了也没有卵用的感觉吧（手动微笑"},{"id":37890,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-22 00:00:10","like_diff":3,"likes":3,"dislikes":0,"content":"怎么说呢，有点难过。明明自己的邮集做了又做，改了又改。可是成绩出来时还是有一点小失望。考试几个填空题没填出来分数直接低了很多。哎，成绩好的我也不知道人家怎么得来的。"},{"id":38399,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-12-02 04:13:32","like_diff":3,"likes":7,"dislikes":4,"content":"说点对老师和课程真感。集邮课你可以当作水课看，也能够当作入门课。课堂上能够接触到一些集邮爱好者，并且对集邮有初步了解。课上有相当一部分内容是请集邮家来讲解的，但是老师讲课的内容可能会有点不尽人意。总评有考试和邮集：考试题型会在考试前一礼拜给你，好好背背应该能过；邮集要花点心思，只是老师总是把要求放在最后几节课上讲。评分标准有点迷。。。总体来说两个内容做好绩点应该不错了。ps：邮集会占用一些的期中考试复习时间，所以提前做吧。"},{"id":73471,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-02-01 15:15:11","like_diff":3,"likes":7,"dislikes":4,"content":"邮册做了整整一天  从早到晚  背题库也背了一天 从早到晚  连 1900字的文章我都基本上背上去了  不明白  为什么最后 分还是那么低  建议  不是嫌自己分多  别选"},{"id":73663,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-02-02 10:47:16","like_diff":3,"likes":3,"dislikes":0,"content":"。 。。！"},{"id":80426,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-06-26 11:03:25","like_diff":3,"likes":6,"dislikes":3,"content":"老师人还是不错的，快交邮集的时候耐心解答我们的问题，都快十点了才走，给分也不错，一起选的三个人4.2 4.5 4.8，对没错我就是那个4.2"},{"id":128248,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-12-15 05:05:34","like_diff":3,"likes":8,"dislikes":5,"content":"就他妈无语 给分黑洞"},{"id":128498,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-12-23 11:29:15","like_diff":3,"likes":7,"dislikes":4,"content":"要背的就那么一张纸哪里多了？而且上课的时候讲的很清楚有哪些要求，不好好做怪老师？"},{"id":130214,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-01-19 04:59:36","like_diff":3,"likes":4,"dislikes":1,"content":"这老师真牛逼，分乱给"},{"id":136242,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-06-13 13:00:32","like_diff":3,"likes":4,"dislikes":1,"content":"背一下卷子，不要理他，给分好"},{"id":144057,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-12-17 06:30:49","like_diff":3,"likes":5,"dislikes":2,"content":"老师每节课都在认真讲 \n\n很惭愧我没有好好听 我都在写作业\n\n我交大作业的时候完全不符合要求\n\n老师额外给我时间改\n\n我改了一次 老师说还是差很远\n\n还和我打了两个小时的电话（到凌晨）指导我改大作业！\n\n他明明可以直接给我不及格 但他没有\n\n期末的时候考试会有题库 \n\n好好复习一下就可以！\n\n临时抱佛脚绩点3.6"},{"id":157508,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-06-23 13:21:08","like_diff":3,"likes":9,"dislikes":6,"content":"没见过通识课还有低于3的绩点，nmsl😅"},{"id":157571,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-06-23 19:14:13","like_diff":3,"likes":6,"dislikes":3,"content":"来老师课上会讲作业要求，这些要求一定要按着做，不然很容易低分。上课会讲，如果作业没有达到什么要求就会很低的，交作业时候看到很多作业确实是没有按照要求来做，来老师又认真的有些执着，所以给低分的话也不能全怪老师吧。"},{"id":157603,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-06-24 02:38:09","like_diff":3,"likes":9,"dislikes":6,"content":"这门课上课不用听，下课作业要花力气，集邮册我自己做了蛮久的，改了也蛮久的，总的来说也付出了不少，对我来说不算水课。至于给分，有些同学觉得不好，我盲猜80%吧，集邮册要求不达标，举个例子，老师一再强调要调成竖版A4纸格式，交作业的时候还有同学用横版，不愿意花力气绩点低很合理。跟着老师发的优秀作品做，分数是不可能太差的。其次集邮册有一次给老师评点修改的机会，大部分问题都会指出来，照着修改按理邮册就比较完善了，当然也建议多找机会问一些小问题当老师记住你的邮集，混个眼熟。考试会发资料背背，时间确实有点紧，但是也差不多可以应付。总的来说按要求来，肯花精力，一定有好收获。（这门课很多人都摆烂，想卷也容易）"},{"id":161116,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-10-27 12:35:40","like_diff":3,"likes":3,"dislikes":0,"content":"要求一堆，而且屁不一次放完，每节课都有新的作业规矩\n\n做作业超级烧时间，给分还不好，很死板\n\n退！退！退！\n\n退！退！退！"},{"id":161117,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-10-27 12:39:08","like_diff":3,"likes":3,"dislikes":0,"content":"要求忒多，绩点忒低\n\n分矮少选，天坑快走！\n\n退！退！退！赶紧的！"},{"id":161284,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-11-03 13:25:44","like_diff":3,"likes":3,"dislikes":0,"content":"国庆说可以开始写作业了，但是以后每节课更新一点要求，甚至最后一次课还在改作业要求。没有见过这么无语的老师，非常极度不建议选。不会讲课，但是屁事贼多。选了后悔一个学期！！！"},{"id":162042,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-11-16 08:43:31","like_diff":3,"likes":5,"dislikes":2,"content":"大学第一个满绩，作业就一个邮集，期末一个闭卷考，考前花点时间背背题库，邮集用心做，做完给老师看一下，老师会提修改意见，跟着老师的修改意见来修改，我到最后还大改了一遍，邮集大概也就2-3天慢慢修修改改就能做完的，认真做分数不会差！"},{"id":164522,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-12-21 12:10:48","like_diff":3,"likes":4,"dislikes":1,"content":"真哭死，绩杀"},{"id":168307,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2023-02-10 10:33:34","like_diff":3,"likes":5,"dislikes":2,"content":"分少事多"},{"id":171581,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2023-03-29 08:23:13","like_diff":3,"likes":7,"dislikes":4,"content":"sb经典已读不回"},{"id":178281,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2023-07-09 11:11:40","like_diff":3,"likes":6,"dislikes":3,"content":"我没上过这个老师的课，但是我通过通识选修有人挂科这件事认识了这个老师。。。"},{"id":22408,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-06-07 05:29:35","like_diff":2,"likes":4,"dislikes":2,"content":"分少还出的慢"},{"id":35391,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-10 00:48:22","like_diff":2,"likes":2,"dislikes":0,"content":"不到最后一次课不给题库 期末了就几天的时间背好几页的题 要求多给分低"},{"id":35654,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-01-20 13:56:55","like_diff":2,"likes":5,"dislikes":3,"content":"垃圾，没兴趣就别去了，有兴趣也少去点，不要因为他是l类课就屈身去那"},{"id":38035,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-23 10:44:43","like_diff":2,"likes":6,"dislikes":4,"content":"毁我青春……"},{"id":46118,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-01-20 15:34:23","like_diff":2,"likes":4,"dislikes":2,"content":"上课很水很无聊，邮集要求很多很繁琐，考试纯背书，背的熟的话绩点还行"},{"id":50606,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-05-04 00:29:17","like_diff":2,"likes":3,"dislikes":1,"content":"给分差差差差差"},{"id":57341,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-07-07 00:40:00","like_diff":2,"likes":4,"dislikes":2,"content":"第一次知道通识课还会挂科"},{"id":59217,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-09-20 08:11:47","like_diff":2,"likes":3,"dislikes":1,"content":"给分实在太太太太太不好"},{"id":61072,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-08 03:14:28","like_diff":2,"likes":6,"dislikes":4,"content":"没有0分"},{"id":61449,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-17 09:48:36","like_diff":2,"likes":6,"dislikes":4,"content":"千万别选  选上也赶紧退   就这些   其他的别人已经说的很清楚了"},{"id":61450,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-17 10:22:25","like_diff":2,"likes":4,"dislikes":2,"content":"baibai"},{"id":62923,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-27 12:35:11","like_diff":2,"likes":3,"dislikes":1,"content":"绩点真的低"},{"id":62964,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-27 15:40:47","like_diff":2,"likes":3,"dislikes":1,"content":"说选个素材多主题的那个同学怕才是没认真听讲吧，老师明明说过素材多的主题给分会比较低，因为觉得我们没有花时间在找素材上:)"},{"id":62985,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-27 23:49:41","like_diff":2,"likes":2,"dislikes":0,"content":"除了虚拟邮集花时间还是挺水的啊"},{"id":64114,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-12-21 04:02:29","like_diff":2,"likes":5,"dislikes":3,"content":"作业多 绩点低到爆炸"},{"id":64284,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-12-22 08:18:53","like_diff":2,"likes":7,"dislikes":5,"content":"老师会邀请一些集邮家来课堂讲座，说很多故事，既学习集邮知识，还收获了很多有趣的故事开拓了眼界，而且老师人真的超级好，我记得快交邮集的时候同学们把邮集拿给老师改，老师就很耐心一个一个看，有一回老师被我们留了一个多小时。而且上课真的有趣，第一节课回答问题还有小礼物哦?"},{"id":65487,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-03-07 10:47:15","like_diff":2,"likes":4,"dislikes":2,"content":"第一节课布置作业，剩下的课全都在讲怎么做这个作业，根本学不到什么干货，这个课没有什么存在的意义，不推荐想学集邮的选，会失望的。还有一点，点到的严格是不是反应了老师的不自信呢？有待考虑考虑。\n\n"},{"id":67658,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-01-22 04:15:53","like_diff":2,"likes":2,"dislikes":0,"content":"上课水，集邮册略烦，考试有题库但是会改，拿了个2.1绩点有点气"},{"id":67911,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-01-22 09:48:13","like_diff":2,"likes":2,"dislikes":0,"content":"极度无聊"},{"id":68076,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-01-22 14:40:12","like_diff":2,"likes":3,"dislikes":1,"content":"一般般，挺烦的，自以为是的人"},{"id":73123,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-02-01 03:10:09","like_diff":2,"likes":3,"dislikes":1,"content":"呵呵了，半个学期下来不仅什么都没学到，一个通识课还那么低的绩点硬生生拉低我的均绩。投入与收获不成正比的课程。。。"},{"id":78283,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-05-10 11:37:55","like_diff":2,"likes":3,"dislikes":1,"content":"感觉还行，趁着出分前先奶一口自己"},{"id":79051,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-05-21 13:23:11","like_diff":2,"likes":2,"dislikes":0,"content":"老师情商有点低。。。上了两节课，就这个感觉"},{"id":79155,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-05-25 05:00:13","like_diff":2,"likes":4,"dislikes":2,"content":"签到过一次。邮集好好做吧，认真一点，多放一点邮票，多找老师问，下课问或者发邮件都可以，老师会很耐心的给你解答的，尽量不明白的就问，包括版式，排版，内容方向都可以问。题库好好背，挖的空会让你想不到，所以尽可能背全。记住多问啊！！\n\n最后，想拿高分认真做邮集，想及格背题库。"},{"id":80316,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-06-25 04:53:31","like_diff":2,"likes":6,"dislikes":4,"content":"上课超有趣，可以看见很不一样的世界，而且老师很负责，即使叫了其他老师来上课，来老师也会每节课都来。邮集的要求是比较高，做邮集也很需要时间，但用心认真做肯定是能拿到高分的。这是一门你真的能学到东西的好课。但是如果想水的话就不要来了，也很需要时间的投入。不要听别人的乱喷，课是真的有趣。"},{"id":86766,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-09-18 12:39:11","like_diff":2,"likes":6,"dislikes":4,"content":"老师人很好，很耐心，回答问题也很仔细，也会很认真去倾听同学们的问题。老师很温暖，就很棒啦。\n\n关于课程，内容就真的很充实，有来自各行各业的集邮家的介绍以及他们的特别的经历。每一堂都很享受。\n\n课程要求做一本虚拟邮集，这真的比较花功夫，所以需要充足的时间，认真做总不会差的，最后有考试，认真记成绩也不差。\n\n总之这是一门增长集邮知识的特别好的一门课。给来老师打电话，超喜欢他"},{"id":86890,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-09-19 07:51:20","like_diff":2,"likes":3,"dislikes":1,"content":"其实上课真的还挺有趣的，老师有邀请很多喜欢集邮的教授和名家分享集邮故事，就是最后的虚拟邮集大作业比较费时间，按照他给定的格式分数不会太差的...最后考试也有给题库复习的。当时选了这门发现老师评分很低，还担心过一阵，但是实际情况真的还好。"},{"id":90970,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-11-28 07:39:39","like_diff":2,"likes":6,"dislikes":4,"content":"之前听说这课事很多不过个人感觉也还好，就做邮集麻烦点，最后要花半天时间背一下题。还有点名不要错过了。老师人挺好的呀，不明白为什么分这么低"},{"id":93249,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2019-01-08 11:17:29","like_diff":2,"likes":3,"dislikes":1,"content":"沃日 最后一节课来讲做的邮集这个不对那个不对的 您早干嘛去了?刚开学就建好群发好标准文件不好吗?偏要赶在最后?标准不是您定的??我靠 真服了┗┃・ ■ ・┃┛\n\n"},{"id":102348,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2019-02-01 05:29:39","like_diff":2,"likes":4,"dislikes":2,"content":"上课催眠，课程难度中等，邮集听好要求两天做掉，期末考有题库，背一天就OK。按要求去做给分不低，自己乱搞还要怪老师最后分低那没办法的呀。"},{"id":118890,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2019-11-07 11:32:08","like_diff":2,"likes":3,"dislikes":1,"content":"刚刚考完集邮与文化的考试 我只想说“千万别选”"},{"id":124880,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-07-14 09:25:14","like_diff":2,"likes":2,"dislikes":0,"content":"认真做邮集，与专业相关并且有创意，给分很好诶"},{"id":125034,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-08-17 03:44:56","like_diff":2,"likes":3,"dislikes":1,"content":"yysy，真的是大一一学年上过的最水的一门课了，只要做一份虚拟邮集，期末给题库背就完事，给分也还不错"},{"id":128247,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-12-15 04:40:52","like_diff":2,"likes":8,"dislikes":6,"content":"辣鸡老师，事多分低，爱吹牛，教不了什么知识，还自以为跟学生玩的挺好，最后出分一拖再拖。。。\n\n我们寝室和隔壁寝室三个人选分都很低很低，还都是上课一直在听的，懂我意思了吧"},{"id":129208,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-12-31 07:34:32","like_diff":2,"likes":3,"dislikes":1,"content":"不点名，不用发言讨论，平常事情少，电子邮集也没讨教老师怎么修改更好，可能主题想法比较新颖。考试前背了一天题库，给分不错"},{"id":129261,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-01-02 15:45:24","like_diff":2,"likes":3,"dislikes":1,"content":"上课确实比较水（主要在讲个人经历），而且没有基础的同学对他用的专业名词很迷惑（很少解释，主要自己百度）\n\n上课不点名，大部分同学也都基本不听\n\n考核是虚拟邮集+考试\n\n邮集要求比较多，老师一般每次上课会零零碎碎讲一些，考试会给题库\n\n出分比较慢，上课干货不多，给分比较公平"},{"id":133450,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-03-01 02:09:17","like_diff":2,"likes":2,"dislikes":0,"content":"集邮一生推🤡"},{"id":135017,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-04-27 04:49:02","like_diff":2,"likes":3,"dislikes":1,"content":"反正……要绩点的别去，卷了跟没卷一样，得分随缘 都不高。"},{"id":135618,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-05-17 03:58:47","like_diff":2,"likes":4,"dislikes":2,"content":"严格按照老师要求来的话不会很低的！\n\n大作业的要求有很多很多，做完初稿一定要给老师看，期末考很简单背就行了。\n\n老师还是负责的那天教室里留到半夜十二点指导作业"},{"id":135626,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-05-17 08:10:49","like_diff":2,"likes":2,"dislikes":0,"content":"老师超赞！！！上课很有趣。大作业花点时间，根据老师要求去做，绩点会很不错。"},{"id":135632,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-05-17 11:16:41","like_diff":2,"likes":6,"dislikes":4,"content":"要求又多，课堂上又不全讲\n\n，给它评价游邮集大作业直到提交截止那天凌晨2点才回，说什么不改字体位置这一点就不及格，盒盒。考试的内容和给的题库可能是互补的。最后给到了平均绩点，直接拉掉均绩005😀  xdm别被课程名字给骗了。"},{"id":135646,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-05-18 04:20:12","like_diff":2,"likes":4,"dislikes":2,"content":"ppt认真做了，考试认真背了两天全背下来结果却是第一门挂的课，坚决避雷"},{"id":139210,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-07-13 08:37:07","like_diff":2,"likes":2,"dislikes":0,"content":"蛮不错"},{"id":143931,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-12-13 08:35:18","like_diff":2,"likes":2,"dislikes":0,"content":"课不用听，只要花时间准备做大作业就可以了\n\n一定要花时间，我甚至做了两份完整的邮集（因为觉得前一份和老师讲的要求不太匹配）一定一定要按照老师的要求做，不过我没有给老师看过，因为人实在太多了，钉钉上消息也是已读不回考试好好背就可以了，我考试的时候把背面全写满了，最后努力还是有回报的"},{"id":144035,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-12-16 10:41:46","like_diff":2,"likes":2,"dislikes":0,"content":"老师其实是很好的，他也许没有讲太多你觉得有实用价值的东西，但是他开这门课能让你学到很多对你人生发展有帮助的东西，我每次去都是写一节课作业，然后再听一节课，最后一节课一般会提前出来，这种短学期课没有平时分，所以这种上课模式很轻松哦，最后考试之前背背一两页资料，考试题也很简单，还有一次大作业，虚拟邮集，要求他会在最后两节课讲解的，你如果想要绩点4.8以上，建议邮集好好做，如果4.5你觉得够了，那你可以随便做做大作业的，所以强烈推荐这么课，值得一选，在这里我再次感谢老师的付出吧！"},{"id":144177,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-12-20 06:39:50","like_diff":2,"likes":3,"dislikes":1,"content":"上课没有怎么听，认真做了大作业背了期末题，最后分还挺好，可以冲一波"},{"id":145292,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-12-29 02:35:03","like_diff":2,"likes":5,"dislikes":3,"content":"已读不回…爬"},{"id":152424,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-04-10 17:43:10","like_diff":2,"likes":3,"dislikes":1,"content":"已读不回 你真棒"},{"id":153740,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-05-10 02:40:55","like_diff":2,"likes":6,"dislikes":4,"content":"老师人挺好的，课后还留到11点给同学修改作业……绩点不高要不要想想自己的作业是否符合要求或者考试没考好"},{"id":154953,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-06-07 04:35:25","like_diff":2,"likes":5,"dislikes":3,"content":"老师讲课很幽默，我每节课都去玩手机，大作业是在ddl前三天照着优秀作业的格式自己做的，题库也都认真背过，最后成绩上4了，真的很感谢宝藏老师。"},{"id":161155,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-10-30 01:49:56","like_diff":2,"likes":2,"dislikes":0,"content":"同学们，千万别来。\n\n要求忒高，给分忒低。\n\n不如好好学主修课。\n\n我是没想到一门水课占用这么多时间。"},{"id":162154,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-11-17 06:35:24","like_diff":2,"likes":2,"dislikes":0,"content":"其实只要邮集格式做对了分不会太低，还有一次修改机会，然后考前再背背不至于绩杀，上课也不用怎么听，作业只有最后一个大邮集。"},{"id":162257,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-11-18 11:39:41","like_diff":2,"likes":5,"dislikes":3,"content":"垃圾课程，傻逼老师，纯纯nt，给分是玄学，认真和花时间没有任何效果，他就是个傻逼"},{"id":172646,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2023-05-03 07:41:26","like_diff":2,"likes":6,"dislikes":4,"content":"被绩杀了，大作业按要求和他的意见认真修改过，闭卷考试也是认认真真写满了，题库也认真背了，甚至平时都到课了，结果绩点最低。。经常问他什么不看消息或者已读不回。。。真的特别崩溃。。。"},{"id":179592,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2023-09-18 12:50:57","like_diff":2,"likes":2,"dislikes":0,"content":"在选课之前看到很多差评还非常紧张，但是学姐力荐，同届同学也拿到了满绩，我就上了。事实上，这是一门你按照老师要求做就很好拿高分的课。点名方式蛮有意思的，总共也就是一份集邮大作业+期末考。集邮作业的要求很细，老师会翻来覆去讲，在最终交作业之前让老师帮忙看看指出问题所在（老师真的有很认真在帮我们看作业，很多人发给他作业的那晚他都没怎么睡），那么最终基本上都能拿到好成绩，不过要花费的时间确实比较多；期末考虽然是闭卷，但是有题库，考的全是原题，题库的量也不大，总共就四五面，花两天时间背背绰绰有余。我平时上课没怎么听，但是关于大作业的要求会仔细听，期末题库也认真去背了，最终拿了满绩。那些抱怨老师绩杀的不如先反思反思自己有没有听清楚作业要求，期末考的题库又有没有去背。"},{"id":22419,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-03-05 01:50:54","like_diff":1,"likes":6,"dislikes":5,"content":"讲的还可以，但是给分真的与投入不成正比"},{"id":36358,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-12 07:43:56","like_diff":1,"likes":2,"dislikes":1,"content":"太无聊"},{"id":36617,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-21 09:51:41","like_diff":1,"likes":1,"dislikes":0,"content":"给分低"},{"id":46141,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-01-20 16:24:45","like_diff":1,"likes":4,"dislikes":3,"content":"邮集去多问老师，注意细节，有认识之前的高绩点大佬自然更有优势，一定注意邮集，这就是血泪教训。\n\n"},{"id":48079,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-02-28 10:13:49","like_diff":1,"likes":3,"dislikes":2,"content":"我认认真真地准备了三遍，还是没能感动老师..."},{"id":49986,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-05-03 14:43:09","like_diff":1,"likes":4,"dislikes":3,"content":"垃圾老师，毁我青春，颓我精神，差点败我钱财....."},{"id":50244,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-05-02 02:43:05","like_diff":1,"likes":3,"dislikes":2,"content":"呵呵? ，认真了得不到回报"},{"id":50626,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-05-04 02:30:32","like_diff":1,"likes":2,"dislikes":1,"content":"确实无聊...."},{"id":51828,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-06-11 17:36:56","like_diff":1,"likes":2,"dislikes":1,"content":"呵呵呵"},{"id":55076,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-06-30 18:46:01","like_diff":1,"likes":1,"dislikes":0,"content":"从未缺课，认真做作业，认真准备考试，出来的绩点一塌糊涂，不想说什么了，没营养绩杀课。"},{"id":62966,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-27 13:21:35","like_diff":1,"likes":5,"dislikes":4,"content":"课不算特别有意思但也不枯燥，大作业是虚拟邮集，作业要求穿插在课堂上讲，前面说作业要求不清楚拿了低分的自己想想有没有好好听课。虚拟邮集自己选一个素材多的主题准备起来还是很快。建议找以前学过的同学，看看他们的邮集是怎么样，有个大概的概念。考试直接背题库，也不多。平心而论上课确实轻松，事情也少。"},{"id":62979,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-27 15:40:50","like_diff":1,"likes":2,"dislikes":1,"content":"很难受"},{"id":64076,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-12-21 02:01:10","like_diff":1,"likes":7,"dislikes":6,"content":"会请一些集邮的人来讲，挺有意思的，虚拟邮集一套，作业也不算多吧，考试很简单，几道题背一下就能答上十之九八，我最后绩点4.2，感觉还可以"},{"id":65016,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-12-28 08:15:12","like_diff":1,"likes":6,"dislikes":5,"content":"我觉得老师没评论这么差。那些拿低绩点的怕是集邮册没按要求做吧，当然你要是认为5.0才不算低绩点，就当我啥都没讲。倒数第二节课一定要去的，这才是坑的地方，不要听别人乱讲！倒数第二节课你可以拿集邮册去给老师看，老师会告诉你你哪些地方要改的。其他几节课你去不去，也是很有关系的，毕竟最后一题题目摆在那里。"},{"id":65032,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-12-28 09:40:21","like_diff":1,"likes":2,"dislikes":1,"content":"呵 呵呵"},{"id":65277,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-01-02 08:31:42","like_diff":1,"likes":2,"dislikes":1,"content":"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"},{"id":65383,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-01-03 13:02:05","like_diff":1,"likes":2,"dislikes":1,"content":"垃圾……"},{"id":73466,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-02-01 15:09:11","like_diff":1,"likes":3,"dislikes":2,"content":"emmm，老师超级能说，一般三节课不带下课的，每节课会请一些集邮届大佬来上课，作业一个16页的虚拟邮集加上考试前背一套涵盖考点的试卷，给分方面每个学生都有自己的看法（个人觉得还可以），但是从课上感觉的出老师真的很爱集邮"},{"id":73491,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-02-01 16:34:48","like_diff":1,"likes":8,"dislikes":7,"content":"听五名在集邮上卓有成就的老师讲解集邮知识和人生经历是一种奇妙的体验，有趣的通识课，时而搞笑时而感动知识量满满，反正自己已经开始集邮了。老师非常和蔼亲切，也很有学问，有时有点啰嗦，但是这门课是值得一上的。而且，2018是这门课建立十周年，可能在课堂上会有更多的邮品发放，反正我没机会了，但是推荐有兴趣的同学选修。最后集邮册做得很有成就感，绩点4.5，挺满意了，有付出就有回报吧?"},{"id":73521,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-02-02 01:20:36","like_diff":1,"likes":4,"dislikes":3,"content":"老师非常好啊上课的内容也非常好，我看过很多人的作业是真的不认真，给你们低分不过分吧，我做了俩礼拜也就4.2，平心而论老师的评分不冤枉吧"},{"id":73600,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-02-02 05:22:30","like_diff":1,"likes":4,"dislikes":3,"content":"不是绩杀啊，给分还挺好的，只要认真就好。"},{"id":78009,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-05-09 04:48:34","like_diff":1,"likes":1,"dislikes":0,"content":"哎不说了"},{"id":79161,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-05-25 02:09:03","like_diff":1,"likes":3,"dislikes":2,"content":"搞不懂为什么老师的评分这么低   那些吐槽老师给分低的 不知道有没有认真做邮集\n\n只要把邮集的内容做好  选择一个好的主题  认真选择跨时间跨地域的邮票  就感觉不错了啊\n\n期末那个题库不过确实很尴尬  题目出的空和你背的空完全不一样  这就基本要求你必须把整个题库背下来  才能不管是挖的什么空你都能填  反正我就看了一个小时题库 \n\n 没填完  哈哈"},{"id":79325,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-05-31 03:28:10","like_diff":1,"likes":2,"dislikes":1,"content":"谁选谁后悔。。。\n\n"},{"id":80046,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-06-19 07:35:01","like_diff":1,"likes":4,"dislikes":3,"content":"一个邮集大作业加期末闭卷考试（有考纲）。老师对于邮集有很多要求，平时上课注意一下，期末作业选一个合适的主题，然后只要作业附和老师要求就行（不懂的可以课后去问，或者听老师点评其他同学的作业，对照一下自己有没有错）。期末考试只要用心突击背一下就行（记得全背就行）。感谢老师给了高分。至少我觉得，这是一门付出与成绩成正比的课。"},{"id":120161,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2019-11-18 01:47:51","like_diff":1,"likes":1,"dislikes":0,"content":"辣鸡呀呀呀"},{"id":122174,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-02-18 17:16:01","like_diff":1,"likes":1,"dislikes":0,"content":"以集邮知识点为基础，欣赏和聆听集邮故事。会邀请集邮爱好者分享集邮故事。\n\n\n\n偶尔点名，回答对了，还会有来老师珍藏邮票奖励。\n\n\n\n考试方面，记忆发的资料就行。给分平均较高。"},{"id":124736,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-07-07 09:59:31","like_diff":1,"likes":1,"dislikes":0,"content":"垃圾老师 事太多 平时好麻烦 作业还要邮寄给你 真的服 给分简直不堪入目 通识课还挂人 吐槽点太多"},{"id":125790,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-09-14 09:01:29","like_diff":1,"likes":4,"dislikes":3,"content":"有没有和我一样本来选上了，看了评论区光速退选的？"},{"id":129482,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-01-06 05:38:06","like_diff":1,"likes":3,"dislikes":2,"content":"感觉还好啊，上课确实讲不了太多东西，但作为一门博雅技艺，事情不那么多，期末电子集邮册会讲要求用心做分就会高一些，考试虽然是闭卷，但题都是背过的。最关键没有大小论文！"},{"id":135609,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-05-17 02:44:21","like_diff":1,"likes":6,"dislikes":5,"content":"老师挺不错的啊，只要做完邮集给他看，再重新修改一遍，开始好好背题库，我也就背了一下午就搞定了，绩点会很不错的，亲测有效！"},{"id":136084,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-06-11 01:23:15","like_diff":1,"likes":5,"dislikes":4,"content":"我谢谢您给的那个绩点，他的集邮学不到任何东西，大作业我做一个星期出两版，题库我背一天，期末基本全写上了，但是给的sb绩点，我跟讨饭吃一样"},{"id":136093,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-06-11 02:24:59","like_diff":1,"likes":4,"dislikes":3,"content":"虚拟邮集是花了很长时间，老师当时凌晨两点还在线上提建议，每次课后也会耐心解答，按要求做，跟着兴趣来，其实能学到很多集邮知识，对我来说是门很好的课，是真的能学到什么些东西的"},{"id":137160,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-07-01 14:51:32","like_diff":1,"likes":2,"dislikes":1,"content":"曲高和寡，奈何在下实在无法领略其博大精深的集邮文化，又惨遭绩杀"},{"id":143890,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-12-10 10:06:50","like_diff":1,"likes":2,"dislikes":1,"content":"出分了来评价，4.8，也给之后的同学一点建议吧：\n\n邮集对着要求做，一定要记得每个加黑框！钉钉上找老师改过一次，老师最强调的就是黑框。我的一页放的邮票并不多（因为没选好题目，失算了，很难找到邮票orz），但是努力多放了类型（小型张明信片首日封信销票等等，同时标明是什么类型），感觉这个很重要！\n\n考试是认认真真背的，最后填空有一两个没写出来，简答试卷背面将近写满（但其实并不久，我还提前半个小时交了卷）。自己从学在浙大上找答案的简答确实有点难背，感觉老师给的逻辑也不是很好，我的建议是自己理一下层次记几个关键点，最后也没有必要一模一样地写。\n\n老师从不点名，但会拖课，我下雨天的时候还翘过几节……上课可以不听做自己的事情也可以直接把邮集做起来，我觉得还是比较轻松的通识了～（虽然老师爱已读不回我真的狠狠被伤了）"},{"id":154499,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-06-02 02:24:49","like_diff":1,"likes":2,"dislikes":1,"content":"自己想吧"},{"id":157281,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-06-23 00:11:47","like_diff":1,"likes":5,"dislikes":4,"content":"别选这sb课，给分主观，为什么要赌他看对眼你的作品？"},{"id":161367,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-11-05 07:57:45","like_diff":1,"likes":2,"dislikes":1,"content":"讲的自以为是，题目全是百度，一点逻辑都没就让背，还全是背一些年份、国家，这和课堂内容有关吗?"},{"id":162027,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-11-17 01:58:12","like_diff":1,"likes":4,"dislikes":3,"content":"？？？？傻逼"},{"id":162077,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-11-16 13:26:19","like_diff":1,"likes":3,"dislikes":2,"content":"平时水课，最后关头赶作业，最终绩点4.5，摸鱼人满意了，感谢老师。选之前研究了很多查老师和朵朵，和实际差不多的是平时确实没事情，也不点名，就一个虚拟邮集和期末考试（来自一个题库）。本人平时上课就是玩手机或者干别的，因为记错大作业的ddl，在课程期末考试（相当于期中考试周）前一周才开始做大作业，完美错过学在浙大提交时间，但幸运的是老师给了宽限时间，于是紧赶慢赶在很多人交了纸质稿作业后才将自己的作业发给老师求建议，老师在期末考试（最后宽限时间）凌晨两点多发了十几条钉钉消息，给我指出了问题。加急修改了一次后就打印了纸质稿上交，期末考试的题库也认真看了，虽然有些考点在意料之外，但也还行。最后最后，真的推荐这门课啊。只有一个秋学期，平时没事情，早点开始做大作业（血的教训），最重要多多问老师修改建议，绩点肯定还能比我高"},{"id":162436,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-11-22 09:50:50","like_diff":1,"likes":4,"dislikes":3,"content":"垃圾"},{"id":162446,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-11-22 14:04:04","like_diff":1,"likes":3,"dislikes":2,"content":"救命啊\n\n别来沾边"},{"id":163401,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-12-14 08:22:20","like_diff":1,"likes":3,"dislikes":2,"content":"shabi"},{"id":179522,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2023-09-18 02:20:56","like_diff":1,"likes":3,"dislikes":2,"content":"老师明明很好啊，按照正确的格式与排版做好大作业，背好老师给的考试题，直接可以冲满绩了，所有要求老师上课都说过，担心没做好集邮也可以向老师去咨询意见，老师都会耐心解答"},{"id":179957,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2023-09-20 05:14:07","like_diff":1,"likes":3,"dislikes":2,"content":"恶心，给分巨差"},{"id":25410,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-05-17 13:39:40","like_diff":0,"likes":2,"dislikes":2,"content":"。。。。。。。。"},{"id":28366,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-06-28 08:41:15","like_diff":0,"likes":2,"dislikes":2,"content":"要求太多，给分也不怎么样，心塞"},{"id":31791,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-07-05 02:22:35","like_diff":0,"likes":1,"dislikes":1,"content":"不知道怎么算分的 作业和考试感觉都还行 认真做了 并且 每节课都去 不知道为什么就是分不高 很不理解"},{"id":31861,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-07-05 04:31:55","like_diff":0,"likes":7,"dislikes":7,"content":"神坑！付出很多时间然而给分很差。神坑！非集邮大神不推荐选。"},{"id":31893,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-07-05 05:48:14","like_diff":0,"likes":4,"dislikes":4,"content":"真心脑残老师，大学第一次挂科，就挂在了他手里！真的不知道她的评分标准是什么，他的课谁做谁知道"},{"id":31894,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-07-05 05:55:09","like_diff":0,"likes":3,"dislikes":3,"content":"烂，大坑\n\n"},{"id":32634,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-07-08 09:02:25","like_diff":0,"likes":2,"dislikes":2,"content":"上课无聊，给分坑爹，作业要求巨多"},{"id":35166,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-03 13:15:10","like_diff":0,"likes":4,"dislikes":4,"content":"作业要求不讲清楚，简直有毒"},{"id":35167,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-12 04:51:53","like_diff":0,"likes":4,"dislikes":4,"content":"考试题贼难背。填空题全tm是日期，年月日齐全。"},{"id":35333,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-08 13:02:23","like_diff":0,"likes":2,"dislikes":2,"content":"听故事，水时间还行。做邮集很费时间，最后拖时间。"},{"id":35626,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-10 07:35:48","like_diff":0,"likes":2,"dislikes":2,"content":"后悔上了这门课…"},{"id":35727,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-10 07:54:42","like_diff":0,"likes":0,"dislikes":0,"content":"平常吓bb不讲有用的，考试前磨磨唧唧压堂"},{"id":36319,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-12 00:49:11","like_diff":0,"likes":0,"dislikes":0,"content":"水课 做作业吧少年"},{"id":36343,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-12 05:03:29","like_diff":0,"likes":1,"dislikes":1,"content":"要求好高啊。。。还有考试题真的有点难。。。记不住。。。不要选就对了。。。"},{"id":37571,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-19 13:38:23","like_diff":0,"likes":3,"dislikes":3,"content":"这个老师是真心喜欢集邮"},{"id":37722,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-20 11:58:04","like_diff":0,"likes":1,"dislikes":1,"content":"老师不太友好，记性不太好的同学不建议选"},{"id":37830,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-21 11:25:06","like_diff":0,"likes":1,"dislikes":1,"content":"老师给分太坑\n\n"},{"id":37834,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-21 10:02:52","like_diff":0,"likes":1,"dislikes":1,"content":"给分极低 要求极多"},{"id":37845,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-21 11:01:15","like_diff":0,"likes":0,"dislikes":0,"content":"水。。。"},{"id":37854,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-21 11:29:15","like_diff":0,"likes":1,"dislikes":1,"content":"虚拟邮集一定要认真做呀！"},{"id":38014,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-23 06:03:54","like_diff":0,"likes":5,"dislikes":5,"content":"老师上课很有趣，还会请其他的老师来讲解集邮知识。关于虚拟邮集，我只想说老师在课堂上都会对细节进行讲解，最后邮集虽然工作挺多的，但只要你上课听课，邮集是不会太差的。得分很好。"},{"id":46052,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-01-20 13:49:11","like_diff":0,"likes":9,"dislikes":9,"content":"我觉得应该客观来看这门课。确实平时上课像讲故事，大作业很繁重。但只要你认真做大作业，考前花2个小时背一背，拿高绩点还是不难的。做大作业的过程中只要你用心，还是能学到许多。来老师还是很平易近人的。"},{"id":46056,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-01-20 13:57:06","like_diff":0,"likes":7,"dislikes":7,"content":"垃圾老师开垃圾课，我辛辛苦苦花三天蹲图书馆做虚拟邮集，期末考试背到死只有60多分，真不知道这老师脑子里装了什么，给一分是因为没零分，垃圾老师给分看心情能不上别上了"},{"id":49666,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-04-23 02:49:17","like_diff":0,"likes":2,"dislikes":2,"content":"上这个课感觉很乱。"},{"id":50908,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-05-08 10:30:59","like_diff":0,"likes":1,"dislikes":1,"content":"呵呵哒\n\n"},{"id":63129,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-28 13:19:11","like_diff":0,"likes":4,"dislikes":4,"content":"不得不说一句垃圾，屁事贼多上课没什么意思，每节课都到最后给分也呵呵"},{"id":66196,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-01-13 02:36:34","like_diff":0,"likes":1,"dislikes":1,"content":"nifj"},{"id":66207,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-01-13 08:20:01","like_diff":0,"likes":2,"dislikes":2,"content":"希望老师能看看查老师"},{"id":69407,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-01-24 15:19:07","like_diff":0,"likes":1,"dislikes":1,"content":"很水一点也学不到"},{"id":73370,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-02-01 12:32:59","like_diff":0,"likes":4,"dislikes":4,"content":"我也不知道为什么…我按照学长的邮集做的，考试前背了两天，然后最后考的不错，也吓了我一跳，对这个老师，大家说是绩杀，我不做评论。认真叭！"},{"id":73387,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-02-01 13:06:14","like_diff":0,"likes":3,"dislikes":3,"content":"老师的课上虽然没有很认真地记每个细节，但边学习边听还挺有趣的，请来的专家也讲得各有特点，如果不是上这门课见不到这个行业这么厉害的人。问老师问题，老师会絮絮叨叨讲个不停πvπ讲个不停个不停不停...老师还是有资历的。考试简单，虽然最后一题有点无语哈哈哈。（我居然5...感谢老师?"},{"id":78724,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-05-15 00:40:15","like_diff":0,"likes":1,"dislikes":1,"content":"老师评分又降了啊"},{"id":79159,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-05-25 01:49:58","like_diff":0,"likes":2,"dislikes":2,"content":"并不是自己认真做了邮集就会了拿高分，而是根据老师的要求认真做了才能拿高分。一些细节的要求老师上课讲的是不多的，要自己去问。"},{"id":79169,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-05-25 07:03:48","like_diff":0,"likes":2,"dislikes":2,"content":"老师评分偏低了。说实话老师知识很丰富，你去问问题他会很耐心很详细的解答。集邮课确实能让我们学到不少东西，绩点要高的话必须好好做邮集认真背题库。"},{"id":79437,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-06-05 03:31:33","like_diff":0,"likes":3,"dislikes":3,"content":"给她十分"},{"id":85492,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-07-18 13:06:01","like_diff":0,"likes":2,"dislikes":2,"content":"我觉得还行啊"},{"id":102665,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2019-02-18 12:19:54","like_diff":0,"likes":2,"dislikes":2,"content":"老师上课略显无聊，但是回请很多别的老师来上课，有些老师讲的还是很有意思的，虚拟邮集要好好做，考试给的题目要好好背，给分不错"},{"id":107488,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2019-05-06 01:01:31","like_diff":0,"likes":1,"dislikes":1,"content":"好好背，还是不错的。"},{"id":120194,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2019-11-23 11:35:54","like_diff":0,"likes":1,"dislikes":1,"content":"几个请来的老师课讲得还不错啦，但是绩点真的随机给分，而且对于一门只有1.5学分的课，事情有点多了"},{"id":121640,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2019-12-11 07:44:06","like_diff":0,"likes":0,"dislikes":0,"content":"害，这门课如果愿意花时间成绩还是可以的，就是作为短学期的课来说事情真的很多，个人建议前面的课完全可以不听，电子邮集好好做，最后一节课发的考题好好背，上四基本可以做到。"},{"id":124729,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-07-07 08:37:25","like_diff":0,"likes":3,"dislikes":3,"content":"集邮的给分感觉很好，之前以为选了个雷，没想到分数意外很高"},{"id":124735,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-07-07 09:48:19","like_diff":0,"likes":0,"dislikes":0,"content":"呵呵哒"},{"id":127086,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-11-06 08:08:05","like_diff":0,"likes":0,"dislikes":0,"content":"感觉学不到什么有用的知识，每节课都在讲怎么完成作业"},{"id":127161,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-11-11 11:13:54","like_diff":0,"likes":1,"dislikes":1,"content":"还阔以"},{"id":127324,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-11-20 05:11:56","like_diff":0,"likes":5,"dislikes":5,"content":"垃圾垃圾垃圾垃圾垃圾垃圾垃圾垃圾垃圾垃圾垃圾课千万别选，选中就是踩雷，上课无聊的要死，作业花的时间巨多还拿不到高分，考试全靠背，这门课存在的意义是什么"},{"id":127339,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-11-20 11:45:07","like_diff":0,"likes":2,"dislikes":2,"content":"有一说一，没啥用，屁事多，给分低"},{"id":127868,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-11-29 11:03:01","like_diff":0,"likes":2,"dislikes":2,"content":"疫情期间上的网课。\n\n首先我想说，这门课的确很水，开始和中间听了课，后面只听了最后一节课，清楚要求。虚拟集邮大作业，本来也以为很难，但是老师会发样本，所以也不算太难。而且在找的过程中才逐渐找到了集邮的快乐。\n\n第二，没有线上考试，因为疫情影响。所以是交一份作业邮寄给老师。我写了800字，两页信签纸，因为懒得出门打印所以手写。\n\n虚拟邮集没私戳问过老师，完全上课听的要求和细节把控。没鹅颈多写字数，最后满了。很感谢老师。"},{"id":132497,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-02-02 03:35:59","like_diff":0,"likes":6,"dislikes":6,"content":"避雷，避雷，避雷！给分特别随便，要拿高绩点需要千方百计揣摩他的心思，投其所好做邮集。我之前不知道这一点，做了自我感觉良好的一份邮集，考前记了几天题库，最后绩点2.4.我想说，有那时间我学学vjf不好吗？？？"},{"id":135619,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-05-17 04:06:03","like_diff":0,"likes":2,"dislikes":2,"content":"绩杀  直接掉0.1"},{"id":135620,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-05-17 04:09:15","like_diff":0,"likes":0,"dislikes":0,"content":"妙哉妙哉"},{"id":136400,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-06-17 12:21:32","like_diff":0,"likes":2,"dislikes":2,"content":"选上快跑"},{"id":136660,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-06-22 13:39:15","like_diff":0,"likes":1,"dislikes":1,"content":"无语。。。"},{"id":143893,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-12-10 12:21:22","like_diff":0,"likes":1,"dislikes":1,"content":"绩杀老师，，大名鼎鼎，看了查老师，不信，选了，果然绩杀。课一点用都没有，大作业还很繁琐，，要求贼多，别选别选！！！"},{"id":144668,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-12-23 04:54:55","like_diff":0,"likes":2,"dislikes":2,"content":"最后一节课有用，大作业和考试也挺认真，但是给分真的不太友好。"},{"id":152414,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-04-09 13:26:33","like_diff":0,"likes":1,"dislikes":1,"content":"选了就知道了呗"},{"id":154030,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-05-19 21:25:26","like_diff":0,"likes":3,"dislikes":3,"content":"老师人很好，上课也算得上有趣，可以学到很多集邮的知识，但给分就得看个人了。只能说想水的可以选，想冲绩点的慎选。如果要绩点高，集邮作业一定要做好，选题很重要!个人感觉主题选动物就好，主题不要太标新立异(邮票难找)或者太过笼统就好，做完了记得给老师看，能的话越早越好，不然学期末很多人，就得等很久了。至于考试，就跟着题库准备就好，重点是在集邮作业就对了，做得好绩点基本就高，做不好绩点大概率会非常低。"},{"id":161426,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-11-07 01:46:28","like_diff":0,"likes":3,"dislikes":3,"content":"作业很迷，邮集要求贼多反复返工就不说什么了，考试前一天才给复习资料，闭卷考，复习时间都被专业课的考试挤没了…\n\n总之平时课还是挺水的，给分性价比很低，时间管理能力很强的选"},{"id":161991,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-11-16 00:22:29","like_diff":0,"likes":2,"dislikes":2,"content":"分低事情多"},{"id":163519,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-12-15 00:54:46","like_diff":0,"likes":4,"dislikes":4,"content":"个人觉得来老师还是可以的，绩点4.5。我觉得老师上课根本不用听啊，整个秋学期要做的就一个大作业，大作业的要求最开始就发了，按着要求就可以了，然后多积极找老师去修改，最后考试前背一下题库就可以了。老师也在上课明确了不及格的要求，确实应该按着他的要求，不能太有个性，比如说他喜欢宋体"},{"id":163591,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-12-15 12:42:58","like_diff":0,"likes":2,"dislikes":2,"content":"绩点3.6。开卷考（附题库）+ 大作业 （虚拟邮集）个人觉得算水课，偶尔在钉钉群里会让回答问题，问题也不难，而且不需要签到。总结：虚拟邮集尽早做好，腾时间让老师给你提修改建议，需要提交纸质版和电子版；期末好好花两天时间把题库背一下就行了。大作业是有点麻烦，但【认真做+好好修改】是大几率可以拿到高绩点或满绩的。"},{"id":163889,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-12-16 11:57:47","like_diff":0,"likes":6,"dislikes":6,"content":"老师真的很负责啊，问老师作业的问题到了晚上十一点多，第二次问他作业问题的时候他居然还记得看过我的作业。最后一节课的时候他也解释了为什么钉钉已读不回的事情，总之老师是非常好的。再说这门课的话挺水的，老师有他独特的点名办法，不在教室其实也没事。就一个大作业一定要好好做，要找他看，老老实实按要求改，期末把题库每句话都记住，认真按要求完成真的是很容易满绩的。"},{"id":164688,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-12-23 10:59:28","like_diff":0,"likes":2,"dislikes":2,"content":"来老师的课就邮集和考试两个占分项目，认真做没问题的。不过最后几天草草完成的人大概率会被绩杀，最好还是提前做并且问问他吧。"},{"id":165232,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-12-30 10:58:07","like_diff":0,"likes":3,"dislikes":3,"content":"还行，考试会给题库，背题库就行了，整个学期就完成个大作业就行。"},{"id":213030,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2025-01-15 17:17:20","like_diff":0,"likes":0,"dislikes":0,"content":"已退休"},{"id":23895,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-04-20 10:53:01","like_diff":-1,"likes":3,"dislikes":4,"content":"要求巨多!"},{"id":24009,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-07-01 09:51:23","like_diff":-1,"likes":5,"dislikes":6,"content":"傻逼老师...谁选谁怀孕.."},{"id":25762,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-06-07 08:40:00","like_diff":-1,"likes":3,"dislikes":4,"content":"课内容精彩，但是作业巨多，给分不是很好!"},{"id":25776,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-06-08 02:14:37","like_diff":-1,"likes":3,"dislikes":4,"content":"不太能理解这个老师的世界观"},{"id":31758,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-07-05 01:22:58","like_diff":-1,"likes":2,"dislikes":3,"content":"给分低，事情多，请别人讲的东西不成系统根本学不到东西"},{"id":32296,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-07-06 06:04:01","like_diff":-1,"likes":3,"dislikes":4,"content":"老师真心给分太低 虚拟邮集做的非常认真 而且考试题复习的很好 考试都是原题 还给了69？请问是什么意思？"},{"id":37865,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-21 12:19:15","like_diff":-1,"likes":1,"dislikes":2,"content":"其实老师蛮认真的 的确要求有些严格 但是好老师"},{"id":37868,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-21 12:34:23","like_diff":-1,"likes":1,"dislikes":2,"content":"请了挺多老师来讲集邮经历、挺有趣的。对集邮产生了一些兴趣 考试给了题库要背整句话那么考试应该都会 集邮确实挺花时间但是感兴趣的会觉得很有趣 而且挺有成就感"},{"id":37927,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-22 04:10:40","like_diff":-1,"likes":4,"dislikes":5,"content":"考试好好背就行呀"},{"id":49584,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-04-19 11:05:56","like_diff":-1,"likes":2,"dislikes":3,"content":"无聊  一丢废话  作为短学期的通识课还是慎重选择吧"},{"id":61440,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-24 06:46:45","like_diff":-1,"likes":4,"dislikes":5,"content":"辣鸡sb"},{"id":61460,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-17 11:54:14","like_diff":-1,"likes":7,"dislikes":8,"content":"刚考完试 不多说这门课全是干货 前面那些同学评价都是骗人的 未来学长墙裂推荐"},{"id":62935,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-27 11:37:41","like_diff":-1,"likes":3,"dislikes":4,"content":"老师和课都很好，能学到很多集邮知识 。"},{"id":62954,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-27 12:38:44","like_diff":-1,"likes":2,"dislikes":3,"content":"不想说了，拉低绩点"},{"id":63454,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-12-11 23:43:07","like_diff":-1,"likes":5,"dislikes":6,"content":"很好的课，就做个邮集背张卷子，给分超棒！"},{"id":64690,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-12-26 11:01:06","like_diff":-1,"likes":2,"dislikes":3,"content":"感觉，还行"},{"id":65240,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-01-02 03:58:28","like_diff":-1,"likes":1,"dislikes":2,"content":"还不错"},{"id":72900,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-01-31 09:32:29","like_diff":-1,"likes":1,"dislikes":2,"content":"认真做作业会有好成绩的，一定要多去问老师的意见，老师很耐心的！"},{"id":73103,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-02-01 02:18:45","like_diff":-1,"likes":2,"dislikes":3,"content":"最后的虚拟邮集老师几乎每节课都有讲怎么做啊，就是想让我们做好嘛，看得出是真喜欢集邮。最后的考题还有题库的，背背就行了啊。不用听课丝毫不虚，像我这种一般般水过去的就3.9，最后考试能满的话估计能再高"},{"id":73401,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-02-01 13:43:33","like_diff":-1,"likes":3,"dislikes":4,"content":"每节课都会有不同的老师\n\n真的很棒"},{"id":73470,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-02-01 15:14:48","like_diff":-1,"likes":3,"dislikes":4,"content":"看同学们的反应可能是绩杀…我客观一点说吧，大作业确实费精力而且辛苦了分不一定高，不想在通识课上花过多时间同学慎入。期末考试其实当作高中文科背背也是能应付的吧。给分估计看字看脸？（反正我字好是勉强上4了?）"},{"id":79298,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-05-30 07:51:15","like_diff":-1,"likes":1,"dislikes":2,"content":"其实还可以..."},{"id":80009,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-06-19 03:49:03","like_diff":-1,"likes":1,"dislikes":2,"content":"还好吧，给分4.2也没有觉得事情多"},{"id":90956,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-11-28 04:44:28","like_diff":-1,"likes":0,"dislikes":1,"content":"神急刹"},{"id":90958,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-11-28 05:09:17","like_diff":-1,"likes":1,"dislikes":2,"content":"3.0，自裁了"},{"id":122741,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-03-27 14:01:52","like_diff":-1,"likes":1,"dislikes":2,"content":"事情血🐴多"},{"id":128490,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-12-23 11:02:07","like_diff":-1,"likes":6,"dislikes":7,"content":"希望能给零分，在浙大遇到这门课这个老师让我很失望"},{"id":128721,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-12-25 05:40:43","like_diff":-1,"likes":4,"dislikes":5,"content":"认真做了虚拟邮集，考前复习了两天，绩点2.4.。。。。"},{"id":137813,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-07-06 08:29:38","like_diff":-1,"likes":2,"dislikes":3,"content":"sb玩意儿不解释，呵呵了（我是20年秋冬选的课，不知道这b玩意儿现在怎么样）"},{"id":139104,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-07-12 23:56:05","like_diff":-1,"likes":2,"dislikes":3,"content":"烧时间是真的，很烧时间，不推荐想水的人来，但按要求做（注意，搞清楚老师的要求）成绩不错的"},{"id":139131,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-07-13 03:50:44","like_diff":-1,"likes":3,"dislikes":4,"content":"为啥一出分群就解散了 怕挨骂吗"},{"id":145249,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-12-28 12:42:53","like_diff":-1,"likes":2,"dislikes":3,"content":"集邮上课比较水，可能我对这个邮票不太感兴趣吧。最后一节课比较重要。哈哈，懂得都懂。\n\n最后3.9，是不是有点低了。建议大作业提前找老师修改再交，我可能没有提前修改一遍"},{"id":155148,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-06-08 20:52:45","like_diff":-1,"likes":3,"dislikes":4,"content":"老师人很好啊"},{"id":162052,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-11-16 09:46:36","like_diff":-1,"likes":1,"dislikes":2,"content":"哎呀，只要认真听听，老师讲的还是挺好的，挺有趣的，大作业很重要，只要按照他的要求做了就可以得高分，尽量多去找他修改，我找了他四五次，终于满绩。"},{"id":32067,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-07-05 14:13:29","like_diff":-2,"likes":6,"dislikes":8,"content":"这门课的内容很丰富，老师请了很多集邮的专家来讲课，能够学到很多。讲道理，课程作业只有一项，时间为一整个短学期，虽然要求有点多但只要好好做都是会有很好的结果的。要想得高分花费三天真心不多，我做了至少一个星期。而且考试绝对会给出所有答案，那些说考试坑的绝对没有好好背或者没有听清楚要求。\n\n总而言之，浙大好课！给分好，内容佳！"},{"id":37912,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-22 02:55:03","like_diff":-2,"likes":3,"dislikes":5,"content":"老师的课讲的还是有点意思的，就是期末作业虚拟邮集挺花时间的，但一定要按要求认真做(要求上课时会提，绩点全靠它了，最坑的就是期末考了，要背一大堆东西，让人头大！"},{"id":62971,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-27 13:40:44","like_diff":-2,"likes":2,"dislikes":4,"content":"因为绩点还可以，所以对这节课没那么多怨气了。"},{"id":131502,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-01-27 21:48:00","like_diff":-2,"likes":2,"dislikes":4,"content":"不尊重学生。只有这一个感觉，和他接触了两周差点没给我气出病来。就这样"},{"id":142556,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-11-13 08:15:48","like_diff":-2,"likes":2,"dislikes":4,"content":"最后一节课才给题库，其中三个问答题，第一个答案有一页半A4那么多，第二个有一页那么多，最后一个没有固定答案。好奇一个下午怎么背完7页A4纸。"},{"id":157858,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-06-25 07:02:16","like_diff":-2,"likes":4,"dislikes":6,"content":"说实话  每次上课很水  只要老师讲到怎么做大作业时稍微听听  然后花点时间做大作业 (创意很重要) 我当时差不多断断续续找素材做邮集花了一周不到时间  考试前一天背背题库  拿了4.8  没有很卷  只要把要做的事情做好就行"},{"id":161997,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-11-16 01:06:22","like_diff":-2,"likes":1,"dislikes":3,"content":"别选别选"},{"id":35488,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-10 07:21:17","like_diff":-3,"likes":5,"dislikes":8,"content":"老师的想法很可爱，可是因为真的特别喜欢集邮，对虚拟集邮册的要求很严格，如果你真的喜欢集邮一定参加，不推荐只想着分数进来"},{"id":59744,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-09-26 11:56:28","like_diff":-3,"likes":0,"dislikes":3,"content":"认真听还是有内容的。\n\n"},{"id":61284,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-13 12:46:46","like_diff":-3,"likes":2,"dislikes":5,"content":"真辣鸡"},{"id":62965,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-27 13:12:55","like_diff":-3,"likes":2,"dislikes":5,"content":"上课水水的，虚拟邮集也水水的，考前花三小时背了下答案，成绩出来还挺好的"},{"id":62968,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-27 13:31:00","like_diff":-3,"likes":2,"dislikes":5,"content":"幸幸苦苦背答案做集邮 结果3.0绩点？这老师脑子有问题吧？"},{"id":73385,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-02-01 12:58:55","like_diff":-3,"likes":2,"dislikes":5,"content":"老师课程安排的很用心，虚拟邮集做出来成就感满满，还是能收获到很多东西的一门通识，给个赞~"},{"id":127188,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-11-12 10:42:28","like_diff":-3,"likes":2,"dislikes":5,"content":"1.5学分的通识课怎么可以事情这么多，明明上课啥都不讲凭什么作业要求要按照标准邮集的要求，你要说你认真学习认真集邮分好高好高什么的懒得和你杠，可这老师教了个屁，几十个小时讲的不如十分钟百度，本身事情就多的慎选，不缺这点学分。"},{"id":128481,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-12-23 10:55:44","like_diff":-3,"likes":2,"dislikes":5,"content":"给分什么鬼啊"},{"id":128504,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-12-23 12:09:35","like_diff":-3,"likes":4,"dislikes":7,"content":"辣鸡老师，给分低到吓死人"},{"id":139410,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2021-07-15 08:46:29","like_diff":-3,"likes":1,"dislikes":4,"content":"给分不好，耗时多，撤退"},{"id":155025,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-06-13 14:40:15","like_diff":-3,"likes":4,"dislikes":7,"content":"老师很好，会耐心解答我们的疑惑，同时大作业很快就可以做完，大概半天，在线下问一问老师，就可以很容易拿高分，期末考试很简单，背一背题库刘就ok啦。力推！"},{"id":161982,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-11-15 15:49:01","like_diff":-3,"likes":2,"dislikes":5,"content":"挂科了，wcnm\n\n傻逼课，别选"},{"id":28078,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-06-28 08:04:37","like_diff":-4,"likes":5,"dislikes":9,"content":"听课很好，会邀请别的集邮大师分享，还会不时有小礼物的，只要你认真准备集邮，和考试，给分很好。"},{"id":28121,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-06-28 08:07:56","like_diff":-4,"likes":1,"dislikes":5,"content":"感觉蛮好"},{"id":35182,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-04 01:57:51","like_diff":-4,"likes":0,"dislikes":4,"content":"水水水\n\n"},{"id":35655,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-21 23:54:24","like_diff":-4,"likes":0,"dislikes":4,"content":"自由。"},{"id":37857,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-21 11:49:16","like_diff":-4,"likes":4,"dislikes":8,"content":"上集邮课不点名，课上大量的集邮故事，只布置一次作业，大概三到五周的课上老师都会提到作业要求，那些说老师不讲要求的人全部是没听课的。。考试有80分从题库出，20分提前告诉你题目让你自己准备。"},{"id":37915,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-22 02:56:43","like_diff":-4,"likes":5,"dislikes":9,"content":"挺好的通识，好好做邮集绩点有保障。\n\nPs:那些课不去上邮集不好好做分低的别把锅都给老师好吗\n\n"},{"id":169945,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2023-02-28 14:39:30","like_diff":-4,"likes":9,"dislikes":13,"content":"花了一天做大作业，考前背了一天题库就满了。说给分差的同学会不会是因为没听清楚作业要求、没认真背题库呀？大学绩点哪有那么好得呵呵。"},{"id":172736,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2023-05-05 18:06:15","like_diff":-4,"likes":3,"dislikes":7,"content":"。。。\n\n事儿少分也少"},{"id":174081,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2023-06-06 06:05:26","like_diff":-4,"likes":5,"dislikes":9,"content":"上课从不点名，课堂问答在钉群+1就好，还会给来上课的同学送邮票，课堂内容明明也很丰富，老师人也很温和，会耐心指出大作业的问题。考评就邮集大作业（提前做起来，认真听要求，最好给老师看过修改过）+闭卷考试（考前背一下午基本就能过），不知道为什么这么多差评w。很棒的课！"},{"id":37916,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-22 03:03:02","like_diff":-5,"likes":3,"dislikes":8,"content":"拿了4.5…反正大二狗觉得还挺好的…"},{"id":38187,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-25 12:25:12","like_diff":-5,"likes":1,"dislikes":6,"content":"涨姿势"},{"id":61161,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-11-09 09:41:13","like_diff":-5,"likes":7,"dislikes":12,"content":"来老师的课讲的超级有意思的，给分超高，欢迎学弟学妹报来老师的课"},{"id":163686,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-12-16 02:56:53","like_diff":-5,"likes":3,"dislikes":8,"content":"只要认真听老师的功课要求，然后跟着老师给的作业优秀范例去做，分会蛮高的"},{"id":16180,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-17 11:58:03","like_diff":-6,"likes":6,"dislikes":12,"content":"还可以，对集邮有兴趣的人可以选"},{"id":22409,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-03-04 13:25:50","like_diff":-6,"likes":1,"dislikes":7,"content":"很有味道！"},{"id":22472,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-03-07 00:00:33","like_diff":-6,"likes":4,"dislikes":10,"content":"课有趣 但是事情真的有点麻烦 给分还不错"},{"id":24593,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-05-02 05:08:03","like_diff":-6,"likes":2,"dislikes":8,"content":"最后考试给答案，超级简单。就是虚拟邮集有点儿坑，想听故事水课的同学强烈推荐。"},{"id":26595,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-06-20 09:19:15","like_diff":-6,"likes":2,"dislikes":8,"content":"要求是有点多，准备是有点累。但老师还是给我满绩了。可能是大家都很努力吧，成绩的正态分布也在所难免"},{"id":35170,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-21 15:48:40","like_diff":-6,"likes":5,"dislikes":11,"content":"嗯，老师缺点是有，但是我们也要努力呀，既然上了这门课，我们至少要对得起自己花的时间！"},{"id":64335,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-12-22 13:22:02","like_diff":-6,"likes":3,"dislikes":9,"content":"老师课超级好，满绩，他们说付出与回报不成正比是因为他们没认真听，规则错了，有什么办法。"},{"id":128263,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-12-15 13:52:37","like_diff":-6,"likes":4,"dislikes":10,"content":"如果路上碰巧遇到这位姓来的老师，我必踹他一脚，让他再也带不了课。这课尼玛就是离谱，慎选，学过的通识课最差的，投入最多的一个，收入最低的"},{"id":375,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-03-15 01:37:35","like_diff":-7,"likes":39,"dislikes":46,"content":"集邮课真的很棒，给分也很好，收获颇丰的通识"},{"id":2477,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-05-04 12:02:55","like_diff":-7,"likes":6,"dislikes":13,"content":"课还算有意思的，但是要做的虚拟邮集和上课内容略脱节。考试要背的也不少。但愿给分好一点吧。"},{"id":8365,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-09-19 12:52:29","like_diff":-7,"likes":7,"dislikes":14,"content":"这课挺好！培养自己热爱的事物很重要"},{"id":20876,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-02-02 18:47:21","like_diff":-7,"likes":4,"dislikes":11,"content":"到底要怎么选上这个课，我选了十几次都没选上，补选的时候我抢在前面为什么没有用"},{"id":37931,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-22 04:26:30","like_diff":-7,"likes":1,"dislikes":8,"content":"如果有兴趣还是可以学到挺多的，不过据说课代表都满绩什么的感觉蛮坑。"},{"id":44302,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-01-17 14:39:16","like_diff":-7,"likes":2,"dislikes":9,"content":"认真做邮集还是分不错的"},{"id":85420,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-09-18 01:07:54","like_diff":-7,"likes":3,"dislikes":10,"content":"这个老师就是混蛋"},{"id":22481,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-03-07 01:09:47","like_diff":-8,"likes":2,"dislikes":10,"content":"老师人很好，给分也很良心！就是出分太慢了，不过这也没办法，毕竟老师一个人负责那么多学生，而且大作业和期末试卷都是老师一个人批改"},{"id":37966,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-22 10:47:26","like_diff":-8,"likes":0,"dislikes":8,"content":"其实还可以"},{"id":2313,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-04-20 11:25:36","like_diff":-9,"likes":9,"dislikes":18,"content":"可很好，看你自己愿不愿意听。老师会送邮品。"},{"id":17414,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-20 07:36:40","like_diff":-9,"likes":3,"dislikes":12,"content":"内容丰富"},{"id":921,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-03-19 02:10:57","like_diff":-10,"likes":11,"dislikes":21,"content":"能学到很多知识，讲述集邮后面，邮票后面的故事。还有老师对生活的热情。很好！！！"},{"id":2088,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-04-01 09:09:21","like_diff":-10,"likes":13,"dislikes":23,"content":"给分高，收获多，很有意思！！"},{"id":7316,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-09-13 11:37:50","like_diff":-10,"likes":2,"dislikes":12,"content":"～～～～～。。。。。"},{"id":7529,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-09-15 02:20:03","like_diff":-10,"likes":10,"dislikes":20,"content":"给分好！！作业只有邮集和给答案的考试！！！请了很多老师来上课，很有意思"},{"id":8111,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-09-17 05:13:55","like_diff":-10,"likes":4,"dislikes":14,"content":"不错的"},{"id":38224,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-27 13:16:37","like_diff":-10,"likes":2,"dislikes":12,"content":"其实还可以，稍微认真些，给分很高。"},{"id":45955,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-01-20 09:50:27","like_diff":-10,"likes":3,"dislikes":13,"content":"给他十分完全是因为我只有这门最高"},{"id":164554,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2022-12-22 00:51:36","like_diff":-10,"likes":5,"dislikes":15,"content":"超级感谢来老师！！！作为我的第一门出成绩的通识课，它也是我第一门满绩的课！我是线上的，邮集好好做了一个多星期，最后考试感觉有点没考好但尽力写了，结果满绩！！课程平时没咋听但是认真听讲的话是可以学到东西的。不点名，最主要就是邮集要做好（划重点）！！！老师对于邮集的要求在比较后面的课才有说得比较详细，所以可以慢慢做不用太早做完~不过提早做完的话也没关系，就是可能需要做一些调整。做好的邮集是可以发给老师看的，不过老师回不回复我感觉凭运气，我就没有得到回复啊。"},{"id":38477,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-02-01 10:01:35","like_diff":-11,"likes":9,"dislikes":20,"content":"zju老司机必修课，让你体验平时被老师数落挂科不及格千百次再到被良心助教强势带飞水到学分水到高绩点的快感！爱就一个字，我只说一次，满分?不解释！"},{"id":1617,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-07-02 14:05:50","like_diff":-12,"likes":9,"dislikes":21,"content":"给分好"},{"id":7716,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2015-09-15 10:38:13","like_diff":-12,"likes":9,"dislikes":21,"content":"听集邮课不但学到很多知识，更能体会到老师对于自己爱好的热情。确实能学到很多东西。   毕竟像集邮的学问如果没有老师的引领，在当代不好入门的。  力荐！"},{"id":37937,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-11-22 06:16:13","like_diff":-12,"likes":1,"dislikes":13,"content":"分高分低都有人，看个人和运气吧。作业一个十六张ppt的邮集，最后考前给材料复习，考试靠背，总体来说平时很水各行各业集邮家来讲故事，临考会慌，所以邮集尽量早开始准备。我4.2 86分"},{"id":16260,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-19 13:11:51","like_diff":-13,"likes":4,"dislikes":17,"content":"挺有意思的"},{"id":36521,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-04-04 15:24:45","like_diff":-13,"likes":5,"dislikes":18,"content":"老师挺不错啊，同学们总是抱怨自己分不高，难道付出真的必须得有回报吗？大家都很努力，但是总会有低分的，不要总是抱怨老师辣鸡，多看看自己吧"},{"id":37886,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2017-01-20 13:49:45","like_diff":-13,"likes":6,"dislikes":19,"content":"其实并不是像上面的同学说的。。这门课确实得花时间，而且要做好就要花更多时间，来老师会请许多集邮家来分享自己的见闻，可以开拓眼界而且很有意思。顺便说我这门课满绩。"},{"id":16167,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-17 11:11:39","like_diff":-15,"likes":6,"dislikes":21,"content":"集邮课能学到很多东西！老师人很好，上课也会请别人来讲东西、总之学到了很多东西～给分很不错"},{"id":16233,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-17 14:13:38","like_diff":-18,"likes":3,"dislikes":21,"content":"学到很多东西，认真上收获是很大的。"},{"id":13968,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2016-01-03 06:52:33","like_diff":-22,"likes":3,"dislikes":25,"content":"浙大好课"},{"id":73607,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2018-02-02 05:51:46","like_diff":-35,"likes":8,"dislikes":43,"content":"付出：8*3节课，元旦三天做邮集，考前6小时背题库。上课同学们都很专心的做自己的事情，能听个三成课就足以应对考试，那本书真的没什么用。邮集的话，讲制作标准的那几节课稍微听下记一记，也可以下了课拿着邮集找老师问，旁听一下也能知道很多（比上课有用一点）。题库早点背，都要背完整，主观题多写点。出分有点慢，但这是我大一第五个满绩（逃"},{"id":73504,"teacher_id":1489,"teacher_name":"来雄翔","post_time":"2020-02-19 02:39:27","like_diff":-91,"likes":5,"dislikes":96,"content":"买《集邮与文化》二手精装，请联系qq2921106406"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

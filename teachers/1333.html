@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>叶春辉 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="叶春辉教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="叶春辉,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">叶春辉</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">6.84</div>
+                    <div class="rating-participants">35人参与评分</div>
+                    <div class="attendance-info">23.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (1 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">计量经济学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.31</span>
+                            <span class="students">选课: 135人</span>
+                            <span class="std-dev">标准差: 0.45</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (29 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":63561,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2017-12-07 01:55:57","like_diff":25,"likes":33,"dislikes":8,"content":"这个老师真的难以用言语来形容，上课的时候都不知道在上课还是表演，上了大半个学期啥都没有讲，就是一个演员！"},{"id":65066,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2017-12-28 12:41:38","like_diff":15,"likes":22,"dislikes":7,"content":"从不备课的节奏 想到哪儿讲到哪儿 每天发一百条朋友圈\n\n 上课天马行空不讲原理 深知留白艺术 处处留白 操作也讲不清楚 留学生不要选（因为也不用英语） 希望学一门技术的孩子出门右转"},{"id":73595,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2018-02-02 04:47:23","like_diff":7,"likes":8,"dislikes":1,"content":"平心而论 给分的确好 从老师为人来说 是个幽默的好老师 但是的确 上课内容浅 宛如计量导论 而且老师好像不备课 讲的比较随意 可能因为老师平时其他事情很多 因此对这门课不是说非常上心 但我认为在文献导读这些有关科研方面 老师确实在努力引导学生 想真的学那么多数学知识 出门找其他老师啊 这老师基本就是科研导向的"},{"id":135129,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2021-05-02 00:42:55","like_diff":6,"likes":6,"dislikes":0,"content":"《演员》"},{"id":5577,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2015-07-08 11:49:38","like_diff":5,"likes":13,"dislikes":8,"content":"好老师！"},{"id":117322,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2019-09-23 02:40:52","like_diff":5,"likes":5,"dislikes":0,"content":"你用对老师眼光的眼光看他，处处是不足，你用对朋友的眼光看他，也许能学到更多。尬与不尬，一念之间"},{"id":72858,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2018-01-31 12:03:18","like_diff":4,"likes":4,"dislikes":0,"content":"老师水平很一般，对上课不负责任，不备课，讲的浅，会讲一些实例和Stata应用"},{"id":101611,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2019-01-28 15:05:08","like_diff":4,"likes":4,"dislikes":0,"content":"给分很好，讲课大致包括了计量经济学的所有内容，涉及面比较广，拓展性强，适合于了解培养经济学直觉，但是不适合基础知识学习，对于计量的知识点讲解少"},{"id":134569,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2021-04-02 05:15:48","like_diff":4,"likes":4,"dislikes":0,"content":"上课就扯些没用的，满嘴跑火车。上课迟到，有时间发朋友圈，没时间干正事！"},{"id":135697,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2021-05-19 10:14:12","like_diff":4,"likes":5,"dislikes":1,"content":"授道不行，出道行。"},{"id":43847,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2017-01-17 04:59:22","like_diff":3,"likes":7,"dislikes":4,"content":"人超级好"},{"id":134634,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2021-04-07 00:45:12","like_diff":3,"likes":3,"dislikes":0,"content":"接触这么多老师 他是职业素养最差的一个 甚至不能称之为大学老师 上课次次迟到 讲的东西乱七八糟跟课堂无关 一点备课都没有 作业布置了不会批 考试把题目答案一模一样告诉你们 最后分数居然是随机分配！结果分数还那么低 真的拉低浙大水平 见过最不负责的老师"},{"id":24417,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2016-04-30 13:27:33","like_diff":2,"likes":7,"dislikes":5,"content":"很好的老师呀 上课生动活泼 不过计量的内容不算很深 算是计量导论吧～"},{"id":72945,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2018-01-31 11:58:39","like_diff":2,"likes":4,"dislikes":2,"content":"别的不说啥 给分是真的好"},{"id":214829,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2025-02-18 06:30:32","like_diff":2,"likes":2,"dislikes":0,"content":"只有一次点名，给分好但是全班分数相近，如果不考虑混脸熟以增分的话，建议是不去。建议试听一下，第一节课的教学风格就是一学期的教学风格，不要浪费自己的精力与时间。\n\n计量经济学是很重要的一门课，比如说是写毕业论文的基础工具之一，他的课中计量软件实操或理论含量极低，不如b站大学。"},{"id":58085,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2017-07-29 02:51:22","like_diff":1,"likes":5,"dislikes":4,"content":"老师超棒的！讲课风趣幽默"},{"id":72940,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2018-01-31 11:54:03","like_diff":1,"likes":1,"dislikes":0,"content":"老师真的是不太负责任的感觉...不过期末不怎么要复习"},{"id":124384,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2020-06-30 03:47:39","like_diff":1,"likes":2,"dislikes":1,"content":"不知道在讲啥，就知道扯，上完不知道在讲啥"},{"id":124684,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2020-07-06 07:42:36","like_diff":1,"likes":2,"dislikes":1,"content":"计量上得真不行……不知道在讲啥，特别喜欢分享文献，但上计量就是为了打基础，连基础都没打好之后怎么办"},{"id":124810,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2020-07-10 08:04:14","like_diff":1,"likes":2,"dislikes":1,"content":"上课都在吹牛皮，知识点只是带过。\n\n建议还是选本科背景就是名校的教授老师！！！"},{"id":14433,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2016-01-07 04:56:17","like_diff":0,"likes":13,"dislikes":13,"content":"这个老师太水了，一个学期下来，什么都没讲，竟是扯蛋"},{"id":61203,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2019-02-27 10:41:46","like_diff":0,"likes":2,"dislikes":2,"content":"将例子还挺好的"},{"id":66123,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2018-01-12 03:11:59","like_diff":0,"likes":5,"dislikes":5,"content":"完全没有学到任何东西呵呵"},{"id":72932,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2018-01-31 11:33:04","like_diff":0,"likes":2,"dislikes":2,"content":"老师给分好啊！哈哈哈哈哈哈\n\nemm 知识的话stata可能学的多一些"},{"id":82804,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2018-07-09 07:04:00","like_diff":0,"likes":0,"dislikes":0,"content":"老师给分超好！还有科研水平很高\n\n"},{"id":118513,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2019-10-28 00:22:21","like_diff":0,"likes":0,"dislikes":0,"content":"老师的课程听起来比较费力，"},{"id":46392,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2017-01-21 12:50:58","like_diff":-1,"likes":3,"dislikes":4,"content":"好！人好给分好！\n\n"},{"id":72948,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2018-01-31 12:04:02","like_diff":-1,"likes":2,"dislikes":3,"content":"老师给分好好…"},{"id":46384,"teacher_id":1333,"teacher_name":"叶春辉","post_time":"2017-01-21 12:16:32","like_diff":-7,"likes":6,"dislikes":13,"content":"人又好给分又好上课也好"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

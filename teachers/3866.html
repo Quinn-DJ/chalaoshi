@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>莫申江 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="莫申江教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="莫申江,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">莫申江</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.29</div>
+                    <div class="rating-participants">56人参与评分</div>
+                    <div class="attendance-info">36.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">伦理与社会责任</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.91</span>
+                            <span class="students">选课: 314人</span>
+                            <span class="std-dev">标准差: 0.66</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">毕业论文</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.55</span>
+                            <span class="students">选课: 18人</span>
+                            <span class="std-dev">标准差: 0.68</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (49 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":74737,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2018-03-05 10:43:24","like_diff":13,"likes":20,"dislikes":7,"content":"我觉得江哥的课是可以给人思考的，他也很鼓励大家用不同的思维角度去看问题，并不是讨论一定要有定论才有意义，碰撞和参与才重要啊。而且我们组有四个韩国留学生虽然一开始到课情况不太好，但是最后的小组展示都超级努力。\n\n给分慢可能是还没有熟悉吧"},{"id":74323,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2018-02-11 02:51:29","like_diff":11,"likes":14,"dislikes":3,"content":"喵喵喵？难道只有我觉得老师课讲的好能学到很多东西吗？？？上课不允许玩手机用电脑的前提是用这些设备来干其他事情啊...而且也没见得真的大家都没有玩手机啊……也可能是我本人比较浅陋吧，反正在课上可以听到很多不一样的想法，很妙很妙啊?"},{"id":74735,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2018-03-05 10:41:26","like_diff":10,"likes":11,"dislikes":1,"content":"能学到很多东西，教学方式与众不同"},{"id":74738,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2018-03-05 10:43:37","like_diff":9,"likes":11,"dislikes":2,"content":"不明白大家想要的收获是什么样的 这一门课本来就是理念性的啊 说翘课的比认真听课的分高绝对是空穴来风 确实老师开学的时候说了可能抽人回答问题 不在的话平时分扣光最后没有那么做 但这难道不是一种善良吗 如果你认真听课了作业质量和考试还不如没有来上课的人 那这样叫认真听课也是令人无话可说了 总之个人认为老师很好 课程安排也很合适 能学到的不多但是很有用"},{"id":166337,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2023-01-12 03:49:37","like_diff":9,"likes":10,"dislikes":1,"content":"1.讲课很有吸引力，算是我听的最认真的一个老师。相比之下会计学 财务管理都听不下去，差点挂科。\n\n2.给分还行，完全按照规则，比较求是。我们小组展示倒数，(也不赖我们，很多原因，可能是那个企业就不合适。)个人作业我是认认真真完成的，老师复盘作业的时候我也写到了点子上。甚至第一次作业写鸿星尔克还和老师引起了共鸣。\n\n3.老师很关心学生，回邮件速度很快。(我发了两次，没留名)然后课上互动也很好(指的是线下。线上没怎么听过了。\n\n4.复习很重要，我从头到尾把PPT看了三到四遍，A4纸借鉴的林学姐。考试题目说实话，大题很灵活，只能自己去归纳。我写的不算多，但是感觉写到了点子上.\n\n5.说实话，感觉我的思维和老师的思维差不多，都是这么个回路。感觉这个很重要。要去把握他的思维方式。\n\n6.拿了90  很满意了  而且付出也很多，感谢老师。"},{"id":74345,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2018-02-12 07:44:42","like_diff":7,"likes":8,"dislikes":1,"content":"老师很好，但为什么给分那么低……"},{"id":74742,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2018-03-05 10:59:03","like_diff":6,"likes":7,"dislikes":1,"content":"虽然老师吓唬我们说点名回答没到课就扣分 可是就算到课率只有一半也从来没有点过名点过人回答啊 （刀子嘴豆腐心本人）上课形式很独特 能够引发思考 能够听到很多跟自己不同的想法 也能学到很多案例和价值理念 真的是很好很好的课了啊 最后的给分不算很好但是也不差哇 怪只怪自己个人作业做的不太认真平时不发言 那些说认真听课了给分不好的同学…大部分人都认真听课了吧…你做的不错了但是有很多人做的比你更好大概就是这个道理吧"},{"id":74757,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2018-03-05 14:27:45","like_diff":5,"likes":6,"dislikes":1,"content":"老师的课是我入学以来上过的最特别，最有意思的课，课上会接触到很多商业案例，视野很广阔，课堂上也会有大量的讨论，老师总会设置很多情境迫使你不断地去思考，去探索，真的是给我最多启发的一门课！老师给分可能并没有大家想象得这么高，但是分数还是很客观的，总不可能大家都是理想的，也只能说有人做得更好！墙裂推荐大家选老师的课！真的很妙！"},{"id":101279,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2019-01-28 03:16:18","like_diff":4,"likes":4,"dislikes":0,"content":"课堂掌控能力强，逻辑思维、表达清晰、温和。作为理科生，感觉对思维帮助很大。虽然，我中途课上做其他课作业，被老师抽起来回答问题，但老师没记仇，最后给我的分也很高"},{"id":120369,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2019-12-01 04:50:00","like_diff":4,"likes":6,"dislikes":2,"content":"?说值得十分！"},{"id":85898,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2018-08-25 10:00:08","like_diff":3,"likes":4,"dislikes":1,"content":"反正我喜欢"},{"id":74317,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2018-02-10 16:42:16","like_diff":2,"likes":6,"dislikes":4,"content":"老师很会做人，给大家做名牌，讲课也还可以，设置的几个小组讨论的案例都不错。但是小组表演猪队友真的不是我的错啊，考前也公布了平时作业的成绩，完全没想到最后绩点这么低...大半夜的真是令人窒息"},{"id":74889,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2018-03-06 09:08:41","like_diff":2,"likes":3,"dislikes":1,"content":"上课会接触到很多经典的与时俱进的案例，理论知识不多，都会结合讨论与案例来逐步推进课程。\n\n老师注重自己的思考，强调凡事都有两面性。\n\n"},{"id":134154,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2021-03-17 07:49:39","like_diff":2,"likes":4,"dislikes":2,"content":"课堂互动很好的年轻老师，学术上已经很牛了，以后会是大牛。"},{"id":213459,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2025-01-17 13:08:44","like_diff":2,"likes":2,"dislikes":0,"content":"莫老师是一个非常好的老师，不管是对待教学还是对待学生，和老师交流并不会感到什么压力。一个学期跟着老师学下来还是颇有收获的，从更多的视角去分析问题。最后也是拿到的一个我个人比较满意的成绩，老师求是这一点，毕竟自己的分数就是自己学出来的，就我个人认为不能当作一个批判点。特别棒的老师~"},{"id":74320,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2018-02-11 00:17:47","like_diff":1,"likes":4,"dislikes":3,"content":"给分很低。上课氛围倒挺好，学不到东西也是真的。"},{"id":101264,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2019-01-28 02:59:23","like_diff":1,"likes":2,"dislikes":1,"content":"老师很好 课堂很好 给分真的不太好…"},{"id":101290,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2019-01-28 03:27:09","like_diff":1,"likes":3,"dislikes":2,"content":"老师很真诚地在备课上课，课程形式也在尽力多样化，自己多去进一步钻研还是很有收获的。"},{"id":131024,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2021-01-25 14:50:48","like_diff":1,"likes":2,"dislikes":1,"content":"给分略伤心，老师的课程设计很用心"},{"id":147070,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2022-01-08 14:51:04","like_diff":1,"likes":2,"dislikes":1,"content":"生姜老师人很好，很大方，（是真的很大方！）一开始还觉得是很严肃的，结果人很温和亲切。做好了给分不好的准备，结果出来后意外之喜。"},{"id":147130,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2022-01-09 00:28:45","like_diff":1,"likes":4,"dislikes":3,"content":"莫老师课上的很好，课堂内容很有趣，是很值得参与的一门课。\n\n关于给分：我感觉还可以，小组作业什么的都是差不多倒数，最后结果也还行（可能期末考也有关系？）\n\n打了9分，老师10分，给互评机制扣一分，展示互评不去最高最低分，奇奇怪怪的打分就出现了。"},{"id":166258,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2023-01-11 14:50:23","like_diff":1,"likes":4,"dislikes":3,"content":"老师上课真的挺好的，讲的很有趣，有深度，听课率非常高，也确实让我们进行了深入的思考。\n\n但是\n\n考试内容确实也没很详细地讲，自己虽然复习了但是好像抓不住重点。\n\n给分3.9对我来说真的很难看…\n\n平时上课也回答问题，下课也有与老师交流，作业也认真做了…\n\n难过。"},{"id":213412,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2025-01-17 08:47:07","like_diff":1,"likes":1,"dislikes":0,"content":"我觉得蛮好的，老师上课讲的案例也都很新颖，会激发大家思考。\n\n总体的课堂氛围很轻松，任务也不重，两次个人作业（很少）+一个小组作业（任务也不多，2/3个周末感觉就差不多了），主要就听课就行。\n\n考核上不把发言作为硬性指标，而且每次的个人作业也会限制在1张A4纸以内，小组作业最终也只需要交ppt（没有大论文好评），蛮好的。\n\n我的分数还可以，小组项目我们得分中游，我大概是期末考考得还行。\n\n（这边建议大家还是要好好先看一遍ppt和98上的资料，然后自己稍微改一点、理一下，直接就拿来打印可能会遗漏很多，尤其是ppt上最后新加的内容，好像是创新什么的，忘了）\n\n老师给分应该是比较求是的，这也不能算缺点，毕竟规矩就是规矩。\n\n但是这节课我觉得也还是有点点缺点的：\n\na全是早八（甚至期末考也是早八sos），希望还是能一节早八一节早十这样；\n\nb请人来做讲座那次好像比较无聊，没听出点啥真的有用的，要么是他水平太差了要么是我理解力不够；\n\nc小组作业对接企业，然后我们去找出它们的一些问题、并提出对策，我感觉真的挺难的（尤其是对一些不那么大的企业，他们我感觉甚至还只是那种勉强度日的状态，根本还没到那么高的境界或者数字化变革的阶段，抽到了就几乎要完蛋了，而且大家抽到不同的企业，在起跑线上也就不一样了）。其实我个人会更喜欢比如整个班就找3/4个企业（最好是大厂），然后不同的两三个小组都去做这些企业的研究项目（从不同角度切入），或许会更公平，更有可比性，内容上也会更充实。\n\n（当然这些都只是我的一点点个人想法，老师为我们每个组都找了不同的企业的联系人，其实也是另一种让大家多接触、课堂内容更丰富的考量）\n\nall in all，我感觉还是很不错的，还是能学到不少的，而且没有硬性的发言要求（但感觉发言和交流还是会对印象分有影响），总体还是推荐大家选的。"},{"id":74741,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2018-03-05 10:58:24","like_diff":0,"likes":2,"dislikes":2,"content":"听老师的课很有收获啊，尤其是在讨论里可以收获很多不一样的想法"},{"id":120367,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2019-12-01 04:10:38","like_diff":0,"likes":2,"dislikes":2,"content":"一只?说他值得十分"},{"id":122731,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2020-03-26 18:37:39","like_diff":0,"likes":0,"dislikes":0,"content":"学到东西，时间观念强，调动性好"},{"id":126853,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2020-10-25 04:47:13","like_diff":0,"likes":0,"dislikes":0,"content":"案例结合，深入浅出，非常喜欢莫老师的课"},{"id":127246,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2020-11-17 04:27:42","like_diff":0,"likes":0,"dislikes":0,"content":"准备充分，非常负责，引导学生思考，给予了很大的启发"},{"id":128392,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2020-12-22 06:48:33","like_diff":0,"likes":0,"dislikes":0,"content":"最爱的老师，超可爱"},{"id":129304,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2021-01-04 04:04:07","like_diff":0,"likes":0,"dislikes":0,"content":"感觉挺好的"},{"id":131014,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2021-01-25 14:35:09","like_diff":0,"likes":0,"dislikes":0,"content":"老师人很好，课程有有意义，给分略伤心。"},{"id":131358,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2021-01-27 07:37:41","like_diff":0,"likes":1,"dislikes":1,"content":"给分还可以吧，两次作业都是9分，小组项目设计倒数第三，考试自认为考得还行，客观题和概念题基本都找到了，最后4.2，仅供参考。不过莫老师上课是真的有意思。"},{"id":133009,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2021-02-06 06:29:46","like_diff":0,"likes":2,"dislikes":2,"content":"给分很差"},{"id":147418,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2022-01-10 03:05:58","like_diff":0,"likes":1,"dislikes":1,"content":"伦理与社会责任--老师很温文尔雅 讲课也很舒服 很好的老师 非常亲切 感觉老师捞我了 给分挺好的"},{"id":147875,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2022-01-11 04:53:39","like_diff":0,"likes":2,"dislikes":2,"content":"很赞的老师"},{"id":154437,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2022-06-01 10:51:02","like_diff":0,"likes":2,"dislikes":2,"content":"莫老师，好！"},{"id":166339,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2023-01-12 03:56:37","like_diff":0,"likes":3,"dislikes":3,"content":"很喜欢老师上课的模式，引人入胜，在伦社这门课上也投入了很多的时间，但是课程的给分真的非常求是…（哭了，没想到会这么低）"},{"id":167434,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2023-01-16 08:34:33","like_diff":0,"likes":1,"dislikes":1,"content":"老师是很好的老师，无论是上课风格，还是对待学生的态度都是无可挑剔的。但在唯绩点论的大环境下给分求是也成了一种缺点，我看到得分的时候也失落了一阵子，然后上查老师看大家的评论也大都如此，唉，只能说现在的大学教育机制存在一些问题，“好课”和给分挂钩就显得没那么纯粹了，可是大部分人在选课的时候不得不把给分考虑进去……"},{"id":189444,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2024-01-24 09:01:35","like_diff":0,"likes":0,"dislikes":0,"content":"上课上得很好，人也很好！考试时带了一张A4纸，基本上都能找到~给分是91，虽然我们小组评分还是倒数（实在是想不到什么项目了哈哈哈"},{"id":213828,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2025-01-20 07:37:04","like_diff":0,"likes":0,"dislikes":0,"content":"每节课会把点名的纸放在门口让大家签名\n\n老师很和蔼，能认识大家的名字，上课会亲切的叫我们\n\n老师课也上的很好，每节课都很生动有趣\n\n但是两节早八、、遂我偷偷翘了几次\n\n作业是两个个人作业（限制在一张A4纸）\n\n一次企业参访，这个难度比较大的，要自己去对应企业参访和调研\n\n期末只要根据这个小组做一个PPT，不用写论文，蛮好的\n\n期末考是半开卷，可以带一张A4纸，前面的选填啥的都能找到\n\n大题的话有一些开放性，要看自己上课听没听啦哈哈\n\n组员说给分略伤心，我我组长，最后拿了4.2，虽然不是很高，但是由于之前就听说了老师很求是，所以也不觉得很失望啦哈哈哈"},{"id":71919,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2018-01-29 05:45:33","like_diff":-1,"likes":0,"dislikes":1,"content":"老师讲课不让用手机和电脑~静候出分"},{"id":121355,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2019-12-18 09:53:53","like_diff":-1,"likes":0,"dislikes":1,"content":"个人感觉msj真的是很良心很好的老师了。\n\n        课程前期听上去会觉得浅薄但是后期会逐渐引入理论模型，为了不让课程无聊同时加深理解还有实践演绎课。\n\n        小组是提前分好的，留学生普遍lofting也是很无奈的，但是有的留学生真的能带的动。这一点我一开始不适应和老莫聊了几次后才明白老师良苦用心，“毕竟到了公司有时候你的team里不会都是你想要的人来合作，所以你也要学着去适应环境的”。\n\n        至于课堂讨论，有时候其实是循循善诱目的在里面，毕竟不是企业内部的人很多信息没有的话天马行空的发言也会出现这点我理解的\n\n       然后就是CSR这边的理论确实无法量化，确实无法得到准确的可行性分析，但这些模型啊理论啊，思维方法啊，有一说一，实习后你发现是会是真的有用。"},{"id":154615,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2022-06-02 12:44:05","like_diff":-2,"likes":1,"dislikes":3,"content":"真是太好了"},{"id":166334,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2023-01-12 03:40:51","like_diff":-2,"likes":2,"dislikes":4,"content":"给分不太好"},{"id":74319,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2018-02-10 23:29:39","like_diff":-3,"likes":6,"dislikes":9,"content":"出分慢且差，上课不点名天天翘课的比认真听讲的分高，呵呵"},{"id":166313,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2023-01-12 02:20:47","like_diff":-3,"likes":3,"dislikes":6,"content":"老师讲的不错，但认认真真学+复习了还没上4（85分）我哭死"},{"id":166305,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2023-01-12 01:21:29","like_diff":-5,"likes":2,"dislikes":7,"content":"91 给分中规中矩吧"},{"id":74322,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2018-02-11 01:08:22","like_diff":-7,"likes":0,"dislikes":7,"content":"老师很绅士课也有趣，只是课上不让玩手机电脑，内容的话企业伦理嘛难免流于口头教学…"},{"id":74346,"teacher_id":3866,"teacher_name":"莫申江","post_time":"2018-02-12 11:24:14","like_diff":-9,"likes":0,"dislikes":9,"content":"课上以讨论为主，讨论题目多半没有意义，听了一个冬学期感觉没什么收获，给分还低"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

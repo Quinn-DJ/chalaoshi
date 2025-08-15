@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宝贡敏 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="宝贡敏教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="宝贡敏,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">宝贡敏</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">7.16</div>
+                    <div class="rating-participants">61人参与评分</div>
+                    <div class="attendance-info">12.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (1 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">战略管理</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.37</span>
+                            <span class="students">选课: 57人</span>
+                            <span class="std-dev">标准差: 0.50</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (56 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":64609,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2017-12-25 13:37:15","like_diff":18,"likes":21,"dislikes":3,"content":"老师讲的课我觉得挺好的，很多知识点。"},{"id":64560,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2017-12-25 11:21:57","like_diff":17,"likes":21,"dislikes":4,"content":"宝老师知识面广，说话风趣，听他的课很有收获。喜欢听。"},{"id":61453,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2017-11-17 11:02:32","like_diff":16,"likes":22,"dislikes":6,"content":"老师挺好的，很热心真诚"},{"id":64496,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2019-05-19 06:05:53","like_diff":16,"likes":23,"dislikes":7,"content":"老师人很好，长者的谆谆教诲有时不那么动听顺耳，但是老师的智慧和涵养真的深深的影响着我，喜欢老师～"},{"id":64607,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2017-12-26 01:22:10","like_diff":16,"likes":20,"dislikes":4,"content":"老师很好，认真负责，严谨又不失幽默，时时处处为学生着想～"},{"id":64592,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2019-05-19 06:05:58","like_diff":15,"likes":23,"dislikes":8,"content":"\n\n大学老师是怎样的风采？循循善诱、谆谆教诲、一丝不苟，宝老师就是这样的老师！听他的课，深切体会了什么是逻辑。幽默的语言，信手拈来的例子，更深地体会到什么叫底气！我要多听课多学习多积累，期望有一天也能像宝老师那样敏锐智慧和博学。崇拜～"},{"id":66662,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-01-18 05:28:01","like_diff":13,"likes":16,"dislikes":3,"content":"老师爱学生。与时俱进的老头。有些时候比我们还时髦。"},{"id":290,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2015-03-15 00:19:04","like_diff":12,"likes":31,"dislikes":19,"content":"完全不知道上了什么，他一直在炫耀自己的知识，却不跟我们讲知识。课无聊吧，还喜欢戏弄同学，一定要所有人听讲。基本没有学到东西的课。"},{"id":66630,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-01-17 16:11:11","like_diff":12,"likes":17,"dislikes":5,"content":"老师知识渊博经验丰富，对遇到的现实问题和理论问题能够进行深入浅出的讲解。学习很有收获！但是由于战略问题与自己的生活相关性不是特别紧密，经验不足使人有时也有困惑。但只要问老师，老师都能够给很好的讲解学习很有收获。"},{"id":73002,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-01-31 14:23:03","like_diff":12,"likes":14,"dislikes":2,"content":"我觉得老师讲的课很丰富，知识面广，还很风趣"},{"id":66663,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-01-18 05:31:09","like_diff":11,"likes":13,"dislikes":2,"content":"老师很好，我喜欢。"},{"id":66682,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-01-18 08:02:28","like_diff":11,"likes":14,"dislikes":3,"content":"老师很风趣，语言生动，枯燥的理论变得有意思。喜欢听他讲课！"},{"id":117584,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2019-09-26 08:43:54","like_diff":11,"likes":11,"dislikes":0,"content":"我严重怀疑热评是买的水军……………………"},{"id":73007,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-01-31 14:28:09","like_diff":10,"likes":13,"dislikes":3,"content":"老师讲课很用心，内容丰富～对学生很好！"},{"id":74375,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-02-15 20:27:30","like_diff":10,"likes":13,"dislikes":3,"content":"与时俱进的老朋友"},{"id":117355,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2019-09-23 09:05:59","like_diff":9,"likes":9,"dislikes":0,"content":"语无伦次，课件没有条理，不知所云。。。。"},{"id":73013,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-01-31 14:38:51","like_diff":8,"likes":12,"dislikes":4,"content":"老师的严谨的治学态度，广博的知识以及深刻的洞见让我学到了很多，希望能够成为向老师那样的人"},{"id":74376,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-02-15 20:34:47","like_diff":8,"likes":11,"dislikes":3,"content":"逻辑清楚，实用性强。"},{"id":117989,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2019-10-17 16:53:14","like_diff":7,"likes":7,"dislikes":0,"content":"bgm还能7分？？学习帝也能有水军？？"},{"id":89110,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-11-15 22:23:30","like_diff":6,"likes":8,"dislikes":2,"content":"不装逼会死吗？\n\n什么都要吹\n\n英语口语那么不标准还使劲的说？\n\n整天从小到大多牛逼多牛逼\n\n你那么牛逼咋没看你发家致富？？？\n\n重点是 上他的课 全是方法论 让他实际操作又不会 整天用分数威胁同学 他妈也是醉了\n\n大学至今 上过最没有意义的课\n\n"},{"id":75782,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-03-18 04:19:43","like_diff":5,"likes":9,"dislikes":4,"content":"当时不懂事，只喜欢好听的。现在需要时再回头看宝老师的书和宝老师给我们的PPT，发现宝老师的课真是很有用。真想重学一次宝老师的课。还好，现在遇到问题向宝老师请教都会有回复。感谢宝老师！"},{"id":75788,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-03-18 06:02:06","like_diff":5,"likes":9,"dislikes":4,"content":"宝老师说话风趣，讲一个知识点会通过各种比方，讲得好的。"},{"id":76116,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-03-27 07:42:32","like_diff":5,"likes":8,"dislikes":3,"content":"平心而论老师很好。讲的知识很有用。"},{"id":76504,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-04-12 01:56:09","like_diff":5,"likes":7,"dislikes":2,"content":"老师讲课有激动"},{"id":76739,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-04-19 17:08:58","like_diff":5,"likes":7,"dislikes":2,"content":"在工作中遇到战略问题才发现宝老师的课件有多牛！"},{"id":75333,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-06-19 06:41:15","like_diff":4,"likes":10,"dislikes":6,"content":"当时不懂事，只喜欢好听的。现在需要时看包老师的ppt和包老师的书，发现包老师的课，包老师的书真是很有用。真想重学一次包老师的课。"},{"id":79186,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-05-26 06:13:04","like_diff":3,"likes":7,"dislikes":4,"content":"问他任何问题都是说：这个问题很复杂，有机会我们单独讨论。然后就没有然后了……  要么就是不知所云，炫耀华而不实的各种古文英文\n\n他的PPT同学说是一看到就想起椰树牌椰汁?"},{"id":395,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-09-29 07:29:45","like_diff":2,"likes":32,"dislikes":30,"content":"as ml with 80 old lady， no pleasure， but have to ：)"},{"id":77191,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-05-03 13:34:37","like_diff":2,"likes":5,"dislikes":3,"content":"很幸运选了宝老师为师！"},{"id":79129,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-05-23 17:25:19","like_diff":1,"likes":4,"dislikes":3,"content":"我最喜欢的的朋友兼长者、老师，没有之一！"},{"id":91080,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-11-29 16:11:29","like_diff":1,"likes":2,"dislikes":1,"content":"老师讲的很好。讲的就是战略。战略需要诸葛亮的智慧。战略不需要吕布似的勇猛。好的战略是智慧的佳酿，不好的战略是狂醉的烂酒。"},{"id":91804,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-12-20 12:15:32","like_diff":1,"likes":1,"dislikes":0,"content":"不好意思 我吴行健满了"},{"id":444,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2015-03-15 02:30:13","like_diff":0,"likes":17,"dislikes":17,"content":"课堂只能听他毫无内容的讲解，所讲案例与知识点毫无关联，突如其来的情感抒发让人难以接受。浙大老师如此水准，居然还可教学，实觉浪费学费，浪费时间，浪费生命！"},{"id":79544,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-06-08 17:14:26","like_diff":0,"likes":3,"dislikes":3,"content":"负责任的好老师"},{"id":80006,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-06-19 03:35:12","like_diff":0,"likes":3,"dislikes":3,"content":"老师讲课用心用力，总想给我们灌点干货。\n\n"},{"id":109298,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2019-06-13 03:22:51","like_diff":0,"likes":0,"dislikes":0,"content":"求问作业多吗？据说很恐怖"},{"id":142017,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2021-11-04 04:27:53","like_diff":0,"likes":0,"dislikes":0,"content":"讲课毫无条理，而且自我优越感很强。\n\n完全学不到东西，浪费时间"},{"id":80767,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-06-30 12:56:49","like_diff":-2,"likes":2,"dislikes":4,"content":"老师讲课逻辑清晰，实用性强，点赞?"},{"id":85537,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-07-19 04:37:01","like_diff":-2,"likes":2,"dislikes":4,"content":"老师讲的内容新颖，条理清楚，实用性强。"},{"id":86773,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-09-18 13:43:35","like_diff":-2,"likes":1,"dislikes":3,"content":"十分喜欢宝老师的课。内容充实，知识面广，实用性强。"},{"id":88077,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-10-21 19:36:50","like_diff":-2,"likes":1,"dislikes":3,"content":"认真负责有理论有经验的好老师???"},{"id":88867,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-11-11 02:36:49","like_diff":-2,"likes":1,"dislikes":3,"content":"融入课堂，享受老师的讲解和互动，收获满满！喜欢鲍老师。"},{"id":120147,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2019-11-18 00:18:41","like_diff":-2,"likes":0,"dislikes":2,"content":"太感恩老师了!啊啊啊给分real好!虽然上课讲的一般，但给分好啊!平常也会很耐心地解答大家的问题!!!!!人很好!!!"},{"id":398,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2015-03-15 01:56:19","like_diff":-3,"likes":20,"dislikes":23,"content":"水货！自负！自以为神圣不可侵犯！而且还建了个微信群，邀请同学进去，天天在里面说他爱我们！他对我们负责！结果我们什么都没学到！"},{"id":92498,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2018-12-31 11:15:17","like_diff":-3,"likes":1,"dislikes":4,"content":"宝老师的PPT内容丰富。书中内容也是很丰富。讲课很实用。是我最喜欢的课，没有之一。"},{"id":360,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2015-03-15 01:24:29","like_diff":-4,"likes":19,"dislikes":23,"content":"不知课讲的什么，不知课还可以这样讲，不知作业这么多，不知怎么坚持下来的，不知怎么高分通过的，不知这样的课有什么用。只知每堂课点到……的美女助教。"},{"id":60590,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2017-10-24 15:23:05","like_diff":-4,"likes":12,"dislikes":16,"content":"我女朋友上完他的课吐了，然后一晚上都在发脾气，平时她真的很温柔的。"},{"id":102530,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2019-02-05 06:25:48","like_diff":-4,"likes":0,"dislikes":4,"content":"他是我遇到的最真诚最有善最有帮助的老师，喜欢这样的老师"},{"id":102552,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2019-02-07 20:22:46","like_diff":-4,"likes":0,"dislikes":4,"content":"最好的朋友+长者没有之一。理论+实践！"},{"id":105792,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2019-04-20 14:39:47","like_diff":-4,"likes":0,"dislikes":4,"content":"我所见到最好的老师没有之一。"},{"id":60573,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2017-10-24 08:53:19","like_diff":-6,"likes":11,"dislikes":17,"content":"大学最讨厌的老师，没有之一，重点是老师还觉得我们听他的课很开心，收获很大，但是我慢性死亡般难受。"},{"id":269,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2015-03-14 23:47:04","like_diff":-7,"likes":21,"dislikes":28,"content":"煎熬。上课无趣，没思路。不知道在说什么。通篇读PPT，英文中文大段的抄书，字还小，一页上百字，这还是PPT吗？分数也很奇葩。平时把同学拉微信群里，听他絮叨"},{"id":60103,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2017-10-24 08:54:49","like_diff":-8,"likes":9,"dislikes":17,"content":"天天都在干嘛啊 莫名其妙"},{"id":60576,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2017-10-24 09:05:42","like_diff":-8,"likes":9,"dislikes":17,"content":"可少说点吧，展示一字一打断，一边说时间紧一边自己打断别人瞎bb拖时间，拜拜"},{"id":60616,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2017-12-25 11:05:39","like_diff":-8,"likes":8,"dislikes":16,"content":"吃屎一样的体验"},{"id":60575,"teacher_id":752,"teacher_name":"宝贡敏","post_time":"2017-10-24 08:59:47","like_diff":-10,"likes":8,"dislikes":18,"content":"也不知道在讲什么，说让展示，全程不让别人说一句完整的话 尽顾着自己瞎bb 完了还说展示的人太慢..."}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

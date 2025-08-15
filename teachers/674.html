@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>杜红 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="杜红教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="杜红,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">杜红</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">4.31</div>
+                    <div class="rating-participants">80人参与评分</div>
+                    <div class="attendance-info">24.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">管理学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.82</span>
+                            <span class="students">选课: 281人</span>
+                            <span class="std-dev">标准差: 0.98</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">组织行为学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.95</span>
+                            <span class="students">选课: 32人</span>
+                            <span class="std-dev">标准差: 1.00</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (70 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":11930,"teacher_id":674,"teacher_name":"杜红","post_time":"2015-12-21 10:52:32","like_diff":15,"likes":25,"dislikes":10,"content":"上课真的一个字都听不进去，刚开始以为是自己的问题，问了小伙伴原来都这样，心里坦然了许多"},{"id":8686,"teacher_id":674,"teacher_name":"杜红","post_time":"2015-09-24 04:25:59","like_diff":13,"likes":22,"dislikes":9,"content":"课上的水，事还多"},{"id":147531,"teacher_id":674,"teacher_name":"杜红","post_time":"2022-01-10 07:18:25","like_diff":12,"likes":12,"dislikes":0,"content":"不理解为什么有那么多人骂老师，可能现在老师变化很大？\n\n我的体验：1.每个老师的管理学的课程事情都很多，这不是老师的问题；\n\n2.老师人很好，问问题及时回复，发邮件也会回复，小测错过了还可以重新开放；\n\n3.每节课都会很清楚的告诉我们作业和截止日期；\n\n4.同学没有交作业也会延长日期。\n\n给分：认真做小测，水发言，交作业，研究性报告好好做，在小组里自己的任务认真对待分数不会差。谁不想上人好事少给分好的老师的课呢，但是自己的作业什么的也要认真对待才会给分好呀，这是最基本的。\n\n其实管理学的课没怎么认真听，上课的时候老师在讲，大家都低着头不怎么听，老师还是认真组织了，好好讲课了，我觉得已经很不容易了，老师还是有一些可怜的。\n\n一开始看到查老师的评论我也有点害怕，但是发现现实并不是这样的。所以查老师可能也要客观的看，并不完全准确。希望可以给以后的同学的选择一些参考。"},{"id":21156,"teacher_id":674,"teacher_name":"杜红","post_time":"2016-02-23 09:47:14","like_diff":8,"likes":13,"dislikes":5,"content":"给超过2分的都是托"},{"id":50520,"teacher_id":674,"teacher_name":"杜红","post_time":"2017-05-03 09:07:15","like_diff":7,"likes":9,"dislikes":2,"content":"J类绩点低到可怕！平时明明讨论做的都很认真！"},{"id":91060,"teacher_id":674,"teacher_name":"杜红","post_time":"2018-11-29 10:03:26","like_diff":7,"likes":8,"dislikes":1,"content":"老师挺会扯，而且扯得不是很有价值，有点催眠。但是老师很体贴，给他发邮件会回复跟你说他收到邮件了，这一点真的很让我感动。\n\n每节课有课前小测，每个星期要小组讨论做PPT，期末组内打分，一篇1000字课程随笔。\n\n刚开始几节课还是听的，但是几乎每节课都会睡着? ，后面就开始做自己的事情了，不过说真的，听课也学不到什么，可能是我自己对管理不感兴趣吧\n\n关于给分，我们组长和组员没啥区别，都3.6，问了另一个组的组长也才3.9，其实小组的话组长会不会加分还是看你这个小组整体怎么样，小组不咋滴组长也别想好哪儿去。\n\n一些建议吧，\n\n1.小组讨论最好都去，毕竟最后组内要互相打分\n\n2.课前小测组员可以团结一点，太老实分数不好看小心正态"},{"id":9460,"teacher_id":674,"teacher_name":"杜红","post_time":"2015-10-28 07:12:04","like_diff":6,"likes":11,"dislikes":5,"content":"事太多了。。。"},{"id":7930,"teacher_id":674,"teacher_name":"杜红","post_time":"2015-09-16 07:07:26","like_diff":5,"likes":16,"dislikes":11,"content":"事超级多！但是人还不错"},{"id":18747,"teacher_id":674,"teacher_name":"杜红","post_time":"2016-01-22 12:49:29","like_diff":5,"likes":12,"dislikes":7,"content":"为什么之前没人告诉我杜红是个男老师？？excuse me？？！当他第一节课说戚老师会在什么什么时候回来的时候我完全目瞪口呆好吗？？"},{"id":22848,"teacher_id":674,"teacher_name":"杜红","post_time":"2016-03-13 11:25:34","like_diff":5,"likes":5,"dislikes":0,"content":"呵呵呵"},{"id":29629,"teacher_id":674,"teacher_name":"杜红","post_time":"2016-06-30 05:35:16","like_diff":5,"likes":8,"dislikes":3,"content":"不好意思啊努力和成绩不成正比。"},{"id":29794,"teacher_id":674,"teacher_name":"杜红","post_time":"2016-06-30 10:21:22","like_diff":5,"likes":9,"dislikes":4,"content":"给分很低 上课无趣 等级制打分"},{"id":47264,"teacher_id":674,"teacher_name":"杜红","post_time":"2017-01-25 03:31:10","like_diff":5,"likes":6,"dislikes":1,"content":"给分很差"},{"id":96572,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-01-21 06:42:16","like_diff":5,"likes":6,"dislikes":1,"content":"老师人超好的，事是有点多，不过给分蛮不错的。（管理学）"},{"id":14157,"teacher_id":674,"teacher_name":"杜红","post_time":"2016-01-05 05:44:39","like_diff":4,"likes":18,"dislikes":14,"content":"上课真的一个字都听不进去，刚开始以为是自己的问题，问了学长课友原来都一个样，但是应该不是老师的问题，而是管理学这门课程设置有问题。再这样下去，这门课迟早药丸"},{"id":21475,"teacher_id":674,"teacher_name":"杜红","post_time":"2016-02-29 03:15:18","like_diff":4,"likes":8,"dislikes":4,"content":"事多，课无聊，给分不好。"},{"id":87695,"teacher_id":674,"teacher_name":"杜红","post_time":"2018-10-10 06:31:52","like_diff":4,"likes":4,"dislikes":0,"content":"一半玩手机，四分之一睡觉，剩下的打瞌睡，太水了，讲的完全找不到有用的"},{"id":147530,"teacher_id":674,"teacher_name":"杜红","post_time":"2022-01-10 07:14:07","like_diff":4,"likes":4,"dislikes":0,"content":"管理学 老师人真的很好 同学作业没有交最后也都给大家补交的机会 很温和很友善的一个老师！！给分也很好！不明白为什么老师的差评那么多"},{"id":50319,"teacher_id":674,"teacher_name":"杜红","post_time":"2017-05-02 10:28:56","like_diff":3,"likes":4,"dislikes":1,"content":"无干货"},{"id":80759,"teacher_id":674,"teacher_name":"杜红","post_time":"2018-09-19 08:58:34","like_diff":3,"likes":6,"dislikes":3,"content":"辣鸡中的战斗鸡?"},{"id":89945,"teacher_id":674,"teacher_name":"杜红","post_time":"2018-11-21 10:47:22","like_diff":3,"likes":3,"dislikes":0,"content":"我现在只想知道到底是怎么给分的，上课完全没干货，一点收获都没有，给分给得奇差"},{"id":96438,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-01-21 03:37:52","like_diff":3,"likes":5,"dislikes":2,"content":"上了老师的管理学。老师人很好，给分也好。"},{"id":96495,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-01-21 05:13:01","like_diff":3,"likes":4,"dislikes":1,"content":"管理学事多是课程设置问题！老师超好！还会延长ddl！解答问题也很耐心！给分也很好！"},{"id":96538,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-01-21 05:44:04","like_diff":3,"likes":6,"dislikes":3,"content":"老师给分挺好的~有问题会耐心解答~群里的消息也会即使回复 超好的老师！"},{"id":166368,"teacher_id":674,"teacher_name":"杜红","post_time":"2023-01-12 05:52:10","like_diff":3,"likes":4,"dislikes":1,"content":"大一为了塞课表选了管理学，看到查老师评分和均绩真的好忐忑。但是上课老师管的很松，作业的话平均每两周一个1000字作业+一个大的小组研究作业，作为专业课感觉也蛮轻松的，老师钉钉回复也都超快，不会已读不回。学在浙大视频都刷了，小作业好好写写，没有期末考，最后出分是满的，真的有些子惊喜的。"},{"id":22528,"teacher_id":674,"teacher_name":"杜红","post_time":"2016-03-07 11:41:11","like_diff":2,"likes":5,"dislikes":3,"content":"老师上课比较无聊枯燥，个人平时比较水，上课不怎么听的，期末考前课本也没看熟，考试凭直觉，最后绩点4.2，不过我并不了解其他同学的情况。"},{"id":48766,"teacher_id":674,"teacher_name":"杜红","post_time":"2017-03-12 12:58:29","like_diff":2,"likes":4,"dislikes":2,"content":"破事贼多，开个1.5分的通识还刷存在感，不是J类直接退掉"},{"id":89939,"teacher_id":674,"teacher_name":"杜红","post_time":"2018-11-21 10:42:01","like_diff":2,"likes":2,"dislikes":0,"content":"一点用都没有，分数还低"},{"id":93401,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-01-09 12:00:26","like_diff":2,"likes":2,"dislikes":0,"content":"是一个很尽责的老师，大家可以去上上，有问题也可以问他，他会回答的很好\n\n"},{"id":122882,"teacher_id":674,"teacher_name":"杜红","post_time":"2020-04-17 02:09:05","like_diff":2,"likes":3,"dislikes":1,"content":"上课真是催眠，基本就是读PPT的样子，到了知识点举例不切合，课程节奏把握巨差。说到底还是对理论实际的底子不够，平时没有积累，做行政的老师非要讲课而已。 作业多得一逼，但是啥学不到，根本不知道作业写什么？ 这样的老师要不就安心做行政，别出来祸害求学青年了。"},{"id":122885,"teacher_id":674,"teacher_name":"杜红","post_time":"2020-04-17 02:23:45","like_diff":2,"likes":2,"dislikes":0,"content":"感觉不怎么认真备课，一套老旧的ppt几百页，随便翻到一页，东拉西扯讲些没用的描述性语言，课程无启发性，无干货。才华不够态度补，表面上看挺认真，会形式上接受建议。但没有用心做学问。"},{"id":71110,"teacher_id":674,"teacher_name":"杜红","post_time":"2018-11-21 10:48:30","like_diff":1,"likes":7,"dislikes":6,"content":"我上的是老师的管理学，老师很负责，平时出差什么的自己也有很多的事务要处理，但是总是对学生很关心，作业什么的也很为学生考虑，只要上课认真听，作业认真做，最后就能学到很多干货，而且绩点一点儿也不差。"},{"id":88210,"teacher_id":674,"teacher_name":"杜红","post_time":"2018-10-24 05:27:23","like_diff":1,"likes":3,"dislikes":2,"content":"比较无聊，但态度好\n\n课堂练习比较难，不看PPT不认真听，根本答不出来\n\n讨论比较多，比较麻烦\n\n总是没法按计划讲完PPT\n\n其实我觉得还行╮(￣▽￣)╭"},{"id":89949,"teacher_id":674,"teacher_name":"杜红","post_time":"2018-11-21 11:09:48","like_diff":1,"likes":1,"dislikes":0,"content":"真的水，讲的没什么内容，评分也很迷，当小组长组织了一个学期讨论也没什么屁用，照样被正态，垃圾课，奉劝不要选"},{"id":90167,"teacher_id":674,"teacher_name":"杜红","post_time":"2018-11-22 09:57:42","like_diff":1,"likes":1,"dislikes":0,"content":"老师666"},{"id":90690,"teacher_id":674,"teacher_name":"杜红","post_time":"2018-11-25 09:06:50","like_diff":1,"likes":1,"dislikes":0,"content":"给分奇低，真的快乐，组织行为学，你值得拥有"},{"id":92636,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-01-03 08:12:28","like_diff":1,"likes":1,"dislikes":0,"content":"虽然很水 但是分好"},{"id":93320,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-01-09 04:13:32","like_diff":1,"likes":3,"dislikes":2,"content":"老师其实真的很好，也很照顾留学生，作业分量合理…为老师平反！！ 上课也挺认真的！不要再误会老师了！"},{"id":93349,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-01-09 06:02:46","like_diff":1,"likes":2,"dislikes":1,"content":"上完了秋冬这个学期，我觉得老师还是不错的啊"},{"id":96211,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-01-20 14:26:34","like_diff":1,"likes":1,"dislikes":0,"content":"辣鸡辣鸡辣鸡，建议不幸选上他的组织行为学的通识的赶紧退了"},{"id":98505,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-01-23 13:54:54","like_diff":1,"likes":3,"dislikes":2,"content":"想不明白为什么他的评分还有3.9几，我觉得他最多一分"},{"id":102759,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-02-22 11:33:19","like_diff":1,"likes":1,"dislikes":0,"content":"每堂课前都有小测，本人偶尔记笔记但不复习，一般答对6-7题，平时比较水，但小组讨论基本都去了，可能小组成绩都差不多吧，绩点3.3\n\n但是他说的话还是有点道理的，不要想着不努力还要好成绩，给分相对确实比较低，但也还好吧"},{"id":103023,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-02-25 11:58:58","like_diff":1,"likes":2,"dislikes":1,"content":"呵呵呵呵"},{"id":122884,"teacher_id":674,"teacher_name":"杜红","post_time":"2020-04-17 02:13:42","like_diff":1,"likes":2,"dislikes":1,"content":"天坑型老师，谁上谁后悔！"},{"id":89990,"teacher_id":674,"teacher_name":"杜红","post_time":"2018-11-21 13:07:04","like_diff":0,"likes":0,"dislikes":0,"content":"任务多，我自我感觉已经很认真了，给的每节课小测分也不低，最后打得非常非常低"},{"id":90039,"teacher_id":674,"teacher_name":"杜红","post_time":"2018-11-22 01:56:39","like_diff":0,"likes":0,"dislikes":0,"content":"课有点水，小测验大家一起协作还是能做得好的"},{"id":93347,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-01-09 05:54:46","like_diff":0,"likes":3,"dislikes":3,"content":"很好，非常体谅同学。事也不多，评分也不错！推荐上他的管理学！"},{"id":94739,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-01-18 04:28:38","like_diff":0,"likes":2,"dislikes":2,"content":"垃圾通识，给分奇差，话不多说，建议退课"},{"id":102780,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-02-23 03:36:02","like_diff":0,"likes":2,"dislikes":2,"content":"垃圾垃圾"},{"id":103053,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-02-25 23:47:00","like_diff":0,"likes":1,"dislikes":1,"content":"呵呵呵呵"},{"id":120210,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-11-24 03:11:34","like_diff":0,"likes":1,"dislikes":1,"content":"无聊且事多"},{"id":122883,"teacher_id":674,"teacher_name":"杜红","post_time":"2020-04-17 02:11:09","like_diff":0,"likes":1,"dislikes":1,"content":"有负分嘛？浪费时间浪费金钱损失谁赔。唯一让我增长的见识是，浙大还有这样水的老师"},{"id":123029,"teacher_id":674,"teacher_name":"杜红","post_time":"2020-05-03 01:14:34","like_diff":0,"likes":0,"dislikes":0,"content":"组织行为学整个课程很水，事情多的死，每一周都有讨论，都有任务。本人不会做ppt，给强行做ppt），课程最大的收获就是会做简单的ppt了…当然我是抱着水过就好的心态去上的，最后3.6。但是付出的时间精力实在挺多的…"},{"id":124374,"teacher_id":674,"teacher_name":"杜红","post_time":"2020-06-30 02:30:31","like_diff":0,"likes":0,"dislikes":0,"content":"听这个课，实在是浪费时间。"},{"id":168913,"teacher_id":674,"teacher_name":"杜红","post_time":"2023-02-23 11:23:58","like_diff":0,"likes":0,"dislikes":0,"content":"老师挺认真负责的 不知道评分为什么这么低。。管理学本来事情就挺多的，任何老师都一样，选课之前做好准备。然后分数由很多部分组成，只要认真完成每个部分最后分数不会差。"},{"id":173563,"teacher_id":674,"teacher_name":"杜红","post_time":"2023-05-29 04:19:43","like_diff":0,"likes":0,"dislikes":0,"content":"上的是老师的管理学，其实老师对作业的评分以及最后的总分已经很不错了！\n\n其他班级的管理学事情都挺多的，我们小组基本上线上讨论分锅就能解决。\n\n上课有些也是很有意思的，这门课可能本来就是一门比较枯燥的课吧"},{"id":192984,"teacher_id":674,"teacher_name":"杜红","post_time":"2024-06-01 16:06:34","like_diff":0,"likes":0,"dislikes":0,"content":"..."},{"id":95310,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-01-19 07:46:58","like_diff":-1,"likes":2,"dislikes":3,"content":"组织行为学 事多！慎选！上课不听没关系，但每节课前会有选择题小测，可以偷偷用手机翻ppt。课后小组讨论一定要积极参加，因为最后一节课会有组内互评。结课的心得随笔要尽量早交！当面交纸质稿！←靠着这些水到了4 不小心选上这门课的同学们冲鸭！"},{"id":103632,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-03-03 02:59:49","like_diff":-1,"likes":2,"dislikes":3,"content":"垃圾垃圾垃圾"},{"id":106880,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-04-30 06:34:21","like_diff":-1,"likes":1,"dislikes":2,"content":"sb就是他了！"},{"id":122886,"teacher_id":674,"teacher_name":"杜红","post_time":"2020-04-17 03:11:23","like_diff":-1,"likes":1,"dislikes":2,"content":"从没有见过这么糟糕的老师。从没有。不准备，读PPT，不解答...\n\n助教也不行"},{"id":102716,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-02-22 02:56:08","like_diff":-2,"likes":1,"dislikes":3,"content":"我觉得这个老师有种萌萌哒的感觉，人好给分好，只要功课认真按时完成就可以了。就是功课有些多，但是一个学期下来还是可以学习到很多，老师教书认真"},{"id":9679,"teacher_id":674,"teacher_name":"杜红","post_time":"2015-11-04 07:39:31","like_diff":-3,"likes":5,"dislikes":8,"content":"课上的有点没逻辑。。事也挺多，人是好人"},{"id":103432,"teacher_id":674,"teacher_name":"杜红","post_time":"2019-02-28 05:29:42","like_diff":-4,"likes":1,"dislikes":5,"content":"非常好 给分佳"},{"id":25261,"teacher_id":674,"teacher_name":"杜红","post_time":"2016-05-09 05:10:25","like_diff":-5,"likes":0,"dislikes":5,"content":""},{"id":74940,"teacher_id":674,"teacher_name":"杜红","post_time":"2018-03-06 15:46:59","like_diff":-5,"likes":1,"dislikes":6,"content":"只能说上课确实没意思，冲着管理学这门课来的，自己看书还是能学到点儿东西，老师没讲什么有价值的东西。\n\n但是抱着水课和刷绩点去的还是可以推荐的，他的管理学应该是最水的，不要被第一节课讲的什么吓着，把任务完成或者说应付过去的话，绩点还是挺高的。\n\n友情分6分"},{"id":29814,"teacher_id":674,"teacher_name":"杜红","post_time":"2016-06-30 10:51:43","like_diff":-6,"likes":4,"dislikes":10,"content":"给分挺好的，人也很好，但是确实讲课无聊。组织行为学和应用运筹学都是他的课，只能说，争当小组长?"},{"id":29678,"teacher_id":674,"teacher_name":"杜红","post_time":"2016-06-30 07:28:29","like_diff":-10,"likes":0,"dislikes":10,"content":"老师讲课没太大意思，照本宣科吧。给分我觉得还行，自己作业好好做好好复习就没什么问题~"},{"id":15479,"teacher_id":674,"teacher_name":"杜红","post_time":"2016-01-14 14:52:46","like_diff":-16,"likes":2,"dislikes":18,"content":"人好。"},{"id":9555,"teacher_id":674,"teacher_name":"杜红","post_time":"2017-09-20 04:02:54","like_diff":-17,"likes":8,"dislikes":25,"content":"真的是好老师，能学到很多"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>郑剑 - 化学系 - 浙大教评</title>
+    <meta name="description" content="郑剑教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="郑剑,化学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">郑剑</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">化学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">3.31</div>
+                    <div class="rating-participants">83人参与评分</div>
+                    <div class="attendance-info">35.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">有机化学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.48</span>
+                            <span class="students">选课: 166人</span>
+                            <span class="std-dev">标准差: 1.05</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">金属有机化学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.72</span>
+                            <span class="students">选课: 151人</span>
+                            <span class="std-dev">标准差: 0.83</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (72 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":169625,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-02-27 07:42:50","like_diff":35,"likes":47,"dislikes":12,"content":"讲的依托答辩，要不是预置了这门课，狗也不上"},{"id":171360,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-06-17 10:49:59","like_diff":27,"likes":31,"dislikes":4,"content":"nmd  如果有机挂了就去把zj刀了"},{"id":169732,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-04 07:36:33","like_diff":24,"likes":30,"dislikes":6,"content":"缺乏教师最基本的教学能力"},{"id":170293,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-29 11:48:35","like_diff":21,"likes":27,"dislikes":6,"content":"应该是个新老师吧......虽然是新老师......讲课不行也可以理解......emm，基本的知识还出错是我无法理解的。就这几节课来看，每节课都会出现2-3处知识性错误。感觉他更像是在教高中的学生，还要叫人上黑板、刷题（不否认大学需要做题）。建议快逃。"},{"id":170178,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-26 13:16:16","like_diff":18,"likes":24,"dislikes":6,"content":"一个年轻老师，可能讲好一节课对他仍有难度吧"},{"id":170509,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-04-14 06:30:01","like_diff":18,"likes":21,"dislikes":3,"content":"但愿这位老师能够早日被教务系统发现，早日铲除"},{"id":170166,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-02 00:01:50","like_diff":17,"likes":25,"dislikes":8,"content":"他就是纯傻逼，讲得烂还傻逼，就是傻逼"},{"id":171620,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-30 08:08:59","like_diff":17,"likes":19,"dislikes":2,"content":"cpu Master\n\n讲课不知所云者\n\n照着ppt讲稿念者\n\n从最后一排开始回答问题者\n\n莎碧"},{"id":180931,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-09-28 08:59:09","like_diff":17,"likes":19,"dislikes":2,"content":"大一新生 出于兴趣选了金属有机 上了一节课就发现郑剑水平真不行，对化学基础知识的理解（配位数，杂化，空间构型等等）还不如接受过一点点系统竞赛训练的新生。。。一个很简单的例子，讲到硼的时候，上来就告诉大家BF3是二聚体（就硬照搬AlX3的结构）我直接笑了，回寝室翻了格伍，确认了根本没有这种说法。。。包括后面讲配合物的基础知识，可以看出只是背诵了一点知识点，完全没有自己的理解，，，差评"},{"id":171507,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-30 00:49:31","like_diff":15,"likes":19,"dislikes":4,"content":"什么沙比小测连图片都没有，做尼玛"},{"id":170550,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-27 06:48:44","like_diff":13,"likes":16,"dislikes":3,"content":"谢邀 没上课 已听说其丰功伟绩 快跑"},{"id":170950,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-04-02 07:39:17","like_diff":12,"likes":20,"dislikes":8,"content":"教学能力欠佳，人还是认真负责的"},{"id":171609,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-30 02:20:44","like_diff":12,"likes":19,"dislikes":7,"content":"教学能力欠佳，毕竟是年轻老师。但人其实挺不错的，也很关心学生成绩，不至于评分这么低"},{"id":170773,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-09 10:27:51","like_diff":11,"likes":14,"dislikes":3,"content":"讲得不行就给学生灌鸡汤，cpu大师"},{"id":171638,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-30 11:13:33","like_diff":11,"likes":13,"dislikes":2,"content":"收敛于一"},{"id":170492,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-06 02:22:23","like_diff":10,"likes":13,"dislikes":3,"content":"上课根本不知说什么，小学生模式点名，依托答辩"},{"id":170526,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-06 06:30:07","like_diff":9,"likes":12,"dislikes":3,"content":"真狗屎，都不听还不知道反思？我行我素惯了吧，教的也跟狗屎一样"},{"id":170263,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-04 07:36:42","like_diff":8,"likes":11,"dislikes":3,"content":"上课不知所云"},{"id":170424,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-04 11:54:06","like_diff":8,"likes":11,"dislikes":3,"content":"依托答辩"},{"id":170494,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-06 02:26:24","like_diff":8,"likes":11,"dislikes":3,"content":"🐶都不上"},{"id":170514,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-06 04:00:39","like_diff":8,"likes":11,"dislikes":3,"content":"快逃快逃"},{"id":171509,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-27 06:45:16","like_diff":8,"likes":10,"dislikes":2,"content":"🤮讲的是个啥"},{"id":171991,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-04-16 09:58:19","like_diff":8,"likes":10,"dislikes":2,"content":"新老师...讲课真的烂...这个那个讲不清楚，听他的课完全搭不起知识体系，纯纯死背书。要不是没有0分我就打0分了，在浙大还没遇到过这么垃圾的老师。麻烦好好提升一下自己的教书水平吧或者干脆就别来教课了。"},{"id":180722,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-09-25 11:02:02","like_diff":8,"likes":10,"dislikes":2,"content":"朋友们自学起来，期末刷个几套历年卷，平时自测题全部刷满，不懂就问，期末不算难的，刚开始以为这门课绩点会非常低，但是刷出题感，机理背熟了，最后94分"},{"id":176571,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-06-29 09:37:04","like_diff":7,"likes":10,"dislikes":3,"content":"老师好捞！"},{"id":171591,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-29 15:23:45","like_diff":6,"likes":8,"dislikes":2,"content":"如果我挂科，都是该师所赐"},{"id":176572,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-06-29 09:37:04","like_diff":6,"likes":10,"dislikes":4,"content":"本来觉得zj不太行\n\n出绩点之后be like：郑剑老师，好捞！"},{"id":176578,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-06-29 23:32:48","like_diff":6,"likes":10,"dislikes":4,"content":"帅!巨捞无比"},{"id":176611,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-06-29 14:01:58","like_diff":6,"likes":8,"dislikes":2,"content":"给分确实好，讲课确实拉"},{"id":180757,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-09-26 01:15:26","like_diff":6,"likes":7,"dislikes":1,"content":"理论水平有限，讲东西经常出错，关键错了还不承认，死鸭子嘴硬"},{"id":171510,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-27 07:22:18","like_diff":5,"likes":8,"dislikes":3,"content":"讲的🤮🤮🤮"},{"id":171794,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-04-06 00:21:13","like_diff":5,"likes":9,"dislikes":4,"content":"虽然讲课听不懂，但老师人挺好的，问问题也会耐心回答，没必要打这么低的分吧……"},{"id":176573,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-06-29 09:37:42","like_diff":5,"likes":9,"dislikes":4,"content":"老师给分好爆了，爱死郑剑"},{"id":176575,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-06-29 09:38:48","like_diff":5,"likes":8,"dislikes":3,"content":"给分太好啦！"},{"id":176748,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-06-30 03:48:31","like_diff":5,"likes":9,"dislikes":4,"content":"zjnb！\n\n多的不说，都给我选！\n\n记得要好好学有机啊！"},{"id":179936,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-09-20 04:30:52","like_diff":5,"likes":5,"dislikes":0,"content":"纯靠自学"},{"id":197868,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2024-08-17 17:15:59","like_diff":5,"likes":5,"dislikes":0,"content":"负责的"},{"id":170881,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-11 08:44:49","like_diff":4,"likes":7,"dislikes":3,"content":"依托答辩 🐶都不上"},{"id":171086,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-16 00:53:12","like_diff":4,"likes":6,"dislikes":2,"content":"作孽啊"},{"id":176569,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-06-29 09:35:41","like_diff":4,"likes":8,"dislikes":4,"content":"郑剑nb"},{"id":176580,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-06-29 09:55:02","like_diff":4,"likes":8,"dislikes":4,"content":"给分超好ε٩(๑> ₃ <)۶ з"},{"id":178100,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-07-07 02:35:57","like_diff":4,"likes":6,"dislikes":2,"content":"老师讲的有点差，但是给分真的真的很慷慨，态度也很好，希望老师能提高一下讲课能力。基本不点名。如果不卡我上绩就更好了"},{"id":179387,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-09-14 05:55:37","like_diff":4,"likes":7,"dislikes":3,"content":"讲课虽然不是很有水平，但是给分真的高\n\n前面忘了，后面忘了，总之有机化学是一款我的问题"},{"id":179673,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-09-19 07:11:47","like_diff":4,"likes":7,"dislikes":3,"content":"郑剑找水军了？"},{"id":180738,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-09-25 13:11:00","like_diff":4,"likes":5,"dislikes":1,"content":"老师真的对某些概念不太理解，硬生生把对的PPT讲成错的东西。还好有同学有过化学竞赛的基础看出有问题，不然可能一整个班的同学都被蒙在鼓里"},{"id":196271,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2024-07-02 17:37:07","like_diff":4,"likes":6,"dislikes":2,"content":"老师不点名，喜欢点人上黑板做题，讲课水平一般，建议自学，给分还可以的，本人小测加期中扣了两三分，期末写了几套历年卷就去了，给了4.5。现在查老师的这个评分疑似被一系列恶评刷下去的，老师虽然不太会讲课，但看得出来也想努力教好我们，上课偶尔讲讲一些著名化学家的故事，还会给我们讲复习课习题课。总之客观来说，目前2.5的评分罪不至此。"},{"id":216985,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2025-03-31 03:00:26","like_diff":4,"likes":4,"dislikes":0,"content":"顶！不可能这么低的分吧"},{"id":171147,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-17 03:32:48","like_diff":3,"likes":6,"dislikes":3,"content":"纯纯高中教学方法罢了，讲课一头雾水讲不清楚，让你自己课后刷题，没有一个大学老师基本的水平。助教都比他教的好。"},{"id":171230,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-19 13:32:37","like_diff":3,"likes":6,"dislikes":3,"content":"在上有机，我在想为什么当初不冒着可能掉课的风险去选别的老师"},{"id":171267,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-20 07:47:01","like_diff":3,"likes":6,"dislikes":3,"content":"又一节课没人听懂，怒而评论依托答辩，快跑，掉预置也要跑，不然纯自学"},{"id":171268,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-20 09:07:59","like_diff":3,"likes":6,"dislikes":3,"content":"别选，选了就坤"},{"id":175830,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-06-27 01:48:58","like_diff":3,"likes":3,"dislikes":0,"content":"有机别杀我！"},{"id":176722,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-06-30 01:03:46","like_diff":3,"likes":7,"dislikes":4,"content":"58分路过"},{"id":171266,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-03-20 07:44:34","like_diff":2,"likes":5,"dislikes":3,"content":"不知所云 词不达意"},{"id":176577,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-06-29 09:41:02","like_diff":2,"likes":6,"dislikes":4,"content":"一节课没去听过，绩点客观😭😭😭\n\n郑剑老师真的很捞😭😭😭😭😭😭"},{"id":196287,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2024-07-03 00:02:33","like_diff":2,"likes":2,"dislikes":0,"content":"给分非常好！"},{"id":197723,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2024-08-04 12:57:05","like_diff":2,"likes":2,"dislikes":0,"content":"同上上条，老师虽然讲课水平不太行，但是确实是认真想教好学生，作业很轻松，给分也不错，总之2.5分罪不至此。如果被预制了要做好自学的准备"},{"id":172993,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-05-11 03:11:17","like_diff":1,"likes":3,"dislikes":2,"content":"收敛于1"},{"id":173355,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-05-21 02:22:47","like_diff":1,"likes":3,"dislikes":2,"content":"收敛于1"},{"id":173637,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-05-31 00:55:45","like_diff":1,"likes":3,"dislikes":2,"content":"吐了吐了🤮"},{"id":174388,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-06-11 13:05:31","like_diff":1,"likes":2,"dislikes":1,"content":"快跑！！！"},{"id":179418,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-09-15 04:03:20","like_diff":1,"likes":6,"dislikes":5,"content":"不太会讲课，上课会点人回答问题（不是拿名单点，随便抽人回答），但是给分超级好，挂科的水平给我捞到3.3，狠狠爱了，推荐自学能力强的同学选"},{"id":199103,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2024-09-17 18:44:23","like_diff":1,"likes":2,"dislikes":1,"content":"好好好"},{"id":172846,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-05-08 09:44:04","like_diff":0,"likes":2,"dislikes":2,"content":"。。。。。"},{"id":172872,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-05-09 02:16:13","like_diff":0,"likes":2,"dislikes":2,"content":"快逃快逃"},{"id":173181,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-05-15 04:30:52","like_diff":0,"likes":2,"dislikes":2,"content":"烂烂烂"},{"id":173663,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-05-31 09:34:59","like_diff":0,"likes":2,"dislikes":2,"content":"纯路人"},{"id":179424,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-09-15 05:54:15","like_diff":0,"likes":7,"dislikes":7,"content":"讲的挺清楚吧，不用这么埋汰吧"},{"id":205400,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2024-12-07 15:32:15","like_diff":0,"likes":1,"dislikes":1,"content":"感觉弗如陆展远甚……"},{"id":217020,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2025-03-31 11:10:23","like_diff":-1,"likes":0,"dislikes":1,"content":"快点跑"},{"id":218161,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2025-04-21 15:26:18","like_diff":-1,"likes":0,"dislikes":1,"content":"上课听起来很有调理啊…"},{"id":178528,"teacher_id":7885,"teacher_name":"郑剑","post_time":"2023-07-13 13:05:56","like_diff":-3,"likes":4,"dislikes":7,"content":"虽然讲课垃，但是给分好！"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

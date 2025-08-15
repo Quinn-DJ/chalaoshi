@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>岳林海 - 化学系 - 浙大教评</title>
+    <meta name="description" content="岳林海教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="岳林海,化学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">岳林海</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">化学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.20</div>
+                    <div class="rating-participants">108人参与评分</div>
+                    <div class="attendance-info">28.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">基础化学实验Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.10</span>
+                            <span class="students">选课: 89人</span>
+                            <span class="std-dev">标准差: 0.51</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">无机及分析化学实验</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.23</span>
+                            <span class="students">选课: 103人</span>
+                            <span class="std-dev">标准差: 0.35</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (97 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":6766,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2015-07-22 12:43:33","like_diff":24,"likes":34,"dislikes":10,"content":"挺和蔼的老师，虽然无机课可能觉得会有点无聊，但是一定程度上是本身的课的性质决定的。最后给分还是不错嗒～推荐～"},{"id":41923,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-13 08:38:04","like_diff":11,"likes":20,"dislikes":9,"content":"出分超级无敌快，昨天考的今天就出了。\n\n助教很好，老师也很和蔼。不点名作业也不多。给分……主要因为上课不听平时不认真期末补天看了书但没什么卵用，还做了假卷，导致期末爆炸……还是刷题吧。\n\n"},{"id":35061,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2016-11-01 06:05:47","like_diff":8,"likes":14,"dislikes":6,"content":"没有期中考的岳爷爷"},{"id":89420,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-11-19 04:13:50","like_diff":7,"likes":8,"dislikes":1,"content":"棒棒哒，但是给分一般啊"},{"id":42115,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-14 04:02:24","like_diff":6,"likes":7,"dislikes":1,"content":"事少人好出分快，自己努力分就高，听说17年开始就不能带A4了。但推荐各位还是要自己手写整理一遍。这样记公式也快，还可以注意到一些要死的细节，还有课后题里的英文题也要看看哦！各位加油！么么！"},{"id":42139,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-13 15:53:01","like_diff":6,"likes":11,"dislikes":5,"content":"老师是个很好的人，第一印象很和蔼，结果真的很和蔼，不知道为什么莫名喜欢岳老师，岳老师是个很正直的人，但是学好无机还是要在考试前和平时多刷题，光看书是没用的……惨痛的教训，希望岳老师今后越来越好！"},{"id":41934,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-13 08:58:27","like_diff":5,"likes":8,"dislikes":3,"content":"无机课有点无聊，可以水一水，没有期中考，只有一次quiz当做点名用，还是带回去写的。。。"},{"id":56075,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-07-03 04:24:47","like_diff":5,"likes":7,"dislikes":2,"content":"老师不错 助教垃圾"},{"id":89478,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-11-19 09:06:39","like_diff":5,"likes":5,"dislikes":0,"content":"老师很和蔼很负责，全是干货毫不掺水，认真预习认真听课多看书本绩点就摆在那里。（不包括我…）上课不点到，老师说只要最后考试分数特别高就可以直接按考试分数算绩点，平时作业可以不交。（当然几乎不存在这种情况…）助教和老师给分很友善了，都有在尽力拉上来。早上考的下午卷子就改好了第二天成绩就知道了，对卷面分有意见的还可以去找老师当面提，特别贴心。老师也很有人格魅力，推荐大家选起来呀！"},{"id":89557,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-11-19 14:18:27","like_diff":5,"likes":5,"dislikes":0,"content":"人超好，第一个出分。普化上课超困，经常睡觉。这个学期由于国庆等原因，课时很少，上得特别快。还是平时要好好预习，不然容易一脸懵逼。要多刷题，血的教训。"},{"id":106192,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2019-04-25 13:00:57","like_diff":5,"likes":5,"dislikes":0,"content":"高中没选化学，化学学考B，经过岳老师挽救平安通过。上课认真负责，尽可能调分保学生通过，必须十分的好老师！！！"},{"id":163695,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2022-12-16 03:14:58","like_diff":5,"likes":5,"dislikes":0,"content":"蔡蔡，蔡蔡~"},{"id":15592,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2016-01-18 04:51:08","like_diff":4,"likes":8,"dislikes":4,"content":"助教好 给分好"},{"id":18834,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2016-01-22 15:23:42","like_diff":4,"likes":8,"dislikes":4,"content":"平时上课水一水 最后给分超级好"},{"id":28510,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2016-07-01 15:30:06","like_diff":4,"likes":7,"dislikes":3,"content":"很好的老师啊，讲的很细，评分很好啊！"},{"id":29815,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2016-06-30 10:52:18","like_diff":4,"likes":7,"dislikes":3,"content":"岳爷爷?"},{"id":81915,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-07-06 13:07:30","like_diff":4,"likes":6,"dislikes":2,"content":"老师真的很好，但就是助教垃圾"},{"id":87837,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-10-15 09:42:21","like_diff":4,"likes":5,"dislikes":1,"content":"真的难受"},{"id":89201,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-11-16 16:44:43","like_diff":3,"likes":4,"dislikes":1,"content":"作为一个实实在在的化学渣渣…还是坚定地给岳爷爷打了十分！炒鸡负责，炒鸡认真！不过普化真的要靠自己学，预习是非常有必要的，然后上课他讲的东西都听了才有用…千万要拍PPT，还有小测的题一定要弄懂！"},{"id":104737,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2019-03-26 23:58:29","like_diff":3,"likes":8,"dislikes":5,"content":"这尼玛有毒吧 作业都写成这样了还tm鸡蛋里挑骨头？给分细则自己还不一致？有意思？还要怎样？"},{"id":11757,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2015-12-14 07:15:20","like_diff":2,"likes":6,"dislikes":4,"content":"给分不错"},{"id":15562,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2016-01-15 11:05:13","like_diff":2,"likes":8,"dislikes":6,"content":"可以的，给分不错"},{"id":22709,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2016-03-10 05:54:01","like_diff":2,"likes":4,"dislikes":2,"content":"有点无聊 负责任"},{"id":23913,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2016-04-21 02:24:25","like_diff":2,"likes":4,"dislikes":2,"content":"老师讲课很有兴致啊！"},{"id":41920,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-13 08:35:38","like_diff":2,"likes":4,"dislikes":2,"content":"岳老师真的好老师虽然无机听课经常睡着，主要是下午的原因，给分也很好！表白岳老师"},{"id":41947,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-13 09:27:17","like_diff":2,"likes":4,"dislikes":2,"content":"没有期中考，讲的也不错()和隔壁刘润形成鲜明对比"},{"id":56067,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-07-03 04:21:53","like_diff":2,"likes":5,"dislikes":3,"content":"讲的，比较容易让人注意力分散，期末分不好，和给的那份所谓的复习要点有很大的关系。考的都不是要点。坑"},{"id":81970,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-07-06 16:25:38","like_diff":2,"likes":3,"dislikes":1,"content":"老师很好很复杂，给分全看助教。助教可能是新来的，不懂调分，给分不是很好，还是得看自己吧"},{"id":91222,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-12-03 16:07:15","like_diff":2,"likes":3,"dislikes":1,"content":"老師其實挺和靄的，在期未前的時候也開了一張答疑課，平時有不會的也樂於解答。不過只怪普化乙只有半個學期，但要學完一本1.5厘米厚的書，後面有很多內容老師都是趕着教的，節奏很快（最後有一部份還需自學），有點跟不上，老師也不容易啊。不過真心來說老師真的是一位的好老師"},{"id":41950,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-13 11:27:14","like_diff":1,"likes":4,"dislikes":3,"content":"3.6的学分 其实只和自己有关"},{"id":82936,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-07-09 10:26:11","like_diff":1,"likes":3,"dislikes":2,"content":"老师其实很可爱啦 但是助教平时分给的毫无道理，为什么不清楚操作不问问老师呢？"},{"id":89092,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-11-15 11:18:27","like_diff":1,"likes":2,"dislikes":1,"content":"给分挺好的，讲课也不错（不过自己有时会迷糊）也欢迎同学问问题"},{"id":89236,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-11-17 08:10:39","like_diff":1,"likes":2,"dislikes":1,"content":"人真的好，真的认真"},{"id":89351,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-11-18 15:00:24","like_diff":1,"likes":4,"dislikes":3,"content":"首先上课挺无聊的，就是一般老师讲的水平吧（经常忍不住睡着(つД`)）但是老师挺和蔼的，会有小测，但很水。期末千万不要去文印店买卷子，完全没用，多做做后面的题和老师的题，7.8两章虽然难，但一定要掌握，占分很多。\n\n最后忍不住说一句，老师出分真的超快！！！分也挺准的，基本你自己加一加，算一算，比着标准就差不多了。"},{"id":89967,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-11-21 11:50:07","like_diff":1,"likes":2,"dislikes":1,"content":"岳爷爷真的是个很和蔼的老师  讲课很仔细下课还会留下来答疑，平时分也会尽量往高给，至于成绩主要还是看自己期末努力程度了"},{"id":119918,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2019-11-17 00:49:02","like_diff":1,"likes":2,"dislikes":1,"content":"嗯……普化乙课程内容有点催眠，我秋学期的课差不多全是睡过去的，不过老师上课挺投入的（虽然太快了，不过也没办法），也安排答疑，期末还会给我们调分，努力捞人，很好很和善。其实这门课平时作业认真点写，努力自学也是ok的。期末前一定要好好做人，读一遍书，练练老师给的题。虽然最后被卡绩了，不过绩点还是很可以的！"},{"id":119926,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2019-11-17 01:03:30","like_diff":1,"likes":1,"dislikes":0,"content":"虽然因为课程量大上的飞快，但老岳真的很认真的。当时课后作业没有答案，老岳就让我们做了他帮我们改。最后期末，之前很长时间都没有管，考前努力复习了一天，成绩最后居然还可以。老岳和助教一直在辛苦拉分。表白老岳。\n\n老岳真的是世界上最好的老岳。"},{"id":119947,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2019-11-17 01:40:54","like_diff":1,"likes":1,"dislikes":0,"content":"给分好，期末捞人。"},{"id":119966,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2019-11-17 02:26:26","like_diff":1,"likes":1,"dislikes":0,"content":"老师挺好的，给分也不错，不过上课也不可能很有趣的，课程问题。"},{"id":120048,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2019-11-17 07:43:54","like_diff":1,"likes":1,"dislikes":0,"content":"老师真的很和蔼，对学生特别负责，偶尔还开开车。关于普化这个月课，本来就是时间少任务重，老师尽自己所能上课，课后还利用节假日为学生答疑真的很负责，分数也尽可能给最高。出成绩前调分拯救挂课的。老师超级赞！！"},{"id":183728,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2023-11-29 09:04:14","like_diff":1,"likes":1,"dislikes":0,"content":"说话比较直，实验指导比较严厉，经常批评抱怨同学，但是指导上比较比较负责任的，10分打8分还是有的"},{"id":17782,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2016-01-21 01:20:40","like_diff":0,"likes":3,"dislikes":3,"content":"大化G是他 做实验会来巡堂 虽然标准有点严格 但是老师很和蔼"},{"id":19467,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2016-01-24 09:41:28","like_diff":0,"likes":3,"dislikes":3,"content":"助教好人"},{"id":22975,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2016-03-15 11:12:44","like_diff":0,"likes":4,"dislikes":4,"content":"给分好"},{"id":38931,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-17 05:50:36","like_diff":0,"likes":2,"dislikes":2,"content":"老师平时分很好\n\n"},{"id":41969,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-13 10:34:34","like_diff":0,"likes":2,"dislikes":2,"content":"老师真的很和蔼可亲！很庆幸无机是他教得！好好听课做习题成绩会不错的，看到最后的给分自己都很惊讶(≧▽≦)"},{"id":42010,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-13 12:07:56","like_diff":0,"likes":1,"dislikes":1,"content":"老师人很好，助教也很好，出分超级无敌快，成绩不好只能怪自己了。。。。"},{"id":42043,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-13 12:56:37","like_diff":0,"likes":1,"dislikes":1,"content":"老师讲的挺好很细致！\n\n绩点低只能怪我自己。。\n\n睡不睡觉没事儿，但是一定要好好写老师布置的作业"},{"id":42102,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-13 14:53:18","like_diff":0,"likes":0,"dislikes":0,"content":"挺好的老师"},{"id":42156,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-13 16:21:05","like_diff":0,"likes":2,"dislikes":2,"content":"讲课认真。不过无机说实话是一门靠自己自习的课。唯有自己努力。才有成绩"},{"id":42162,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-13 16:43:17","like_diff":0,"likes":0,"dislikes":0,"content":"挺细致的"},{"id":42197,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-14 01:11:29","like_diff":0,"likes":0,"dislikes":0,"content":"老師人挺好 助教也很好 只是上课還是认真的好 不然期末這天可不好補"},{"id":42276,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-14 03:21:56","like_diff":0,"likes":0,"dislikes":0,"content":"岳爷爷人超好"},{"id":42518,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-14 10:19:28","like_diff":0,"likes":1,"dislikes":1,"content":"老师讲得很好，回答问题也很有耐心，就是最后给分有点迷？？"},{"id":42777,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-15 05:16:23","like_diff":0,"likes":0,"dislikes":0,"content":"很好\n\n"},{"id":48016,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-02-28 05:12:31","like_diff":0,"likes":2,"dislikes":2,"content":"出分超快，靠自学"},{"id":49039,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-03-22 06:41:22","like_diff":0,"likes":0,"dislikes":0,"content":"美滋滋"},{"id":49083,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-03-24 00:51:10","like_diff":0,"likes":1,"dislikes":1,"content":"老师挺好的，很和蔼。所以，1分扣在普通话不标准哈哈哈～(￣▽￣～)~"},{"id":54338,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-06-29 06:19:51","like_diff":0,"likes":1,"dislikes":1,"content":"是不是要挂了"},{"id":54341,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-06-29 06:21:36","like_diff":0,"likes":3,"dislikes":3,"content":"感觉无机要挂.. 先来吸一吸仙气"},{"id":61709,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-11-20 08:14:09","like_diff":0,"likes":2,"dislikes":2,"content":"这是一门主要靠自己认真翻书做题的课，岳老师很和蔼讲的也很好，先跪好，求不凉"},{"id":61858,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-11-21 09:31:43","like_diff":0,"likes":1,"dislikes":1,"content":"希望分数不是我想象中的那样，?"},{"id":70732,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-01-27 12:43:54","like_diff":0,"likes":3,"dislikes":3,"content":"答疑超级认真！！老师超级好！！期末老师真的再尽力给大家找分"},{"id":70943,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-01-28 00:40:33","like_diff":0,"likes":3,"dislikes":3,"content":"老师超可爱，体谅学生。无机分析能不能考好也是要看自己的，别裸考，该刷的题还是要刷，不能光看书。助教小姐姐也很可爱。"},{"id":71397,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-01-28 11:38:57","like_diff":0,"likes":2,"dislikes":2,"content":"讲完题总会对你认真的笑一下"},{"id":73398,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-02-01 13:38:52","like_diff":0,"likes":2,"dislikes":2,"content":"虽然限于课程本身的性质，加上冬学期不开门窗教室很闷，真的有点催眠orz，至少我觉得有些困，考前确实认真复习但是发挥的不满意。不过，老师人真的非常好，课后去问题都回解答到明白，打9分。"},{"id":78300,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-05-10 14:11:27","like_diff":0,"likes":4,"dislikes":4,"content":"不明白为什么，分数和努力不成正比？感觉挺挫败的"},{"id":81954,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-07-06 15:32:14","like_diff":0,"likes":6,"dislikes":6,"content":"我觉得这个老师虽然看起来和蔼，但是最后给分真的辣鸡，明明平时分可以给你满，就是不给，结果最后群里纷纷吐槽被卡绩，就是因为一两分的平时分，神tm全班第一绩点4.5，你自己不觉得该考虑一下么？虽然查老师的均绩仅供参考，但是，我觉得没差，基本就这样了。不上三的均绩，配不上您上九的评价！！！感谢您的卡绩！！！"},{"id":81958,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-07-06 15:38:57","like_diff":0,"likes":1,"dislikes":1,"content":"卡绩之王"},{"id":87323,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-09-30 06:33:31","like_diff":0,"likes":2,"dislikes":2,"content":"上的真的好快。。。"},{"id":89008,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-11-13 23:14:44","like_diff":0,"likes":3,"dislikes":3,"content":"考前奶一口岳老爷爷"},{"id":89436,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-11-19 06:50:17","like_diff":0,"likes":2,"dislikes":2,"content":"老师真的很负责任！"},{"id":106196,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2019-04-25 13:16:35","like_diff":0,"likes":1,"dislikes":1,"content":"靠自学"},{"id":107516,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2019-05-06 06:32:23","like_diff":0,"likes":0,"dislikes":0,"content":"。。。。。。。。。。。。。。。上课有点敷衍(时间不够的原因)\n\n我自己也有问题，但总之不是很喜欢他的教学风格"},{"id":119230,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2019-11-11 11:24:48","like_diff":0,"likes":0,"dislikes":0,"content":"普化乙，上课讲得贼快不过这个是课程安排的问题/期末不给考纲让我们自己体会……您自己有的内容上有的上课没讲，也不说要不要考，请问我们怎么体会？"},{"id":119896,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2019-11-16 23:20:07","like_diff":0,"likes":0,"dislikes":0,"content":"一听他的课就想睡觉，考前把书过一遍，再把他的quiz题目搞懂，考过不是问题，但被卡绩了还是有点难受。"},{"id":119948,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2019-11-17 01:44:35","like_diff":0,"likes":0,"dislikes":0,"content":"呜呜卡绩"},{"id":121351,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2019-12-18 10:54:02","like_diff":0,"likes":0,"dislikes":0,"content":"老师人很好，普化乙的话课时有点赶，非常考验自学能力"},{"id":134942,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2021-04-24 07:53:11","like_diff":0,"likes":1,"dislikes":1,"content":"说话很直，脾气不好，经常批评同学。10分打5分还是有的"},{"id":197365,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2024-07-11 12:41:51","like_diff":0,"likes":0,"dislikes":0,"content":"说话虽直，但有事真会帮你"},{"id":52931,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-06-23 14:52:48","like_diff":-1,"likes":2,"dislikes":3,"content":"就这么说吧一般作业都是自己交自己拿，老师非要把整个班拆成很多小班每个小班 内 定 两个班长来收交作业，最后一节课说班长辛苦了最后给加5分exm？？第一内定的第二事先未告知加分，我们怎么知道你是不是认识这几个班长啊？很后悔教务网上没有写这个。\n\n但是岳老师讲的很好。"},{"id":57235,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-07-06 05:35:57","like_diff":-1,"likes":1,"dislikes":2,"content":"和蔼的老师，但上课真的进度慢。"},{"id":73088,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-02-01 01:49:00","like_diff":-1,"likes":2,"dislikes":3,"content":"老师真的人超棒！我期末考试前的那个上午找老师答疑，好多上课讲的知识点我都不太会，老师虽然数落几句怎么不认真看书，但还是超认真超耐心的给我讲解。我缠了老师一个上午，问的都是超基础超简单的问题，老师都没有觉得麻烦，还一直问我听懂了吗之类的，还颇为自豪的说“又帮你搞定了一块内容”，简直超可爱啊！最后虽然期末没有考的很好，但绩点4.5真的超级开心了！谢谢老师！"},{"id":74612,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-03-04 15:28:05","like_diff":-1,"likes":1,"dislikes":2,"content":"怪我没好好听课，老师是非常不错的，上课认真，最终老师让我过了，十分感谢(❁´ω`❁)"},{"id":76494,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-04-11 07:58:49","like_diff":-1,"likes":1,"dislikes":2,"content":"小测只有选择题，作为点名，贼棒"},{"id":81914,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-07-07 02:36:26","like_diff":-1,"likes":5,"dislikes":6,"content":"楼下辣鸡别乱说，谁和你说最高4.5的，我就5.0，自己这么菜还有理了？"},{"id":82037,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-07-07 02:27:51","like_diff":-1,"likes":1,"dislikes":2,"content":"人很好"},{"id":88536,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-11-01 03:29:26","like_diff":-1,"likes":2,"dislikes":3,"content":"上的真的快，学不下去了"},{"id":88537,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-11-01 03:31:37","like_diff":-1,"likes":3,"dislikes":4,"content":"完全跟不上的速度  上第七章时完全听不懂 全靠自学"},{"id":106190,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2019-04-25 12:54:13","like_diff":-1,"likes":0,"dislikes":1,"content":"上课真的很赶时间的时候我老师人赞赞"},{"id":157711,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2022-06-24 12:08:53","like_diff":-1,"likes":0,"dislikes":1,"content":"无机及分析化学实验。自学。分还行。"},{"id":107856,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2019-05-10 11:18:29","like_diff":-2,"likes":0,"dislikes":2,"content":"垃圾老师，给分贼低"},{"id":72377,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-01-30 04:00:57","like_diff":-3,"likes":1,"dislikes":4,"content":"老师人很棒哦，期末还特意把分批高了，满分！"},{"id":89389,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2018-11-19 02:26:19","like_diff":-3,"likes":2,"dislikes":5,"content":"上课让人想睡觉，，全靠自学"},{"id":34123,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-01-13 09:52:28","like_diff":-5,"likes":4,"dislikes":9,"content":"好好好好 事少分高 上课睡觉 按时交作业\n\n期末肝一天就4.5了"},{"id":119906,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2019-11-17 04:36:17","like_diff":-8,"likes":1,"dislikes":9,"content":"老岳讲的快，其实大概都靠自学。老师平时分给的高，还捞人。考试出来自我感觉还不错，但是最后只有4.5。大概是自己菜怨不得老师吧。"},{"id":35434,"teacher_id":1158,"teacher_name":"岳林海","post_time":"2017-04-23 03:00:23","like_diff":-22,"likes":4,"dislikes":26,"content":"居然没有0分"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

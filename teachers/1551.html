@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金显 - 数学科学学院 - 浙大教评</title>
+    <meta name="description" content="金显教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="金显,数学科学学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">金显</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">数学科学学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.53</div>
+                    <div class="rating-participants">345人参与评分</div>
+                    <div class="attendance-info">31.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">微积分（甲）Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.80</span>
+                            <span class="students">选课: 311人</span>
+                            <span class="std-dev">标准差: 0.85</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">微积分（甲）Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.44</span>
+                            <span class="students">选课: 161人</span>
+                            <span class="std-dev">标准差: 1.09</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (311 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":1404,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-03-22 01:48:15","like_diff":159,"likes":184,"dislikes":25,"content":"上老师的微二 其实真的不是绩杀 老师很认真 讲得很仔细"},{"id":22636,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-11-01 01:47:38","like_diff":126,"likes":141,"dislikes":15,"content":"独创伪PPT教学模式，你值得拥有。"},{"id":2438,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-05-01 13:36:57","like_diff":69,"likes":79,"dislikes":10,"content":"觉得金老师很严谨很有条理，至于上课睡觉哈哈，我觉得不是老师的过，是微积分本身。"},{"id":255,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-03-14 23:18:43","like_diff":34,"likes":65,"dislikes":31,"content":"喜欢的人说他讲得细致，不喜欢的人觉得他上课极枯燥没有激情，只是在念讲义，而我属于后者。上的是他的微积分I，有三节课的时候，很多时候撑不下去。"},{"id":1789,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-03-25 01:41:00","like_diff":27,"likes":39,"dislikes":12,"content":"讲得细，但是容易困。会详细讲解例题，思路清晰"},{"id":14457,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-07 07:07:21","like_diff":27,"likes":35,"dislikes":8,"content":"金老师是良心好老师，讲的很仔细，很严谨，认真听超有收获的！题目全是自己找的，总结的详细而实用。很喜欢他，微二退了别人的课也选不上他，真是伤心~"},{"id":33685,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-04-12 03:56:00","like_diff":26,"likes":30,"dislikes":4,"content":"金显画的真6！"},{"id":19380,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-24 04:03:01","like_diff":23,"likes":28,"dislikes":5,"content":"很有条理，有时下课还早，口头禅:麻烦死了"},{"id":748,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-03-16 07:36:04","like_diff":16,"likes":26,"dislikes":10,"content":"好严谨的老师，讲得超级细"},{"id":18013,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-21 06:02:15","like_diff":15,"likes":26,"dislikes":11,"content":"对自己的实力有信心再选\n\n我说的是很有信心的那种\n\nps考得好肯定不觉得是绩杀啊 但是如果没考好呢 别的老师会给你调分 但他不会 也没有平时分 慎重"},{"id":21098,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-01-22 12:32:07","like_diff":15,"likes":19,"dislikes":4,"content":"上课思路清晰有条理，从不拖堂，有时心情好还小幽默一下～而且认真负责。PS：老师真的不是绩杀啊"},{"id":24623,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-03 03:05:25","like_diff":14,"likes":24,"dislikes":10,"content":"微一是张泽银的，结果微二比微一还低，讲的真的不错，但绩杀也不假。"},{"id":95584,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 15:50:48","like_diff":14,"likes":17,"dislikes":3,"content":"（很无聊，容易睡着 平心而论老师人品很好，手指受伤缝针还在给我们讲课 但是真的一般般，感觉和自己看书没区别）这是我之前的评价。\n\n今天出了期末考试的成绩，我再来追评\n\n我的期中期末考试都没及格，\n\n但是！\n\n老师给我平时分、小测分都几乎满了！\n\n我没挂科！我过了！居然没挂科！\n\n金老师真的不是绩杀，不是绩杀\n\n金显老师的大恩大德永生难忘！\n\nps微积分虽然难但是一定要好好学"},{"id":2532,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-05-04 13:34:39","like_diff":13,"likes":20,"dislikes":7,"content":"感觉很喜欢老师的讲课方式吧。。。微二换了个老师不习惯。。。微三又换回来了。。。"},{"id":17112,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-19 15:10:29","like_diff":13,"likes":38,"dislikes":25,"content":"请记住他不会调分 期末考砸了就是砸了  平常怎样都无所谓 水平有没有他不管 一考定输赢 没有平时分 慎选"},{"id":125211,"teacher_id":1551,"teacher_name":"金显","post_time":"2020-09-03 16:05:49","like_diff":13,"likes":20,"dislikes":7,"content":"考试成绩低无所谓，自己学没学习自己清楚，无话可说；不调分也无所谓，顶多成绩难看点，至少保证从挂科里捞起来了。可是：“考试卷子都是统一批的，有什么好查分的？做一个浙大学生天天对那点分数计较，也不看看自己都学了什么”，tm几个意思？成绩高低和想看分数有关系吗？和想知道自己各个板块的得分有关系吗？我tm不计较分数我干啥要学你这破玩意啊？学生不计较分数，只看学到什么？这tm哪个人信啊？就算我期末均绩被严重拉低了（我就是没学习），我也不会如此动怒（毕竟及格万岁的心里），但是难道想看看分数有错吗？再说了，就算计较得分，你又不批卷子，和你有个毛的关系？凭什么想看看分数要被这么指责？"},{"id":148911,"teacher_id":1551,"teacher_name":"金显","post_time":"2022-01-14 02:37:28","like_diff":13,"likes":13,"dislikes":0,"content":"无意间在退休教职工名单上看到了金显老师，来评论一下。\n\n很可爱的老师，讲课有些慢，手写的教案和小测题目，字很好看，画图也很令人舒服，思路非常清晰，也会自己找很多其他的习题来补充。如果课前可以预习一下的话效果肯定很好，但来不及预习也不是跟不上，总之很令人舒服。\n\n平时总觉得他对考试的描述很轻描淡写，把小测说成“做个练习”，期中期末的时候“你们就来考一下么好了”，说实话很难把他和从不捞人这样的形象联系在一起，不过谁知道呢XD\n\n很有幸每节课都能坐在第一排5号座位，一直和他保持眼神接触的话其实甚至会觉得上课很有意思（笑），当然也不是没有水过手机，也有在他面前仰头睡过一节课。\n\n期末其实也没考的多好，至少自己考完出来是心态崩了，但最后应该还是把我捞上去了。\n\n助教rtc人也很好，讲题有条不紊，讲完一道题经常加上什么“我也不知道对不对”啥的，很可爱，回想起来也很感动。也很感激助教把我这个菜鸡捞上去了吧。\n\n总之，祝老师退休快乐。"},{"id":24262,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-05-05 00:01:56","like_diff":12,"likes":19,"dislikes":7,"content":"欢迎入坑"},{"id":43699,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-03-09 06:01:10","like_diff":11,"likes":12,"dislikes":1,"content":"非常棒！！！真的，我上学期最后平时分都满了，真的不是绩杀！"},{"id":43703,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-01-17 00:06:10","like_diff":11,"likes":12,"dislikes":1,"content":"给分略低，但讲课真的是踏踏实实讲，是一个好老师，怪自己不争气而已。有些评论说的话太难听......"},{"id":95582,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 15:50:22","like_diff":10,"likes":12,"dislikes":2,"content":"老师讲课很仔细，很严谨，微积分这种学科，最后成绩都是看自己的真实水平，老师都是实打实的给分，只要你真的认真学了，该做的都做了，成绩不会差，老师很好，没有绩杀这一说的，为金老师打call！"},{"id":125210,"teacher_id":1551,"teacher_name":"金显","post_time":"2020-09-03 16:00:35","like_diff":10,"likes":10,"dislikes":0,"content":"嘲讽学生怎么说？"},{"id":125311,"teacher_id":1551,"teacher_name":"金显","post_time":"2020-09-06 09:15:59","like_diff":10,"likes":12,"dislikes":2,"content":"冲他在期末的那段群发消息就给他打1分，平时分也扣的离谱"},{"id":17071,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-19 14:18:58","like_diff":9,"likes":21,"dislikes":12,"content":"绝对的绩杀啊，期末考多少就给多少分！一点没平时分啊！"},{"id":18307,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-21 12:10:05","like_diff":9,"likes":17,"dislikes":8,"content":"我觉得金老师这种考多少就是多少的做法很好（我考的并不高） 一方面是告诉你这学期你学的怎样 另一方面是警告你这学期学的怎样"},{"id":47496,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-07-03 05:12:48","like_diff":9,"likes":12,"dislikes":3,"content":"哇，老师太好啦，期末也放了水，谁说是绩杀，成绩什么的还是靠自己吧！"},{"id":95572,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 15:44:31","like_diff":9,"likes":11,"dislikes":2,"content":"鬼的绩杀，上的金老师的微一，平时分小测90，到课99，基本都满了，只是自己最后期末太菜，好老师！"},{"id":111589,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-07-02 06:00:50","like_diff":9,"likes":13,"dislikes":4,"content":"这么高评分是他自己找人刷的吧？"},{"id":111595,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-07-02 05:44:10","like_diff":9,"likes":11,"dislikes":2,"content":"不仅不捞人，还踹人…"},{"id":125213,"teacher_id":1551,"teacher_name":"金显","post_time":"2020-09-03 17:40:11","like_diff":9,"likes":10,"dislikes":1,"content":"总评分如同期末分，撑死捞到及格，有时候还会踹人，就是这么有原则的好老师，因为坚持原则还会挖苦并没有违反原则，什么都没有做错的学生。可惜这样的老师我不能接受"},{"id":125245,"teacher_id":1551,"teacher_name":"金显","post_time":"2020-09-04 11:22:41","like_diff":9,"likes":10,"dislikes":1,"content":"就期末这回复凭什么9.5分 5.9我都嫌高"},{"id":55998,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-07-03 01:37:54","like_diff":8,"likes":12,"dislikes":4,"content":"老师讲课很细致，跟高中老师讲课差不多，会讲例题。平常上课都用的投影仪，不用ppt，也没有群和公邮，所以有什么重要的事一定要记住……\n\n平常也不点名。之前有人说是绩杀，没太看出来……因为查过程成绩，他平时分都给满了，考试成绩自然靠自己。"},{"id":95575,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 15:48:12","like_diff":8,"likes":9,"dislikes":1,"content":"金老师超级好呀，助教小姐姐也超级好超级可爱，讲课不点名，然后平时分给的很高，让我一个期中考30多分的人都没挂科，超棒的老师！！"},{"id":109206,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-07-01 03:37:56","like_diff":8,"likes":10,"dislikes":2,"content":"给了老师9分，纯粹因为他讲的很好\n\n但这边我还是想讲讲其他方面的不满\n\n其实当初敢选金显几乎已经可以说做好挂科的准备了，但学期末发现学分不够可能领退警所以还是努力年了下，虽然最后苟过了但是分数是真的差。\n\n今天助教说没调分是因为老师不准，心疼本班助教xjj，并且对老师的做法不甚理解，如果期末难度比这学期期中难一些不调分那当然没问题，可是这次考试太难了（客观上来说，学校几乎没有90分以上的人）。\n\n不调分对我们这些已经苟过的人也就是绩点的问题，但对于那些挂科的同学来说就是直接少了5学分啊！希望老师还是放宽点，给那些有努力但运气/实力不够的同学一条生机吧"},{"id":111157,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-06-30 05:57:57","like_diff":8,"likes":8,"dislikes":0,"content":"完全不调分，试卷难就绩杀本质了"},{"id":111189,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-06-30 12:15:53","like_diff":8,"likes":9,"dislikes":1,"content":"课一般般，内容全面。但是不大喜欢全程严肃的气氛，这样的气氛效率真心不高。而且提醒一下，绩杀是真的（dl请绕道），还是要选一个给分好的老师才靠谱，卷子难度和改卷松紧不同，不要轻易高估自己！"},{"id":126818,"teacher_id":1551,"teacher_name":"金显","post_time":"2020-10-21 08:28:37","like_diff":8,"likes":10,"dislikes":2,"content":"不会吧不会吧，难道这么多学弟妹都没有学长姐提醒他们微积分的金银二老吗？不说了作为被坑过的我现在学习心态很好，每科只求及格"},{"id":1642,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-03-23 05:16:55","like_diff":7,"likes":13,"dislikes":6,"content":"很好很细致，讲得很清楚"},{"id":18454,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-21 16:00:48","like_diff":7,"likes":11,"dislikes":4,"content":"问题是你想不劳而获还是想真正收获一点什么，如果是想不劳而获那么就是绩杀，"},{"id":24437,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-04-30 13:54:31","like_diff":7,"likes":13,"dislikes":6,"content":"出分倒是快，因为没有平时分"},{"id":44908,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-01-18 13:08:39","like_diff":7,"likes":10,"dislikes":3,"content":"真心是好老师，讲的超级棒适合我这种没基础的人。每次上他课都做第一排正中间，笔记记了整整一厚本，课后作业也认真写，不过老师确实不给调分，最先出分，虽然我绩点3.0，但是我不后悔成为金老师的学生，学到了真东西，我的水平也就这样了。。。想好好学没基础的建议选，要是只看成绩还是慎选吧。。。"},{"id":80383,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-06-26 01:47:37","like_diff":7,"likes":9,"dislikes":2,"content":"金显牛逼！"},{"id":95599,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 16:01:54","like_diff":7,"likes":9,"dislikes":2,"content":"上的金老的微甲I，上课总做靠近他第二排还玩手机真的很对不起他(总被时不时盯两眼)。。。期末两道题(10分)不会做随便写了点，最后4.5，肯定像高考仔细找得分了，感动！伪PPT感觉讲的很详细，把书上有些晦涩的话提炼翻译出来，真的很强！感谢金老师~"},{"id":111204,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-07-02 05:47:42","like_diff":7,"likes":8,"dislikes":1,"content":"。。。"},{"id":111596,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-07-02 05:44:15","like_diff":7,"likes":10,"dislikes":3,"content":"不仅不捞人，还把人踹下了及格线"},{"id":125235,"teacher_id":1551,"teacher_name":"金显","post_time":"2020-09-04 06:59:38","like_diff":7,"likes":8,"dislikes":1,"content":"lj nt ex"},{"id":1730,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-03-24 01:05:05","like_diff":6,"likes":9,"dislikes":3,"content":"挺仔细的"},{"id":24268,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-04-29 04:15:23","like_diff":6,"likes":14,"dislikes":8,"content":"老师很认真很仔细，课上都是用手抄的课件。可惜最终成绩不加平时分"},{"id":55976,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-07-03 01:02:16","like_diff":6,"likes":6,"dislikes":0,"content":"好老师，不解释"},{"id":78820,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-05-15 10:11:54","like_diff":6,"likes":9,"dislikes":3,"content":"强烈推荐，上这个老师的课可以一换五。至于能不能考好，看你自己本事，反正我不能[逃]\n\n点名，测试都在习题课，每周多出大把的时间"},{"id":80806,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-07-01 09:06:29","like_diff":6,"likes":8,"dislikes":2,"content":"老师讲课很慢，对我这种睡眠不足的人很容易催眠但讲真有时认真听也是蛮好的\n\n助教姐姐好看声音好听就是批卷太严也太毒舌了...."},{"id":95576,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 15:48:23","like_diff":6,"likes":6,"dislikes":0,"content":"老师上课讲的非常清晰，手写投影也非常清楚工整，都怪我自己不努力，没有好好学习，但是老师和助教学姐真的超级好，没有让我挂科"},{"id":95616,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 16:14:56","like_diff":6,"likes":6,"dislikes":0,"content":"这学期微一听过别的老师的课，对比下来金老师表达清晰，内容完整，节奏很舒服的，笔记强迫症一本满足。（上4感恩～）"},{"id":125230,"teacher_id":1551,"teacher_name":"金显","post_time":"2020-09-04 05:30:39","like_diff":6,"likes":7,"dislikes":1,"content":"上课不困的是神仙吧。。不调分，给分算不上差，中上游同学建议绕路，不然以为自己能被调满结果只是一般就很难受。"},{"id":1643,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-03-23 05:20:13","like_diff":5,"likes":9,"dislikes":4,"content":"容易睡过去，还是很不错的老公公。"},{"id":2171,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-04-04 10:19:00","like_diff":5,"likes":9,"dislikes":4,"content":"不错的老师"},{"id":24277,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-04-29 04:59:15","like_diff":5,"likes":9,"dislikes":4,"content":"老师讲的很细语调平稳，会补充很多例题，有高中老师的风格，但我觉得并不适合我…因为我通常撑不下去那么多节课，比较需要老师的激情带着听，容易犯困…另外…没有平时分QAQ"},{"id":95579,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 15:48:53","like_diff":5,"likes":5,"dislikes":0,"content":"爱金老师！！爱超可爱的助教学姐！出了分的我感动想哭。平时分除了期中全给满，如果说有什么差别，我想那大概是平时分0.3的差别哈哈哈哈…至于期中，只占15%的成绩比例真的拯救我！老师上课很细致很喜欢金老师！十分！"},{"id":95617,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 16:16:00","like_diff":5,"likes":6,"dislikes":1,"content":"男神金老 把我从挂科边缘救了回来  自己菜 老师很好  大恩大德没齿难忘"},{"id":111136,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-06-30 04:26:26","like_diff":5,"likes":5,"dislikes":0,"content":"讲的很细是很好   但是真的不调分"},{"id":139397,"teacher_id":1551,"teacher_name":"金显","post_time":"2021-07-15 06:07:59","like_diff":5,"likes":5,"dislikes":0,"content":"好\n\n别被之前的评论吓到"},{"id":2633,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-05-05 01:53:59","like_diff":4,"likes":10,"dislikes":6,"content":"很求是的老师，讲的很好，结合习题也会讲方法，虽然开始可能不适应他的口音，也被列为四大名捕给分不高，但是真心很赞"},{"id":13961,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-03 05:22:22","like_diff":4,"likes":9,"dislikes":5,"content":"认真听老师的课真的能培养很严谨的思维方式～"},{"id":16567,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-18 11:37:36","like_diff":4,"likes":7,"dislikes":3,"content":"课很好，微一是他的，我有自己做作业，期末也有刷题，然后，就没有然后了，还是我太蠢T_T"},{"id":24260,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-04-29 03:31:12","like_diff":4,"likes":4,"dislikes":0,"content":"给分任性。"},{"id":24421,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-04-30 13:32:38","like_diff":4,"likes":8,"dislikes":4,"content":"真绩杀…我微1上4了 微2比微一低0.6´_>`欲哭无泪 一点平时分都不给"},{"id":24645,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-05-03 01:09:07","like_diff":4,"likes":7,"dislikes":3,"content":"讲课方面不绩杀，给分方面真绩杀。"},{"id":44442,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-01-18 00:05:44","like_diff":4,"likes":5,"dislikes":1,"content":"现在有平时分，应该都给满分，但考试不调分，出分贼快。"},{"id":55503,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-07-01 16:15:48","like_diff":4,"likes":5,"dislikes":1,"content":"语调一致让人犯困。其实用PPT更好。最后，讲课细致，备课和责任都做到位了。"},{"id":56440,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-07-04 00:08:34","like_diff":4,"likes":4,"dislikes":0,"content":"讲课略无聊  但是很细致  适合小白上课  给分也还好  平时分是满的  不是绩杀"},{"id":69317,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-01-24 12:50:11","like_diff":4,"likes":5,"dislikes":1,"content":"其实他真不绩杀 出的题目和考试题目很接近 比如这次倒数第二题他就上课讲过 总之很好的老师 改卷会给过程分 给他十分！"},{"id":69489,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-01-25 00:49:40","like_diff":4,"likes":4,"dislikes":0,"content":"金老真的不是绩杀不是绩杀不是绩杀\n\n作业交了小测做了平时分就差不多给满了\n\n期末改卷有过程分有过程分有过程分\n\n真的很不错的老师\n\n感谢金老给了我一次重新做人的机会"},{"id":82417,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-07-08 06:47:42","like_diff":4,"likes":6,"dislikes":2,"content":"节奏很慢...讲课的语速，伪PPT上挥动着的笔，很容易让人犯困...但是睡一会起来后会发现还在讲同一个东西！"},{"id":88923,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-11-12 10:51:05","like_diff":4,"likes":5,"dislikes":1,"content":"不如自学课本"},{"id":95586,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 15:51:43","like_diff":4,"likes":4,"dislikes":0,"content":"啊啊啊啊感谢老师不杀之恩\n\n真的很对不起老师经常上课睡着了抬头对上您的眼睛"},{"id":95608,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 16:09:04","like_diff":4,"likes":4,"dislikes":0,"content":"真的不是绩杀!真的不是绩杀!\n\n平时分占比例高而且给分很好\n\n期末考试当然全凭自己了\n\n但是和曾经说的不一样\n\n老师上课很好 而且不是绩杀（重点）"},{"id":95612,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 16:13:13","like_diff":4,"likes":4,"dislikes":0,"content":"太妙了 感谢老师大恩大德\n\n谢谢老师 谢谢助教学姐"},{"id":95615,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 16:14:02","like_diff":4,"likes":4,"dislikes":0,"content":"感谢老师让我不挂\n\n虽然真的很催眠但是讲课质量是真的好\n\n画图超厉害 正经地搞笑\n\n伪PPT教学 认真负责\n\n"},{"id":95624,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 16:24:03","like_diff":4,"likes":4,"dislikes":0,"content":"10分不解释。平时分很稳，明显调过分了。冬学期明显没有秋学期认真，感谢老师不杀之恩，今后会脚踏实地日日清的"},{"id":95657,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 23:40:01","like_diff":4,"likes":4,"dislikes":0,"content":"是很好的老师，上课会很耐心的讲题目，而且是一步一步讲，比较忠于课本。就是有时候真的很好睡，，而且微甲拓展思维和题目的比较少，如果微甲想拿高绩点还是要自己下挺大功夫。是很好的老师，上4真的挺开心的ε-(´∀｀; )"},{"id":95673,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-20 00:34:08","like_diff":4,"likes":5,"dislikes":1,"content":"老师讲的很认真，平时分给的也很高，可惜我被卡绩了，但还是很感谢老师，还有助教学姐超可爱，人超好，给老师十分。"},{"id":110952,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-06-30 15:19:40","like_diff":4,"likes":6,"dislikes":2,"content":"助教小哥哥 数院最帅?"},{"id":111323,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-09-11 02:12:06","like_diff":4,"likes":11,"dislikes":7,"content":"?杀不解释 谁选谁知道"},{"id":137606,"teacher_id":1551,"teacher_name":"金显","post_time":"2021-07-05 09:11:39","like_diff":4,"likes":4,"dislikes":0,"content":"老师讲的很认真很细致（就是语速有点催困hh）。另外，吹爆rtc助教xgg！助教老师人超好的！！！"},{"id":138592,"teacher_id":1551,"teacher_name":"金显","post_time":"2021-07-10 02:43:52","like_diff":4,"likes":4,"dislikes":0,"content":"老师的伪ppt讲解让我这种基础不好的同学也能听的比较清楚，也会找几道典型的例题给我们加深印象，虽然有时候讲的有点快，但是课后再去复习也能搞清楚，强推。\n\n给分方面：给分相当不错，完全不绩杀。\n\n最后吹爆助教rtcgg！"},{"id":146441,"teacher_id":1551,"teacher_name":"金显","post_time":"2022-01-06 14:56:03","like_diff":4,"likes":4,"dislikes":0,"content":"金老师好人啊！平时上课从不点名，给分超好，没有慕课，作业我们助教说写了就好，平时小测也挺照顾的，讲的更是没得说，非常好！真希望继续在老师的课上学下去！"},{"id":146457,"teacher_id":1551,"teacher_name":"金显","post_time":"2022-01-06 15:12:05","like_diff":4,"likes":4,"dislikes":0,"content":"老师讲课很认真，手写的讲义，其实上课犯困是课本身的原因，老师真的很用心的在讲，人也很好，会捞的，助教rtc哥哥很好，会很认真的回答你的问题，甚至还会给你找类似的题目，不是绩杀！选！"},{"id":146459,"teacher_id":1551,"teacher_name":"金显","post_time":"2022-01-06 15:14:58","like_diff":4,"likes":4,"dislikes":0,"content":"金老师真的好棒~助教小哥哥也好好，上课虽然会用投影仪上课，但是老师真的讲的很认真，助教小哥哥也真的好温柔，我哭死。"},{"id":147798,"teacher_id":1551,"teacher_name":"金显","post_time":"2022-01-11 01:10:30","like_diff":4,"likes":4,"dislikes":0,"content":"老师很慈祥，伪ppt+比较慢的讲课速度对大部分学生还是蛮友好的，讲课不错，给分求是，毕竟vjf主要还是靠自己努力啊！好像老师快退休了，祝好！"},{"id":2672,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-05-05 07:10:53","like_diff":3,"likes":13,"dislikes":10,"content":"喜欢喜欢喜欢。比苏德矿好"},{"id":4036,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-06-17 14:51:15","like_diff":3,"likes":8,"dislikes":5,"content":"解题方法很明确，考得好的话真不是绩杀"},{"id":7878,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-09-16 02:06:53","like_diff":3,"likes":6,"dislikes":3,"content":"有比较才知道老师多好，选到的请珍惜，我旁听都觉得幸福(≧▽≦)"},{"id":23616,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-04-10 07:12:09","like_diff":3,"likes":4,"dislikes":1,"content":"仔细严谨"},{"id":24856,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-05-04 05:25:51","like_diff":3,"likes":4,"dislikes":1,"content":"不怎么喜欢"},{"id":47848,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-02-26 09:05:21","like_diff":3,"likes":3,"dislikes":0,"content":"讲得不错，但是讲课语调一致，让人听着听着就想睡觉。"},{"id":51417,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-06-05 08:14:24","like_diff":3,"likes":3,"dislikes":0,"content":"金老师很好"},{"id":60116,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-10-11 03:27:25","like_diff":3,"likes":3,"dislikes":0,"content":"前一天晚上千万别修仙。别看老师讲的似乎很慢很细，一走神你就漏了一大堆。"},{"id":82256,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-07-07 15:03:48","like_diff":3,"likes":3,"dislikes":0,"content":"金显老师真的讲例题讲得特别仔细，期末考试前还有一次课讲了历年卷子，然后从来不查人，特别棒的老师！！一定要选，不要错过！！！"},{"id":95559,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 15:16:40","like_diff":3,"likes":5,"dislikes":2,"content":"没让我挂科"},{"id":95585,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 15:51:11","like_diff":3,"likes":3,"dislikes":0,"content":"老师人超级好!!给分好讲课细致!"},{"id":95588,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 15:51:55","like_diff":3,"likes":3,"dislikes":0,"content":"金老师和麦斯威更配哦(´-ω-`)"},{"id":95596,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 15:57:50","like_diff":3,"likes":3,"dislikes":0,"content":"老师的课非常好，时不时还会说一些轻松的段子活跃一下气氛，教学模式很有个性，是一个非常非常好的考试，我这么菜的居然都没有挂科，太感谢老师了，平时分给分超级赞哦。"},{"id":95602,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 16:04:37","like_diff":3,"likes":3,"dislikes":0,"content":"老师挺好的，讲的很详细，不是绩杀，别信前几年的评论"},{"id":95604,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 16:05:05","like_diff":3,"likes":3,"dislikes":0,"content":"老师讲课很细致严谨，助教学姐也好严谨好棒，非常有逻辑，平时分给分超级好，微一微二都是他?"},{"id":95606,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 16:07:13","like_diff":3,"likes":3,"dislikes":0,"content":"上课真的很仔细啊，也会讲一些书上没有的习题，不会特别难。金老师上课不会有太多拓展的东西，但基础一定会打扎实。有时候还会吐槽一下教材和考卷哈哈哈。"},{"id":95645,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 22:39:02","like_diff":3,"likes":3,"dislikes":0,"content":"平时分真的高！其实学的不是很好，没有挂科，谢谢老师！"},{"id":95658,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 23:43:01","like_diff":3,"likes":3,"dislikes":0,"content":"平时分给的很高！是好老师"},{"id":95670,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-20 00:32:13","like_diff":3,"likes":4,"dislikes":1,"content":"大爱金显老师和助教学姐，老师讲课敲级有耐心的，而且学姐总会在麦斯威等着迟到的作业本，很对不起老师这学期没好好学，但老师还是让我过了，还好下学期依然是金显老师的微二（自己偷偷换的，嘻嘻）老师，下学期再见哦(´-ω-`)"},{"id":111700,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-07-02 14:50:23","like_diff":3,"likes":11,"dislikes":8,"content":"我不明白为什么那么多人因为不调分对老师表示不满，已经有助教说明过了调分都是臆测，微积分期末都是统一阅卷，卷面是不可能改分的，期中考试也是定死了的，只能在平时分上调高一点，这个情况对每个老师都是一样的，不是说只有金老师不调成绩。这样一来，我并不认为会有同学因为被多扣了平时分挂科的。其实想说的是，老师调分是情分，不调分是本分，自己对自己的水平和付出没有数吗？成绩出问题唯一能怪的人只能是自己。今后共勉吧。"},{"id":126310,"teacher_id":1551,"teacher_name":"金显","post_time":"2020-09-22 06:37:02","like_diff":3,"likes":4,"dislikes":1,"content":"上面说成绩不透明的，我也不知道是怎么回事，但是我上I的时候小分是可查的。"},{"id":130609,"teacher_id":1551,"teacher_name":"金显","post_time":"2021-01-24 02:52:26","like_diff":3,"likes":3,"dislikes":0,"content":"老师人超好，也会捞人的！可能会有点催眠，但真的很细致啊喂。"},{"id":135398,"teacher_id":1551,"teacher_name":"金显","post_time":"2021-05-10 00:16:06","like_diff":3,"likes":6,"dislikes":3,"content":"请问这老师是急着退休吗讲课跟赛跑一样，笔记党原地去世"},{"id":137462,"teacher_id":1551,"teacher_name":"金显","post_time":"2021-07-04 09:02:58","like_diff":3,"likes":3,"dislikes":0,"content":"金显老师真的很好，上课用的是A4纸伪PPT讲解，虽然课后无法用PPT复习，但是老师上课讲解的例题都很具有典型性和深度。老师可能讲课有些枯燥，但是老师讲的很到位，小测出的也很有深度，可以加深对于书上概念的一些理解。助教小哥哥人也很好滴，善解人意。总之，特别好啦！"},{"id":137466,"teacher_id":1551,"teacher_name":"金显","post_time":"2021-07-04 09:27:51","like_diff":3,"likes":3,"dislikes":0,"content":"助教天成哥哥天下第一！"},{"id":138223,"teacher_id":1551,"teacher_name":"金显","post_time":"2021-07-08 04:07:19","like_diff":3,"likes":3,"dislikes":0,"content":"讲得很细致，10分给助教"},{"id":146999,"teacher_id":1551,"teacher_name":"金显","post_time":"2022-01-08 11:10:40","like_diff":3,"likes":3,"dislikes":0,"content":"金老师退休快乐！\n\n上他的课真的很有收获（20年上的微1现在才想起来评价= ="},{"id":149191,"teacher_id":1551,"teacher_name":"金显","post_time":"2022-01-14 16:37:16","like_diff":3,"likes":3,"dislikes":0,"content":"感谢在大一遇到金老师～"},{"id":21397,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-02-28 13:26:44","like_diff":2,"likes":3,"dislikes":1,"content":"真是善良的老爷爷，重修狗期末考试还是考得不行，也仁慈地给过了。"},{"id":22394,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-03-04 05:53:58","like_diff":2,"likes":4,"dislikes":2,"content":"金显一生推。好老师"},{"id":24232,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-04-28 15:38:55","like_diff":2,"likes":5,"dislikes":3,"content":"好 就一个字 好"},{"id":24539,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-05-03 12:36:44","like_diff":2,"likes":2,"dislikes":0,"content":"嗯。。。。"},{"id":26957,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-06-22 02:09:18","like_diff":2,"likes":3,"dislikes":1,"content":"上课很细心，有充分例题"},{"id":29914,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-06-30 13:39:43","like_diff":2,"likes":2,"dislikes":0,"content":"还不错，认真，但是有点古板"},{"id":43645,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-01-16 16:33:24","like_diff":2,"likes":3,"dislikes":1,"content":"一分没多给，就是考多少是多少。自己考了60果然就一科阵亡全科爆炸了。老师讲课很棒，考得不好怪自己笨，尽管我尽力了。老师的解答也是很耐心，满分!"},{"id":43691,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-03-20 01:01:05","like_diff":2,"likes":3,"dislikes":1,"content":"讲得很清楚，很仔细，会强调一些概念上的误区，好好跟着老师能学得很扎实"},{"id":43835,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-01-17 04:52:27","like_diff":2,"likes":2,"dislikes":0,"content":"老师讲解很细致，讲得不快，能跟上思路。虽然自己成绩很一般，但是感觉金老师很好哒?。"},{"id":49494,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-04-17 04:06:44","like_diff":2,"likes":2,"dislikes":0,"content":"清晰详细，有深度讲课"},{"id":51986,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-06-14 04:12:17","like_diff":2,"likes":2,"dislikes":0,"content":"挺好的啊"},{"id":55891,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-07-02 14:45:17","like_diff":2,"likes":2,"dislikes":0,"content":"平时分都是给满的，或者平时分给的很好，从这一点看，老师不是绩杀。另外，金老师讲课讲的细，适合小白。微积分主要还是看自学，不能单看老师。"},{"id":55951,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-07-02 17:44:27","like_diff":2,"likes":2,"dislikes":0,"content":"老师讲课用投影，没有PPT; 讲的挺细致的，会讲不少题。从这学期来看，老师可以摆脱绩杀的称号了，平时分给满，期末阅卷也像放了点水。"},{"id":55971,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-07-03 00:45:45","like_diff":2,"likes":2,"dislikes":0,"content":"老师讲的很好，非常仔细认真，奈何我悟性差"},{"id":79085,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-05-22 10:35:45","like_diff":2,"likes":6,"dislikes":4,"content":"微2甲 改后的上习题课 提前排雷 助教很坑 期中助教自己改的卷子 很严很难肥肠严 跟别的普通班大概有5-10分分差 跟给分好的班有10-20分差 80以上5个 反正我看几乎全是40 50 60的 再一问别的班成绩真的呵呵 小测改成习题课上测 并不是给满 看做出来(完全做对一点不差)的题 每次点名 助教很… 但真正…的是老师的给分制度 我是菜 但我请不要差异化这么大好吗 请求一个公正"},{"id":79545,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-06-09 01:28:53","like_diff":2,"likes":2,"dislikes":0,"content":"老师上课节奏比较慢，但是例题很有价值。喷助教批卷没有意义，期中卷又不是助教一个人批的，打铁还需自身硬。我觉得分数比较真实，不知道调分是什么操作。"},{"id":80683,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-06-29 05:47:56","like_diff":2,"likes":2,"dislikes":0,"content":"讲的很细致，鸭口笔行列色(Jacob)是坠吼的("},{"id":81109,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-07-04 02:55:54","like_diff":2,"likes":3,"dislikes":1,"content":"老师真的很好，思路清晰，细致，能通俗地讲到原理的深度，让我喜欢上了数学，我很喜欢这个老师，也很喜欢陪伴了我整个大一的微积分:)"},{"id":82112,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-07-07 06:48:50","like_diff":2,"likes":2,"dislikes":0,"content":"老师讲得超细超清晰，字也很好看，例题简直好评，难得的好老师"},{"id":86953,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-09-19 13:58:07","like_diff":2,"likes":3,"dislikes":1,"content":"困zszs"},{"id":87682,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-10-10 04:00:47","like_diff":2,"likes":3,"dislikes":1,"content":"困?"},{"id":92849,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-05 07:18:31","like_diff":2,"likes":3,"dislikes":1,"content":"很无聊，容易睡着\n\n平心而论老师人品很好，手指受伤缝针还在给我们讲课\n\n但是真的一般般，感觉和自己看书没区别"},{"id":95577,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 15:48:26","like_diff":2,"likes":2,"dislikes":0,"content":"还不错"},{"id":95578,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 15:48:31","like_diff":2,"likes":2,"dislikes":0,"content":"老师很仔细，人很好"},{"id":95589,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 15:52:10","like_diff":2,"likes":2,"dislikes":0,"content":"老师真的讲得很好 一点都不绩杀"},{"id":95590,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 15:55:05","like_diff":2,"likes":2,"dislikes":0,"content":"金老师简直是男神！讲课很细致认真，平时分基本都给满了，超棒！"},{"id":95591,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 15:55:41","like_diff":2,"likes":2,"dislikes":0,"content":"吹爆金老师，给分超仁慈"},{"id":95656,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 23:17:31","like_diff":2,"likes":2,"dislikes":0,"content":"听他的课就感觉踏实"},{"id":95679,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-20 01:16:55","like_diff":2,"likes":3,"dislikes":1,"content":"绝对不是绩杀，拿头保证"},{"id":96253,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-20 15:13:12","like_diff":2,"likes":3,"dislikes":1,"content":"可能我不太适合老师的风格吧 渣渣文科生 讲定义什么的听着实在有点困（我尽力了）不过讲例题什么讲的挺好的 基本靠自己吧 老师真的是好老师 讲的也很细 有很多自己的内容 不过我太弱 期中期末也仅仅是没挂科而已...真的还是自己要好好学（flag）\n\n划重点！！！老师的平时分给的挺不错的，是个可爱的老公公！谢谢金老师了"},{"id":102250,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-31 15:19:41","like_diff":2,"likes":3,"dislikes":1,"content":"讲课比较细致，助教学姐不错"},{"id":105561,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-04-17 00:46:21","like_diff":2,"likes":3,"dislikes":1,"content":"“这个就是这个”\n\n我觉得有点可爱？"},{"id":111156,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-06-30 05:57:08","like_diff":2,"likes":3,"dislikes":1,"content":"老师讲课很基础，很不错，也很风趣"},{"id":120384,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-12-02 03:22:31","like_diff":2,"likes":2,"dislikes":0,"content":"困死了"},{"id":120662,"teacher_id":1551,"teacher_name":"金显","post_time":"2020-01-14 22:31:43","like_diff":2,"likes":4,"dislikes":2,"content":"讲的还行 但是老师可能是真的不会用电子设备，分都不给调的吗..."},{"id":130613,"teacher_id":1551,"teacher_name":"金显","post_time":"2021-01-24 03:06:57","like_diff":2,"likes":2,"dislikes":0,"content":"我觉得这门课的最终成绩和助教关系更大，不应该用绩点来评价老师。单从上课方式来讲，老师用投影仪，相比ppt更能体现数学特色，对后排同学十分友好"},{"id":145463,"teacher_id":1551,"teacher_name":"金显","post_time":"2021-12-30 01:11:22","like_diff":2,"likes":2,"dislikes":0,"content":"好，不点名，对考试态度很轻松。冲！伪ppt真的好可爱哈哈"},{"id":146894,"teacher_id":1551,"teacher_name":"金显","post_time":"2022-01-08 02:48:46","like_diff":2,"likes":4,"dislikes":2,"content":"满绩了 哈哈"},{"id":147349,"teacher_id":1551,"teacher_name":"金显","post_time":"2022-01-09 15:54:18","like_diff":2,"likes":2,"dislikes":0,"content":"怎么说呢，很慈祥的老师，但是确实不会捞感觉，很求是反正。然后也不点名平时。但是有一个点我不是很喜欢，就是出分之后我想查期末卷面成绩，结果被拒绝了，我挺不理解的，其他课的老师明明都能查。\n\n助教rtc哥哥很棒！！！"},{"id":147978,"teacher_id":1551,"teacher_name":"金显","post_time":"2022-01-11 08:44:15","like_diff":2,"likes":2,"dislikes":0,"content":"金老师讲课蛮好的我觉得\n\n很适合做笔记\n\n就是可能确实容易犯困\n\n因为老师讲的是比较缓的\n\n蛮可爱的老师"},{"id":14268,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-06 03:22:25","like_diff":1,"likes":3,"dislikes":2,"content":"老师上课讲得很细 很有条理 至于绩不绩杀都不是重点 好好学就好了"},{"id":29301,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-06-29 14:43:15","like_diff":1,"likes":1,"dislikes":0,"content":"听不进去"},{"id":29747,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-06-30 09:25:44","like_diff":1,"likes":2,"dislikes":1,"content":"微三感觉考得乱七八糟的要挂了也没有很低。。。。老师上课就是讲题 我比较蠢感觉有点跟不上思路＠_＠"},{"id":29760,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-06-30 09:40:21","like_diff":1,"likes":3,"dislikes":2,"content":"超级杀"},{"id":30557,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-07-02 02:48:01","like_diff":1,"likes":3,"dislikes":2,"content":"老师讲得很细，也很好，根本不是绩杀好吗"},{"id":35673,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-11-10 07:42:54","like_diff":1,"likes":2,"dislikes":1,"content":"老师思路很清晰的，讲的也很细，真的很好"},{"id":43679,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-01-16 22:45:59","like_diff":1,"likes":3,"dislikes":2,"content":"独创纸质版PPT，一步一步讲给你，只要好好听，就没问题\n\n"},{"id":43685,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-01-16 23:19:52","like_diff":1,"likes":3,"dislikes":2,"content":"讲课很好，但是给分。。。我考试感觉做的挺好的，分数还是很低。"},{"id":44152,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-01-17 10:54:30","like_diff":1,"likes":1,"dislikes":0,"content":"老师讲的很细致，好老师，不绩杀"},{"id":44160,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-01-17 11:05:13","like_diff":1,"likes":1,"dislikes":0,"content":"靠自觉吧。老师讲的挺详细de"},{"id":44936,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-01-18 14:34:55","like_diff":1,"likes":1,"dislikes":0,"content":"期末考没及格，但是平时分基本给满了，谢谢老师了。"},{"id":45973,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-01-20 10:24:24","like_diff":1,"likes":1,"dislikes":0,"content":"金显不是?杀\n\n张培敏才是"},{"id":55915,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-07-02 15:47:53","like_diff":1,"likes":1,"dislikes":0,"content":"算是从良了，可惜考试太难外加不争气，算了\n\n"},{"id":58071,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-07-28 07:21:04","like_diff":1,"likes":2,"dislikes":1,"content":"喜欢金老说话的口音~有时候还会悄咪咪吸一吸鼻涕~\n\n他不是油头叶教授~\n\n懂他黑历史的人都叫他金杀for sure~\n\n同学~你不要玩手机~\n\n等等他伪PPT翻过一面你跟不上来~\n\n只怕你挂得太快~\n\n明天还要来查老师收惊拜拜~\n\n选课的手~你要指向哪里~\n\n这里东二~102~金显~等你~\n\n我爱数学~数学爱我~\n\n对我来说张泽银算什么~\n\n我爱积分~积分爱我~\n\n对我来说苏德矿算什么~"},{"id":69287,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-01-24 12:00:02","like_diff":1,"likes":1,"dislikes":0,"content":"上课节奏很好，给分也不错。"},{"id":78811,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-05-15 09:04:40","like_diff":1,"likes":8,"dislikes":7,"content":"谁说不是绩杀的？？？？？？别的班九十分以上二十个我们班八十以上没几个。是您教的菜还是您给分菜呢？？？？回答我啊？您选哪一个啊？？？？？"},{"id":82051,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-07-07 02:53:41","like_diff":1,"likes":2,"dislikes":1,"content":"感谢老师的师生情给我那么多平时分让我及格。。。虽然我感觉自己期末考的不错但是分数有点吓人，还好老师给了一堆平时分没让我挂"},{"id":84745,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-07-13 17:14:38","like_diff":1,"likes":1,"dislikes":0,"content":"讲的很细致。好老师"},{"id":84973,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-07-14 17:54:42","like_diff":1,"likes":1,"dislikes":0,"content":"老师很好的"},{"id":95592,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 15:55:57","like_diff":1,"likes":1,"dislikes":0,"content":"太棒了！平时分给的好高！我这么菜都没挂！谢谢老师！谢谢助教！"},{"id":95681,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-20 01:21:42","like_diff":1,"likes":2,"dislikes":1,"content":"太好了没有挂科！"},{"id":95727,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-20 02:48:18","like_diff":1,"likes":3,"dislikes":2,"content":"讲得比较清晰。但有点慢，让人想睡觉，睡过去之后醒过来还是在讲那个。\n\n不绩杀。"},{"id":95728,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-20 02:49:13","like_diff":1,"likes":3,"dislikes":2,"content":"唉，被卡在线下的孩子很伤心。虽然自己的确学得不怎么样，但是老师真的铁面无私啊，拉一把是不存在的。我习题课也没缺作业从来不迟交平时分还是扣了，不过上课讲的也不错，很仔细，可能比其他班级稍稍有点慢。"},{"id":95793,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-20 05:10:22","like_diff":1,"likes":2,"dislikes":1,"content":"这么说吧我大一上很不乖冬学期没上过课只学到了微分最后期末也没预习抱着必挂的心甚至不想去考试结果被室友拖去（这样！我都没挂！）所以很感动了平时分几乎给满了！期末凭着高中的基础写了一些积分～还是很不错的！下学期还是金老师很开心～～"},{"id":104800,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-03-28 02:59:27","like_diff":1,"likes":2,"dislikes":1,"content":"真的很好~讲东西很慢很细致~很喜欢的老师了~而且不点名"},{"id":111581,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-07-02 04:48:29","like_diff":1,"likes":3,"dislikes":2,"content":"?杀，助教cjhxgg人超好，感谢助教"},{"id":121851,"teacher_id":1551,"teacher_name":"金显","post_time":"2020-01-22 14:24:56","like_diff":1,"likes":2,"dislikes":1,"content":"老师讲的很仔细，很容易听懂，但可能会犯困，期末好像不调分"},{"id":133687,"teacher_id":1551,"teacher_name":"金显","post_time":"2021-03-03 23:09:11","like_diff":1,"likes":3,"dislikes":2,"content":"挺喜欢他的自创PPT，而且平时分几乎是给满的"},{"id":137467,"teacher_id":1551,"teacher_name":"金显","post_time":"2021-07-04 09:29:54","like_diff":1,"likes":1,"dislikes":0,"content":"课件是用A4纸，很清楚，讲的其实很好，只是我被卡了，很难受。"},{"id":137854,"teacher_id":1551,"teacher_name":"金显","post_time":"2021-07-06 11:12:10","like_diff":1,"likes":1,"dislikes":0,"content":"感觉给分挺好的，不像之前说的那么恐怖"},{"id":139721,"teacher_id":1551,"teacher_name":"金显","post_time":"2021-07-21 08:21:45","like_diff":1,"likes":1,"dislikes":0,"content":"从来不点名 给分特别好 选就完了"},{"id":142774,"teacher_id":1551,"teacher_name":"金显","post_time":"2021-11-16 04:19:58","like_diff":1,"likes":1,"dislikes":0,"content":"上课很认真啊，感觉对考试看得很轻\n\n很喜欢他"},{"id":145939,"teacher_id":1551,"teacher_name":"金显","post_time":"2022-01-04 13:36:05","like_diff":1,"likes":1,"dislikes":0,"content":"选就对了"},{"id":146433,"teacher_id":1551,"teacher_name":"金显","post_time":"2022-01-06 14:51:39","like_diff":1,"likes":1,"dislikes":0,"content":"很好的老师"},{"id":146456,"teacher_id":1551,"teacher_name":"金显","post_time":"2022-01-06 15:08:06","like_diff":1,"likes":1,"dislikes":0,"content":"金老师怎么说呢，听他的课很犯困，尽管他讲得很干货，可能是因为语调很平没有激情吧。但是老师捞人很给力呜呜呜"},{"id":147885,"teacher_id":1551,"teacher_name":"金显","post_time":"2022-01-11 05:40:48","like_diff":1,"likes":1,"dislikes":0,"content":"金老师人好好，上课不太快但是很清楚，从来不点名，作业助教xgg也说交了就行。虽然好像不太捞人，但是毕竟是我自己没考好，老师还是好棒，rtc助教小哥哥也好棒！"},{"id":150858,"teacher_id":1551,"teacher_name":"金显","post_time":"2022-02-20 01:38:13","like_diff":1,"likes":1,"dislikes":0,"content":"金老师的课很困啊，伪ppt很催眠。从不点名，超级会捞。想水课的可以选他。"},{"id":781,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-03-17 02:12:07","like_diff":0,"likes":6,"dislikes":6,"content":"念书居多，还有点口音……"},{"id":2846,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-05-08 15:18:03","like_diff":0,"likes":5,"dislikes":5,"content":"老师讲课一级棒，微一蹭课，微二退了别人的选了他的，会补充很多课外的题目，不过我还是水了很多。。。"},{"id":3788,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-06-17 04:19:45","like_diff":0,"likes":3,"dislikes":3,"content":"教的很仔细，认真，也不像某些考试说的话因为口音都听不懂"},{"id":4554,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-06-24 11:07:41","like_diff":0,"likes":5,"dislikes":5,"content":"上课讲的所有例题都是选的书本外的，讲的也很细致，很喜欢"},{"id":4790,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-06-29 01:59:47","like_diff":0,"likes":2,"dislikes":2,"content":"仔细"},{"id":4934,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-07-01 07:15:16","like_diff":0,"likes":6,"dislikes":6,"content":"很认真的老师，好好学真的不是绩杀"},{"id":5591,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-07-08 13:37:29","like_diff":0,"likes":2,"dislikes":2,"content":"没有认真好好学微三 但老师还是给及格了 很和蔼的老师啊*\\(^o^)/*"},{"id":6693,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-07-19 04:42:22","like_diff":0,"likes":1,"dislikes":1,"content":"是个好人。"},{"id":7711,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-09-15 10:24:59","like_diff":0,"likes":1,"dislikes":1,"content":"魔性老师"},{"id":8378,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-09-20 08:57:39","like_diff":0,"likes":0,"dislikes":0,"content":"棒棒棒"},{"id":9058,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-10-12 02:37:36","like_diff":0,"likes":3,"dislikes":3,"content":"认真有条理 其实并不枯燥 你仔细思考还容易睡吗"},{"id":11544,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-12-04 04:19:40","like_diff":0,"likes":0,"dislikes":0,"content":"感觉是个好老师"},{"id":11570,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-12-06 07:54:06","like_diff":0,"likes":2,"dislikes":2,"content":"仔细，认真，真心点赞"},{"id":12019,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-01 04:12:22","like_diff":0,"likes":0,"dislikes":0,"content":"简直棒"},{"id":12119,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-12-22 02:15:15","like_diff":0,"likes":2,"dislikes":2,"content":"真的很容易困，但讲解很清楚，不会跳跃式讲解，人不错"},{"id":13104,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-12-25 01:25:28","like_diff":0,"likes":0,"dislikes":0,"content":"很喜欢"},{"id":13676,"teacher_id":1551,"teacher_name":"金显","post_time":"2015-12-30 09:57:20","like_diff":0,"likes":0,"dislikes":0,"content":"好好的"},{"id":13848,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-01 10:06:21","like_diff":0,"likes":3,"dislikes":3,"content":"课讲得好，偶尔还幽默一下！"},{"id":13904,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-02 06:47:34","like_diff":0,"likes":0,"dislikes":0,"content":"哈哈哈哈"},{"id":13977,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-03 08:33:05","like_diff":0,"likes":2,"dislikes":2,"content":"力推金显！"},{"id":14482,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-07 08:33:31","like_diff":0,"likes":0,"dislikes":0,"content":"好好好"},{"id":14897,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-11 01:35:58","like_diff":0,"likes":2,"dislikes":2,"content":"微一老师讲的很好，微二微三都换成了金显~~"},{"id":16414,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-18 05:08:16","like_diff":0,"likes":2,"dislikes":2,"content":"语气太 平缓了………"},{"id":17115,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-19 15:16:48","like_diff":0,"likes":2,"dislikes":2,"content":"有条理，有时也理解学生，不错"},{"id":17361,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-20 05:51:42","like_diff":0,"likes":1,"dislikes":1,"content":"老师真心讲课特别细致、而且脾气很好！最主要的是，给分不坑的"},{"id":21466,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-02-29 02:52:19","like_diff":0,"likes":3,"dislikes":3,"content":"数学需要严谨"},{"id":22048,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-03-02 07:23:47","like_diff":0,"likes":2,"dislikes":2,"content":"挺好的 讲的很认真"},{"id":22617,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-03-09 01:10:20","like_diff":0,"likes":1,"dislikes":1,"content":"备课仔细，讲课认真，思路清晰，好老师！"},{"id":23164,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-03-21 01:16:07","like_diff":0,"likes":5,"dislikes":5,"content":"思路清晰，有补充例题和注意点，完全不是绩杀"},{"id":24378,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-09-10 06:21:30","like_diff":0,"likes":10,"dislikes":10,"content":"我微1 4.5的狼，微2在金显手里3.0，自己考虑吧，不吹不黑，真的绩杀。"},{"id":24508,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-05-01 01:26:30","like_diff":0,"likes":0,"dislikes":0,"content":"挺细的"},{"id":24868,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-05-04 05:55:24","like_diff":0,"likes":0,"dislikes":0,"content":"老师讲课棒棒哒，虽然有点凶"},{"id":26522,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-06-20 01:27:52","like_diff":0,"likes":1,"dislikes":1,"content":"老师是极好的"},{"id":26768,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-06-21 05:20:23","like_diff":0,"likes":2,"dislikes":2,"content":"讲得很有条理，思路清晰，然而自身数学素养太差。。"},{"id":27132,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-06-23 06:49:22","like_diff":0,"likes":1,"dislikes":1,"content":"老师很认真，讲了很多例题，但是听老师讲课容易睡着。"},{"id":27332,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-06-25 02:41:23","like_diff":0,"likes":1,"dislikes":1,"content":"显显老头冷幽默我很喜欢他。就是自己没好好学…\n\n"},{"id":28306,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-06-28 08:29:29","like_diff":0,"likes":2,"dislikes":2,"content":"老师上课其实不错，但是没有平时分的话，成绩会差很多的。"},{"id":29754,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-06-30 09:35:42","like_diff":0,"likes":3,"dislikes":3,"content":"没有平时分，讲得不好…"},{"id":30059,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-07-01 01:19:16","like_diff":0,"likes":5,"dislikes":5,"content":"你们那些数学很好、考得很好、绩点很高的人别总以为别人都不用功。毕竟还有一些用了功花了心思也考不了你们那么好的人。你们都能考满还说什么绩不绩杀……金显老师讲课很不错(如果你不困的话)，给分的话我个人来看偏低。总体情况不明。"},{"id":30966,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-07-03 04:40:54","like_diff":0,"likes":0,"dislikes":0,"content":"老师的那个讲话的调调没适应的时候真的感觉好催眠、、适应了其实讲的很好呀"},{"id":32375,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-07-06 10:09:40","like_diff":0,"likes":0,"dislikes":0,"content":"讲的真的很细很好，经常补充课外习题。"},{"id":35910,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-11-10 08:50:39","like_diff":0,"likes":1,"dislikes":1,"content":"很好的"},{"id":39050,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-12-21 01:15:20","like_diff":0,"likes":1,"dislikes":1,"content":"非常细致，听不懂的是自己不愿听。跟高中老师的风格很像，绝对算是良心老师，他的评分不上9？！不科学。"},{"id":39464,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-12-23 02:46:00","like_diff":0,"likes":1,"dislikes":1,"content":"讲得还是很详细的，缺点是缺乏激情，有点让人犯困。总的来说教学还是不错的。给分目前没领会到。"},{"id":43695,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-01-16 23:46:02","like_diff":0,"likes":0,"dislikes":0,"content":"个人认为老师讲课很棒"},{"id":43697,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-01-16 23:46:37","like_diff":0,"likes":2,"dislikes":2,"content":"绩杀。"},{"id":43716,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-01-17 01:09:47","like_diff":0,"likes":0,"dislikes":0,"content":"认真严谨，上课模式独特，容易接受\n\n"},{"id":43734,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-01-17 01:52:38","like_diff":0,"likes":0,"dislikes":0,"content":"好老师 喜欢"},{"id":44113,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-01-17 09:38:53","like_diff":0,"likes":0,"dislikes":0,"content":"老师上课上得是挺好的，就是自己不好好听课。还是祝老师新年快乐吧…"},{"id":47434,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-01-26 10:03:21","like_diff":0,"likes":1,"dislikes":1,"content":"老师讲课还好，重基础，就是拓展不够，听了特别特别让人瞌睡，要对自己有足够的信心，否则会挂的很惨……\n\n"},{"id":55863,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-07-02 16:14:46","like_diff":0,"likes":3,"dislikes":3,"content":"非常好的老师，本来考完试感觉微二挂了，没想到分数意外的高，应该是如果两次小测都是A（小测4道题，对三道就是A），而且作业都交的话，平时分就是100分。"},{"id":58800,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-09-18 01:53:11","like_diff":0,"likes":1,"dislikes":1,"content":"特别好"},{"id":59154,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-09-20 03:38:55","like_diff":0,"likes":0,"dislikes":0,"content":"好好好"},{"id":60205,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-10-13 02:08:23","like_diff":0,"likes":0,"dislikes":0,"content":"要是数学课都是他的 就很棒了"},{"id":60511,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-10-23 03:09:58","like_diff":0,"likes":0,"dislikes":0,"content":"认真复习、认真做作业的话上课会觉得特别好玩的"},{"id":65828,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-01-09 11:52:18","like_diff":0,"likes":1,"dislikes":1,"content":"好困好困啊"},{"id":69620,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-01-25 05:38:55","like_diff":0,"likes":0,"dislikes":0,"content":"老师讲的真的超级棒，教学计划规划地超级合理。真正的好老师。"},{"id":70196,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-03-10 12:10:32","like_diff":0,"likes":1,"dislikes":1,"content":"感觉金老的评价有点两极分化啊。金老其实不是照搬他的伪ppt，他会把他认为关键的地方讲的很透。数学天赋好的人嫌他啰嗦可以理解，但是咸鱼抱怨课无聊我觉得没有道理。至于绩点的问题，金老不调分，所以考试难度上来了就比较呵呵，不过平时分一般是给满的，就这样。"},{"id":72481,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-01-30 08:19:57","like_diff":0,"likes":0,"dislikes":0,"content":"老师上课很认真，很耐心，虽然可能有慢，但对于我这种渣渣来说真的很棒。还有，不绩杀，不绩杀，不绩杀，担心了那么久微积分会不会挂科，出成绩感动哭了，谢谢老师！"},{"id":75007,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-03-07 03:24:42","like_diff":0,"likes":0,"dislikes":0,"content":"有高中学习的感觉，很好"},{"id":75891,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-03-21 04:23:56","like_diff":0,"likes":1,"dislikes":1,"content":"讲的挺慢挺细，很适合我这种学渣。。"},{"id":81922,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-07-06 13:19:22","like_diff":0,"likes":1,"dislikes":1,"content":"讲得很仔细～认真听的话很受用"},{"id":82060,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-07-07 03:57:48","like_diff":0,"likes":1,"dislikes":1,"content":"平时分还行 毕竟我第二次小测c\n\n老师讲课挺好的 期末考能上70真的还行\n\n毕竟平时都不听课 就听了最后一堂"},{"id":82079,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-07-07 04:54:14","like_diff":0,"likes":0,"dislikes":0,"content":"谢谢老师的平时分让我这个期中期末都炸裂的人还能及格（痛哭"},{"id":82182,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-07-07 10:41:42","like_diff":0,"likes":0,"dislikes":0,"content":"其实平心而论，老师给的平时分差一点就满。但期中期末不调分就有些难过，大佬不说什么。但对于我这种一般的咸鱼，真的和其他班差很多。期中人家班上八九十一堆，我们班就五个？我室友的调过后的期中是我班上top3。。。\n\n讲课很细致，而且早八的课七点五十第一排还有座，对起不来的孩子很友好。\n\n总之，讲课水平不差，给分自行体会"},{"id":87820,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-10-15 04:26:29","like_diff":0,"likes":0,"dislikes":0,"content":"严谨踏实"},{"id":88720,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-11-06 12:33:09","like_diff":0,"likes":0,"dislikes":0,"content":"很细心，也很耐心，速度不快。"},{"id":91525,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-12-12 13:58:06","like_diff":0,"likes":1,"dislikes":1,"content":"又详细又耐心又全面"},{"id":95688,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-20 01:38:57","like_diff":0,"likes":1,"dislikes":1,"content":"严谨而认真，给分很好"},{"id":95736,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-20 03:02:41","like_diff":0,"likes":3,"dislikes":3,"content":"这是高考命题组组长?"},{"id":95745,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-20 03:31:01","like_diff":0,"likes":2,"dislikes":2,"content":"老师给分很好，平时分都满了，小测考的很差分数都很好，老师讲的也很好吹爆"},{"id":97758,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-22 15:19:02","like_diff":0,"likes":1,"dislikes":1,"content":"还不错"},{"id":103489,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-02-28 11:48:18","like_diff":0,"likes":3,"dislikes":3,"content":"老师上课上的很仔细，例题有很多，但是语调有点小催眠，给分很好，助教小姐姐炒鸡? ，微积分群里还有夜月明这种dl，很有意思！！！\n\n"},{"id":105749,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-04-19 16:44:51","like_diff":0,"likes":1,"dislikes":1,"content":"就。。很棒"},{"id":110522,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-06-27 09:16:11","like_diff":0,"likes":1,"dislikes":1,"content":"很困   但是老师讲的真的很仔细 跟着老师真的能学到好东西"},{"id":111141,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-06-30 05:13:24","like_diff":0,"likes":1,"dislikes":1,"content":"我真的很喜欢金老师！期末没考好但是也没卡，拿了正中间的75…下次再来哈……"},{"id":111522,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-07-02 00:59:04","like_diff":0,"likes":4,"dislikes":4,"content":"很喜欢老师呢，首先最重要的是讲课对数学不好的忍很友好，认真听就可以听懂，其次老师也很负责，助教小哥哥也很好，还会发红包哈哈哈。当然最后绩点不高怪自己吧，毕竟大多数分数还是靠自己。"},{"id":117134,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-09-19 23:17:40","like_diff":0,"likes":2,"dislikes":2,"content":"\n\n给十分吧，老师特别用心，但特别困。大不自多（大不了自己多学些吧）。"},{"id":117309,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-09-23 01:42:48","like_diff":0,"likes":1,"dislikes":1,"content":"老师真的很认真负责，讲的很细致（虽然可能一二堂会犯困），重要的东西会强调好多遍，给以后微积分学习打了很好的基础！"},{"id":137408,"teacher_id":1551,"teacher_name":"金显","post_time":"2021-07-04 03:17:43","like_diff":0,"likes":0,"dislikes":0,"content":"老师很好啊！讲的真的很细致！而且助教也特别棒，金老师在讲课方面比我去年的某高分微积分老师精彩多了！选到就是赚到"},{"id":156845,"teacher_id":1551,"teacher_name":"金显","post_time":"2022-06-21 06:33:30","like_diff":0,"likes":0,"dislikes":0,"content":"金老师好棒的！"},{"id":24824,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-05-04 02:18:50","like_diff":-1,"likes":0,"dislikes":1,"content":"老师课讲得很好，并不觉得怎么绩杀，平时认真听考试好好考的话他给分不会低"},{"id":33522,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-09-20 02:16:57","like_diff":-1,"likes":2,"dislikes":3,"content":"讲得知识很干，很适合理工科学生听。"},{"id":91552,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-12-13 04:48:45","like_diff":-1,"likes":0,"dislikes":1,"content":"美妙动听"},{"id":93925,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-14 10:13:32","like_diff":-1,"likes":1,"dislikes":2,"content":"困啊。。"},{"id":94641,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-17 13:32:40","like_diff":-1,"likes":1,"dislikes":2,"content":"无聊无聊金银双杀可不是闹着玩的"},{"id":95716,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-20 02:32:06","like_diff":-1,"likes":1,"dislikes":2,"content":"金老师真的好"},{"id":95937,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-20 08:53:31","like_diff":-1,"likes":1,"dislikes":2,"content":"老师再也不是传闻中的绩杀了！平时分超高！上课超详细！(就是有点困(இдஇ;))有时还会一本正经地讲些很有趣的东西，助教学姐超可爱！"},{"id":95959,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-20 09:28:28","like_diff":-1,"likes":0,"dislikes":1,"content":"感觉不错"},{"id":105688,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-04-18 11:59:49","like_diff":-1,"likes":0,"dislikes":1,"content":"金金金"},{"id":111149,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-06-30 05:50:39","like_diff":-1,"likes":0,"dislikes":1,"content":"老师很好啊，讲得很仔细，慢慢的，虽然我两次小测都写得不好，但平时分也将近满分"},{"id":120691,"teacher_id":1551,"teacher_name":"金显","post_time":"2020-01-15 09:49:10","like_diff":-1,"likes":3,"dislikes":4,"content":"【微积分（甲）】课有点无聊，期末无调分，平时分几乎给满，感谢老师捞我"},{"id":121291,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-12-23 11:48:33","like_diff":-1,"likes":4,"dislikes":5,"content":"系统叫我至少写三个字。好吧，我就写三个。金显推。"},{"id":14892,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-01-11 00:41:02","like_diff":-2,"likes":2,"dislikes":4,"content":"不是绩杀"},{"id":46159,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-01-20 23:46:44","like_diff":-2,"likes":1,"dislikes":3,"content":"不适合我，平铺直叙，有些无聊，绩点2.几，看着办吧！找适合自己的老师！当然也是我辣鸡"},{"id":22872,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-03-14 02:53:03","like_diff":-3,"likes":2,"dislikes":5,"content":"昏昏欲睡"},{"id":29753,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-06-30 09:34:06","like_diff":-3,"likes":3,"dislikes":6,"content":"讲课的思路清晰推理严谨而且注重细节 有经验有责任心而且有爱的老伯伯~微二微三都选了他的~最后一节课真的好舍不得~强推金显 真的能让人感受到大学老师的情怀  而且真的不是绩杀…我绩点低我学渣…给分很不错了已经"},{"id":73901,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-02-03 12:36:20","like_diff":-3,"likes":1,"dislikes":4,"content":"老师很好，给分不错。传说中的绩杀也许是……"},{"id":63604,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-12-08 13:19:36","like_diff":-4,"likes":3,"dislikes":7,"content":"垃圾老师，上课讲的很烂，还不如自学"},{"id":111557,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-07-02 02:58:03","like_diff":-4,"likes":3,"dislikes":7,"content":"好老师 课轻松很多"},{"id":125093,"teacher_id":1551,"teacher_name":"金显","post_time":"2020-09-07 06:34:03","like_diff":-4,"likes":8,"dislikes":12,"content":"怎么说呢，这个老师配不上9分以上，六七分比较适合他。水平很高，但讲课就是在念，催眠效果不错。\n\n但过程成绩不能查，成绩组成不透明，有同学想问问卷面分数，想知道自己为什么得这个分，怎么了？就直接在群里开怼？我就是很菜，但这老师真的头一次见，呵呵。教学班成绩不理想，在学生身上用了多少心自己心里没数吗？"},{"id":24790,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-09-10 06:21:59","like_diff":-5,"likes":9,"dislikes":14,"content":"相当无聊  真不知道那些人在想什么  拿着以前写的纸一点点的往下挪 课堂体验简直为0！！！！！完全没有激情从来不给平时分，说的给分会好都是骗人的"},{"id":29826,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-06-30 11:13:07","like_diff":-5,"likes":4,"dislikes":9,"content":"老师讲课很详细，很有耐心，出分了也没有感觉绩杀。说绩杀的你们自己问问自己在微积分上花了多少工夫，整天想不劳而获当然每个老师都是绩杀。"},{"id":77401,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-05-05 11:06:04","like_diff":-5,"likes":5,"dislikes":10,"content":"一副霸道样子，狗屁"},{"id":123458,"teacher_id":1551,"teacher_name":"金显","post_time":"2020-06-09 04:15:51","like_diff":-5,"likes":2,"dislikes":7,"content":"可以的，疫情期间许多老师可能不适应，但金老师用制作的手写PPT，讲课很清晰，教学效果很好。"},{"id":25366,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-07-03 07:27:29","like_diff":-6,"likes":7,"dislikes":13,"content":"不怕某些人骂。 抛开绩点来看，所有说金显大神讲课讲的好的人都是弱智。（认真脸，手动拜拜）"},{"id":55867,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-07-02 13:53:31","like_diff":-6,"likes":1,"dislikes":7,"content":"给他评一个我的绩点吧。\n\n"},{"id":56782,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-07-04 15:25:50","like_diff":-6,"likes":5,"dislikes":11,"content":"呵呵，绩杀。平时分不高，判的严，今年这么难还不会放水调分。其他老师比他仁慈多了！！\n\n最后让我挂了，就差一分"},{"id":95874,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-20 07:11:20","like_diff":-6,"likes":0,"dislikes":6,"content":"老师平时分给的超好的orz感动哭了竟然上4了 谢谢老师谢谢助教"},{"id":111503,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-07-01 23:34:49","like_diff":-6,"likes":0,"dislikes":6,"content":"给金老师9分。老师上课讲的很细很认真，虽然有点犯困但例题什么的都挺棒的。期末成绩自己觉得和预期得差不多，确实是期末考试考多少就是多少，没有调分，我觉得这只能说老师给分客观，谈不上绩杀。而且貌似现在已经不存在调分的操作了？还是多加油一点吧?。"},{"id":125342,"teacher_id":1551,"teacher_name":"金显","post_time":"2020-09-07 06:24:10","like_diff":-6,"likes":5,"dislikes":11,"content":"老师虽然严格，而且有时候讲话有点冲，但是实际上微积分就是自己考出来的。讲课条理清晰，就是有点容易催眠。"},{"id":34713,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-10-19 03:30:42","like_diff":-8,"likes":2,"dislikes":10,"content":"无聊到意识模糊"},{"id":43641,"teacher_id":1551,"teacher_name":"金显","post_time":"2017-02-27 05:01:22","like_diff":-11,"likes":2,"dislikes":13,"content":"mdzz"},{"id":29904,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-01-19 17:20:15","like_diff":-21,"likes":5,"dislikes":26,"content":"不给我高分我怎么给他高分"},{"id":24255,"teacher_id":1551,"teacher_name":"金显","post_time":"2016-04-29 03:05:36","like_diff":-23,"likes":7,"dislikes":30,"content":"没平时分，讲得很仔细，有种莫名的萌感。你自己学不好别怪他绩杀，反正我满绩hh"},{"id":55823,"teacher_id":1551,"teacher_name":"金显","post_time":"2018-05-16 03:11:23","like_diff":-41,"likes":7,"dislikes":48,"content":"真绩杀！微二期末全做出来了  给我75分！这tm也是真狠了！不建微信群 什么都不知道 真是憋不住自己的脏话了"},{"id":95600,"teacher_id":1551,"teacher_name":"金显","post_time":"2019-02-25 00:49:15","like_diff":-60,"likes":7,"dislikes":67,"content":"他给了我98，抱歉我只能给他10分，夜月明同学在此感谢金老师"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>严进 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="严进教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="严进,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">严进</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.56</div>
+                    <div class="rating-participants">38人参与评分</div>
+                    <div class="attendance-info">17.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">工商管理前沿导读</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.88</span>
+                            <span class="students">选课: 175人</span>
+                            <span class="std-dev">标准差: 0.69</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">工商管理研究前沿</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.96</span>
+                            <span class="students">选课: 145人</span>
+                            <span class="std-dev">标准差: 0.60</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">组织行为学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.19</span>
+                            <span class="students">选课: 186人</span>
+                            <span class="std-dev">标准差: 0.60</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (28 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":3872,"teacher_id":1117,"teacher_name":"严进","post_time":"2015-06-17 07:09:28","like_diff":16,"likes":20,"dislikes":4,"content":"严老师超级可爱炒鸡萌哒。上课很有意思给分也好哈哈哈。喜欢！"},{"id":23456,"teacher_id":1117,"teacher_name":"严进","post_time":"2016-03-30 07:52:58","like_diff":9,"likes":10,"dislikes":1,"content":"超级好的老师"},{"id":79331,"teacher_id":1117,"teacher_name":"严进","post_time":"2018-05-31 03:40:54","like_diff":8,"likes":13,"dislikes":5,"content":"上课好给分好，但是人资的学妹千万不要选他当课题或者毕业论文的导师啊...会后悔的"},{"id":50207,"teacher_id":1117,"teacher_name":"严进","post_time":"2017-05-01 08:01:37","like_diff":6,"likes":6,"dislikes":0,"content":"谢谢老师把我们领进读paper的大门"},{"id":24895,"teacher_id":1117,"teacher_name":"严进","post_time":"2016-05-04 08:52:58","like_diff":5,"likes":6,"dislikes":1,"content":"老师人挺nice的，课程内容本身也有意思"},{"id":145116,"teacher_id":1117,"teacher_name":"严进","post_time":"2021-12-27 13:09:21","like_diff":4,"likes":5,"dislikes":1,"content":"这人有没有考虑普通人的感受吗？保研的人毕竟只是少数，没保研的80%就真的被开除人籍了吗？摊上这样的研究后沿的课是真的倒大霉了，在大四秋冬学期80%的人都需要考研冲刺，实习转正，秋招和出国，等决定未来的方向的人生大事，教务处是真的不合理，老师完全不考虑学生未来的安排和现实情况，课程工作量大大超越其他的课，在学生集体反馈申请调整之后表示这是规定不能改，明知课程安排不合理却不作为，置学生未来于不顾，但不得不承认，他做的规定很合理合法，按照规定是没错的，只能说，普通人，菜是原罪，怪不得老师（微笑）"},{"id":50209,"teacher_id":1117,"teacher_name":"严进","post_time":"2017-05-01 08:18:01","like_diff":3,"likes":4,"dislikes":1,"content":"上课很有意思，给分超好哎，能记住全班人的名字，虽然不点到但是在老师准确叫出你名字的时候根本不敢旷课?"},{"id":165886,"teacher_id":1117,"teacher_name":"严进","post_time":"2023-01-10 08:23:21","like_diff":3,"likes":4,"dislikes":1,"content":"事情多，抱着满绩的态度学的，自信满满最后拿了3绩点。"},{"id":215007,"teacher_id":1117,"teacher_name":"严进","post_time":"2025-02-20 04:28:22","like_diff":3,"likes":4,"dislikes":1,"content":"评论区请的水军吗？事情贼多，第一天上课就有小测，提前一周私信老师请假，结果被已读不复，如果不能请假也不说一声，很差！快跑！"},{"id":217874,"teacher_id":1117,"teacher_name":"严进","post_time":"2025-04-17 09:58:56","like_diff":3,"likes":3,"dislikes":0,"content":"组织行为学\n\n一共两个作业加上一个小组展示，一个小作业一个期末作业。平时发言加分，不用担心卷发言的问题，只要平时上课带着姓名牌老师会点人发言。给分很好，上课认真发言，平时两个作业就按水课标准来（AI加一点点自己的东西），最后总评满了，仅供参考\n\n但是老师班上人一般比较少，一般要求后三排坐人，其他没什么确定，讲课的案例也很有意思。"},{"id":26576,"teacher_id":1117,"teacher_name":"严进","post_time":"2016-06-20 07:20:13","like_diff":2,"likes":3,"dislikes":1,"content":"超级棒"},{"id":58149,"teacher_id":1117,"teacher_name":"严进","post_time":"2017-08-08 03:27:24","like_diff":2,"likes":2,"dislikes":0,"content":"强调理论对现实的解读"},{"id":62793,"teacher_id":1117,"teacher_name":"严进","post_time":"2017-11-27 03:46:50","like_diff":2,"likes":2,"dislikes":0,"content":"领进读文献的大门+1"},{"id":122341,"teacher_id":1117,"teacher_name":"严进","post_time":"2020-02-24 17:33:52","like_diff":2,"likes":3,"dislikes":1,"content":"讲课还行，给分真的一般"},{"id":178009,"teacher_id":1117,"teacher_name":"严进","post_time":"2023-07-06 07:28:37","like_diff":2,"likes":2,"dislikes":0,"content":"给分太差了"},{"id":183611,"teacher_id":1117,"teacher_name":"严进","post_time":"2023-11-28 01:52:36","like_diff":2,"likes":2,"dislikes":0,"content":"这学期专业课鲜少觉得是正常人的老师（不，是很好的老师"},{"id":77516,"teacher_id":1117,"teacher_name":"严进","post_time":"2018-05-06 08:19:01","like_diff":1,"likes":2,"dislikes":1,"content":"严谨，负责"},{"id":143045,"teacher_id":1117,"teacher_name":"严进","post_time":"2021-11-18 11:10:23","like_diff":1,"likes":1,"dislikes":0,"content":"平心而论，老师很好，讲课感觉就能把学术，理论讲的很透彻，结课了还和我讨论期末作业的论文模型，就是可能唯一的缺点，期末大作业太难了，我们只是大二的小朋友。"},{"id":167269,"teacher_id":1117,"teacher_name":"严进","post_time":"2023-01-15 09:48:46","like_diff":1,"likes":1,"dislikes":0,"content":"严老师的组行真的很有意思，非常遗憾老师因为身体原因没有带我们上完一学期的课呜呜呜想念老师！老师会记住你的名字，课堂互动氛围特别好！严老师真的可以说领同学进读paper的大门，第一次在做作业的时候觉得是有趣是享受的"},{"id":183495,"teacher_id":1117,"teacher_name":"严进","post_time":"2023-11-26 23:43:18","like_diff":1,"likes":1,"dislikes":0,"content":"案例很丰富老师讲解也很透彻，师生互动氛围轻松，是我这个学期最喜欢的老师！"},{"id":189642,"teacher_id":1117,"teacher_name":"严进","post_time":"2024-01-26 08:17:17","like_diff":1,"likes":1,"dislikes":0,"content":"组织行为学｜严老师很好，上课也很有意思，给分也特别捞，很推荐！"},{"id":195742,"teacher_id":1117,"teacher_name":"严进","post_time":"2024-06-30 00:10:24","like_diff":1,"likes":2,"dislikes":1,"content":"给分巨差 别选快跑！"},{"id":203209,"teacher_id":1117,"teacher_name":"严进","post_time":"2024-11-18 04:17:54","like_diff":1,"likes":1,"dislikes":0,"content":"ob的课，上课多发言，认真看MOOC，就没什么问题"},{"id":77021,"teacher_id":1117,"teacher_name":"严进","post_time":"2018-04-28 14:21:18","like_diff":0,"likes":2,"dislikes":2,"content":"严老师很棒"},{"id":132105,"teacher_id":1117,"teacher_name":"严进","post_time":"2021-01-30 09:32:50","like_diff":0,"likes":0,"dislikes":0,"content":"讲课有意思，感觉组织行为学作业都不是那么好做，可能是因为我不太擅长，给分中规中矩"},{"id":142190,"teacher_id":1117,"teacher_name":"严进","post_time":"2021-11-08 11:07:25","like_diff":0,"likes":4,"dislikes":4,"content":"去上课前我以为yj是个一心教学体谅学生的老师。然后他说出来如下言论：\n\n1⃣️平行班一个班人少，每组需做两次pre，另外一班每组一次，我们argue能否减少其他作业内容或频率以保持平衡，他说两班教学内容不能减少，不能那就能增加了？\n\n2⃣️我们argue说workload过大不适合大四（大家各有前途要争），他说对，所以下一届改放到大三了。所以我们这届就是错到底了，随便拉倒算了？\n\n3⃣️我们说这届管院er考研比较多，他说现在考研名额不是在压缩吗，都走推免。另外他也不允许因为实习工作出差请假。管院保研率20%，剩下80%不考研不工作可以直接去死了是吗？\n\n4⃣️一切安排他都无权改动也无权争取，只不过是完成上级教务处的安排罢了。"},{"id":142961,"teacher_id":1117,"teacher_name":"严进","post_time":"2021-11-18 00:57:37","like_diff":0,"likes":0,"dislikes":0,"content":"老师讲课非常有意思，也能收货很多，事例讲解也很详细。给分马马虎虎"},{"id":184063,"teacher_id":1117,"teacher_name":"严进","post_time":"2023-12-07 12:39:52","like_diff":0,"likes":0,"dislikes":0,"content":"组织行为学｜严老师超级好，上课也很有意思，给分也真的不错，据我所知能捞的都尽量往上捞了。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李环 - 计算机科学与技术学院 - 浙大教评</title>
+    <meta name="description" content="李环教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="李环,计算机科学与技术学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">李环</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">计算机科学与技术学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.16</div>
+                    <div class="rating-participants">13人参与评分</div>
+                    <div class="attendance-info">17.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (1 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">操作系统</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.01</span>
+                            <span class="students">选课: 69人</span>
+                            <span class="std-dev">标准差: 0.98</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (12 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":200049,"teacher_id":10357,"teacher_name":"李环","post_time":"2024-10-12 01:55:09","like_diff":16,"likes":20,"dislikes":4,"content":"好老师！"},{"id":203951,"teacher_id":10357,"teacher_name":"李环","post_time":"2024-11-22 08:12:23","like_diff":8,"likes":11,"dislikes":3,"content":"好老师，好助教，希望期末有个好绩点~"},{"id":210573,"teacher_id":10357,"teacher_name":"李环","post_time":"2025-01-09 11:28:57","like_diff":6,"likes":7,"dislikes":1,"content":"李环老师今年第一次上os，班上的同学主要是软工专业的。楼主室友基本是jjm老师班上的，所以平时也有一些比较\n\n李环老师是非常年轻的老师，也很认真负责，貌似是浙大直系学长？\n\n各种意义上不输jjm等老牌教师，班级ddl时间合理，碰到期中考试周会延长，期末也放宽了bonus期限，比jjm班紧凑的ddl导致没时间做bonus舒服很多\n\n小测也是十分放水，柳晴老师以Aha Slides的形式进行，答对50%以上就给满分，否则得一半得分，李环老师的纸质quiz只要去了就是满分\n\n平时课上也会用Aha Slides进行互动答题，但是不要求实名，所以你参不参加都行（\n\n平时没有签到，上课发言可能有bonus，但是我不怎么去教室\n\n这学期的三位助教哥哥姐姐也很nice，验收只问一两个问题，而且不会刁难，貌似也只有1和0的区别，验收压力没jjm班那么大（体系下课去参观过他们班验收，人山人海x）\n\n总是选到就是赚到\n\nPS: 还没出分，环哥捞我！"},{"id":211009,"teacher_id":10357,"teacher_name":"李环","post_time":"2025-01-10 10:25:03","like_diff":2,"likes":3,"dislikes":1,"content":"操作系统体验很好。李环老师和柳晴老师都很年轻，讲课不错，很为同学着想，从作业到ahaslides的“quiz”到单元总结都是以让同学们学会操作系统为目的设计的。三位助教也幽默风趣认真负责。选了肯定没错"},{"id":212123,"teacher_id":10357,"teacher_name":"李环","post_time":"2025-01-13 08:26:20","like_diff":1,"likes":1,"dislikes":0,"content":"对一个比较划水的学生而言 给分超过预期 上课体验也很好！助教gg jj都很好"},{"id":218615,"teacher_id":10357,"teacher_name":"李环","post_time":"2025-04-27 03:27:11","like_diff":1,"likes":1,"dislikes":0,"content":"byd老师装的很好，看似真诚实则虚假，有点pua。（不评价上课）"},{"id":212379,"teacher_id":10357,"teacher_name":"李环","post_time":"2025-01-14 02:30:41","like_diff":-1,"likes":0,"dislikes":1,"content":"超级无敌好的老师！"},{"id":213390,"teacher_id":10357,"teacher_name":"李环","post_time":"2025-01-17 07:23:34","like_diff":-1,"likes":0,"dislikes":1,"content":"很不错的老师！"},{"id":214449,"teacher_id":10357,"teacher_name":"李环","post_time":"2025-02-05 03:31:30","like_diff":-1,"likes":0,"dislikes":1,"content":"好老师，操作系统课程整体体验很好。\n\n在理论作业上，只有两次作业，第一次是让AI出题做相对来讲量比较多但是比较水也能帮助我期中复习一下之前学的知识，第二次是正常出题做量不多，作业应该是交了就有分；\n\n在授课上，老师一般依照着PPT内容讲述课程同时会拓展一些内容便于理解和深化，PPT上的内容其实就是英文教材对应章节的简化版(当然不是完整的)，每次课前会有课前小游戏帮助同学们回顾上一次课的知识(课前小游戏就是单纯的回顾是不算分的)，因此如果认真跟着老师上的话基本能够掌握并记住课堂讲授的内容，但是最终考试肯定还是要刷刷王道考研题或历年卷的嘛，这点可以看看操作系统的经验贴；\n\n在小测上，柳晴老师是Slides形式的小测(就和课前小游戏的形式相同，这种形式小测最烦时间紧凑但是经过反馈之后的答题时间应该都会比较长了)50%正确即满分，李环老师是纸质小测应该是交了就满分，如果过于担心小测就在平时多看看王道书上对应章节的考研真题，Slides上的题目很多都是考研真题；\n\n在平时实验上，实验与课题组的整体实验是一致的都是采用MiniOS，理论上可以组队完成，但是同学们大多都是solo完成的，整体实验安排比较紧凑和合理，验收也不会太刁难，而且应该在平常实验(除了bonus外)不会做的时候可以请教助教，同时平时实验的分数据助教所说都给在90分以上。在最终考试上，老师给了我们一份之前学长的3页A4纸作为复习参考，但是真正复习的时候最好能够过一遍考研真题（3页A4纸的参考上也有一些小错误大家复习的时候要注意）。\n\n整体体验上来讲，李环和柳晴老师的操作系统课体验很好值得推荐。"},{"id":216770,"teacher_id":10357,"teacher_name":"李环","post_time":"2025-03-24 11:45:38","like_diff":-1,"likes":0,"dislikes":1,"content":"好老师！！"},{"id":212116,"teacher_id":10357,"teacher_name":"李环","post_time":"2025-01-13 08:02:55","like_diff":-2,"likes":0,"dislikes":2,"content":"认真负责，幽默风趣的好老师"},{"id":212130,"teacher_id":10357,"teacher_name":"李环","post_time":"2025-01-13 08:34:36","like_diff":-4,"likes":0,"dislikes":4,"content":"充满诚意的老师和博学负责的助教，直接把OS的体验拉满了ovo，可以说是大学四年体验最好的课程之一了。\n\n环哥上课相当给力，每节课有ahaslides(不计入总评的答题游戏)，第一有咖啡券/奖品；助教哥哥姐姐也在实验部分各种加持，整个实验流程+bonus走完以后会有很多额外的收获。\n\n小测甚至只要50%对就算满，两次作业也主要以自主复习为主，最后给分也相当好。环哥伟大！\\^o^/"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

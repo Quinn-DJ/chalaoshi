@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姬凌辉 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="姬凌辉教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="姬凌辉,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">姬凌辉</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.51</div>
+                    <div class="rating-participants">132人参与评分</div>
+                    <div class="attendance-info">11.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (5 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">专业实习</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 5.00</span>
+                            <span class="students">选课: 29人</span>
+                            <span class="std-dev">标准差: 0.00</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">中国现代史</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.56</span>
+                            <span class="students">选课: 57人</span>
+                            <span class="std-dev">标准差: 0.26</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">中国近现代史纲要</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.01</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.49</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">新中国史</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.15</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.39</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">近代东亚文化交流史</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.32</span>
+                            <span class="students">选课: 33人</span>
+                            <span class="std-dev">标准差: 0.28</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (120 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":147925,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-11 07:16:15","like_diff":41,"likes":45,"dislikes":4,"content":"感觉跟以前评论比起来，老师真的有在改变！有提到给分提高，称之看到大家非常努力态度认真hh每次点名都会提前说，然后“拿出你们心爱的小手机”。个人感觉老师讲的还是很不错的，内容丰富，偶尔有梗很搞笑。事情真的少，只有小组展示和解惑作业（好像是，有一点点忘啦），上课也不会管下面的人hhh期末考感觉有一半题没完全翻到答案，4.2已经很满意啦！相信老师未来会越来越好的！"},{"id":128471,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2020-12-23 10:33:29","like_diff":32,"likes":46,"dislikes":14,"content":"他讲很认真，事很少，开学到现在只点了两次名。一次小组展示，两篇小论文（字数要求不多。）就是讲课让人没有世俗的欲望。"},{"id":147922,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-11 07:13:35","like_diff":29,"likes":31,"dislikes":2,"content":"分到一个特别辣鸡的小组，最后好在靠个人努力还是在其他方面把分数拽回来了（尽管还是卡住了555）老师讲课有时会很幽默，出分后1分钟内群里就出现20多条谢谢老师，看来已经认识到绩点问题了。风声松时会放同学们提前吃饭，作业时间很宽松，事情少，分到哪个小组纯看运气，给我印象最深的是小组展示课，已经下课几分钟了才演示完，助教根据流程请老师做总结发言，本以为吃午饭无望，谁料他说了这么一句：\n\n          “很好，下课！”"},{"id":140774,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-09-16 03:14:41","like_diff":24,"likes":25,"dislikes":1,"content":"已然认识到绩点问题。\n\n思维开阔。\n\n立场很正。\n\n有高度广度和深度，同时又很实际。"},{"id":131454,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-27 14:23:46","like_diff":21,"likes":24,"dislikes":3,"content":"老师初来乍到可能不会给分 给分确实有些低了 但是老师人真的蛮好 笑起来很可爱 事情也很少  不过感觉给分这件事老师之后会改的吧"},{"id":144661,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-12-23 04:14:56","like_diff":19,"likes":21,"dislikes":2,"content":"1个人目前查老师的评分对比老师真实情况偏低\n\n2还不知道这轮的绩点情况但是老师已经认识到过去绩点评定存在问题\n\n3论文同时布置而交论文的时间比同寝同学普遍晚一个月\n\n4个人认为老师讲课还是挺有梗的，只是史纲课本身比较水\n\n5给了十分，赶紧把老师评分拉上来吧"},{"id":129714,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-27 10:09:31","like_diff":17,"likes":26,"dislikes":9,"content":"成功被绩杀了，感觉自己作业和考试都是认真做的啊，虽然上课的确没有听课，主要史纲课真的没有听下去的欲望"},{"id":131378,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-27 09:12:27","like_diff":15,"likes":20,"dislikes":5,"content":"被 绩 杀 了\n\n虽然可能是自己的原因呜呜呜呜呜呜呜"},{"id":131417,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-27 11:57:34","like_diff":13,"likes":17,"dislikes":4,"content":"事情很少，人也很不错，但是，绩杀..."},{"id":131481,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-27 16:03:58","like_diff":13,"likes":17,"dislikes":4,"content":"老师自身水平挺高的，课内容不错但基本大家都很水。作业也不算多，但为什么绩点让人有点难受😭 首考历史100分的人在一个理科寝室里绩点最低。。"},{"id":147928,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-11 07:50:04","like_diff":13,"likes":13,"dislikes":0,"content":"绩点出来再来给个十分 史纲论文让我们12🈷️中后旬交 相比与其他班的老师迟了一个月 相当于期中可以有很多时间复习。同样论文有上限（并不鼓励卷 卷也不一定高）相比其他老师4-5000的论文已经很厚道了。平常事很少 有点名也会提前通知。平时上课 老师也挺好的 感觉老师萌萌的 史纲课性质决定了没多少人听 但听一听收获还是挺多的 以前老师可能是刚来 不懂得怎么调分 现在给分真的够厚道了 姬老师现在评分太低"},{"id":131384,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-27 09:32:14","like_diff":11,"likes":13,"dislikes":2,"content":"姬老师人很好  但最后的绩点似乎也就飘飘过罢了"},{"id":131386,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-27 09:48:31","like_diff":11,"likes":14,"dislikes":3,"content":"绩杀，作业都有认真写，最后考试感觉也不错，没想到成绩那么差，吐了"},{"id":131418,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-27 12:01:05","like_diff":11,"likes":13,"dislikes":2,"content":"老师知识很渊博 事少\n\n但是绩点。。。 是我的问题吧。。"},{"id":131428,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-27 12:57:40","like_diff":11,"likes":15,"dislikes":4,"content":"水是真的水，轻松是真的轻松，绩杀也是真的绩杀"},{"id":147956,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-13 06:36:53","like_diff":11,"likes":11,"dislikes":0,"content":"1.老师给分变好啦，有在努力按照正态的上限给。（双赢的事情谁会不开心呢哈哈哈\n\n2.老师的课互动可能偏少，但是仔细听一听还是很有收获的。给我印象最深的可能还是网课期间上的那节《探索与曲折》，感觉之前的一些困惑豁然开朗了，老师的历史观还是很正的。\n\n3.老师人很好，很谦逊很温和。另外，老师也一直在改进教学中的一些问题，比如限制今年限制了论文字数的上限避免恶竞。最后，给老师比心~~~"},{"id":131392,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-27 10:15:05","like_diff":10,"likes":13,"dislikes":3,"content":"事少 绩杀……"},{"id":142422,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-11-18 06:36:57","like_diff":10,"likes":11,"dislikes":1,"content":"老师讲的挺好挺认真 有点名也会提前说 论文字数也少 也让我们晩交"},{"id":147913,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-11 07:03:04","like_diff":10,"likes":10,"dislikes":0,"content":"好好好，事少是真的少（这一点很舒服），成绩看期末和论文吧可能"},{"id":147918,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-11 07:08:38","like_diff":10,"likes":10,"dislikes":0,"content":"点名会提前说，平时事很少，论文字数有上限不鼓励卷，而且这学期没有绩杀!!!吹爆姬凌辉老师!(*°∀°)=3"},{"id":147937,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-11 07:40:08","like_diff":10,"likes":10,"dislikes":0,"content":"先说一下，绩点问题老师已经认识到了错误，不再绩杀。\n\n事情少，一个学期大概就是一篇解惑作业、一个小组展示。\n\n上课内容和书本关系确实不大，不过史纲应该都这样，毕竟按着书本讲肯定讲不完的。很有梗，说话挺幽默的。\n\n感觉他挺怕督导的哈哈哈哈哈，可能是年轻老师的缘故（？）\n\n总之可冲！"},{"id":142035,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-11-04 08:33:02","like_diff":9,"likes":9,"dislikes":0,"content":"感觉还蛮好的"},{"id":147921,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-11 07:11:48","like_diff":9,"likes":9,"dislikes":0,"content":"老师很有水平，事情少，作业上也很宽容，本人全程划水3.9\n\n绩点问题老师已经认识到了，现在的评分偏低"},{"id":147949,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-11 07:56:12","like_diff":8,"likes":8,"dislikes":0,"content":"认识到绩点问题啦，老师分数也要UPUP"},{"id":148644,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-13 05:55:19","like_diff":8,"likes":8,"dislikes":0,"content":"姬凌辉！我的男神！已经很努力在改绩杀的问题了！事情很少讲课超认真！而且说话很有趣，最后一堂课说：“祝小可爱们期末考试顺利！”呜呜呜，有被可爱到！我的男神！"},{"id":155938,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-06-16 15:32:50","like_diff":8,"likes":8,"dislikes":0,"content":"老师谦逊又博学，是个反卷斗士，事情超少。我纯摆烂人也能上4，直接10分"},{"id":133328,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-02-25 16:58:33","like_diff":7,"likes":10,"dislikes":3,"content":"老师人不错，但是绩点给的很低，相对于别的老师明显低很多，而史纲有三学分，真的很影响总绩点，所以我也只能给老师评低分"},{"id":137992,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-07-07 04:14:31","like_diff":7,"likes":9,"dislikes":2,"content":"老师不如改名叫姬杀得了"},{"id":147930,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-11 07:29:01","like_diff":7,"likes":7,"dislikes":0,"content":"事情挺少的，一次小组展示和一篇最高5000字的论文。点名会提前说，而且这次给分还不错"},{"id":147948,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-11 07:55:57","like_diff":7,"likes":7,"dislikes":0,"content":"出成绩了 来反馈一波 老师一开学就对自己前两年的绩杀行为进行了反思hhh 然后说虽然期末考帮不了什么忙 但是平时分上会捞我们 整个学期事情很少 只有一次小组展示 一篇解惑报告 以及最后的期末考 批完解惑报告跟我们说这学期已经手松了很多了哈哈哈（而且解惑报告真的有好长的时间留给我们写） 期末前给我们时间在课堂上看书  最后的期末考感觉自己对书不太熟悉所以做的不是很好 但最后上4啦 谢谢老师！"},{"id":174666,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-06-15 08:20:21","like_diff":7,"likes":7,"dislikes":0,"content":"老师人真不错"},{"id":137985,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-07-07 04:04:27","like_diff":6,"likes":7,"dislikes":1,"content":"优点：点名的课会提前说 事不算多\n\n缺点：给分差"},{"id":148006,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-11 09:56:00","like_diff":6,"likes":6,"dislikes":0,"content":"老师还是很可爱哒！有点名什么的都会提前说，事情不多，但需要用心去做哦！老师也有在努力让史纲课变得活泼生动起来，最后出分对我来说也很友好！嘿嘿最后用我“心爱的小手机”对老师打个新年快乐！祝老师的工作顺利，越来越棒！"},{"id":148280,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-12 04:57:15","like_diff":6,"likes":6,"dislikes":0,"content":"本人4.2，之前看了姬老师的评分还很担心绩杀来着，但是一学期课上下来觉得老师人还是蛮好的。虽然上课比较枯燥一点但是老师会有时来一两个有意思的小笑话活跃气氛，考试的时候监考看到我们还开玩笑说有“主场优势”，真的给人感觉就是温和渊博又有点可爱的感觉。平时作业就是一次小组展示、一篇解惑论文，真的相对我的室友来说算少的了，然后下节课打卡有时也会提前提醒我们……最最最让我感到快乐的就是不卷上课举手发言啊！！（这点我真的还蛮喜欢的，思修给我整怕了）总之我感觉就是很nice。\n\n之前老师评分不好，但我觉得这学期应该改变了不少吧。总之是给老师点赞啦！！"},{"id":187710,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-01-17 08:02:43","like_diff":6,"likes":6,"dislikes":0,"content":"点名6次，都会写在黑板上。老师知识渊博，上课很有趣，虽然大部分情况下都是一边学别的科目一边听课，但还是能感受到老师的人格魅力。事少给分也挺好，只有1次pre和1篇论文。"},{"id":131404,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-27 11:20:56","like_diff":5,"likes":11,"dislikes":6,"content":"认真学认真作业 绩杀 绩点骤降 快跑"},{"id":131432,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-02-01 13:42:40","like_diff":5,"likes":9,"dislikes":4,"content":"成功被绩杀…感觉自己就是课没认真听，但是作业认真查了好多资料，考试前也好好预习了课本"},{"id":138030,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-07-07 06:02:39","like_diff":5,"likes":6,"dislikes":1,"content":"事情少，给分不好。如果教史纲的老师都是这样也就算了，但是其他老师会调分，姬老师不会，就真的很不公平。\n\n关键是，史纲有三学分真的很拉gpa。"},{"id":147968,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-11 08:30:42","like_diff":5,"likes":5,"dislikes":0,"content":"【史纲】老师备课很认真，授课也很认真，但是史纲这种课，真的让人没有想听下去的欲望。看了以往的评论，一直都很担心自己的绩点，因为我是个历史文盲，很怕被绩杀，遂好好写了期末论文（工科生真的尽力了）网课期间回答了老师的问题，最后老师给了4.5，没有大家说的“不如改名为绩杀老师”那么恐怖，给老师评了10分，谢谢老师一学期的付出，辛苦啦！"},{"id":172503,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-04-28 05:50:39","like_diff":5,"likes":5,"dislikes":0,"content":"事情很少，老师很幽默同时也很平易近人，也不是很卷发言🤤，给分也不错，这就足够打10分了"},{"id":131398,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-27 10:59:37","like_diff":4,"likes":8,"dislikes":4,"content":"很谦逊的老师"},{"id":131720,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-28 14:10:49","like_diff":4,"likes":6,"dislikes":2,"content":"被绩杀 不懂到底哪块做的不够好…可能还是不够努力吧唉…"},{"id":147953,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-11 08:11:59","like_diff":4,"likes":4,"dislikes":0,"content":"老师超级无敌好，事少分不错，已经不是急刹了"},{"id":147972,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-11 08:42:05","like_diff":4,"likes":4,"dislikes":0,"content":"非常有才华，也很好的老师，点名都会提前通知，只要你在完成任务分就很高"},{"id":148035,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-11 11:23:39","like_diff":4,"likes":4,"dislikes":0,"content":"老师讲课很认真，讲的也很好哦～\n\n会让人有一种在历史里徜徉的感觉(///▽///)\n\n而且绩点的问题这学期真的真的已经改啦！"},{"id":148206,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-12 01:27:05","like_diff":4,"likes":4,"dislikes":0,"content":"老师不再绩杀了！！亲测！！而且讲课很有意思，就是解惑作业占比很大一定要用心写！！！"},{"id":190826,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-03-20 06:38:46","like_diff":4,"likes":4,"dislikes":0,"content":"姬老师真的很好！！！事少很可爱！！猛猛冲！"},{"id":191264,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-04-16 01:14:18","like_diff":4,"likes":4,"dislikes":0,"content":"老师都是按照课程要求点名的，也提前和大家说过每学期点名次数，并且是数字点名，智云可以签到（bushi)姬老师真的很好，讲课很用心很认真，也很有意思~最后一节课老师还不好意思地说自己ppt做得不好（其实已经很清楚了，只是没有经过花里胡哨的美化），还说以后压力小一点会认真准备ppt的哈哈哈，希望老师得偿所愿！"},{"id":131470,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-27 15:27:37","like_diff":3,"likes":7,"dislikes":4,"content":"好老师，事少，平时论文一篇，读《浙江精神》一篇，小组展示一次，没了！而且感觉老师不仅知识渊博，而且真的很有一种历史性的眼光去教学。更重要的是分的清历史立场，赞！"},{"id":137977,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-07-07 03:26:21","like_diff":3,"likes":4,"dislikes":1,"content":"老师事情确实少，分也确实低，卷都卷不高的那种，自己慎重选择吧"},{"id":137981,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-07-07 03:31:32","like_diff":3,"likes":4,"dislikes":1,"content":"确实是绩杀了"},{"id":147973,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-11 08:42:03","like_diff":3,"likes":3,"dislikes":0,"content":"非常有才华，也很好的老师，点名都会提前通知，只要你在完成任务分就很高"},{"id":148000,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-11 09:42:21","like_diff":3,"likes":3,"dislikes":0,"content":"老师真的超级好，上课还挺有意思的，虽然大家都在摸鱼来着，平时事情很少，而且给分实很好的，之前绩杀是不会调分，但是现在是会的呀，老师每次点名都会提前告诉我们的，不点名的课你不去也没事哒。而且老师特别可爱啦!"},{"id":155820,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-06-16 06:14:40","like_diff":3,"likes":3,"dislikes":0,"content":"爱了爱了"},{"id":155951,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-06-16 17:05:16","like_diff":3,"likes":3,"dislikes":0,"content":"反卷斗士yyds！！！我爱姬凌辉！"},{"id":188117,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-01-18 08:35:21","like_diff":3,"likes":3,"dislikes":0,"content":"事少分高，人挺不错"},{"id":198563,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-09-10 03:08:36","like_diff":3,"likes":3,"dislikes":0,"content":"课水事少给分如我男神"},{"id":128499,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2020-12-23 11:29:33","like_diff":2,"likes":9,"dislikes":7,"content":"姬老师PPT做的很翔实，知识储备也非常丰富，人也很和蔼温和"},{"id":129833,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-12 16:09:30","like_diff":2,"likes":7,"dislikes":5,"content":"上课挺水，史纲课就有一次讨论和2篇文章，字数很少，事情也不多，想水的可以选!"},{"id":137978,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-07-07 03:28:45","like_diff":2,"likes":6,"dislikes":4,"content":"绩杀到怀疑人生😅😅😅"},{"id":154893,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-06-06 13:56:29","like_diff":2,"likes":2,"dislikes":0,"content":"老师已经认识到绩点问题了，我很水的展示加上缝合的论文得了3.9，而且不拖沓，事少，ddl友好，反正我给10分了"},{"id":165594,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-01-08 17:04:58","like_diff":2,"likes":2,"dislikes":0,"content":"史纲课要求做pre，有同学的自由提问环节，pre的话我是小组长，内容很多是情景剧但是我们组选了ppt和一点点配音，其实展示效果一般，但是问答环节很ok，然后开卷考就是哐哐抄书，考试当时是第一次看书来着、但是答了超级超级多，最后喜提4.8真的超开心，然后课程要求的论文也是认真去做了，除此之外上课没听过，就是到课堂，然后偶尔会有数字点名。老师人很好很随和，也在尽力捞，课的质量因为从来没听过所以不做评价，但是pre时候的自由问答环节还是容易被刁钻提问的所以一定做好准备~"},{"id":167279,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-01-15 11:31:10","like_diff":2,"likes":2,"dislikes":0,"content":"老师上课很认真，带病坚持网课真的让我被狠狠感动到！出分的时候说“我已尽力，不喜勿喷”太可爱了哈哈哈哈\n\n平时事情不多，发言能加平时分，再写一篇小论文，参与一次小组展示就好了。老师给分也很好，我发言不多，小组展示一般，最后拿了94~"},{"id":176505,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-06-29 06:45:13","like_diff":2,"likes":2,"dislikes":0,"content":"非常好的老师，给分可以的，事情挺少就一次pre一次论文，会数字点名但有时候点名群里还会说，讲课也还挺有意思的，很幽默，考试发卷的时候还说一句考试顺利真的很可爱"},{"id":176509,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-06-29 06:56:04","like_diff":2,"likes":2,"dislikes":0,"content":"吹爆jlh老师"},{"id":176613,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-06-29 12:38:03","like_diff":2,"likes":2,"dislikes":0,"content":"老师的史纲真的超级好，事少给分好，老师人也很可爱，之前可能因为下正太还存在所以绩杀了一部分同学（现在不了！）导致评价不是很好，他在第一节课说“感谢大家信任选择我的课…你可以不尊重我，但是请你尊重历史”，真的让人觉得有点心酸，讲课也可以看出老师是一个有学识的人，可惜我真的不喜欢历史没有认真听课，真的是一个值得10分的宝藏老师，可冲！！！（听老师最后一节课好像老师也会看查老师，在这里谢谢老师！！）"},{"id":187827,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-01-17 14:04:34","like_diff":2,"likes":2,"dislikes":0,"content":"上课：可以说没听过。\n\n给分：我男神"},{"id":188706,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-01-19 15:40:57","like_diff":2,"likes":2,"dislikes":0,"content":"好好好好"},{"id":193457,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-06-11 06:31:14","like_diff":2,"likes":2,"dislikes":0,"content":"无脑选就行"},{"id":195670,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-06-29 11:15:00","like_diff":2,"likes":2,"dislikes":0,"content":"神中神"},{"id":128534,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-05 13:56:45","like_diff":1,"likes":9,"dislikes":8,"content":"新老师，知识面很广"},{"id":137987,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-07-07 04:07:57","like_diff":1,"likes":5,"dislikes":4,"content":"妈的 调个分会死吗？？？？\n\n学生都很容易吗？？\n\n史纲三分呢爹"},{"id":137995,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-07-07 04:28:35","like_diff":1,"likes":2,"dislikes":1,"content":"虽然老师给分好像不很好（也有自己菜的原因）但课还是讲得不错的！"},{"id":137999,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-07-07 04:49:11","like_diff":1,"likes":2,"dislikes":1,"content":"老师蛮负责的，就是给分不好看"},{"id":138003,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-07-07 05:01:14","like_diff":1,"likes":2,"dislikes":1,"content":"事少，\n\n基本不点名，\n\n讲课好，\n\n内容翔实，\n\n但是\n\ntmd绩杀啊啊啊啊啊啊啊啊啊啊！\n\n平时分满了，卷面自我感觉良好\n\n我TM直接从巅峰跌入低谷\n\n绩点直降0.4"},{"id":138005,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-07-07 05:01:17","like_diff":1,"likes":1,"dislikes":0,"content":"姬老师事少，这一点必须承认。但是最后绩点全看期末，老师不调分，想要拿高分建议高中历史特别好的同学来，否则普遍急刹"},{"id":138011,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-07-07 05:06:15","like_diff":1,"likes":2,"dislikes":1,"content":"给分不透明还绩杀……三分的课学生还有自己的专业课……完全不知道体谅人"},{"id":138080,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-07-07 09:23:05","like_diff":1,"likes":1,"dislikes":0,"content":"两次点名+小组展示+论文，事挺少\n\n签到会提前告知\n\n新老师，不会调分，绩杀慎选"},{"id":148093,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-01-11 13:17:36","like_diff":1,"likes":1,"dislikes":0,"content":"emmm怎么说呢，我复习了这么久和完全没复习的人一样都是4.5?这河里吗?但是老师还是值10分的。"},{"id":151179,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-02-24 05:21:08","like_diff":1,"likes":1,"dislikes":0,"content":"很好的"},{"id":151212,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-02-24 13:57:52","like_diff":1,"likes":1,"dislikes":0,"content":"初见直接十分"},{"id":151372,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-03-01 14:02:28","like_diff":1,"likes":1,"dislikes":0,"content":"我永远沉沦于老师的温柔"},{"id":153986,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-05-18 12:24:50","like_diff":1,"likes":1,"dislikes":0,"content":"新中国史 一节课爱上w"},{"id":154984,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-06-07 08:30:29","like_diff":1,"likes":1,"dislikes":0,"content":"哈哈哈"},{"id":155816,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2022-06-16 06:03:34","like_diff":1,"likes":2,"dislikes":1,"content":"这个老师真的太棒了，课讲的非常好，不会布置繁琐的任务和无聊的考勤，而且给分还这么好！我都感觉我配不上这么好的分数"},{"id":165567,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-01-08 12:07:41","like_diff":1,"likes":1,"dislikes":0,"content":"今天出分了来评一波！！！老师人很幽默，比较有梗，上课很认真。从来没听过课也拿了自己比较满意的分数，推荐一波嘻嘻嘻"},{"id":165606,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-01-09 03:33:24","like_diff":1,"likes":1,"dislikes":0,"content":"很幽默很宽容的好老师"},{"id":165891,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-01-10 08:46:22","like_diff":1,"likes":1,"dislikes":0,"content":"人看起来挺和蔼的，点名会把数字写在黑板上，划水一学期（指上课签到完就早退，论文缝合怪，期末论述题字数踩着老师的要求底线写）喜提4.5，感觉还行。"},{"id":168288,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-02-09 11:54:45","like_diff":1,"likes":2,"dislikes":1,"content":"事少分高，我已尽力，不喜勿喷/狗头"},{"id":169591,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-02-27 04:37:51","like_diff":1,"likes":1,"dislikes":0,"content":"老师真的很好\n\n老师每次数字点名都在钉钉群里艾特所有人，大一上的我人都愣了，还会反复提醒点名。有一次错过了事后跟老师解释后老师也很快同意手动帮我补签。\n\n写论文的时候询问老师推荐书目，老师很认真地回答：请读xx的xxx。\n\n1225下课，但是有不懂的询问老师老师还是很热心的回答。\n\n史纲本身就挺水的（我老不听课玩手机🤳），小组展示弄个小剧场大家玩得也挺乐呵乐呵。"},{"id":170697,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-03-08 07:42:33","like_diff":1,"likes":1,"dislikes":0,"content":"老师真是个好人；我印象特别深刻是我们小组和另一个组一起做pre，准备的用心程度差别很大，我们基本就是水水读稿子，对方有很用心的PPT和角色扮演，但是评价的时候老师各自说了我们的优点，都没有说缺点，真的对玻璃心同学很友好"},{"id":185881,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-01-05 09:36:01","like_diff":1,"likes":1,"dislikes":0,"content":"老师很幽默，很有意思，偶尔刚上课数字点名，数字都会在黑板上，事情也少，讲的不错"},{"id":187740,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-01-17 09:45:44","like_diff":1,"likes":3,"dislikes":2,"content":"虽然4.5让人有点失落吧，但还是想给姬老师打10分。一开始，其实我是特别想水的，但总是被姬老师的渊博、幽默吸引得无心内卷；所以后来我干脆节节课都坐前排，就当是放松听故事了，全程认真听讲、记笔记，一学期下来积累了许多轶事。总的讲，很有意思，对我一个工科生来说启发很大。"},{"id":188188,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-01-18 11:13:57","like_diff":1,"likes":1,"dislikes":0,"content":"有几次数字点名，总的来说，事少给分好"},{"id":188841,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-01-20 07:31:05","like_diff":1,"likes":3,"dislikes":2,"content":"大爱姬老师，讲课很有趣，也看得出来专业知识水平很高，给分也挺不错的，认真完成作业成绩基本不会掉4，最后4.8（虽然卡绩了）"},{"id":189156,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-01-22 08:00:35","like_diff":1,"likes":1,"dislikes":0,"content":"老师人真的好好啊！！！\n\n事少给分好尊嘟！\n\n之前的评论是之前的，大家看看年份，无脑冲！！！\n\n而且老师真的很博学，能带给你很多关于历史新的认识！老师真的很好！"},{"id":194855,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-06-25 17:17:14","like_diff":1,"likes":1,"dislikes":0,"content":"课虽然听得不多，论文也有点水但给分是我男神"},{"id":129587,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-08 04:16:48","like_diff":0,"likes":9,"dislikes":9,"content":"可以无脑冲"},{"id":129998,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-14 16:26:10","like_diff":0,"likes":7,"dislikes":7,"content":"老师有实力，贼强"},{"id":130181,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-18 13:00:26","like_diff":0,"likes":7,"dislikes":7,"content":"老师超级谦虚可爱，实力也很强！强推！"},{"id":130253,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-20 07:51:56","like_diff":0,"likes":7,"dislikes":7,"content":"老师知道的很多，认真听一听很有收获的"},{"id":132689,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-02-03 10:10:19","like_diff":0,"likes":7,"dislikes":7,"content":"老师绩杀 真的是垃圾"},{"id":138004,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-07-07 05:01:12","like_diff":0,"likes":1,"dislikes":1,"content":"事少，\n\n基本不点名，\n\n讲课好，\n\n内容翔实，\n\n但是\n\ntmd绩杀啊啊啊啊啊啊啊啊啊啊！\n\n平时分满了，卷面自我感觉良好\n\n我TM直接从巅峰跌入低谷\n\n绩点直降0.4"},{"id":138007,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-07-07 05:02:12","like_diff":0,"likes":0,"dislikes":0,"content":"绩杀。"},{"id":138018,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-07-07 05:31:48","like_diff":0,"likes":0,"dislikes":0,"content":"急刹，而且不要指望改变，我们的急刹成绩可都是求是老师“捞过”的呢"},{"id":139297,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-07-14 05:56:25","like_diff":0,"likes":4,"dislikes":4,"content":"绩杀！！！\n\n讲课超级无聊，十分催眠，慎选慎选"},{"id":165557,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-01-08 09:35:04","like_diff":0,"likes":0,"dislikes":0,"content":"给分不错的"},{"id":165591,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-01-08 14:28:41","like_diff":0,"likes":0,"dislikes":0,"content":"好老师，会捞人"},{"id":165624,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-01-09 04:55:16","like_diff":0,"likes":0,"dislikes":0,"content":"老师上课很不错！人很好！绩点真的很满意了啊呜啊呜！"},{"id":166327,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-01-12 03:14:58","like_diff":0,"likes":0,"dislikes":0,"content":"数字点名 写黑板上 高中选了历史 一节课没听\n\n论文是字数上限 期末考打了4000字 pre是组员 4.8 谢谢老师"},{"id":178292,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-07-09 14:42:14","like_diff":0,"likes":0,"dislikes":0,"content":"给分真不错，讲的也很好，速选"},{"id":179536,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-09-18 04:42:50","like_diff":0,"likes":0,"dislikes":0,"content":"非常棒的老师！"},{"id":181413,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-10-17 07:26:50","like_diff":0,"likes":0,"dislikes":0,"content":"姬老师人真的超好！！"},{"id":183874,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2023-12-02 03:45:00","like_diff":0,"likes":0,"dislikes":0,"content":"不错的一个老师"},{"id":187707,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-01-17 07:59:28","like_diff":0,"likes":1,"dislikes":1,"content":"给分好，人也很负责，吹爆！"},{"id":187744,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-01-17 09:45:35","like_diff":0,"likes":0,"dislikes":0,"content":"好给分好"},{"id":187774,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-01-17 11:12:57","like_diff":0,"likes":0,"dislikes":0,"content":"事少分好，数字点名，给的时间特别长，老师讲课真的很有深度\n\n不会调分是很久之前的了，现在真的很好，推荐大家选！"},{"id":196741,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2024-07-05 02:54:18","like_diff":0,"likes":1,"dislikes":1,"content":"事少给分好"},{"id":132475,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-02-02 01:02:56","like_diff":-7,"likes":6,"dislikes":13,"content":"傻逼老师 绩点极低 史纲啥事都做了 上课从不翘课 气死了"},{"id":131369,"teacher_id":8281,"teacher_name":"姬凌辉","post_time":"2021-01-27 08:32:02","like_diff":-23,"likes":8,"dislikes":31,"content":"老师非常好，上课用心，给分不错，无论想水还是真的对历史感兴趣都可以选"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

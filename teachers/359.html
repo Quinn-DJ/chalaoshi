@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>揭爱花 - 公共管理学院 - 浙大教评</title>
+    <meta name="description" content="揭爱花教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="揭爱花,公共管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">揭爱花</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">公共管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.07</div>
+                    <div class="rating-participants">85人参与评分</div>
+                    <div class="attendance-info">39.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (1 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">性别与社会</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.03</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.59</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (69 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":140407,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2021-09-10 17:20:21","like_diff":89,"likes":93,"dislikes":4,"content":"是一个让我的人生发生重大转折的通识课（遇到了npy，向家里人出柜了"},{"id":357,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2018-04-11 05:57:38","like_diff":59,"likes":86,"dislikes":27,"content":"揭老师以前受邀做过电台节目，接触到的实际例子非常多。她讲的例子都是真是的，有些特别动人，很有趣啊。"},{"id":99872,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2019-01-25 08:55:43","like_diff":29,"likes":32,"dislikes":3,"content":"有些评论戾气真的重。我觉得老师传达的一些观念挺好的，可能某些人自己接受不了吧"},{"id":99858,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2019-01-25 08:43:38","like_diff":27,"likes":29,"dislikes":2,"content":"不论成绩，揭老师真的完全改变了我对 性 和 性别 的看法，别的不说，至少现在，作为一个女生，我并不支持（当然也不反对）所谓的处女情节了，虽然别人看似是一小步，其实是我的一大步，这小小的事情背后可以追溯到婚姻家庭的起源，生育制度，性与爱，男女平等，女性觉醒和女权思潮等等，真的不是我们想的这么简单。给分的话，通核给分都要正态，看开了就好了。"},{"id":133285,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2021-02-23 12:51:00","like_diff":20,"likes":21,"dislikes":1,"content":"性别问题本身就是一个敏感的问题，但老师不是偏激的人，反而会在课上告诉大家保护好自己，不要冲动。讲课理论偏多，不用太担心老师观点与自己不符的问题。讨论课非常舒适，整个学期讨论课保持着开放真诚的氛围，话题也都现实且有价值。"},{"id":132154,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2021-01-30 15:49:18","like_diff":14,"likes":16,"dislikes":2,"content":"为什么不到十分啊"},{"id":137718,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2021-07-05 18:50:10","like_diff":14,"likes":15,"dislikes":1,"content":"太喜欢了，期末复习的时候才发现资料里特别多经典社会学理论，都是老师自己整理分析女性主义的，干货很多，每年也会更新ppt的内容，结合放下发生的事件来讲(21年有讲到三胎)。老师的观点比我这个radfem温和太多了hhh。我们班的讨论课气氛也非常好，同学们都是非常想要深入探讨性别相关的问题的，互相提问矫正，助教姐姐也给我们讲了很多，分享了很多视频，作业也很少就一份读书报告和两次小组展示(这大概是通核里最少的了？)不管给分，墙裂推荐。尤其是你，正看着我的评价，心里还对女性主义存在刻板印象的你。虽然这是通识课，但是系统性地去了解女性主义的发展和成果，对每一个人都非常有用"},{"id":140424,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2021-09-11 06:22:38","like_diff":14,"likes":17,"dislikes":3,"content":"祝福楼下！！！"},{"id":150905,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2022-02-21 02:56:32","like_diff":13,"likes":16,"dislikes":3,"content":"性别与社会。个人不喜欢，虽然说自己激进，但是观点很旧，教了几十年这个课，东西反复讲，一个事例会讲很多次很多次，真正有价值的性别知识不多，还不如读课本学的多。我觉得她真正想的只是希望我们婚姻生活美满，职业生活正常。如果你这一方面知识空白，学了有益，如果你已经是女权主义者或者有一定想法，你可能听不下去。    不过，周三的讨论课是助教主持，我超爱，能听到各种观点，认识很多有趣的人，就冲这个讨论课我也还是会推荐性别与社会。"},{"id":85358,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2018-07-17 08:13:34","like_diff":8,"likes":17,"dislikes":9,"content":"没忍住，第一次给一门课差评，给分真的是不能理解，分数是看跟助教关系？"},{"id":139647,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2021-07-19 05:09:39","like_diff":8,"likes":9,"dislikes":1,"content":"听老师讲课真的很有收获，事情不多最后绩点也不错，讨论课超有趣而且不卷，吹爆助教zyxxjj"},{"id":34921,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2016-10-26 12:59:47","like_diff":7,"likes":14,"dislikes":7,"content":"大学开蒙者"},{"id":132886,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2021-02-04 10:45:07","like_diff":7,"likes":8,"dislikes":1,"content":"助教姐姐人超级好！！每周上通核讨论课是我卑微专业课爆炸的大三最快乐的时光了~"},{"id":6346,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2015-07-13 06:08:46","like_diff":6,"likes":18,"dislikes":12,"content":"讲的非常好，开拓思路，新的角度，受益匪浅，给分也与付出成正比"},{"id":39081,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2016-12-21 04:29:17","like_diff":6,"likes":16,"dislikes":10,"content":"老师讲课很棒，建议人文社科的同学选一下，对社会和性别的分析很透彻，正三观。"},{"id":93962,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2019-01-14 13:06:54","like_diff":5,"likes":12,"dislikes":7,"content":"我，必须要吹爆老师。受益良多，以前都是自己瞎看文献，现在终于有机会好好梳理这些东西了。我认为评论里的有些偏激了，个人认为老师的观点和讲课都很好，我学到了影响人生的社会学也好女权也好相关知识，也许是刚好和我想法一样的原因吧。讨论课氛围也很好，这是我目前唯一一门发自内心去听的课。医学生留。还没考试，我也不在意绩点。"},{"id":126587,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2020-10-04 13:55:33","like_diff":5,"likes":9,"dislikes":4,"content":"揭老师真的是非常优雅知性的女老师，讲课逻辑非常巧妙清晰，运用的一些事例非常引人入胜，听说她的性别与社会课还蛮难选的嘿嘿"},{"id":129359,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2021-01-04 13:10:54","like_diff":5,"likes":7,"dislikes":2,"content":"好老师，讲课很有逻辑和思想，是真真实实的一个学者"},{"id":150980,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2022-02-21 13:29:46","like_diff":5,"likes":5,"dislikes":0,"content":"女孩很好 很重要 。因为人很重要 。"},{"id":157047,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2022-06-21 17:34:08","like_diff":5,"likes":5,"dislikes":0,"content":"真的感觉揭老师讲的很好才过来评论的，em。。。一个学期下来感觉自己看待问题的角度，对人的宽容程度都有改善"},{"id":139724,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2021-07-21 10:29:09","like_diff":4,"likes":4,"dislikes":0,"content":"百分制通核太少见了，给分真不错，课程也很有意思，每次讨论课都能收获很多"},{"id":154198,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2022-05-26 00:15:25","like_diff":4,"likes":6,"dislikes":2,"content":"歪个楼，大家好像都是在评价通核课，想来讲一下专业课，专业课事不多不点名，但是给分很玄学，可能动不动就3或3.3了，总之…小心为上"},{"id":160064,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2022-09-12 15:04:06","like_diff":4,"likes":5,"dislikes":1,"content":"大学第一天上课就上了性别与社会，真的好爱揭老师！！讲课真的好好，气质还满分。虽然还没有深入学习这门课程，但我真的是第一次有这种上完课心灵得到升华的感觉！"},{"id":173694,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2023-06-01 13:06:27","like_diff":4,"likes":4,"dislikes":0,"content":"揭老师这个学期退休了，浙大没有讨论性和性别的通识课了。\n\n我以为进入大学，我们能以更开明的态度去谈性，会有更开放包容的空间去了解性/社会性别制度，但是没有。\n\n没有。所以也没必要再讲什么事多分低、给分不合理，也不知道什么时候会再有老师开课一门谈认真性和性别的课。\n\n性和每个人相关，性教育对所有人都非常重要，不光是对新生命产生的意义，还有对待自己身体，对生活方式的选择。学会爱他人爱世界，尊重他人的性权利，尊重他人的性隐私，学会选择积极健康的生活方式，我们太缺少对这些内容的思考了。"},{"id":115009,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2019-07-14 04:06:36","like_diff":3,"likes":4,"dislikes":1,"content":"老师对于婚姻那一块的剖析真的非常到位 让我对于婚姻有了新的理解 也明白了婚姻的实质是什么 如何去维系一段婚姻"},{"id":119420,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2019-11-13 00:00:36","like_diff":3,"likes":5,"dislikes":2,"content":"来自浙江大学第一个有关性别的课程\n\n老师很有自己的女权思想，讲课很有趣\n\n"},{"id":121893,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2020-01-23 06:08:06","like_diff":3,"likes":5,"dislikes":2,"content":"老师很好，让我思考了很多以前没有思考过的问题，对性别和女权有了新的认识和自己的思考。给分看考试，平时分没啥作用。发言只有几次的同学拿了A+，每次都发言的同学B"},{"id":126607,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2020-10-07 16:19:19","like_diff":3,"likes":14,"dislikes":11,"content":"揭老师的课真的讲的很好啊，作为一个社会学的学者，真的很有逻辑和修养。作为一个男生我真的完全没有感到她有任何女权或者女拳的思想，都是非常客观和理性地在分析问题"},{"id":137476,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2021-07-04 10:44:38","like_diff":3,"likes":4,"dislikes":1,"content":"老师真的好温柔，而且很有气质！\n\n上课讲的也很生动很客观，不会让人觉得偏激！"},{"id":107593,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2019-05-07 09:11:57","like_diff":2,"likes":3,"dislikes":1,"content":"老师讲课很棒，一个短学期的课程已经很满足之前对性别社会学内容的期待了，有很多干货。虽然时间很紧最后讲理论时有点匆忙，但是仍然让人感觉很有收获，很启发同学用性别视角观察社会事实。希望老师能开一门长学期的专业课，这样脉络可能更加清晰，我们也能学得更加充实。"},{"id":169024,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2023-02-24 04:47:57","like_diff":2,"likes":2,"dislikes":0,"content":"课好意义大。但事多分差"},{"id":19885,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2016-01-25 13:41:44","like_diff":1,"likes":13,"dislikes":12,"content":"老师讲的超好！！虽然最后考试有点难度，但还是平时接触过的话题，好好听课一定有回报。。最后给分也超好！"},{"id":26232,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2016-06-16 10:19:06","like_diff":1,"likes":10,"dislikes":9,"content":"炒鸡棒 不按等级制的通核"},{"id":45887,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2017-01-20 08:27:29","like_diff":1,"likes":10,"dislikes":9,"content":"大一就选上通核，老师超级棒，大一印象最深的一门课，没有之一"},{"id":101862,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2019-01-29 10:10:20","like_diff":1,"likes":3,"dislikes":2,"content":"揭老师的课给了我不一样的感觉。虽然之前听同学说要立个名牌好让老师认识你，老师也提起过这件事，但整个秋冬学期都没有人立，坐在前几排的好像永远都是那些同学，助教小姐姐（小哥哥）人很好，每次讨论课都有新的收获，理论课也很好很有趣「虽然有些言论不是很认同」但每次都有认真听，毕竟最后的考试内容基本上是老师上课提到的，老师会在最后把PPT都给同学「虽然没什么用」开卷考，虽然通核不可避免会正态，但是一分耕耘一份收获吧，希望感兴趣的同学都能选上性别与社会，在讨论小组认识一群有趣的朋友。"},{"id":126498,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2020-09-28 12:31:08","like_diff":1,"likes":7,"dislikes":6,"content":"虽然老师的观点有些偏激，许多想法我都不能接受，也没有获得一个高的绩点。但是通过这门课我作为一个理科生，体会到了社会科学的乐趣。"},{"id":139596,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2021-07-18 03:46:18","like_diff":1,"likes":1,"dislikes":0,"content":"很好啊"},{"id":158851,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2022-07-02 19:35:09","like_diff":1,"likes":6,"dislikes":5,"content":"专业选修课，快逃只能说。与系里其他老师详细的syllabus截然不同，到最后一周才知道考试范围与占比。课堂内容说是情感电台都是抬举，甚至不如民办妇科医院的小杂志。最后如楼下所言，绩点爆炸。"},{"id":158900,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2022-07-03 05:25:41","like_diff":1,"likes":1,"dislikes":0,"content":"通核课，大课老师从不点名，去不去无所谓，讨论课积极发言即可，给分不错"},{"id":159200,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2022-07-07 18:52:05","like_diff":1,"likes":1,"dislikes":0,"content":"给分没那么好，大课没什么干货但是讨论课还不错，谨慎选课"},{"id":20393,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2017-12-23 02:20:22","like_diff":0,"likes":15,"dislikes":15,"content":"强推性别与社会！不按等级制给分超级好！老师讲的一些例子很有趣听来很有意思～"},{"id":46352,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2017-01-21 10:09:44","like_diff":0,"likes":24,"dislikes":24,"content":"老师的某些观点其实过于偏激了，上课没有之前想象的有趣。给分的话就看和助教关系了吧。虽然性别与社会这门课很多人推荐，其实个人觉得有点不符实。"},{"id":47456,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2017-01-27 00:56:02","like_diff":0,"likes":4,"dislikes":4,"content":"给分hh"},{"id":57379,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2017-07-07 05:21:34","like_diff":0,"likes":6,"dislikes":6,"content":"给揭老师和潘耘学姐满分～比心心～"},{"id":77887,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2018-05-08 10:55:24","like_diff":0,"likes":1,"dislikes":1,"content":"老师说的有些有道理，有些又有点偏激，感觉要凭自己的知识判断，不过整体很有趣，值得一上！"},{"id":85260,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2018-07-16 14:33:36","like_diff":0,"likes":3,"dislikes":3,"content":"对老师感觉一般\n\n但助教太好了\n\n史上最帅老油条助教陈佳俊\n\n为了他给这课10分\n\n"},{"id":93956,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2019-01-14 12:27:09","like_diff":0,"likes":1,"dislikes":1,"content":"我觉得吧，这门课对我的性别意识起了引导疏通作用。"},{"id":99915,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2019-01-25 09:36:45","like_diff":0,"likes":3,"dislikes":3,"content":"可能在通核里算是事情不多的，一学期两次展示，一篇读书报告，期末开卷考试。课程内容很有趣，值得以上。给分的话，通核等级制给分本来就不怎么友好，绩点也不能强求。"},{"id":112917,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2019-07-05 10:44:59","like_diff":0,"likes":2,"dislikes":2,"content":"很棒的老师！\n\n"},{"id":113690,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2019-07-07 04:02:05","like_diff":0,"likes":0,"dislikes":0,"content":"还不错 给分全凭自己的期末和助教"},{"id":171149,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2023-03-17 03:36:41","like_diff":0,"likes":0,"dislikes":0,"content":"通核一向事多，期末一篇论文+开卷考，如果通核能事少一点我能给10分"},{"id":46417,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2017-01-21 13:46:01","like_diff":-1,"likes":8,"dislikes":9,"content":"老师上课挺有意思  但是最后给分并不怎么样  即便最后考试考好分数也不会高  还是刷脸和助教的关系吧"},{"id":85716,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2018-07-27 22:56:19","like_diff":-2,"likes":4,"dislikes":6,"content":"事挺少的，助教姐姐特别善良，期末还开卷考，这也是我在夏学期选课时推荐朋友选这门课的原因；但是，我现在后悔了，给分也太差了吧，感觉自己平时分不会低啊，然后期末考也太玄学了吧，感觉自己答的书上和资料上都能找到啊，除了第一题的名词解释不确定，一下子就这么低的绩点了，还在平均分之下，均绩直降0.06!!!"},{"id":15700,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2016-01-16 07:07:51","like_diff":-3,"likes":12,"dislikes":15,"content":"超棒！例子鲜活深刻，很有见解"},{"id":71754,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2018-01-29 02:41:01","like_diff":-3,"likes":8,"dislikes":11,"content":"说句真心话，大家上课都是为了绩点。揭老师的课，我作为一个医学生，有些不科学的东西比如人造子宫已经可以用了这种话我其实是很不爽的。但是这门课是真的给分好啊，一下就满了。还有一个超漂亮人超好的助教姐姐潘耘啊。"},{"id":49600,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2017-04-20 03:03:18","like_diff":-4,"likes":10,"dislikes":14,"content":"无趣。"},{"id":34072,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2016-09-26 11:43:06","like_diff":-5,"likes":27,"dislikes":32,"content":"屁股决定脑袋的鲜活范例，大失所望"},{"id":43936,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2017-01-17 06:45:56","like_diff":-5,"likes":21,"dislikes":26,"content":"很恶心的课，讲的是不错，但是平时分这个老师就看你在她课上听不听她上课，因为她会让你做一个名牌放桌上然后拍照，表面上是点名，其实如果你不听课被她看见，她可以之后看照片给你打低分，谁跟老师混得面熟谁就赢，然后很多恶心的人就刷存在感，让人反胃"},{"id":60519,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2017-10-23 06:34:15","like_diff":-5,"likes":43,"dislikes":48,"content":"这老师课还能有人推？讲着几百年前的例子当靶子打，完全不管社会实际发展，希拉里失败是因为她是女人，宁为玉碎不为瓦全说的是女人？？真的是什么都和性别歧视有关的咯？"},{"id":85328,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2018-07-17 04:51:42","like_diff":-7,"likes":6,"dislikes":13,"content":"助教姐姐一级棒了，至于老师本身emmm观点有些偏激，有些陈年的例子就不要拿出来讲了吧...给分很不好??既然最后要考试能不能讲点有用的东西？"},{"id":47222,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2017-09-18 08:54:54","like_diff":-9,"likes":0,"dislikes":9,"content":""},{"id":62828,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2017-11-27 06:01:38","like_diff":-9,"likes":6,"dislikes":15,"content":"吐了。"},{"id":78827,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2018-05-15 11:35:20","like_diff":-9,"likes":11,"dislikes":20,"content":"性别与社会？\n\n女性与社会。"},{"id":85461,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2018-07-18 06:09:02","like_diff":-9,"likes":7,"dislikes":16,"content":"这是我见过的最辣鸡的课 \n\n比创业基础还玄学\n\n考试考的啥玩意儿   \n\n上课讲的什么玩意儿  \n\n拿着放在十年前很先进的观点现在还在讲\n\n无聊得一批 \n\n给分还差"},{"id":99837,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2019-01-25 08:13:27","like_diff":-11,"likes":8,"dislikes":19,"content":"喜提A+感谢老师"},{"id":85509,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2018-07-18 16:39:22","like_diff":-12,"likes":10,"dislikes":22,"content":"观点太过偏激！课程内容基本就是女性受到的不平等待遇，以及对比中国女性受到的各种压迫，中国男人有钱就会变差等等...个人不是很认可，然后给分一般，期末考试难，打分严格，不懂为什么有人说这个课好。"},{"id":6356,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2016-12-21 04:29:57","like_diff":-27,"likes":28,"dislikes":55,"content":"亲测，虽然考试还好，也每节课都去，但前排写作业就会被平时分超级低，两年来倒数第二低的绩点，心碎成渣渣了"},{"id":117372,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2019-09-23 12:12:59","like_diff":-35,"likes":8,"dislikes":43,"content":"我是真的服，请问老师看过刘强东性侵事件视频没？我觉得这件事，一是刘强东自作自受，行为不检，所以他被人唾弃。但是那个女的在酒店回房过程中那种主动牵手，挽胳膊难道不是一种暗示行为？真的是什么都往性别歧视上面扯，我感觉太荒谬了。我个人非常反对性别歧视，但是老师能不能搞清楚哪些事是性别歧视，别瞎往上面扯啊???"},{"id":127357,"teacher_id":359,"teacher_name":"揭爱花","post_time":"2020-11-21 04:18:12","like_diff":-43,"likes":13,"dislikes":56,"content":"水平太差了，什么背景的人都能当老师。然后课程安排就非常水，一看就是从来不备课不准备的，就上去就乱讲一通毫无营养。。考试也很迷惑，给分也很迷惑。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

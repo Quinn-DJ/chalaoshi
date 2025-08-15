@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李小林 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="李小林教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="李小林,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">李小林</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.88</div>
+                    <div class="rating-participants">122人参与评分</div>
+                    <div class="attendance-info">27.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息</h3>
+                <p class="no-data">暂无课程GPA数据</p>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (101 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":376,"teacher_id":1517,"teacher_name":"李小林","post_time":"2015-03-15 01:39:02","like_diff":66,"likes":73,"dislikes":7,"content":"女神！"},{"id":120,"teacher_id":1517,"teacher_name":"李小林","post_time":"2015-03-14 16:00:37","like_diff":40,"likes":48,"dislikes":8,"content":"气质！"},{"id":2499,"teacher_id":1517,"teacher_name":"李小林","post_time":"2015-05-04 13:17:44","like_diff":28,"likes":47,"dislikes":19,"content":"老师很和善但很有原则（补签到不会收）。内容主要是西方的经典，会根据思考题对于文本内容有详尽的梳理。平时成绩有展示发言，作业是每周随笔，会抽查。期末是论文一篇。"},{"id":48262,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-03-01 14:52:26","like_diff":24,"likes":26,"dislikes":2,"content":"妈妈李老师不是人李老师是仙女啊啊啊啊啊啊啊"},{"id":2402,"teacher_id":1517,"teacher_name":"李小林","post_time":"2015-04-29 02:35:44","like_diff":20,"likes":24,"dislikes":4,"content":"好老师，气质超好"},{"id":22984,"teacher_id":1517,"teacher_name":"李小林","post_time":"2016-03-16 00:02:00","like_diff":14,"likes":17,"dislikes":3,"content":"医试金阳强推！"},{"id":77373,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-08 02:07:27","like_diff":13,"likes":17,"dislikes":4,"content":"我觉得这样的通识课还有同学愿意表现自己真的挺好的 至少讨论环节不会太尴尬 btw他妆好精致 永远记得快九点他上台结果一亮相妆容严谨眉毛一丝不苟 另外鹅颈没有大家说的那么严重 我完全没发言 好好写了论文最后也有4.5"},{"id":77305,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-04 13:03:32","like_diff":11,"likes":17,"dislikes":6,"content":"大家好 我不是来自传媒的yúzǐruì"},{"id":22909,"teacher_id":1517,"teacher_name":"李小林","post_time":"2016-03-14 13:24:42","like_diff":10,"likes":14,"dislikes":4,"content":"绝对的女神，理论和欣赏结合，幽默又有干货。除了武打 其他基本动作唱腔都会在课堂上即兴来几段示范，超有气质～圆场步走的飘飘的"},{"id":3476,"teacher_id":1517,"teacher_name":"李小林","post_time":"2015-06-16 09:45:20","like_diff":8,"likes":13,"dislikes":5,"content":"上了老师的京剧课。个人魅力非常强，包括谈吐气质打扮；讲课很生动，课后留的问题能引导你思考。总之非常满意，很想上她的其他课。"},{"id":77253,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-04 06:47:41","like_diff":8,"likes":12,"dislikes":4,"content":"记忆最深刻的是每次恶竞展示都排在前面的那个男生...."},{"id":50915,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-05-08 14:17:26","like_diff":7,"likes":10,"dislikes":3,"content":"李老师真的是女神级的人物 不知道为什么听她说话自然而然就会静下心来 李老师讲课非常有感情 记得有一次讲赵氏孤儿 老师的眼里含有热泪 当时真的特别感动 觉得自己也能感受到京剧里的感情 京剧名家名作是我到现在上过的最喜欢的通识课 课上自己会被内容吸引过去 很少水手机 李老师是我心目中理想化的大学老师 文化底蕴丰厚 饱含情感 精通理论知识 还会给学生演示圆场和唱腔 希望这样的好老师和好课能被更多同学知道~"},{"id":77354,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-05 03:41:37","like_diff":7,"likes":13,"dislikes":6,"content":"老师有一定的京剧底蕴，但不是一味吹京剧，是真正的理性欣赏京剧！赞～还有就是第三节课的发言真的心累…一把年纪了真的不想和学弟学妹鹅颈了……传媒的那位小弟弟，以后出门眉毛画淡一点会更好看"},{"id":4067,"teacher_id":1517,"teacher_name":"李小林","post_time":"2015-06-17 15:48:16","like_diff":6,"likes":9,"dislikes":3,"content":"气质女神！听了第一节课就被吸引了"},{"id":28849,"teacher_id":1517,"teacher_name":"李小林","post_time":"2016-06-28 23:05:38","like_diff":6,"likes":10,"dislikes":4,"content":"世界文学经典传播：如果你面对一个人，在匆忙浮躁的环境中能静下来温柔而平静，有理有据地讲她所感悟的人生，她所理解的经典，引导你发表自己的看法，然后温柔又一针见血的质疑，帮你剥离那些情绪化的不成熟的想法，真的不虚此行！"},{"id":78328,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-11 02:09:25","like_diff":6,"likes":8,"dislikes":2,"content":"那个很精致的粗眉小弟弟请跟我做姐妹！"},{"id":5039,"teacher_id":1517,"teacher_name":"李小林","post_time":"2015-07-02 12:03:14","like_diff":5,"likes":9,"dislikes":4,"content":"谈吐得体，引入入胜，是一种享受，更是收获。"},{"id":77332,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-04 17:07:36","like_diff":5,"likes":9,"dislikes":4,"content":"京剧课。老师是很理智很清醒地带我们了解京剧，欣赏京剧，思考京剧，如果有认真听课能学到很多，打破固有映象，沙家浜惊艳到我了。\n\n对比之下我觉得大家的思想都有些浪漫。还有春学期经常发音的一个很帅的小哥哥，你恶竞没啥，能不能走点心有点自己看法啊，读别人看法一大堆好玩吗？课上不能听听吗？"},{"id":103354,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-02-27 12:10:19","like_diff":5,"likes":8,"dislikes":3,"content":"现在是京剧名家名作精讲第一节课，无论我最后成绩怎么样都要给这个老师满分！太棒了。老师值得满分，漏掉的0.2分是因为恶竞的学生比较恶心"},{"id":110041,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-06-21 14:28:16","like_diff":5,"likes":7,"dislikes":2,"content":"老师讲课讲到动情的时候，眼里会闪着光，很对不起老师没有很仔细深入地阅读文本有的时候没有办法和老师产生共鸣。上老师的课真的很幸运，她通过《红与黑》于连的故事让我明白我是谁，我爱谁。我很感激她。这种感激，和成绩无关。"},{"id":27765,"teacher_id":1517,"teacher_name":"李小林","post_time":"2016-06-27 12:16:03","like_diff":4,"likes":8,"dislikes":4,"content":"通核课上得很好，给分好像一般啊……出分速度很快，可见主要还是看平时，大概我讨论课不积极的缘故吧。"},{"id":2966,"teacher_id":1517,"teacher_name":"李小林","post_time":"2015-05-12 02:25:42","like_diff":3,"likes":7,"dislikes":4,"content":"不熟悉京剧的同学上课期间或许会慢慢喜欢上京剧"},{"id":30038,"teacher_id":1517,"teacher_name":"李小林","post_time":"2016-07-01 00:26:02","like_diff":3,"likes":6,"dislikes":3,"content":"通核课真的超赞，但是想水的同学千万别来，因为你要看八本书，讨论课时要积极，多发言，这样期末分才会好！"},{"id":93185,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-01-08 04:51:41","like_diff":3,"likes":8,"dislikes":5,"content":"选上了老师的世界文学经典传播～有没有上过的同学可以提前透露一下要读哪几本书呀～"},{"id":106073,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-04-25 01:13:05","like_diff":3,"likes":5,"dislikes":2,"content":"老师很棒"},{"id":109847,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-06-29 02:10:28","like_diff":3,"likes":5,"dislikes":2,"content":"【世界文学经典传播】李老师真的是我进浙大以来第一个在课堂上用真情实感深深触动我的老师，可能我遇见过很多讲课好的老师，但是李老师却已经超越了讲课水平这个层面，她是真的在用自己的思想和灵魂在引领学生，去和学生交流和碰撞，感恩遇见，祝老师越来越好。"},{"id":24890,"teacher_id":1517,"teacher_name":"李小林","post_time":"2016-05-04 08:27:26","like_diff":2,"likes":5,"dislikes":3,"content":"真的是好老师。通识课嘛，就应该这样教！"},{"id":48883,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-03-15 12:31:45","like_diff":2,"likes":4,"dislikes":2,"content":"能让我们爱上京剧\n\n曾尝试课上写微积分，却一开始就被课堂吸引了过去\n\n从此上课再也不带作业。作业天天有，这么好的课一周就一次啊！"},{"id":49914,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-04-27 06:22:53","like_diff":2,"likes":4,"dislikes":2,"content":"李老师真的很有气质啊！！唱京剧很有感觉！！京剧课，一般两节课她讲，最后一节课发言。她讲的内容从京剧基本知识到名剧目赏析，层次递进条理清晰，一个学期的课上完了会非常有收获，原来不喜欢京剧的人一般到最后都会有所改观。尊重学生的发言，但是会很温和地批评或是质疑，对个人的独特观点比较重视。每节课会有课前思考题，有的时候会交上去兼点名，一个学期交个三四次左右。"},{"id":77369,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-05 06:26:48","like_diff":2,"likes":6,"dislikes":4,"content":"每节课都要抢着去排队真的很累，老师还是要设置得合理一点吧，前几次课很多人都没能排上。另外楼上说的那个好看的小哥，我怎么感觉他说的还蛮好的，准备的还算充分吧，是不是全是自己想法不清楚，但是我的思考题也有参考蛮多书里的理论，毕竟我对于京剧的知识还是蛮浅的"},{"id":77615,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-07 02:16:10","like_diff":2,"likes":5,"dislikes":3,"content":"老师真的看到了一个优雅的女人的样子，不过上课的时候有恶竞，但我全程没有参与，认真写了篇论文，绩点4.5\n\n"},{"id":49951,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-04-27 13:25:09","like_diff":1,"likes":3,"dislikes":2,"content":"李老师真的超好的！女神！气质！京剧唱的棒棒的！我想上她的名著导读！"},{"id":49990,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-06-09 17:09:47","like_diff":1,"likes":3,"dislikes":2,"content":"非常非常好的老师！"},{"id":65832,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-01-09 12:29:08","like_diff":1,"likes":3,"dislikes":2,"content":"想说的楼上说的都差不多了，想再说一点个人感想，一个好老师真的能改变一个人的方向，向我遇到的每一个值得尊敬的老师表示感谢！"},{"id":77100,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-02 05:50:24","like_diff":1,"likes":4,"dislikes":3,"content":"老师是女神是女神!尽管会有正态分布但是只要好好讨论好好写作业好好写论文分都很高很高的哇。一个文笔炸裂的工科生论文才写了四千字，但是老师的给分都超棒～而且我觉得计时开始不喜欢京剧，听完八节课都爱上了它"},{"id":77458,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-05 16:23:32","like_diff":1,"likes":3,"dislikes":2,"content":"虽然得分不好但老师是真的好"},{"id":105709,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-04-19 00:08:39","like_diff":1,"likes":3,"dislikes":2,"content":"很不错"},{"id":106061,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-04-24 16:45:02","like_diff":1,"likes":3,"dislikes":2,"content":"太棒了！"},{"id":197504,"teacher_id":1517,"teacher_name":"李小林","post_time":"2024-07-17 13:34:39","like_diff":1,"likes":1,"dislikes":0,"content":"女神！上的老师的京剧课，很有气质，讲课很清晰"},{"id":27628,"teacher_id":1517,"teacher_name":"李小林","post_time":"2016-07-01 13:44:02","like_diff":0,"likes":5,"dislikes":5,"content":"不多说，去选她的两门名著课，然后认真的上完，你会发现这是浙大数一数二的好课，因为大多数课传授的都是表面的，而这两门课是从每个人的心灵出发，发掘你的内在思想，还有很多的收获，剩下的自己去感悟..."},{"id":28279,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-01-04 14:34:27","like_diff":0,"likes":3,"dislikes":3,"content":"老师超有气质，讲的也很好。"},{"id":28353,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-03-15 11:48:13","like_diff":0,"likes":4,"dislikes":4,"content":"医试金阳强推"},{"id":29513,"teacher_id":1517,"teacher_name":"李小林","post_time":"2016-06-30 02:07:03","like_diff":0,"likes":4,"dislikes":4,"content":"老师很有气质 听老师的课觉得很幸福 通核课负担也没有很重 一学期把书看下来很有成就感 助教也很萌～ 世界文学名著导读 推荐！"},{"id":49947,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-04-27 11:57:41","like_diff":0,"likes":2,"dislikes":2,"content":"老师很有气质，重视学生自己的思想，论文认真写自己的想法，给分不会差的"},{"id":49949,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-04-27 12:44:15","like_diff":0,"likes":2,"dislikes":2,"content":"老师真的超棒。我自己性格内向不喜欢发言但是老师第三节课都是讨论课所以一度以为自己分会很差了，但是期末论文写得很认真老师最后还是给了很不错的分数，超开心～"},{"id":50012,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-04-28 13:02:24","like_diff":0,"likes":2,"dislikes":2,"content":"女神，给分好！"},{"id":50081,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-04-29 09:36:59","like_diff":0,"likes":2,"dislikes":2,"content":"老师超级有气质！给分也很好！"},{"id":54930,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-06-30 13:01:09","like_diff":0,"likes":1,"dislikes":1,"content":"语言太苍白了，老师真的是像水一样的女性"},{"id":76897,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-04-25 12:38:53","like_diff":0,"likes":3,"dislikes":3,"content":"老师真的非常棒，是个本身有很强京剧功底的老师，还是女神级别的，上课内容充实，内容安排很系统，真的让我很喜欢京剧。上课发言的队伍是别的课没有的惊艳，非常棒，强推"},{"id":77379,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-05 07:02:03","like_diff":0,"likes":2,"dislikes":2,"content":"女神，超级有气质。因为会唱京剧，所以感觉说话都和普通人不一样。老师人很好，也很有原则，本来对京剧兴趣不大，上了老师的课之后能get到京剧的魅力啦～"},{"id":81862,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-07-06 10:26:38","like_diff":0,"likes":2,"dislikes":2,"content":"来浙大不能错过的老师之一！"},{"id":104178,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-03-13 12:40:45","like_diff":0,"likes":2,"dislikes":2,"content":"上京剧艺术这门课，最难的是克制自己站起来鼓掌的冲动。"},{"id":106063,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-04-24 17:01:35","like_diff":0,"likes":3,"dislikes":3,"content":"这个均绩……有点假？"},{"id":106106,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-04-25 03:32:15","like_diff":0,"likes":3,"dislikes":3,"content":"给九分，留了一分是因为恶竞严重"},{"id":7284,"teacher_id":1517,"teacher_name":"李小林","post_time":"2015-09-13 01:59:18","like_diff":-1,"likes":2,"dislikes":3,"content":"很棒的老师"},{"id":9290,"teacher_id":1517,"teacher_name":"李小林","post_time":"2015-10-20 05:44:00","like_diff":-1,"likes":2,"dislikes":3,"content":"多希望能多上几门李老师的课啊"},{"id":22670,"teacher_id":1517,"teacher_name":"李小林","post_time":"2016-03-09 16:24:17","like_diff":-1,"likes":2,"dislikes":3,"content":"女神！"},{"id":23844,"teacher_id":1517,"teacher_name":"李小林","post_time":"2016-04-18 14:00:54","like_diff":-1,"likes":3,"dislikes":4,"content":"赞赞赞"},{"id":24836,"teacher_id":1517,"teacher_name":"李小林","post_time":"2016-05-04 03:04:44","like_diff":-1,"likes":3,"dislikes":4,"content":"很赞。。"},{"id":27671,"teacher_id":1517,"teacher_name":"李小林","post_time":"2016-06-27 07:52:55","like_diff":-1,"likes":3,"dislikes":4,"content":"老师很有修养，能够在柔声细语间尖锐提出你发言和作展示的症结所在。第一次细致的文本分析。两星期看一本书，每周有一次报名展示，每周有随笔感悟，不定时收，不能代交，其实是变相点名。如果要水可以很水。不水的话压力也不是很大。\n\n——世界文学经典传播"},{"id":27818,"teacher_id":1517,"teacher_name":"李小林","post_time":"2016-06-27 16:42:45","like_diff":-1,"likes":2,"dislikes":3,"content":"女神！"},{"id":28733,"teacher_id":1517,"teacher_name":"李小林","post_time":"2016-06-28 13:27:19","like_diff":-1,"likes":2,"dislikes":3,"content":"很棒的课！"},{"id":29497,"teacher_id":1517,"teacher_name":"李小林","post_time":"2016-06-30 01:40:38","like_diff":-1,"likes":3,"dislikes":4,"content":"老师讲的真好，有女神气质\n\n"},{"id":30953,"teacher_id":1517,"teacher_name":"李小林","post_time":"2016-07-03 04:20:30","like_diff":-1,"likes":3,"dislikes":4,"content":"女神！！！"},{"id":49943,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-04-27 11:13:28","like_diff":-1,"likes":1,"dislikes":2,"content":"有思想，有气质。"},{"id":51769,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-06-09 08:30:43","like_diff":-1,"likes":1,"dislikes":2,"content":"女神！"},{"id":52911,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-06-23 12:52:37","like_diff":-1,"likes":1,"dislikes":2,"content":"专门过来打十分的，老师的通核课启发很大！"},{"id":77092,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-02 02:32:02","like_diff":-1,"likes":1,"dislikes":2,"content":"有趣又深刻，太精彩了"},{"id":77230,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-04 04:53:18","like_diff":-1,"likes":1,"dislikes":2,"content":"赞赞赞\n\n谢谢女神"},{"id":78410,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-11 11:54:40","like_diff":-1,"likes":1,"dislikes":2,"content":"nice，收获很大，启发思考，反思自我"},{"id":106071,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-04-25 00:54:44","like_diff":-1,"likes":3,"dislikes":4,"content":"老师很好，但认真说绩点不咋的，可能我太菜？评论咋说的那么好？"},{"id":110885,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-06-28 12:50:02","like_diff":-1,"likes":1,"dislikes":2,"content":"老师是仙女！！！我爱老师！"},{"id":110891,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-06-28 13:09:41","like_diff":-1,"likes":2,"dislikes":3,"content":"老师课讲得好性格好给分也不错！推荐推荐"},{"id":110909,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-06-28 13:50:25","like_diff":-1,"likes":1,"dislikes":2,"content":"老师是天使了……平时没发言 但是随笔没漏 论文稍微花了点心思结果4.5 惊喜"},{"id":110962,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-06-29 00:40:33","like_diff":-1,"likes":2,"dislikes":3,"content":"【世界文学经典传播】感觉这是一门来浙大不能错过的课吧，先阅读再跟着老师的思路分析真的会收获很多，会得到很多不一样的体验。一周读一本书，写读书笔记，随机抽查，平均下来每周要交一次，期末一篇论文。认真付出的话绩点不会差，强推！"},{"id":121656,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-12-10 06:50:41","like_diff":-1,"likes":1,"dislikes":2,"content":"老师上课很认真，京剧的课还会展示一些京剧动作。虽然有固定的上课发言环节，但并不算恶竞，只要每节课布置的作业认真写，老师会收上去仔细看的，这也是点名的方式。本人上课没有发言过，但每次小作业认真写，最后的课程论文也认真完成，最后满绩了，感谢老师！"},{"id":123047,"teacher_id":1517,"teacher_name":"李小林","post_time":"2020-05-05 14:02:50","like_diff":-1,"likes":1,"dislikes":2,"content":"老师真的超级好，本人作为旷课狂魔，好多次早八起不来。有一次补交作业老师不收，但是跟我谈了一下，很感动。两次没交作业，平时也不敢发言，但是最后给分也特别特别好。李小林老师我爱你。"},{"id":124078,"teacher_id":1517,"teacher_name":"李小林","post_time":"2020-06-23 10:15:43","like_diff":-1,"likes":1,"dislikes":2,"content":"第一次查老师评价，献给这门课的ly助教小姐姐。真的超级负责细心，善良又公正，会认真对待同学的提问，耐心答疑！超级优秀的小姐姐！"},{"id":56165,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-07-03 07:17:06","like_diff":-2,"likes":2,"dislikes":4,"content":"老师真好，打分好人也温柔，爱您"},{"id":56207,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-07-03 08:57:49","like_diff":-2,"likes":2,"dislikes":4,"content":"想水水过就别想要好绩点了，讨论课多发言就行"},{"id":56310,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-07-03 13:00:03","like_diff":-2,"likes":1,"dislikes":3,"content":"女神女神，听课简直是一种享受啊！！！"},{"id":60585,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-10-24 11:39:00","like_diff":-2,"likes":2,"dislikes":4,"content":"表白！"},{"id":77285,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-07 02:30:53","like_diff":-2,"likes":1,"dislikes":3,"content":"有气质、包容但是有思想、超级有魅力 T^T  即使没有发言最后能好好写论文给分也不错，看到9.81的评分，我觉得自己不给十分都没有天理..."},{"id":77358,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-05 05:03:45","like_diff":-2,"likes":1,"dislikes":3,"content":"感谢老师"},{"id":77364,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-07 23:13:22","like_diff":-2,"likes":3,"dislikes":5,"content":"蛮好的"},{"id":77706,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-07 10:54:08","like_diff":-2,"likes":5,"dislikes":7,"content":"京剧的通识课 真是最喜欢的通识，上课不带走神的课。一开始就是带着好奇去上的。真诚推荐有传统文化类爱好的人真的可以去了解一下，虽然老师有的观点并不能认同，但以后对自己的爱好，除了单纯喜欢，真的会有不一样的思考。\n\n另外鹅颈排队发言真的吓到了，超怂从来没成功发言过。不过相信全班同学都记住了每次排在最前面的口红很红眉毛画太浓的传媒那个兄弟…\n\n李老师太女神辣，表白！"},{"id":81981,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-07-06 16:44:56","like_diff":-2,"likes":1,"dislikes":3,"content":"真的很棒，虽然最后卡我绩了还是要给10分！！！女神！！！"},{"id":84875,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-07-14 06:52:35","like_diff":-2,"likes":1,"dislikes":3,"content":"超级超级温柔优雅的老师 还有点可爱 认真参与的话分数不会差的"},{"id":107647,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-05-08 02:55:20","like_diff":-2,"likes":1,"dislikes":3,"content":"京剧课老师选的剧目都非常好看，平时见到的都比不大上老师选的这些，就是教室的音响简直了，完全不能入耳"},{"id":110933,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-06-28 14:53:33","like_diff":-2,"likes":0,"dislikes":2,"content":"嘤嘤嘤，认真写论文了绩点也不高"},{"id":25021,"teacher_id":1517,"teacher_name":"李小林","post_time":"2016-05-05 01:30:21","like_diff":-3,"likes":3,"dislikes":6,"content":"秋水共长天一色"},{"id":49933,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-04-27 09:41:36","like_diff":-3,"likes":2,"dislikes":5,"content":"出分评价，李老师简直女神。\n\n平时没有机会发言(实在太热情)\n\n期末论文写得用心，4.5留\n\n"},{"id":110961,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-06-29 00:16:52","like_diff":-3,"likes":1,"dislikes":4,"content":"老师太好了，平时认真学，绩点就有4.8?"},{"id":111395,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-07-01 06:14:51","like_diff":-3,"likes":0,"dislikes":3,"content":"给分，诶，随笔一篇没落，每次都到课，论文认真写，看到分数真的哭了"},{"id":48101,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-02-28 12:34:12","like_diff":-4,"likes":0,"dislikes":4,"content":"老师上课很好。。。但是读的书太多了，这学期又比较忙。。。先给满分……留着以后上"},{"id":50041,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-04-28 23:12:06","like_diff":-4,"likes":5,"dislikes":9,"content":"老师还可以吧，当给分就不怎么滴了。"},{"id":78156,"teacher_id":1517,"teacher_name":"李小林","post_time":"2018-05-10 01:43:25","like_diff":-4,"likes":4,"dislikes":8,"content":"老师讲的很好，但第三节课的发言真是……有些同学说的真是不忍听……\n\n来自传媒的17画眉小弟弟、16心理的短发女孩、16广告的长发女孩，还是少讲几句吧，都上查老师了"},{"id":56176,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-07-03 07:45:23","like_diff":-9,"likes":0,"dislikes":9,"content":"老师很有思想，课上干货很多，但因为我个人原因，一直在划水。本来以为绩点会很低的，没想到最后居然还上4了。感动"},{"id":107023,"teacher_id":1517,"teacher_name":"李小林","post_time":"2019-05-01 02:16:16","like_diff":-9,"likes":2,"dislikes":11,"content":"差评都被刷下了吗  只想说绩点不高 事情不算少"},{"id":56425,"teacher_id":1517,"teacher_name":"李小林","post_time":"2017-07-03 17:50:12","like_diff":-10,"likes":0,"dislikes":10,"content":"上课水水过，绩点也挺高"},{"id":27718,"teacher_id":1517,"teacher_name":"李小林","post_time":"2016-06-27 09:15:26","like_diff":-16,"likes":9,"dislikes":25,"content":"妈的 谁说给分好的 辛辛苦苦一整个学期 给的就这点分？EXOME?"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

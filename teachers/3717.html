@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>张云飞 - 人武部 - 浙大教评</title>
+    <meta name="description" content="张云飞教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="张云飞,人武部,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">张云飞</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人武部</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">1.27</div>
+                    <div class="rating-participants">107人参与评分</div>
+                    <div class="attendance-info">37.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息</h3>
+                <p class="no-data">暂无课程GPA数据</p>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (89 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":57560,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-07-19 23:11:24","like_diff":74,"likes":81,"dislikes":7,"content":"你绩点低不要来找我，我们这里都是有证据的～你号码是温州的，那你就是回温州了，没有理由的～"},{"id":63269,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-11-29 16:56:19","like_diff":66,"likes":69,"dislikes":3,"content":"虚伪，展现出了一个年轻官僚对于权力的极其强烈的欲望"},{"id":57981,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-07-19 10:58:41","like_diff":57,"likes":62,"dislikes":5,"content":"拔河加方阵，最后分数很低，老师很虚伪，"},{"id":65169,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-12-30 01:44:53","like_diff":57,"likes":59,"dislikes":2,"content":"为什么没有负分？且不谈我个人被绩杀，我全省被绩杀，他吃饭的时候叫大家给他刷十分(有偿？)就足以见其人品，虚伪官僚的让我这个还在象牙塔的大一学生充分见识到了社会的复杂，我曾直接正面问他绩杀原因，他含糊其辞后说了些什么十月底或十一月专业面试他也会在场！exm？您是我终身的老师，感谢您教我做人?"},{"id":74931,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-03-06 13:19:23","like_diff":49,"likes":50,"dislikes":1,"content":"千方百计打探别人家庭背景和恋爱状况，疑心很重，经常请学生吃饭别有用心，如果没有按照他的意愿办事，就会各种揣测扣帽子，分分钟把你逼死… 形式主义和官僚主义，会拿奖学金和助学金的名义强迫别人做事，自认为有权利且擅长各种人际利用…… 经典的官场虚伪"},{"id":60946,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-11-04 11:03:41","like_diff":48,"likes":52,"dislikes":4,"content":"你们是忘了我的两个问题吗？一，你来浙江大学谈恋爱了吗？二，你来浙江大学戒了游戏吗？"},{"id":65687,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-01-08 08:34:37","like_diff":48,"likes":49,"dislikes":1,"content":"官僚主义的垃圾"},{"id":65172,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-12-30 02:17:51","like_diff":47,"likes":50,"dislikes":3,"content":"呵呵，跟他有交集你会学会很多，首先学会做人，然后学会如何拍马屁往上爬，最后学会不抱大腿最终是会绩杀的。军训不按功劳给分，看脸和关系，扯起八卦事可以扯到大半夜不让学生睡觉，一边还使个劲的给大家灌输“党性”。谢谢飞哥教我做人，感激不尽"},{"id":65683,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-01-08 08:10:13","like_diff":44,"likes":44,"dislikes":0,"content":"头皮发麻"},{"id":65679,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-01-19 05:01:31","like_diff":43,"likes":48,"dislikes":5,"content":"nmsl"},{"id":64483,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-12-24 12:11:24","like_diff":40,"likes":42,"dislikes":2,"content":"伪君子 一心想往上爬"},{"id":65184,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-12-30 08:41:43","like_diff":40,"likes":41,"dislikes":1,"content":"真是让我看到了年轻官僚对权力的极大欲望，绩点不能说低，但是纯论人，他真的让我大开眼界"},{"id":65049,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-12-28 10:57:33","like_diff":38,"likes":40,"dislikes":2,"content":"找人刷分有意思吗？"},{"id":85760,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-08-03 14:47:42","like_diff":38,"likes":38,"dislikes":0,"content":"公开的秘密：和他搞好关系给他干活保研综素可以帮你加分噢~没做过的项目搞份申请书结题表什么的完全不是问题呢~"},{"id":65173,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-12-30 02:55:27","like_diff":37,"likes":41,"dislikes":4,"content":"是我见过的话最多的男的"},{"id":71709,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-01-29 01:32:27","like_diff":37,"likes":41,"dislikes":4,"content":"找人刷分的8.91终于掉下去了吧？"},{"id":59626,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-09-25 04:03:46","like_diff":36,"likes":39,"dislikes":3,"content":"某省全被宰了，很棒棒哦"},{"id":64225,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-12-21 15:52:01","like_diff":36,"likes":39,"dislikes":3,"content":"雇人刷分有意思嘛？"},{"id":79569,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-06-10 03:25:45","like_diff":36,"likes":36,"dislikes":0,"content":"喜欢上纲上线，给人扣帽子"},{"id":60731,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-11-18 10:33:57","like_diff":35,"likes":39,"dislikes":4,"content":"好评，给一分"},{"id":65168,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-12-30 01:27:17","like_diff":33,"likes":35,"dislikes":2,"content":"求求您，事少点"},{"id":65681,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-01-08 08:01:51","like_diff":33,"likes":35,"dislikes":2,"content":"垃圾 毁我青春"},{"id":60723,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-11-24 12:15:50","like_diff":32,"likes":37,"dislikes":5,"content":"则讨厌他 恨死了 超级不公平"},{"id":79385,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-06-02 14:28:32","like_diff":32,"likes":34,"dislikes":2,"content":"现在骂张云飞还有赞吗？"},{"id":82226,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-07-07 13:38:07","like_diff":32,"likes":34,"dislikes":2,"content":"身为辅导员不想着好好为学生办事，只想着把学生当做可利用的资源???"},{"id":67116,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-01-20 09:44:13","like_diff":31,"likes":32,"dislikes":1,"content":"无fk说"},{"id":64948,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-12-28 04:34:56","like_diff":30,"likes":33,"dislikes":3,"content":"绩杀绩杀"},{"id":65165,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-12-30 00:13:24","like_diff":30,"likes":33,"dislikes":3,"content":"自以为很懂我们的人，其实根本不懂。有点没意思的老师。"},{"id":109294,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-06-24 02:53:21","like_diff":29,"likes":30,"dislikes":1,"content":"人间sb sx sd\n\n并且提醒往来的人们学生工作啊但凡有涉及到的不要垫钱，别自己以为应付得来\n\n\n\n因为这种?不是他自己的钱哦，报销一拖再拖，据我所知关于做学生助理啊兼职辅导员啥的钱也是一拖再拖的，都不知道钱挪到哪里去了……得奖学金也会要求你参加各种事情哦，因为这个奖学金美其名曰是它给的哦\n\n\n\n关于钱的事情，大家自己注意吧，涉及钱的事情，它能让你花呗都还不起。\n\n\n\n"},{"id":65680,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-01-08 08:01:11","like_diff":28,"likes":30,"dislikes":2,"content":"太特么爽了"},{"id":50014,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-04-28 13:32:59","like_diff":27,"likes":38,"dislikes":11,"content":"屌 丝"},{"id":65170,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-12-30 02:02:46","like_diff":27,"likes":30,"dislikes":3,"content":"有毒。\n\n"},{"id":78967,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-05-18 05:46:35","like_diff":27,"likes":30,"dislikes":3,"content":"1分，这种垃圾滚出浙大"},{"id":79505,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-06-07 08:33:42","like_diff":27,"likes":28,"dislikes":1,"content":"同志们，每天都可以给一次一分噢"},{"id":76418,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-04-08 14:28:32","like_diff":26,"likes":28,"dislikes":2,"content":"欺软怕硬 假面虚伪"},{"id":78983,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-06-08 17:10:33","like_diff":26,"likes":29,"dislikes":3,"content":"我从未见过如此厚颜无耻之人"},{"id":79879,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-06-14 20:24:45","like_diff":23,"likes":26,"dislikes":3,"content":"虚伪愚蠢，真当官就是奸臣"},{"id":80716,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-06-29 14:50:21","like_diff":23,"likes":24,"dislikes":1,"content":"nmsl"},{"id":65131,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-12-29 05:28:06","like_diff":22,"likes":30,"dislikes":8,"content":"老师超级好(评论一条，截图发送，可领五元红包)"},{"id":93193,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-01-08 05:40:34","like_diff":22,"likes":24,"dislikes":2,"content":"老子的奖学金是从你口袋里出的吗？不过是替学校申报统计的中间办事员而已，凭什么拿奖学金和助学金的名义强迫学生参加各种需要凑人数的活动以及给你服务干活？不参加就要被扣上忘恩负义、精致的利己主义者的帽子?不知道哪里来的自信把它当权力使，溜得一匹……md尽管毕业了想起来还是一肚子火"},{"id":105183,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-04-06 14:27:55","like_diff":22,"likes":23,"dislikes":1,"content":"飞狗和贿选北大学生会主席的戴威相比，唯一的区别就是:戴威用家里的钱，飞狗贿选用公款用的美滋滋！就这一点，飞狗比戴威不知道高到哪里去了！！"},{"id":86301,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-09-12 15:45:12","like_diff":21,"likes":21,"dislikes":0,"content":"小人一个"},{"id":91730,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-12-19 03:01:42","like_diff":21,"likes":32,"dislikes":11,"content":"给分厚道徐小洲 制度合理林建华 尊重学生孙大雁 亲切友善祝秀香 从不绩杀陈昆福 分多事少陈素珊 知识广博看沈燎 讲话生动吴朝晖 声音洪亮陶虹向 为人实在张云飞 做事靠谱是梅玫"},{"id":85737,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-07-31 15:47:25","like_diff":20,"likes":21,"dislikes":1,"content":"这傻逼贼坑"},{"id":88260,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-10-25 06:54:49","like_diff":18,"likes":18,"dislikes":0,"content":"为什么没有负分"},{"id":104425,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-03-20 05:12:29","like_diff":18,"likes":18,"dislikes":0,"content":"看了一下评论区，感觉就是男版xy。"},{"id":109145,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-06-10 05:26:13","like_diff":18,"likes":19,"dislikes":1,"content":"呵呵…见过最恶心的辅导员。官僚主义，溜须拍马，利用学生，套近乎，讲空话，弄虚作假，拿奖学金压迫，傻逼"},{"id":113274,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-07-06 03:31:45","like_diff":18,"likes":19,"dislikes":1,"content":"就是个?*"},{"id":85754,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-08-02 08:20:42","like_diff":17,"likes":20,"dislikes":3,"content":"就是个垃圾"},{"id":104593,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-03-24 17:46:00","like_diff":17,"likes":19,"dislikes":2,"content":"哈哈 官微发文瞬间掉分"},{"id":110040,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-06-21 14:00:25","like_diff":17,"likes":17,"dislikes":0,"content":"因为奖学金的事被举报到学校了，然而看现在的情况没啥用啊"},{"id":91273,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-12-04 16:04:27","like_diff":16,"likes":18,"dislikes":2,"content":"哈哈哈哈哈，恶心"},{"id":94705,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-01-18 02:30:29","like_diff":16,"likes":18,"dislikes":2,"content":"老师您是脑子里有屎吗？本来微积分考试时间就紧张，您哇啦哇啦讲了十分钟？"},{"id":104945,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-03-31 15:18:24","like_diff":16,"likes":16,"dislikes":0,"content":"nmsl"},{"id":109219,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-06-12 03:53:48","like_diff":16,"likes":17,"dislikes":1,"content":"就这么说吧，飞哥参加项目答辩不看项目看人的，找个脸熟的上去一答一个稳（手动狗头"},{"id":88865,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-11-10 19:57:22","like_diff":15,"likes":17,"dislikes":2,"content":"nmsl"},{"id":104705,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-03-26 08:13:07","like_diff":15,"likes":17,"dislikes":2,"content":"nmsl"},{"id":110105,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-06-23 03:31:31","like_diff":15,"likes":17,"dislikes":2,"content":"hhhhh傻逼玩意儿我只说一次，这样都混的风生水起怕不是背后有人?"},{"id":86149,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-09-08 07:42:20","like_diff":14,"likes":15,"dislikes":1,"content":"nmsl"},{"id":104720,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-03-26 11:17:37","like_diff":14,"likes":17,"dislikes":3,"content":"垃圾东西"},{"id":114698,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-07-11 04:15:30","like_diff":14,"likes":15,"dislikes":1,"content":"一分都不想给好么呵呵傻逼"},{"id":109299,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-06-13 03:23:27","like_diff":13,"likes":16,"dislikes":3,"content":"张口就来，官僚主义的嘴脸无疑。和他关系好即使表现差，专业里的lj也能拿奖入党巴拉巴拉的。优秀的辅导员。"},{"id":109868,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-06-20 02:22:14","like_diff":13,"likes":14,"dislikes":1,"content":"风评这么差的辅导员不换是没人用了吗？"},{"id":104443,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-03-20 16:32:22","like_diff":12,"likes":15,"dislikes":3,"content":"我觉得辅导员里 女的得看许怡 男的得看张云飞  都好好学学！"},{"id":117979,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-10-17 10:44:26","like_diff":11,"likes":13,"dislikes":2,"content":"升官了 去校长办公室了"},{"id":113798,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-07-07 15:03:24","like_diff":10,"likes":13,"dislikes":3,"content":"人间? 8⃣"},{"id":132061,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2021-01-30 05:00:25","like_diff":9,"likes":9,"dislikes":0,"content":"只要骂这b玩意儿，咱们就是亲兄弟亲姐妹"},{"id":117674,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-09-28 16:06:01","like_diff":8,"likes":8,"dislikes":0,"content":"追名逐利"},{"id":205068,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2024-11-30 14:54:00","like_diff":1,"likes":2,"dislikes":1,"content":"nmsl，愁煞弼"},{"id":104456,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-03-21 02:38:16","like_diff":0,"likes":5,"dislikes":5,"content":"铁憨憨\n\n"},{"id":183204,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2023-11-23 00:20:40","like_diff":-2,"likes":1,"dislikes":3,"content":"sb一个"},{"id":58203,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-08-22 02:07:57","like_diff":-15,"likes":10,"dislikes":25,"content":"据说还是个90后"},{"id":41663,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-01-12 10:18:28","like_diff":-26,"likes":12,"dislikes":38,"content":"叫这个名字的肯定是好老师"},{"id":41682,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-01-12 10:53:39","like_diff":-26,"likes":12,"dislikes":38,"content":"同学们亲切地称ta为飞哥"},{"id":50808,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-05-05 16:27:44","like_diff":-26,"likes":1,"dislikes":27,"content":"?????????"},{"id":41669,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-01-12 10:24:36","like_diff":-27,"likes":10,"dislikes":37,"content":"人美心善 高玩"},{"id":58668,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-09-13 13:24:52","like_diff":-30,"likes":6,"dislikes":36,"content":"温柔的老师"},{"id":59907,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-09-28 06:29:57","like_diff":-30,"likes":6,"dislikes":36,"content":"好好好"},{"id":41685,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-01-12 10:54:47","like_diff":-31,"likes":5,"dislikes":36,"content":"但我很爱她\n\n"},{"id":49671,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-04-23 06:57:28","like_diff":-31,"likes":7,"dislikes":38,"content":"人心善美"},{"id":41674,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-01-12 10:46:22","like_diff":-32,"likes":4,"dislikes":36,"content":"可爱的"},{"id":74459,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2018-02-26 14:04:39","like_diff":-32,"likes":2,"dislikes":34,"content":"老师人不错"},{"id":41666,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-01-12 10:20:12","like_diff":-33,"likes":9,"dislikes":42,"content":"一位很好的教官 每天进寝室和同学交流"},{"id":50807,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-05-05 16:26:40","like_diff":-34,"likes":6,"dislikes":40,"content":"老师能晚上陪你去喝酒"},{"id":50811,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-05-05 16:31:17","like_diff":-34,"likes":6,"dislikes":40,"content":"很关心学生 会和学生吃宵夜哦"},{"id":41703,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-01-12 11:22:45","like_diff":-35,"likes":5,"dislikes":40,"content":"爱你么么哒"},{"id":41676,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2017-01-12 10:47:56","like_diff":-40,"likes":5,"dislikes":45,"content":"英语说的很好，经常能和我们谈笑风生"},{"id":41762,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-07-07 05:49:44","like_diff":-50,"likes":9,"dislikes":59,"content":"表白老师～"},{"id":41680,"teacher_id":3717,"teacher_name":"张云飞","post_time":"2019-07-07 05:50:07","like_diff":-70,"likes":5,"dislikes":75,"content":"人美心善，活泼，英语大神，高玩"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

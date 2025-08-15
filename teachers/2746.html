@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李秀央 - 医学院 - 浙大教评</title>
+    <meta name="description" content="李秀央教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="李秀央,医学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">李秀央</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">医学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">2.27</div>
+                    <div class="rating-participants">168人参与评分</div>
+                    <div class="attendance-info">26.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">医学统计学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.87</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.82</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">卫生统计学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.26</span>
+                            <span class="students">选课: 353人</span>
+                            <span class="std-dev">标准差: 0.67</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (134 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":168337,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2023-02-12 14:23:48","like_diff":54,"likes":71,"dislikes":17,"content":"同学们！对你们太严了，作业太多了，我错了，谢谢你告诉我！跟大家分享一个好消息，独自承担繁重教学任务三十年，近三年终于培养了一支十分年轻医学统计教师队伍，春夏学期全线上岗主讲，希望大家秉承浙大求是精神，继续支持医学统计！"},{"id":123468,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-06-09 05:13:50","like_diff":38,"likes":45,"dislikes":7,"content":"无限制打断学生展示，打断到后面直接说不合格，我好想送花花/微笑"},{"id":123487,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-06-09 06:44:36","like_diff":31,"likes":33,"dislikes":2,"content":"还没考试，我也不知道绩点多少，但是我现在就想打分，我觉得当同学在展示的时候，虽然已经到下课时间了（但是拖堂也不是学生的错啊），虽然可能展示的内容不是特别的好，但是打算别人说话真的很不礼貌，就算你是老师，频繁打断学生说话展示真的不是一种有素质的行为，就这样"},{"id":124797,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-07-10 06:11:53","like_diff":30,"likes":43,"dislikes":13,"content":"#李秀央批改肖战满绩#"},{"id":124051,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-06-22 13:40:16","like_diff":28,"likes":30,"dislikes":2,"content":"医学院就找不出第二个统计学老师了？"},{"id":133861,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-03-08 11:53:30","like_diff":27,"likes":31,"dislikes":4,"content":"我给她一分不是她配这一分，而是没有零分，如果给我一把枪，一把刀，把她和希特勒与马里奥关在一起，我会😅"},{"id":103853,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-03-06 10:25:18","like_diff":22,"likes":25,"dislikes":3,"content":"莫名其妙的一个老师，说话听起来很不舒服，这个是个人问题就不多说了，六点半上课，五点五十多就到教室来了，然后就开始做题？？？有没有考虑过五点半下课的同学，一个统计课有课前作业课后作业，破事贼多"},{"id":147801,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-01-11 01:25:48","like_diff":18,"likes":22,"dislikes":4,"content":"李 溴 氧， 鉨 j ι υ 惿 個 寄 δ 巴 ！\n\n李 锈 秧， 尓 勼 寔 個 寄 妑 ！\n\n李 嗅 γ ā η ɡ  ， γ o υ 就 四 個 寄 紦 ！\n\n李 貅 殃 ， 伱 噈 寔 箇 寄 o 巴 ！"},{"id":76514,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2018-04-12 02:55:47","like_diff":17,"likes":28,"dislikes":11,"content":"不知道哪里来的那么高分？之前一直不用上机，然后学期过半才通知说要上机考？？？学生手册上明显写着的规定「第一节课就应该明确考核标准」无视掉我就搞不懂了。"},{"id":147666,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-01-10 11:43:20","like_diff":16,"likes":17,"dislikes":1,"content":"lxy退休的那天记得喊我去放鞭炮"},{"id":103857,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-03-06 11:23:53","like_diff":15,"likes":19,"dislikes":4,"content":"沙雕老师，在线做题"},{"id":124790,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-07-09 12:49:42","like_diff":15,"likes":17,"dislikes":2,"content":"槽点太多，喷她太掉价，反正一句话，她只配0分"},{"id":150281,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-01-21 10:17:32","like_diff":14,"likes":16,"dislikes":2,"content":"平时屁事一大堆，两个创新大作业随机分组，一个调查问卷统计报告带展示，平时每节课下去都还有去知道测试，知道里面还两节线上课要刷，这么多事情期末一看平时分占比百分之三十？，你一两学分的课这么多破事好意思吗，理论课一周来一周不来，平时上课全在那提问互动，理论知识什么时候讲？自己看线上课。考完试知道APP还有个线上考试，问做不做说做了有奖励分，算入期末成绩，结果还没到截止时间期末成绩已经出了，耍猴呢？"},{"id":105857,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-04-22 05:26:55","like_diff":13,"likes":16,"dislikes":3,"content":"搞毛线啊，两个老师讲的完全不一样，考试却按李秀央讲的考，还是平时作业的文献直接往上放。简直有毒啊。统计学凉了"},{"id":132629,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-02-03 03:20:59","like_diff":13,"likes":14,"dislikes":1,"content":"明明在上机教室，要我签到，明明是专业大课，要我看网课自学，明明要期末考试了，要我看她的网课（事实上，不看也没关系，只要点完就好，您恰饭能再明显一点吗，填鸭式教学您觉得我们学的进去多少）。\n\n从始至终，线上学习平台从学在浙大换到爱课程，再到大学生mooc，再到知到、智慧树，数不胜数，不管怎样评分标准里都可以纳入，没人知道到底哪个算是要算在分数里的，问她也不过是牛头不对马嘴自己胡言乱语没人听得懂罢了。\n\n考试上机，既然电脑有问题就应该当场补考，不然对补考的同学不能补考的同学都有失公平，结果撂下一句“我们要吃饭的呀”就走了，第二次还是有同学电脑有问题，真有你的。考试时候教室里叽叽呱呱吵个半天不知道别人在考试吗，能闭嘴吗？\n\n医学院就这么一个统计老师，谁都拿他没办法，学生匿名教学反馈他不听，所以这学期应该也没有同学反馈，毕竟没用，她不会觉得自己深受学生欢迎吧。。。。\n\n总结一下最受不了的点：考核标准不透明只有他知道，学期中学习平台一换再换，公饱私囊自我为中心。"},{"id":76596,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2018-04-16 06:07:41","like_diff":12,"likes":19,"dislikes":7,"content":"学期过半说要机考，NMB"},{"id":122816,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-04-09 16:20:02","like_diff":12,"likes":13,"dislikes":1,"content":"要求多 任务难 上课少 快点结课吧别折磨我了"},{"id":123500,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-06-09 07:34:01","like_diff":12,"likes":14,"dislikes":2,"content":"如果我对浙大的教学水平产生了质疑，一定是因为这种老师的存在"},{"id":123507,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-06-09 08:06:47","like_diff":12,"likes":13,"dislikes":1,"content":"快逃！！！"},{"id":149738,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-01-16 15:21:34","like_diff":12,"likes":14,"dislikes":2,"content":"“具体考试时间我也不太清楚”\n\n“有奖励分哦”\n\n“建议助教老师也参加考试”\n\n为啥不能打零分呢？"},{"id":111037,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-06-29 09:28:45","like_diff":11,"likes":14,"dislikes":3,"content":"lajilaoshi"},{"id":122470,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-02-29 03:33:10","like_diff":11,"likes":14,"dislikes":3,"content":"课前课后都有作业，上课听不清楚，不理会同学的反馈"},{"id":124796,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-07-09 17:18:43","like_diff":11,"likes":12,"dislikes":1,"content":"万万没想到这门课挂了，明明所有课里这门课花了最多的时间自学，最多的时间做作业，期末考电子开卷全查到了。。。上学期有些课没认真学，自己很害怕挂科都没挂，没想到栽在这样一个垃圾老师手里"},{"id":125085,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-08-29 13:34:09","like_diff":11,"likes":13,"dislikes":2,"content":"傻逼老师"},{"id":142764,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-11-16 03:22:17","like_diff":11,"likes":12,"dislikes":1,"content":"上过的都懂，教的烂，事情多，还不来上课，啥都没教就小测。\n\n但凡能评个0分😇😇😇"},{"id":143037,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-11-18 09:35:45","like_diff":11,"likes":12,"dislikes":1,"content":"我其实想打0分的\n\n这个是一个shi(ee)t， 那个是一个shi(ee)t\n\n专业课不来上课让学生听网课，破事一堆，浪费时间\n\n给句痛快话，啥时候退休！"},{"id":144130,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-12-19 07:49:03","like_diff":11,"likes":12,"dislikes":1,"content":"为什么她的评分还能上2"},{"id":116117,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-09-04 10:23:57","like_diff":9,"likes":12,"dislikes":3,"content":"脾气差 刚愎自用  逻辑混乱  还经常与学生发生矛盾，遇到这么奇葩的老师让我对身边的好老师倍感珍惜"},{"id":149619,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-01-16 08:12:51","like_diff":9,"likes":14,"dislikes":5,"content":"坦诚得讲\n\n这门课老师的用心程度确实比得上生化和基导这些课程\n\n但是老师传达信息的效率和评分体系的确定性是最大的痛点、、\n\n今天是1.12考完试\n\n她1.15晚上有同学问才说知到上的期末测试做了有鼓励分\n\n如果这门课以后能够设置一个传递信息的信息员\n\n那么相信会做的更好\n\n我打1分 不为别的 就为在这门课上不断被搞翻的心态"},{"id":170414,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2023-03-04 07:03:02","like_diff":9,"likes":10,"dislikes":1,"content":"没有评论说的那么不好，老师上课通过讲例子还是能听懂的，现在平时分给分很高"},{"id":189209,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2024-01-22 10:41:08","like_diff":9,"likes":10,"dislikes":1,"content":"来浙大一年半遇到最抽象的老师，话是讲不清的，课程逻辑是讲不明白的，作业布置是偷偷的不告诉你的，拿分是需要发言的，钉钉群是禁止向老师和助教私聊的。有上课那抽人发言的闲情雅致不如多想想怎么把这门课教明白"},{"id":216774,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2025-03-25 02:49:10","like_diff":9,"likes":9,"dislikes":0,"content":"没人来上课急得不行，跑辅导员那去告状"},{"id":216763,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2025-03-24 08:11:33","like_diff":8,"likes":8,"dislikes":0,"content":"发什么脾气呀… 上课说得不清不楚就算了，发烧了在宿舍看智云听到你要纸质签到便马上冲过去教室，结果被你当众骂了一面屁… 大哥我连看智云的记录和病历都带给你了，真的连补签一下都不能吗？"},{"id":23826,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2016-04-18 07:40:50","like_diff":7,"likes":23,"dislikes":16,"content":"口音诡异的一比，听的我全程蒙逼，会有平时作业，但是不太难。老师人很好，很耐心，考试给重点，不考名解，不考计算，基本上都是理解题。业界良心"},{"id":147190,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-01-21 10:22:07","like_diff":6,"likes":9,"dislikes":3,"content":"挺离谱，两个小组作业，第二个小组作业两种选题，竟然在答辩完后让选第一个的重新做第二个\n\n还有知道上的网课。。。"},{"id":151739,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-03-14 10:42:33","like_diff":6,"likes":8,"dislikes":2,"content":"老师讲课的音色，声音的频率好难受，我要精神衰弱了，而且讲课好混乱，理解不了，是不是表达和我们有代沟"},{"id":155279,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-06-10 06:19:25","like_diff":6,"likes":6,"dislikes":0,"content":"老师说话有点不清楚，听的人昏昏欲睡"},{"id":184047,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2023-12-07 08:29:43","like_diff":6,"likes":6,"dislikes":0,"content":"给我一把枪和三颗子弹，把希特勒、马里奥和lxy关一起，我会对lxy练习莫桑比克射击法"},{"id":185614,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2024-01-03 02:02:03","like_diff":6,"likes":6,"dislikes":0,"content":"平时讲课剩下来一堆时间，在那边没活硬整，抽人提问能抽一节课的时间，最后一节课分个十几组在那边小组展示，然后线性回归就不讲让我们自学了是吧，哦哦厉害的，这就是我们医学统计学，真是垃垃又圾圾啊，你们有没有这样逆天的课啊"},{"id":216773,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2025-03-25 02:28:32","like_diff":6,"likes":6,"dislikes":0,"content":"课讲得贼烂，脾气还挺大，哈哈"},{"id":132833,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-02-05 07:44:30","like_diff":5,"likes":6,"dislikes":1,"content":"算了。"},{"id":161504,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-11-10 08:15:28","like_diff":5,"likes":6,"dislikes":1,"content":"第一节课就没绷住"},{"id":168627,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2023-02-20 11:35:24","like_diff":5,"likes":9,"dislikes":4,"content":"其实我觉得老师还是不错的，没有评价说的那么恐怖。可能是因为疫情线上上课原因，课程作业和任务不算多，而且老师也挺尊重同学们的，上课没人举手发言也不会强制要求回答。不过确实讲得不太听得懂。。。"},{"id":104850,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-03-28 16:35:58","like_diff":4,"likes":7,"dislikes":3,"content":"辣鸡公众号智能助教系统……"},{"id":124178,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-06-26 13:06:59","like_diff":4,"likes":5,"dislikes":1,"content":"如果统计学有另一个老师的班，谁会选lxy的课呢"},{"id":124791,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-07-09 13:06:58","like_diff":4,"likes":4,"dislikes":0,"content":"大二下了，搞到了两年来的最低绩点"},{"id":133873,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-03-08 13:06:06","like_diff":4,"likes":4,"dislikes":0,"content":"（强制性）50份问卷，收据过来数据给她做研究，无语"},{"id":133876,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-03-08 14:19:58","like_diff":4,"likes":5,"dislikes":1,"content":"50份问卷10分平时分？煞笔"},{"id":140366,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-09-10 05:43:55","like_diff":4,"likes":5,"dislikes":1,"content":"shabi老师"},{"id":151947,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-03-21 11:23:57","like_diff":4,"likes":6,"dislikes":2,"content":"口音诡异，没有逻辑，磕磕巴巴，时高时低。"},{"id":153639,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-05-07 01:18:45","like_diff":4,"likes":6,"dislikes":2,"content":"给分改进了啊，宽容了许多。缺勤三次，期末满分50拿了25.3（看了一晚上zsy资料，操作题除了三线表每一个弄出来，三线表还没写表题），最后77，3.3，呜呜幸好最后的考试没有斩杀线"},{"id":183967,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2023-12-05 04:34:23","like_diff":4,"likes":4,"dislikes":0,"content":"傻逼一个"},{"id":216879,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2025-03-28 01:36:45","like_diff":4,"likes":4,"dislikes":0,"content":"第一次见把不同班的人叫在一起做小组作业的，我人都联系不上"},{"id":216978,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2025-03-31 00:25:51","like_diff":4,"likes":4,"dislikes":0,"content":"一个纯shabi"},{"id":24722,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2016-05-03 08:03:44","like_diff":3,"likes":6,"dislikes":3,"content":"听不来，有次听不下去直接走了，不过老师人还是不错的，考试比其他老师貌似简单，无名解，重理解"},{"id":76346,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2018-04-04 01:45:24","like_diff":3,"likes":6,"dislikes":3,"content":"听说加了上机考试"},{"id":77907,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2018-05-08 12:34:16","like_diff":3,"likes":8,"dislikes":5,"content":"太棒了 给分不能再好"},{"id":106695,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-04-29 03:24:40","like_diff":3,"likes":4,"dislikes":1,"content":"老师讲课有口音，感觉说话不怎么动嘴唇，听上去有些吃力。上课绝大部分时间讲解概念还是很清楚明白的（前提是听懂她讲的话），也经常把理论知识和实践联系在一起，平时作业分析文献很有新意，但是认真做的话工作量还是有点大。公众号做题点名系统很垃圾，只能在微信上用，下载文件又要在网页搞，很麻烦，也很乱。给分不错"},{"id":106767,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-04-29 11:03:22","like_diff":3,"likes":8,"dislikes":5,"content":"两个老师上课，结果就你一个人出题，这也没啥，关键考试题里你放上自己班的作业题算什么？拿另一个班当对照组看看平时有没有作业是否会造成统计学差异?\n\n而且选择题里错字好多，题干也怪怪的不知道在说些什么。。。最后沈毅班4.5飘过，但我还是想来这里吐槽这种出题"},{"id":115559,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-08-03 15:14:47","like_diff":3,"likes":7,"dislikes":4,"content":"我这辈子从来没有遇到过这么恶心没人品的老师，甚至没遇到过这么恶心的人。证据太长，一一列出来太麻烦了。我只告诫大家，千万不要跟这种人有什么交集。"},{"id":124072,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-06-23 08:14:20","like_diff":3,"likes":3,"dislikes":0,"content":"个中苦楚不再多说\n\n我只想说 别选她的课！！！！\n\n\n\n"},{"id":124792,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-07-09 14:01:38","like_diff":3,"likes":4,"dislikes":1,"content":"天哪，老师评分居然还有这么高，还是来拉一拉把emmm"},{"id":124793,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-07-09 14:25:52","like_diff":3,"likes":3,"dislikes":0,"content":"无语，愿以后不要碰到这样的奇葩老师"},{"id":124800,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-07-10 04:55:58","like_diff":3,"likes":3,"dislikes":0,"content":"破事儿一堆，给分贼低，没有礼貌"},{"id":124936,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-07-22 07:42:49","like_diff":3,"likes":3,"dislikes":0,"content":"呵呵，真是令人大开眼界"},{"id":133854,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-03-08 08:31:03","like_diff":3,"likes":4,"dislikes":1,"content":"填问卷，煞笔"},{"id":134209,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-03-19 11:07:20","like_diff":3,"likes":3,"dislikes":0,"content":"呵呵了"},{"id":152181,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-03-29 13:48:02","like_diff":3,"likes":5,"dislikes":2,"content":"lxy什么时候退休啊"},{"id":163066,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-12-07 04:54:22","like_diff":3,"likes":5,"dislikes":2,"content":"真lj"},{"id":168280,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2023-02-08 17:14:18","like_diff":3,"likes":6,"dislikes":3,"content":"严谨、认真、负责！"},{"id":170410,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2023-03-04 04:42:12","like_diff":3,"likes":3,"dislikes":0,"content":"平时分设置很多"},{"id":184019,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2023-12-06 09:08:00","like_diff":3,"likes":3,"dislikes":0,"content":"无语了"},{"id":184408,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2023-12-19 04:16:25","like_diff":3,"likes":3,"dislikes":0,"content":"说话嘴从来没张开过，讲课也一塌糊涂，一个水课破事不少。如果可以我一定推荐我qny来选这门课当跨专业"},{"id":203518,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2024-11-20 02:25:59","like_diff":3,"likes":3,"dislikes":0,"content":"听课感觉自己被古神污染了san值狂掉，话讲不清声音还很尖锐，内容讲得一塌糊涂还不如自己看资料，还喜欢提前上课"},{"id":218020,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2025-04-19 08:02:03","like_diff":3,"likes":3,"dislikes":0,"content":"怎么说呢，一言以蔽之，人很坏而且很傻"},{"id":11596,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2015-12-07 08:30:44","like_diff":2,"likes":10,"dislikes":8,"content":"上课挺认真的"},{"id":24762,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2016-05-03 12:00:21","like_diff":2,"likes":5,"dislikes":3,"content":"虽然老师口音真的懵比！平时作业挺多的，但是考试简单呀！看两遍书理解一下就行！"},{"id":78050,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2018-05-09 07:08:55","like_diff":2,"likes":5,"dislikes":3,"content":"上机两个题20分，方法用错按理应该扣10分，最终4.5，感谢啊，很认真！"},{"id":94546,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-01-17 07:31:02","like_diff":2,"likes":3,"dislikes":1,"content":"just so so"},{"id":106640,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-04-28 13:48:26","like_diff":2,"likes":2,"dislikes":0,"content":"虽然老师上课很垃圾，一百个字都说不清楚那种。。。。但是期末自学之后，给分挺好"},{"id":111142,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-06-30 05:16:43","like_diff":2,"likes":3,"dislikes":1,"content":"就想问一下今年的考试什么情况，还是我太垃圾了，哭死(´;︵;`)"},{"id":124795,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-07-09 15:57:12","like_diff":2,"likes":2,"dislikes":0,"content":"事情极多，极不尊重学生，给分极差，和原始成绩比例、考试难度严重不符"},{"id":133842,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-03-08 04:05:11","like_diff":2,"likes":2,"dislikes":0,"content":"无语了"},{"id":145578,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-12-30 10:07:31","like_diff":2,"likes":4,"dislikes":2,"content":"快说，谢谢lxy"},{"id":150283,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-01-21 10:51:38","like_diff":2,"likes":2,"dislikes":0,"content":"哈哈哈哈哈哈"},{"id":150284,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-01-21 11:11:52","like_diff":2,"likes":3,"dislikes":1,"content":"傻逼老师，给分巨差，事情超多，不好好上课。。。。。狠狠拉我主修"},{"id":163321,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-12-13 02:26:40","like_diff":2,"likes":5,"dislikes":3,"content":"不能打零分…上课上的真垃圾，还喜欢玩各种自以为很有趣的花活"},{"id":209745,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2025-01-07 02:55:01","like_diff":2,"likes":2,"dislikes":0,"content":"上这课快被累死咯"},{"id":24736,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2016-05-03 09:04:10","like_diff":1,"likes":5,"dislikes":4,"content":"口音重点 平时作业烦点 考试简单 看书仔细看两遍 满记"},{"id":77046,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2018-04-29 07:25:54","like_diff":1,"likes":2,"dislikes":1,"content":"☺☺☺"},{"id":78380,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2018-05-11 08:00:32","like_diff":1,"likes":7,"dislikes":6,"content":"作为一个均绩没有四的学渣，统计学给了我第一个满绩|･ω･｀)感谢老师手下留情"},{"id":81034,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2018-07-03 11:26:14","like_diff":1,"likes":3,"dislikes":2,"content":"系统性强，条理清晰，耐心示教"},{"id":97734,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-01-22 14:25:36","like_diff":1,"likes":2,"dislikes":1,"content":"给分就不评论了 但是出题很刁钻? 大家自行体会好了"},{"id":105390,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-04-11 09:56:52","like_diff":1,"likes":2,"dislikes":1,"content":"认真负责，理论联系实践，好?"},{"id":110047,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-06-22 00:11:06","like_diff":1,"likes":4,"dislikes":3,"content":"傻逼老师，上课也垃圾，巨jb死板，就会只看答案然后无缘无故怼人，哪里来这么高的分?报她研究生那真是倒八辈子霉了"},{"id":134266,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-03-22 04:18:27","like_diff":1,"likes":1,"dislikes":0,"content":"懂的都懂"},{"id":144995,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-12-26 09:57:57","like_diff":1,"likes":2,"dislikes":1,"content":"这就是个纯**"},{"id":145131,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-12-27 14:53:38","like_diff":1,"likes":1,"dislikes":0,"content":"。。。"},{"id":153395,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-04-29 04:11:10","like_diff":1,"likes":8,"dislikes":7,"content":"所有肮脏恶毒的词汇用来形容这个像棺材里倒出来的老太婆都不为过hhhh"},{"id":154996,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-06-07 09:09:58","like_diff":1,"likes":3,"dislikes":2,"content":"垃圾，这么大年纪的人了话都说不利索，事情烦又多，打断嘲讽他人发言，重新回去学学做人吧"},{"id":170428,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2023-03-04 13:25:22","like_diff":1,"likes":3,"dislikes":2,"content":"给分还不错，捞的力度比较大，上课讲不清楚是真的，几乎全靠自学。那本教材编的也不是很有逻辑，但是实习课很有用，要认真听。"},{"id":184409,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2023-12-19 04:16:25","like_diff":1,"likes":1,"dislikes":0,"content":"说话嘴从来没张开过，讲课也一塌糊涂，一个水课破事不少。如果可以我一定推荐我qny来选这门课当跨专业"},{"id":187968,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2024-01-18 02:27:48","like_diff":1,"likes":1,"dislikes":0,"content":"无话可说了，上她课的宝宝自求多福吧🙄"},{"id":188002,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2024-01-18 03:17:45","like_diff":1,"likes":1,"dislikes":0,"content":"1.上课阴间\n\n2.作业阴间\n\n3.考试时间阴间\n\n4.考试阴间\n\n5.给分还没出，估计也是阴间"},{"id":216883,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2025-03-28 02:36:14","like_diff":1,"likes":1,"dislikes":0,"content":"纯纯一坨"},{"id":217223,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2025-04-05 05:55:45","like_diff":1,"likes":1,"dislikes":0,"content":"书上有的考试都不考，作业里都是书上没有的\n\n课讲的糊嘴巴，没一句能听\n\n脾气还大，智慧树平台稀巴烂还在用\n\n代签是不管的，抢答是乱抢的，课是不会上的，缺勤是扣分的，错过是不补的\n\n美其名曰“管理课堂秩序”\n\n学生都没教会哪来的课堂😅"},{"id":217243,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2025-04-06 09:30:51","like_diff":1,"likes":1,"dislikes":0,"content":"依托史"},{"id":218035,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2025-04-19 12:00:04","like_diff":1,"likes":1,"dislikes":0,"content":"上课不到是要抓的\n\n课是上的一坨的\n\n考试作弊是不管的\n\n智慧树是一定要用的😅"},{"id":218061,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2025-04-20 05:19:32","like_diff":1,"likes":1,"dislikes":0,"content":"其实也不是说李老师有多不好，上课抓考勤其实是可以理解的，但是考试作弊这个事真的是建议严查，实在难平众怒"},{"id":24716,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2016-05-03 07:43:47","like_diff":0,"likes":6,"dislikes":6,"content":"业界良心"},{"id":78003,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2018-05-09 04:40:04","like_diff":0,"likes":3,"dislikes":3,"content":"给分挺好，考试形式还可以吧"},{"id":85765,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2018-08-04 13:29:56","like_diff":0,"likes":3,"dislikes":3,"content":"上课认真，逻辑性强，讲解通俗易懂"},{"id":106625,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-04-28 12:25:54","like_diff":0,"likes":1,"dislikes":1,"content":"老师还是很负责的，就是理论考和机考都有点不公平吧，比如有的同学机考是单样本t检验，有的是H检验...理论考用平时作业，而且考的知识点都是前半学期的。"},{"id":107598,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-05-07 10:49:15","like_diff":0,"likes":1,"dislikes":1,"content":"给辣鸡公众号1分，老师也就一般"},{"id":108775,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-06-01 23:49:16","like_diff":0,"likes":1,"dislikes":1,"content":"学习统计分析方法和技术"},{"id":109628,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-06-18 04:10:49","like_diff":0,"likes":1,"dislikes":1,"content":"???"},{"id":112090,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-07-03 13:08:42","like_diff":0,"likes":3,"dislikes":3,"content":"系统性强，要求高，受益匪浅"},{"id":124404,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2020-06-30 08:28:24","like_diff":0,"likes":0,"dislikes":0,"content":"再试再试"},{"id":136057,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-06-10 13:47:54","like_diff":0,"likes":1,"dislikes":1,"content":"不言而喻"},{"id":144457,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-12-21 14:32:58","like_diff":0,"likes":2,"dislikes":2,"content":"老师实在垃圾"},{"id":159322,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2022-07-12 16:34:53","like_diff":0,"likes":6,"dislikes":6,"content":"有点不知道怎么说了，好像没有大家说的那么差，反正我也不怎么听课，个人作业也迟交了，但是小组作业好好做了，最后给分居然还可以。展示的时候也没有打断大家，可能是看到大家的评价了吧"},{"id":173309,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2023-05-18 07:27:48","like_diff":0,"likes":6,"dislikes":6,"content":"公共卫生学院怎么出了这么多贵物？李修养、陈光dy一个比一个沙壁"},{"id":192377,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2024-05-17 02:58:11","like_diff":0,"likes":0,"dislikes":0,"content":"给分可以了，身边统计学人均4.0往上"},{"id":206214,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2024-12-13 08:45:24","like_diff":0,"likes":0,"dislikes":0,"content":"上课确实不行，但是给分好啊（因为平时分占比很高）考试难度其实也就那样"},{"id":170427,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2023-03-04 13:23:58","like_diff":-1,"likes":6,"dislikes":7,"content":"玩原神吗"},{"id":217272,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2025-04-07 09:36:38","like_diff":-1,"likes":0,"dislikes":1,"content":"人心中的成见是一座大山"},{"id":77909,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2018-05-08 12:40:11","like_diff":-2,"likes":10,"dislikes":12,"content":"虽然李老师上课有点儿口音，但是努力听还是可以接受的。老师很负责，群里答疑，平时上课经常会总结一些知识点。\n\n另外，增加机考是统一决定的，大家都这样，何必怪老师？\n\n最后，表白助教姐姐，上机课超有效率！"},{"id":192367,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2024-05-17 00:38:42","like_diff":-2,"likes":0,"dislikes":2,"content":"出分了，泪目了，谢谢李秀央老师"},{"id":214170,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2025-01-26 13:42:08","like_diff":-3,"likes":2,"dislikes":5,"content":"24医统，老师人还可以，卷子简单，给分不错，感觉不像前几年评论那么不堪"},{"id":214246,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2025-01-30 19:35:15","like_diff":-4,"likes":2,"dislikes":6,"content":"给分挺好的 其实讲的也挺清晰的"},{"id":105856,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-04-22 05:14:30","like_diff":-5,"likes":8,"dislikes":13,"content":"不能再满意"},{"id":111133,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-06-30 04:08:08","like_diff":-7,"likes":2,"dislikes":9,"content":"老师emmm人好，其他嘛。。。"},{"id":134750,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2021-04-13 10:16:14","like_diff":-15,"likes":4,"dislikes":19,"content":"我倒觉得挺不错的"},{"id":111062,"teacher_id":2746,"teacher_name":"李秀央","post_time":"2019-07-03 18:06:53","like_diff":-18,"likes":7,"dislikes":25,"content":"老师人很好，虽然口音很重，思维奇怪，但最后会发现平时分会给满的，考试也比较简单、比较水，对学生比较好，分数很好。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

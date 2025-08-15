@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>包家立 - 医学院 - 浙大教评</title>
+    <meta name="description" content="包家立教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="包家立,医学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">包家立</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">医学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">7.17</div>
+                    <div class="rating-participants">61人参与评分</div>
+                    <div class="attendance-info">11.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (4 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">医工结合与创新</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.81</span>
+                            <span class="students">选课: 131人</span>
+                            <span class="std-dev">标准差: 0.79</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">医疗仪器的临床应用</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.10</span>
+                            <span class="students">选课: 44人</span>
+                            <span class="std-dev">标准差: 0.99</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">生物信息学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.69</span>
+                            <span class="students">选课: 38人</span>
+                            <span class="std-dev">标准差: 0.82</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">计算生物学导论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.01</span>
+                            <span class="students">选课: 25人</span>
+                            <span class="std-dev">标准差: 0.61</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (48 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":894,"teacher_id":151,"teacher_name":"包家立","post_time":"2015-03-18 12:24:52","like_diff":24,"likes":32,"dislikes":8,"content":"一个博学的老头，在他的课上可以学到各种知识，而且很能引人思考"},{"id":41593,"teacher_id":151,"teacher_name":"包家立","post_time":"2017-01-12 08:33:37","like_diff":17,"likes":20,"dislikes":3,"content":"听课可以水，但是水的结果就是绩点没法看??"},{"id":106386,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-04-27 02:56:21","like_diff":13,"likes":15,"dislikes":2,"content":"医工创新:\n\n\n\n不足:决定经常会临时改，不时拖堂，给分一般(可能是因为是新开的课没有充分备课的缘故，基本学不到太多东西)\n\n\n\n优点:上课可水，老教授很有耐心，事算少小组做一份医疗器械创业计划书和专利申请书，考试(题目会给)\n\n\n\n结论:不推荐(查老师怎么只能评1or10分，枯了)"},{"id":118852,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-11-07 04:20:44","like_diff":12,"likes":13,"dislikes":1,"content":"老师讲的挺好的...就是和作业没啥子关系...我上的医工结合与创新你要我交一份专利申请书和资本中国那种融资计划书是闹哪样...群里都是崩溃的孩子...还要我们自学ps制图...看着一些恶竞大佬，我已经躺好准备被正态了..."},{"id":118883,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-11-07 10:40:56","like_diff":10,"likes":10,"dislikes":0,"content":"作业做到崩溃了，他上课和作业有个毛线关系呀?专利说明书还勉强能理解，商业计划书宁教了吗？我写个毛线啊！ 还要自学PS制图，强烈建议大一新生避雷"},{"id":65848,"teacher_id":151,"teacher_name":"包家立","post_time":"2018-01-09 13:51:27","like_diff":9,"likes":11,"dislikes":2,"content":"虽然是教授，确完全没有架子，很和蔼可亲，大一初来乍到的我本来都不太敢和老师交流，但包老师给我完全不同的感受。在新生研讨课上了解了很多先进医疗器械，于我而言，起码分清了X光，CT，磁共振和B超哈哈哈。平时上课发言不太积极，可能绩点会不好看，但还是要给老师打call！"},{"id":119008,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-11-09 09:03:51","like_diff":9,"likes":9,"dislikes":0,"content":"千万别选"},{"id":119685,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-11-15 00:31:55","like_diff":8,"likes":9,"dislikes":1,"content":"上课内容和结课测试内容关系不大，能提供的帮助很有限，专利申请书和企业策划书贼难，自己查阅资料写，前后花了20h左右的时间，最后绩点往下拖，以后科技创新都要慎选"},{"id":118969,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-11-08 16:05:22","like_diff":7,"likes":7,"dislikes":0,"content":"医工结合与创新：上课可水，听下来不觉得有什么收获。这学期因为课程安排所以没有考试，多做一份作业。要写一份商业计划书一份专利申请书。但这和上课的内容完全没什么关系啊，而且写这种的话说实话全靠编，也没学到什么东西。老师作业要求感觉有点讲不清，因为字数不限所以有人写到上万，反正也是让其他人很绝望了"},{"id":119028,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-11-09 16:44:43","like_diff":7,"likes":8,"dislikes":1,"content":"教授人很好，很博学，但作业让我绝望，一份商业计划书，一份专利申请书，由于这学期没有考试，这两份作业直接决定绩点，作业是考试周后马上交，而考试周前两周才开始讲怎么写作业，这叫我怎么取舍。而且，教授有点高高在上的感觉，有点不考虑大一新生的实际完成能力。总之，不推荐。"},{"id":16419,"teacher_id":151,"teacher_name":"包家立","post_time":"2016-01-18 05:12:08","like_diff":6,"likes":6,"dislikes":0,"content":"老师很博学，但觉得得分和自己想象的不一样…"},{"id":41710,"teacher_id":151,"teacher_name":"包家立","post_time":"2017-01-12 11:57:22","like_diff":6,"likes":6,"dislikes":0,"content":"挺无聊的……然而如果你不喜欢上课发言的话，要谨慎啊……绩点会低到你不敢相信"},{"id":119699,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-11-15 02:09:10","like_diff":6,"likes":6,"dislikes":0,"content":"事情多 要求高 当事人表示很后悔"},{"id":68256,"teacher_id":151,"teacher_name":"包家立","post_time":"2018-01-23 01:43:08","like_diff":5,"likes":6,"dislikes":1,"content":"新生研讨课的均绩4.51，真的假的"},{"id":96263,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-01-20 15:24:20","like_diff":5,"likes":5,"dislikes":0,"content":"这老师给分也太迷了吧，全按自己喜好随便给？"},{"id":119677,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-11-15 00:09:51","like_diff":5,"likes":6,"dislikes":1,"content":"医工结合与创新，p事贼多，交什么专利说明书商业报告书，千万别选"},{"id":119701,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-11-15 02:16:47","like_diff":5,"likes":5,"dislikes":0,"content":"很水，如果你不要绩点想要的话完全可以选。但是如果你想认真做作业，拿绩点的话，还是出门左转吧。真实? 杀"},{"id":119705,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-11-15 02:53:01","like_diff":5,"likes":5,"dislikes":0,"content":"老师上课和作业真的关系不大，以作业来决定绩点，是真的很低很低。。。。大一新生真的要谨慎选。"},{"id":91381,"teacher_id":151,"teacher_name":"包家立","post_time":"2018-12-10 12:17:35","like_diff":4,"likes":5,"dislikes":1,"content":"评分很迷"},{"id":116828,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-09-16 06:42:31","like_diff":4,"likes":5,"dislikes":1,"content":"随便水"},{"id":119717,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-11-15 03:21:44","like_diff":4,"likes":4,"dislikes":0,"content":"作业实在是太难做了，花了好久最后才得了个很低的绩点"},{"id":41315,"teacher_id":151,"teacher_name":"包家立","post_time":"2017-01-10 13:46:10","like_diff":3,"likes":4,"dislikes":1,"content":"老师人超好，脾气和学问都很好，不点名。唯一的考核方式就是一次ppt宣讲，很推荐有这方面兴趣的人去选！"},{"id":46363,"teacher_id":151,"teacher_name":"包家立","post_time":"2017-01-21 10:52:45","like_diff":3,"likes":3,"dislikes":0,"content":"一门教你方法的课，认真做多发言一定是高分"},{"id":128055,"teacher_id":151,"teacher_name":"包家立","post_time":"2020-12-04 12:23:24","like_diff":3,"likes":3,"dislikes":0,"content":"老师从来不点名，上课的内容很有意思的    不过感觉这个课吧很卷 ，我是大一新生，啥都不懂，结过这次的课基本上都是大四的学长学姐。上课内容和终作业基本上是毫无关系。我们大一刚分专业，我真的不知道该怎么写融资计划书（无相关专业课程学习与经验）而且你百度也搜不到。但最后就自己查查资料，在ddl那天开始写。肝了四个小时整出来一篇  本来特别绝望结过成绩出来4.8，惊喜子。（我没卷，比我多卷了好几千字的同学绩点反而没我高）可以看出来老师更在意格式    我觉得给分还是比较公正的   总之选不选看你自己，被正态是有可能的"},{"id":96629,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-01-21 08:13:03","like_diff":2,"likes":3,"dislikes":1,"content":"这什么给分啊？？？"},{"id":106543,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-04-28 05:08:52","like_diff":2,"likes":3,"dislikes":1,"content":"听课，考试，作业都没有问题，可以水，但是卡绩点啊啊啊啊"},{"id":119719,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-11-15 10:31:27","like_diff":2,"likes":2,"dislikes":0,"content":"无语了"},{"id":119737,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-11-15 05:15:22","like_diff":2,"likes":2,"dislikes":0,"content":"给分不是能水来的！老师会教很多东西，是有收获的，老师也很有耐心，回复很认真。（邮件和微信回复过我很多，那些说老师没耐心的应该也没有找老师吧）但是最后大作业真的一言难尽！老师要求很严格的，我在北街肝了四个晚上和三个白天（不算前期查资料，确定方向）才搞出来，秃了无数头发，自学了ps，画图，信电的课和管理学一小部分，最后绩点不是很高，还卡了绩。\n\n但想要凭借自己努力取得好成绩、真心有创业想法、对医学和医疗仪器感兴趣的同学可以试一下。以上是我个人经历。"},{"id":119753,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-11-15 08:22:43","like_diff":2,"likes":2,"dislikes":0,"content":"课程要求较高，非相关课程的学生不建议报"},{"id":41276,"teacher_id":151,"teacher_name":"包家立","post_time":"2017-01-10 11:08:48","like_diff":1,"likes":3,"dislikes":2,"content":"有些原理都能讲 也有很多高端仪器的介绍 新生研讨真的能学到一些东西"},{"id":67107,"teacher_id":151,"teacher_name":"包家立","post_time":"2018-01-20 09:35:22","like_diff":1,"likes":3,"dislikes":2,"content":"上课还可以"},{"id":67147,"teacher_id":151,"teacher_name":"包家立","post_time":"2018-01-20 10:30:26","like_diff":1,"likes":4,"dislikes":3,"content":"研讨课是真的轻松，只要认真讲一个PPT就OK了，绩点也很好"},{"id":67170,"teacher_id":151,"teacher_name":"包家立","post_time":"2018-01-20 11:32:14","like_diff":1,"likes":3,"dislikes":2,"content":"老师懂的很多，讲的也蛮好的，上课要做的就是一个展示偶尔答个问题，课可以不听，展示也可以水……当然绩点比较难看就是了……(눈_눈)"},{"id":85293,"teacher_id":151,"teacher_name":"包家立","post_time":"2018-07-16 23:39:06","like_diff":1,"likes":3,"dislikes":2,"content":"我们专业课上安排了老师的两次讲座。感觉眼前一亮。思维很独特很神奇的。"},{"id":121347,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-12-18 12:29:30","like_diff":1,"likes":1,"dislikes":0,"content":"emmmm怎么说，医工结合与创新，上完课下来学到的东西不多，课上也确实是没怎么说作业怎么写，但有说注意事项，也说了作业更看重的是格式是否规范。最后两个作业肝了完整的两天，不过有一说一，内容基本上都是编的，但是格式都是严格遵照老师发的范文和课上要求的，最后满了。"},{"id":121580,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-12-12 10:41:21","like_diff":1,"likes":1,"dislikes":0,"content":"老师上课上的挺有意思，也很和蔼，会耐心回答学生问题，有时会叫人上课回答问题（不算在平时分里面，但是确实挺有趣），PPT准备的很认真，老师的知识面也很渊博。不过这次考试取消了…变成了专利申请书和商业计划书都要写…虽然一开始很迷茫，心态爆炸，（完全没有思路），但后来横下心来在考试周的时候砸了三天三夜下去把它刚完了…结果给分最后很惊喜，大概也是一分耕耘一分收获吧。如果认真去上这门课并完成作业能学到很多，不仅是医学，还有物理，化学，数学，计算机等等，总之还是值得尝试的。"},{"id":129525,"teacher_id":151,"teacher_name":"包家立","post_time":"2021-01-06 15:56:06","like_diff":1,"likes":1,"dislikes":0,"content":"之前上过包老师的医工结合与创新，我觉得老师其实上课讲的很好呀。。但是开始的时间是下午一点十五，我也是昏昏欲睡。最后的两个大作业，老师很看重格式，希望大家能够好好的准备格式呀"},{"id":13720,"teacher_id":151,"teacher_name":"包家立","post_time":"2015-12-30 11:52:11","like_diff":0,"likes":2,"dislikes":2,"content":"在湖北招生"},{"id":41146,"teacher_id":151,"teacher_name":"包家立","post_time":"2017-01-09 12:36:06","like_diff":0,"likes":6,"dislikes":6,"content":"这个新生研讨课你不仅可以了解各种高端医疗器械的原理，你还可以发现老师是个隐藏的物理dalao、微积分dalao，还有老师会不断的和你视线交流语言交流，and 上课响起微信电话的声音，哈哈哈哈，老师在课上会忘我的开始打电话。绩点不知道，所以我给9分(ppt做的太烂担心啊)。老师讲的又有激情又透彻！超赞的男神医生老师哇！"},{"id":41271,"teacher_id":151,"teacher_name":"包家立","post_time":"2017-01-10 10:30:26","like_diff":0,"likes":2,"dislikes":2,"content":"上的新生研讨，老师很可爱的?"},{"id":41884,"teacher_id":151,"teacher_name":"包家立","post_time":"2017-01-13 07:13:14","like_diff":0,"likes":2,"dislikes":2,"content":"老师人很好，感觉很博学很和蔼，还是要用心准备PPT和发言才行。"},{"id":42415,"teacher_id":151,"teacher_name":"包家立","post_time":"2017-01-14 07:08:49","like_diff":0,"likes":2,"dislikes":2,"content":"老师很棒很有学识虽然绩点不高但是用老师的话来说就是在这门课上能够学到的东西其实还是很浅的重要的是学习一种思维方式  上课可以多发言多提问  一堂氛围轻松的课  视野变开阔 认识到自己的肤浅"},{"id":115076,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-07-15 07:10:43","like_diff":0,"likes":4,"dislikes":4,"content":"医工创新:个人觉得作业有点儿麻烦，本人绩点也不是很高，但是后来才发现这个课很有用"},{"id":139765,"teacher_id":151,"teacher_name":"包家立","post_time":"2021-07-26 02:51:30","like_diff":0,"likes":0,"dislikes":0,"content":"上课认真"},{"id":47334,"teacher_id":151,"teacher_name":"包家立","post_time":"2017-11-19 15:41:49","like_diff":-2,"likes":4,"dislikes":6,"content":"老师很认真，可以学到很多东西，后悔没有好好听课，思考题背下来，考试很简单，给分很不错～"},{"id":78905,"teacher_id":151,"teacher_name":"包家立","post_time":"2018-05-16 11:44:34","like_diff":-2,"likes":2,"dislikes":4,"content":"新生研讨课真的很好，可以学到很多东西，然后我是医学生，上了老师的课真的得到了很多启发，也算是对以后要走的路有了更多的一些认识。关于PPT展示也学到了很多，非常棒了。"},{"id":119082,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-11-10 06:03:17","like_diff":-2,"likes":2,"dislikes":4,"content":"受益匪浅的一门课 老师人很好的事情也很少 平时没作业 不用考试 上课可以不听 只有一个大作业"},{"id":119553,"teacher_id":151,"teacher_name":"包家立","post_time":"2019-11-13 13:06:11","like_diff":-5,"likes":1,"dislikes":6,"content":"老师很好，疯狂推荐"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

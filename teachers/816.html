@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>周亚庆 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="周亚庆教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="周亚庆,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">周亚庆</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.73</div>
+                    <div class="rating-participants">235人参与评分</div>
+                    <div class="attendance-info">16.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">现代管理基础</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.08</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.67</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">管理学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.20</span>
+                            <span class="students">选课: 313人</span>
+                            <span class="std-dev">标准差: 0.66</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (205 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":3674,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-06-17 02:11:51","like_diff":64,"likes":104,"dislikes":40,"content":"老师上现代管理基础课会讲很多案例，而且作业相较于其他老师很少，第六堂课还会做游戏，之后会给我们买水果吃，炒鸡棒！"},{"id":1983,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-03-28 02:54:25","like_diff":43,"likes":69,"dislikes":26,"content":"很和蔼，讲课备课很认真 评分制度很细，绩点不高一般是你自己在某个方面没有做好。但讲书本比较多，没有很开拓我们的思维，比较容易水水过。"},{"id":37682,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-21 06:00:46","like_diff":43,"likes":51,"dislikes":8,"content":"攒人品，为之后选课的同学说一说情况~\n\n每节课要领名字牌，相当于节节课点名，想要翘课的请不要选。\n\n稳定每周都有作业，看视频和ppt，偶尔要写点感想，但是没有大论文。要上网做题目，每周10道，每道0.5分，计入最终成绩。想要高分平时就得努力。\n\n期末闭卷，满分30，三道大题要认真复习，一道五分伤不起。会发复习资料，但是不够，还要看书，老师会大概说下哪些章节比较重要。复习一两天闭卷可以满分。\n\n就内容而言，讲课挺有趣，时不时教大家如何追妹子，不允许上课玩手机，但是不禁止上课坐后排谈恋爱……原话是选中同一门课不容易，所以……\n\n上课还会玩游戏，互坑吧各位XD"},{"id":6166,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2018-06-15 03:41:17","like_diff":42,"likes":50,"dislikes":8,"content":"管理学。每次课前复习预习，帮助大家巩固知识，会讲多多的案例，会水水管理群。不会布置太多的作业，但作业都是恰到好处的。讲课清楚，会引导大家发言。好老师"},{"id":161933,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2022-11-15 06:37:42","like_diff":42,"likes":43,"dislikes":1,"content":"【现代管理基础】\n\n希望对选课的人有帮助。\n\n我是97满绩\n\n这门课事情巨多，同时给分巨好。\n\n任务有：每章慕课测试，每次测试占总评五分。共八次，共四十分，不调分，开卷。\n\n两次慕课大作业，写个人计划表，和课程总结，每次大作业占总评10分，采用班级慕课上互评。但低于8分，老师会重新把你的作业拉出来看（这就是为什么最后总评出分很慢），会适当提分。会有同学在互评的时候进行恶意低分，我第二次作业就被一个同学恶意低分了，只给我打了6分。由于是去最高和最低再算平均，所以我还是满分。除了那个六分，其他同学都是给我10分。\n\n两次课程小组作业展示。第一次是小组的介绍展示（要有小组的介绍和小组内评价系数的分配规则），第二次展示是模拟决策汇报展示。模拟决策是会有一次课进行模拟决策，两个不同的小组之间进行模拟公司交易，在交易过程中可以选择合作或者背叛。最后会获得一个金额，然后全班内各组排名，最高的那个组老师每人送一本书，最低的有惩罚，这次那一组选择了发红包，发了100元。这两次展示每次10分。共20分。20分乘以小组系数就是个人在小组作业当中的评分。\n\n然后课堂发言5分，慕课发言5分，而且慕课要刷视频。这个十分不严格，老师一般会给比较高。\n\n然后最后一次课在课堂上，进行期末测试，全是单选选择题，共20题，平台使用的是学在浙大平台（开卷可以翻书）。我在这个地方卷了，考前一个下午把整个书过了一遍，就是把重点划一下，留个印象。不建议提早准备。最好就是考前几小时准备，不然忘太快了。考的题目很多都是我认为的重点，所以我这个地方分数很高。这个地方期末占比10分，且不调分。\n\n周老师第一节会很凶，把那种模棱两可觉得事情多的学生吓跑，第一次上完课之后退课的人目测有十几个。然后选课人数固定完之后，老师又很祥和了。\n\n这门课，干货很多，我学得很认真，所以成绩不错。同时我们组内氛围很好，大家都在努力把小组作业做好，收获了同学情谊！"},{"id":782,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-03-17 02:15:45","like_diff":30,"likes":42,"dislikes":12,"content":"很nice的老师！"},{"id":3259,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-10-09 05:42:57","like_diff":23,"likes":31,"dislikes":8,"content":"上课不水，给分细，期末考很重要。那位说老师自以为是的同学可能是经历了什么不公平待遇吗？他真的确定自己期末都答好了？"},{"id":1228,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-03-21 16:48:53","like_diff":22,"likes":32,"dislikes":10,"content":"给分好 上课给力！"},{"id":10540,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-19 14:01:30","like_diff":21,"likes":24,"dislikes":3,"content":"老师讲课超棒！会讲一些自己工作的案例，放一些有趣的视频，教我们沟通管理的技巧。给分厚道。【如果这是一门J类课就完美了～"},{"id":61640,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-11-19 13:56:32","like_diff":21,"likes":32,"dislikes":11,"content":"呵呵，我就是性格内向不爱在人面前表现，上课认真听认真复习，mooc认真做，闭卷考试考的也不错，结果就被正态了。我想过为什么我通识老是被正态，后来想明白了，在浙大上通识，性格内向活该被正态，脸皮越厚越好，好好让老师让众人认识你。"},{"id":10322,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-18 05:28:40","like_diff":18,"likes":21,"dislikes":3,"content":"上的现代管理基础，课程任务看起来有点多，做起来倒还好，比较强调预习，上课讲课本内容比较快，会讲很多案例，经常举找对象的例子，第六次课做游戏后有水果吃。"},{"id":10699,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-22 17:08:46","like_diff":16,"likes":18,"dislikes":2,"content":"老师人超级好，课程也不仅限于课本，十分注重学生的参与度，会有很多收获。考试看似简单实际上可以体现是否认真去学。长得也很帅！"},{"id":7262,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-09-12 10:25:51","like_diff":12,"likes":15,"dislikes":3,"content":"老师很好，但上课有一点无聊。不过作业少，而且努力回答问题就能得高分哦。"},{"id":10671,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-22 07:41:42","like_diff":12,"likes":13,"dislikes":1,"content":"老师人很好～上课蛮好玩的～确实能学到很多东西但是并不水～然后上完课后整个班感情也很好跟很多通识课都不一样～"},{"id":24363,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-04-30 02:38:32","like_diff":12,"likes":12,"dislikes":0,"content":"大写的赞，第一点，课的内容对各个专业的人都很有价值；第二点，上课形式很好，能让人认真听，真正学到东西；第三点，老师赞爆，大大暖男，还有水果发；第四点，嘿嘿，作业不多，给分还超棒."},{"id":45213,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-01-19 07:12:15","like_diff":10,"likes":11,"dislikes":1,"content":"又半个学期过去，发现这门课的绩点是我这学期的顶峰，发现之后的课程班级再没有这样融洽的同学关系，发现再没有遇到这样细心为考试准备复习资料的老师......说实话在这门课上能学到的东西不多，不过有几节现代爱情玄学课血赚不亏（*/∇＼*）。认真对待的话，给分不会差。"},{"id":24368,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-09-18 14:40:10","like_diff":8,"likes":10,"dislikes":2,"content":"虽说管理学比较抽象，但认真学还是能学到东西的。老师要求比较高，但小组学习、读管理经典、听企业家讲座等确实干货满满。还有课上有做与管理有关的游戏，最后的小组请吃水果，一次吃了好多水果hhh。"},{"id":24375,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-04-30 03:44:43","like_diff":8,"likes":10,"dislikes":2,"content":"第一节课的时候 会觉得这门课条条框框约束很多 后来觉得 一门不水可以真正学到东西的课才有意义吧 老师人很好 规则多但是通情达理 出钱请大家吃水果 玩游戏给最棒的队伍比赛 小组的展示很多很丰富 会认识一群可爱的人"},{"id":49183,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-03-28 23:25:57","like_diff":8,"likes":9,"dislikes":1,"content":"说真的事情还是不少的，但是这么好，这么平易近人的老师还是头一次遇到，一定要选！"},{"id":10046,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-21 13:54:18","like_diff":7,"likes":11,"dislikes":4,"content":"一开始看起来有些盛气凌人的样子 其实正式的开始上课时和蔼的很诶 点赞"},{"id":10067,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-15 10:31:23","like_diff":7,"likes":9,"dislikes":2,"content":"很贴心的老师"},{"id":10612,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-20 14:45:59","like_diff":7,"likes":7,"dislikes":0,"content":"期末考很重要 平时发言几次就行 轻松高绩点"},{"id":174453,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2023-06-12 10:16:34","like_diff":7,"likes":7,"dislikes":0,"content":"问：这门课学什么？\n\n答：很难说\n\n问：那老师怎么样？\n\n答：老师最喜欢有趣QVQ"},{"id":146469,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2022-01-06 15:40:19","like_diff":6,"likes":6,"dislikes":0,"content":"个人感觉事会有点多。两次作业，一份时间计划表，一份课程报告。剩下的基本上都是和小组共同完成的作业。但是老师讲课是很有趣的，给分也特别好，比我预想的要高。作为一名工科生，老师这门课算是给我打开了管理学的大门，还教了我很多非常实用的知识，非常感谢老师，也非常幸运能够遇到很好的课友、队友。"},{"id":1806,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-03-25 06:32:56","like_diff":5,"likes":7,"dislikes":2,"content":"棒棒哒"},{"id":2726,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-05-06 07:35:18","like_diff":5,"likes":7,"dislikes":2,"content":"很棒，老师人很好嗒"},{"id":2930,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-05-11 08:37:21","like_diff":5,"likes":5,"dislikes":0,"content":"老师对我们很好哒"},{"id":3114,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-05-15 01:16:40","like_diff":5,"likes":6,"dislikes":1,"content":"人好给分很厚道"},{"id":10186,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-17 08:43:32","like_diff":5,"likes":5,"dislikes":0,"content":"超级棒，给吃又给玩，人超好～"},{"id":10427,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-18 15:02:25","like_diff":5,"likes":5,"dislikes":0,"content":"很用心。乐于和同学交流，回答时非常耐心。非常负责的老师。"},{"id":24365,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-04-30 02:40:09","like_diff":5,"likes":6,"dislikes":1,"content":"老师讲课讲的很好 给分也不错 但是上课不能玩手机哦 其实第一堂课讲的那些作业 还是能够轻松完成的 不要怕哦"},{"id":36138,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-10 14:17:43","like_diff":5,"likes":6,"dislikes":1,"content":"不是水课，每个礼拜都有事情干，会有线上的学习和测验。但是周老师是个很好的老师，课讲的好，布置了一些小组任务玩得很开心，个人作业压力不是很大的。更精彩的是，课程进行到中后段，老师每节课都分享一下怎么样追女孩子之类的套路嘿嘿嘿。"},{"id":99003,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-01-24 06:47:08","like_diff":5,"likes":21,"dislikes":16,"content":"小组讨论的时候或者合作的时候坐在组长旁边，不然到时候算个人贡献有些组长就会真的很细致的把每次参与度算进去，最后活生生用数学计算和对组员熟悉程度把个人贡献拉的差距很大，实际上大家也并没有贡献差很多，懂我的意思吧，0.9和1.1乘上好几十分，最后再正态一下，你受不起。还有，平时每章小测别听老师的闭卷，是我觉得这门课氛围很好，太诚实，真的没翻课本，后来才发现大家都在开卷，老师只是嘴上说说闭卷，搞得我平时分比别人差了一大块。总结两句话，能看书就别靠记忆做小测，能和组长混熟或者多水点小组贡献就多去搞，一位通识课除了通核就是本门最低的菜鸡路过"},{"id":104972,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-04-01 11:15:23","like_diff":5,"likes":7,"dislikes":2,"content":"无法理解一门通识课事情为什么这么多。\n\n"},{"id":172610,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2023-05-02 04:05:05","like_diff":5,"likes":5,"dislikes":0,"content":"很好的老师，小组贡献倒数，平时测试也扣好多还有4+"},{"id":7458,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-09-14 12:42:34","like_diff":4,"likes":7,"dislikes":3,"content":"唉，不让旁听"},{"id":10585,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-20 08:45:50","like_diff":4,"likes":5,"dislikes":1,"content":"老师很不错，上课很幽默，期末复习还会把复习内容发下来，很好"},{"id":24364,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-04-30 02:37:06","like_diff":4,"likes":4,"dislikes":0,"content":"周老师炒鸡赞！！！上课很有趣！！！会做游戏会有水果！！！"},{"id":37270,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-18 06:32:08","like_diff":4,"likes":4,"dislikes":0,"content":"周老师人很好，课也很好，第一节课会吓退不少人。每节课后要做MOOC和小练习，看一遍课本和PPT一般就没问题。"},{"id":37539,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-19 09:54:29","like_diff":4,"likes":5,"dislikes":1,"content":"讲得好，给分高，还请吃水果。这种老师不给10分我良心都过不去"},{"id":100013,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-01-25 12:39:29","like_diff":4,"likes":4,"dislikes":0,"content":"给分挺好的"},{"id":105498,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-04-15 12:33:43","like_diff":4,"likes":5,"dislikes":1,"content":"事情太多太多了，每周都有超级可怕的作业。一直是让同学们展示，老师您讲的挺好的，我希望您讲！"},{"id":107125,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-05-02 00:17:05","like_diff":4,"likes":4,"dislikes":0,"content":"事情zei多.通识课不值得花很多时间，但是这门课事情就是多.老师人很好，但是课程本身不咋样"},{"id":126999,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2020-11-02 05:16:22","like_diff":4,"likes":4,"dislikes":0,"content":"真的这么好吗？我醉了"},{"id":10542,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-19 14:36:51","like_diff":3,"likes":4,"dislikes":1,"content":"老师的现代管理基础超级棒！老师讲解非常风趣 还有很多生动的案例 非常能调动同学们的兴趣 而且还会在最后划重点 超级赞！"},{"id":22979,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-03-15 16:51:43","like_diff":3,"likes":3,"dislikes":0,"content":"周老师人太好了。真的是没说的。课程内容也丰富，除了口音有些不清晰，在我看来就是完美！"},{"id":36270,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-11 11:21:02","like_diff":3,"likes":3,"dislikes":0,"content":"很负责的老师，讲的东西一辈子受用！上课很幽默！让你不知不觉中提高管理素养！"},{"id":37351,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-18 12:03:15","like_diff":3,"likes":5,"dislikes":2,"content":"世界上还会有比周老师更有趣的老师吗？反正我还没见过。课程的途中作业量还是有一点点的，但是完全不影响我对这门课的喜欢。（课上会讲很多恋爱技巧....此处想加表情）游戏好好玩，还有水果吃。考前认真复习，都是很简单的"},{"id":37499,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-19 06:41:27","like_diff":3,"likes":3,"dislikes":0,"content":"老师上课很有趣(/ω＼)\n\n上课没发言的我绩点也不低辣|ω･`)"},{"id":37540,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-19 09:55:45","like_diff":3,"likes":6,"dislikes":3,"content":"老师是一个...老司机......\n\n上课会开车?"},{"id":38001,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-23 03:37:39","like_diff":3,"likes":3,"dislikes":0,"content":"老师人很好给分更好，以为要挂的我居然拿了4.5！老师还会水群，给买水果"},{"id":38934,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-12-20 02:21:12","like_diff":3,"likes":3,"dislikes":0,"content":"亚庆哥哥上课很认真，人很好很负责，解答同学问题很耐心上课也挺风趣，模拟商业还会给同学买水果吃。虽然平时事情比较多还有mooc，但毕竟学分2分。据说管院课程都不水但好好听觉得有收获！"},{"id":77866,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2018-05-08 08:52:05","like_diff":3,"likes":3,"dislikes":0,"content":"侧脸神似马化腾…"},{"id":80454,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2018-06-26 16:24:40","like_diff":3,"likes":18,"dislikes":15,"content":"一定要当组长，当不了组长也要讨好组长，互评的时候组长愿意给你高分就给你高分，不愿意给你你也没话说，这门课真的算是一个小社会了。"},{"id":91851,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2018-12-23 04:24:49","like_diff":3,"likes":3,"dislikes":0,"content":"一学期七门课，唯独这门给十分好评，感谢周老师"},{"id":100025,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-01-25 12:55:45","like_diff":3,"likes":3,"dislikes":0,"content":"管理学.事情很多.可是结课了又有点舍不得.老师是个非常非常棒的老师！给分也好！"},{"id":114490,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-07-10 05:34:26","like_diff":3,"likes":3,"dislikes":0,"content":"极度硬核，收获颇丰，推荐，不推荐"},{"id":153184,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2022-04-26 12:40:29","like_diff":3,"likes":3,"dislikes":0,"content":"给分巨好，有一次作业互评没做还拿到了不错的绩点，他真的我哭死"},{"id":176532,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2023-06-29 08:07:59","like_diff":3,"likes":3,"dislikes":0,"content":"符合我对管理学的想象。"},{"id":212404,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2025-01-14 03:13:07","like_diff":3,"likes":3,"dislikes":0,"content":"现代管理基础这门课本身比较硬，事情也挺多挺烦的，想水通识的同学可以绕行一下\n\n但是认真学的话可以学到很多知识，而且老师本身也很有学识和人文关怀，课堂形式也很丰富，老师会给游戏中胜出的小组买书，后面也有水果吃\n\n想拿高分的话需要在小组中积极一点，小组的贡献评价分占比还是很大的；全勤2分，课堂发言占3分，发言一次就有一分，卷发言但不恶竞；mooc要刷时长和评论，这个水水过就能拿满对应的分数；小测开卷，不过比较难找（可以提前去搜搜题库）；10分的一周计划和10分的结课感想由同学互评（这个大家都是默契给满分的）\n\n总体而言是比较硬的通识，不好水，能学到真知识"},{"id":10844,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-23 07:05:49","like_diff":2,"likes":2,"dislikes":0,"content":"老师风趣幽默，带动气氛，让管理运用于实际。"},{"id":24361,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-04-30 02:34:57","like_diff":2,"likes":2,"dislikes":0,"content":"好评(･ิϖ･ิ)っ\n\n内容充实，老师的讲授也很有趣，能学到许多知识，绩点也很给力！"},{"id":24373,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-04-30 03:22:05","like_diff":2,"likes":2,"dislikes":0,"content":"很棒的老师，超级有人格魅力，给分也很好，通识课毕竟有正态，但老师是尽量往上提的，大力推荐"},{"id":34795,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-10-25 08:33:51","like_diff":2,"likes":3,"dislikes":1,"content":"事情很多"},{"id":37236,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-18 03:47:19","like_diff":2,"likes":2,"dislikes":0,"content":"周老师真的超级超级超级帅！很风趣很好玩。\n\n给分很明确，很有标准，只要你肯认真学就一定能学的很好。如果绩点不大高很有可能就是你有一方面做的不好。"},{"id":37496,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-19 06:35:53","like_diff":2,"likes":2,"dislikes":0,"content":"超级棒，讲课非常有意思，人很好，干货很多"},{"id":37531,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-19 09:18:13","like_diff":2,"likes":2,"dislikes":0,"content":"很生动，会讲案例，老师特别好，给分也很好?"},{"id":39861,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-12-28 04:53:09","like_diff":2,"likes":2,"dislikes":0,"content":"给分好，很客观"},{"id":66393,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2018-01-16 01:31:42","like_diff":2,"likes":4,"dislikes":2,"content":"上的老师的现代管理基础。老师上课要求很严格，不能玩手机、电脑，并且第一节课会表现的不太友好，以达到劝退一波人的目的? 其实老师还是很善良的，讲课幽默风趣，内容充实，即使不动手机也不会觉得时间难熬，他还会时不时给我们讲恋爱技巧[老师恋爱观超正]，课堂上还会有小游戏做，会贴钱给全班买水果吃。平时的每章测验、个人/小组作业也没有想象中那么难完成，稍微花点时间就可以。总之上过这门课后我收获了很多知识，给老师打call！"},{"id":90421,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2018-11-23 12:27:16","like_diff":2,"likes":2,"dislikes":0,"content":"老师人很好，课是真心不水，每章都有小测，大概每次复习一小时再去测。时间确实要花很多，但是最后所有的付出都会回报在分数里。"},{"id":93961,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-01-14 13:03:44","like_diff":2,"likes":2,"dislikes":0,"content":"不是水课，认真听真的有收获，刚刚结课还有点不舍"},{"id":93988,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-01-14 15:11:14","like_diff":2,"likes":2,"dislikes":0,"content":"不舍+1(´°̥̥̥̥̥̥̥̥ω°̥̥̥̥̥̥̥̥｀)"},{"id":100045,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-01-25 13:13:05","like_diff":2,"likes":3,"dislikes":1,"content":"首先管理学是一门非常非常不水的课，一个学期下来好几个展示，而且每一个都要花心思去做(不得不说这门课上的同学都优秀的可怕)，但好好做给分还是很好的。然后周老师上课超级可爱，在沟通技巧那一讲讲的恋爱知识让人印象真的很深刻，大学里收获最大的一门课！"},{"id":104075,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-03-11 13:00:59","like_diff":2,"likes":8,"dislikes":6,"content":"从来没有这么感到压抑过，不知道是管理学这么可怕还是学管理学的人这么可怕，虽然可能是自己不善言辞的原因，不过我感觉过誉了"},{"id":121464,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-12-16 02:52:43","like_diff":2,"likes":2,"dislikes":0,"content":"是我目前为止收获最大的通识课"},{"id":136071,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2021-06-10 16:22:06","like_diff":2,"likes":2,"dislikes":0,"content":"老师的现代管理基础很有意思，认真学是能学到东西的，当然划水也很容易；\n\n每堂课会有5-10min的线上测试，都能找到答案（建议提前找好存word）；\n\n会有两次作业，一次是一周计划的实施反馈心得，一次是期末的课程总结（这个我大概写了一千字左右），都不是论文形式，而且是同学互评；\n\n课上是小组形式，一个小组坐一起，所以虽然不点名，但是老师能看到哪个组少人；\n\n有一次小组pre，不难（我印象中就一次，但是我干活少，可能有其他的我忘了）；\n\n线下、线上发言分别算5分，我线下没发言，但是也有4.8，发言就是回答问题就好了（可以照书读，书上都有）；\n\n有一次游戏，老师会给我们买水果吃，会给赢的小组买书（自己买书他报销）；\n\n我们小组气氛很好，我直接全程被带飞；\n\n总之吹爆老师，吹爆我的组长和组员。"},{"id":137952,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2021-07-07 00:36:36","like_diff":2,"likes":2,"dislikes":0,"content":"讲得很有意思哇！除了管理还会讲婚姻恋爱，第六节课还请我们吃水果！超级棒"},{"id":148451,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2022-01-12 13:18:24","like_diff":2,"likes":4,"dislikes":2,"content":"周老师真的是我认为我身边最最最最好的管理学老师了！！！这么说吧，老师上课是真的很认真的在用幽默的方式教我们管理的知识，而不是不停的排小组节目，在一个学期的管理学课程中我真的学到了很多管理知识。老师平时感觉有点严，但是期末其实都会捞大家，大家分数都是高的！如果你是真的想学习知识的，请选择周亚庆老师！划水选手请绕道～！如果我之后修完学分的话，我会愿意再上一次周老师的管理学！"},{"id":164225,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2022-12-19 12:05:24","like_diff":2,"likes":2,"dislikes":0,"content":"很好的老师"},{"id":181760,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2023-10-31 05:28:07","like_diff":2,"likes":2,"dislikes":0,"content":"周老师人超好，会给大家玩模拟策略小游戏，还会给大家买水果吃。上课的内容也很实用，小组讨论学习较多"},{"id":182883,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2023-11-21 02:38:19","like_diff":2,"likes":2,"dislikes":0,"content":"满啦，很好的老师，现代管理基础收获很多，结课好不舍，作业看清要求，多发言很好拿高分的。"},{"id":188404,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2024-01-19 02:23:14","like_diff":2,"likes":4,"dislikes":2,"content":"呵呵，绩杀"},{"id":5292,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-07-06 09:58:08","like_diff":1,"likes":3,"dislikes":2,"content":"不错的老师 比较认真"},{"id":9299,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-20 15:10:54","like_diff":1,"likes":3,"dislikes":2,"content":"很不错\n\n"},{"id":10028,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-14 12:51:16","like_diff":1,"likes":2,"dislikes":1,"content":"良心好老师"},{"id":10029,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-14 13:20:53","like_diff":1,"likes":2,"dislikes":1,"content":"好老师，用活动激发我们的探索乐趣，上课有意思，上得值\n\n"},{"id":10031,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-14 13:52:01","like_diff":1,"likes":2,"dislikes":1,"content":"可以可以"},{"id":10557,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-20 01:40:48","like_diff":1,"likes":1,"dislikes":0,"content":"真的有水果吃哦，老师很好玩的"},{"id":10634,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-21 03:49:03","like_diff":1,"likes":1,"dislikes":0,"content":"超级好哦"},{"id":10662,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-22 00:22:46","like_diff":1,"likes":1,"dislikes":0,"content":"课上不会睡觉。。。棒"},{"id":20678,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-01-29 15:38:59","like_diff":1,"likes":1,"dislikes":0,"content":"好老师。超越课本之外讲了很多东西。不足之处是口音稍重。不过这是次要的。"},{"id":24367,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-04-30 02:47:32","like_diff":1,"likes":1,"dislikes":0,"content":"很难说，的确学到不少"},{"id":24382,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-04-30 06:49:23","like_diff":1,"likes":1,"dislikes":0,"content":"给分很好，就是事情有点多\n\n很不水的一门课，收获也很多"},{"id":24439,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-04-30 13:53:07","like_diff":1,"likes":1,"dislikes":0,"content":"有干货"},{"id":25948,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-07-05 11:26:11","like_diff":1,"likes":1,"dislikes":0,"content":"老师好人，给分超级棒～"},{"id":29661,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-06-30 06:55:39","like_diff":1,"likes":1,"dislikes":0,"content":"老师人很好，很风趣的~"},{"id":35273,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-18 03:44:17","like_diff":1,"likes":1,"dislikes":0,"content":"很有收获，动不动就开车。要求多，但比其它课好多了，重点是我们班没人挂科"},{"id":35735,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-10 07:56:37","like_diff":1,"likes":1,"dislikes":0,"content":"能选上老师的课真是幸运，老师人超级好，带着预习复习，期末给复习资料，而且能接触到很多非常有意思的案例，还有老师亲传的追女神秘籍！"},{"id":35744,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-10 07:59:07","like_diff":1,"likes":1,"dislikes":0,"content":"棒，超级负责，超级有趣的老师！"},{"id":35991,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-10 09:40:41","like_diff":1,"likes":1,"dislikes":0,"content":"很好的老师哦\n\n"},{"id":36227,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-11 06:53:27","like_diff":1,"likes":1,"dislikes":0,"content":"不是一门水水就能敷衍过去的课，课下要花一点时间预习复习。给分制度很严谨，当然老师也不会为难大家的。有一次课还做了游戏，挺有意思的。总之这不是门水课，认真学能学到挺多东西嗯。"},{"id":36639,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-15 07:08:07","like_diff":1,"likes":2,"dislikes":1,"content":"虽然需要点名、但是课讲的挺好，人也超好"},{"id":37125,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-17 13:33:57","like_diff":1,"likes":1,"dislikes":0,"content":"老师超级超级棒\n\n"},{"id":37231,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-18 03:23:13","like_diff":1,"likes":2,"dislikes":1,"content":"老师讲的超级好，给分赞"},{"id":38996,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-12-20 11:02:22","like_diff":1,"likes":1,"dislikes":0,"content":"能学到东西"},{"id":61655,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-11-19 23:26:13","like_diff":1,"likes":2,"dislikes":1,"content":"看起来平时事情比较多，但是负担不是太大。评分细则制定的非常细，只要平时好好做事，绩点很高。内容对日常生活帮助很大，很有意义的一堂课，值得花时间听。"},{"id":71983,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2018-01-29 07:22:04","like_diff":1,"likes":3,"dislikes":2,"content":"很可爱的老师啊!上课经常牵红线!\n\n真的是上一门课，学一门知识，结识一些朋友啊!\n\n老师很棒棒!上课也很好玩，最后4.8满足"},{"id":83728,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2018-07-11 06:07:51","like_diff":1,"likes":1,"dislikes":0,"content":"我男神"},{"id":119837,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-11-16 03:48:55","like_diff":1,"likes":3,"dislikes":2,"content":"课的内容很丰富。作业巨多，8次mooc小测（5min10道有点难的选择题），1次期末闭卷考，一篇读书报告，一次一周计划制订，还有小组决策报告____\n\n给分的话。。。我小组系数被评了0.9不到，mooc小测平均下来4分不到（满分5分），报告啥的认真写。。。最后绩点3.9。。。应该还行吧____\n\n想拿高分就当组长，当组长，当组长，和组长搞好关系，把其他组员。。"},{"id":119858,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-11-16 09:35:03","like_diff":1,"likes":1,"dislikes":0,"content":"一级棒的老师，教学方式无与伦比！！"},{"id":127164,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2020-11-11 11:50:38","like_diff":1,"likes":2,"dislikes":1,"content":"我觉得没这么好"},{"id":132327,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2021-01-31 17:53:03","like_diff":1,"likes":1,"dislikes":0,"content":"讲的好，给分高，人还帅，爱了爱了"},{"id":152184,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2022-03-29 14:53:23","like_diff":1,"likes":3,"dislikes":2,"content":"50块钱真香！"},{"id":153262,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2022-04-27 07:51:44","like_diff":1,"likes":1,"dislikes":0,"content":"社恐人以为快要亡了，但是给分真的好。。。"},{"id":162261,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2022-11-18 13:46:01","like_diff":1,"likes":1,"dislikes":0,"content":"认真上课，上课也很开心，绩点有点失望"},{"id":215169,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2025-02-23 12:25:16","like_diff":1,"likes":1,"dislikes":0,"content":"这老师凭什么这么高分，明明是个绩杀"},{"id":1605,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-03-23 01:35:56","like_diff":0,"likes":4,"dislikes":4,"content":"老师很棒，风趣幽默\n\n"},{"id":10428,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-18 15:07:33","like_diff":0,"likes":1,"dislikes":1,"content":"真心好老师，管理学的第一个老师，人很好，想学一些东西的同学会有收获，谢谢老师\n\n"},{"id":10515,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-19 10:38:14","like_diff":0,"likes":2,"dislikes":2,"content":"老师很nice会讲很多事例。不会事情太多也不会很水。给分认真考试多发言之类的就好。值得上的课。"},{"id":10518,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-19 10:52:27","like_diff":0,"likes":1,"dislikes":1,"content":"真的超级赞的老师"},{"id":10543,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-19 14:48:29","like_diff":0,"likes":1,"dislikes":1,"content":"真心不错"},{"id":10552,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-19 16:23:28","like_diff":0,"likes":10,"dislikes":10,"content":"差点导致我放弃了管理学之路。。课程太过于空洞了，增长点见识可以，然而并不能学到什么有用的东西。我的建议是，这门课可以用来水水分，真正想以此来学管理还差得远呢"},{"id":10553,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-19 23:37:23","like_diff":0,"likes":1,"dislikes":1,"content":"评分制度很细 任务很多但是都不算太难 考试简单 给分高 老师上课风趣幽默 会有很多案例和小视频 有时候会做游戏 还自己掏钱给我们买水果吃"},{"id":11209,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-25 08:04:44","like_diff":0,"likes":0,"dislikes":0,"content":"给分超棒"},{"id":11278,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-11-26 07:21:19","like_diff":0,"likes":0,"dislikes":0,"content":"给分好。老师人也好"},{"id":12383,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-12-23 07:15:49","like_diff":0,"likes":1,"dislikes":1,"content":"老师很好，上课会叫同学总结回顾上次课的内容。对我来说，给分很好，虽然平时没有回答过问题，可能因为考试分数好吧，绩点也不低。"},{"id":13038,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-12-24 15:04:09","like_diff":0,"likes":1,"dislikes":1,"content":"老师人很好，会给我们做游戏，发水果，上课也很认真，作业不算太多，认真做就可以，给分也很细，不会很水"},{"id":13197,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-12-25 06:58:06","like_diff":0,"likes":1,"dislikes":1,"content":"超级棒的老师！！！"},{"id":13885,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-01-01 15:07:57","like_diff":0,"likes":1,"dislikes":1,"content":"非常好"},{"id":21885,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-03-01 12:10:06","like_diff":0,"likes":0,"dislikes":0,"content":"真的不水，不水，不水"},{"id":24362,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-04-30 02:34:06","like_diff":0,"likes":1,"dislikes":1,"content":"炒鸡棒！！！！听过最有用的课，给分也很好。"},{"id":24370,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-04-30 02:57:30","like_diff":0,"likes":1,"dislikes":1,"content":"棒棒哒"},{"id":24662,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-05-03 03:13:47","like_diff":0,"likes":0,"dislikes":0,"content":"制度很具体，人很好，给分好。"},{"id":24820,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-05-04 02:03:30","like_diff":0,"likes":0,"dislikes":0,"content":"上课炒鸡认真！"},{"id":26653,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-06-20 15:37:05","like_diff":0,"likes":0,"dislikes":0,"content":"666"},{"id":26859,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-06-21 10:55:54","like_diff":0,"likes":0,"dislikes":0,"content":"棒棒棒！"},{"id":27997,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-06-28 07:57:57","like_diff":0,"likes":1,"dislikes":1,"content":"老师是个好人\n\n"},{"id":28165,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-06-28 08:11:29","like_diff":0,"likes":1,"dislikes":1,"content":"现代管理基础  一开始会特别严肃地告诉你这门课任务很多很杂不能玩手机什么的，其实只是吓吓我们。人真的不错的，老司机，对感情的了解，对人际处理的看法值得一听"},{"id":28398,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-06-28 08:49:57","like_diff":0,"likes":0,"dislikes":0,"content":"老师挺严格的，不像一般通识那样水水的，但是超级负责，讲的案例也都很生动，认真学会有收获。"},{"id":31325,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-07-03 16:06:31","like_diff":0,"likes":0,"dislikes":0,"content":"好豪豪"},{"id":31696,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-07-04 13:53:35","like_diff":0,"likes":9,"dislikes":9,"content":"想要绩点慎选"},{"id":35400,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-10 02:57:56","like_diff":0,"likes":0,"dislikes":0,"content":"老师会请吃水果。整个学习过程轻松愉快。"},{"id":35833,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-10 08:24:21","like_diff":0,"likes":1,"dislikes":1,"content":"好好好老师，学到很多东西"},{"id":35995,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-10 09:43:45","like_diff":0,"likes":0,"dislikes":0,"content":"很可爱，讲解很好，很耐心，群里回答很多问题，超赞的！"},{"id":36397,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-13 01:49:02","like_diff":0,"likes":0,"dislikes":0,"content":"好好学会有干货。 平时作业看起来多，但是好好完成会对最后的考试有些帮助。老师人也很幽默，其中有节课会有水果吃。感觉老师非常好"},{"id":36462,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-14 02:49:09","like_diff":0,"likes":0,"dislikes":0,"content":"老师讲课非常好 会讲很多案例 可以学到很多东西"},{"id":38695,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-12-15 02:37:52","like_diff":0,"likes":3,"dislikes":3,"content":"(现代管理基础)讲的很有趣，课不水，努力就有高绩点，不怕被正态。学的东西很有用。"},{"id":50598,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-05-03 23:44:46","like_diff":0,"likes":0,"dislikes":0,"content":"能完成现管作业并取得不错的成绩，可以称得上一个优秀的自我管理者了"},{"id":50603,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-05-04 00:17:28","like_diff":0,"likes":0,"dislikes":0,"content":"很好的"},{"id":50636,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-05-04 03:15:26","like_diff":0,"likes":0,"dislikes":0,"content":"老师真的是个超好的人，作业错过上传时间会自己帮我批，事情的确挺多但收获很大，能认识一帮很棒的人。"},{"id":50877,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-05-08 00:55:50","like_diff":0,"likes":0,"dislikes":0,"content":"还算好吧 事情感觉不多 期末考试很难受 但是占比低 平时mook做好就行"},{"id":51418,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-06-05 08:30:21","like_diff":0,"likes":3,"dislikes":3,"content":"怎么说呢？只有一个感觉，邢以群老师讲的好！"},{"id":52053,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-06-14 10:50:22","like_diff":0,"likes":1,"dislikes":1,"content":"老师很谦虚，上课有收获。"},{"id":57882,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-07-16 16:27:21","like_diff":0,"likes":1,"dislikes":1,"content":"很喜欢这个老师，不讲空洞理论和大道理，传授的是朴实无华的经验。关于给分，认真完成任务不会分低。"},{"id":61641,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-11-19 13:57:56","like_diff":0,"likes":1,"dislikes":1,"content":"老师真的超级棒，给分很好很好，平时认真一些就没问题"},{"id":61653,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-11-19 16:21:03","like_diff":0,"likes":1,"dislikes":1,"content":"有水果吃\n\n\n\n"},{"id":61664,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-11-20 03:12:10","like_diff":0,"likes":1,"dislikes":1,"content":"能学到东西，挺满意的\n\n"},{"id":63109,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-11-28 10:08:48","like_diff":0,"likes":1,"dislikes":1,"content":"老师很幽默，评分真是公正公开，上课还吃过水果，给分很高"},{"id":70556,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2018-01-27 07:57:34","like_diff":0,"likes":1,"dislikes":1,"content":"老师给分很不错，但是每节课都不能水，因为每节课都要考试...所以考前还是要看一看的....事情是比较多的，不过管理学大多这样吧。在小组调研中自觉也收获了很多。"},{"id":71331,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2018-01-28 09:58:24","like_diff":0,"likes":1,"dislikes":1,"content":"确实不错"},{"id":87734,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2018-10-11 02:47:52","like_diff":0,"likes":0,"dislikes":0,"content":"给分还可以吧，可能笔试不太好我，作业小事情很多，而且座位前排真的不划算。"},{"id":89476,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2018-11-19 08:59:12","like_diff":0,"likes":0,"dislikes":0,"content":"还是很棒的，人很好，也会教很多报告的东西。\n\n"},{"id":89559,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2018-11-19 14:30:53","like_diff":0,"likes":0,"dislikes":0,"content":"慕名而来 第一节课 内容很感兴趣 但是不迟到对于一个5点半下课还不一定挤到校车的玉泉老狗来说真的做不到啊(╥╯﹏╰╥)ง"},{"id":90301,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2018-11-23 05:04:47","like_diff":0,"likes":0,"dislikes":0,"content":"超棒的老师，认真学下来能学到不少东西，而且我会告诉你老师还会请大家吃水果吗？这门课的话并不水，任务也不少，想水过通识的还是自行绕道吧。"},{"id":104680,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-03-26 03:05:13","like_diff":0,"likes":1,"dislikes":1,"content":"认真负责的老师"},{"id":105324,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-04-10 03:07:20","like_diff":0,"likes":5,"dislikes":5,"content":"看评分这么高才选的这老师的课，后悔死我了。事情太多太多了，比大一上的管理学还要多事，每个星期都有作业，规定必须大家都要在mooc发言十次balabala，好烦，感觉太形式了。而且都是学生在讲，我更想听老师讲"},{"id":105768,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-04-20 08:11:29","like_diff":0,"likes":2,"dislikes":2,"content":"周老师超级关心学生"},{"id":107025,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-05-01 02:26:37","like_diff":0,"likes":0,"dislikes":0,"content":"老师是好老师！毋庸置疑！事情是真的有点多，但是确实是不一样的体验"},{"id":117438,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-09-24 09:48:32","like_diff":0,"likes":1,"dislikes":1,"content":"人有趣，课一般\n\n"},{"id":119872,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-11-16 12:23:45","like_diff":0,"likes":0,"dislikes":0,"content":"，xz"},{"id":121301,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-12-23 07:43:53","like_diff":0,"likes":0,"dislikes":0,"content":"认认真真的听认认真真写作业，小测也几乎每次满分或接近满分，期末成绩不知，最后3.9卡绩，但是同学互评真的很有问题，课堂不能玩手机，内容有的时候有趣，可以看有意思的视频，有的时候是念ppt"},{"id":127199,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2020-11-12 13:55:09","like_diff":0,"likes":1,"dislikes":1,"content":"周老师讲课很好！是我学到最多的一门通识课了！还给我们买水果吃！越看越帅！赞！"},{"id":128779,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2020-12-25 09:24:05","like_diff":0,"likes":2,"dislikes":2,"content":"管院实在太有钱了，博弈游戏给全班买了水果……"},{"id":142916,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2021-11-17 10:30:09","like_diff":0,"likes":1,"dislikes":1,"content":"现代管理基础\n\n平时事情不多\n\n考试多但是不难（每次十个选择题 五分钟\n\n老师人好 讲课有意思\n\n没费什么力气4.5+还是蛮轻松的"},{"id":143573,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2021-11-27 09:41:21","like_diff":0,"likes":0,"dislikes":0,"content":"偶尔拖堂严重。"},{"id":160100,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2022-09-13 07:22:05","like_diff":0,"likes":0,"dislikes":0,"content":"有趣的课，有趣的老师"},{"id":161934,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2022-11-15 06:38:22","like_diff":0,"likes":0,"dislikes":0,"content":"给分好，好老师"},{"id":161952,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2022-11-15 10:31:29","like_diff":0,"likes":0,"dislikes":0,"content":"挺好的，给分也好"},{"id":180144,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2023-09-20 11:18:49","like_diff":0,"likes":0,"dislikes":0,"content":"很欧克"},{"id":180470,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2023-09-22 01:15:50","like_diff":0,"likes":0,"dislikes":0,"content":"最后还发大红包。"},{"id":181755,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2023-10-31 04:06:11","like_diff":0,"likes":0,"dislikes":0,"content":"哈哈哈，全班买水果"},{"id":188390,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2024-01-19 01:44:11","like_diff":0,"likes":1,"dislikes":1,"content":"给分超好，我这种不发言的人都有89，选他，狠狠地选他"},{"id":188738,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2024-01-19 18:03:22","like_diff":0,"likes":0,"dislikes":0,"content":"周老师人很好，管理学确实学不到什么具体的东西，但老师给课堂带来了很多快乐，我们小组氛围也很好，整个班级氛围都很赞。最后还发了一个大红包，还给我们全班买了水果(因为一个小游戏)，"},{"id":189597,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2024-01-25 14:47:54","like_diff":0,"likes":1,"dislikes":1,"content":"事情真的很多…但老师人还是不错的"},{"id":195927,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2024-07-01 01:41:09","like_diff":0,"likes":0,"dislikes":0,"content":"B事太多了"},{"id":212030,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2025-01-13 05:14:32","like_diff":0,"likes":0,"dislikes":0,"content":"事不算很多，给分不错\n\n有次互评忘了，老师给了大家弥补的机会，很有人文关怀～\n\n可选"},{"id":215710,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2025-03-04 13:17:08","like_diff":0,"likes":0,"dislikes":0,"content":"水，柠檬酸了"},{"id":37595,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-11-19 14:45:26","like_diff":-1,"likes":0,"dislikes":1,"content":"讲课不紧不慢，知识乏味但听课一点不乏。给分感人 (-^〇^-)"},{"id":65983,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2018-01-10 15:35:12","like_diff":-1,"likes":0,"dislikes":1,"content":"老师很好！很喜欢！"},{"id":66364,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2018-01-15 11:44:32","like_diff":-1,"likes":0,"dislikes":1,"content":"老师真的超级好啊啊啊啊啊啊\n\n"},{"id":119869,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-11-16 11:52:04","like_diff":-1,"likes":0,"dislikes":1,"content":"比预计绩点低了好多"},{"id":135249,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2021-05-06 23:14:24","like_diff":-1,"likes":1,"dislikes":2,"content":"上的老师的现代管理基础，怎么说呢，这门课是真的知识点多，每次预习我都痛不欲生，而且看了一遍感觉跟没看一样，痛苦。老师讲课很有趣，并且很独特，我感觉学到了新的思想。作业与一般通识课相比较多，但认真写写也还行。给分挺好的，我上课几乎没发过言，但绩点我个人感觉还不错。"},{"id":211072,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2025-01-10 13:14:38","like_diff":-1,"likes":0,"dislikes":1,"content":"发言一次，小组贡献率中游，平时作业好好写，小测好好准备，最后4.8。事儿还是挺多的，但给分也不错"},{"id":17062,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2016-01-19 14:05:26","like_diff":-2,"likes":4,"dislikes":6,"content":"给分不好"},{"id":61642,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-11-19 14:00:37","like_diff":-2,"likes":2,"dislikes":4,"content":"老师超好的，就是可惜没满绩…感觉我超认真的"},{"id":70548,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2018-01-27 07:50:39","like_diff":-2,"likes":0,"dislikes":2,"content":"满了，感恩！"},{"id":50580,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2017-05-03 15:44:51","like_diff":-3,"likes":1,"dislikes":4,"content":"第一次给老师评分，一定要给老师满起来，像我这种水水的人也学到了很多东西，绩点4.5真的很感动～别看事多但选了真不后悔"},{"id":99022,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-01-24 07:09:34","like_diff":-3,"likes":11,"dislikes":14,"content":"楼上，我觉得很奇怪的就是一点，组内分配按照每次参与情况细致记录分配不公平吗？你的意思是毛估估？那毛估估不还是看脸不脸熟？我就不懂这个逻辑ʘᴗʘ……有点矛盾？"},{"id":105500,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-04-15 13:07:44","like_diff":-3,"likes":1,"dislikes":4,"content":"每节课必拖堂"},{"id":8862,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-09-29 05:27:52","like_diff":-6,"likes":22,"dislikes":28,"content":"差评，一堂通识课搞这么麻烦，烦死人，哔了狗了，"},{"id":2149,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-04-03 02:29:06","like_diff":-9,"likes":12,"dislikes":21,"content":"比较水，讲的内容比较单一，上课个性不强，有点模仿邢以群的感觉"},{"id":71227,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2018-01-28 07:26:06","like_diff":-9,"likes":4,"dislikes":13,"content":"大学第一门满绩，虽然没有当组长，但是有很用心地在做小组作业和准备小测，所以一份付出一份回报。老师的优点如下：\n\n1.评分比较公开透明\n\n2.人非常亲和\n\n3.小测是开卷\n\n4.喜欢讲和恋爱有关的事\n\n但是感觉学到的干货不多，可能是管理学这门课的性质决定的吧"},{"id":141430,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2021-10-08 13:04:52","like_diff":-15,"likes":2,"dislikes":17,"content":"群居终日，言不及义，好行小慧，难矣哉！"},{"id":108655,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2019-05-30 12:56:37","like_diff":-21,"likes":2,"dislikes":23,"content":"真是个垃圾 他特别讨厌留学生 一直让同学们回答问题"},{"id":1623,"teacher_id":816,"teacher_name":"周亚庆","post_time":"2015-03-23 02:27:30","like_diff":-28,"likes":18,"dislikes":46,"content":"上课还行 看似不刁难人其实看你不顺眼不说而已 给分很随便 我作为组长上课从不睡觉期末题目都做到课后调研什么都是我干的结果绩点还是组员睡觉高 相当自以为是的老师"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

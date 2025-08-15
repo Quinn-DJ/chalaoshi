@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>楼学庆 - 计算机科学与技术学院 - 浙大教评</title>
+    <meta name="description" content="楼学庆教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="楼学庆,计算机科学与技术学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">楼学庆</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">计算机科学与技术学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">3.27</div>
+                    <div class="rating-participants">247人参与评分</div>
+                    <div class="attendance-info">25.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (5 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">Java应用技术</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.17</span>
+                            <span class="students">选课: 87人</span>
+                            <span class="std-dev">标准差: 1.05</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">Java程序设计</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.49</span>
+                            <span class="students">选课: 81人</span>
+                            <span class="std-dev">标准差: 1.05</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">并行计算与多核编程</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.88</span>
+                            <span class="students">选课: 5人</span>
+                            <span class="std-dev">标准差: 1.39</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">计算机系统原理</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.21</span>
+                            <span class="students">选课: 211人</span>
+                            <span class="std-dev">标准差: 1.12</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">计算机组成</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 2.99</span>
+                            <span class="students">选课: 64人</span>
+                            <span class="std-dev">标准差: 1.11</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (209 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":126231,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2020-09-20 08:18:47","like_diff":277,"likes":285,"dislikes":8,"content":"之前我在学校里大喊一句楼学庆sb被严重警告了，本来其实不需要吃处分，但辅导员说我涉嫌泄露学校机密"},{"id":855,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2015-03-18 01:10:11","like_diff":89,"likes":104,"dislikes":15,"content":"这学期是他的java！第一节课教室满人的！今天过来第二周教室里只剩一半了！妈蛋是都退完了吗！你要我咋办！委屈的哭了出来！"},{"id":48847,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2017-03-15 00:56:03","like_diff":72,"likes":74,"dislikes":2,"content":"课程网站透露出迷之审美与迷之趣味"},{"id":132885,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2021-02-06 12:06:35","like_diff":68,"likes":70,"dislikes":2,"content":"曾经我年少无知，因为楼sir课讲得糊涂，平时作业也不管，给他打了1分。\n\n后来，我遇到了xw、qjs、zxq之流，才知道楼sir虽然上课很烂，但平时不会耽误我们的时间在计原上，你只需要把时间放在好好复习期末考试上，平时基本都不用花功夫，不像上述sb，平时花了时间，期末考的也不差，最后比其他班期末卷面跟你考差不多的同学低两档。\n\n我曾经以为楼sir是软工所有课程里面最差的老师，现在看来，进前五都有点困难。楼sir，曾经的神！\n\n\n\n最后补上一些有趣的信息：楼sir的微博@杭州楼，楼sir的知乎@JeepCar。学长们努力找到的东西一定要代代相传😎"},{"id":155136,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-06-08 15:16:40","like_diff":65,"likes":65,"dislikes":0,"content":"翁恺表明该如何上好课程 ；\n\n姜晓红表明该如何不上好课程 ；\n\n杨莹春试图表明谁都能上好课程 ；\n\n楼sir正在表明课程是根本不需要上好的 。"},{"id":153756,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-05-10 07:34:26","like_diff":59,"likes":63,"dislikes":4,"content":"上课时间走进教室发现只有老师一个人对着空座位讲😅😅😅"},{"id":127,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2015-03-14 16:02:41","like_diff":45,"likes":68,"dislikes":23,"content":"毕业都7年了，印象中他长得像张信哲，有没有同意的？"},{"id":56769,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2017-07-04 14:48:00","like_diff":42,"likes":49,"dislikes":7,"content":"计原给分莫名其妙毫无根据，超级随意。\n\n我是软工的学子，前几周平时作业比较多，几乎我每周花10多个小时，后期没什么作业，每周也得花3小时左右完成小作业，复习一些课堂笔记，我敢说我学的比大部分软工学子都要努力，认真，但是他一眼都没看过，所有作业都显示未批改。\n\n期中考分数应该前20%，期末考分数预测不会低于80，结果绩点低得超乎想象。\n\n结果我身边无数人，平时作业水水过，考试靠考前熬夜突击，结果都4.5、4.8甚至满，请问你评价的标准在哪里？你的随意让无数水的人获利，那么他们当然不会来喷你甚至维护你，但是你让我这种认真学习一个学期到头来血本无归的人如何是好？无力吐槽，一生黑。\n\n"},{"id":152195,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-06-28 12:13:34","like_diff":41,"likes":41,"dislikes":0,"content":"计组的实验跟别的班完全不一样，上的东西跟别的班有点不一样，这些就算了，可能是教的顺序不同，但尼玛作业跟计组的知识基本不沾边是干啥？？？？？？用C来实现浮点加减乘除？？来实现汇编反汇编？？来实现汉字花样显示？？？？甚至是来实现汉字编译？？？我都不知道自己在上一节什么样的课程，赶紧爬\n\n妈的大程验收不让仿真非得上板是吧？？？32位输入除了键盘还有啥好方法你说？？？上课答应了找点键盘供我们参考然后结果到现在一点消息都没有，还那么爱指指点点，真是服了，看别的评论貌似他还不是计算机学院最逆天的老师，无法想象更逆天的老师是什么样子\n\n尼玛的上的什么勾八玩意，就你上mips是吧？risc-v自己都不太会，绷不住了，建议不小心选到的直接看别的老师课件\n\n开摆！老师你开心就好，选上你的课就怪我期中考作死没有弃修好了\n\n\n\n终于结束了，给未来学计组的人一个忠告，要么抱大腿，要么赶紧润"},{"id":114746,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-11 09:09:30","like_diff":31,"likes":31,"dislikes":0,"content":"虽然我没上这课，但是舍友气的让我也过来评论带话，他只想一刀把这老师杀了"},{"id":26033,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2017-01-16 17:37:45","like_diff":29,"likes":45,"dislikes":16,"content":"垃圾老师，上课讲得烂，没有正经学术背景，什么都稀里糊涂，根本学不到东西，就会讲些没用的东西，上过楼的课都知道他垃圾，学弟选课慎重，一定避开！"},{"id":151131,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-03-06 10:29:18","like_diff":29,"likes":30,"dislikes":1,"content":"lxq还不如ljj，ljj起码每一年都在听取建议改进，ljj起码布置一百道题还给一个月，lxq直接一周一个带说明文档测试样例的大project第二周就反汇编，还搁那天天惦记着nmd汉语编程，汉语适不适合编程你自己心里没点b数，你是不是其他正经领域竞争不过别人才搁这自我催眠恶心学生啊"},{"id":25993,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-06-15 03:12:49","like_diff":26,"likes":28,"dislikes":2,"content":"作业真是没法做"},{"id":151791,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-07-01 13:35:54","like_diff":25,"likes":26,"dislikes":1,"content":"面向小角龙笔记的复习方法 qwq"},{"id":114582,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-11 00:48:05","like_diff":24,"likes":25,"dislikes":1,"content":"计原，上课讲得不知所云，基本上没几个人听，大作业基本两周一个而且他基本不看，考试出的卷子更是随意糊弄，一些题目中大小写都没改，估计就是从课件中直接复制粘贴来的，还有not holds这样的语句，平时作业、小组作业都显示未批改，而且也不知道成绩是怎么组成，最后绩点爆炸，还卡绩，不知道他别的课怎么样，总之他对于计原十分不用心，然而计原是必修课，软工学子真的是命运多舛啊"},{"id":152075,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-03-25 03:11:06","like_diff":24,"likes":24,"dislikes":0,"content":"上课是让你传道授业解惑的，不是让你布置从没教过的作业，还在那里输出自己离谱的认知（特指汉语编程）"},{"id":27062,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-06-22 13:55:12","like_diff":23,"likes":24,"dislikes":1,"content":"楼的计组作业特别很多，但楼极少去看，有点不负责"},{"id":151593,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-03-08 14:06:46","like_diff":23,"likes":23,"dislikes":0,"content":"汇编是什么呀？😅啥都不讲我写你吗的反汇编？你告诉我怎么写呀？上来就让我们把机器码转成汇编语言，有没有考虑过没学过的人呢？医研顶真，鉴定为：纯纯的脑瘫"},{"id":151767,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-03-15 03:31:36","like_diff":23,"likes":23,"dislikes":0,"content":"lxq，wrnxr😅"},{"id":1013,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2015-03-21 08:58:59","like_diff":20,"likes":23,"dislikes":3,"content":"只上过java，很水。。楼sir大概只对硬件课上心，给分感觉也很随意"},{"id":78819,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-05-15 10:08:28","like_diff":20,"likes":21,"dislikes":1,"content":"唉。软工学子命途多舛"},{"id":5,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2015-03-13 04:58:43","like_diff":18,"likes":23,"dislikes":5,"content":"据说计组和汇编工作量比较大，估计他自己也比较用心。我上的java程序设计和智能终端，真的是上课水到不行。我个人觉得他对这两门课不怎么用心"},{"id":27355,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-09-10 07:23:33","like_diff":18,"likes":21,"dislikes":3,"content":"软件工程必修计原。。没别的话了……"},{"id":113346,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-06 09:10:22","like_diff":18,"likes":18,"dislikes":0,"content":"短学期体验极差，"},{"id":112875,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-05 07:58:12","like_diff":17,"likes":18,"dislikes":1,"content":"哭了，短学期讲的东西一点也听不懂"},{"id":114175,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-09 02:58:21","like_diff":17,"likes":18,"dislikes":1,"content":"这小学期的课上nm呢？放下手机认真听课 听了一个小时发现啥也不动了 还不如ljj\n\n"},{"id":133545,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2021-03-02 03:36:19","like_diff":17,"likes":18,"dislikes":1,"content":"闻到狗肉香，耶酥也跳墙"},{"id":134410,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2021-03-27 07:57:01","like_diff":17,"likes":17,"dislikes":0,"content":"我的室友说楼学庆是神经病"},{"id":154488,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-06-02 01:49:37","like_diff":17,"likes":17,"dislikes":0,"content":"楼sir带给我的创伤要用一生去治愈"},{"id":165608,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2023-01-09 03:49:23","like_diff":17,"likes":17,"dislikes":0,"content":"我只能说期末考试前两个小时通知开卷的一律定义为nt"},{"id":106433,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-04-27 10:43:20","like_diff":16,"likes":17,"dislikes":1,"content":"计原。平时作业多到爆炸，两周至少一个大程，还都是那种没什么意义的东西。最烦的是，他从来不会看你的作业，真不知道期末怎么给分。期中考试，群里同学问了好几天了，死也不告诉考试日期，这是逼着我们每天都要复习吗？我们只用复习这一门课吗？学期刚过半，就对一门课产生前所未有的厌烦，学过这么多课也没有之一了吧，呵呵。绩点什么真的无所谓了，只求赶紧过完这学期。软工学子真的命途多舛，mmp！"},{"id":3429,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2015-06-12 10:34:20","like_diff":15,"likes":15,"dislikes":0,"content":"感觉对java课不是很上心"},{"id":151781,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-06-24 09:40:28","like_diff":15,"likes":15,"dislikes":0,"content":"用越大楼越老楼这句话来形容大楼老师真是最老楼不过了"},{"id":152200,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-03-30 05:06:45","like_diff":15,"likes":15,"dislikes":0,"content":"计原学子看见计组学子也来骂楼sir了，很是看到正道的光，顺手给楼sir再打个一分😬"},{"id":153473,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-05-01 02:47:28","like_diff":15,"likes":16,"dislikes":1,"content":"你不刷，我不刷，楼sir何时收敛啊"},{"id":24285,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-04-29 06:14:04","like_diff":14,"likes":15,"dislikes":1,"content":"坑爹坑爹"},{"id":82871,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-07-16 03:16:01","like_diff":14,"likes":14,"dislikes":0,"content":"软工学子命途多舛 mmp"},{"id":108811,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-06-03 01:06:06","like_diff":14,"likes":14,"dislikes":0,"content":"非  常  天  空"},{"id":158718,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-07-01 14:22:37","like_diff":14,"likes":15,"dislikes":1,"content":"重要的事情说三遍：\n\n不要做平时作业！不要做平时作业！不要做平时作业！\n\n复习期末！复习期末！复习期末！"},{"id":114173,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-09 02:52:15","like_diff":13,"likes":13,"dislikes":0,"content":"硬件基础没有硬件"},{"id":152701,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-04-18 13:02:10","like_diff":13,"likes":13,"dislikes":0,"content":"这学期有希望冲到二点几么"},{"id":159154,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-07-07 03:32:15","like_diff":13,"likes":13,"dislikes":0,"content":"https://www.zhihu.com/people/zheng-jeepcar\n\n看完你觉得他是傻逼，那么快退课。"},{"id":23556,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-04-06 03:52:29","like_diff":12,"likes":13,"dislikes":1,"content":"作业非常多，小心一点，因为妓院大二本来就忙，如果不是真的感兴趣可以不用选楼老师\n\n"},{"id":79503,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-06-07 08:23:44","like_diff":12,"likes":12,"dislikes":0,"content":"为什么打1分呢？因为没有0分\n\n只说计组\n\n**讲一堆乱七八糟自认为的重点，考得到个卵\n\n网站永远没有复习重点，不如偷其他老师课件看\n\n每周一个大作业就问你喜不喜欢，期末本来事情就多还扔些屁事巨多的作业，关键大部分做的都是无用功，不是考点\n\n最tm神的是还有个每周周记，老子**，你以为你在教文科生？？？？tm每周就你计组事最多\n\n忙了一学期学了个球，知识不成系统实验随心所欲临时布置，精彩"},{"id":122839,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2020-04-13 12:14:38","like_diff":12,"likes":12,"dislikes":0,"content":"大作业太多了，而且他从来不检查，鬼知道用什么来评分，软工学子真惨，计原只有他的课"},{"id":151419,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-03-03 02:25:18","like_diff":12,"likes":12,"dislikes":0,"content":"第二周就反汇编是吧，越多越好是吧😅"},{"id":151465,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-03-04 02:00:27","like_diff":12,"likes":13,"dislikes":1,"content":"软工学子很难绷得住。建议参考cc98小角龙的帖子。"},{"id":151818,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-03-17 13:02:51","like_diff":12,"likes":12,"dislikes":0,"content":"作业量挺盒逝的"},{"id":24535,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-05-01 07:59:08","like_diff":11,"likes":12,"dislikes":1,"content":"想学点东西可以来旁听，选课还是不要选了，事情多而且很多和课程无关的作业，很麻烦"},{"id":25755,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-06-06 15:05:53","like_diff":11,"likes":11,"dislikes":0,"content":"作业太多！！！如果不忙可以选，不然请远离！"},{"id":26420,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-06-18 07:41:40","like_diff":11,"likes":11,"dislikes":0,"content":"布置的作业全靠自学"},{"id":31717,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-07-04 14:55:43","like_diff":11,"likes":11,"dislikes":0,"content":"作为文科生不能选他的java！上课很水，不讲考试的东西，平时只有不到一半的人来上课。上课不用ppt，感觉不上心不负责。给分又随意。"},{"id":40030,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-12-29 01:33:09","like_diff":11,"likes":11,"dislikes":0,"content":"为什么我没有早点选楼sir的硬件课，这样我就能早点放弃硬件了(。•́︿•̀。)    希望学弟学妹们别去汇编与接口的坑，要选就选首山雄。"},{"id":151936,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-03-21 06:14:42","like_diff":11,"likes":11,"dislikes":0,"content":"上课没有重点，作业真的多且无从下手，还逃不掉，真的绝了"},{"id":158726,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-07-01 14:42:42","like_diff":11,"likes":14,"dislikes":3,"content":"计原出分了，虽然不高但我很满意了，认真评一波，给了5分。\n\n（1）关于老师，老师人还是不错的，在群里表现的也挺可爱，上课的话确实很难专注听下去，但是看回放其实讲课逻辑还是在的。\n\n（2）关于作业，前半个学期的作业真的想让你崩溃，又多还不知道怎么做，但是后半个学期相对轻松，大程也很水，熬过前半段就好。\n\n（3）关于给分，我觉得还行，不过不代表所有同学，合理怀疑期末考试占比100%，但是考前的程序填空题会发“艺术品”参考，不少空直接往上写，cpu设计也是考前复习过的，计算不多说套公式，判断填空不算难，整体试卷其实不会很难（对比ads简直天壤之别），老师这次还安排考前答疑，挺认真的。\n\n总之，老师上课不是很行，但人不错，没有传说中的那么可怕，学弟学妹不用太害怕。"},{"id":114748,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-11 09:22:53","like_diff":10,"likes":11,"dislikes":1,"content":"什么jb短学期啊，啥也没学到，还要考试，我寻思也没教过啊，强烈建议大佬们学这个短学期，菜鸡就算了，不要为难自己，带着个挂科或者1.5进入下一个学期是个人都顶不住。选课也尽量避免这个老师吧。yeah!"},{"id":147254,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-01-09 09:48:11","like_diff":10,"likes":10,"dislikes":0,"content":"昨夜西风凋碧树，看杭州楼，Java做的想吐。"},{"id":151468,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-03-04 03:27:15","like_diff":10,"likes":10,"dislikes":0,"content":"md（一种标记语言）"},{"id":114716,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-11 05:41:32","like_diff":9,"likes":9,"dislikes":0,"content":"我除了无语想不出其它的词。。"},{"id":131803,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2021-01-29 04:01:14","like_diff":9,"likes":9,"dislikes":0,"content":"计原。。。平时作业完全不看，期末最后统一给个79分。。。而且前半学期作业还很多，建议不要认真写反正他也不看，糊弄一个交上去就好。最后考试的话倒是不难，但是会考一些x86汇编啥的，建议刷历年卷。给分差。。。平时问他问题也基本不回复，对学生感觉不大上心，但是人还挺有意思的"},{"id":139080,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2021-07-12 13:15:09","like_diff":9,"likes":9,"dislikes":0,"content":"快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！快逃！\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n哦，必修课呀，那没事了😅"},{"id":151787,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-03-15 16:41:13","like_diff":9,"likes":10,"dislikes":1,"content":"只要是骂楼sir的，我都点个赞"},{"id":152028,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-03-23 12:27:59","like_diff":9,"likes":9,"dislikes":0,"content":"老师请问你是不是神经病"},{"id":152625,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-07-01 16:11:26","like_diff":9,"likes":10,"dislikes":1,"content":"1分收敛"},{"id":154400,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-06-01 01:10:51","like_diff":9,"likes":11,"dislikes":2,"content":"sb天天早八小测早八点名恶心人 讲的烂就别以这种方式浪费时间"},{"id":83,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2015-03-14 15:43:46","like_diff":8,"likes":9,"dislikes":1,"content":"随性"},{"id":15916,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-01-16 15:10:26","like_diff":8,"likes":8,"dislikes":0,"content":"一般，听了一节课就退了~~底下有人装逼，谁来管管？"},{"id":19074,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-01-23 08:01:50","like_diff":8,"likes":9,"dislikes":1,"content":"不负责任好吧"},{"id":29238,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-07-05 10:17:19","like_diff":8,"likes":8,"dislikes":0,"content":"…………………"},{"id":31223,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-07-03 12:00:01","like_diff":8,"likes":8,"dislikes":0,"content":"上java与考试无关"},{"id":31993,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-07-05 10:34:44","like_diff":8,"likes":8,"dislikes":0,"content":"java全靠自学，智商不够请不要选-.-"},{"id":41686,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2017-01-12 10:55:47","like_diff":8,"likes":9,"dislikes":1,"content":"你们尽管复习，考到算我输。\n\n-----2017.1.12汇编考试后"},{"id":57441,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2017-07-08 00:04:47","like_diff":8,"likes":8,"dislikes":0,"content":"给分贼差，千万别选"},{"id":85162,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-07-16 01:08:56","like_diff":8,"likes":8,"dislikes":0,"content":"计原这垃圾课"},{"id":85163,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-07-16 01:14:12","like_diff":8,"likes":9,"dislikes":1,"content":"极品 期末校对答案有90+ 最后得分63\n\n绝了"},{"id":113339,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-06 08:23:06","like_diff":8,"likes":8,"dislikes":0,"content":"计原平时这么多作业至今为止一次也没看过，我真不知道他打算怎么给分..."},{"id":114057,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-08 14:34:43","like_diff":8,"likes":9,"dislikes":1,"content":"短学期真的不会..."},{"id":114169,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-09 02:26:01","like_diff":8,"likes":10,"dislikes":2,"content":"讲的都是些啥，前句不接下句的，跟主题也无关，只是在讲自己的，想到啥讲啥，太没水平了。作业还多，根本不是给人做的…非信息竞赛大佬慎选"},{"id":115037,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-14 18:06:36","like_diff":8,"likes":8,"dislikes":0,"content":"计组出分了....我也不知道分咋算的....学弟学妹最好别选，楼sir多时钟实验太糟心了"},{"id":138889,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2021-07-11 14:24:01","like_diff":8,"likes":8,"dislikes":0,"content":"窗口\n\n 人\n\n   手\n\n   白\n\n    “快逃”\n\n          纸\n\n窗口"},{"id":151906,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-07-01 13:19:25","like_diff":8,"likes":10,"dislikes":2,"content":"这个分数是认真的么。。"},{"id":152717,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-04-19 01:34:38","like_diff":8,"likes":8,"dislikes":0,"content":"服了，我真服服的了。\n\n汽修了。"},{"id":158706,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-07-04 05:34:07","like_diff":8,"likes":9,"dislikes":1,"content":"烂中烂"},{"id":158715,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-07-01 14:12:33","like_diff":8,"likes":9,"dislikes":1,"content":"这个老师有病，跟着他你不仅学不到东西，还会浪费时间在一大堆毫无意义的作业上，更会收获一个离谱绩点\n\n快跑"},{"id":114687,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-11 03:58:32","like_diff":7,"likes":7,"dislikes":0,"content":"为什么不能给零分\n\n"},{"id":144692,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2021-12-23 07:38:29","like_diff":7,"likes":8,"dislikes":1,"content":"一个会在知乎上跟人为了共产主义事业而吵得面红耳赤的浙江大学计算机系统高级工程师，在知乎上因为力挺汉语编程而被群嘲外行不懂计算机……\n\n\n\n这个被人诟病的上课质量不知道是不是因为网瘾太大导致的……\n\n\n\n楼sir别的不说，就冲心态给个五分没问题！"},{"id":12705,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2015-12-24 02:15:36","like_diff":6,"likes":10,"dislikes":4,"content":"我觉得楼sir长得像福山雅治诶！人其实超好呀 和蔼可亲！就是给分比较随性....."},{"id":30148,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-07-01 03:52:23","like_diff":6,"likes":6,"dislikes":0,"content":"给一分只是因为没有零分"},{"id":85167,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-07-16 01:23:58","like_diff":6,"likes":6,"dislikes":0,"content":"看到绩点原地爆炸，真不知道下学期楼sir的Java要怎么活"},{"id":85184,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-07-16 03:09:48","like_diff":6,"likes":7,"dislikes":1,"content":"楼sir计原，推荐看nju袁春风老师的mooc，考试前只复习一些必考的点就可以。"},{"id":113550,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-06 23:53:13","like_diff":6,"likes":6,"dislikes":0,"content":"呵呵 上课不知道在讲什么 给分还差"},{"id":113921,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-08 07:23:27","like_diff":6,"likes":7,"dislikes":1,"content":"上课自嗨"},{"id":114750,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-11 09:27:05","like_diff":6,"likes":6,"dislikes":0,"content":"自问短学期真心学的很糟糕，作业超出能力很多。要做的话就只能天天熬夜。\n\n老师人很好，答疑也很好。但是上课经常讲得我云里雾里，知识有点杂。而且没有PPT没有教材，只有网站上寥寥几张图片。\n\n各位想选千万慎重。现在我已经是在压着不爽码字了。\n\n"},{"id":138849,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2021-07-11 07:46:22","like_diff":6,"likes":6,"dislikes":0,"content":"并行计算今年只有30个人选课，然后退到只有10个人，最后每次上课只来5个人，有时候因为隔壁计算机思想史要签到所以甚至只有3个人，这5个人中有2个是认真听记笔记，有2个是完全不听，有1个是时听时不听。\n\n因此楼人每次上课都会露出无奈的表情，并发出一声轻叹。\n\n毕竟去年线上还有30多个人来着。"},{"id":147245,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-01-09 08:22:55","like_diff":6,"likes":6,"dislikes":0,"content":"java 杭州楼"},{"id":151786,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-03-15 16:28:18","like_diff":6,"likes":6,"dislikes":0,"content":"老哥们都太会骂了，多来点🤤🤤🤤"},{"id":151788,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-03-15 17:22:24","like_diff":6,"likes":7,"dislikes":1,"content":"嘻嘻😁翼雁丁真：春春的飞舞"},{"id":153360,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-05-04 10:08:41","like_diff":6,"likes":6,"dislikes":0,"content":"听我说谢谢你"},{"id":160395,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-09-21 08:51:26","like_diff":6,"likes":6,"dislikes":0,"content":"上体系课再来评一次……真的别选，硬件三联的阴影，选了他还不如自学"},{"id":30870,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-07-02 16:49:15","like_diff":5,"likes":7,"dislikes":2,"content":"楼sir受我一拜，不挂我计原的话下学期再选你课。"},{"id":38896,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-12-19 16:30:00","like_diff":5,"likes":6,"dislikes":1,"content":"软工嘛。都要选的"},{"id":59312,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2017-09-20 23:53:58","like_diff":5,"likes":5,"dislikes":0,"content":"java应用技术讲的还行，感觉对一些东西有自己的理解然后会带动你理解，感觉不错，不过讲归讲还是要靠自学"},{"id":85150,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-07-15 23:42:13","like_diff":5,"likes":5,"dislikes":0,"content":"实话实说，比其他机组老师差很远，别人用的是一套完整的实验体系，他都是自己设计，最后我们只能用其他班的东西，上课也几乎不讲题，最后复习也是看别人的PPT和小测，学的好的都是奇怪的人，有大四的，有选过一次重修的，反正很奇怪，建议还是选其他正常一些的老师吧"},{"id":104496,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-03-21 15:57:52","like_diff":5,"likes":6,"dislikes":1,"content":"不能再辣鸡"},{"id":105103,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-04-03 15:53:29","like_diff":5,"likes":6,"dislikes":1,"content":"讲得巨慢，巨没用。\n\n我都怀疑我学的是不是计组。\n\n某些地方变态的详细。\n\n内容与其他老师不一样，完全是另一套理论。\n\n作业多，每周300字周记……\n\n建议选隔壁施青松，任务量接近但是能学到真东西。"},{"id":151156,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-02-23 14:45:34","like_diff":5,"likes":5,"dislikes":0,"content":"第一次发查老师评论，留下第一节实验课后的评价：计组，快逃！\n\n还有，他好像真的对中文计算机有很深的执念。。。"},{"id":152480,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-04-12 15:55:51","like_diff":5,"likes":5,"dislikes":0,"content":"可能楼sir不是老师的话还是不错的，可惜确实是我老师，所以一分不谢😁"},{"id":154333,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-05-30 10:56:24","like_diff":5,"likes":5,"dislikes":0,"content":"建议软工学子宁可数逻+计组覆盖也别来计原，快逃！\n\n当然，计组也别选他"},{"id":4,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2015-03-13 04:54:46","like_diff":4,"likes":23,"dislikes":19,"content":"嘿嘿嘿，楼sir挺萌的，每周写日记挺萌"},{"id":6,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2015-03-13 04:58:51","like_diff":4,"likes":11,"dislikes":7,"content":"听说楼sir很认真，很萌，考试。很。。。"},{"id":3613,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2015-06-17 01:49:16","like_diff":4,"likes":4,"dislikes":0,"content":"并不想说什么"},{"id":85187,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-07-16 03:28:21","like_diff":4,"likes":6,"dislikes":2,"content":"1分不解释，绩点直接爆炸"},{"id":108079,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-05-14 07:06:32","like_diff":4,"likes":6,"dislikes":2,"content":"告诉我为什么前届的学长学姐没在这里给我们 排雷，java真的是要哭了"},{"id":108818,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-06-03 02:39:34","like_diff":4,"likes":4,"dislikes":0,"content":"谁能告诉我他Java课在讲什么"},{"id":109245,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-06-12 08:50:21","like_diff":4,"likes":4,"dislikes":0,"content":"垃圾老师"},{"id":110985,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-06-29 03:32:44","like_diff":4,"likes":5,"dislikes":1,"content":"如    果    是   J   A    V   A   通    识    ，  快 ，  逃   ！   ！   ！   快 ！"},{"id":111384,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-01 05:39:51","like_diff":4,"likes":4,"dislikes":0,"content":"辣鸡辣鸡"},{"id":114605,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-11 00:08:01","like_diff":4,"likes":5,"dislikes":1,"content":"楼下下下下高级黑，你们不要误伤"},{"id":114929,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-12 22:55:20","like_diff":4,"likes":4,"dislikes":0,"content":"小学期的上课体验是真的窒息"},{"id":115138,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-16 04:37:15","like_diff":4,"likes":4,"dislikes":0,"content":"首先我想问问为什么他的分数在上升，而且是结课之后"},{"id":117300,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-09-22 23:58:07","like_diff":4,"likes":5,"dislikes":1,"content":"给分随意，希望计原他别再开，软工学子命运多舛"},{"id":152564,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-04-14 15:12:02","like_diff":4,"likes":5,"dislikes":1,"content":"每日一分，早日收敛🤓"},{"id":152918,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-04-21 15:54:06","like_diff":4,"likes":4,"dislikes":0,"content":"md第一次见这么离谱的老师"},{"id":157696,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-06-24 11:15:12","like_diff":4,"likes":4,"dislikes":0,"content":"傻逼老师"},{"id":609,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2015-03-15 07:03:47","like_diff":3,"likes":7,"dislikes":4,"content":"好萌好萌的"},{"id":1298,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-06-15 16:09:41","like_diff":3,"likes":24,"dislikes":21,"content":"一年之前上的楼Sir计组，平心而论，是我在计院上的最有收获的一门课，甚至超过姥姥的数据结构。学弟学妹们不要怕作业多，等你将来工作或者读研，或者去实验室，你的绩点远没有你的能力重要，不要舍本逐末呀"},{"id":32251,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2017-01-23 08:15:41","like_diff":3,"likes":5,"dislikes":2,"content":"令人失望"},{"id":51603,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2017-06-07 12:13:19","like_diff":3,"likes":5,"dislikes":2,"content":"讲课没有逻辑性，听不进去还不如自学"},{"id":55623,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2017-07-02 05:14:25","like_diff":3,"likes":4,"dislikes":1,"content":"非常不负责任。"},{"id":63140,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2017-11-28 15:31:43","like_diff":3,"likes":5,"dislikes":2,"content":"想起来评论一发。楼sir作业多，作为渣渣上他的计组每周都要花一个星期六或者星期天写他的作业，平时每周还得抽空上板子（周末实验室不开）。当然如果组队作业你能抱到大腿当我没说。平时上课很棒，是我大一大二两年里最有收获的一门课没有吹。因为稍不留神听我可能就会听不懂（。另外最后给分给我的是3.9，也算是意料之中，总体来说老师人还是很棒的，思路清晰。"},{"id":75424,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-03-11 15:00:23","like_diff":3,"likes":3,"dislikes":0,"content":"…………"},{"id":104578,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-03-24 05:39:55","like_diff":3,"likes":4,"dislikes":1,"content":"计组作业贼多，而且没用"},{"id":113605,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-07 01:09:52","like_diff":3,"likes":4,"dislikes":1,"content":"教室空荡荡，上课自己high，课后没作业，考试不复习，课后问题目的话讲的比较好，其他时候一脸懵逼"},{"id":114586,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-10 23:05:35","like_diff":3,"likes":3,"dislikes":0,"content":"计原:希望老师下个学期找个助教"},{"id":114913,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-12 17:13:54","like_diff":3,"likes":3,"dislikes":0,"content":"计组出分怎么这么慢啊……我都蹲了好几天教务网了"},{"id":125251,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2020-09-04 14:22:57","like_diff":3,"likes":3,"dislikes":0,"content":"看得出来对硬件和系统的理解功力很深，但是教学能力着实不太行"},{"id":125475,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2020-09-10 03:01:18","like_diff":3,"likes":7,"dislikes":4,"content":"楼sir这学期给分突然变得很好，完全超出预期。楼sir，yyds"},{"id":134510,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2021-07-10 12:43:22","like_diff":3,"likes":7,"dislikes":4,"content":"虽然讲课不知道在讲啥 作业也不看，不过今年给分真不错诶"},{"id":151750,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-03-14 14:32:28","like_diff":3,"likes":3,"dislikes":0,"content":"垃圾垃圾垃圾垃圾垃圾😓😓😓😓😓"},{"id":158229,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-06-27 15:18:15","like_diff":3,"likes":3,"dislikes":0,"content":"不干正事"},{"id":158561,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-06-30 07:50:25","like_diff":3,"likes":4,"dislikes":1,"content":"最离谱的老师。。。。"},{"id":20574,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-01-28 13:52:09","like_diff":2,"likes":2,"dislikes":0,"content":"其他都好，就是给分太随性了(；一_一)"},{"id":30375,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-07-01 12:28:03","like_diff":2,"likes":4,"dislikes":2,"content":"出的什么jb卷子"},{"id":85679,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-07-25 07:18:59","like_diff":2,"likes":7,"dislikes":5,"content":"大二下学期上的计原，之前没有上过汇编、数逻Patt的计算机系统概论，X86汇编的部分学得非常难受，楼sir上课不用课件，所以讲起课来感觉不是很有逻辑，但其实讲得还可以，考试考的也都是上课讲过的东西，所以上课听听课还是很有必要。平时作业如果按照网站要求来做的话会很费事，但其实楼sir应该不会仔细看你的作业内容，有一个期中考试和一个期末考试，期末考试占比70%，考前复习一下他上课讲过的东西就可以完全不用担心，我4.8。"},{"id":114259,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-09 12:04:14","like_diff":2,"likes":3,"dislikes":1,"content":"网站瘫了，过了一个下午 回了三个可爱小表情是什么鬼？？？"},{"id":114755,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-11 09:38:45","like_diff":2,"likes":2,"dislikes":0,"content":"呵（评论咋要三个字？"},{"id":117252,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-09-21 08:47:48","like_diff":2,"likes":2,"dislikes":0,"content":"短学期挂掉了，现在就是后悔，非常后悔"},{"id":147879,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-01-11 05:19:44","like_diff":2,"likes":4,"dislikes":2,"content":"ads yds\n\noop wk\n\njava hzlou\n\nyyds!!!"},{"id":151905,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-03-20 07:55:56","like_diff":2,"likes":2,"dislikes":0,"content":"烂烂烂"},{"id":154178,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-05-25 06:51:24","like_diff":2,"likes":2,"dislikes":0,"content":"每天上完楼老师的课和实验课我都快得高血压了，就上来看看大家说什么给大家点赞。tmd实验课怎么这么多要求，一堆事，这不对那不对，心态都崩了。"},{"id":160814,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-10-13 12:14:01","like_diff":2,"likes":2,"dislikes":0,"content":"幸好学计原时同时学了计组"},{"id":180767,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2023-09-26 02:54:35","like_diff":2,"likes":2,"dislikes":0,"content":"听了两周课了，愣是不知道他想讲什么"},{"id":186505,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2024-01-11 11:27:57","like_diff":2,"likes":2,"dislikes":0,"content":"这学期期末题不是楼sir出了，那现在选他的课已经毫无优点\n\n上课一如既往地不讲正经东西，导致我后期全部翘掉，期末我面向历年卷复习了半天，考的东西跟历年卷毫无瓜葛\n\n无所谓，挂科大概率了，重修还选lxq，主打一个叛逆"},{"id":2,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2015-03-13 00:57:23","like_diff":1,"likes":4,"dislikes":3,"content":"人称楼sir"},{"id":9295,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2015-10-20 10:40:16","like_diff":1,"likes":3,"dislikes":2,"content":"幸福:)"},{"id":26168,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-06-16 06:44:24","like_diff":1,"likes":1,"dislikes":0,"content":"布置作业突出一个随性...上课还好..."},{"id":30359,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-07-01 11:36:19","like_diff":1,"likes":1,"dislikes":0,"content":"乱出卷"},{"id":33711,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-09-21 06:22:53","like_diff":1,"likes":3,"dislikes":2,"content":"平时很和蔼…\n\n虽然平时的作业有点多\n\n但最后给分不错"},{"id":49214,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2017-03-29 15:20:43","like_diff":1,"likes":10,"dislikes":9,"content":"傻逼老师，只是因为没有零分，我才给他一分。"},{"id":52956,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2017-06-24 07:02:41","like_diff":1,"likes":1,"dislikes":0,"content":"但愿今天说的东西有用"},{"id":57657,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2017-07-11 15:23:21","like_diff":1,"likes":1,"dislikes":0,"content":"人好。"},{"id":79502,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-06-07 08:22:00","like_diff":1,"likes":2,"dislikes":1,"content":"作业和实验全靠自学，很累。"},{"id":80553,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-06-28 00:51:42","like_diff":1,"likes":1,"dislikes":0,"content":"什么时候放弃xp?什么时候能教/接受一点新的技术?"},{"id":83646,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-07-15 23:42:29","like_diff":1,"likes":4,"dislikes":3,"content":"我上的是楼老师的计组课，分为几部分来讲吧。理论课，讲课还是挺生动风趣的，其他班没有讲或细讲的指令集部分讲的很详细，CPU和存储器那部分也很清晰，另外还讲了一些其他内容。实验课，很多是一些很简单的实验，最重要的两个就是设计单时钟、多时钟CPU，但每周作业是真的又多又难，慎选。小组要做四个大程，强烈建议找好大腿再选，否则容易原地爆炸。"},{"id":92722,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-01-04 03:32:09","like_diff":1,"likes":1,"dislikes":0,"content":"不知道"},{"id":116476,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-09-11 01:31:48","like_diff":1,"likes":1,"dislikes":0,"content":"小学期的成绩两个月都没出..\n\n你还出不出了"},{"id":151259,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-02-26 13:26:42","like_diff":1,"likes":1,"dislikes":0,"content":"上课讲的例子听不太懂，老师自己应该对计算机还是有比较清楚的了解，奈何给分玄学，讲课很飘；\n\n怎么说呢，老师心态挺好的"},{"id":152357,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-04-06 11:21:51","like_diff":1,"likes":1,"dislikes":0,"content":"呃为什么没有0分"},{"id":158731,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-07-01 15:25:47","like_diff":1,"likes":1,"dislikes":0,"content":"寄，原！"},{"id":176073,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2023-06-27 14:28:49","like_diff":1,"likes":1,"dislikes":0,"content":"你是真会出题啊\n\n教考分离是吧 能用已经学过的知识推出来 新颖题是吧\n\n如果这个差别也不大\n\n那我和马云的差别也确实不大"},{"id":760,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2015-03-16 11:42:24","like_diff":0,"likes":9,"dislikes":9,"content":"课程绝对不水，要花时间，同时也能学到很多东西"},{"id":51800,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2017-06-24 07:38:41","like_diff":0,"likes":5,"dislikes":5,"content":"老师是真的好。。。\n\n学不好真的是怪我自己。。。"},{"id":86405,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-09-15 07:56:09","like_diff":0,"likes":1,"dislikes":1,"content":"nice"},{"id":117206,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-09-20 09:13:45","like_diff":0,"likes":0,"dislikes":0,"content":"今晚一点，谁是守夜冠军"},{"id":117280,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-09-22 07:01:04","like_diff":0,"likes":1,"dislikes":1,"content":"给分随意得有点过分了吧"},{"id":121631,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-12-11 14:43:40","like_diff":0,"likes":1,"dislikes":1,"content":"一个有实力的老师 只是可能教学方式不太容易让学生理解和懂，但是水平可能感觉的出来还是很高的\n\n"},{"id":122763,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2020-04-01 07:43:31","like_diff":0,"likes":0,"dislikes":0,"content":"感觉讲课抓不住重点，会在一些奇怪的地方说很久，关键的地方又很快过去了，听不下去又怕错过重点，听课体验实在不好。。。"},{"id":124494,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2020-07-02 03:34:53","like_diff":0,"likes":2,"dislikes":2,"content":"楼sir计原的数据表示部分有一些考研老师都没讲过的很便捷的计算方法 感觉还是有所收获的"},{"id":173096,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2023-05-13 09:52:12","like_diff":0,"likes":0,"dislikes":0,"content":"好。。。。"},{"id":178723,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2023-07-20 07:37:47","like_diff":0,"likes":0,"dislikes":0,"content":"1分收敛"},{"id":180522,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2023-09-22 09:04:37","like_diff":0,"likes":0,"dislikes":0,"content":"计原要停开了，来纪念一下楼sir\n\n楼sir我的楼sir啊，你为什么不多带两级啊😭"},{"id":185305,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2023-12-27 16:13:55","like_diff":0,"likes":0,"dislikes":0,"content":"???"},{"id":186245,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2024-01-10 05:02:30","like_diff":0,"likes":1,"dislikes":1,"content":"老生常谈的问题：教考分离、教学大纲迷惑、作业迷惑，网站里确实有些有用的东西所以有些内容可以参考（上课学还不如看网站学），不知道另一位老师具体如何，但是如果你想认真学到知识就千万不要选这位老师"},{"id":187716,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2024-01-17 08:08:36","like_diff":0,"likes":2,"dislikes":2,"content":"还没出分是在捞我吗hh"},{"id":32558,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-07-07 17:50:36","like_diff":-1,"likes":1,"dislikes":2,"content":"给分真的很随意"},{"id":85427,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-07-17 17:05:49","like_diff":-1,"likes":2,"dislikes":3,"content":"计原觉得老师上课讲的虽然啰嗦 但其实还行也比较好理解 只是没人听 给我的分其实挺高 但给分组成确实是个谜天天提心吊胆 考前得做一遍计组试卷 还要写感人周记 作业上半学期比较多 下半学期基本就一个FAT 反正下学期的JAVA我是不敢选他"},{"id":108796,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-06-13 13:53:00","like_diff":-1,"likes":3,"dislikes":4,"content":"为什么计原就这一个老师，而且感觉和计组区别不大"},{"id":10179,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2015-11-17 07:00:32","like_diff":-2,"likes":2,"dislikes":4,"content":"超萌啊"},{"id":75635,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-03-14 09:48:31","like_diff":-2,"likes":4,"dislikes":6,"content":"计组虽然实验很迷  但是理论课超棒  比sqs好多了"},{"id":153765,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-05-10 11:31:45","like_diff":-3,"likes":1,"dislikes":4,"content":"好的好的计算机三级"},{"id":7621,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2015-09-15 06:41:49","like_diff":-4,"likes":1,"dislikes":5,"content":"好赞呀"},{"id":29233,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-06-29 12:56:54","like_diff":-4,"likes":1,"dislikes":5,"content":"考java前膜一发"},{"id":31466,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-07-04 02:53:10","like_diff":-4,"likes":2,"dislikes":6,"content":"真的是好老师！上课讲的超棒"},{"id":22862,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-03-13 18:56:12","like_diff":-5,"likes":7,"dislikes":12,"content":"很喜欢楼sir。虽然作业描述的不是很清楚，要花好多好多时间做作业，然而收获还是很大的。而且。很帅。"},{"id":114206,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-07-09 04:27:14","like_diff":-5,"likes":14,"dislikes":19,"content":"不是，你们为什么说老师短学期课上的不好？难度和深度都有，作业量也配得上这个学分，难道都要像其他短学期一样水一水绩点又高才是好课么？老师对待短学期很认真，和长学期一样的时长作业量，还补充和硬件无关的东西，是能学到东西的。上课不听玩手机怪老师？作业难度高不才体现了短学期的质量么，大家好好努力吧，短学期不是随便水一水的，至少你得通宵写几天程序"},{"id":49297,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2017-07-04 10:11:27","like_diff":-6,"likes":1,"dislikes":7,"content":"好 居然给我4.5"},{"id":108091,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-05-14 13:44:34","like_diff":-6,"likes":1,"dislikes":7,"content":"我挺喜欢楼sir"},{"id":9221,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2015-10-17 14:41:30","like_diff":-7,"likes":9,"dislikes":16,"content":"楼sir很萌你们不要黑他，虽然给分不怎么样，但是可以学到很多东西"},{"id":32026,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2016-07-05 11:44:55","like_diff":-7,"likes":0,"dislikes":7,"content":"给分可以"},{"id":153088,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-04-25 07:07:41","like_diff":-7,"likes":0,"dislikes":7,"content":"太棒了"},{"id":86299,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-09-12 14:39:31","like_diff":-8,"likes":3,"dislikes":11,"content":"为什么老师给分那么好，上个暑期课程实践，我就随便交了点作业就5.0了？"},{"id":108522,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-05-27 14:15:35","like_diff":-10,"likes":6,"dislikes":16,"content":"两年前选过楼sir的计组，今年9月去cmu读研，现在看暑课的video满脑子都是楼sir当时的讲解。说实话，楼sir对于整个系统的理解绝对要超过计院大多数老师(他之前好像说过计算机核心的四门课他都教？)，以后想从事硬件工作的话强推楼sir，当然不喜欢硬件的话还是不推荐，作业量实在太大。"},{"id":51731,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2017-06-15 04:48:23","like_diff":-11,"likes":1,"dislikes":12,"content":"上了楼sir的计组课，其实还行，没有大家说的那么累。平时实验简单，单周期多周期大程一下午就写完了。汇编器模拟器可能花点时间，不过看你想做多好，有兴趣就多花时间，没兴趣随便做做呗。在施老师班的同学们肝mips大程的时候我们所有项目都验收完了。"},{"id":116752,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-09-22 06:39:18","like_diff":-32,"likes":1,"dislikes":33,"content":"4.8短学期，既然没满"},{"id":79744,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2018-06-13 08:05:10","like_diff":-38,"likes":2,"dislikes":40,"content":"这个老师挺好的\n\n计组实验抱了个计院大腿，只管划水\n\n平时作业就只用随便一个压缩包交上去\n\n后来担心露馅，但是期末恶补别的老师ppt，结果拿了4.8。推荐非计院的来选一选"},{"id":153785,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-05-11 03:34:57","like_diff":-38,"likes":0,"dislikes":38,"content":"2022年首考426能不能进浙大人工智能三位一体啊？能不能啊？能不能啊"},{"id":154209,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-05-26 03:42:32","like_diff":-42,"likes":2,"dislikes":44,"content":"真的越想越无语。浙江选考每门科目除去起点分只有60分，根本拉不开差距。北京天津高考生少这么搞没啥大问题，你浙江30多万考生也搞这么高的赋分起点🙄每次选考大把人集中在97分的分数，97分的人比96分的都多"},{"id":155172,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2022-06-09 04:40:30","like_diff":-44,"likes":4,"dislikes":48,"content":"楼sir会挂人吗？如果会挂就踩踩我让我知道一下（）感觉这学期要寄了"},{"id":2316,"teacher_id":1665,"teacher_name":"楼学庆","post_time":"2019-03-07 08:00:49","like_diff":-170,"likes":19,"dislikes":189,"content":"楼Sir博学，开课之多，内容之广，院里恐怕没几个人可以比肩。本人有幸从楼Sir手上拿到20+学分，可惜从来都只给4.5"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

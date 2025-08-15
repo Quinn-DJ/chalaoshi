@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金立 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="金立教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="金立,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">金立</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">5.51</div>
+                    <div class="rating-participants">169人参与评分</div>
+                    <div class="attendance-info">26.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (6 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">大学写作——写作·人</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.20</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.49</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大学写作——写作·社会</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.32</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.45</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大学写作——写作·自然</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.96</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.58</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大学写作——创意写作</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.18</span>
+                            <span class="students">选课: 454人</span>
+                            <span class="std-dev">标准差: 0.55</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">逻辑学导论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.89</span>
+                            <span class="students">选课: 248人</span>
+                            <span class="std-dev">标准差: 0.90</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">逻辑学（H）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.06</span>
+                            <span class="students">选课: 89人</span>
+                            <span class="std-dev">标准差: 0.76</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (144 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":79290,"teacher_id":1516,"teacher_name":"金立","post_time":"2018-05-30 05:46:34","like_diff":45,"likes":60,"dislikes":15,"content":"究竟是谁说你长得好看了。。。"},{"id":15759,"teacher_id":1516,"teacher_name":"金立","post_time":"2016-01-16 08:34:41","like_diff":32,"likes":60,"dislikes":28,"content":"讲课蛮有趣。就是人有些自负了"},{"id":82211,"teacher_id":1516,"teacher_name":"金立","post_time":"2018-07-07 12:00:23","like_diff":27,"likes":47,"dislikes":20,"content":"上课巨迷，什么也没学到，就上去做了次演讲，老师也蜜汁清高，一天到晚吹儿子，你儿子镇海还是北大跟我什么关系…小组展示打分也没看懂。2分是给男助教的，通识这么花心思做事情实在尽责"},{"id":133404,"teacher_id":1516,"teacher_name":"金立","post_time":"2021-02-27 08:05:50","like_diff":27,"likes":33,"dislikes":6,"content":"迷之自信的大妈"},{"id":31896,"teacher_id":1516,"teacher_name":"金立","post_time":"2016-07-05 06:11:34","like_diff":26,"likes":42,"dislikes":16,"content":"嗯，给分还不错，就是有一种迷之清高，和优越感。"},{"id":151553,"teacher_id":1516,"teacher_name":"金立","post_time":"2022-03-07 10:34:04","like_diff":22,"likes":28,"dislikes":6,"content":"大学写作不知为何迷之厌恶这个老师……上课给人很不舒服的感觉"},{"id":170777,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-03-09 12:21:42","like_diff":20,"likes":20,"dislikes":0,"content":"jl：我儿子大五，肯定比你们大，05年生的"},{"id":34883,"teacher_id":1516,"teacher_name":"金立","post_time":"2016-10-26 07:41:25","like_diff":17,"likes":32,"dislikes":15,"content":"很一般，谈口才与沟通都在说自己的故事，干货不多，没有太多收获。确实比较清高。"},{"id":159022,"teacher_id":1516,"teacher_name":"金立","post_time":"2022-07-04 13:42:49","like_diff":17,"likes":21,"dislikes":4,"content":"大学写作。上课体验极差，不知所云，毫无收获，语言混乱又自负。据另一个哲学系老师说她每节课必吹她儿子，不知道是不是这样但是我那节课的确如此。你儿子怎么样关我屁事。"},{"id":7586,"teacher_id":1516,"teacher_name":"金立","post_time":"2015-09-15 05:57:17","like_diff":14,"likes":27,"dislikes":13,"content":"不怎么样"},{"id":173114,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-05-13 16:51:04","like_diff":13,"likes":15,"dislikes":2,"content":"大学写作一堆专业必修究竟是什么馊主意？专业不对口的文献综述，在自己不熟悉的一堆领域强行讨论，各种强行点名，强行听讲座，而且基本准备搞的也不好，有一次给助教的名单里竟然把老师学生并列，结果助教点到了好几个老师，而且还学的浮皮潦草，还特么绩杀，服了。"},{"id":141879,"teacher_id":1516,"teacher_name":"金立","post_time":"2021-10-29 10:37:41","like_diff":12,"likes":15,"dislikes":3,"content":"讲课不知所云，口气很膨胀"},{"id":151194,"teacher_id":1516,"teacher_name":"金立","post_time":"2022-02-24 08:27:50","like_diff":12,"likes":18,"dislikes":6,"content":"普信女"},{"id":158821,"teacher_id":1516,"teacher_name":"金立","post_time":"2022-07-02 12:44:15","like_diff":11,"likes":17,"dislikes":6,"content":"自以为是，不知所云，水平又差，这种老师混到现在的职称是哲学系的悲哀，那么多好老师，为什么被她这种货色上位了"},{"id":80835,"teacher_id":1516,"teacher_name":"金立","post_time":"2018-07-01 16:24:55","like_diff":9,"likes":16,"dislikes":7,"content":"整个课程的打分都是同学打的，有很多运气成分，如果你被分到不怎么样的小组，展示分就可以和别人差个七八分；组内分大部分看你自己，但是组长内心的考核标准和你自己的标准完全不是一样的话也一样gg。课有点凌乱，要不是j类也不会上"},{"id":104878,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-03-29 08:51:23","like_diff":9,"likes":13,"dislikes":4,"content":"老师非常不关心学生的想法，不允许学生对他的点评作出回应，也不遵守规则。"},{"id":116533,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-09-11 06:37:29","like_diff":9,"likes":13,"dislikes":4,"content":"你当然可以有自己的观点，但是告诉我说“你应该”“你要”“你必须”，我还是希望听到你能告诉我我为什么要这样。"},{"id":189965,"teacher_id":1516,"teacher_name":"金立","post_time":"2024-02-04 03:25:29","like_diff":9,"likes":9,"dislikes":0,"content":"大学写作去死吧！"},{"id":101638,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-28 15:55:45","like_diff":8,"likes":19,"dislikes":11,"content":"逻导平时上课挑关键的听！！(作为一名纯理科生，老师一讲哲学讲人生，灌心灵鸡汤，吹儿子就自动屏蔽:) 小组展示水水过，因为其实最后打分差距也不大还是要拼期末成绩的:-I 期末考试前两天突击复习！书和屁屁踢都仔仔细细看一遍！最后…我满了。"},{"id":119462,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-11-13 02:34:31","like_diff":7,"likes":10,"dislikes":3,"content":"单向地价值观输出"},{"id":160548,"teacher_id":1516,"teacher_name":"金立","post_time":"2022-09-26 16:03:59","like_diff":7,"likes":8,"dislikes":1,"content":"第一节课什么都没讲，上来就写作文，还打分。这波操作，属实无语。。。。。。再续高中议论文恶魔。。。"},{"id":151401,"teacher_id":1516,"teacher_name":"金立","post_time":"2022-03-02 10:35:09","like_diff":6,"likes":11,"dislikes":5,"content":"讲得很水，没干货，又自负，这种人是怎么混到现在的职称的！"},{"id":181639,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-10-25 04:04:50","like_diff":6,"likes":7,"dislikes":1,"content":"很无聊的课，上来上去就是跟你说写作很重要，上她的课很重要，但是也不教你实际的本领。\n\n“我在校外都不说我是哲学学院的，有些人喜欢跟我讨论逻辑，但是这些人都没有逻辑”\n\n“我老公不喜欢听我讲思维，我儿子喜欢跟我讨论”\n\n“我觉得学建筑的男生都能拍出好看的照片，但我儿子在芬兰读了五年书了，一直没拍出好看的照片，直到前几天终于拍出了一张”"},{"id":195463,"teacher_id":1516,"teacher_name":"金立","post_time":"2024-06-28 07:17:45","like_diff":5,"likes":8,"dislikes":3,"content":"金老师逻辑学（H）确实讲的蛮不错的，很有条理，例题也很有意思，值得和身边的人分享。这门课事情也不算多，就期末一个pre，和逻辑学沾边即可，期末考试也不会为难大家的。只不过我改错了两道选择题，直接4.5变4.2，唉……"},{"id":201672,"teacher_id":1516,"teacher_name":"金立","post_time":"2024-11-05 08:58:10","like_diff":5,"likes":5,"dislikes":0,"content":"多牛的黄金矿工都挖不出这样的神金，真的神金"},{"id":38799,"teacher_id":1516,"teacher_name":"金立","post_time":"2017-09-20 05:56:38","like_diff":4,"likes":12,"dislikes":8,"content":"对镇海的路人好感被这个黑子消磨了，不觉得有个在镇海的儿子牛屁死了"},{"id":100907,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-27 05:49:19","like_diff":4,"likes":14,"dislikes":10,"content":"上课吹nb，说了考的不难，结果期末挂科率23.2%？"},{"id":100936,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-27 07:00:30","like_diff":4,"likes":9,"dislikes":5,"content":"老师讲课水平的确好，课本身有点枯燥吧。听说给分成迷？我水了一学期上四了，不知道怎么肥四? 怕了"},{"id":118831,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-11-06 23:26:30","like_diff":4,"likes":8,"dislikes":4,"content":"超级无聊"},{"id":160335,"teacher_id":1516,"teacher_name":"金立","post_time":"2022-09-19 08:12:19","like_diff":4,"likes":5,"dislikes":1,"content":"讲什么鬼东西，自己的话没有逻辑还在那里讲逻辑"},{"id":170284,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-03-02 12:36:14","like_diff":4,"likes":5,"dislikes":1,"content":"emmmm为什么没有0分"},{"id":192765,"teacher_id":1516,"teacher_name":"金立","post_time":"2024-05-30 05:51:45","like_diff":4,"likes":5,"dislikes":1,"content":"大学写作，某教学班3000字文献综述，30篇参考文献，ddl一周，教学班质量这么参差不齐都不管吗，怎么负责的。因为你最爱的大学写作，给你特么一分都嫌多，如果有负分，一定打-1145141919810"},{"id":198538,"teacher_id":1516,"teacher_name":"金立","post_time":"2024-09-10 00:20:01","like_diff":4,"likes":6,"dislikes":2,"content":"对不起呀老师可是你讲课实在是太太太太无聊了"},{"id":205746,"teacher_id":1516,"teacher_name":"金立","post_time":"2024-12-12 02:01:45","like_diff":4,"likes":4,"dislikes":0,"content":"五分中规中矩，同意的顶我上去\n\n上课一般般，会用故事说明观点，本来会让课堂变有趣，但是一半多都是夸自己儿子和自夸的？这就比较自负降低了听感。\n\n人还是不错的，之前下暴雨让同学身体为重，可听网课\n\n虽然是学逻辑学的，但是上课总有些不明所以的callback，让人摸不着头脑\n\n无功无过，一般般吧"},{"id":205886,"teacher_id":1516,"teacher_name":"金立","post_time":"2024-12-12 12:34:54","like_diff":4,"likes":4,"dislikes":0,"content":"没有水平，请教授来做讲座还疯狂装b，不能理解为什么这么能装"},{"id":22545,"teacher_id":1516,"teacher_name":"金立","post_time":"2016-03-08 00:48:06","like_diff":3,"likes":9,"dislikes":6,"content":"鸡汤较多"},{"id":32062,"teacher_id":1516,"teacher_name":"金立","post_time":"2016-07-05 13:58:45","like_diff":3,"likes":10,"dislikes":7,"content":"讲课挺有趣，逻导课的事情也不多，给分的话还可以吧，期末考比较重要"},{"id":107244,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-05-02 14:30:00","like_diff":3,"likes":4,"dislikes":1,"content":"很迷。。"},{"id":124345,"teacher_id":1516,"teacher_name":"金立","post_time":"2020-06-29 12:38:05","like_diff":3,"likes":4,"dislikes":1,"content":"平时分全给就真的很好了👍🏻\n\n上课有点拖沓是真的，有时候会讲其他不那么相关的很久，可能老师觉得有意义，但我会觉得有点无聊了。"},{"id":160504,"teacher_id":1516,"teacher_name":"金立","post_time":"2022-09-25 03:06:45","like_diff":3,"likes":4,"dislikes":1,"content":"不知所云，巴啦啦的讲啥呢"},{"id":160572,"teacher_id":1516,"teacher_name":"金立","post_time":"2022-09-27 08:21:59","like_diff":3,"likes":4,"dislikes":1,"content":"不知所云"},{"id":165495,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-01-07 08:11:21","like_diff":3,"likes":5,"dislikes":2,"content":"上的大学写作自然，就第一二节是金立老师，老师讲得挺好的，但是课堂上会让现场写作，要求也不明确，会导致有点搞心态"},{"id":168463,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-02-17 07:43:10","like_diff":3,"likes":4,"dislikes":1,"content":"依托。。\n\n幸好大学写作后面分小班上了，所以觉得不行的不用担心。"},{"id":172563,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-04-30 04:14:43","like_diff":3,"likes":4,"dislikes":1,"content":"大学写作，不知道在讲什么"},{"id":180934,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-09-28 11:32:39","like_diff":3,"likes":4,"dislikes":1,"content":"1分给大学写作这门强逼着我们学，本身毫无意义，而且绩杀又卡绩的烂课！"},{"id":199046,"teacher_id":1516,"teacher_name":"金立","post_time":"2024-09-14 10:30:41","like_diff":3,"likes":7,"dislikes":4,"content":"今天下雨🌧，老师说身体和安全第一，上课第二，感觉还不错，似乎，也不像大家说的那样不堪？"},{"id":201096,"teacher_id":1516,"teacher_name":"金立","post_time":"2024-10-28 13:02:31","like_diff":3,"likes":3,"dislikes":0,"content":"您真的是搞逻辑学的？"},{"id":201357,"teacher_id":1516,"teacher_name":"金立","post_time":"2024-11-01 05:05:55","like_diff":3,"likes":3,"dislikes":0,"content":"烂中烂，都在干别的事"},{"id":80832,"teacher_id":1516,"teacher_name":"金立","post_time":"2018-07-01 14:32:31","like_diff":2,"likes":13,"dislikes":11,"content":"10分是给男课小哥哥的！感觉也太尽职了吧！（还很帅(/ω＼)）课其实有点水，不过多讨论多交流也可以接触不少大佬^_^给分…emmm也还行，多上台或者当课代表和小组长会好一点吧"},{"id":100950,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-27 07:49:21","like_diff":2,"likes":5,"dislikes":3,"content":"上课有好好听，老师是好老师，可能是我复习不到位吧（最后一门心飘了），没上三"},{"id":104729,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-03-26 14:47:39","like_diff":2,"likes":3,"dislikes":1,"content":"呵呵呵"},{"id":117152,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-09-20 01:45:39","like_diff":2,"likes":4,"dislikes":2,"content":"J类都一个dio样，不是必秀还选得满吗"},{"id":181955,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-11-06 11:13:15","like_diff":2,"likes":3,"dislikes":1,"content":"逻辑看似清晰，实则前后矛盾，有专业知识，但是睁眼说瞎话"},{"id":182383,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-11-15 11:39:12","like_diff":2,"likes":4,"dislikes":2,"content":"傻逼。"},{"id":183239,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-11-23 05:09:37","like_diff":2,"likes":2,"dislikes":0,"content":"真不知道她在讲什么"},{"id":194504,"teacher_id":1516,"teacher_name":"金立","post_time":"2024-06-24 07:55:19","like_diff":2,"likes":2,"dislikes":0,"content":"逻辑学蛮通俗易懂"},{"id":198514,"teacher_id":1516,"teacher_name":"金立","post_time":"2024-09-09 11:11:14","like_diff":2,"likes":3,"dislikes":1,"content":"很无语😑，不知道在讲什么东西，还不如自己看看书"},{"id":198517,"teacher_id":1516,"teacher_name":"金立","post_time":"2024-09-09 11:38:16","like_diff":2,"likes":2,"dislikes":0,"content":"常常“不经意”间提及自己的儿子物化双百，对于语言的剖析往往从基础的语法来讲，缺乏应有的启发性，感觉在老师眼中高中的语文形同虚设。"},{"id":198612,"teacher_id":1516,"teacher_name":"金立","post_time":"2024-09-10 08:19:04","like_diff":2,"likes":3,"dislikes":1,"content":"不知所云"},{"id":200083,"teacher_id":1516,"teacher_name":"金立","post_time":"2024-10-12 13:20:10","like_diff":2,"likes":2,"dislikes":0,"content":"老师对我好一点"},{"id":217352,"teacher_id":1516,"teacher_name":"金立","post_time":"2025-04-09 02:53:22","like_diff":2,"likes":2,"dislikes":0,"content":"课有点烂，朋友圈很封鬼，我当初为什么不直接读工具论"},{"id":33986,"teacher_id":1516,"teacher_name":"金立","post_time":"2016-09-24 12:11:15","like_diff":1,"likes":6,"dislikes":5,"content":"很会讲故事，特别是先生孩子的故事，更像是婚恋课，interesting"},{"id":34420,"teacher_id":1516,"teacher_name":"金立","post_time":"2017-01-16 15:52:41","like_diff":1,"likes":10,"dislikes":9,"content":"3.9的逻导?  我究竟做错了什么，是不是最低了啊"},{"id":36952,"teacher_id":1516,"teacher_name":"金立","post_time":"2016-11-16 15:57:59","like_diff":1,"likes":8,"dislikes":7,"content":"口才与沟通……老师的口才的确挺好，讲课也不错。。然而全部成绩就看最后一次小组展示，最后果然被正态了，哎"},{"id":37011,"teacher_id":1516,"teacher_name":"金立","post_time":"2016-11-17 05:58:15","like_diff":1,"likes":6,"dislikes":5,"content":"就只有一次展示，老师不怎么管事情，全靠课代表，真的迷\n\n"},{"id":47171,"teacher_id":1516,"teacher_name":"金立","post_time":"2017-01-24 08:31:06","like_diff":1,"likes":4,"dislikes":3,"content":"老师挺真诚直白的那种，给分挺好的，不过逻导主要还是靠自己考"},{"id":80830,"teacher_id":1516,"teacher_name":"金立","post_time":"2018-12-26 09:02:36","like_diff":1,"likes":11,"dislikes":10,"content":"口才与沟通：坦率地说这个课有点水，上课的时间很少，大部分都是同学讲；老师人挺好，讲得东西也挺深刻的，但是不备课天马行空还是有点凌乱"},{"id":100909,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-27 05:50:15","like_diff":1,"likes":13,"dislikes":12,"content":"沙雕老师，上课催眠，给分乱给，认真复习3.0，室友根本没学4.5。不想说"},{"id":100925,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-27 06:23:28","like_diff":1,"likes":4,"dislikes":3,"content":"好好学了一学期，成绩出来3分"},{"id":101873,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-29 10:49:35","like_diff":1,"likes":6,"dislikes":5,"content":"老师上课还是挺有趣的，口才很佩服，让我有一种，哇，果然是教逻辑学的老师 的感觉。逻辑学导论这门课本身比较干货吧，虽然我平时上课都是边水手机边听，但是期末复习认真复习了三遍上课的ppt和笔记，做了几章课后习题，不懂的地方再看看书，暂且不谈绩点，个人觉得真正学到一些东西的成就感才是最重要的。最后90分。"},{"id":101879,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-29 11:18:41","like_diff":1,"likes":5,"dislikes":4,"content":"期末一定要好好复习，最好是平时抽时间弄懂每节课的内容，小组展示差距不大，一定要控制好时间!!\n\n逻辑学重在理解运用，死记硬背是不行的，期末突击感觉真心有些吃力……\n\n期末考试占比大，最后成绩也是通过期末考试拉开差距的，坦白而言我觉得老师讲得真的不错，主要是由于课堂时间短，很多知识需要自己看书预习结合起来或许会有更大的收获吧!\n\n总之此课不水，对逻辑学感兴趣的小伙伴可以考虑(ฅ>ω<*ฅ)"},{"id":124088,"teacher_id":1516,"teacher_name":"金立","post_time":"2020-06-23 13:00:05","like_diff":1,"likes":6,"dislikes":5,"content":"金老师人很好，很负责，会督促同学认真学习、及时复习，不过...我还真没觉得她口才好..."},{"id":160505,"teacher_id":1516,"teacher_name":"金立","post_time":"2022-09-25 03:09:32","like_diff":1,"likes":1,"dislikes":0,"content":"不知道讲的啥"},{"id":160506,"teacher_id":1516,"teacher_name":"金立","post_time":"2022-09-25 03:10:26","like_diff":1,"likes":1,"dislikes":0,"content":"上课很不错，很助眠。"},{"id":172911,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-05-10 01:30:59","like_diff":1,"likes":1,"dislikes":0,"content":"感觉小论文分数有点低。"},{"id":179698,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-09-19 11:21:23","like_diff":1,"likes":1,"dislikes":0,"content":"纯扯淡"},{"id":179700,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-09-19 11:24:20","like_diff":1,"likes":2,"dislikes":1,"content":"有点麻，内心戏有点多"},{"id":180730,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-09-25 11:28:51","like_diff":1,"likes":2,"dislikes":1,"content":"眼高手低，扯谈两个小时不知道要说明什么"},{"id":180806,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-09-26 12:04:05","like_diff":1,"likes":2,"dislikes":1,"content":"论扯淡"},{"id":182384,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-11-15 11:40:52","like_diff":1,"likes":3,"dislikes":2,"content":"傻屌一个 真不知道这种庸俗至极的货色怎么出现的"},{"id":190348,"teacher_id":1516,"teacher_name":"金立","post_time":"2024-02-28 09:03:59","like_diff":1,"likes":2,"dislikes":1,"content":"大学写作书写的还行，但是上课讲的逻辑感也太差了，一会讲这个一会讲那个，只要讲到他儿子讲话的主题就直接飞得十万八千里远，挺凡尔赛的"},{"id":190445,"teacher_id":1516,"teacher_name":"金立","post_time":"2024-03-04 11:14:26","like_diff":1,"likes":3,"dislikes":2,"content":"上的大学写作，老师一件简单的事情能一直讲好久，东拉西扯，感觉没什么收获"},{"id":214110,"teacher_id":1516,"teacher_name":"金立","post_time":"2025-01-24 10:29:11","like_diff":1,"likes":1,"dislikes":0,"content":"水平低下，自以为是，为难学生"},{"id":214850,"teacher_id":1516,"teacher_name":"金立","post_time":"2025-02-18 09:02:45","like_diff":1,"likes":1,"dislikes":0,"content":"讲的好无聊🙄"},{"id":28817,"teacher_id":1516,"teacher_name":"金立","post_time":"2016-06-28 16:20:37","like_diff":0,"likes":4,"dislikes":4,"content":"老师讲的不错，"},{"id":31716,"teacher_id":1516,"teacher_name":"金立","post_time":"2016-07-04 14:53:07","like_diff":0,"likes":8,"dislikes":8,"content":"感觉一般吧，杂七杂八扯太多，不觉得给分很好。"},{"id":43281,"teacher_id":1516,"teacher_name":"金立","post_time":"2017-12-23 09:05:35","like_diff":0,"likes":5,"dislikes":5,"content":"是在认真讲课的老师，但是每节课都在秀恩爱 秀儿子 秀优越 这一点有点接受无能\n\n课程难度的话，如果每节课好好听 期末考试完全不慌\n\n如果像我一样平时谁手机的话期末好好复习 抱佛脚也没大问题\n\n总之这样的通识课就课程内容而言 还是值得一选的"},{"id":43325,"teacher_id":1516,"teacher_name":"金立","post_time":"2017-01-16 06:50:23","like_diff":0,"likes":3,"dislikes":3,"content":"我觉得老师上课特别清楚啊，也挺有意思的。"},{"id":43689,"teacher_id":1516,"teacher_name":"金立","post_time":"2017-01-16 23:27:05","like_diff":0,"likes":3,"dislikes":3,"content":"金老师人真的很好，逻导本身就是一门很有趣的课，考试前认真复习一遍就完全不慌了。"},{"id":50962,"teacher_id":1516,"teacher_name":"金立","post_time":"2017-05-10 07:25:25","like_diff":0,"likes":4,"dislikes":4,"content":"逻导课真的给分好也不水"},{"id":80831,"teacher_id":1516,"teacher_name":"金立","post_time":"2018-07-01 14:14:16","like_diff":0,"likes":3,"dislikes":3,"content":"有一种很自信的感觉(个人感觉不舒服)，今天群里还在核对成绩，老师已经出分了，90+正态说了给89，结果给了88，真的是"},{"id":82926,"teacher_id":1516,"teacher_name":"金立","post_time":"2018-07-09 10:12:06","like_diff":0,"likes":5,"dislikes":5,"content":"没意思。啥都没学到。给分全看分小组时的运气"},{"id":100327,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-26 03:05:13","like_diff":0,"likes":4,"dislikes":4,"content":"期末考试不仅要复习三段论，还要好好复习模态和归纳，还有二难推理……\n\n"},{"id":100917,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-27 06:07:04","like_diff":0,"likes":12,"dislikes":12,"content":"看到群里说?杀 真的很不舒服。考前一些人都不知道一个学期上了什么，最基本的概念都不清楚，最后复习几小时。别人只用两小时复习是别人平时认真。\n\n逻辑学说穿了很简单，但是那些概念的掌握和熟练和数学一样是要花时间的。\n\n有两次上难点我就待在东教不断重复推演了两个小时觉得自己掌握了\n\n那些说?杀 的扪心自问自己真的认真学了嘛？\n\n最后，好老师，就是讲的浅了点，意犹未尽"},{"id":100918,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-27 06:10:07","like_diff":0,"likes":6,"dislikes":6,"content":"真诚地建议：想拿高分，一定要看书，课听不听倒是无所谓（但是要知道她讲过什么，只要提了一下的书上都要看！！很重要！！都会考！！"},{"id":100919,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-27 06:12:13","like_diff":0,"likes":3,"dislikes":3,"content":"给分太低。"},{"id":100939,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-27 07:08:35","like_diff":0,"likes":1,"dislikes":1,"content":"早课 考试最晚"},{"id":101013,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-27 09:10:58","like_diff":0,"likes":4,"dislikes":4,"content":"垃圾，早课，考试晚，给分低"},{"id":101018,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-27 09:17:58","like_diff":0,"likes":3,"dislikes":3,"content":"老师挺好的，认真复习了，绩点没上4有点难受…"},{"id":118350,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-11-13 05:32:43","like_diff":0,"likes":2,"dislikes":2,"content":"从此有多一门3.3"},{"id":158381,"teacher_id":1516,"teacher_name":"金立","post_time":"2022-06-29 01:22:31","like_diff":0,"likes":2,"dislikes":2,"content":"呵呵和"},{"id":160110,"teacher_id":1516,"teacher_name":"金立","post_time":"2022-09-13 08:47:55","like_diff":0,"likes":1,"dislikes":1,"content":"睡着了，不知所云，"},{"id":170734,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-03-09 01:51:46","like_diff":0,"likes":1,"dislikes":1,"content":"给分可以"},{"id":199058,"teacher_id":1516,"teacher_name":"金立","post_time":"2024-09-14 12:18:00","like_diff":0,"likes":4,"dislikes":4,"content":"上课纯自嗨，不知所云，坐在第一排逼着自己认真听结果听了两个半小时什么都没听进去，无聊又难懂"},{"id":216564,"teacher_id":1516,"teacher_name":"金立","post_time":"2025-03-18 13:20:21","like_diff":0,"likes":0,"dislikes":0,"content":"上课笔掉到了地上，老师从讲台走下来弯下身帮我捡起来了。"},{"id":216785,"teacher_id":1516,"teacher_name":"金立","post_time":"2025-03-25 12:46:43","like_diff":0,"likes":0,"dislikes":0,"content":"大学写作，不知所云，疯狂灌水，您真的懂逻辑？"},{"id":33728,"teacher_id":1516,"teacher_name":"金立","post_time":"2016-09-21 07:32:30","like_diff":-1,"likes":2,"dislikes":3,"content":"被教室里的声音带过去蹭课 口才很好 听故事很不错"},{"id":34192,"teacher_id":1516,"teacher_name":"金立","post_time":"2016-09-28 06:34:09","like_diff":-1,"likes":6,"dislikes":7,"content":"知识渊博"},{"id":43303,"teacher_id":1516,"teacher_name":"金立","post_time":"2017-01-16 06:07:39","like_diff":-1,"likes":2,"dislikes":3,"content":"很好 老师很优雅 给分超棒的呀"},{"id":44158,"teacher_id":1516,"teacher_name":"金立","post_time":"2017-01-17 10:59:32","like_diff":-1,"likes":1,"dislikes":2,"content":"很好的课，也很有意思，就是有点喜欢扯东扯西，喜欢谈谈自己清高的生活，最后给分也很好的，要加油学啊！"},{"id":61419,"teacher_id":1516,"teacher_name":"金立","post_time":"2017-11-17 03:24:56","like_diff":-1,"likes":2,"dislikes":3,"content":"老师人真的很好，学识渊博，热爱生活，给分也好。口才与沟通是很好的j类了！"},{"id":61451,"teacher_id":1516,"teacher_name":"金立","post_time":"2017-11-17 10:35:16","like_diff":-1,"likes":2,"dislikes":3,"content":"小组长打分真的坑?"},{"id":91093,"teacher_id":1516,"teacher_name":"金立","post_time":"2018-11-30 00:17:47","like_diff":-1,"likes":3,"dislikes":4,"content":"心有点硬。"},{"id":102736,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-02-22 05:27:03","like_diff":-1,"likes":5,"dislikes":6,"content":"老师人挺好的，很温柔很博学的感觉，但是考试需要靠自己好好复习。挺好的"},{"id":850,"teacher_id":1516,"teacher_name":"金立","post_time":"2015-03-21 16:56:00","like_diff":-2,"likes":4,"dislikes":6,"content":"好\n\n"},{"id":44390,"teacher_id":1516,"teacher_name":"金立","post_time":"2017-01-17 17:02:23","like_diff":-2,"likes":2,"dislikes":4,"content":"上课会漫谈很多东西，可能会容易走神。教的内容少，整个秋冬学期学了课本一半不到吧，而且都不是很难的东西，期末考简单的意外，给分简直惊喜，学渣一本满足。不知道有没有进一步学习的课…"},{"id":60166,"teacher_id":1516,"teacher_name":"金立","post_time":"2017-10-12 04:38:43","like_diff":-2,"likes":4,"dislikes":6,"content":"理科生选了逻辑学导论，平时从不点名，没有作业，没有小测，老师不错，很有趣，但是我自我感觉期末考的没有95也有90了结果85....卡在3.9\n\n关键是我感觉这课巨简单啊→_→"},{"id":61405,"teacher_id":1516,"teacher_name":"金立","post_time":"2017-11-16 10:44:13","like_diff":-2,"likes":0,"dislikes":2,"content":"柏格森爱好者嘻嘻"},{"id":61417,"teacher_id":1516,"teacher_name":"金立","post_time":"2017-11-16 23:53:51","like_diff":-2,"likes":1,"dislikes":3,"content":"非常棒"},{"id":109218,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-06-12 03:44:25","like_diff":-2,"likes":2,"dislikes":4,"content":"求问口才与沟通水吗？单纯想学点东西，水的话退了…"},{"id":131641,"teacher_id":1516,"teacher_name":"金立","post_time":"2021-01-28 09:34:43","like_diff":-2,"likes":7,"dislikes":9,"content":"老师人挺好的，期末卷子也不难，有大佬可能一小时就交卷并且几乎全对了。何况作为一个平时分几乎都给满的老师，她真的很为我们绩点着想了。入股不亏，还能听到很多哲学思想。"},{"id":1149,"teacher_id":1516,"teacher_name":"金立","post_time":"2015-03-21 16:19:38","like_diff":-3,"likes":7,"dislikes":10,"content":"金立姐姐"},{"id":92662,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-03 11:38:01","like_diff":-3,"likes":3,"dislikes":6,"content":"评分标准一变再变"},{"id":124338,"teacher_id":1516,"teacher_name":"金立","post_time":"2020-06-29 11:20:10","like_diff":-3,"likes":3,"dislikes":6,"content":"老师人挺好的，但是讲课有点拖沓，但是如果认真听课的话绩点不会差。我其实也有点水，早八在家里经常是躺着半梦半醒，但最后也有89。这学期考试有点难，大家分都不高，老师把30的平时分基本拉满了，能捞的都尽量捞了。最后这课有正太，线上没恶竟，看考试成绩。"},{"id":160121,"teacher_id":1516,"teacher_name":"金立","post_time":"2022-09-13 12:05:10","like_diff":-3,"likes":6,"dislikes":9,"content":"老师人挺好的，挺幽默也很温柔，确实也有一种清高的感觉，但是能感觉出老师确实有一定的文学造诣。那些刷差评的真的不想想是不是你自己心态太高了吗"},{"id":43274,"teacher_id":1516,"teacher_name":"金立","post_time":"2017-01-16 05:11:33","like_diff":-4,"likes":12,"dislikes":16,"content":"金老师是一个非常博学，非常有趣的老师，很有魅力。还有说老师吹自己儿子的，我想说，大家应该理解一个母亲的心情啊，老师的儿子一个人在外面读书，母亲为儿子骄傲，不可以吗？"},{"id":127136,"teacher_id":1516,"teacher_name":"金立","post_time":"2020-11-10 00:45:04","like_diff":-4,"likes":0,"dislikes":4,"content":"行行行"},{"id":131370,"teacher_id":1516,"teacher_name":"金立","post_time":"2021-01-27 08:33:34","like_diff":-4,"likes":5,"dislikes":9,"content":"逻辑学导论。\n\n老师上课真的很认真，真的能学到很多。老师人也很好，看出期末出卷子真的很想捞我们了哈哈哈～"},{"id":36975,"teacher_id":1516,"teacher_name":"金立","post_time":"2016-11-17 01:43:54","like_diff":-5,"likes":5,"dislikes":10,"content":"真的说到做到不点名 大赞 课程内容本身价值不大 老师自身性格有点一言难尽 清高中还有点少女心 给分很好 作为通识算是很理想的选择了"},{"id":82664,"teacher_id":1516,"teacher_name":"金立","post_time":"2018-07-09 02:31:30","like_diff":-5,"likes":4,"dislikes":9,"content":"仙女，jpg"},{"id":217,"teacher_id":1516,"teacher_name":"金立","post_time":"2015-03-14 16:58:22","like_diff":-6,"likes":4,"dislikes":10,"content":"金阿姨～"},{"id":100906,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-27 05:48:57","like_diff":-6,"likes":7,"dislikes":13,"content":"我也是醉了，上课讲的什么也不知道，例子少的可怜，课堂枯燥，还夸自己儿子，最后绩杀，考试也很那个，要求特多，绩杀"},{"id":31745,"teacher_id":1516,"teacher_name":"金立","post_time":"2016-07-04 16:53:07","like_diff":-7,"likes":7,"dislikes":14,"content":"讲课挺有趣的 考试相对其它老师应该算简单的 好好复习三段论就好? 满绩不难"},{"id":100913,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-27 05:55:57","like_diff":-7,"likes":5,"dislikes":12,"content":"老师的灵魂中有诗意，让逻辑学这一理性的学科融入感性思考，变得妙趣横生，"},{"id":139032,"teacher_id":1516,"teacher_name":"金立","post_time":"2021-07-12 08:27:28","like_diff":-7,"likes":2,"dislikes":9,"content":"给分还不错"},{"id":135835,"teacher_id":1516,"teacher_name":"金立","post_time":"2021-05-28 16:59:43","like_diff":-8,"likes":2,"dislikes":10,"content":"还可以"},{"id":1428,"teacher_id":1516,"teacher_name":"金立","post_time":"2015-03-22 02:57:56","like_diff":-9,"likes":6,"dislikes":15,"content":"超级棒，给分高、课很精彩"},{"id":101038,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-27 09:53:07","like_diff":-10,"likes":1,"dislikes":11,"content":"虽然上课早，考试晚，平时上课很水，考前复习了一天就满了，开心?"},{"id":140756,"teacher_id":1516,"teacher_name":"金立","post_time":"2021-09-16 00:16:53","like_diff":-10,"likes":3,"dislikes":13,"content":"人很好"},{"id":77950,"teacher_id":1516,"teacher_name":"金立","post_time":"2018-05-09 02:51:20","like_diff":-11,"likes":2,"dislikes":13,"content":"老师讲的知识很多，很少有什么废话，很棒"},{"id":1206,"teacher_id":1516,"teacher_name":"金立","post_time":"2017-05-03 03:18:16","like_diff":-13,"likes":18,"dislikes":31,"content":"很好的老师，有个性，有点女生的傲娇和清高，学识渊博，有魅力！重点逻辑学导论是我第一门的满绩！"},{"id":170998,"teacher_id":1516,"teacher_name":"金立","post_time":"2023-03-14 02:42:04","like_diff":-14,"likes":3,"dislikes":17,"content":"啊?为什么分这么低?逻辑学导论讲的很精彩啊，至少作为一个数学系，对哲学有爱好的人来看讲的很不错，虽然还没结课不知道分给的怎么样..."},{"id":5242,"teacher_id":1516,"teacher_name":"金立","post_time":"2015-07-06 03:31:13","like_diff":-16,"likes":9,"dislikes":25,"content":"金老师是大美女"},{"id":95583,"teacher_id":1516,"teacher_name":"金立","post_time":"2019-01-19 15:51:25","like_diff":-27,"likes":1,"dislikes":28,"content":"男神！讲课超仔细！平时分给的贼高！超棒的老师！"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

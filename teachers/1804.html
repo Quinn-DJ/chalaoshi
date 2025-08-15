@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>包利民 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="包利民教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="包利民,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">包利民</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.86</div>
+                    <div class="rating-participants">107人参与评分</div>
+                    <div class="attendance-info">14.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">中西方哲学Ⅰ（H）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.51</span>
+                            <span class="students">选课: 49人</span>
+                            <span class="std-dev">标准差: 0.23</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">哲学问题</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.54</span>
+                            <span class="students">选课: 49人</span>
+                            <span class="std-dev">标准差: 0.38</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (88 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":26985,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-06-22 04:35:45","like_diff":63,"likes":70,"dislikes":7,"content":"一门结束了会让你后悔当年自己缺了课的课程。一位真正具有哲学家气质的大师。另外还遇到一位亲民又有思想的助教。不过最大的彩蛋在于，远离世俗的包老师为什么会说出动漫，秋叶原这种词汇？还有日本的二战航母，到底是怎样的游戏会让您对它们的名字这么熟练呢？\n\n"},{"id":8322,"teacher_id":1804,"teacher_name":"包利民","post_time":"2015-09-18 10:00:10","like_diff":52,"likes":53,"dislikes":1,"content":"他是我当前短暂人生中 见过最能思考的人"},{"id":25921,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-06-14 10:08:54","like_diff":49,"likes":51,"dislikes":2,"content":"转自豆瓣用户Lidia：\n\n我在浙大这四年的教育，回想起来，精华也就只有包利民的西方哲学了。到现在都怀念冬天寒冷而晴朗的课堂，包老师永远聚焦在远处的目光，智慧诚恳却又带点幽默的狡黠。如果智慧和人有气场，在浙大我所遇到的，便只有包一人。"},{"id":1511,"teacher_id":1804,"teacher_name":"包利民","post_time":"2015-03-22 08:57:01","like_diff":36,"likes":47,"dislikes":11,"content":"感觉水平不错，对西方政治哲学的理解比较深刻，上课比较有上哲学课的感觉，很有意思"},{"id":9550,"teacher_id":1804,"teacher_name":"包利民","post_time":"2015-10-30 03:41:15","like_diff":29,"likes":31,"dislikes":2,"content":"两个字总结的话，就是 高级 。有一定阅读基础之后听他的课，才明白字里行间的都有典可考，都是底蕴。 人很和蔼，让人有还选他别的课的意愿。"},{"id":25258,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-05-09 05:02:34","like_diff":27,"likes":29,"dislikes":2,"content":"想嫁给他\n\n"},{"id":2802,"teacher_id":1804,"teacher_name":"包利民","post_time":"2015-05-07 16:51:39","like_diff":25,"likes":29,"dislikes":4,"content":"引人思考，老师很温和，头发软软的，眼睛很空灵。整个课上下来很舒服。\n\n课后讨论虽然有些累，但真正锻炼了自己的思辨能力。\n\n冲击边界，强者自足。"},{"id":27285,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-06-24 12:18:54","like_diff":22,"likes":23,"dislikes":1,"content":"为什么写出这么牛逼的书的人却一点架子都没有？"},{"id":30472,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-07-01 16:21:01","like_diff":21,"likes":22,"dislikes":1,"content":"看了那么多，眼神还是那么清澈"},{"id":2211,"teacher_id":1804,"teacher_name":"包利民","post_time":"2015-04-08 14:43:13","like_diff":19,"likes":21,"dislikes":2,"content":"老师水平很高，引人思考"},{"id":31171,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-07-03 10:37:52","like_diff":16,"likes":18,"dislikes":2,"content":"我一个哲学屁都不懂的理科生通核都上四了，你们感受下。"},{"id":3196,"teacher_id":1804,"teacher_name":"包利民","post_time":"2015-05-20 07:20:56","like_diff":13,"likes":16,"dislikes":3,"content":"老师自身水平高。幽默风趣 会结合平时我们感兴趣的一些话题来探讨哲学问题。助教也很厉害。虽然课后讨论课有点累 但收获很多。"},{"id":48636,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-03-09 00:35:18","like_diff":13,"likes":18,"dislikes":5,"content":"讨论区恶竞太严重了"},{"id":2674,"teacher_id":1804,"teacher_name":"包利民","post_time":"2015-05-05 07:28:09","like_diff":12,"likes":14,"dislikes":2,"content":"很喜欢的老师，很有思想"},{"id":2911,"teacher_id":1804,"teacher_name":"包利民","post_time":"2015-05-11 02:47:02","like_diff":12,"likes":14,"dislikes":2,"content":"老师特别儒雅！思想特别包容！说话轻声细语萌萌哒～"},{"id":30845,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-07-02 15:50:58","like_diff":12,"likes":12,"dislikes":0,"content":"包老师感觉是一个很儒雅而且很有智慧的人。上课后曾有幸问过他一些问题，感觉从他的解释中真的让我学到了很多，很受启发。当然助教(柳老师)也是很儒雅很有智慧的，每一次讨论课都从不缺席，收获真的很多！因为他们，我一个理工男真正爱上了哲学。"},{"id":31007,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-07-03 06:01:54","like_diff":12,"likes":14,"dislikes":2,"content":"卧槽通核绝对师生恋啊，知道的全是4.5"},{"id":31070,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-07-03 07:44:15","like_diff":12,"likes":12,"dislikes":0,"content":"跟着包老师冲击边界……太爽了"},{"id":2914,"teacher_id":1804,"teacher_name":"包利民","post_time":"2015-05-11 03:05:47","like_diff":10,"likes":14,"dislikes":4,"content":"老师好可爱，助教也超棒，带我们冲击边界"},{"id":21952,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-03-02 01:53:36","like_diff":10,"likes":10,"dislikes":0,"content":"我爱您"},{"id":50959,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-06-30 11:28:35","like_diff":10,"likes":13,"dislikes":3,"content":"上老师的课是一种享受，作为理科生在老师的影响下开始喜欢看古典哲学，在课堂上与同学探讨亚里士多德、柏拉图、伊壁鸠鲁、斯多亚等人的思想。一学期收获了许多，也思考了很多以前不会想的东西。期中论文题目很有趣（明明是科幻小故事），考试也很灵活，自由度很大。老师很有深度又十分风趣，AI、电影、动漫各种梗信手拈来，还不忘每节课拿一杯麦斯威风度翩翩地走进教室，笔芯(*°∀°)=3"},{"id":54892,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-06-30 11:44:57","like_diff":10,"likes":15,"dislikes":5,"content":"不要以为评价好就能喜欢哲学，这是真话，上课发言积极也没用，你根本不知道自己为什么会低绩点。"},{"id":24359,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-04-30 02:09:48","like_diff":9,"likes":10,"dislikes":1,"content":"目前最喜欢的一门课，老师非常非常棒，大师风范，真正促使你思考，虽然课后讨论任务有点重，但是从中真的学到好多，听老师的课非常享受，感觉三观都得到了重塑～助教也很棒，讨论时和我们充分交流，大家写的东西都会认真看，超级赞～～"},{"id":28970,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-06-29 04:37:25","like_diff":9,"likes":9,"dislikes":0,"content":"一位看魔兽，看韩剧，懂鹿晗的紧跟潮流的老师，幽默又不失深度\n\n"},{"id":50118,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-04-30 03:05:17","like_diff":9,"likes":9,"dislikes":0,"content":"包包完全大大大男神！波波助教人也超级赞的！！日常事情其实挺多的包括人人网还有微信讨论。但是哲学不就是这样嘛，带着你冲击边界，带着你去思考很多你日常不愿意也不敢深想的问题～痛并快乐着～感谢两位老师嘻嘻～"},{"id":50126,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-04-30 04:01:01","like_diff":9,"likes":10,"dislikes":1,"content":"我之前从来没有亲眼见过这么有深度这么空灵的大儒，我也从来没有这么崇拜过一个老师。虽然看阅读材料写线上讨论期末复习等任务比较多（大佬们太厉害我也不敢怠慢），但这门课真的让我重新思考很多东西，颠覆了之前的一些“常识”。所以愿意认真对待愿意思考的墙裂推荐，最后会有不只是绩点的回报的～（想划水的慎选…）在这里表白包老师和助教老师٩(˃̶͈̀௰˂̶͈́)و都超级nice的人儿～总之很棒的一门课啦，能选上三生有幸～"},{"id":24369,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-04-30 02:53:45","like_diff":8,"likes":8,"dislikes":0,"content":"包老师的《古典政治哲学史论》真心棒！"},{"id":77536,"teacher_id":1804,"teacher_name":"包利民","post_time":"2018-05-06 10:44:02","like_diff":8,"likes":10,"dislikes":2,"content":"哲学需要有天分的人学，说真的事情很多，功课压力大的慎选。学自然能学到不少，但是真的累，给分我觉得一般"},{"id":29444,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-06-29 23:50:33","like_diff":7,"likes":7,"dislikes":0,"content":"从他嘴里说出来舰娘的瞬间我整个人都highl了"},{"id":48620,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-03-08 12:30:56","like_diff":7,"likes":8,"dislikes":1,"content":"助教小哥哥人很好哇，声音贼温柔～\n\n"},{"id":50127,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-04-30 04:04:13","like_diff":7,"likes":7,"dislikes":0,"content":"有没有11分？？？"},{"id":51389,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-06-04 09:55:33","like_diff":7,"likes":8,"dislikes":1,"content":"弱者寻求正义，强者追逐幸福。"},{"id":10720,"teacher_id":1804,"teacher_name":"包利民","post_time":"2015-11-23 03:17:21","like_diff":6,"likes":7,"dislikes":1,"content":"真的很棒 是真正的修人文的老师 脑残粉内心只有无尽的期待 期待重逢"},{"id":47944,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-02-27 11:50:30","like_diff":6,"likes":6,"dislikes":0,"content":"老师怎么可以这么潮～～～"},{"id":50480,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-05-03 05:56:16","like_diff":6,"likes":7,"dislikes":1,"content":"有启发、很儒雅、有时会偷偷想想老师生气是啥样？太温柔了想象无能呀"},{"id":83628,"teacher_id":1804,"teacher_name":"包利民","post_time":"2018-07-11 00:46:36","like_diff":6,"likes":6,"dislikes":0,"content":"给分……emmmm哲学课大家做好准备再选，我每周为了讨论课都准备很多，有些东西真的不理解，平时再加上其他科目的作业多，所以真的头疼，成绩最后也比较低，但是我尽力了，唉╯﹏╰"},{"id":21882,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-03-01 12:01:08","like_diff":5,"likes":6,"dislikes":1,"content":"真正的学者。"},{"id":24001,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-04-25 03:09:56","like_diff":5,"likes":5,"dislikes":0,"content":"好！碰到的不多的真正会关心每个学生的老师"},{"id":26570,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-06-20 06:50:00","like_diff":5,"likes":5,"dislikes":0,"content":"老师很好，讲课很深刻，只是课程有点深奥，工科的我听的有点懵逼，后来经常水手机。。。"},{"id":30835,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-07-02 15:20:58","like_diff":5,"likes":5,"dislikes":0,"content":"很棒！只要按照要求好好做，成绩不会差的，而且听课也有不少收获，老师和助教都很可爱！"},{"id":44995,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-01-18 18:19:47","like_diff":5,"likes":5,"dislikes":0,"content":"何其有幸！"},{"id":83599,"teacher_id":1804,"teacher_name":"包利民","post_time":"2018-07-10 18:20:25","like_diff":5,"likes":5,"dislikes":0,"content":"通核一句话：老师是真的好 助教是真的可怕 主观色彩极浓 让你怎么死的都不知道"},{"id":9847,"teacher_id":1804,"teacher_name":"包利民","post_time":"2015-11-11 03:59:33","like_diff":4,"likes":5,"dislikes":1,"content":"老师超级棒 很有文学气质 一定还选老师的课"},{"id":24423,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-04-30 13:33:44","like_diff":4,"likes":4,"dislikes":0,"content":"老师很渊博很温和很关爱学生\n\n能学到很多东西"},{"id":28591,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-06-28 10:41:31","like_diff":4,"likes":4,"dislikes":0,"content":"很有收获，好评"},{"id":79924,"teacher_id":1804,"teacher_name":"包利民","post_time":"2018-07-16 15:25:28","like_diff":4,"likes":5,"dislikes":1,"content":"只针对助教，上课一副苦瓜脸，随意布置作业，讲得又没有什么干货，有的问题更是在抬杠，就这样还抱怨我们不积极参与讨论，自己的工作都没有做好，论文我单独找他写了一篇其他同学都没有写的回复，我写了一下午，他匆匆扫了一眼，根本不回复我的问题，更让人无语的是他说我不服论文的给分就去找教务处，呵呵，你高兴就好，我也高兴以后再也不用听你那念悼词般的声音，希望以后的同学们慎选，运气好点不要碰到这个姓屠的助教。"},{"id":83159,"teacher_id":1804,"teacher_name":"包利民","post_time":"2018-07-10 00:34:35","like_diff":4,"likes":8,"dislikes":4,"content":"真的无语了，有史以来绩点最低的课，不喜欢哲学的千万别选，上课是一种煎熬。说实话，老师不错，助教真的不敢恭维，上课讨论的问题怪里怪气，真对哲学无感了。事情贼多，给分贼差。"},{"id":116730,"teacher_id":1804,"teacher_name":"包利民","post_time":"2019-09-14 07:40:07","like_diff":4,"likes":4,"dislikes":0,"content":"求问2019-2020开课吗？想选"},{"id":21881,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-03-01 11:47:29","like_diff":3,"likes":3,"dislikes":0,"content":"真的好"},{"id":28433,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-06-28 08:58:42","like_diff":3,"likes":3,"dislikes":0,"content":"睿智的学者"},{"id":31270,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-07-03 13:53:50","like_diff":3,"likes":3,"dislikes":0,"content":"老师思想深邃，善于引导，对古希腊哲学有自己独到的见解，而且讲话声音相当好听～还很潮～"},{"id":36905,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-11-16 12:20:54","like_diff":3,"likes":4,"dislikes":1,"content":"包老师的《古典政治哲学史论》真的太棒了！"},{"id":38703,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-12-15 05:51:20","like_diff":3,"likes":3,"dislikes":0,"content":"～～～"},{"id":49657,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-04-22 08:11:04","like_diff":3,"likes":3,"dislikes":0,"content":"翩翩君子，温润如玉"},{"id":54904,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-06-30 12:16:49","like_diff":3,"likes":4,"dislikes":1,"content":"超级喜欢老师，一个学期给我带来了很多思考，带着我们不断冲击边界hhh今年给分好像不怎么好没几个上4的 不过还是很感谢老师"},{"id":21883,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-03-01 12:00:36","like_diff":2,"likes":2,"dislikes":0,"content":"很好很好（现在只说得出这些）"},{"id":23036,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-03-16 10:31:42","like_diff":2,"likes":2,"dislikes":0,"content":"儒雅的老师"},{"id":25257,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-05-09 04:57:22","like_diff":2,"likes":2,"dislikes":0,"content":"hao"},{"id":30968,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-07-03 04:51:15","like_diff":2,"likes":2,"dislikes":0,"content":"彻底爱上政治哲学"},{"id":33781,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-09-21 14:20:53","like_diff":2,"likes":2,"dislikes":0,"content":"大哲，有思想"},{"id":50066,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-04-29 06:00:35","like_diff":2,"likes":2,"dislikes":0,"content":"最喜欢的老师～～"},{"id":50120,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-04-30 03:20:17","like_diff":2,"likes":2,"dislikes":0,"content":"老师超好这是真的！！\n\n思想深度"},{"id":50131,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-04-30 04:32:11","like_diff":2,"likes":3,"dislikes":1,"content":"过程可能有些苦涩，但结果不会让你失望，不论是现在还是未来。"},{"id":50151,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-04-30 11:20:56","like_diff":2,"likes":3,"dislikes":1,"content":"一开始就是被我男神老师安利来的，现在。。。呜呜呜男神对不住我要另寻新欢了  包老师真的讲超好!前面几次我没能理解他的想法，后来参与进去后就觉得自己的三观有被重塑的震撼!意思就是给了我另一个看世界的角度!!! 总之，真的想学点什么的话，选他没错的(/≧▽≦/)"},{"id":77306,"teacher_id":1804,"teacher_name":"包利民","post_time":"2018-05-04 13:08:04","like_diff":2,"likes":2,"dislikes":0,"content":"太累了"},{"id":84601,"teacher_id":1804,"teacher_name":"包利民","post_time":"2018-07-13 09:32:08","like_diff":2,"likes":2,"dislikes":0,"content":"老师真心很赞，但感觉助教水平不是太高，讨论课无法好好引导学生，还特别主观。期末前做了大量的准备，分数不太满意，很喜欢包老师的书，总之对哲学感兴趣的同学还是可以一试的。\n\n"},{"id":123958,"teacher_id":1804,"teacher_name":"包利民","post_time":"2020-06-17 16:15:52","like_diff":2,"likes":2,"dislikes":0,"content":"包老师是真的很好，上课好，给分也无敌好！非常的可爱～但是我真的不知道阿法狗有没有灵魂🐶"},{"id":150532,"teacher_id":1804,"teacher_name":"包利民","post_time":"2022-01-29 04:16:33","like_diff":2,"likes":2,"dislikes":0,"content":"坐标哲学问题，老师给分超级好超级好！（不要被评分标准吓到了）"},{"id":30913,"teacher_id":1804,"teacher_name":"包利民","post_time":"2016-07-03 02:36:16","like_diff":1,"likes":1,"dislikes":0,"content":"哲学的关怀 智慧的升华 谢谢包老师！"},{"id":50117,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-04-30 08:18:43","like_diff":1,"likes":4,"dislikes":3,"content":"老师很好很有思考，不过我还是没办法理解助教，到最后已经完全屏蔽了讨论群，也许是我没有哲学天赋吧。"},{"id":74744,"teacher_id":1804,"teacher_name":"包利民","post_time":"2018-03-05 11:18:19","like_diff":1,"likes":2,"dislikes":1,"content":"想嫁给她"},{"id":88832,"teacher_id":1804,"teacher_name":"包利民","post_time":"2018-11-09 10:30:40","like_diff":1,"likes":1,"dislikes":0,"content":"西方古典伦理精神——我大一修读的最好的一门通识课。"},{"id":98158,"teacher_id":1804,"teacher_name":"包利民","post_time":"2019-01-23 06:33:03","like_diff":1,"likes":1,"dislikes":0,"content":"每次在老师面前都有一种渺小的感觉…老师上课很有味道，简明易懂但却常常引起沉思\n\n每周两千字的讨论和各种阅读材料是有点痛苦，而且肥肠认真分数也并不高…但是认真学一定有收获\n\nanyway\n\n老师真的很好！！"},{"id":133676,"teacher_id":1804,"teacher_name":"包利民","post_time":"2021-03-03 13:56:03","like_diff":1,"likes":1,"dislikes":0,"content":"感觉其实很难懂，要花很多时间准备讨论，很考文科素养"},{"id":149598,"teacher_id":1804,"teacher_name":"包利民","post_time":"2022-01-16 06:54:59","like_diff":1,"likes":1,"dislikes":0,"content":"敲击好"},{"id":153113,"teacher_id":1804,"teacher_name":"包利民","post_time":"2022-04-25 15:15:27","like_diff":1,"likes":1,"dislikes":0,"content":"爱死这个男人了"},{"id":55261,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-07-01 06:40:53","like_diff":0,"likes":2,"dislikes":2,"content":"享受\n\n不舍得错过一个字"},{"id":75979,"teacher_id":1804,"teacher_name":"包利民","post_time":"2018-03-23 03:39:05","like_diff":0,"likes":1,"dislikes":1,"content":"很儒雅的老师，听他的课引人思考，对个人有启迪，对时代有诠释。"},{"id":79315,"teacher_id":1804,"teacher_name":"包利民","post_time":"2018-05-31 01:50:05","like_diff":0,"likes":1,"dislikes":1,"content":"体验超级超级好的老师!\n\n就感觉温温软软很佛系但是什么都知道的样子吧。"},{"id":80669,"teacher_id":1804,"teacher_name":"包利民","post_time":"2018-06-29 03:54:06","like_diff":0,"likes":2,"dislikes":2,"content":"最喜欢的老师 最感兴趣的通识 在自己喜欢的领域里遨游是一种怎样体验~"},{"id":135367,"teacher_id":1804,"teacher_name":"包利民","post_time":"2021-05-08 13:55:53","like_diff":0,"likes":0,"dislikes":0,"content":"包老师真的很好很好很好，上课认真对待就一定会有好成绩！"},{"id":150204,"teacher_id":1804,"teacher_name":"包利民","post_time":"2022-01-20 09:09:41","like_diff":0,"likes":0,"dislikes":0,"content":"给予我哲学的遐思"},{"id":140890,"teacher_id":1804,"teacher_name":"包利民","post_time":"2021-09-17 08:20:17","like_diff":-1,"likes":0,"dislikes":1,"content":"内容是好的，但是事多，上课恶竞，特别卷，非对哲学真心感兴趣的同学慎选"},{"id":150522,"teacher_id":1804,"teacher_name":"包利民","post_time":"2022-01-28 16:32:12","like_diff":-1,"likes":0,"dislikes":1,"content":"很棒的老师"},{"id":50487,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-05-03 06:31:16","like_diff":-3,"likes":4,"dislikes":7,"content":"很难学，但是给分很好"},{"id":54331,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-06-29 05:59:58","like_diff":-3,"likes":2,"dislikes":5,"content":"辩论课很精彩，完全不是为了辩论而辩论，而是引发学生思考，自由的冲击边界ᶘ ᵒᴥᵒᶅ"},{"id":52129,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-06-15 03:56:05","like_diff":-5,"likes":3,"dislikes":8,"content":"还行啊"},{"id":55260,"teacher_id":1804,"teacher_name":"包利民","post_time":"2017-07-01 06:36:18","like_diff":-6,"likes":4,"dislikes":10,"content":"我还能继续夸赞什么呢，能想到的赞词热评基本已经涵盖，本人基本没能看阅读材料但全心全意参与讨论，期中论文想了很久，但很不幸被热评命中好几节课没有认真听巨后悔，复习一下午考试写到卷子第七页中间，绩点4.2，一生推"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

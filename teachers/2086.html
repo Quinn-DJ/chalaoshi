@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>马成 - 化学系 - 浙大教评</title>
+    <meta name="description" content="马成教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="马成,化学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">马成</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">化学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.71</div>
+                    <div class="rating-participants">107人参与评分</div>
+                    <div class="attendance-info">26.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (1 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">有机化学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.43</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 1.06</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (94 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":182,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-06-03 14:58:37","like_diff":73,"likes":83,"dislikes":10,"content":"个人认为他是个很负责的老师，上有机会尽力让所有人听懂，偶尔幽默一下，不过上他的课看ppt灯关着节奏慢容易睡着"},{"id":6447,"teacher_id":2086,"teacher_name":"马成","post_time":"2015-07-14 04:10:09","like_diff":39,"likes":43,"dislikes":4,"content":"平时表现的十分傲娇，但是给分真是浓浓师生情！"},{"id":6620,"teacher_id":2086,"teacher_name":"马成","post_time":"2015-07-16 13:01:07","like_diff":29,"likes":33,"dislikes":4,"content":"老师讲的还是不错的。认真听可以听懂！不要弃疗啊孩子们…虽然姐姐最后是靠自己预习的……"},{"id":14943,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-01-11 06:58:07","like_diff":27,"likes":28,"dislikes":1,"content":"老师是好的，热爱化学，经常说，让我们来玩有机。可是我听不懂。。。。。。希望你们认真听，一定受益匪浅"},{"id":39796,"teacher_id":2086,"teacher_name":"马成","post_time":"2017-01-18 06:27:42","like_diff":26,"likes":42,"dislikes":16,"content":"马老师是一个很和蔼可亲，很好的老师。\n\n但是我想说的是，16-17学年秋冬学期的助教:刘翔，他真的是一个不折不扣的垃圾，嘲讽同学，甚至辱骂，对同学提的问题也是视若无睹，这样的垃圾助教是怎么让他选上的？一个助教毁掉一个教学班的故事"},{"id":2788,"teacher_id":2086,"teacher_name":"马成","post_time":"2015-05-07 08:50:12","like_diff":24,"likes":31,"dislikes":7,"content":"真的是一个国际化的老师，对于一个英语渣来说，不过上课讲的很细致，很多，给分还不错啊"},{"id":14657,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-01-08 06:19:36","like_diff":21,"likes":24,"dislikes":3,"content":"老师真的上的很认真，尽力想让所有人听懂，而且前期上课速度慢，很重视基础，很国际化很棒的老师！"},{"id":10458,"teacher_id":2086,"teacher_name":"马成","post_time":"2015-11-26 06:50:39","like_diff":19,"likes":21,"dislikes":2,"content":"基础太差了表示真的听不懂。。但反正就是很喜欢这个老师啊 负责又耐心"},{"id":38963,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-12-20 04:16:17","like_diff":16,"likes":16,"dislikes":0,"content":"最深的印象是下着雨，他脱了外套，上了一节课，去外面露天的两楼的过道上，淋着雨，抽着烟。"},{"id":177828,"teacher_id":2086,"teacher_name":"马成","post_time":"2023-07-05 03:10:29","like_diff":16,"likes":16,"dislikes":0,"content":"马爹上课还是非常不错的，逻辑性很强讲得也很清楚，就是对完全小白可能不是那么友好。缺点在于他好像不怎么省流，这对同学们的归纳总结能力提出了挺高的要求。小测都是自测题，认真做自测的话很容易；不看作业对错，只看交没交，而且作业和自测题最后都是可以补交的（他真的好好）。最后满了，感谢马爹的教导！"},{"id":2482,"teacher_id":2086,"teacher_name":"马成","post_time":"2015-05-04 13:10:14","like_diff":15,"likes":19,"dislikes":4,"content":"很负责的一个老师，经常提醒同学好好听"},{"id":9594,"teacher_id":2086,"teacher_name":"马成","post_time":"2015-11-02 11:15:46","like_diff":15,"likes":18,"dislikes":3,"content":"答疑很耐心，上课思维很活跃，不局限于书本，能学到真的东西"},{"id":17238,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-01-20 02:22:29","like_diff":15,"likes":17,"dislikes":2,"content":"好老师。上课经常来点小幽默，说接下来怎么玩怎么玩。就是上到关键地方音量突然变小，跟不上节奏的话容易弃疗"},{"id":65786,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-01-09 06:12:28","like_diff":15,"likes":16,"dislikes":1,"content":"我觉得马老师真的是超级可爱的老师啊!但是听他的课一定要预习，因为他会把很多知识联系起来讲，如果预习过的话，会有种“原来是这样”的感觉，但是不预习的话还是比较容易弃疗的，不过有机....这个....自己不努力老师再好也没用（捂脸）。选上马成老师的课很幸运啊!"},{"id":3883,"teacher_id":2086,"teacher_name":"马成","post_time":"2015-06-17 07:23:04","like_diff":13,"likes":22,"dislikes":9,"content":"我坐前排听了一个学期，什么都没听懂……对有机绝望了，最后两周靠自己救回来的。"},{"id":8106,"teacher_id":2086,"teacher_name":"马成","post_time":"2015-09-17 04:54:52","like_diff":13,"likes":14,"dislikes":1,"content":"课后给同学讲题很认真 很和蔼"},{"id":15718,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-01-16 07:36:41","like_diff":13,"likes":15,"dislikes":2,"content":"伟大的人格魅力"},{"id":72774,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-01-31 05:20:18","like_diff":11,"likes":11,"dislikes":0,"content":"首先 老师人很好 去问问题不会不耐烦 会很耐心的讲解 而且一语中的\n\n其次 上课前面很慢后面什么醇酚醚就很快了 一定要预习加复习 不然期末自己预习500+页是会gg的\n\n再次 作业不改 就是只看有没有做 反正答案大家都搞得到 马老师不把作业做的正确率放到评分系统中。他说对那些自己认真做但是错很多的同学来说不公平 个人认为 这真的 很 好。。。就是人格魅力\n\n从次 小测 哈哈 不存在 拖到最后做了一次 还有最后一次因为老师记错上课时间迟到了就打了水漂 \n\n最后 绩点还没出 紧张 考试结束老师笑眯眯的 。。。马老师不要给我考得好的错觉啊"},{"id":112476,"teacher_id":2086,"teacher_name":"马成","post_time":"2019-07-04 10:47:20","like_diff":11,"likes":11,"dislikes":0,"content":"烦请注意，有机化学课程，各位在学习过程可能处在一个坎上，务请费心，多花时间，掌握基本知识。"},{"id":73498,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-02-01 18:15:46","like_diff":10,"likes":10,"dislikes":0,"content":"把老师最开始讲的基础理解好，后面按着这个思路看下去就不难了。虽然上课还是经常会扯到一些跟考试没啥关系还听不懂的东西(ㅍ_ㅍ)认真负责还是没毛病的，中年大叔的感觉爆棚，挺亲切，给分也很好。 (*≧▽≦)"},{"id":18462,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-01-21 16:15:11","like_diff":9,"likes":10,"dislikes":1,"content":"思维很发散，难得的好老师，答疑也很认真负责，11:25下课经常答疑到12:30，人也很好，很关心同学们"},{"id":66478,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-01-17 02:39:13","like_diff":9,"likes":10,"dislikes":1,"content":"老师强我弱○|￣|_"},{"id":68585,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-01-23 11:47:43","like_diff":9,"likes":11,"dislikes":2,"content":"对不起马老师我一点都没有学，预习好可怕，我们明年再见！爱您❤ ❤ ❤ ！么么哒！\n\n马老师真的超负责！超好！就是我自己不争气！大哭！"},{"id":174041,"teacher_id":2086,"teacher_name":"马成","post_time":"2023-06-06 01:18:37","like_diff":9,"likes":9,"dislikes":0,"content":"“抬头看一看，迈开腿走一走，拜托拜托”"},{"id":16716,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-01-19 00:28:47","like_diff":8,"likes":10,"dislikes":2,"content":"老师讲课很好啊，基础讲的很扎实。人也挺好的，挺关心学生学习。"},{"id":71851,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-01-29 04:33:42","like_diff":8,"likes":8,"dislikes":0,"content":"老师人很和蔼，有问题都可以直接问他，不过课快得飞起，要注意平时好好复习啊。"},{"id":84017,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-07-11 23:35:44","like_diff":8,"likes":8,"dislikes":0,"content":"满分，绝对是满分！老师上课可萌了，也很负责，给分绝对浓浓师生情！"},{"id":111670,"teacher_id":2086,"teacher_name":"马成","post_time":"2019-07-02 13:20:02","like_diff":8,"likes":8,"dislikes":0,"content":"好可爱的mac老师！\n\n"},{"id":111973,"teacher_id":2086,"teacher_name":"马成","post_time":"2019-07-03 05:15:13","like_diff":8,"likes":8,"dislikes":0,"content":"mac老师微笑的表情真的好萌！"},{"id":112789,"teacher_id":2086,"teacher_name":"马成","post_time":"2019-07-05 03:13:16","like_diff":8,"likes":8,"dislikes":0,"content":"本以为有机药丸，但老师真的浓浓师生情啊！！老师讲课很认真，对学生的态度也很认真，好老师，绝对好老师。"},{"id":139797,"teacher_id":2086,"teacher_name":"马成","post_time":"2021-07-27 13:31:05","like_diff":8,"likes":12,"dislikes":4,"content":"永远听不懂他在讲什么"},{"id":13475,"teacher_id":2086,"teacher_name":"马成","post_time":"2015-12-28 08:25:35","like_diff":7,"likes":11,"dislikes":4,"content":"很负责的老师，上课节奏挺好的，睡着什么的纯粹因为自己睡得不够，给分什么的只能说有机东西太多很难记，老师讲的还是很清楚的"},{"id":16025,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-01-19 01:04:16","like_diff":7,"likes":8,"dislikes":1,"content":"好好学习"},{"id":22262,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-03-03 06:29:47","like_diff":7,"likes":8,"dislikes":1,"content":"上课认真听可以学到很多东西，但是不预习的话会跟不上节奏，好老师！"},{"id":23864,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-04-19 04:42:24","like_diff":7,"likes":8,"dislikes":1,"content":"真的很认真负责，上课讲的东西很能抓住重点，认真听得话绝对受益匪浅，大一碰到的最好的老师，没有之一！"},{"id":40110,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-12-29 07:58:22","like_diff":7,"likes":14,"dislikes":7,"content":"超级负责的一个老师，老师超级棒，但是助教有病啊= =没人教他怎么说话吗？可把他牛逼的，啧啧啧"},{"id":70602,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-01-27 09:32:25","like_diff":7,"likes":7,"dislikes":0,"content":"马成老师很棒，上课也很可爱，就是有时声音有点小。。总的来说，很棒的老师。"},{"id":109688,"teacher_id":2086,"teacher_name":"马成","post_time":"2019-06-18 11:38:00","like_diff":7,"likes":7,"dislikes":0,"content":"绝对满分，上化学不上老师的课，白来了浙大一趟。特别有趣，"},{"id":14519,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-01-07 11:13:20","like_diff":6,"likes":7,"dislikes":1,"content":"很好的老师。"},{"id":45110,"teacher_id":2086,"teacher_name":"马成","post_time":"2017-01-19 03:51:42","like_diff":6,"likes":7,"dislikes":1,"content":"很可爱的有机老师，听课的时候可以感受到他真的在自己的王国里玩得很开心，讲课节奏比较快，一走神就会拉下很多，不过毕竟有机内容这么多节奏应该都挺快的。很喜欢这个老师，给分也很棒"},{"id":66047,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-01-11 07:20:35","like_diff":6,"likes":7,"dislikes":1,"content":"真的真的真的真的超级好超级可爱的老师 不要因为有机的可怕而恐惧老师！"},{"id":73137,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-02-01 03:44:45","like_diff":6,"likes":8,"dislikes":2,"content":"老师很棒，讲课很细致，后面会稍微加快一点但要点清楚，最后还有合成的复习，对学生很耐心，助教们也很棒，重点是，老师给分真的是浓浓师生情啊！本来以及格为目标的人4.5飘过，虽然又被卡绩了∠( ᐛ 」∠)＿但马成真的真的是超级棒的老师啊！！"},{"id":73152,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-02-01 04:39:40","like_diff":6,"likes":6,"dislikes":0,"content":"nice，老师讲的超越课本"},{"id":73218,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-02-01 07:44:40","like_diff":6,"likes":6,"dislikes":0,"content":"有趣负责的老师，成绩说实话认真学不会差的"},{"id":75987,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-03-23 04:42:23","like_diff":6,"likes":6,"dislikes":0,"content":"大三老腊肉回来觉得是两年多来遇到的最好的老师了。"},{"id":87885,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-10-17 01:25:45","like_diff":6,"likes":6,"dislikes":0,"content":"very good！认真听就会有收获"},{"id":134322,"teacher_id":2086,"teacher_name":"马成","post_time":"2021-03-23 15:57:47","like_diff":6,"likes":6,"dislikes":0,"content":"讲得很透彻，会把知识联系起来，听他讲课很有收获，答疑也很耐心，是个认真负责亲切的老师。而且马老师好可爱啊哈哈哈哈！"},{"id":15184,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-01-12 13:25:41","like_diff":5,"likes":6,"dislikes":1,"content":"可以的"},{"id":44837,"teacher_id":2086,"teacher_name":"马成","post_time":"2017-01-18 11:11:24","like_diff":5,"likes":6,"dislikes":1,"content":"马成老师没得说，上课仔细，答疑也负责，助教真的真的很好 很热心的一个人，不要光看群里 真的负责任 给分真的好得感动 评价给满分 没毛病"},{"id":45755,"teacher_id":2086,"teacher_name":"马成","post_time":"2017-01-20 04:31:24","like_diff":5,"likes":5,"dislikes":0,"content":"好老师，给分高，讲的好"},{"id":65638,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-01-08 02:45:12","like_diff":5,"likes":6,"dislikes":1,"content":"很棒啊讲得。超级清楚   说没听懂的真是没听过丁代表的课"},{"id":18172,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-01-21 08:32:36","like_diff":4,"likes":6,"dislikes":2,"content":"很萌，有师生情"},{"id":27097,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-06-23 01:42:16","like_diff":4,"likes":5,"dislikes":1,"content":"得成哥，得永生。"},{"id":36819,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-11-16 06:51:57","like_diff":4,"likes":4,"dislikes":0,"content":"他的课会讲的很清楚，人也很有魅力"},{"id":39953,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-12-28 09:29:56","like_diff":4,"likes":5,"dislikes":1,"content":"很棒哦"},{"id":108195,"teacher_id":2086,"teacher_name":"马成","post_time":"2019-05-16 06:24:10","like_diff":4,"likes":4,"dislikes":0,"content":"讲课节奏不快，挺适合我的"},{"id":112868,"teacher_id":2086,"teacher_name":"马成","post_time":"2019-07-05 07:15:53","like_diff":4,"likes":4,"dislikes":0,"content":"有机选马成，浓浓师生情！"},{"id":118562,"teacher_id":2086,"teacher_name":"马成","post_time":"2019-10-28 13:28:54","like_diff":4,"likes":4,"dislikes":0,"content":"mac老师不在的日子，超想他！"},{"id":125409,"teacher_id":2086,"teacher_name":"马成","post_time":"2020-09-08 07:45:57","like_diff":4,"likes":4,"dislikes":0,"content":"人真的很好"},{"id":23871,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-04-19 07:32:45","like_diff":3,"likes":4,"dislikes":1,"content":"好老师，不解释"},{"id":34946,"teacher_id":2086,"teacher_name":"马成","post_time":"2016-10-27 02:41:03","like_diff":3,"likes":3,"dislikes":0,"content":"老师讲课真的超棒啊啊！这么难的有机只要认真听一定都可以听懂！最好的有机老师没有之一！"},{"id":44799,"teacher_id":2086,"teacher_name":"马成","post_time":"2017-01-18 09:14:14","like_diff":3,"likes":7,"dislikes":4,"content":"事实证明，助教刘翔之所以言辞犀利，不过是马老师为了压制班里的浮躁之风，给分上很照顾大家的，希望楼上议论助教的那位把评论改改掉。学弟学妹选上马成有机的，偷着笑吧，不说了，看物化去，毕竟有机物化必有一挂..."},{"id":65306,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-01-03 01:35:12","like_diff":3,"likes":4,"dislikes":1,"content":"张玉红的学生飘过，你们作为马成的学生知足吧，上张玉红的课就等着自学吧"},{"id":69454,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-01-24 16:46:13","like_diff":3,"likes":3,"dislikes":0,"content":"有机交卷时，马成老师站在门口对我的微笑让我产生了一种有机不会考的很差的错觉?"},{"id":75639,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-03-14 11:24:58","like_diff":2,"likes":7,"dislikes":5,"content":"嘴巴很大，鼻孔很大，上课手舞足蹈，天马行空"},{"id":112759,"teacher_id":2086,"teacher_name":"马成","post_time":"2019-07-05 02:36:20","like_diff":2,"likes":5,"dislikes":3,"content":"有机化学，我属于全程边玩手机边听讲那种，我觉得我上课这么做，挺对不起老师的，，，mac老师真的特有趣的，笑起来很有特点，上课也很舒服。。\n\n至于课程难度，，我觉得还好吧，只要每次作业按时完成（其实我每次都是直接抄的答案hhh），小测其实也只是用来签到而已，最后要考试了用了一天时间把整本书看了一下，PPT看了一点，我觉得期末考的还挺简单的，我一个电气学生最后总评还拿了80多分，，hhh"},{"id":114834,"teacher_id":2086,"teacher_name":"马成","post_time":"2019-07-12 01:34:51","like_diff":2,"likes":3,"dislikes":1,"content":"ppt很特别，内容适度"},{"id":125754,"teacher_id":2086,"teacher_name":"马成","post_time":"2020-09-14 03:35:39","like_diff":2,"likes":3,"dislikes":1,"content":"感谢mac老师海底捞救我一命"},{"id":177341,"teacher_id":2086,"teacher_name":"马成","post_time":"2023-07-03 03:17:52","like_diff":2,"likes":2,"dislikes":0,"content":"课上的真的不错，但感觉对化学实力还行的同学来说会更合适，小白会有点痛苦。据说是很捞的，但是这个应该也看概率，本人应该是没被捞"},{"id":177347,"teacher_id":2086,"teacher_name":"马成","post_time":"2023-07-03 03:24:57","like_diff":2,"likes":2,"dislikes":0,"content":"马成老师嘴硬心软"},{"id":6591,"teacher_id":2086,"teacher_name":"马成","post_time":"2015-07-16 03:34:01","like_diff":1,"likes":2,"dislikes":1,"content":"嗯"},{"id":45184,"teacher_id":2086,"teacher_name":"马成","post_time":"2017-01-19 06:09:17","like_diff":1,"likes":1,"dislikes":0,"content":"老师很不错，强调理解，但就是ppt弄的有些让人发困"},{"id":136532,"teacher_id":2086,"teacher_name":"马成","post_time":"2021-06-20 09:49:13","like_diff":1,"likes":2,"dislikes":1,"content":"老师真的人很好，讲课特别棒，有一点点严厉，也是对大家都很期待，只是有机真的太难，我真的太菜了QAQ"},{"id":156590,"teacher_id":2086,"teacher_name":"马成","post_time":"2022-06-20 11:00:26","like_diff":1,"likes":1,"dislikes":0,"content":"马老师，是个很负责也很严厉的老师。"},{"id":175080,"teacher_id":2086,"teacher_name":"马成","post_time":"2023-06-21 12:15:07","like_diff":1,"likes":2,"dislikes":1,"content":"老师真的很负责，人很好"},{"id":195549,"teacher_id":2086,"teacher_name":"马成","post_time":"2024-06-28 17:31:27","like_diff":1,"likes":2,"dislikes":1,"content":"马老师的课确实有点不适合小白，上课建议要提前预习，但马老师水平很高，能带你理解有机的本质，不过有机考试的内容比书本内容会简单很多，应付考试比较简单，但是想真正学明白有机，内容应该是远超过相同4学分的课程。\n\n马老师不会用线上点名，一般都是线下交纸质课堂问题来点名，还是蛮频繁的。\n\n马老师自己还是很可爱的（笑） \n\n好老师！10分奉上，感谢一学期的教导（比心）"},{"id":43174,"teacher_id":2086,"teacher_name":"马成","post_time":"2017-01-16 08:36:37","like_diff":0,"likes":3,"dislikes":3,"content":"老师很好，助教刘翔也很好！可能是因为他qq上的语言比较..直接，有点不开心。后来答疑的时候很热心的过来问我有没有问题！"},{"id":44811,"teacher_id":2086,"teacher_name":"马成","post_time":"2017-01-18 09:30:14","like_diff":0,"likes":2,"dislikes":2,"content":"老师真的是亲人啊...师生情很浓，而且上课很有味道，听起来也很舒服，学不好只能怪自己。还有就是为助教洗下冤..."},{"id":58811,"teacher_id":2086,"teacher_name":"马成","post_time":"2017-09-18 02:42:47","like_diff":0,"likes":2,"dislikes":2,"content":"很爽欲仙欲死"},{"id":71749,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-01-29 02:28:46","like_diff":0,"likes":2,"dislikes":2,"content":"唔两三次小测拖着拖着拖到期末然后测了一次没了……"},{"id":73146,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-02-01 04:22:58","like_diff":0,"likes":0,"dislikes":0,"content":"有点深奥"},{"id":85876,"teacher_id":2086,"teacher_name":"马成","post_time":"2018-08-25 00:32:14","like_diff":0,"likes":2,"dislikes":2,"content":"个人认为，老师很棒，无论是学科能力还是对学生的态度。但是，有时候课慢得让我想睡觉?"},{"id":112790,"teacher_id":2086,"teacher_name":"马成","post_time":"2019-07-05 03:13:38","like_diff":0,"likes":3,"dislikes":3,"content":"满绩+1，\n\n马老师上课很认真也很有技巧，基本只要认真地跟着他走挂是不会挂的。\n\n看起来很严厉其实对学生真的很好，会耐心地解答问题，也会在期末捞你一把。\n\n有机选马成，没错的"},{"id":125683,"teacher_id":2086,"teacher_name":"马成","post_time":"2020-09-13 04:20:35","like_diff":0,"likes":4,"dislikes":4,"content":"永远听不懂他在讲什么"},{"id":157191,"teacher_id":2086,"teacher_name":"马成","post_time":"2022-06-22 08:29:06","like_diff":0,"likes":0,"dislikes":0,"content":"mac老师嘴硬心软！"},{"id":195545,"teacher_id":2086,"teacher_name":"马成","post_time":"2024-06-28 17:24:15","like_diff":0,"likes":1,"dislikes":1,"content":"老师人还不错，确实比较刀子嘴豆腐心，某些处事风格有点逆天（比如上课不让玩手机）。上课会让你把课堂某一部分内容写下来交上去作为点名。讲课很不基础且非常枯燥无聊，全靠自学。给分比较求是，考多少给多少，不捞。"},{"id":195569,"teacher_id":2086,"teacher_name":"马成","post_time":"2024-06-28 23:32:35","like_diff":0,"likes":1,"dislikes":1,"content":"Mac老师真的是一位很负责任的教师。如果你和他在钉钉上有沟通交流，他整个学期都会一直关心你的成绩，提醒你测试中出现的问题。说话虽然听起来凶凶的，但是又带着一种反差萌。"},{"id":180903,"teacher_id":2086,"teacher_name":"马成","post_time":"2023-09-28 03:56:20","like_diff":-1,"likes":3,"dislikes":4,"content":"差 上的一点也不好"},{"id":181436,"teacher_id":2086,"teacher_name":"马成","post_time":"2023-10-17 15:27:56","like_diff":-1,"likes":4,"dislikes":5,"content":"嘴碎，讲得听不懂还必须要一定来听他讲，对比过之后真的感觉讲的不太行，底子差同学慎重！"},{"id":193089,"teacher_id":2086,"teacher_name":"马成","post_time":"2024-06-03 11:06:28","like_diff":-1,"likes":0,"dislikes":1,"content":"就这样"},{"id":41735,"teacher_id":2086,"teacher_name":"马成","post_time":"2017-01-18 06:45:24","like_diff":-2,"likes":2,"dislikes":4,"content":"楼上的说猪脚不好的，肯定是你们平时不交作业，又不来上课的，刘翔猪脚是非常负责的，作业记录的很详细，对于平常不交作业的的确经常在群里教育，但都是为了你们好，答疑的时候，猪脚很耐心，很有趣，你们肯定没来"},{"id":41778,"teacher_id":2086,"teacher_name":"马成","post_time":"2017-01-12 14:21:02","like_diff":-5,"likes":3,"dislikes":8,"content":"马老师是个很好的老师 助教刘翔也是个很好的助教 虽然有些话比较不好听，但是说话直接一点激励你们学习难道不好吗？你凭什么就靠这几句话评判别人？ 我帮助教干过活有一点接触 助教是个很好的人 。"},{"id":593,"teacher_id":2086,"teacher_name":"马成","post_time":"2015-03-15 06:17:00","like_diff":-12,"likes":15,"dislikes":27,"content":"感觉学生问他问题并不是很认真解答"},{"id":12609,"teacher_id":2086,"teacher_name":"马成","post_time":"2015-12-23 15:20:15","like_diff":-12,"likes":3,"dislikes":15,"content":"我觉得他的中文我听起来很困难，还有一开始讲的就太深入了，后来一直没跟上。最后两周速成的"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陈列 - 公共体育与艺术部 - 浙大教评</title>
+    <meta name="description" content="陈列教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="陈列,公共体育与艺术部,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">陈列</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">公共体育与艺术部</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.88</div>
+                    <div class="rating-participants">490人参与评分</div>
+                    <div class="attendance-info">24.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (4 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">打开艺术之门——钢琴</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.40</span>
+                            <span class="students">选课: 329人</span>
+                            <span class="std-dev">标准差: 0.46</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">艺术实训与展演——钢琴Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.56</span>
+                            <span class="students">选课: 13人</span>
+                            <span class="std-dev">标准差: 0.33</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">西方音乐简史</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.35</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.54</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">视唱练耳</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.29</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.71</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (427 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":70527,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-01-27 00:48:26","like_diff":205,"likes":221,"dislikes":16,"content":"看到评论都是西方音乐简史，对于视唱练耳的介绍都很少，那么我来说说刚上完这门课的感觉。首先这门课相对来说不水，上课没有课间休息，在音乐教室也写不了作业，但是同样的，你如果每节课都听了，能收获不少的音乐基础知识。其次，这门课里文琴大佬真的多，你平时上课可能觉得各种被碾压，尤其是唱五线谱的时候，及听写的时候，但是（敲重点），考试考的十分简单，即便是我这种小白，也就是上课听听，下课不会再去背的人，也拿了4.2，老师给分也是很好的。最后讲下考试的方式，平时分的话老师会每次课随机名单抽大概7，8个人，背一下五线谱（谱子都是前一次课上教了的且要求背的），然后最后考试由笔试和口试组成，笔试需要背大小调，听写谱子（就是老师弹琴你写谱子），听写大小三度（音程关系），还有构和弦。口试的话就是考前老师会把你需要背的谱子发给你（都是平常要求背的谱子），然后随机抽一首让你背，另外会给你一个新谱子，现场唱出来，当然这个新谱子简单的一匹，我这种零基础的小白都唱出来了。建议平常要求的背的谱子可以上课的时候用手机录下来，回寝室再多听听，很容易就背下来了。以上就算是我的一些经验了，怎么说的，比起我当时对这门课一无所知的情况，我写的内容已经算是比较全了。希望能帮助到大家！"},{"id":30389,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-07-01 13:05:01","like_diff":79,"likes":158,"dislikes":79,"content":"想告诉那些说“给分不好”的朋友们，事实上，你觉得自己论文认真写了，也只是你认为而已。质量如何，需要与其他同学比较，也需要更专业的认知。毕竟，认真不等于高回报，你们觉得呢？"},{"id":21807,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-12-21 06:42:31","like_diff":75,"likes":96,"dislikes":21,"content":"老师，做我女朋友吧"},{"id":10776,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-11-23 05:03:58","like_diff":54,"likes":138,"dislikes":84,"content":"说真的老师人是很好课也有趣作业也不多，所以我也认真完成认真听辩认真写论文了啊！但是最后给了我一个3.2是几个意思。我发誓没翘过课没敷衍作业听辩两次也只错了一个"},{"id":1301,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-03-21 18:15:27","like_diff":41,"likes":66,"dislikes":25,"content":"钢琴真的是信手拈来，女神又是逗比。"},{"id":13058,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-12-24 16:17:38","like_diff":38,"likes":62,"dislikes":24,"content":"没有音乐感觉的孩子还是别选的好，学长就是被正态的那个"},{"id":50025,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-04-28 15:27:23","like_diff":32,"likes":41,"dislikes":9,"content":"1.希望大家理智一点 那些说胡乱给分的也不一定能代表大多数情况。我说一个我的个人情况 第一次听辩我认为自己全对 交上去之前拍了张照片 对答案发现自己错了 错别字 比如勃兰登堡协奏曲写成波兰登堡。所以以为自己听辩全对的 有没有可能只是以为呢？\n\n2. 关于文章 以为自己认真写的 你花了几个小时呢？你查阅了多少资料呢？老师有一次对我们说 很多同学写的雷同 比如认为杰奎琳的大提琴声像二胡 这个是某个乐评里的话 你自己真的这么认为吗\n\n3. 老师还是很厉害的 演奏水平让人赞叹 知识丰富 算是给我这个以前完全不感冒古典音乐的人启蒙 还是很感谢的\n\n4. 能学到知识 能享受音乐最重要 这样想嘛 就算你预估4.2 结果3.3 算一个学期25分 也拉不了多少均绩 而且这个课真的很水很轻松 也还比较划算啦"},{"id":12111,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-12-22 00:55:46","like_diff":26,"likes":48,"dislikes":22,"content":"老师特别棒。。。然而不懂分是怎么打出来的"},{"id":24119,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-04-27 13:58:50","like_diff":22,"likes":31,"dislikes":9,"content":"听老师上课特别享受，很有趣，上课几乎不想串门写作业，听宗教音乐很陶冶性情，老师弹琴也弹的特别棒，给分还可以，我没展示最后分数也很好，建议同学们听辨的时候一定要写全，出处第几乐章最好都要写出来，小论文一定要有自己的看法。总之上完老师的课感受就是，还想再上一个学期的，大爱啊。"},{"id":106457,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-27 14:20:22","like_diff":21,"likes":23,"dislikes":2,"content":"作为西方音乐简史和视唱练耳都选了并且都拿到很满意的分数的来说几句233.\n\n西方音乐简史相对而言比较“水”，考核方式是2次听辨+1篇期末短文+1次签到。基本按西方音乐发展的顺序讲课，从公元前讲到20世纪，确实是很好的古典音乐启蒙。听辨会在课上介绍过的曲目里面抽15首给大家准备，测试的时候15选10播放。期末论文大概会是介绍一个音乐家的视频，然后谈一下感受，限一张A4（双面），只要写出了你自己的感受，给分就不会差。\n\n而视唱练耳则完全不“水”，主要是基础乐理的内容，包括：（1）2个升降号以内的大小调音阶；（2）音程的书写，大小2.3.6度、大小三和弦的构造，简单的和弦进行，会有听辨以上音程的练习；（3）节奏上要求掌握十六分音符以内的各节奏型，会有听写节奏型的练习；（4）视唱方面，每周两条练习，一条16小节，要求唱熟。考核方式是：（1）视唱抽背。第3周开始抽背，每个人都会轮到一次；（2）期末笔试，在倒数第2次课，考所有课上讲过的内容。会有30%左右是听力题。（3）期末口试，在最后一次课。老师会提前圈出8条布置过的视唱，考试时抽背其中一条。同时还会有一条简短的视唱，当场准备当场唱。\n\n至于老师本身，大概是女神级别的存在~春学期来代课的陈曦老师也非常棒，讲课也很有趣~真的强推！！！"},{"id":4961,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-07-01 14:39:24","like_diff":20,"likes":37,"dislikes":17,"content":"人又漂亮课又好！老师课上会演奏哦～"},{"id":50220,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-05-01 12:13:43","like_diff":19,"likes":22,"dislikes":3,"content":"其实，西方音乐简史的小论文，老师只是想让我们写出自己真实的想法，有自己独立的思考。"},{"id":10522,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-11-26 05:24:10","like_diff":17,"likes":67,"dislikes":50,"content":"马勒戈壁，不知道怎么评分的"},{"id":18237,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-21 10:18:24","like_diff":16,"likes":25,"dislikes":9,"content":"如果不在意成绩的话，还是值得选的~"},{"id":41942,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-01-13 09:43:41","like_diff":16,"likes":22,"dislikes":6,"content":"怎么说……有基础可以用来刷绩点，没基础帮别人刷绩点，大家自己慎重"},{"id":10089,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-11-15 15:06:48","like_diff":14,"likes":26,"dislikes":12,"content":"推荐喜爱西方音乐的人去，挺好的"},{"id":11187,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-11-25 05:57:59","like_diff":12,"likes":37,"dislikes":25,"content":"感觉还是可以的 ，但是给分实在不太懂...建议展示课尽量要上"},{"id":15876,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-06-10 02:43:41","like_diff":12,"likes":25,"dislikes":13,"content":"真的不知道分数是怎么给的"},{"id":18012,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-21 05:58:15","like_diff":12,"likes":24,"dislikes":12,"content":"平时讲课还可以，但是最后的给分不太公道，略坑。"},{"id":105623,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-17 11:12:51","like_diff":12,"likes":12,"dislikes":0,"content":"在没有出分前先来评价一下??\n\n上这门课不仅可以学到很多知识，更是音乐美感的启迪课。\n\n不过有同学选课的目的就是为了水，我也不做什么评价。\n\n听辨是扎扎实实地把东西注入脑子里，可能很久之后不记得那些著名的音乐家和那些风格，但是在不同场合遇到这些音乐时，至少可以说：这是我的听辨曲目！两个星期沉浸在古典音乐的世界中，仔细聆听乐曲中什么特征可以便于自己推断出篇章曲目，让我更贴近了这些我曾以为难以接触的音乐，但其实每个人都有欣赏的权利。有个夜晚竟还流连于b站中的各种演奏《钟》的特效钢琴视频中......\n\n非常感谢陈列老师，给了半学期美的享受！西方音乐简史无疑是繁重压力中的最令人期待的课！"},{"id":136709,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-06-23 08:41:55","like_diff":12,"likes":13,"dislikes":1,"content":"西音史最后一节课，老师第一次正式地完整演奏一首曲目——柴可夫斯基的《六月船歌》——听完时发现自己已经双眼模糊，不知是不舍还是感动…"},{"id":6231,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-07-12 07:41:53","like_diff":11,"likes":40,"dislikes":29,"content":"上课生动有趣时而逗比，专业知识钢琴演奏水平都没话说！给分的话，她布置的作业不多，只要按要求完成，分数都不会让你失望的～"},{"id":19388,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-24 05:01:58","like_diff":11,"likes":18,"dislikes":7,"content":"老师很好，但给分。。。每次课都去听辩全对，签到都签了，论文也认真写了，结果被正态了"},{"id":24172,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-04-28 04:41:01","like_diff":11,"likes":14,"dislikes":3,"content":"说真的，给分真是搞不懂，是个坑，就看运气的"},{"id":42332,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-01-14 04:43:07","like_diff":11,"likes":14,"dislikes":3,"content":"老师 超美 也很平易近人❤️❤️ 视唱练耳  有音乐基础的人学起来会很轻松 但是没有的人也可以试试啊 至少能懂五线谱哇?? 给分我是挺满意的诶嘿嘿嘿"},{"id":83047,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-07-09 14:16:35","like_diff":11,"likes":11,"dislikes":0,"content":"虽然可能没机会选上老师的西方音乐史了，但是老师的视唱练耳确实很棒很棒。虽然它的难度可能对于没基础的太难，对于有基础甚至有绝对音高的又太简单，但是老师真的在尽量面面俱到了，当然，给分这方面，我这种有基础的还是闭嘴吧（但是她就是我女神，不接受反驳，想看每一场老师的音乐会）\n\n至于上课内容和进度，个人认为还是比较合适的，想认真打音乐基础的话，音阶，音程，节奏这些基础知识肯定是要掌握的，所以每次课都会着重提及。音阶会讲到2个升降号的大小调，音程主要是构2.3.6度，外加一个大小三和弦。还会有各种各样的听力训练（不然叫什么练耳嘛），其实就是培养节奏感和相对音准。每次课会有2条视唱，2周之后点名抽背（每个人至少抽到一次）。考试的话，口试是抽背一条学过的+当场视唱一条很简单的，笔试的话涉及以上内容吧。讲真即使我以前乐理底子也算不错，但是还是学到了很多新的东西。以上。"},{"id":171110,"teacher_id":194,"teacher_name":"陈列","post_time":"2023-03-16 05:14:15","like_diff":10,"likes":11,"dislikes":1,"content":"上了陈老师的视唱练耳，虽然大家都在推荐陈曦老师，但是陈列老师也特别好！强烈推荐！选到就是赚到！世界顶级音乐学院的钢琴高才生，点名的话印象中只在线上点过一次（视唱练耳这么有意思的课不会不来把呜呜），温柔耐心，课程有趣，感受良好！小白认真学也能上，还是再考虑一下吧，毕竟五线谱介绍和认音讲得很快，前期有人退出；内容对于学过五线谱的同学来说十分轻松（毫无压力），即使对乐理毫无了解也特别简单；不过两位陈老师好像在编一本教材，所以之后课程难度不敢保证（应该不会有太大区别）。考前复习划重点。感谢陈老师！喜欢陈老师！忠于陈老师！\n\n至于作业最高分95分，老师解释过自己认为人的视唱是不可能达到完美的，所以视唱打不了满分，最多95分。作业挺少也挺简单，考试也很简单。\n\n这门课不教“歌唱技巧”，唱为辅，不要误解哦。\n\n\n\n另外，感谢陈老师给了我大学以来第一个满绩。"},{"id":16641,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-18 14:59:10","like_diff":9,"likes":24,"dislikes":15,"content":"我觉得听测大家基本应该都满分吧这也拉不开 要么就是展示有加分 然后论文可能老师的评判标准和你自己想的有差吧 也别都冲着给分来啊 我没展示最后4.2也就这样吧"},{"id":41931,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-01-13 16:09:49","like_diff":9,"likes":14,"dislikes":5,"content":"老师很厉害，弹钢琴超棒！平时有两次听辨测试，期末写一篇双页A4纸的小论文，压力不大，上课轻松，好好准备测试和论文，分数还是不错哒 ?91分～ 讲真不一定要有乐理基础的，我也没有，主要还是测试要好好做，论文写出自己的观点，分数不会差的～平时上课其实很水，自己也没怎么听过，我也没去参与展示 ?"},{"id":80059,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-06-19 10:19:51","like_diff":9,"likes":11,"dislikes":2,"content":"视唱练耳课总觉得比较尴尬。对于有基础的同学来说太过简单，对没基础的同学…emm…上完一个学期能把课铃的谱子扒出来就已经很不容易了。虽然老师懂的很多很多，但上课总是讲得很基础(可能为了照顾大多数人？)，并且拓展也很少。想上完这门课就去扒谱的同学，我想说…那根本不可能，还差太远。想音乐入门的同学，本课也不太适合，还是选其它音乐鉴赏类的课吧。"},{"id":110277,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-06-25 09:26:22","like_diff":9,"likes":10,"dislikes":1,"content":"西方音乐简史，难得的事少还给分好的课。两次听辨稍微准备下，论文写出自己的真情实感就好，也不用多么华丽有文采，分不会差的。最后，抛开分数，陈列老师真是又美又有才，钢琴弹的超棒，选上的小伙伴偷着乐吧hh"},{"id":149730,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-01-16 14:50:54","like_diff":9,"likes":9,"dislikes":0,"content":"课程：西方音乐简史\n\n打分：10/10\n\n这门课是从古希腊开始介绍西方音乐，比较适合零基础入门（有基础的可能会觉得无聊？），有1次听辨（20选10）+2篇作文（1篇假想音乐会，1篇观后感）+3次小作业（每次10个小问题，题量=10道填空题）\n\n以及作为一个萨列里粉对老师介绍莫扎特顺带一提提到的萨老师的形象不太满意（？）（大概就是一般路人对萨列里的误解形象，多多大哭.jpg）\n\n老师是真得女神，最后给我们演奏了老贝的《月光》第三乐章（疫情期间答应的，好久没提我都以为她忘掉了555结果最后一节课弹了，大感动）德彪西的《月光》（对不起钢琴选手只能想到被那一连串升降号恶心的感觉而不想对德彪西的《月光》做什么评价）老柴的《六月船歌》（我永远喜欢柴可夫斯基——）。\n\n差点忘了，助教人超好！最后听辨前提醒我们要注意写乐章名，而且是零学家！（如果你能很慢地找到一个零学家，那么你就能很快地找到一个零学家，缺德.jpg）"},{"id":152982,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-04-23 04:25:55","like_diff":9,"likes":9,"dislikes":0,"content":"上的是2022年春学期的西方音乐简史，考核体系是三次小作业占比15%（完全无压力，基本可以全员拿满），考勤占比5%，假想音乐会介绍（包含三首不同风格、不同时代的古典音乐，规定行距和字体字号，不超过一页A4纸）占比30%，《从毛泽东到莫扎特——艾萨克·斯特恩在中国》纪录片观后感占比35%，听辨测试占比15%。看着多，其实事情挺少的，写出真情实感，分数一定不会差的\n\n上课内容方面，课程框架建构得很合理，从古希腊一直讲到斯特拉文斯基，一学期下来可以学到很多，能够对西方音乐史有一个较为整体的了解。上课时老师经常会放演出视频，或者亲自为我们弹钢琴，可以说每节课都是美的享受。同时，老师有时还会稍微提及一些形而上的艺术哲学内容，帮助我们更好地了解艺术的本质。\n\n总而言之，该课程是一门绝佳的美育课，强烈推荐同学们选择。"},{"id":169897,"teacher_id":194,"teacher_name":"陈列","post_time":"2023-02-28 08:59:12","like_diff":9,"likes":9,"dislikes":0,"content":"究竟是怎样的运气，能让我上到陈列老师的课。\n\n没有音乐基础确实硬核，但是陈老师无论是教学、还是人格与气质，都让学生倾倒。"},{"id":177148,"teacher_id":194,"teacher_name":"陈列","post_time":"2023-07-02 01:56:39","like_diff":9,"likes":12,"dislikes":3,"content":"《西方音乐简史》，每周最喜欢的课。老师特别温柔，弹琴的时候仿佛有光环围绕着。不提倡恶性竞争，文章规定字数上限，量一点不大。我没有什么音乐基础，写的基本上都是大白话，但是是认真写的，老师仍然给予了我非常高的分数。好希望有生之年能够再选上老师的课啊！"},{"id":16813,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-19 04:24:09","like_diff":8,"likes":28,"dislikes":20,"content":"绩点只有3.3，这老师也是醉了，给发超差。呵呵哒，不如不选。"},{"id":16861,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-19 05:57:40","like_diff":8,"likes":12,"dislikes":4,"content":"交作业就是点名啊 还有给分不知道是怎样竟然这么低 课堂展示了会好点的 那个论文真是 只能说一定要按她要求来(包括主题) 没什么好自由发挥的"},{"id":24352,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-04-29 23:21:38","like_diff":8,"likes":13,"dislikes":5,"content":"听辨挺好的，两次加起来只错一个，展示也参加了，还给了我奖品，论文也按照要求，最后3.4，呵呵"},{"id":32570,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-07-08 00:39:28","like_diff":8,"likes":9,"dislikes":1,"content":"冲着老师上课视频里放了美美的阿姐我要给满分……（迷妹脸）"},{"id":97771,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-22 15:46:14","like_diff":8,"likes":9,"dislikes":1,"content":"怎么说，能在青春年华遇见这样一位好老师，真的是一件非常幸运的事。18秋冬学期上的视唱练耳，刚开始是抱着自己有一定基础想来刷刷分的，但很多知识遗忘得一干二净跟小白一样，是跟着老师一步一步找回基础、重新培养乐感的。考试很少，课程轻松，每节课后都需要复习但花费的时间并不是很多。每个人都有一次抽背算过程分，抽背的内容一般给你一到两周的复习时间。期末考分笔试和口试，笔试的内容都是课上的内容重点（老师考前还会专门一节课来模拟测试，据此还会调整期末考试难度），口试的内容也有范围限定➕一条非常简单的现场识谱（零基础都会）。上课还会让我们欣赏一些名曲名段。给分的话也非常好，不看我自己，就提18级的这次课，均绩4.17，谁选谁知道，有付出、真的有收获。真的，我要吹爆我温柔善良可爱专业知识丰厚的陈列姐！"},{"id":110230,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-06-25 00:49:57","like_diff":8,"likes":8,"dislikes":0,"content":"西方音乐简史超级棒！写一点感想吧。1.小论文真的不用非常专业，甚至不需要查阅太多资料，写出自己真实的音乐感受才是重要的 2.听辩好好做，不难的，给的曲子都是相当有名的，不算太难记。3.上课的内容很充实，老师钢琴弹得超棒，知识水平也非常高。无论是否喜欢古典音乐，这个课都是值得一听的。4.给分我觉得比较好，我的听辩也没有全写对，论文自我感觉一般吧，但最后绩点还是令人满意的\n\n  总之，吹爆陈老师！"},{"id":110233,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-06-25 01:00:48","like_diff":8,"likes":9,"dislikes":1,"content":"我爱陈列！"},{"id":131252,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-01-27 00:23:55","like_diff":8,"likes":9,"dislikes":1,"content":"开森开森，视唱练耳满了\n\n先讲老师的气质好了，老师弹钢琴出身，根正苗红的上音人，这本身就是对气质的完美塑造！每次弹钢琴的时候你都能感受到别样的陈列老师，专注沉醉，优雅知性。今年欣赏了老师的《平湖秋月》和《船歌》，还有两次音乐会上的演奏，莫大之荣幸！\n\n视唱练耳本身确实硬核，即使个人有音乐基础，也需要重新对乐理知识补充和整理。老师是面向零基础同学开课的，但学过音乐的都懂，光五线谱读谱就需要至少一年来熟练；所以对新手是有难度的，介意慎选\n\n课程整体任务不大，就是每周有20分钟左右的作业，两首视唱；最后考试也是笔试加口试，具体可翻楼上评价（特别说明，期末的六首视唱会比陈曦老师班的简单一点）\n\n总之，🐛 就vans，女神的课有什么理由不🐛 \n\n再次感谢老师！！！！！"},{"id":138137,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-07-07 13:02:12","like_diff":8,"likes":8,"dislikes":0,"content":"西方音乐简史\n\n1.关于绩点，我是没有任何基础的那种，最后绩点没有很高，但是也还不错。我觉得这课其实蛮轻松的，论文嘛，跟有基础的同学写出来的肯定也是有区别的，但是真的没有说给别人刷绩点这样子，所以认真写就好啦。总的来说，我个人是觉得老师打分没啥问题，毕竟这课也有正态。\n\n2.关于课程本身，这真的是一门很好的课！学到很多东西，而且因为这门课而发现了古典音乐的美，我觉得收获真的很大。\n\n3.老师真的超赞啊！！讲的很好，人很有趣，弹琴也超棒！最后一节课给我们弹了首钢琴曲，真的有些泪目了。\n\n总的来说，还是很推荐大家选这门课的！"},{"id":13730,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-12-30 12:21:27","like_diff":7,"likes":19,"dislikes":12,"content":"我没基础，视唱练耳难哭……发现班上80％要么会乐器要么文琴……剩下20％没基础的要么认真花时间要么等哭吧……建议学业重不要选，喜欢就旁听。能学很多23333"},{"id":16815,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-19 04:24:33","like_diff":7,"likes":25,"dislikes":18,"content":"呵呵，给分差，呵呵呵呵"},{"id":49935,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-04-27 09:55:00","like_diff":7,"likes":9,"dislikes":2,"content":"老师人很好！三观也正！就点了一次名，作业很少，但是论文千万千万不能抄，抄了绝对绩点完蛋。"},{"id":55166,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-07-01 02:30:12","like_diff":7,"likes":8,"dislikes":1,"content":"均绩4.05你还说老师给分差吗，客观的说，老师性格不错，教的也不错。我真的是一点基础也没有的那种，以为会给那些学过的提供正态，最后努力了勉强上了平均成绩还是挺开心的"},{"id":55687,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-07-02 07:47:34","like_diff":7,"likes":8,"dislikes":1,"content":"论文要写出自己的东西。老师反差萌！又萌又女神！"},{"id":77770,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-05-07 15:37:04","like_diff":7,"likes":9,"dislikes":2,"content":"强推！事情少，两次听辨也比较简单，准备了基本都能对，论文设置字数上限避免了恶竞！最重要的是老师好温柔啊，听课非常舒服！"},{"id":136264,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-06-14 16:30:25","like_diff":7,"likes":7,"dislikes":0,"content":"选的视唱练耳，事情比较多，每周都有作业，有时会要求提交学在浙大，有时不用，每周都有视唱练耳抽查，然后会请人回答问题，有小组展示，有期中期末考试，每节课有课堂练习，难度较大，而且教的都是专业乐理知识，可能会比较枯燥。\n\n不过老师人很好，很温柔善解人意，钉钉秒回，儿童节发巧克力做礼物，还没期末考试出成绩，不知道给分如何。"},{"id":176120,"teacher_id":194,"teacher_name":"陈列","post_time":"2023-06-28 00:53:29","like_diff":7,"likes":7,"dislikes":0,"content":"每个上西方音乐简史的下午都很享受，还有机会听到老师现场的钢琴演奏；课堂的内容很丰富。\n\n西方音乐简史从短学期的课改成长学期的课之后任务会有变多，两次听辨，四次课后小作业，一篇观后感，一篇期末论文，还有期末的小组展示，但毕竟是2.5分的课，体验下来不会太累。老师不鼓励恶竞，有限制字数要求，希望同学们能够发表自己的真实想法和情感。\n\n老师最后也说希望能够给我们每个人好成绩。趁还没出分，保佑一下自己的成绩不要太难看hhhhhh\n\n总之，能选上是一种幸运！"},{"id":24209,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-04-28 10:08:52","like_diff":6,"likes":9,"dislikes":3,"content":"不知道最后这个分是怎么给的。。。抽签抽的？"},{"id":24399,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-04-30 11:30:07","like_diff":6,"likes":9,"dislikes":3,"content":"认真完成了任务，才给3.3，不知怎么评的"},{"id":106429,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-27 10:14:52","like_diff":6,"likes":6,"dislikes":0,"content":"刚出分啊啊啊，两次听辨错了一共一个半，论文自己认真写，我这垃圾作文水平，用心写，最后也有4.8，老师真的太好了啊啊啊啊啊啊，上课超级舒服！"},{"id":110220,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-06-24 15:50:20","like_diff":6,"likes":7,"dislikes":1,"content":"出分了特别来感谢陈列老师。呜呜呜视唱练耳对小白实在是太友好了，学到的满满的干货，给分也好。"},{"id":110228,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-06-25 00:24:48","like_diff":6,"likes":6,"dislikes":0,"content":"谢谢老师的满绩，谁说工科生作文写的差就满不了，只要把你的真实想法写出来，老师一定是会看得到的，看得到我们的良苦用心的。"},{"id":110231,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-06-25 00:51:12","like_diff":6,"likes":6,"dislikes":0,"content":"陈列老师简直是浙大的神奇宝贝！！听她讲课，欣赏她的演奏，实在是一种享受。老师流露出一种高音乐修养的气质，十分可爱近人。在课上很注重培养学生自己对古典音乐的认识。能在浙大选上这样的通识课很幸运。"},{"id":152904,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-04-21 12:53:21","like_diff":6,"likes":6,"dislikes":0,"content":"陈列老师女神~~~~~~~~人美心善\n\n异动补选进来的西音，不过遗憾春学期老师一直居家隔离，不能现场上课，六节课都是线上度过的。因为是音乐课，老师还时常在屏幕那边问同学们能不能听清楚。虽然作为音乐小白不怎么能听懂，但每周三下午听会儿音乐还是挺舒服，挺放松的，老师也时常讲一些故事。给分的话毕竟通识课，总要有人被正态，认真完成作业和准备听辨，像我这种错过两节课和第一次作业的也能拿到不错的成绩。听辨的话也不会太难，大部分曲子还是放开头，有一两个从中间开始放，不过主旋律都比较明显。考前一两周老师会把歌单给出来，然后平时没事儿走路上听一会儿其实就差不多了，其实也就当放松。\n\n反正就强推。"},{"id":177330,"teacher_id":194,"teacher_name":"陈列","post_time":"2023-07-03 02:30:18","like_diff":6,"likes":9,"dislikes":3,"content":"西音史是我这学期的希望之光。超喜欢翘课的我一节课不落，每周都很期待去课堂听听音乐，学一点浅但是有趣的知识"},{"id":194922,"teacher_id":194,"teacher_name":"陈列","post_time":"2024-06-26 02:39:50","like_diff":6,"likes":9,"dislikes":3,"content":"西方音乐简史，这门课上可以学到很多东西，从古希腊古罗马、中世纪、文艺复兴、巴洛克、古典主义、浪漫主义、现代多个时期的音乐艺术。可以真正感受到老师对于音乐的热爱。\n\n给分方面很好，本人之前没学过音乐，所有签到全部到课，作业成绩两次满分一次95一次90，两次听辨测试全部满分，论文写的中规中矩，期末展示和小组成员水一水。最后满绩了。\n\n总而言之，选她的课，你绝对不会后悔！\n\n另外提醒大家，选课选不上不用恼火，把课程时间空出来，然后两轮选课后申请补选就可以，这门课补选几乎一定选上的！我就是这样选上的，所以说善用补选！"},{"id":12280,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-12-22 23:55:31","like_diff":5,"likes":15,"dislikes":10,"content":"老师真的很厉害，而且脾气很好，很亲切，建议选！"},{"id":24207,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-04-28 09:57:11","like_diff":5,"likes":10,"dislikes":5,"content":"我没展示，最后4.5。老师上课挺有意思的，也可以做自己的事，听辩好好准备，论文认真写，感觉给分没那么差。（也可能是我运气好）"},{"id":36425,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-11-13 11:50:54","like_diff":5,"likes":9,"dislikes":4,"content":"老师钢琴水平没的说，而且我觉得这才是通识课应该有的样子，但是希望老师下次能把原来给88的人加一分，因为这样不仅不影响正太，绩点还能加0.3"},{"id":36447,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-11-13 16:16:50","like_diff":5,"likes":9,"dislikes":4,"content":"西方音乐简史比较水，用老师的话说就是提供一个优雅的自习环境(￣ー￣)气质女神，均绩不低，值得拥有"},{"id":42099,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-01-14 04:52:05","like_diff":5,"likes":10,"dislikes":5,"content":"视唱练耳4.5，在此谢老师。西方音乐简史第一次听辨错成狗，居然上四了，再谢老师。"},{"id":42146,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-01-13 15:58:22","like_diff":5,"likes":6,"dislikes":1,"content":"女神！钢琴弹的超棒！上课基本上是欣赏西方的音乐，很放松。没有作业，考试很容易，两次听辨和一篇短文，听听老师给的材料听辨很容易满分的。短文要多表达自己的思想，当时老师说有些同学短文过于口语化，我心里咯噔一下，感觉我就是。没想到最后绩点还不错，是4.5。老师也解释过分数的问题，很多都是不得已调下去的。上课非常享受，每次都希望能多听老师弹一会儿钢琴"},{"id":81716,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-07-06 03:07:10","like_diff":5,"likes":6,"dislikes":1,"content":"西方音乐简史，强推，有很多有意思的东西，而且两次听辨让我突然爱上古典乐，可以说是非常棒了。论文其实不用怎么引经据典，或者去看很多别人的想法。就我自己的情况来看，根据给的视频谈谈自己的想法，甚至都不需要和西方音乐史有太大关系，我觉得主要是体现自己的思考就好了，从给的现象中有自己的反思，这样应该也会有话可说不用凑字数吧。"},{"id":97560,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-22 10:45:49","like_diff":5,"likes":5,"dislikes":0,"content":"老师很可爱，钢琴演奏水平很高。西方音乐简史很轻松，基本是纯粹的欣赏课，对古典乐有兴趣的同学来说是很好的机会(上完之后我的云村歌单简直被古典占领了)（想要水课做作业的同学请小心因为你可能会忍不住开始认真听课)，两次听辨稍微准备下期末论文写自己的感想，绩点不会差。虽然老师有在努力平衡难度，但视唱练耳对无基础的同学来说仍有一定难度，不过只要认真听讲适当准备也能拿到不错的分数（我视唱超烂也有4.5）。通过学习我对乐理有了初步的认识，更重要的是老师带我跨越了对于这一领域所谓\"门槛\"的畏惧，我也将继续努力。"},{"id":106437,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-27 11:06:29","like_diff":5,"likes":5,"dislikes":0,"content":"写论文是我的一大劣势，但还是有4.5，真的很感谢老师。\n\n也听了不少的古典音乐，也许有机会还能装个b。"},{"id":106440,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-27 11:35:27","like_diff":5,"likes":5,"dislikes":0,"content":"上课如果认真听的话可以学到一点关于音乐的历史知识，可惜我没有认真听。但是上老师的课真的很放松，尤其是刚上完工训。最后写的那个根本就不算论文，老师只要求根据视频写自己的真情实感，不要抄袭，也不用写的特别专业（然后我写了一片散文）。成绩出来的时候简直感动，可惜还是拯救不了我的之前的低绩点?"},{"id":106779,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-29 11:41:46","like_diff":5,"likes":5,"dislikes":0,"content":"【西方音乐简史】就倒数第二节课点了一次名，两次听辨小测，一篇正反面A4纸论文。音乐教室的座位没有桌子，写作业比较困难。音乐课是我每周最期待的课程。环境很好，软椅、音乐，饭后美妙午睡时光。老师时不时会亲自弹琴，所以喜欢坐前排靠近钢琴的位置。上课时的ppt不会传到公邮，平时想记录的内容要及时记下来。通过这门课认识到不少音乐家和作品。感谢这门课让我爱上古典音乐。"},{"id":110219,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-06-24 15:18:21","like_diff":5,"likes":5,"dislikes":0,"content":"超级好的老师呢！！"},{"id":110246,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-06-25 04:50:34","like_diff":5,"likes":5,"dislikes":0,"content":"真的吹爆！！听辨做对，论文写出自己观点！最后4.8！"},{"id":110254,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-06-25 05:27:15","like_diff":5,"likes":5,"dislikes":0,"content":"我真的爱了\n\n听辨没全对 论文也不太会写 最后4.5\n\n就老师来说真的很棒很棒 气质绝对是女神  底蕴很深厚 很可爱很温柔\n\n10分"},{"id":110339,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-06-25 17:44:38","like_diff":5,"likes":5,"dislikes":0,"content":"满绩了！大学第一个满绩呜呜呜感谢老师！因为视唱练耳有基础所以期中之前的课几乎没去过(跟老师申请一下就可以了)，考试也是比较简单哒！推荐有乐理基础的同学报！老师人也非常和蔼可亲(●✿∀✿●)"},{"id":117090,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-09-19 05:47:33","like_diff":5,"likes":5,"dislikes":0,"content":"才听了没几天就爱了。很喜欢，老师很有气质，越看越耐看，声音好听，上课有趣，不管最后会不会绩杀都想爱你这个人。"},{"id":133577,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-03-02 09:31:11","like_diff":5,"likes":5,"dislikes":0,"content":"老师真的很温柔！技术水平没得说！西音史课程很轻松也很有趣，三次无脑答题小作业，还有两个大作业是写观后感和假想音乐会介绍，而且有字数上限要求哈哈哈哈。最后绩点会一个一个捞，尽量减少被正态的同学！真的太好了哇，推荐！"},{"id":145364,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-12-29 07:32:32","like_diff":5,"likes":5,"dislikes":0,"content":"老师真的很不错，虽然听测提高了点难度，但真的成绩不行也是我自己的问题，老师上课风趣幽默，弹得一手好钢琴，最后一节课甚至不顾自己的手伤为我们弹琴，只是三个星期前有同学提出想听听月光，她就练了很久给我们弹……真的很感动，谢谢老师，给我们带来一场很好的体验"},{"id":167150,"teacher_id":194,"teacher_name":"陈列","post_time":"2023-01-15 04:24:01","like_diff":5,"likes":6,"dislikes":1,"content":"教会了我弹钢琴，满分。"},{"id":168163,"teacher_id":194,"teacher_name":"陈列","post_time":"2023-01-31 04:25:57","like_diff":5,"likes":5,"dislikes":0,"content":"打开艺术之门\n\n老师真的好温柔呜呜呜，简直就是我心目中妈妈的样子"},{"id":186050,"teacher_id":194,"teacher_name":"陈列","post_time":"2024-01-08 04:20:00","like_diff":5,"likes":6,"dislikes":1,"content":"本学期幸运地选中了《打开艺术之门——钢琴》，老师人真的超级好！！教的内容也非常生动！零基础同学可以学到很多钢琴知识、音乐知识！老师和助教指导很Nice！我也算会弹一些钢琴啦啦啦！！！！"},{"id":187118,"teacher_id":194,"teacher_name":"陈列","post_time":"2024-01-14 14:37:30","like_diff":5,"likes":5,"dislikes":0,"content":"打开艺术之门，上课会先赏析一些曲目，期末会有听测考试，然后会教一些无基础的曲目（真的可以打开艺术之门！！！！！！本人有一点点基础但多年没弹真的接近小白）上完课以后重拾对钢琴的爱！！！！！！！陈老师超级温柔细心，助教xgg也是！！！！！！平时有空可以在规定时间内去练习，曲目演奏给分是看个人进步给的，小白真的不用担心！！！！（本人4.5，听测文献考试一大半不会）还会有小组练习，陈老师给了很大的鼓励！！！！"},{"id":187970,"teacher_id":194,"teacher_name":"陈列","post_time":"2024-01-18 02:30:30","like_diff":5,"likes":5,"dislikes":0,"content":"钢琴，虽然分数一般，但还是10分。零基础的可以无脑选，不过记得多去琴房练琴，期末有听辨识曲和看谱识曲的考试，记得提早准备，不要像我一样考前的晚上临时抱佛脚，微积分什么的还能补，这个是真得补不了。"},{"id":22021,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-03-08 03:12:21","like_diff":4,"likes":11,"dislikes":7,"content":"上课简直是享受，管什么分。做人最重要的是开心。"},{"id":27108,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-06-23 02:45:15","like_diff":4,"likes":6,"dislikes":2,"content":"我上的是陈老师的视唱练耳，最后得了96，想对大家提示一点:视唱练耳不是歌唱艺术，更偏向于音乐理论，是音乐里比较严谨的一块内容。也需要对乐理有兴趣，钢琴吉他等和声乐器最好会一样听课才比较容易有收获，不然容易蒙蔽的。"},{"id":29633,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-06-30 05:41:01","like_diff":4,"likes":5,"dislikes":1,"content":"还是很不错的老师 很有气质 好像对柴可夫斯基很有感觉 可能给分确实会有随机性 但是老师本身很不错 事情也不是很多"},{"id":55184,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-07-01 03:06:01","like_diff":4,"likes":5,"dislikes":1,"content":"我觉得老师给分还是有依据的，我两次听辩各错一个，最后论文中文写的(但是全部原创，写了好久)，绩点还可以。说给分不好的还是要想想自己论文有没有用心准备，是否只是复制粘贴，毕竟老师说了论文是写我们的感受。"},{"id":65190,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-12-30 10:52:58","like_diff":4,"likes":6,"dislikes":2,"content":"我以为大家都是4.8的。。。感觉自己论文写得一般啊。建议大家最好不要参考什么资料，写出自己的想法吧。\n\n还有，我上的是西方音乐简史"},{"id":65827,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-01-09 11:49:52","like_diff":4,"likes":4,"dislikes":0,"content":"零音乐基础的小白表示视唱练耳也没那么难学，老师超可爱，女神！最后考试有点紧张，感觉没唱好，老师那真的不是我的真实水平啊！！！！！"},{"id":75761,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-03-16 13:12:04","like_diff":4,"likes":4,"dislikes":0,"content":"只上到第二节课就先来表白一波～视唱练耳真的太棒了～而且少量的讲解演奏也太好听了！！讲得也很棒！！虽然她说有基础的可以前半学期不来但就是想去听～已经被吸粉的迷弟路过～"},{"id":76159,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-03-28 05:23:36","like_diff":4,"likes":4,"dislikes":0,"content":"听辨考试听到耳朵瞎"},{"id":90099,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-22 06:24:36","like_diff":4,"likes":4,"dislikes":0,"content":"1551 上西音简直就是享受啊...陈老师很专业很可爱！上课时不时来一段钢琴真的很有魅力，而且西1-107教室布置太舒适了。成绩构成是2次听辨+小短文，听辨只要认真准备还是蛮容易全对的。接触了好多优秀的交响曲、歌剧、协奏曲等等等等，尤丽狄茜绝了！柴可夫斯基绝了！"},{"id":106482,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-28 00:30:54","like_diff":4,"likes":4,"dislikes":0,"content":"上课体验挺不错的，只是两次听辨都全对，论文也认真写了最后3.3我也是很迷。"},{"id":106500,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-28 02:40:17","like_diff":4,"likes":5,"dislikes":1,"content":"西方音乐简史：上课上得很开心，在春天里上这门课就会很快乐。论文写的是我一直很感兴趣的内容，所以写起来也有趣味，不累。写了很多自己的想法，也结合了自己的一些经历（看喜欢的歌手的演唱会啦啦啦），所以最后得分也很好，满绩(✪▽✪)。上老师的课很轻松，听音乐听得很享受，了解到了古典乐的美妙和厉害之处，很推荐这门课程！\n\nPS 那个听辩，我在听的过程中真的找到了一些自己喜欢的曲子，如果大家上课时抱着以上这门课的获得为价值而不仅以获得高绩点为价值的态度，可能会轻松和简单许多！"},{"id":109689,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-06-18 11:45:26","like_diff":4,"likes":4,"dislikes":0,"content":"吹爆老师干货满满的视唱练耳课！"},{"id":109737,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-06-19 03:12:06","like_diff":4,"likes":4,"dislikes":0,"content":"老师的视唱练耳和西方音乐简史我都上过，真的超级好！！！老师弹钢琴真的超级棒！！如果老师开别的课，我还会再选的！！！！"},{"id":127793,"teacher_id":194,"teacher_name":"陈列","post_time":"2020-11-27 06:30:50","like_diff":4,"likes":4,"dislikes":0,"content":"陈列老师超级棒，没想到上西方音乐简史还基本上每节课能听到老师的现场演奏，万圣节送大家糖果，中秋节送回家的同学一曲平湖秋月，真的是深深感动！听辨测试也比较简单，作业少，只要你有一颗热爱音乐的心，一定能收获满满"},{"id":131017,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-01-25 14:43:01","like_diff":4,"likes":4,"dislikes":0,"content":"被正态到3.3很难过，但还是很喜欢陈列老师！"},{"id":131050,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-01-25 16:48:44","like_diff":4,"likes":4,"dislikes":0,"content":"第一门满绩的课！！西方音乐简史\n\n课程压力很小，一次听辨，两篇论文，几次小作业(真就是每道题只用回答几个字的小作业)\n\n偶尔签到\n\n听辨老师会提前两周给，时间很充裕，曲子的区分度也挺大的\n\n论文会规定上下限，避免鹅颈，真的就是写出内心感受就好\n\n平时作业几乎每次都有补交通道\n\n老师真的炒鸡为学生着想\n\n哪怕有正态也会努力一个一个调让更多人上80(老师自己说的)\n\n超级赞！！！"},{"id":157272,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-06-22 17:41:17","like_diff":4,"likes":7,"dislikes":3,"content":"视唱练耳。\n\n老师第一节课会告诉你，这门课很硬很硬很硬。\n\n事实证明，真的很硬很硬很硬。\n\n我舍友在另一个老师班，横向对比一下：\n\n人家作业交了就满，我们全班最高才95（我不是最高的，而且还似乎是5分一档）\n\n人家是小组展示做ppt，我们是合唱+互评（略尴尬）\n\n人家期末是视唱，我们是背唱和视唱，而且多一种要背的题型\n\n总之要投入的精力真的很多。确实会学到一些东西，虽然对于非音乐相关专业同学来说背诵各种东西意义不大。\n\n老师人其实很好，乐于接受建议，也会及时回答同学的问题。我只希望考核方式能有些变化，不要再来考试周疯狂背诵了。\n\n另外，不是很建议没有任何音乐基础的同学选。我一个萌新在的6人小组中3个钢琴九级真的会瑟瑟发抖（\n\n不过也并不绝对。我投入了不少的精力，最后成绩也还是很不错的。是一门投入与产出会成正比的课（因为没隔壁班水…或许也是好事吧"},{"id":166342,"teacher_id":194,"teacher_name":"陈列","post_time":"2023-01-12 04:14:18","like_diff":4,"likes":4,"dislikes":0,"content":"老师人很好，最后的期末考试真的很简单，那些学过艺术的大佬根本和我们这种小白拉不开差距，我平时上课听的也不那么认真，课后也没有花时间除了两三次作业，就是考前突击了一下绩点就4.5，老师给分真的和好，而且人也很好，上课也有趣。"},{"id":177105,"teacher_id":194,"teacher_name":"陈列","post_time":"2023-07-01 17:05:44","like_diff":4,"likes":4,"dislikes":0,"content":"人美心善，关键给分真的超级好！！！"},{"id":177251,"teacher_id":194,"teacher_name":"陈列","post_time":"2023-07-02 11:44:17","like_diff":4,"likes":5,"dislikes":1,"content":"【西方音乐简史】体验感拉满！老师上课优雅又温柔，平时会有些小作业但是不是很多；稍微有点难度的可能是听辨，但是花点时间本音痴也全对了。最重要的是这门课给分是真的好"},{"id":194241,"teacher_id":194,"teacher_name":"陈列","post_time":"2024-06-23 01:06:15","like_diff":4,"likes":5,"dislikes":1,"content":"人美心善，上课对纯音乐小白很友好，收获很大，给分还高（原始成绩90+占50%以上，最后还得调分），冲就完了"},{"id":24144,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-04-28 00:56:01","like_diff":3,"likes":6,"dislikes":3,"content":"给分超谜 慎选！！不要被课程均ji欺骗了"},{"id":24276,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-04-29 04:52:06","like_diff":3,"likes":9,"dislikes":6,"content":"两次听辨测试很简单呢，然后有一次课堂展示，没有展示也得了4.5，平时上课超级水，想听的能学到知识，不想听的睡觉干自己的都行，测试会给出音乐，自己回去听就行"},{"id":36491,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-11-14 08:17:53","like_diff":3,"likes":4,"dislikes":1,"content":"老师简直女神啊～如果喜欢钢琴的话，讲的音乐知识会让你收获很多的！给分的话，听辨全对，给分不会很差的！"},{"id":36606,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-11-15 04:58:10","like_diff":3,"likes":4,"dislikes":1,"content":"很好的老师，允许你上课做作业，有听辨测试，挺容易的，论文自己用心写，给分很好，我没什么音乐基础，论文自己写的，最后93，最高的一次通识，感谢陈老师o(^o^)o"},{"id":39039,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-12-21 00:32:09","like_diff":3,"likes":3,"dislikes":0,"content":"听老师上课真是一种享受啊，房间温度适宜，音乐优雅入耳～而且事情也很少，两次听辨，一次小论文。"},{"id":42069,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-01-13 13:42:39","like_diff":3,"likes":3,"dislikes":0,"content":"钢琴超棒的啊！每次上课一边听古典一边写实验报告的感觉 很不错呢"},{"id":52604,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-06-21 10:54:54","like_diff":3,"likes":4,"dislikes":1,"content":"两次听辨扑街，反正我也不是特别在乎绩点，老师绝对是一个好老师，虽然大家都不怎么听课，喜欢音乐的一定要选"},{"id":55119,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-07-01 00:52:26","like_diff":3,"likes":3,"dislikes":0,"content":"今天刚刚出成绩就过来评分啦，我第一次听辨错了两个第二次没错，作文用英语写的，4.2。老师非常温柔，上课是一种享受，听辨有一点点难度，总的来说还是很不错的。不过总有被正态的人，我个人认为老师评分还是公平的。"},{"id":89458,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-19 07:57:04","like_diff":3,"likes":3,"dislikes":0,"content":"老师是好老师，但我不是好学生\n\n( •̥́ ˍ •̀ू )嘤嘤嘤~"},{"id":89493,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-19 10:12:05","like_diff":3,"likes":3,"dislikes":0,"content":"非常棒的，上课基本上是讲西方音乐的历史。虽然没什么音乐天赋，但上课还是很轻松的。重要的是老师给分超好，分数主要看两次小测，和期末的一篇论文。小测是听歌曲写名称和作者，测试前有一个星期的准备时间，好好准备，基本上问题不大。论文也不需要太多的专业素养，只要自己写了，别抄，应该都挺ok的。\n\n总之老师超美丽，给分很棒。"},{"id":89574,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-19 16:24:51","like_diff":3,"likes":3,"dislikes":0,"content":"老师上课真的很棒鸭！随手就能来一段钢琴，太赞了！听辨也不难，只要好好准备完全可以拿满分的。最后的论文对工科生也不算特别困难，课程内容对我这种古典小白也没有任何压力。最后绩点出来感觉还是不错的，大家如果想了解一下古典音乐的话，强推陈老师的西方音乐简史鸭！"},{"id":90074,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-22 05:04:11","like_diff":3,"likes":3,"dislikes":0,"content":"老师超好der  弹琴很厉害而且很有气质   而且西一107教室也炒鸡好（有插座、离老师远、桌子凳子都很舒服）  两次听辩都没错，期末短文好好写  喜提满绩 超阔心der"},{"id":93220,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-08 07:10:04","like_diff":3,"likes":4,"dislikes":1,"content":"呜呜呜 为什么没有人帮女神搬琴啊 老师问了以后好久才有两个人上去了 还有一个是女孩子—— 来自一个卡在教室中间的女孩子 怎么旁边的人都这么冷漠呀"},{"id":101668,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-29 00:34:36","like_diff":3,"likes":3,"dislikes":0,"content":"高学历女神啊！弹琴的样子太美丽了，最后还给我们巧克力！太可爱了！！！"},{"id":106435,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-27 11:02:37","like_diff":3,"likes":4,"dislikes":1,"content":"两次听辨全对，论文结合自己的例子用心写了，4.8，感谢老师！教室西1-107宽敞舒服，上老师的课就算自习也是沐浴在音乐里的。听辨真心不难，提前一天听一听每首曲子记一些特点，全对还是很有可能的。总之强推！"},{"id":106479,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-27 23:41:54","like_diff":3,"likes":3,"dislikes":0,"content":"今天突然看到出分了，来评价一下，老师是一个很有自己想法的钢琴家，课上讲的知识可听可水，来代课的陈曦老师也很好。听辨这种形式确实能让我们重复听一些曲子，更好地感受音乐，最后的论文不一定要很专业，但一定要写出自己的观点，总之，很好的课，强推！"},{"id":110243,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-06-25 04:28:48","like_diff":3,"likes":4,"dislikes":1,"content":"真不像前面说的那样，，，视唱练耳对小白真的很照顾，一个学期真的学到了不少东西，事还不多，成绩也很好看。感谢陈列老师！"},{"id":110262,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-06-25 06:55:34","like_diff":3,"likes":3,"dislikes":0,"content":"视唱练耳出分了！！呜呜呜谢谢老师！！陈列老师真的超级好超级好！！（最后一节课交卷的时候还给每个人领了一颗糖：）"},{"id":111078,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-06-29 13:27:48","like_diff":3,"likes":3,"dislikes":0,"content":"列列女神！！！！！讲得好棒棒棒棒！满啦"},{"id":112120,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-07-03 15:50:11","like_diff":3,"likes":3,"dislikes":0,"content":"喜欢古典音乐的表示听得很爽"},{"id":118664,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-10-30 06:57:42","like_diff":3,"likes":3,"dislikes":0,"content":"老师上课很生动 经常现场演奏 事少 就是听测要好好准备 希望老师可以开猫和老鼠中的古典音乐嘿嘿嘿"},{"id":118925,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-11-08 01:21:51","like_diff":3,"likes":3,"dislikes":0,"content":"时而昏昏欲睡，时而精神百倍。老师气质和演奏技术一流的！无奈我有时候真的会很困，不过只要论文认真写，坚持自己的想法，然后听辨也不是很难，总之值得花时间去上一下。"},{"id":120206,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-11-24 01:52:42","like_diff":3,"likes":4,"dislikes":1,"content":"其实我感觉她看文章主要看创新点。老师本来就是音乐专业的，网上查来的乐评人家会看不出来？我的建议是多想想音乐之外的东西。我的文章主题是从鲁宾斯坦看科学与艺术的关系，结果满绩了……"},{"id":122965,"teacher_id":194,"teacher_name":"陈列","post_time":"2020-04-26 11:44:40","like_diff":3,"likes":3,"dislikes":0,"content":"西音史刚刚出完分过来的，陈列老师真的是女神！！！快pick她！"},{"id":131452,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-01-27 14:23:16","like_diff":3,"likes":3,"dislikes":0,"content":"西方音乐简史非常吸引人，而且老师很好很温柔，弹钢琴的时候太美了。没有考试，三次小作业都是PPT的内容，很好写。一次听辩有很长时间准备，多听几次就可以记住。最后写的两篇文章只要用心就会好，而且字数不多。强推！"},{"id":131562,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-01-28 04:29:33","like_diff":3,"likes":4,"dislikes":1,"content":"真不错，感觉生活品质都提高了"},{"id":152903,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-04-21 12:53:16","like_diff":3,"likes":3,"dislikes":0,"content":"老师人好课好给分也好！\n\n虽然平时没有太用心，但大作业用心写出真情实感，最后满了～"},{"id":156810,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-06-21 04:05:04","like_diff":3,"likes":3,"dislikes":0,"content":"强推，音乐小白也可以选"},{"id":166278,"teacher_id":194,"teacher_name":"陈列","post_time":"2023-01-11 16:15:07","like_diff":3,"likes":4,"dislikes":1,"content":"如果你能学会的话，视唱练耳这门课真的很好。我个人体验来看，楼下有说有点名，但我因为太喜欢翘课了，硬生生一次点名也没听到（捂脸）\n\n\n\n最后很努力地复习课上的知识，硬是期末把天补了起来。在最后复习的过程中，我发现这门课只教授两升（41）和两降（73）以内的五组大小调的旋律识别，所以即便你没有任何五线谱基础，复习起来也是比较容易的。\n\n\n\n个人任务完成情况如下：六次作业有成绩的都是90分，期末考笔试的题目，前面差不多都做出来了。最后一道判断调性我没复习到位，基本上全都考找固定调旋律，找得到就能判断出来。最后是有一个不确定的。\n\n\n\n口试的话，我很认真地准备了几个难唱的曲子（良宵和爱尔兰...呜呜呜），结果因为设备缘故，只能用手机加入视频会议...最后节奏题和旋律视唱题因为屏幕显示不完全，需要一边唱一边拉屏幕，有点断断续续的，发挥不是很好。\n\n\n\n最终结果89/4.5，感觉很满意了。陈列老师给分是真的很好，任务也算是比较简单。\n\n\n\n这里教后来者两个简单的方法。第一个简单的方法能帮助你在前两周内判断自己适不适合退这门课：如果你听完第一节课的五线谱基础，结果三首视唱跟着旋律唱都唱不出音名，并且一个礼拜下来没有改善，那就退吧。\n\n\n\n第一周视唱应该必有一首533 422 1234555，如果你能在课上跟着唱完这首视唱，并且在课后熟悉旋律后能背唱这首视唱，那就，果断冲吧！你已经完成了这门课最难的一关。\n\n\n\n第二个是用来帮助你判断要不要弃修的。一共有两个判断点，第一个，节奏识别和旋律识别，第二个，会不会唱含有升降号的音阶。\n\n\n\n这两个判断点中任意一个你「做不到」，那就要考虑是否汽修。至于这两个判断点具体是什么意思，上到第八周时，你一定会明白的。\n\n\n\n最后我的建议是，如果没有基础，确实要为这门课留出一个汽修位。所以你选这门课的学期，要保证其它课都能跟上（笑）对于汽修的同学而言，这门课不汽修，其它课可能就要被拖垮了。"},{"id":166343,"teacher_id":194,"teacher_name":"陈列","post_time":"2023-01-12 04:18:11","like_diff":3,"likes":3,"dislikes":0,"content":"我觉得这是一门挺硬的课，如果你也是零基础但是未来想学乐器的话，并且不要太水的话，愿意和专业课一样认真学的话其实可以收获很多东西的。老师的乐理知识很系统化，老师也很有人文关怀，人很好。还会提醒你去抢艺术团的票哈哈哈。虽然我是零基础，但是都有好好复习，也做了笔记。对这方面有点兴趣，也知道自己的基础不如别人，可能口试没有人家厉害，那就平时和笔试多多努力吧，最后绩点也还行吧。是一门对乐理有兴趣并且愿意努力的uu们可以尝试的课"},{"id":209545,"teacher_id":194,"teacher_name":"陈列","post_time":"2025-01-06 08:31:08","like_diff":3,"likes":3,"dislikes":0,"content":"钢琴课，补选选上的，虽然没有满绩，但是谢谢老师一学期的课程。您是我敲开艺术之门的引路人。"},{"id":16564,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-18 11:29:14","like_diff":2,"likes":13,"dislikes":11,"content":"强推这门课!我做的很少，没有展示，论文文笔不好，应该也不会出众。只是把听辨做了全对（真不难）。老师人好水平极高，还有礼物，通识课就该上这样的啊!"},{"id":17190,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-20 00:45:51","like_diff":2,"likes":5,"dislikes":3,"content":"女神，谁听谁知道"},{"id":22357,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-03-04 02:04:42","like_diff":2,"likes":3,"dislikes":1,"content":"乐史，钢琴喜欢的都在了。而且还有现场演奏！！！就是给分不是太好，但是还是觉得一点都不后悔。"},{"id":24136,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-04-28 00:12:40","like_diff":2,"likes":2,"dislikes":0,"content":"超级有意思的课，非常适合喜欢音乐的同学们～"},{"id":26921,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-06-21 15:16:15","like_diff":2,"likes":5,"dislikes":3,"content":"乱给分的老师……慎选"},{"id":29668,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-06-30 07:08:18","like_diff":2,"likes":2,"dislikes":0,"content":"老师挺好嗒 上课很水的 听辩准备下 论文写写好给分不可能差的"},{"id":29670,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-06-30 07:10:11","like_diff":2,"likes":3,"dislikes":1,"content":"老师布置一篇限字数的论文占总成绩6成，显然论文要揣摩老师的意图。论文不是给你不懂音乐无脑瞎bb的，是要结合上课的内容和思想，紧扣材料来写的。92我喜欢。"},{"id":52577,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-06-21 07:27:58","like_diff":2,"likes":3,"dislikes":1,"content":"有才华的人是藏不住她的魅力的"},{"id":61716,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-11-20 08:45:14","like_diff":2,"likes":3,"dislikes":1,"content":"老师真的很好，音乐修养很深，给分也公道，在紧张的时候听听音乐真好。"},{"id":61772,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-11-21 01:01:36","like_diff":2,"likes":5,"dislikes":3,"content":"超好，强推，满绩！听辨全对，论文有自己的观点，联系一下看了的视频就好，不要去查什么视频观后感之类的..."},{"id":62114,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-11-22 12:03:02","like_diff":2,"likes":3,"dislikes":1,"content":"1.听课体验很好，精神上的享受和放松，还可以观赏老师钢琴演奏。2.两次听辩，只要稍微花一点时间认真听过，记准曲名和作者名，很容易全对。3.论文要求明确，重在写出个人真是感触与思考，借鉴他人太多未必高分，且有严格的字数限制，避免恶竟。总之，好老师，优质课。"},{"id":70491,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-01-26 17:38:01","like_diff":2,"likes":2,"dislikes":0,"content":"视唱练耳秋学期只去过一次，冬学期去的次数稍微多一点，上课抽背背不出来，期末背曲子的时候紧张节奏出了问题，笔试自我感觉良好，最后拿了4.5。讲真是很轻松的课，可以学到实用的东西。"},{"id":70495,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-01-26 18:42:31","like_diff":2,"likes":3,"dislikes":1,"content":"建议有音乐基础的童鞋选视唱练耳，轻松满绩。老师人超级好，“如果你有音乐基础，觉得我讲的太简单你可以给我发邮件，秋学期的课你就可以不用上了，我也不浪费你的时间，不过冬学期的课还是要来的，即便你学过音乐也不一定会。”后面的乐理部分确实略难，听音写谱也需要一定基础。无音乐基础的人可能会学的挺难的而且最后分不太高。平时会让背一些很简单的小谱子，抽点同学起来背，当做点名了也当做你的平时分（基本每人都会点到而且不一定只点一遍）。最后两节课笔试加视唱，倒数第三节课会有模拟笔试，总之课程安排很人性化，被正态的同学也不要说什么给分不好，通识课正态分布是学校规定，考试也是迫不得已。"},{"id":70521,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-01-27 00:29:41","like_diff":2,"likes":3,"dislikes":1,"content":"超级超级好的老师!每一次上课都会准备特别多的东西和大家分享!女神很优雅，上课的时候总是会给大家弹钢琴，下午上这个课真的是特别的开心，每一次上课都是一种难得的享受!听着各种古典音乐真的可以让自己得到一种很难得的宁静!老师给分超级好，上课事情也不多，两次听辨好好准备很简单的，一篇论文用心写就会有很好的分数!偶尔还会有签到，真的是强推!喜欢女神老师!"},{"id":71782,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-01-29 03:04:12","like_diff":2,"likes":2,"dislikes":0,"content":"视唱练耳， \n\n能学到东西\n\n\n\n\n\n如果有音乐基础的话 满绩还是很容易的。"},{"id":77823,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-05-08 03:58:55","like_diff":2,"likes":2,"dislikes":0,"content":"老师钢琴弹的贼棒"},{"id":80499,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-06-27 07:11:30","like_diff":2,"likes":2,"dislikes":0,"content":"真正的艺术家"},{"id":82579,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-07-08 14:41:21","like_diff":2,"likes":2,"dislikes":0,"content":"对音乐感兴趣的一定要选！"},{"id":86887,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-09-19 07:15:39","like_diff":2,"likes":2,"dislikes":0,"content":"太厉害了，古典爱好者开心!"},{"id":89415,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-19 03:48:41","like_diff":2,"likes":2,"dislikes":0,"content":"西方音乐简史-只要听辩认真准备，论文好好写，给分真的可以。（上课可以水，但认真听会有收获的）"},{"id":89430,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-19 05:36:06","like_diff":2,"likes":2,"dislikes":0,"content":"这么好的老师，怎么只开两门课呢"},{"id":89564,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-19 14:48:45","like_diff":2,"likes":2,"dislikes":0,"content":"上课老师不管你，水手机做作业都行，但你想听也可以听到东西，至于绩点，你论文认真写了，肯定不会低，老师要求时候写的很明确了，写出自己的感受，你自己写了，老师自然能看出来"},{"id":89568,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-19 15:04:45","like_diff":2,"likes":3,"dislikes":1,"content":"95分，搭上满绩的末班车?老师很好，课上干货满满……听辩只要提前认真准备基本都能做对，至于“论文”，其实就是一篇短文，不像正式论文那样要求严格。老师让写出自己的真情实感，就千万不要在网上抄，反正我的确是抒发的自己的真情实感，再融入一些课上的知识，让老师看到是认真写的，给分不会低。"},{"id":89582,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-20 00:52:00","like_diff":2,"likes":2,"dislikes":0,"content":"老师给分不错\n\n只要准备好两次听辩测试 最后论文好好写就能拿个不错的分数\n\n顺便一说 最后的论文和平时上课内容也没什么关系"},{"id":89616,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-20 03:41:57","like_diff":2,"likes":2,"dislikes":0,"content":"老师超有气质，钢琴弹得超棒，英语也超好。老师上课很用心，给我们介绍了很多自己的喜欢的音乐家，是真的会有收获！！就两次听辨小测，最后交一篇两页以内的短文，挺友好的，墙裂推荐！！"},{"id":89673,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-20 07:50:48","like_diff":2,"likes":2,"dislikes":0,"content":"西方音乐简史这门课真的很好水，我发誓，老师讲的很好很好，听辨测试很重要，两次听辨占了40%，有点难度，但是很重要！！！结课短文我理解错题意了写错了本来以为完蛋结果绩点还是上4了巨大的惊喜！！最后还要说！！听辨很重要！！"},{"id":89728,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-20 12:06:35","like_diff":2,"likes":2,"dislikes":0,"content":"很棒！平时就是欣赏课水一水，听辨之前好好准备一下，音乐小白也适合入！推荐推荐！"},{"id":98787,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-24 02:35:22","like_diff":2,"likes":2,"dislikes":0,"content":"老师人挺好的但是视唱这门课对于没基础的同学来说考试还是有点难的…"},{"id":101417,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-28 07:17:22","like_diff":2,"likes":2,"dislikes":0,"content":"老师超级棒，很有气质，钢琴弹的也很好。上的老师的西方音乐简史，老师会结合自己的经历去讲述，上课内容真的很有趣。平时两次听辨认真准备一下，小论文看视频写一下感想（老师还规定不能超过一页正反面。最好给分真的很好，问了三个人，最后都是4.8。"},{"id":102652,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-02-17 10:24:16","like_diff":2,"likes":2,"dislikes":0,"content":"第一次听老师现场弹琴太赞了。听辨可能不适合我这种音痴吧..."},{"id":103028,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-02-25 12:23:55","like_diff":2,"likes":2,"dislikes":0,"content":"西方音乐简史。。优雅可爱的老师，任务少，听辩多听不难（我错的挺多。。对不住老师了）会拓展很多知识，听到很多也许平常不会特意去找的音乐，可以写点作业，每节课都会很开心，最后巧克力豆也是很感动了"},{"id":106453,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-27 13:07:54","like_diff":2,"likes":3,"dislikes":1,"content":"老师超好，两次听辨好好准备，期末论文不要抄，写出自己的真实感受和想法，还有自己的思考，就搞定啦!最后绩点4.8。超感谢老师的啦。"},{"id":106481,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-28 00:27:29","like_diff":2,"likes":2,"dislikes":0,"content":"两次听辨都没错，签到也来了，论文也是自己认真写的，被正态了，心都凉了"},{"id":119147,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-11-11 01:15:06","like_diff":2,"likes":2,"dislikes":0,"content":"论文写好，听辩答好，成绩不会差"},{"id":119251,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-11-11 23:41:11","like_diff":2,"likes":2,"dislikes":0,"content":"老师人真的温柔又可爱！弹钢琴的那种气质是我从小很向往但最终也没形成的。上课干货很多，听音乐的机会很多。夸爆她！！！！！"},{"id":120750,"teacher_id":194,"teacher_name":"陈列","post_time":"2020-01-17 09:41:34","like_diff":2,"likes":2,"dislikes":0,"content":"别说自己听辨全对了，大家都对的。别说自己论文认真写了，大家都觉得自己很认真的。林某的错不是老师的错，老师每次调分也很痛苦的。"},{"id":121028,"teacher_id":194,"teacher_name":"陈列","post_time":"2020-01-19 09:34:34","like_diff":2,"likes":2,"dislikes":0,"content":"视唱练耳。\n\n课程安排有一次期中考、一次期末考，都在课上进行，其中期末考还加入了口试。半期考的考试内容是：旋律节奏听写、音程构建与判断、音阶构建、调式判断、音乐术语；期末考的内容是旋律节奏听写、音程和弦构建与判断、音阶构建与判断、调式判断和音乐术语。整体难度在视唱练耳版块里是很基础的，老师的上课也是完全对零基础的开放的，如果先前有基础学这门课会很轻松。尽管老师讲的都是零基础的同学可以掌握的知识，但是由于这门课本身的性质还是不太推荐音乐零基础的同学选，如果选了就要花更多时间来学习、记忆。对于有基础的同学，正常发挥给分应该不会差。"},{"id":122959,"teacher_id":194,"teacher_name":"陈列","post_time":"2020-04-26 02:27:41","like_diff":2,"likes":2,"dislikes":0,"content":"陈列老师一级棒！！！人美温柔善良，备课评作业超认真，绝对公平公正！是我心里想要成为的人，永远的人生导师～最后谢谢老师拉分🙏"},{"id":123022,"teacher_id":194,"teacher_name":"陈列","post_time":"2020-05-01 03:18:26","like_diff":2,"likes":3,"dislikes":1,"content":"人美心善给分好，没有鹅颈，这才是通识课的样子～(￣▽￣～)~"},{"id":123682,"teacher_id":194,"teacher_name":"陈列","post_time":"2020-06-11 11:02:33","like_diff":2,"likes":2,"dislikes":0,"content":"陈老师的西音史超好~虽然还没出分先来打个十分"},{"id":131132,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-01-26 05:50:09","like_diff":2,"likes":3,"dislikes":1,"content":"大爱陈列老师的，西方音乐简史非常轻松愉快，也不用考试，作业是两篇类似小作文的，加起来大概2000多字，不用考试，平时也就一次听辨测试20首选10首，爱了。4.8开心😁"},{"id":135183,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-05-05 11:17:42","like_diff":2,"likes":2,"dislikes":0,"content":"我永远喜欢陈列老师"},{"id":135288,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-05-07 15:06:04","like_diff":2,"likes":2,"dislikes":0,"content":"女神٩(๑òωó๑)۶"},{"id":138606,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-07-10 03:02:33","like_diff":2,"likes":2,"dislikes":0,"content":"陈列女神的视唱练耳yyds！"},{"id":147746,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-01-10 16:08:56","like_diff":2,"likes":2,"dislikes":0,"content":"真的很好很好的老师！上课还会弹琴"},{"id":151121,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-02-23 07:56:22","like_diff":2,"likes":2,"dislikes":0,"content":"女神！"},{"id":152641,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-04-17 03:18:35","like_diff":2,"likes":2,"dislikes":0,"content":"po本人0乐理基础，但是只要上课认真听，旋律和视唱认真背，考试认真准备，绩点也能上4"},{"id":156298,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-06-19 00:06:42","like_diff":2,"likes":2,"dislikes":0,"content":"西方音乐简史\n\n感觉大作业一写的不怎么好，然而也有4.8，感动"},{"id":156307,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-06-19 02:03:52","like_diff":2,"likes":2,"dislikes":0,"content":"老师温柔给分好，西方音乐简史任务也比较轻松，大大的赞"},{"id":166264,"teacher_id":194,"teacher_name":"陈列","post_time":"2023-01-11 14:59:55","like_diff":2,"likes":2,"dislikes":0,"content":"老师人很好，给分也好，但还是建议有一定乐理基础或者音准较强的同学选视唱练耳~"},{"id":184983,"teacher_id":194,"teacher_name":"陈列","post_time":"2023-12-25 04:10:49","like_diff":2,"likes":2,"dislikes":0,"content":"有幸选上陈老师的钢琴课，温柔细心，真的让我学会了钢琴，非常高兴，绝对满分"},{"id":208909,"teacher_id":194,"teacher_name":"陈列","post_time":"2025-01-03 09:45:40","like_diff":2,"likes":2,"dislikes":0,"content":"简直女神！识曲小小准备了一下，演奏一坨，居然满绩了！爱死陈列老师"},{"id":10000,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-11-14 06:36:42","like_diff":1,"likes":9,"dislikes":8,"content":"上课有意思\n\n音乐、影片、动画、亲自弹钢琴……\n\n人又好，简直女神\n\n作业还少，听辨认真听其实很简单"},{"id":10785,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-11-23 05:16:48","like_diff":1,"likes":15,"dislikes":14,"content":"超级棒！课上内容很丰富，老师讲得很生动，还会讲很多她在国外的趣事。认真听课可以收获很多。当然不听老师也不会来管你，很自由。给分很好～"},{"id":12101,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-12-22 00:21:20","like_diff":1,"likes":7,"dislikes":6,"content":"唔，老师人不错。只要听辩全对论文好好写分就还可以。"},{"id":15192,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-12 13:59:53","like_diff":1,"likes":7,"dislikes":6,"content":"老师好漂亮好萌又很幽默的，特别喜欢她，跟我高中女神超级像而且钢琴还弹得飞起啊，女神啊兄弟们，给发不会不满意的。"},{"id":26980,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-06-22 03:52:06","like_diff":1,"likes":2,"dislikes":1,"content":"老师是真的很赞，我认识的很多人都冲着老师选的课，建议对古典音乐有兴趣的一定不能错过！至于给分，其实也还好吧，毕竟有教务网的正态要求。鉴于老师专业知识太厉害，论文里有些常识性错误的话分就会低一些，听辨大家应该都差不多的吧，有很多满分的同学，错一两个不也是算错的多的了吗？"},{"id":30217,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-07-01 05:42:18","like_diff":1,"likes":1,"dislikes":0,"content":"超级喜欢老师！学到了很多东西，还想学更多，很希望老师视唱练耳能开中高级班！课上听老师演奏真的是一种享受！"},{"id":30527,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-07-02 00:16:16","like_diff":1,"likes":1,"dislikes":0,"content":"哎虽然西方音乐简史给我的分很普通，但是视唱练耳给了满绩！！不过视唱练耳并不推荐没有音乐基础不懂五线谱音阶的人选～"},{"id":31987,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-07-05 10:29:11","like_diff":1,"likes":1,"dislikes":0,"content":"我说的是视唱练耳。我觉得，有音乐天赋的，学过乐理或钢琴的，你们一定要选，你们会感觉很轻松。巩固基本乐理，这种课相当不错，老师人很好。当然，精通音乐的同学会发现，她对音乐的要求是严格的。"},{"id":33696,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-09-21 06:02:36","like_diff":1,"likes":1,"dislikes":0,"content":"老师，做我女盆友吧！好喜欢老师，太萌了太萌了太萌了！"},{"id":36471,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-11-14 04:35:42","like_diff":1,"likes":1,"dislikes":0,"content":"老师人很好，上课也很舒服，绩点更是高得离谱，赞一个！"},{"id":37881,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-11-21 14:29:45","like_diff":1,"likes":6,"dislikes":5,"content":"没基础的同学不要上了，这门课不是教入门的。我挺努力的背谱子，无奈基础不够考试听不出音调，最后60+。一个通识拉了多少绩点!从哪补回来?老师对没基础的同学真是狠!"},{"id":38553,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-12-08 10:29:28","like_diff":1,"likes":2,"dislikes":1,"content":"老师给分超级棒！而且我上课的时间是下午第一节课?这个时间超级美好，可以听听音乐睡睡午觉，之后去上别的课。我很喜欢西方音乐简史。"},{"id":38554,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-12-08 10:45:58","like_diff":1,"likes":1,"dislikes":0,"content":"老师弹得一手好钢琴。讲课很好，专业方面挺不错。对古典音乐感兴趣的建议去听一听。只要认真完成听辨和期末论文，成绩不会差的。"},{"id":42060,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-01-13 13:19:23","like_diff":1,"likes":1,"dislikes":0,"content":"^O^"},{"id":49945,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-04-27 11:14:23","like_diff":1,"likes":2,"dislikes":1,"content":"可以听歌的课，很棒。"},{"id":52937,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-06-23 16:29:25","like_diff":1,"likes":3,"dislikes":2,"content":"大家看评价的时候一定要考虑评价的时间问题，那些说给分不好的，时间普遍都在两三年前甚至更早些，现在老师已经知道自己被说“给分不好”了，也已经在尽最大的努力让大家收获一个满意的成绩。但毕竟还要满足教务网正态的要求否则输不进去成绩…所以大家就别再担心给分不好了，现在3分0.3的绩点制度下，老师也还特意问了同学哪些是分界点，说实话，陈老师真的是我见过的最好最好的老师了"},{"id":56325,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-07-03 13:20:20","like_diff":1,"likes":1,"dislikes":0,"content":"老师水平很高，人很好，态度很认真，能学到很多东西，每节课都很充实，但是没有一点音乐基础的人慎选，可能会稍难。"},{"id":61707,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-11-20 07:53:44","like_diff":1,"likes":2,"dislikes":1,"content":"老师人特别好，给分也很高"},{"id":65833,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-01-09 12:32:36","like_diff":1,"likes":2,"dislikes":1,"content":"视唱练耳，老师很好，考试的时候太紧张了TVT老师别扣我分啊我爱您"},{"id":70364,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-01-26 13:50:34","like_diff":1,"likes":1,"dislikes":0,"content":"大家分数都怎样呀？想问～老师人不错哦"},{"id":71179,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-01-28 06:03:18","like_diff":1,"likes":1,"dislikes":0,"content":"视唱练耳课，如果有音乐基础可能会觉得有些无聊，没有音乐基础可能会觉得比较难。\n\n西方音乐简史课强推～"},{"id":72884,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-01-31 09:02:56","like_diff":1,"likes":1,"dislikes":0,"content":"非常棒的课"},{"id":77585,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-05-06 16:13:53","like_diff":1,"likes":2,"dislikes":1,"content":"大爱女神，演奏好、讲得好、给分也好。认真准备了pre，两次测试没错。虽然没满绩，但是收获满满呢，谢谢老师！"},{"id":79429,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-06-04 11:37:53","like_diff":1,"likes":1,"dislikes":0,"content":"老师人很好，之前上的是视唱练耳，没有基础慎选，作为零基础上课党身边都是大佬内心绝望，有次测试老师给的评语是“我相信你是有基础的，就是不够仔细”不知道该哭还是该笑。。"},{"id":82552,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-07-08 13:15:38","like_diff":1,"likes":1,"dislikes":0,"content":"很棒啊，老师弹得很好，也蛮有意思，学习经历蛮有趣的"},{"id":82842,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-07-09 08:08:55","like_diff":1,"likes":1,"dislikes":0,"content":"老师人很好 气质很好 讲课也很好 是一场听觉上的享受 考试也挺轻松 期末考试就唱一段上课背过的 然后看着纸条再唱一遍就OK\n\n给老师比心"},{"id":82968,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-07-09 11:25:40","like_diff":1,"likes":2,"dislikes":1,"content":"从18年开始，给分就变好了，而且只要小测做得好，期末论文写的有感觉真容易高分分哦"},{"id":83183,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-07-10 01:33:09","like_diff":1,"likes":3,"dislikes":2,"content":"视唱练耳有乐理基础所以满了感觉理所当然，不过还是能在老师的课上收获很多已经遗忘的概念，课程内容不太水，很多概念都是乐理二、三级的内容，感谢感谢！"},{"id":89537,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-19 12:15:06","like_diff":1,"likes":2,"dislikes":1,"content":"啊啊啊超爱陈列老师\n\n人生第一个满绩（虽然大概是唯一一个了QAQ\n\nmua～\n\n上课还是可以陶冶情操的233不过不听课其实也不会影响成绩ww～\n\n论文用英文写貌似会加分？"},{"id":89610,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-20 02:57:52","like_diff":1,"likes":1,"dislikes":0,"content":"陈列老师真的是一位很可爱的老师。上课真的真的太太太有趣了!!!真的幸福!!对西方古典音乐有了初步的认识，也开始认识到古典音乐的美♡非常感谢!"},{"id":89684,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-20 09:03:24","like_diff":1,"likes":1,"dislikes":0,"content":"太享受了 古典入门吧 跪求女神姐姐多开几门欣赏课嗷 但给分就emmmmmm"},{"id":90186,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-22 11:03:31","like_diff":1,"likes":2,"dislikes":1,"content":"老师特别可爱！讲的内容也不水（但是是我不争气在水课...）上课会放很多古典音乐下午上课真的很催眠...但是听辨有认真准备，论文也好好写了，最后分数比想象的高觉得很庆幸，不过就算分数不高我也还是会很喜欢老师！真的很好！"},{"id":97478,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-22 09:17:15","like_diff":1,"likes":1,"dislikes":0,"content":"真的好"},{"id":97576,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-22 11:25:19","like_diff":1,"likes":1,"dislikes":0,"content":"超级棒的！感觉老师的样子是我想长成的样子。"},{"id":97801,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-22 17:12:22","like_diff":1,"likes":3,"dislikes":2,"content":"陈列老师太棒了！\n\n下次一定要去听文琴音乐会！"},{"id":97881,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-23 00:46:04","like_diff":1,"likes":2,"dislikes":1,"content":"老师，我喜欢你"},{"id":98072,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-23 04:50:28","like_diff":1,"likes":1,"dislikes":0,"content":"给大家推荐西方音乐简史课！上课可以在音乐中自习，顺耳听听内容也能有趣，作业是听听歌，加一篇不允许鹅颈的论文。教室的电脑椅不要太舒服，还有电源插座。音乐听完作业写完下课去湖边看天鹅，是我一周最幸福的时候了。论文只要自己写，给分就好，妙绝，强推。ps老师不签条子。"},{"id":98226,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-23 08:20:39","like_diff":1,"likes":1,"dislikes":0,"content":"老师好好看！教的特别好还可爱，视唱考试内容其实也很简单，我零基础而且感觉自己五音不全也有4.2www"},{"id":102962,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-02-25 06:18:25","like_diff":1,"likes":1,"dislikes":0,"content":"陈老师人很不错，上课也很有意思，看到很多说给分不好的我觉得不够中肯，我论文认真写  听辨认真准备最后分数就不错，老师的要求也没有很高。"},{"id":103009,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-02-25 10:37:20","like_diff":1,"likes":1,"dislikes":0,"content":"okk"},{"id":103840,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-03-06 07:45:22","like_diff":1,"likes":1,"dislikes":0,"content":"美就完事了"},{"id":104120,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-03-12 11:49:42","like_diff":1,"likes":1,"dislikes":0,"content":"选上老师的西方音乐史来还愿！！开心！！！等春学期结束再来评价一次！！\n\n18春夏学期上过视唱练耳，老师讲得确实很棒，下面是当时码的评价：\n\n虽然它的难度可能对于没基础的太难，对于有基础甚至有绝对音高的又太简单，但是老师真的在尽量面面俱到了。当然，给分这方面，我这种有基础的还是闭嘴吧，但16次课下来，还是学到了很多新的知识~\n\n至于上课内容和进度，个人认为还是比较合适的，对于音乐爱好者来说，真的是很好的入门课程。毕竟想有一个好的音乐基础，音阶，音程，节奏这些基础乐理肯定是要掌握的，所以每次课都会着重提及。音阶会讲到2个升降号以内的大小调，音程主要是构2.3.6度，外加大小三和弦。练耳方面，会有各种各样的听力训练，其实就是培养节奏感和相对音准。每次课会有2条视唱，2周之后点名抽背（每个人至少抽到一次）。考试的话，口试是抽背一条学过的+当场视唱一条很简单的，笔试的话涉及以上全部内容，会有30%左右是听力的分数，试卷是老师手写的哦。\n\nPS：友善提醒，视唱练耳课是几乎不可能水手机，写作业的哦，因为课上会有比较多的小练习。而西方音乐简史主要以欣赏为主，所以（你懂的）。"},{"id":106448,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-27 12:22:51","like_diff":1,"likes":2,"dislikes":1,"content":"听老师讲的音乐史 更加巩固了对美术史的了解 并且把这两个艺术门类能够联系起来看待了 喜欢?"},{"id":106449,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-27 12:33:22","like_diff":1,"likes":1,"dislikes":0,"content":"老师真的很好，讲课蛮有意思，人也感觉很亲切。在国外读过书，经常会提到自己的一些经历，会带给我们一个不一样的世界。可惜这学期她生病住院有三周的课没上，本来就是一门短学期的通识，少了一半，意犹未尽。拿分也很容易，不用花太多时间，两次听辨测试，一篇小论文，拿了满绩。我大概是没机会再选陈老师的课了，希望对音乐感兴趣的能选上她的通识啊~"},{"id":111612,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-07-02 07:05:41","like_diff":1,"likes":1,"dislikes":0,"content":"视唱练耳：一次期中小测，平常会有视唱抽背，期末分口试笔试。老师很nice，还会给大家表演～"},{"id":119286,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-11-12 02:39:37","like_diff":1,"likes":1,"dislikes":0,"content":"挺好的啊老师很温柔"},{"id":119522,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-11-13 08:49:29","like_diff":1,"likes":2,"dislikes":1,"content":"绝对的公平公正。很真实的老师。会为了一视同仁而在授课期间不接收同学们的好友请求（当然课程结束就不会啦）。钢琴博士不是吹的，绝对视觉听觉震撼。\n\n这是一门让我重新感到一分耕耘一分收获的课程，熬夜论文，将近十小时。感谢老师，zju的第一次满绩❤️ 。"},{"id":119538,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-11-13 10:52:31","like_diff":1,"likes":1,"dislikes":0,"content":"啊啊啊好喜欢啊～我爱你老师！♡"},{"id":121696,"teacher_id":194,"teacher_name":"陈列","post_time":"2020-01-21 02:12:25","like_diff":1,"likes":1,"dislikes":0,"content":"老师真是女神"},{"id":123481,"teacher_id":194,"teacher_name":"陈列","post_time":"2020-06-09 06:10:08","like_diff":1,"likes":2,"dislikes":1,"content":"女神女神，优雅又幽默，钢琴弹得超级超级好，课堂干货多，给分也非常好！上课听听认真完成作业，小论文写出了自己的真情实感和对纪录片的理解，直接就满了！陈老师我爱你！！！"},{"id":124321,"teacher_id":194,"teacher_name":"陈列","post_time":"2020-06-29 07:51:11","like_diff":1,"likes":1,"dislikes":0,"content":"人美事少给分好，吹爆！！！"},{"id":124474,"teacher_id":194,"teacher_name":"陈列","post_time":"2020-07-01 19:04:34","like_diff":1,"likes":1,"dislikes":0,"content":"很棒的老师！"},{"id":135117,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-05-01 04:49:24","like_diff":1,"likes":1,"dislikes":0,"content":"女神老师很棒！！都给我选！！！"},{"id":142624,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-11-14 16:59:32","like_diff":1,"likes":1,"dislikes":0,"content":"只能说非常不错的一门课，后悔大二大一没选。大四才上"},{"id":142716,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-11-15 11:49:19","like_diff":1,"likes":1,"dislikes":0,"content":"西方音乐简史，给分很不错，事情也不多，作业没有音乐基础的也可以很轻松完成，很推荐。"},{"id":143840,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-12-08 08:21:35","like_diff":1,"likes":1,"dislikes":0,"content":"好课，每个环节都用心了结果不会差"},{"id":144222,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-12-20 14:51:52","like_diff":1,"likes":1,"dislikes":0,"content":"女神哇！！！认真完成要求分不会低的哦~~~而且上课认真听真的可以大幅度提高音乐素养！！！"},{"id":149855,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-01-17 09:42:35","like_diff":1,"likes":1,"dislikes":0,"content":"上课太有格调了"},{"id":151649,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-03-10 08:22:36","like_diff":1,"likes":1,"dislikes":0,"content":"温柔的老师！而且给分还特别好，每次上西方音乐简史，我都超级享受的~还有助教哥哥也很棒！"},{"id":156309,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-06-19 02:05:48","like_diff":1,"likes":1,"dislikes":0,"content":"给分好！上课行！都给我冲西音史！"},{"id":156851,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-06-21 07:04:28","like_diff":1,"likes":1,"dislikes":0,"content":"大学以来见过最好的老师，没有之一。真的很幸运能选上她的打卡艺术之门钢琴"},{"id":164552,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-12-21 23:46:29","like_diff":1,"likes":1,"dislikes":0,"content":"上了陈老师的视唱练耳，虽然大家都在推荐陈曦老师，但是陈列老师也特别好！强烈推荐！选到就是赚到！世界顶级音乐学院的钢琴高才生，点名的话印象中只在线上点过一次（视唱练耳这么有意思的课不会不来把呜呜），温柔耐心，课程有趣，感受良好！小白认真学也能上，还是再考虑一下吧，毕竟五线谱介绍和认音讲得很快，前期有人退出；内容对于学过五线谱的同学来说十分轻松（毫无压力），即使对乐理毫无了解也特别简单；不过两位陈老师好像在编一本教材，所以之后课程难度不敢保证（应该不会有太大区别）。考前复习划重点。感谢陈老师！喜欢陈老师！忠于陈老师！\n\n至于作业最高分95分，老师解释过自己认为人的视唱是不可能达到完美的，所以视唱打不了满分，最多95分。作业挺少也挺简单，考试也很简单。\n\n这门课不教“歌唱技巧”，唱为辅，不要误解哦。"},{"id":166248,"teacher_id":194,"teacher_name":"陈列","post_time":"2023-01-11 14:25:00","like_diff":1,"likes":2,"dislikes":1,"content":"没有什么基础的同学还是不要选视唱练耳了，作为通识来讲的话不太好学，听写节奏和旋律基本不太可以，认真复习也交了作业，最后3.6，总之慎重吧，老师人真的很好！！"},{"id":166666,"teacher_id":194,"teacher_name":"陈列","post_time":"2023-01-13 07:47:05","like_diff":1,"likes":2,"dislikes":1,"content":"老师真的人超级好哇很温柔"},{"id":193944,"teacher_id":194,"teacher_name":"陈列","post_time":"2024-06-21 03:28:53","like_diff":1,"likes":2,"dislikes":1,"content":"上了老师的西音史，上课还是挺有趣的"},{"id":217033,"teacher_id":194,"teacher_name":"陈列","post_time":"2025-03-31 14:38:12","like_diff":1,"likes":1,"dislikes":0,"content":"非常优秀的老师，伟大，很棒的老师"},{"id":5486,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-07-08 02:29:37","like_diff":0,"likes":10,"dislikes":10,"content":"课堂很有趣的，给分嘛尽人事从天命（反正我把该做的都做了分数就还不错）"},{"id":7596,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-09-15 06:21:03","like_diff":0,"likes":8,"dislikes":8,"content":"简直女神，强烈推荐"},{"id":9629,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-11-03 10:34:08","like_diff":0,"likes":7,"dislikes":7,"content":"很好的老师~"},{"id":10070,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-11-15 10:54:28","like_diff":0,"likes":8,"dislikes":8,"content":"老师讲得好，又会钢琴，学到的东西有很多。拿分只要认真就不会低。"},{"id":10093,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-11-15 15:39:09","like_diff":0,"likes":10,"dislikes":10,"content":"会有现场表演，拿谱就上，约翰霍普金斯大学的钢琴博士，水平没话说，给分也不错"},{"id":10107,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-11-16 08:25:26","like_diff":0,"likes":7,"dislikes":7,"content":"老师真的非常可爱，声音很好听～这次课给每个人都准备了小礼物。嗯，然后老师对于论文的要求也没有那么严格。"},{"id":10120,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-11-16 10:50:51","like_diff":0,"likes":7,"dislikes":7,"content":"老师人超好！\n\n"},{"id":10122,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-11-16 11:44:14","like_diff":0,"likes":8,"dislikes":8,"content":"讲的好 分数还可以"},{"id":11287,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-11-26 09:07:31","like_diff":0,"likes":8,"dislikes":8,"content":"超喜欢陈列老师～"},{"id":12693,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-12-24 02:08:21","like_diff":0,"likes":7,"dislikes":7,"content":"挺好的老师，对想认识古典音乐的人来说绝对有干货，听辨好好准备展示积极报名论文大胆狂侃，分数不会差  ps现在我已掌握了辨识生活中出现的古典乐的装逼技能"},{"id":13893,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-02 03:39:12","like_diff":0,"likes":9,"dislikes":9,"content":"不知道该怎么说吧，认真听辩写论文还是有回报的。至少我同学两个4.8，一个5.0。"},{"id":16328,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-18 06:46:49","like_diff":0,"likes":2,"dislikes":2,"content":"美女老师，上课也就是去放松的，作业不多好好做就行，一手好钢琴锦上添花！"},{"id":16507,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-18 09:18:56","like_diff":0,"likes":3,"dislikes":3,"content":"女神！听课真的是享受 如果不是这门课特别好 秋冬学期大晚上肯定就翘掉了。考试也特别简单。"},{"id":16650,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-18 15:29:30","like_diff":0,"likes":4,"dislikes":4,"content":"女神  给分不坑啊"},{"id":16688,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-18 19:04:16","like_diff":0,"likes":2,"dislikes":2,"content":"挺好的，论文要好好写"},{"id":16742,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-19 01:35:35","like_diff":0,"likes":3,"dislikes":3,"content":"一个短学期的课，每节内容都非常丰富，同学们的课堂展示，老师都会给一个小奖励。这本身也不是一门水课，要想获得比较高的分数，自己还是要比别人努力一点的。"},{"id":16743,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-19 01:35:52","like_diff":0,"likes":3,"dislikes":3,"content":"老师还不错，钢琴技术绝对牛，课上的也很好。给分也还可以，听辨靠努力，论文可能要随缘了。"},{"id":16754,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-19 02:08:08","like_diff":0,"likes":5,"dislikes":5,"content":"课非常有趣。认真完成任务绩点不会低"},{"id":16770,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-19 02:46:09","like_diff":0,"likes":3,"dislikes":3,"content":"虽然女神但是讲话风格很接地气也很有趣好吗！特别喜欢这门课，能对古典音乐入点门还能听老师弹琴～"},{"id":16825,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-19 04:44:14","like_diff":0,"likes":3,"dislikes":3,"content":"很好的老师啊，讲的很有知识，给分也很棒!"},{"id":21305,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-02-28 03:29:09","like_diff":0,"likes":2,"dislikes":2,"content":"不好听"},{"id":23227,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-03-22 06:30:38","like_diff":0,"likes":1,"dislikes":1,"content":"很有趣。课上很有内容的"},{"id":24031,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-04-25 15:44:34","like_diff":0,"likes":4,"dislikes":4,"content":"西方音乐简史给分不懂，听辩都写出来了。3.6"},{"id":24117,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-04-27 13:27:20","like_diff":0,"likes":0,"dislikes":0,"content":"老师棒棒的！"},{"id":24156,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-04-28 02:13:22","like_diff":0,"likes":2,"dislikes":2,"content":"老师人很好，讲课很生动，不过成绩真跟花时间程度相关，我报了展示，两次听辩都满分，论文用英文认真写的，最后4.5也还可以"},{"id":24164,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-04-28 03:07:23","like_diff":0,"likes":2,"dislikes":2,"content":"讲课超级棒，人美又有才华，简直女神。而且，给分不差啊"},{"id":24314,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-04-29 10:14:20","like_diff":0,"likes":3,"dislikes":3,"content":"绝对女神(^O^)／"},{"id":24560,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-05-01 16:38:18","like_diff":0,"likes":4,"dislikes":4,"content":"上课是一种享受，给分也很好"},{"id":25564,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-05-25 12:28:15","like_diff":0,"likes":2,"dislikes":2,"content":"女神老师"},{"id":26238,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-06-16 10:57:14","like_diff":0,"likes":2,"dislikes":2,"content":"老师很好，对西方音乐娓娓道来，因为她成为巴赫脑残粉～给分很迷不过收获很多!"},{"id":26409,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-07-08 09:28:43","like_diff":0,"likes":2,"dislikes":2,"content":"有音感的分数会高一些，老师人不错"},{"id":26593,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-06-20 09:07:14","like_diff":0,"likes":2,"dislikes":2,"content":"好好好"},{"id":26826,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-06-21 08:16:28","like_diff":0,"likes":2,"dislikes":2,"content":"没展示，最后4.0，老师简直女神，钢琴弹得行云流水，上课的音乐也很好听"},{"id":26833,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-06-21 08:39:06","like_diff":0,"likes":2,"dislikes":2,"content":"我觉得老师很好，专业知识很过硬，每节课都很开心，至于很多人埋怨的给分，反正我是90+所以也不要顾虑太多"},{"id":27354,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-06-25 06:20:36","like_diff":0,"likes":1,"dislikes":1,"content":"课很棒啊，可以收获蛮多西方音乐知识，而且事也超少，两次听辨，稍微准备一下就没问题；期末小论文有字数上限，看一个视频，感觉跟写一篇感想差不多。最后给分也不错，推荐选通识！"},{"id":28249,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-06-28 08:21:17","like_diff":0,"likes":0,"dislikes":0,"content":"对于喜欢音乐的人来说是个好选择"},{"id":29516,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-06-30 02:09:46","like_diff":0,"likes":0,"dislikes":0,"content":"给分成谜，听辩错了一个，一次点名也到了，尴尬，老师还不错。"},{"id":29524,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-06-30 02:23:54","like_diff":0,"likes":0,"dislikes":0,"content":"老师的音乐知识过硬，讲课也很有趣，收到了音乐的熏陶，至于绩点，还是自己不够优秀吧，上课开心就好了～"},{"id":29543,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-06-30 02:52:58","like_diff":0,"likes":1,"dislikes":1,"content":"老师上课超有意思。听辩对成绩会有影响。但感觉主要还是看论文。"},{"id":30230,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-07-01 05:58:35","like_diff":0,"likes":1,"dislikes":1,"content":"视唱练耳漏掉了一次考试，给我过了，感恩"},{"id":30531,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-07-02 00:37:46","like_diff":0,"likes":0,"dislikes":0,"content":"老师上课好有趣，会有一些经典的关于音乐和音乐家的趣闻轶事，有事老师也会表演她的超棒的钢琴技巧，事情也不多"},{"id":30998,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-07-03 05:54:43","like_diff":0,"likes":1,"dislikes":1,"content":"感觉很好，气氛很轻松"},{"id":33242,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-09-16 11:18:29","like_diff":0,"likes":0,"dislikes":0,"content":"给我留下很深印象的老师，真正体现通识课的意义啊。诚然，这门课要是对音乐十分热爱的同学上得分会很高，你可以之前毫无音乐基础。大学通识课不就该是这样吗？"},{"id":35180,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-11-04 01:56:08","like_diff":0,"likes":1,"dislikes":1,"content":"文艺范女神，课没认真听过，只顾着看老师了，听辩全对，论文瞎写的，没有展示，最后4.5，强推强推啊，选了绝对不后悔"},{"id":36476,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-11-14 05:15:17","like_diff":0,"likes":0,"dislikes":0,"content":"女神老师，听着音乐自习是种享受，给分还行，随缘吧"},{"id":36477,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-11-14 05:15:44","like_diff":0,"likes":2,"dislikes":2,"content":"一直以为老师课很好，没想到啊没想到，这么认真就给我3.3，我不是文科生，听辨都是对的，论文虽然也不知道怎样才是好的，可是花了我好几天的功夫，可以赶上专业课的时间了。真是，还不如来一场考试比较公平啊！"},{"id":41939,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-01-13 09:08:07","like_diff":0,"likes":0,"dislikes":0,"content":"真的是女神?上课非常享受，而且课程任务比较轻松~实在忙的话，就像老师说的换个地方自习也是非常好的选择~（愧疚）"},{"id":43073,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-01-15 15:50:31","like_diff":0,"likes":2,"dislikes":2,"content":"总体来说不错的，老师人很好，带我们出去看演唱会哈哈，视唱练耳会帮基础差的同学开小灶练习，不过给分低的话，老师也解释过，正态实在是要求得不合理。。有基础的同学会非常轻松，没基础的同学会比较吃力，不过如果有用心的话老师是能知道的"},{"id":44169,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-01-17 11:11:48","like_diff":0,"likes":2,"dislikes":2,"content":"西方音乐简史，平时不点名没作业，成绩看两次听辨和小论文。老师是女神，有气质，钢琴说着说着就弹起来了，可以尽情享受音乐时光。成绩看个人论文吧~"},{"id":44359,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-02-18 12:16:31","like_diff":0,"likes":3,"dislikes":3,"content":"视唱练耳的抽背不就等于点名吗？这么多人基本上一学期就只能点到一次。不想听就当换个地方做作业，老师原话。要是翘掉不来期末就别想太多了。原来没有任何音乐基础可能确实吃力一点，毕竟要听要唱，不过要说难度真的就只是通识水平，期末听写的乐段挺基础的，每小节听三遍全段又听三遍还要怎样(｢･ω･)｢"},{"id":46922,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-01-23 02:13:39","like_diff":0,"likes":2,"dislikes":2,"content":"很好的老师，学到了之前不知道的知识！给分也棒棒哒"},{"id":51383,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-06-03 13:22:38","like_diff":0,"likes":2,"dislikes":2,"content":"老师人超好！"},{"id":70457,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-01-26 15:58:39","like_diff":0,"likes":0,"dislikes":0,"content":"棒极"},{"id":76162,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-03-28 05:36:24","like_diff":0,"likes":0,"dislikes":0,"content":"上课会自己讲自己笑，喜欢在播放音乐时候讲解，个人觉得可以在播放前后才说"},{"id":77589,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-05-06 23:34:32","like_diff":0,"likes":0,"dislikes":0,"content":"老师超女神"},{"id":77590,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-05-06 23:40:06","like_diff":0,"likes":0,"dislikes":0,"content":"大一上过最享受的一门课，老师钢琴弹的超棒。没参加展示课但是给分也特别特别好。表白陈列女神～"},{"id":77767,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-05-07 15:32:42","like_diff":0,"likes":0,"dislikes":0,"content":"老师讲的超棒，认真准备听测，认真写论文，最后结果很不错的！"},{"id":77806,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-05-08 02:14:20","like_diff":0,"likes":0,"dislikes":0,"content":"绝对棒，只要听辩好好准备，论文根据自己感受写就能拿高分，老师钢琴贼棒"},{"id":81896,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-07-06 12:38:44","like_diff":0,"likes":1,"dislikes":1,"content":"听老师上课非常有趣而且轻松，感觉对古典音乐有了一定的认识。听辨没有全对，短文没有引经据典、完全是自己的感悟，最后给了4.8，一定要吹一波老师。"},{"id":82013,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-07-07 00:28:15","like_diff":0,"likes":0,"dislikes":0,"content":"很好的老师"},{"id":82301,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-07-07 23:02:48","like_diff":0,"likes":0,"dislikes":0,"content":"感觉挺好的"},{"id":82967,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-07-09 11:24:40","like_diff":0,"likes":0,"dislikes":0,"content":"老师上课内容很多 如果完全没学过乐理的话学起来会很吃力的"},{"id":86839,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-09-19 04:27:53","like_diff":0,"likes":0,"dislikes":0,"content":"气质很好的老师，水平也很高。很照顾各种水平的学生拉，总是停下来关照一下没基础的同学。你要是乐理基础好前半学期都可以申请免听呐。"},{"id":87257,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-09-26 06:53:49","like_diff":0,"likes":0,"dislikes":0,"content":"刚刚上了两节课，课上懂乐理的大佬超级多，感觉自己要被正态掉了，不过老师还是很好。"},{"id":89422,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-19 04:56:39","like_diff":0,"likes":1,"dislikes":1,"content":"我明天才上老师的课，看了下评论好像很nice的样子，所以先打个9分，大不了最后再改"},{"id":89426,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-19 05:23:51","like_diff":0,"likes":0,"dislikes":0,"content":"老师真的很棒很棒很棒啊！听辨两次好好准备 论文自己写 我没查别的任何资料 给分超级棒啊！"},{"id":89645,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-20 06:15:25","like_diff":0,"likes":0,"dislikes":0,"content":"一直在水，最后绩点给我感动了，老师很美，也能学到东西。"},{"id":89651,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-20 06:45:58","like_diff":0,"likes":0,"dislikes":0,"content":"西方音乐简史其实对于一些对古典音乐不熟悉的同学也是非常友好的，两次听辩，一篇类似论文的感想，只要用心，不管在音乐上有无天赋，都能拿到不错的成绩，老师人也非常好，给分也非常不错"},{"id":89877,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-21 06:22:32","like_diff":0,"likes":0,"dislikes":0,"content":"非常好"},{"id":92826,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-05 01:35:35","like_diff":0,"likes":1,"dislikes":1,"content":"无话可说，自己太菜"},{"id":93366,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-09 07:54:24","like_diff":0,"likes":1,"dislikes":1,"content":"上的西方音乐简史，真的特别好，只要两次小测和一篇论文。老师真的女神，搞笑，上课很开心，给老师满分"},{"id":97838,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-22 23:39:51","like_diff":0,"likes":1,"dislikes":1,"content":"老师讲的很好，课间没有休息。最后的给分也很棒，好好学的话，肯定是能拿满意的分数嗒。"},{"id":97967,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-23 02:51:17","like_diff":0,"likes":1,"dislikes":1,"content":"很好的老师，上课体验极好，给分也不错"},{"id":97989,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-23 03:25:37","like_diff":0,"likes":1,"dislikes":1,"content":"陈列女神！太好了叭！"},{"id":98244,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-23 08:42:34","like_diff":0,"likes":0,"dislikes":0,"content":"看老师弹琴真是一种享受"},{"id":98374,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-23 11:29:14","like_diff":0,"likes":0,"dislikes":0,"content":"秋冬视唱练耳 之前完全是因为想学一点基础乐理去选的 很多人和我说小白可能会被正太 最开始有点怕了 课完全不水 至少对我来说 收获是很大的 觉得自己时值把握不好 写节奏和谱子肯定错超多 最后也4.5啦真的很满意了 老师超级好考前还带我们复习嗷嗷"},{"id":99784,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-25 07:22:29","like_diff":0,"likes":0,"dislikes":0,"content":"西方音乐简史体验极佳。成绩由两次听辨和一篇小短文组成。听辨前认真准备，小短文不要重复视频的内容，写出自己的想法，分数都不会低的。"},{"id":102261,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-31 15:35:20","like_diff":0,"likes":0,"dislikes":0,"content":"老师上课讲的东西很多并且讲的很好，钢琴弹得超棒，课一点都不水"},{"id":106478,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-27 23:41:44","like_diff":0,"likes":0,"dislikes":0,"content":"仙女啊\n\n"},{"id":106502,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-28 02:50:50","like_diff":0,"likes":0,"dislikes":0,"content":"古典音乐启蒙 以前听不下去的古典也变得能够理解和优美了"},{"id":106621,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-28 11:48:12","like_diff":0,"likes":0,"dislikes":0,"content":"很可爱的老师"},{"id":106753,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-29 09:02:57","like_diff":0,"likes":0,"dislikes":0,"content":"老师超好啊，很有气质，在通识课里算事少的了，好好对待两次听辨和论文绩点不会低的。"},{"id":108090,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-05-14 12:43:31","like_diff":0,"likes":0,"dislikes":0,"content":"基德通道"},{"id":118766,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-10-31 14:46:44","like_diff":0,"likes":0,"dislikes":0,"content":"好。。。"},{"id":119215,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-11-11 08:51:08","like_diff":0,"likes":0,"dislikes":0,"content":"上课内容是在任务介绍中夹杂着音乐（也可以说是反之），上课时间段容易睡觉，但似乎对成绩没什么影响（？）论文与听力好好搞就能高分了"},{"id":119367,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-11-12 10:33:59","like_diff":0,"likes":0,"dislikes":0,"content":"上西方音乐简史，老师特别nice，就是听音乐太舒服了又是下午的课很容易犯困……给分不错"},{"id":119495,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-11-13 05:35:41","like_diff":0,"likes":0,"dislikes":0,"content":"超级好的西方音乐简史！"},{"id":119501,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-11-13 06:11:34","like_diff":0,"likes":1,"dislikes":1,"content":"特别好！听辨全对论文有一点观点 满绩啦 爱老师（对不起我都还没来得及认认真真听一次老师上课"},{"id":119521,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-11-13 08:43:50","like_diff":0,"likes":1,"dislikes":1,"content":"两次听辨，一次论文，中间点了一次名\n\n听辨全对，论文写了高中听古典乐的经历。。居然满绩了\n\n课上有音乐听"},{"id":119651,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-11-14 13:58:11","like_diff":0,"likes":1,"dislikes":1,"content":"老师真的很好啊……就是自己音乐素养也最好高一点 要听辨和写论文 你懂的。。。至于绩点，那个体差异很大的应该不会低于3.3/79"},{"id":119844,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-11-16 04:35:18","like_diff":0,"likes":0,"dislikes":0,"content":"爽死了"},{"id":142630,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-11-15 00:19:31","like_diff":0,"likes":0,"dislikes":0,"content":"呜呜呜陈列老师yyds"},{"id":145206,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-12-28 08:03:18","like_diff":0,"likes":0,"dislikes":0,"content":"陈老师太和蔼啦，钢琴课可能是集体教学的原因很难一对一教，每次看到女神我都很开心"},{"id":145358,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-12-29 07:26:29","like_diff":0,"likes":0,"dislikes":0,"content":"老师人挺好，最后的听辩一定好好准备"},{"id":145365,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-12-29 07:34:27","like_diff":0,"likes":0,"dislikes":0,"content":"每节课都是去听老师钢琴演奏的^O^"},{"id":147784,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-01-11 00:36:57","like_diff":0,"likes":0,"dislikes":0,"content":"我爱老师"},{"id":150664,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-02-11 03:02:36","like_diff":0,"likes":0,"dislikes":0,"content":"😢😢😢"},{"id":151069,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-02-22 15:32:52","like_diff":0,"likes":0,"dislikes":0,"content":"上过视唱练耳，来给老师补个分！\n\n个人是有一点乐器基础的，但是感觉老师教得五线谱呀基本乐理都很浅显易懂，对初学者也十分友好。练耳中的听旋律个人觉得还是有点难度，不过老师出题很简单的！每次作业认真做了，上课听了，考试就基本会写，因为要考啥老师都提前给俺们说了嘛。\n\n总之是比较轻松愉快的课程，老师人好，课程内容也友好，基础乐理（其实也就识谱、基本调性）懂一点还是不戳的。"},{"id":154668,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-06-03 05:56:02","like_diff":0,"likes":0,"dislikes":0,"content":"真的很棒捏"},{"id":156562,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-06-20 09:19:07","like_diff":0,"likes":0,"dislikes":0,"content":"女神！"},{"id":156882,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-06-21 09:07:49","like_diff":0,"likes":0,"dislikes":0,"content":"为什么女神的查老师还没上10？给我上！"},{"id":157231,"teacher_id":194,"teacher_name":"陈列","post_time":"2022-06-22 12:45:32","like_diff":0,"likes":1,"dislikes":1,"content":"每周最期待的就是陈列老师的课"},{"id":165753,"teacher_id":194,"teacher_name":"陈列","post_time":"2023-01-09 13:48:05","like_diff":0,"likes":0,"dislikes":0,"content":"打开艺术之门~因为线上原因小组四手联弹改成了800字观后感，交了就满分！个人认为视听和期末会更重要一些，也要做好在沉醉课堂的同时课下花时间练习的准备。老师弹奏曲子真是信手拈来，艺术素养极高！"},{"id":187959,"teacher_id":194,"teacher_name":"陈列","post_time":"2024-01-18 01:59:53","like_diff":0,"likes":0,"dislikes":0,"content":"好爱陈老师，，，，。，。，。她的课谁上谁知道。。。。。。。"},{"id":188402,"teacher_id":194,"teacher_name":"陈列","post_time":"2024-01-19 02:16:48","like_diff":0,"likes":1,"dislikes":1,"content":"太好了"},{"id":193151,"teacher_id":194,"teacher_name":"陈列","post_time":"2024-06-04 05:08:09","like_diff":0,"likes":0,"dislikes":0,"content":"good"},{"id":193794,"teacher_id":194,"teacher_name":"陈列","post_time":"2024-06-18 08:11:21","like_diff":0,"likes":0,"dislikes":0,"content":"老师的视唱练耳和钢琴都上过了，超级好的老师"},{"id":193972,"teacher_id":194,"teacher_name":"陈列","post_time":"2024-06-21 06:48:13","like_diff":0,"likes":1,"dislikes":1,"content":"上了西音史，老师人很温柔，讲课内容真的很吸引人，而且给分很好，课程任务也不大，文本作业都会规定字数，推荐推荐"},{"id":205828,"teacher_id":194,"teacher_name":"陈列","post_time":"2024-12-12 06:52:38","like_diff":0,"likes":0,"dislikes":0,"content":"神中神！"},{"id":208905,"teacher_id":194,"teacher_name":"陈列","post_time":"2025-01-03 09:33:14","like_diff":0,"likes":0,"dislikes":0,"content":"必须满分，老师简直是女神"},{"id":210135,"teacher_id":194,"teacher_name":"陈列","post_time":"2025-01-08 08:16:06","like_diff":0,"likes":0,"dislikes":0,"content":"视唱练耳4.5\n\n老师人美心善，尽全力给高绩点，但是还是拼不过正态政策，只能调到89。\n\n老师教的很好，零基础也可以慢慢听懂，但是在正态之下可能就比不过那些有基础的了。"},{"id":214865,"teacher_id":194,"teacher_name":"陈列","post_time":"2025-02-18 13:00:13","like_diff":0,"likes":0,"dislikes":0,"content":"素养过硬，伟大，无需多言"},{"id":22883,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-03-14 05:47:15","like_diff":-1,"likes":0,"dislikes":1,"content":"试唱练耳好好好"},{"id":24141,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-04-28 00:40:52","like_diff":-1,"likes":3,"dislikes":4,"content":"完全不知道怎么给分的，听测只有第一次错了2个，论文认真写给分这么低，简直了"},{"id":24148,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-04-28 01:14:11","like_diff":-1,"likes":1,"dislikes":2,"content":"老师很好啊，会愿意和我们分享一些音乐和留学的有趣经历，至于给分，我没有参加展示，但每节课都是在用心上，4.2"},{"id":29529,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-06-30 02:39:39","like_diff":-1,"likes":0,"dislikes":1,"content":"论文英语写的 下了一些功夫 听辨错了一个 最后4.6"},{"id":44962,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-01-18 15:53:53","like_diff":-1,"likes":1,"dislikes":2,"content":"。。。。"},{"id":49853,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-04-26 14:20:23","like_diff":-1,"likes":1,"dislikes":2,"content":"女神~"},{"id":55062,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-06-30 17:13:36","like_diff":-1,"likes":2,"dislikes":3,"content":"乱给分?"},{"id":55149,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-07-01 02:07:32","like_diff":-1,"likes":2,"dislikes":3,"content":"给分差，不知道怎么给的分，课很水，但是真的不懂这老师给分的标准"},{"id":55336,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-07-01 10:06:45","like_diff":-1,"likes":1,"dislikes":2,"content":"有兴趣就挺好，没天分就别指望能拉高均绩就是了_(:з」∠)_"},{"id":55798,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-07-02 11:36:52","like_diff":-1,"likes":1,"dislikes":2,"content":"老师打分难道不是上课就已经讲出来了么？我跟你们说，我满了。"},{"id":56175,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-07-03 07:44:29","like_diff":-1,"likes":0,"dislikes":1,"content":"老师教得非常耐心，平时对于能力的锻炼十分重视。有音乐基础学起来会相对容易，但考试要做到全对也是有难度的。给分很好，主要是笔试和口试成绩为主，有能力一定可以拿高分。"},{"id":56956,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-07-05 04:44:43","like_diff":-1,"likes":0,"dislikes":1,"content":"没有无缘无故的爱，也没有无缘无故的恨，更没有无缘无故的高绩点和满分。老师非常客观，你自己不努力绩点不高也没有办法了"},{"id":58677,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-09-14 07:05:28","like_diff":-1,"likes":0,"dislikes":1,"content":"老师教导很耐心，还会请艺术团的学生现场演奏"},{"id":60099,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-10-10 06:55:31","like_diff":-1,"likes":1,"dislikes":2,"content":"老师声音好温柔啊~每次听课都很开心~~(⑉°з°)-♡"},{"id":70436,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-01-26 15:20:51","like_diff":-1,"likes":0,"dislikes":1,"content":"太喜欢老师了 自己没什么音乐基础 相比其他通识课 视唱练耳课让我学到了很多基础的乐理知识 收获很大 认真准备给分也很好"},{"id":75566,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-03-13 10:57:54","like_diff":-1,"likes":3,"dislikes":4,"content":"总是在尬笑，不知道在笑什么"},{"id":89734,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-11-20 12:45:53","like_diff":-1,"likes":3,"dislikes":4,"content":"呵呵\n\n给分无力吐槽"},{"id":91192,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-12-03 06:08:21","like_diff":-1,"likes":3,"dislikes":4,"content":"3.3，不知道怎么评的，生气(｡ì _ í｡)"},{"id":92834,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-05 03:59:43","like_diff":-1,"likes":0,"dislikes":1,"content":"陈老师超级好，钢琴弹的很棒，课也很有意思！听辩只要提前几天好好听好好准备就没有问题，期末短文写一些自己的感受或者故事就能拿高分，我写的是我自己的故事，最后满了，给老师疯狂打call"},{"id":93218,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-08 06:52:41","like_diff":-1,"likes":0,"dislikes":1,"content":"两次听辨，一次论文，总的来说比较轻松。老师人也很好，随和，亲切，个人感觉如果想认真了解西方音乐的发展，你可以学到很多知识，如果你想去放松听音乐，也是很好的选择。"},{"id":93387,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-09 10:20:42","like_diff":-1,"likes":1,"dislikes":2,"content":"事先有一定音乐基础选了这门课，本来是想水水绩点顺便写写作业，但老师上课实在太有趣了，边讲边在钢琴上演示，一切是那么的自然。上完之后音乐观上了一个台阶。顺便吐槽一下辣鸡钢琴的音质┐(‘～`；)┌"},{"id":110276,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-06-25 09:25:25","like_diff":-1,"likes":3,"dislikes":4,"content":"没基础就是帮别人刷绩点，分分钟绩杀你"},{"id":120772,"teacher_id":194,"teacher_name":"陈列","post_time":"2020-01-16 22:05:20","like_diff":-1,"likes":0,"dislikes":1,"content":"emmm还行吧上的西方音乐简史。上课也比较轻松，一个短学期两次听辨加一篇论文（限字数），虽然经常睡着，但是最后绩点也还行，最后感觉起码也记住了几首古典音乐，想轻松一点的同学可以选一选"},{"id":10300,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-11-18 03:28:08","like_diff":-2,"likes":5,"dislikes":7,"content":"老师很漂亮也很温柔，只要完成任务分就不会低。"},{"id":10689,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-11-22 11:53:04","like_diff":-2,"likes":7,"dislikes":9,"content":"超级棒的老师，女神老师，还从来不点名，棒棒哒！"},{"id":19284,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-23 21:59:30","like_diff":-2,"likes":2,"dislikes":4,"content":"呃上完课看个电视剧都一直听到许多课上听过的曲子。给分还行，反正我是没有被正态啦我也没展示"},{"id":20747,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-31 02:18:30","like_diff":-2,"likes":11,"dislikes":13,"content":"课听了，听辨也没有错，论文是认认真真写的，分很低。老师喜欢西洋人的东西，我不喜欢这种人，我的论文不和她口味也很正常。总之是分低我认了，但我讨厌这个老师。"},{"id":21546,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-02-29 06:54:37","like_diff":-2,"likes":0,"dislikes":2,"content":"我不知道啊"},{"id":24128,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-04-27 15:24:20","like_diff":-2,"likes":4,"dislikes":6,"content":"听说老师很好，上课时我也这样觉得，于是每次上课都坐第一排，每次听辩测试都花仔细的时间去准备，甚至去默写，当然基本没错，虽然没有考试，但是听课时依然会认真的记笔记，毕竟想学一点知识，听同学说期末论文用英文写会拿高分，于是我也这样去做了，但我左顾右盼着期末成绩时，3.3！我真的崩溃了，通识老师还有这样的？！"},{"id":24173,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-04-28 04:49:44","like_diff":-2,"likes":1,"dislikes":3,"content":"\n\n\n\n听辨写全很重要"},{"id":31130,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-07-03 08:55:57","like_diff":-2,"likes":4,"dislikes":6,"content":"不是很懂最后绩点3.3是什么意思。两次听辨全对，论文花了两个下午写好，自认为非常认真对待。给分真的很不能理解。"},{"id":42257,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-01-14 03:15:37","like_diff":-2,"likes":0,"dislikes":2,"content":"满啦满啦老师超棒！！！"},{"id":42455,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-01-14 08:50:28","like_diff":-2,"likes":1,"dislikes":3,"content":"讲道理课很轻松也挺有趣的，两次听辩真的很关键。"},{"id":42733,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-01-15 04:10:31","like_diff":-2,"likes":1,"dislikes":3,"content":"好老师！"},{"id":50203,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-05-01 07:29:54","like_diff":-2,"likes":2,"dislikes":4,"content":"敲棒哒！！！前排表白！！"},{"id":55151,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-07-01 02:09:15","like_diff":-2,"likes":0,"dislikes":2,"content":"老师女神  被圈粉~"},{"id":55254,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-07-01 05:58:04","like_diff":-2,"likes":1,"dislikes":3,"content":"老师很好，钢琴弹的真的棒，但是为啥我有基础才89，有点失望！"},{"id":62288,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-11-24 03:44:25","like_diff":-2,"likes":0,"dislikes":2,"content":"上课困到死"},{"id":70435,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-01-26 15:20:35","like_diff":-2,"likes":2,"dislikes":4,"content":"超好的老师，无恶竞，给分好，小白凭生活经验和真情实感写论文拿了满绩。。真心赞"},{"id":74627,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-03-05 01:40:32","like_diff":-2,"likes":1,"dislikes":3,"content":"给分明明超级好啊...我满级了兄弟"},{"id":92532,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-02 05:52:37","like_diff":-2,"likes":2,"dislikes":4,"content":"呵呵了"},{"id":110394,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-06-26 10:02:13","like_diff":-2,"likes":6,"dislikes":8,"content":"没想象的那么好，而且怎么说呢感觉不听课都完全可以，因为听辨测试和论文都不靠上课完成。对于没基础的同学确实不友好，但是我辛辛苦苦的给我卡绩有点不好吧，比专业课几点都低。。。"},{"id":7665,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-09-15 07:52:57","like_diff":-3,"likes":9,"dislikes":12,"content":"一堂课变脑残粉"},{"id":15290,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-13 11:07:53","like_diff":-4,"likes":4,"dislikes":8,"content":"给分给的莫名其妙，，，，，，，我对音乐没兴趣，早知道不选了，，，，，妈个鸡"},{"id":16478,"teacher_id":194,"teacher_name":"陈列","post_time":"2016-01-18 07:33:01","like_diff":-4,"likes":8,"dislikes":12,"content":"课有趣，给分好。旷了那么2、3堂，展示课也没去，只是听辨都写对了，论文讲真的我也没太好好写。最后给了4.5。我觉得关键是要把听辨写好，音乐选自哪里最好都写上"},{"id":37604,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-03-13 12:38:41","like_diff":-4,"likes":2,"dislikes":6,"content":"论文一定要写真实感想.观点之类，主要靠这个拉开成绩。我和两个同学4.8，还有朋友4.5、4.2的，老师真的很好"},{"id":49849,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-04-26 13:02:28","like_diff":-4,"likes":2,"dislikes":6,"content":"纪念陈列老师给我的两个满绩"},{"id":92209,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-12-27 04:58:36","like_diff":-4,"likes":1,"dislikes":5,"content":"第一门满绩的课！！表白女神！！上课感兴趣听了收获很大不想听水水也可以拿高分啊。好好准备听辩答全对+论文不要抄写自己真情实感，真的不难拿高分TAT"},{"id":99441,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-24 23:25:21","like_diff":-4,"likes":1,"dislikes":5,"content":"给分垃圾"},{"id":51700,"teacher_id":194,"teacher_name":"陈列","post_time":"2017-06-08 11:10:08","like_diff":-5,"likes":1,"dislikes":6,"content":"超级棒，反正我两次听辨就错了一个，最后绩点4.8"},{"id":71683,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-01-29 00:35:46","like_diff":-5,"likes":3,"dislikes":8,"content":"上课蛮好的就是谜一样的评分\n\n老子每次坐最前面听辨是全对的论文也查了很多正规资料最后给了个3.2，不知道是不是歧视我们高年级，之前选了那么多音乐通识都没下4.5"},{"id":96034,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-20 11:44:06","like_diff":-5,"likes":4,"dislikes":9,"content":"老师好 唯一一个满绩orz"},{"id":109386,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-06-13 15:30:46","like_diff":-6,"likes":2,"dislikes":8,"content":"西方音乐简史 事少 但给分超级不好，一门通识课60多分，我也是醉了"},{"id":65903,"teacher_id":194,"teacher_name":"陈列","post_time":"2018-01-10 05:48:02","like_diff":-11,"likes":4,"dislikes":15,"content":"考试作弊很容易哦"},{"id":10097,"teacher_id":194,"teacher_name":"陈列","post_time":"2015-11-16 00:22:55","like_diff":-13,"likes":7,"dislikes":20,"content":"论文记得用英文写 拉高均绩妥妥的"},{"id":167751,"teacher_id":194,"teacher_name":"陈列","post_time":"2023-01-19 01:38:54","like_diff":-14,"likes":4,"dislikes":18,"content":"陈列老师极好，本人打开艺术之门钢琴随随便便就满了，上课体验是很棒的"},{"id":103782,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-03-05 12:21:08","like_diff":-15,"likes":6,"dislikes":21,"content":"垃圾老师我靠绝了"},{"id":139177,"teacher_id":194,"teacher_name":"陈列","post_time":"2021-07-13 06:41:18","like_diff":-19,"likes":2,"dislikes":21,"content":"卡我绩。。。"},{"id":89764,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-01-30 12:12:21","like_diff":-24,"likes":7,"dislikes":31,"content":"在梦中梦到老师成了我女友，她在弹钢琴，我在拉小提琴伴奏，非常美好"},{"id":106452,"teacher_id":194,"teacher_name":"陈列","post_time":"2019-04-27 13:02:55","like_diff":-29,"likes":3,"dislikes":32,"content":"陈列老师人挺好的，上课态度认真负责，弹得一手好琴。然而我可能是论文有劣势（说是论文，我却只能写出高中议论文的风格...）虽然两次小测全对，签到也到了，却只有4.5。可能个人本身没有什么古典音乐的底子，报这门课的初衷是满足培养方案的要求，课上很多学生都明显是有古典音乐这方面的底子或兴趣爱好的，我作为一个工科生ssfd，这就导致我最终绩点没达到预期...所以追求高绩点的同学最好是有这方面的兴趣爱好和底子再选。"},{"id":197093,"teacher_id":194,"teacher_name":"陈列","post_time":"2024-07-07 14:07:07","like_diff":-53,"likes":3,"dislikes":56,"content":"真搞笑，西音史一节课都没去过，满绩了"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

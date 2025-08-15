@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>夏大静 - 医学院 - 浙大教评</title>
+    <meta name="description" content="夏大静教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="夏大静,医学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">夏大静</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">医学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">7.91</div>
+                    <div class="rating-participants">127人参与评分</div>
+                    <div class="attendance-info">21.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (6 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">临床前课程概论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.72</span>
+                            <span class="students">选课: 84人</span>
+                            <span class="std-dev">标准差: 0.70</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">健康与免疫</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.83</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.74</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">卫生毒理学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.51</span>
+                            <span class="students">选课: 296人</span>
+                            <span class="std-dev">标准差: 0.84</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大学生物学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.97</span>
+                            <span class="students">选课: 101人</span>
+                            <span class="std-dev">标准差: 0.62</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">微生物与人类健康</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.43</span>
+                            <span class="students">选课: 25人</span>
+                            <span class="std-dev">标准差: 0.25</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">饮食与人类</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.16</span>
+                            <span class="students">选课: 434人</span>
+                            <span class="std-dev">标准差: 0.63</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (111 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":72392,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-01-30 04:51:27","like_diff":26,"likes":32,"dislikes":6,"content":"放假有时间了来详细评价一下老师。老师之前是9.25，现在评分降了。\n\n首先我打了8分，老师给我的是3.3分´_>`。\n\n我绝对是实话实说！老师讲课很认真，备课很用心，这我想大家无论分高还是低都必须承认的。搭班的男老师讲的也很好，认真听真的能学到东西！上课氛围很轻松！不过我也承认我作为学生上课是没有认真听的，所谓水课吧。我觉得给老师高分还是应该的，要客观一点嘛！但是大家观点不同有的人侧重给分，打低也是无可厚非，毕竟我被拉了均绩也很难过QAQ。\n\n课上只有一次展示算作作业吧，没有回答加分，真的很闲了可以说，展示的分数我也不知道是多少，希望以后可以公开吧。\n\n最后的考试有几题很偏，我没写出来，但我认真复习了，ppt看了，书也看了所以我知道ppt上都有，但是我没有打印出来，我只抄了我认为重要的，所以over了。\n\n因此考试我给的忠告以这次考试而言，无论如何要打印ppt，即使你觉得某几页很偏。所以我扣了2分是因为有几题限制太大，你看了也许记不住甚至不会去记所以只能印ppt抄，也许这是为了区分，但是我觉得这也不算是很好的考察学生能力的方法吧。也许以后可以出一些开放题，没有ppt至少可以写一点。这只是我的一点小小意见而已啦轻喷(*/ω＼*)。"},{"id":76416,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-04-08 13:01:40","like_diff":24,"likes":54,"dislikes":30,"content":"她上课说了一句：我不歧视同性恋的人，他们有病也很痛苦的。"},{"id":182882,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2023-11-21 02:32:13","like_diff":23,"likes":23,"dislikes":0,"content":"给分太迷了，小组pre有在好好做，期末四道半题全找到了，最后半题是写食谱，然后3.6，迷了"},{"id":182942,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2023-11-21 10:18:27","like_diff":21,"likes":21,"dislikes":0,"content":"被绩杀了，给分太迷了…"},{"id":40884,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2017-01-06 05:13:12","like_diff":18,"likes":23,"dislikes":5,"content":"搭班的那个男老师（吴一华老师）感觉真的很风趣幽默有意思～  科学精神满满"},{"id":11826,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2015-12-16 12:39:12","like_diff":17,"likes":29,"dislikes":12,"content":"不说给分 老师真的有认真准备 讲课也好 比某些不负责任的老师好了不知道几条街"},{"id":182902,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2023-11-21 04:10:55","like_diff":17,"likes":17,"dislikes":0,"content":"展示被夸，开卷买了教材认真写了，1.8，构式"},{"id":185041,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2023-12-26 04:10:39","like_diff":16,"likes":16,"dislikes":0,"content":"快跑！"},{"id":182923,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2023-11-21 06:08:49","like_diff":14,"likes":17,"dislikes":3,"content":"嘻嘻，什么都不说了，给大家叠个buff吧\n\n组长+两次小组作业展示人+老师说“我记得你的名字，每个认真准备的同学老师都记得”+“老师知道你对小组作业的贡献很大”+期末考准备了ppt以外的资料（有关mRNA疫苗)\n\n最后只有4.2"},{"id":188759,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2024-01-20 00:59:25","like_diff":14,"likes":14,"dislikes":0,"content":"真的是一个很差的老师！"},{"id":183063,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2023-11-22 03:33:32","like_diff":12,"likes":12,"dislikes":0,"content":"确实有点绩杀，都有在好好做 给分有点懵逼"},{"id":188244,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2024-01-18 13:21:35","like_diff":12,"likes":12,"dislikes":0,"content":"期末开卷，平时不缺勤，有展示，你是怎么给我2.7的？"},{"id":186729,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2024-01-12 23:04:39","like_diff":11,"likes":11,"dislikes":0,"content":"忍不住回来骂人，上课每节课都到了，本人理科生生物学的还不错开卷考全部找到并且抄满，最后喜提3.6。平常也只有两个pre和最后点了个名，可能评价标准是展示人or展示时间？纯nt"},{"id":9983,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-12-27 00:24:54","like_diff":10,"likes":27,"dislikes":17,"content":"可以的\n\n"},{"id":84247,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-07-12 10:32:32","like_diff":10,"likes":15,"dislikes":5,"content":"说一下个人体会，①老师其讲课是认真的。②但对于学生的评价标准真的不敢恭维，所谓的认不认真只是看上课有没有盯着上面看……其中不合理之处就不用我多说了。③我觉得她有些狭隘(不喜勿喷)，她的一些观点很不客观。④不推荐不懂套路的同学选。"},{"id":183062,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2023-11-22 03:27:54","like_diff":10,"likes":10,"dislikes":0,"content":"上课不点名，但是最后展示课点了。两次pre，期末考试嗯抄PPT，给分很迷"},{"id":183415,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2023-11-26 09:09:36","like_diff":10,"likes":10,"dislikes":0,"content":"我想知道自己哪块分低了，比预期差太多了，tmd谁讲的时间长给谁的多是吧"},{"id":56754,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2017-07-04 14:17:27","like_diff":9,"likes":17,"dislikes":8,"content":"讲课不错，但是不是乱给分啊……好好听课好好复习了感觉做的不错最后分很低难受"},{"id":70353,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-01-26 13:39:23","like_diff":9,"likes":11,"dislikes":2,"content":"讲课还挺好的 但给分是真的挺迷的 我们小组展示还挺用心的还被老师夸了 然后期末考试大部分都在书上和屁屁踢上找到了 作为第一门上课认真听的通识课看到绩点的时候真的还挺难过的"},{"id":45790,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2017-01-20 05:57:27","like_diff":8,"likes":11,"dislikes":3,"content":"毕竟是一门通识，分是不是稍低啊"},{"id":69869,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-01-25 14:39:50","like_diff":8,"likes":11,"dislikes":3,"content":"出成绩贼慢"},{"id":71098,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-01-28 02:52:17","like_diff":8,"likes":11,"dislikes":3,"content":"前面说诺贝尔奖的. ..她上课讲过两三次，而且ppt上都出现了两次。嗯就这样。"},{"id":79121,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-05-23 12:07:03","like_diff":7,"likes":7,"dislikes":0,"content":"www文科生感觉有点难"},{"id":182909,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2023-11-21 07:22:40","like_diff":7,"likes":7,"dislikes":0,"content":"给你十分看会不会删评，前几条都被删了NB"},{"id":183000,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2023-11-21 11:35:16","like_diff":7,"likes":7,"dislikes":0,"content":"小组全绩杀，快run"},{"id":45951,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2017-01-20 09:43:11","like_diff":6,"likes":10,"dislikes":4,"content":"超级棒，超级好，相逢即是缘，三生有幸能上到夏老师的课"},{"id":70356,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-01-26 14:01:48","like_diff":6,"likes":8,"dislikes":2,"content":"不好，不好，，Ծ^Ծ，，"},{"id":121784,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2020-01-22 01:40:14","like_diff":6,"likes":8,"dislikes":2,"content":"只针对大学生物学 不针对老师。别选大学生物学 别选大学生物学 别选大学生物学 上课要举手恶竟因为占分 要看慕课完全靠自学期末还闭卷 两次PPT展示 最后还被完全正态到底"},{"id":14330,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2016-01-06 10:34:12","like_diff":5,"likes":10,"dislikes":5,"content":"其实我觉得老师不错讲课也很认真"},{"id":154587,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2022-06-02 09:03:45","like_diff":5,"likes":6,"dislikes":1,"content":"老师很负责，每次上课都准备很充分，希望为同学带来知识，文科生听听也很不错的"},{"id":195793,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2024-06-30 03:15:53","like_diff":5,"likes":5,"dislikes":0,"content":"饮食与人类，给分很迷，正态影响很大，慎选"},{"id":197406,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2024-07-13 04:35:48","like_diff":5,"likes":6,"dislikes":1,"content":"大学遇到的最恶心的玩意。给分一坨屎，本来想着选门通识课把学分攒够，结果直接喜提大学最低绩点，真tm恶心"},{"id":9982,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2015-11-14 01:32:46","like_diff":4,"likes":23,"dislikes":19,"content":"噫噫噫"},{"id":30368,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2016-07-01 12:03:25","like_diff":4,"likes":8,"dislikes":4,"content":"上课很想和我们互动。会提一些时下流行的元素和时事。感觉课堂氛围还是挺活泼的。给分也还不错的。那次课堂展示好好准备，分数不会低的。"},{"id":56974,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2017-07-05 05:21:48","like_diff":4,"likes":9,"dislikes":5,"content":"老师课准备得还是挺认真的，但不知道最后给分是怎么给的，最后那个很水的考试都翻到了，平时还发过几次言，最后被正态到79我真的是很绝望，慎选吧"},{"id":70462,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-01-26 16:01:56","like_diff":4,"likes":8,"dislikes":4,"content":"老师给分很迷，给予了好好听课做笔记的我暴击"},{"id":72148,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-01-29 13:03:48","like_diff":4,"likes":5,"dislikes":1,"content":"男女老师上课都很认真啊 考试题目ppt上都有 认真听课没有什么难的?"},{"id":150358,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2022-01-23 05:18:03","like_diff":4,"likes":5,"dislikes":1,"content":"夏老师和胡老师特别负责人，十分专业，讲课十分认真，能学到很多知识。不过非常需要小组配合，一个冬学期8节课，大概有5节都需要小组展示。期末是开卷考，不难，但可能会涉及小组展示的知识。我是纯文科生，刚学这门课真的是一点听不懂，到看看工作细胞这个动漫之后还会了一点，只要好好看ppt，期末就没啥问题。本纯纯文科生，期末居然还有4.8，老师捞了我一大把。"},{"id":14618,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2016-01-08 03:19:32","like_diff":3,"likes":7,"dislikes":4,"content":"点名方式是第二堂课分小组  没来的分不到小组"},{"id":18717,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2016-01-22 11:52:24","like_diff":3,"likes":7,"dislikes":4,"content":"很好的老师。"},{"id":21137,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2016-02-20 15:20:49","like_diff":3,"likes":7,"dislikes":4,"content":"要写三个字！特别好的老师，推荐！"},{"id":45965,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2017-01-20 10:01:30","like_diff":3,"likes":9,"dislikes":6,"content":"?好老师啊，男女老师都讲的好，事情也不多。期末开卷考不太难，文科生也能拿高分"},{"id":72150,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-01-29 13:07:23","like_diff":3,"likes":5,"dislikes":2,"content":"老师备课很认真，很nice的老师，男老师真的科学精神满满，夏老师气质很好，上课知识面很广，虽然不是医学生，但是收获很大。"},{"id":73898,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-02-03 11:52:02","like_diff":3,"likes":5,"dislikes":2,"content":"2.1hehe"},{"id":92416,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-12-28 12:08:06","like_diff":3,"likes":6,"dislikes":3,"content":"作为一门水水的通识课我给老师满分，但是老师给我的分数真的太低了QAQ，考试明明很简单又是开卷，不知道为什么分数这么低，所以我给老师打个8分吧"},{"id":129168,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2020-12-31 01:40:48","like_diff":3,"likes":4,"dislikes":1,"content":"印象最深的一句话:虽然认真听的同学不多，但我每节课都有认真备课。还有，录播设备坏了，需要换教室，老师还一直道歉说耽误我们上课了。真的是很负责很负责的老师！！！\n\n但是这门课我真的一点也听不懂，上课全在水，挺内疚的。考试只要把PPT全印下来就差不多了啦，哦对了，还有一次小组展示，总之如果认真听课会收获很多，想水可以非常水"},{"id":150332,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2022-01-22 15:32:35","like_diff":3,"likes":3,"dislikes":0,"content":"ctmd，被正态了。。。。同样划水摸鱼，有的人4.8，有的人三点多一点点"},{"id":161906,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2022-11-15 02:19:59","like_diff":3,"likes":3,"dislikes":0,"content":"我上四了，很感谢夏老师。诚实的说，夏老师是很好的老师。老师很敬业，下午一点二十五点课，老师经常提前半个小时到教室检查ppt并与同学们交流。老师很好，但课程稍微有点偏专业化，不是物化生选手可能有点听不懂。但考核方式是开卷考加两次pre，所以听不听得懂也不是问题。如果想卷高绩点，一定一定要争取pre时的展示人。"},{"id":163943,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2022-12-16 16:07:41","like_diff":3,"likes":4,"dislikes":1,"content":"老师们都很温柔，期末考试是开卷。但是绩点比预期低很多，有种随机分配的感觉吧…大作业应该是参与pre的人越多绩点越高。"},{"id":52623,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2017-06-21 14:16:37","like_diff":2,"likes":3,"dislikes":1,"content":"不用写论文 期末考试有多水我就不多说了 你们懂得 我喜欢 但是小组展示会有鹅颈"},{"id":70467,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-01-26 16:09:47","like_diff":2,"likes":6,"dislikes":4,"content":"只能说不是医学专业慎重考虑，被正态没上3，拉低0.2均绩"},{"id":84216,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-07-12 08:59:54","like_diff":2,"likes":3,"dislikes":1,"content":"老师上课很认真负责，考核的内容也和课堂有关，我觉得很OK"},{"id":93393,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2019-01-09 11:16:21","like_diff":2,"likes":5,"dislikes":3,"content":"《健康与免疫》听夏老师和另一位男老师的课挺享受的，上这堂课有几个点要注意：1、高中最好选过生物。2、最后一节讨论课一定要到，会点名。3、ppt要打印（挺多的我觉得）。4、任务少，一次小组展示，期末开卷考，容易被正态。但是老师是真的很好的，喜欢别犹豫，相信自己，选就对了。"},{"id":114142,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2019-07-09 01:06:01","like_diff":2,"likes":3,"dislikes":1,"content":"平时事情蛮少的，其实就一次展示，期末考只要打印了上课的ppt开卷考就没问题，基本上的题都在ppt上很容易找到，因为期末考比较简单，大家都考得比较好，所以展示成绩在分数里占了很大比重，一定要好好准备，给分不差，我们小组差不多全部上4了"},{"id":128017,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2020-12-03 08:28:42","like_diff":2,"likes":2,"dislikes":0,"content":"上课比较轻松，考试挺简单的，也不存在文科生不会的情况，基本ppt里都有"},{"id":138574,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2021-07-10 02:13:14","like_diff":2,"likes":2,"dislikes":0,"content":"大学生物学。老师很好，但事情实在太多，希望下学期课程改革能改得合理点。。"},{"id":139400,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2021-07-15 06:48:20","like_diff":2,"likes":2,"dislikes":0,"content":"认真准备展示，开卷期末多写点，成绩就很好。"},{"id":161978,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2022-11-17 14:18:21","like_diff":2,"likes":3,"dislikes":1,"content":"给夏老师和胡老师打call，为人温柔上课认真。展示好好准备，开卷考好好考，分数不会低。"},{"id":203725,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2024-11-21 00:10:35","like_diff":2,"likes":4,"dislikes":2,"content":"夏老师有认真地在教我们免疫学知识。奈何本人文科生，高中没学过生物，所以上课时懂时不懂。听不懂就有点想睡......但是只要认真做绩点就比较好，给分可能会稍微照顾文科生一点，不会让学文科的答不出一点。\n\n平时从来不点名。小展示+大展示+开卷考，老师比较看重小组合作。基本上提前准备好资料和ppt，不要讲错，努力脱稿，大展示给分就比较好。此外，开卷考ppt上都有，真的很震惊考试的时候要么有人没来，要么开卷考不带资料/考试迟到，那绩点低不是很正常。老师出分比较慢，给分91/4.5我已经很满意了"},{"id":204613,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2024-11-27 05:02:52","like_diff":2,"likes":2,"dislikes":0,"content":"老师课很好，然后给分确实，得相信前人建议，真的很迷，，，"},{"id":18362,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2016-01-21 13:26:44","like_diff":1,"likes":6,"dislikes":5,"content":"老师真的不错啊，很认真的老师"},{"id":24018,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2016-04-25 12:37:44","like_diff":1,"likes":5,"dislikes":4,"content":"老师特别好，十分温柔，上课很负责，给分也超级好！"},{"id":29194,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2016-06-29 11:17:37","like_diff":1,"likes":4,"dislikes":3,"content":"会看papi酱的老师(・◇・)"},{"id":30373,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2016-09-13 14:39:31","like_diff":1,"likes":4,"dislikes":3,"content":"特别耐心，而且有气质，给分也好，事少！棒棒！"},{"id":30477,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2016-07-01 16:31:08","like_diff":1,"likes":4,"dislikes":3,"content":"老师讲得非常好，是通识课里的业界良心，给分也不错"},{"id":30520,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2016-07-01 23:46:26","like_diff":1,"likes":5,"dislikes":4,"content":"温柔的老师，备课很认真，上得也棒。认真准备课堂展示，好好准备考试，文科生也能在医学类通识中拿高分~"},{"id":33046,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2016-09-11 04:17:17","like_diff":1,"likes":4,"dislikes":3,"content":"老师会讲一些同学比较想听的内容 还关心学生的一些情况 nice的老师"},{"id":45936,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2017-01-20 09:28:48","like_diff":1,"likes":4,"dislikes":3,"content":"很好的老师！"},{"id":46144,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2017-01-20 16:27:58","like_diff":1,"likes":3,"dislikes":2,"content":"给分挺正常的，上课挺有趣的"},{"id":52564,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2017-06-21 06:24:11","like_diff":1,"likes":3,"dislikes":2,"content":"好好好"},{"id":84154,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-07-12 06:57:58","like_diff":1,"likes":4,"dislikes":3,"content":"乱给分"},{"id":84175,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-07-12 07:28:02","like_diff":1,"likes":4,"dislikes":3,"content":"渣渣渣"},{"id":100724,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2019-01-26 15:35:36","like_diff":1,"likes":3,"dislikes":2,"content":"垃圾正态分布垃圾晚课"},{"id":102834,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2019-02-24 02:47:35","like_diff":1,"likes":1,"dislikes":0,"content":"还不错嘛"},{"id":113756,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2019-07-07 09:13:39","like_diff":1,"likes":2,"dislikes":1,"content":"给分的确不怎么好 \n\n我只能说慎选\n\n但是对不同同学不一样 \n\n想好好学的确可以选好 但是我不推荐"},{"id":120134,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2019-11-17 23:16:08","like_diff":1,"likes":1,"dislikes":0,"content":"老师挺好的，很温和"},{"id":120526,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2020-01-12 03:25:57","like_diff":1,"likes":1,"dislikes":0,"content":"很贴心的老师，给分不好的只能问自己有没有积极参与课堂展示和复习ppt，开卷都不行就没什么行了。"},{"id":120844,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2020-01-17 18:30:38","like_diff":1,"likes":1,"dislikes":0,"content":"健康与免疫，一次展示，最后期末开卷考，PPT上都有，大部分授课内容学过些生物理解起来就好一点。"},{"id":148429,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2022-01-12 12:24:56","like_diff":1,"likes":1,"dislikes":0,"content":"夏老师整体很认真负责，尽力在给大家教知识（虽然专业相关所以没认真听hhh），但健康与免疫说实话任务有些重了，三次小展示+一次大展示+期末五到简答的开卷，相比别的课程而言（比如只有一次展示和几个课上小作业的营养与健康之艺术）投入量偏大，大家感兴趣放心选，如果只是混学分还是不建议了"},{"id":203802,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2024-11-21 06:18:50","like_diff":1,"likes":2,"dislikes":1,"content":"5.0满啦！老师上课很认真，感觉拿高分还是要看脸缘。我是每节课都坐在第二排，课上认真听课，两次展示也是本人，第二次展示我们小组还制作了视频，期末考试非常简单，考前整理一下PPT就能写出来了。给老师满分！！"},{"id":204020,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2024-11-23 06:02:44","like_diff":1,"likes":1,"dislikes":0,"content":"老师挺和蔼的，讲的也可以，然而3.3绩杀..."},{"id":204410,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2024-11-25 16:39:09","like_diff":1,"likes":1,"dislikes":0,"content":"考试觉得挺简单写的很多但是喜提3.0，慎选"},{"id":16016,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-05-30 09:13:09","like_diff":0,"likes":5,"dislikes":5,"content":"哎，给跪了\n\n"},{"id":27991,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2016-06-28 07:57:33","like_diff":0,"likes":2,"dislikes":2,"content":"讲课挺认真的 其他也没什么"},{"id":56819,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2017-07-04 16:51:38","like_diff":0,"likes":3,"dislikes":3,"content":"课比较水，给分不错，可惜卡档了"},{"id":89886,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-11-21 06:58:01","like_diff":0,"likes":3,"dislikes":3,"content":""},{"id":100789,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2019-01-27 00:28:12","like_diff":0,"likes":2,"dislikes":2,"content":"开卷考多写鹅颈就完事了"},{"id":100912,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2019-09-18 11:40:39","like_diff":0,"likes":20,"dislikes":20,"content":"那些说正态分布骂人的，你们有没有脸啊，自己答成什么样子自己心里没点数吗？我也是非医学专业的也拿到了4.5呀。自己一个个差成什么样没点自知之明。你们凭心而论老师每次课是不是准备得非常充分？！用没用心讲你们这些上课不听讲考试不认真的垃圾也不知道就是。只是看着你们这么诋毁一个用心的老师实在是恶心！多从自己身上找找原因吧！羞与你们这些人同为校友！你们这些人也就只敢藏在这种匿名平台乱叫，有本事贴出你们的试卷在阳光下让大家来看看啊！恶心！"},{"id":120897,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2020-01-18 10:37:23","like_diff":0,"likes":0,"dislikes":0,"content":"医学老师上大学生物学真的有些吃力，不怪她。老师人好的。"},{"id":123583,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2020-06-10 08:21:02","like_diff":0,"likes":1,"dislikes":1,"content":"情商很高的老师，讲课还行"},{"id":163479,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2022-12-14 12:00:29","like_diff":0,"likes":1,"dislikes":1,"content":"老师很温柔很负责~健康与免疫是两次小组展示和开卷考\n\n有两道相对比较难的题可能平时上课听一听可以答出来\n\n虽然给分不是特别高但也很满意啦！"},{"id":204021,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2024-11-23 09:08:17","like_diff":0,"likes":0,"dislikes":0,"content":"上了健康与免疫课\n\n高中学过生物的可能比较轻松，我上课基本划水，两次小组pre出力多一些，其中有一次上台分享，最后考试都是开卷，不难，最后是4.8\n\n补一句，有正态（老师自己反复说了），慎选"},{"id":204444,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2024-11-26 02:40:31","like_diff":0,"likes":1,"dislikes":1,"content":"夏老师人超级温柔，很有耐心，上课备课认真。大家如果有生物学基础学习会更轻松一点，因为会涉及免疫学的知识，可能会稍微有点难。如果要高分，还是要打印好PPT，上课多多坐前排，认真听讲，闭卷考试不仅要抄PPT，材料也多抄一些，要按照逻辑，然后把相关的知识、原则都写上去，考试经验要结合一些事例，不能只写PPT上的几个字。最后得分就蛮好的。希望大家都可以4.5+！给夏老师满昏"},{"id":205709,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2024-12-11 11:26:56","like_diff":0,"likes":1,"dislikes":1,"content":"【健康与免疫】上课水的要命，最后pre的课记得来\n\n严格正态，给分奇怪"},{"id":109553,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2019-07-06 17:11:55","like_diff":-1,"likes":3,"dislikes":4,"content":"给分是真的烂"},{"id":162114,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2022-11-17 01:54:50","like_diff":-1,"likes":0,"dislikes":1,"content":"绩点没想的高，不过4.2也蛮满意的啦。\n\n夏老师很真诚，真的很想让我们学到知识。\n\n很好的老师"},{"id":205949,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2024-12-13 01:55:20","like_diff":-1,"likes":0,"dislikes":1,"content":"老师上课讲得很好，也有很多自己的见解，给分的话只要你多pre，最后考前认真准备就会很好~"},{"id":141309,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2021-09-29 07:43:47","like_diff":-2,"likes":0,"dislikes":2,"content":"开卷好好答就行"},{"id":182152,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2023-11-10 16:52:26","like_diff":-2,"likes":1,"dislikes":3,"content":"今天要考试了好紧张，看在我把PPT都整理成word还做章节概要图的份上给我高分吧xdj老师我爱你"},{"id":66430,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-01-16 09:44:54","like_diff":-4,"likes":4,"dislikes":8,"content":"健康与免疫，老师是好老师，课是好课，但是对理科生来说太简单了，建议文科生或没学生物的学生学习。"},{"id":70991,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-01-28 01:32:28","like_diff":-5,"likes":4,"dislikes":9,"content":"工科生4.2路过……"},{"id":182950,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2023-11-21 07:59:33","like_diff":-5,"likes":0,"dislikes":5,"content":"给分不错，认真听能学到很多东西，男老师很喜欢，有趣而且很有科学家气质"},{"id":45804,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2017-01-20 06:20:56","like_diff":-6,"likes":12,"dislikes":18,"content":"除了mmp没什么想说的"},{"id":70846,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2018-01-27 15:37:57","like_diff":-8,"likes":6,"dislikes":14,"content":"没听过课，给分非常迷，考的也很迷，诺贝尔奖谁会知道？？？后面有些人查手机呵呵，诚实的像我一样的人不要选，莫名其妙的课和考试。。。"},{"id":100671,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2019-01-27 06:08:21","like_diff":-8,"likes":4,"dislikes":12,"content":"恶心   垃圾老师"},{"id":103061,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2019-02-26 00:25:46","like_diff":-9,"likes":1,"dislikes":10,"content":"为什么没有零分"},{"id":183266,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2023-11-23 09:46:36","like_diff":-20,"likes":0,"dislikes":20,"content":"老师很好，健康与免疫给分特别好"},{"id":182893,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2023-11-21 08:52:25","like_diff":-21,"likes":2,"dislikes":23,"content":"嗯，老师备课非常认真负责，又严谨又慈祥的，如果对于健康与免疫本身不是很感兴趣的话，可能听着会有点枯燥，但是如果高中选生物并且比较喜欢的话，还是很有意思的。4.8还可以啦"},{"id":183066,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2023-11-22 04:00:13","like_diff":-23,"likes":2,"dislikes":25,"content":"夏老师真的学识很渊博，上课认真听的话对我这种高中没选生物又对医学有兴趣的工科生真的很适合。全勤+积极参与小组活动+一次最后展示的preer+上课记笔记+打印ppt参加健康与免疫开卷考，老师给了4.8。看到很多在吐槽老师的，我觉得虽然可能运气会有很大作用，但是如果你认真学认真做一个踏实的学生，你的努力不会被绩杀。"},{"id":117494,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2019-09-25 05:30:24","like_diff":-25,"likes":3,"dislikes":28,"content":"自以为是的傻逼老师"},{"id":70589,"teacher_id":1451,"teacher_name":"夏大静","post_time":"2019-04-26 05:09:55","like_diff":-37,"likes":10,"dislikes":47,"content":"傻逼老师，自己专业的东西乱讲还每天一副自己很牛的样子站在制高点训斥别人，给分还特差。班里的医学生绩点都低。是不是就偏爱班长小组长？我见过最差的老师没有之一，这位老师让我不相信查老师评分，真是不知道还有什么好说的。考试出一道附加题，说对这节课的感受，告诉我们要是同分的话要正态就看这道题评分，是不是有毒？我怀疑她就是看这道题评分的。呵。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

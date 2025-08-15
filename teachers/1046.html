@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阮俊华 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="阮俊华教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="阮俊华,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">阮俊华</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">6.12</div>
+                    <div class="rating-participants">353人参与评分</div>
+                    <div class="attendance-info">36.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (1 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">创新创业实践启蒙</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.54</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.40</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (294 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":110842,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-04 02:04:22","like_diff":96,"likes":237,"dislikes":141,"content":"大学乃是学术的殿堂，而非培养官僚的基地。蔡元培先生当年就认识到了这一点，改革北大，奠定了民国学术的基础。而今阮某反其道而行，将大学变成了官僚预备班，两相对比，令人唏嘘。"},{"id":184986,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-25 05:11:22","like_diff":88,"likes":116,"dislikes":28,"content":"第一眼印象不是特别好，看上去爱吹嘘，好大喜功，喜欢把优秀走向卓越挂在嘴边，后面去上了他的课发现他确实干了实事。双创启蒙比起那些没用的职业规划书可好太多了吧？这节课可以选择听与不听，课上请来的人物也都是大咖。走进的企业更是很顶的大企业，真的很适合拓展视野。就从他干的事情来看就能断定是个好老师。"},{"id":191163,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-04-10 05:24:35","like_diff":72,"likes":79,"dislikes":7,"content":"我们浙大也有自己的尊者"},{"id":184964,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-24 17:15:16","like_diff":55,"likes":89,"dislikes":34,"content":"双创实践启蒙课是好课，对老师反感的可以理性提出和客观评价，只会人身攻击和谩骂的祝以后被回旋镖"},{"id":184932,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-24 13:14:56","like_diff":50,"likes":73,"dislikes":23,"content":"如果没有这么爱“折腾”的一位好老师，浙大真的会少了很多有趣的故事吧"},{"id":9551,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2015-10-30 07:15:26","like_diff":49,"likes":102,"dislikes":53,"content":"有毅力"},{"id":207246,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 03:58:40","like_diff":48,"likes":53,"dislikes":5,"content":"课程群直接有同学发100个红包让大家帮顶夸课程的帖子，发现有人不喜欢课程助教直接下场让大家守护，好一个提纯好一个捂嘴，最厌恶的就是这种风气"},{"id":183394,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-11-24 15:47:11","like_diff":46,"likes":52,"dislikes":6,"content":"给分好，想水可以做自己的事情，想听也能学到东西。感觉阮老师可以锻炼一下演讲技巧，比如不要全程音量都特别大，这样听着容易疲惫烦躁，要有轻重缓急。"},{"id":191479,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-04-23 11:37:35","like_diff":46,"likes":56,"dislikes":10,"content":"他的事业很伟大，我没有资格评价，但是人就一官油子，在学校过足官瘾\n\n另外1分抵抵刷分仔"},{"id":153542,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-05-04 10:56:44","like_diff":45,"likes":99,"dislikes":54,"content":"一眼丁真鉴定为评论区七成水军"},{"id":185238,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-27 08:09:54","like_diff":45,"likes":90,"dislikes":45,"content":"那个说官僚预备班的评论给俺整笑了，喜欢匿名装杯是吧，怎么思政育人的理想信念培养你就一杆子打成官僚预备班了。是参加过几次活动还是对大学改革研究多深入？是关心了几位在基层工作和付出的浙大校友还是学术上为浙大添了几分门面？搞不懂是在黑蔡元培老先生还是想黑北大，怎么随便拿个例子就能开始串阿。且不说历史方位转换，时代特征变化，省情校情各异，甚至管理理念差异了，抛开这些不谈直接照着念稿子是吧，还装得挺伟光正。浙大毕业的不配从政是吧，不该去基层服务人民是吧，不该在大学修炼信仰引领方向是吧，作为“两个先行示范区”，不该去推广先进经验？作为浙江唯一三本，培养的人才不敢挑起为国为省为民的职责等着清北过来教你做人？作为世界一流大学，不该政商学融贯然后为世界发展提供中国智慧？开口闭口就官僚，合着在大学不敢旗帜鲜明讲政治，树立高尚理想，指望你成为社会打工人亚历山大的时候能良心发现去服务人民？还是说C9高校“名牌大学”的学生毕业后就都别从政，把位置空着留给一些只想躺平摆烂和弄权谋私的人去坐是吧，就你这种无信仰不担当只会写小纸条呻吟的，放革命年代不知道去哪躲着安逸去了。竺老校长说的大学绝不只是培养某一类人才，而是培养“公忠坚毅、担当大任、主持风气、转移国运”的领导型人才，仕而优则学，学而优则仕，如果没有这种平台给浙大学子提供学习和实践机会，你出社会谁屌你阿，就你搁哪躺着看两本书还迈不开步子就能变成这样的人才？民国是只有学术？大学是只要学术？政商学你眼睛只盯学，质疑浙大培养不出有能力的政治人才还是对他人的未来选择有道路歧视？既无尊重也无思考更无素质，你以为大伙给你顶上去是认同你？看小丑罢了。看看您这么深邃的思想现在是在哪个领域有突出成就了来认领下？真别失业了之后求着考编上岸或者润去国外生存不下来吧。一眼顶针，假扮公知。事情不知道做了啥在这指点江山，祸害多少需要平台成长锻炼学习的浙大同学！"},{"id":207234,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 02:35:31","like_diff":43,"likes":46,"dislikes":3,"content":"“当初还有人骂我是法轮功”， 于是尊者现在开始做包装精良的“法轮功”"},{"id":185343,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-28 05:34:08","like_diff":39,"likes":59,"dislikes":20,"content":"去年毕业的时候，我到选择到西藏基层工作，在海拔4500米的那曲，没有电没有水，一到冬天零下三十度，每天面对的都是砸在脸上的大雪和寒冷缺氧的夜晚。虽然在杭州的千里之外，但阮老师一直关注着我的成长，多次给我打电话交流，鼓励我坚持自己的初心，他和我说一代一代的浙大人始终饱含家国情怀，为国家富强和民族进步不懈奋斗，他希望未来可以有更多的同学将自己的人生和国家前途命运紧密结合，实现自己的人生价值。彩虹人生为我们的成长提供了很好的平台，在这里可以遇到很多志同道合的同学朋友，大家为了共同的理想奋斗。我相信有阮老师日复一日的坚持，有更多满怀理想的同学一起奋斗，紫领会越来越好。"},{"id":184941,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-24 14:02:43","like_diff":36,"likes":46,"dislikes":10,"content":"很好的一门课，给分也很高，在前面的讲座中会有和一些在各方面的成功人士的近距离接触和提问，收获很多，并且只用上四节课，还有企业的实地参访，对自己大学生涯规划和未来发展指南有很大作用，最后只有一篇关于创新创业的论文，收获很多，事也很少，可以在较小的时间里，学到很多"},{"id":184952,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-24 15:12:03","like_diff":36,"likes":41,"dislikes":5,"content":"就创新与创业实践启蒙这门课来说，阮老师真的链接到了很多很棒的讲座资源。自诩听过许多创业演讲，这个课堂的质量确实在第一梯队。有幸在大四这一年得到嘉宾们的激励，没有选择完全躺平，而是去开启了一些新的尝试，也非常感谢负责的助教团队一路为同学们服务～"},{"id":203399,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-19 12:16:22","like_diff":35,"likes":39,"dislikes":4,"content":"泥折有自己的斜教）被信徒鹅心到了，一分刷下，信徒天天刷不累吗）纯纯传教，非要让加入紫菱什么的不加入仿佛就会失去人生，过好你自己的彩虹人生吧（）"},{"id":120700,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2020-01-15 11:43:02","like_diff":34,"likes":90,"dislikes":56,"content":"sb老师\n\n演讲水平真垃圾还要装很会讲的样子 傻逼"},{"id":183795,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-11-30 06:55:30","like_diff":34,"likes":43,"dislikes":9,"content":"怎么说，我觉得老师人很真诚，他也真的很坚信他的彩虹人生，但是这一信仰已经发展到了他开始搞传销的程度......"},{"id":207250,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 03:38:16","like_diff":34,"likes":38,"dislikes":4,"content":"负面评价多想想自己的问题，在vx群刷什么“保护正能量”真是让我彻底开眼了。审视历史人物尚且要批判性评价，当代一位大学老师就要只谈贡献不谈缺陷了？你们妄图塑造一个什么神话式的人物？后来的各位，查老师里对其批评和认同大多属实，没有彻底的夸赞与诋毁，请大家自行分辨\n\n阮先生原话：“每个人的认知不同，决定了未来的追求和发展不同。”那么请问你的认知便是只能看到、只允许谈你的贡献，若有指出你的问题的，都是他们认知的偏差？\n\n助教：“然而在查老师看到了部分负面评价。\n\n希望大家把“保护”打在公屏上，正能量需要被保护。希望不要因为部分恶意评价让其他同学受到误导，感谢大家。”我想说，什么是真正的误导？难道清一色的好评、有功无过不是误导？难道你现在在做的引导大家只去夸赞莫去批评不就是一种误导？再谈”恶意”，为什么说批评一个人便是恶意？对你一味的夸赞、以偏概全的认同、不真实的评价才是真正的恶意。"},{"id":27252,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-03 05:33:58","like_diff":31,"likes":136,"dislikes":105,"content":"为什么不能投0分。太虚伪的一个人，到哪都要宣传彩虹人生 紫领计划  搞个人崇拜"},{"id":117452,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-09-24 13:11:46","like_diff":30,"likes":43,"dislikes":13,"content":"说句公道话，来这里给他评分的基本只有10分和0分，其实都带有偏见。不过剩下那些懒得打分的吃瓜群众估计也只会给他2、3分，所以大家看他下面这些评论不妨一笑置之。"},{"id":193512,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-06-12 05:57:29","like_diff":28,"likes":31,"dislikes":3,"content":"简单说下双创这门课的情况：\n\n每节课点名两到三次，但是多数时候只点名两次，其实在北教其它地方自习也是能签上的。（需要有个托和你说下签到时间）\n\n短学期，一共8节课，21:00下课。\n\n每节课后要写500字感悟，周五晚前上交。\n\n同时一次企业参访，周五下午去的。500字感悟。\n\n一次企业调研，周末时间可以选的，要写调研报告，1000字报告。\n\n还有一篇期末论文，有关自己学科的创新创业，1000-3000字。\n\n事情很多。但课堂本身还好。"},{"id":183319,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-11-23 16:01:14","like_diff":27,"likes":38,"dislikes":11,"content":"还行吧，他本人虽然讲的不怎么样，但是后面请到的演讲的老师都讲的很好！确实是能给人启发性的！并且看在给分挺好的份上，及格分还是有的"},{"id":166585,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-01-13 02:23:39","like_diff":26,"likes":41,"dislikes":15,"content":"评价一下，阮某确实是一个有能力、有理想、有情怀的人物，搞的紫领计划确实比较有水平，联系了非常多的高官位导师，给紫领学员搭建了很好的平台和人脉，如果真的想从政，那么紫领计划确实是有价值的。\n\n但是你搞的紫领秘书处特么是什么东西？你的成就，你的事业，让一群以学习为主业的大学生来给你买单？辣鸡组织，不多说了。想体会一下就赶紧来参加吧！\n\n志愿者小时数也没，什么诸如学业指导上等等等等的隐形红利也没，你紫领秘书处拿什么跟其他社团比？"},{"id":60748,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2017-10-29 09:24:03","like_diff":24,"likes":70,"dislikes":46,"content":"从大一开始聆听阮老师宣扬，并且目睹了老师实践彩虹人生公益育人精神，十分敬佩。这样的老师，不是一场两场演讲的印象能够判定的，需要用很长的时间，去看，去理解。"},{"id":208694,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-31 05:14:06","like_diff":24,"likes":27,"dislikes":3,"content":"我想说一说他请来的某位嘉宾。这位嘉宾央视可是给你拍了电视剧，说你是新时代的模范，甚至在开会的时候能够坐在总书记的身后。但是就是你这么一位“大牛”，宣扬“我们的社会太不尊重商人，一提起商人就是奸商...我们的年轻人都去考公了，这种社会风气太不好了，浙大的学子不要这样”。明明自己搞的潮汐能是用钱请了两位科学家在做，功劳一人独揽，不愧是新时代好的“民族企业家”。并且在课堂上公开表示，“犹太人这个民族重视商人，是世界上最聪明的民族...我要是犹太人，你哈马斯那么弱小敢惹我，我肯定也不放过你...”，我想请问，这样的言论真的合理吗？“强大”的民族就可以为所欲为是吧。赚到钱之后去澳大利亚读大学补个学历，然后对国外的什么科技改变世界理论一桶吹捧，整个人就是活脱脱的吃上了改开红利然后靠意林来补充“知识”。你有没有想过，你的成功会不会是因为在改开初期家里就能拿出很多钱来给你创业呢？"},{"id":184951,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-24 15:11:31","like_diff":23,"likes":30,"dislikes":7,"content":"《双创实践启蒙》这门课对于有创业打算的同学而言真的可以带来很大的帮助，邀请到的授课老师都是名副其实的企业家，有着伟大的情怀和深厚的经验。同时企业的参访也含金量十足。可以说如果想要初步了解创业以及企业家需要具备何种精神，这门课绝对值得。而带着自己的思考，抱着创业的思维去完成每节课后的作业，不仅能收获全新的感悟，也会获得满意的绩点。"},{"id":207084,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-19 07:17:01","like_diff":23,"likes":26,"dislikes":3,"content":"给了8分，10分是给请来的老师的，rjh-2分🤓"},{"id":75503,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-03-13 00:17:40","like_diff":21,"likes":58,"dislikes":37,"content":"来到浙大以后阮老师给我的影响非常大，不仅为我们搭建了这样好的平台，并且言传身教，告诉我们什么叫以天下为己任，以真理为依归。榜样的力量就在那里，未来我也要想阮老师学习，相信成就别人亦是成就自己?"},{"id":203612,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-20 07:07:30","like_diff":21,"likes":23,"dislikes":2,"content":"传销强者"},{"id":207253,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 03:35:24","like_diff":21,"likes":22,"dislikes":1,"content":"看到查老师分数低第一反应居然是请水君刷分，你无敌了孩子"},{"id":160992,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-10-23 12:30:15","like_diff":20,"likes":41,"dislikes":21,"content":"不是水军，想认认真真写点东西。\n\n自己是一个农村来的孩子，大一加了紫领和校学生会，但两者对比，在校会玩的开心，但在紫领收获更大，在校会除非做到部长或者主席团，其余很少有时间和老师们交流，但在紫领，只要你敢去找阮老师，阮老师的们永远是开着的，一个常务副院长，类似我们学院的党委书记，能这么愿意和学生交流，与我的两次交流中，我感受到了真诚。\n\n之前低需氧人才那篇文章，我在离开紫领去之江时，斗胆问了一下阮老师，因为那篇文章也是他如今没有过去两年风光的主要原因，也是如今重满骂名的原因，的确写的不好，没什么可说的，特别是在这个社会，几乎是走到了青年人的敌对面。但阮老师的回复很令我动容，细细想到，他其实在不断为强鹰、紫领去争取同学们的福利，无论是志愿者、还是一些学习机会，但阮老师最大的问题其实是 在有的时候没有一些老师那么圆滑，可能一写话很容易去得罪一些人。今天在车上看到阮老师在忙完一场面试后颤颤巍巍走后，一些真情实感，随便写点，轻喷"},{"id":196164,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-07-02 02:27:43","like_diff":20,"likes":22,"dislikes":2,"content":"有人用全用GPT然后满绩\n\n也有人纯手写然后绩点很低。\n\n总之就是不要在这种水课上花时间，只会觉得性价比等不够公平。。。"},{"id":208054,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-25 10:42:17","like_diff":20,"likes":21,"dislikes":1,"content":"刚刚上过的来评价一下:\n\n1.一节课两次点名就不提了，课程事情越来越多，200个人的大课都能搞出pre来\n\n2.浙大有自己的尊者，大搞个人崇拜，上课上得恶心\n\n3.请来的老师客观上是有含金量的，但遮不住阮某传销一样的嘴脸\n\n4.课程群搞得和洗脑一样动不动感恩＋大拇指＋保护"},{"id":190838,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-03-21 03:33:25","like_diff":19,"likes":23,"dislikes":4,"content":"？？？楼下的，我才是余涛。阮老师好是没错，但你假冒别人是不对的呀"},{"id":192915,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-05-31 13:53:03","like_diff":19,"likes":24,"dislikes":5,"content":"老师口才或许确实一般，只能重复一些没什么用的大道理，但他开的这门课确实很不容易，对创新创业的同学以及我们的一些未来规划都是很有帮助的，外面很多老总确实也是有本事的，但有些纯来吹牛皮的就挺恶心的，希望这课越办越好吧"},{"id":207411,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-21 10:58:23","like_diff":19,"likes":21,"dislikes":2,"content":"论课程质量，创新创业实践启蒙在创新创业类当中毋庸置疑是真正的好课，是实实在在能让低年级本科同学学到东西、开阔眼界的，也从来不会在给分上为难同学，甚至可以说是非常慷慨。\n\n\n\n但问题是，查老师的评分，大家评分评的是老师、而不是课程，如果在查老师平台中加入陈行甲、忻皓、方毅等老师，他们分数绝对不会比各大学院中名列前茅的模范老师的评分低。所以所谓非议、所谓不正风气，从来都不是因为课程质量而出现的。"},{"id":184958,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-24 15:39:09","like_diff":18,"likes":24,"dislikes":6,"content":"事少分高一门好课～老师也很有激情推荐大家选"},{"id":206095,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 04:48:47","like_diff":18,"likes":23,"dislikes":5,"content":"请水军刷分是吧，差评"},{"id":79992,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-06-19 00:57:27","like_diff":17,"likes":43,"dislikes":26,"content":"阮老师是特别有激情、责任感、情怀和行动力的人，也是特别为学生着想的好老师。从20年前创建绿之源环保协会开始，阮老师一直在结合专业和不同学生的发展方向，努力创建着各种平台，为学生成长助力。离开浙大之后，才更知道这些平台的可贵，跟很多其他高校的学生交流，才更理解这些平台的价值。阮老师太希望同学们理解他的想法，太希望同学们能够更好地成长，所以或许讲得比较多，也许让有些同学觉得听厌了，但他真的在为学生成长发展付出努力，努力帮学生关注自己的内心，找到最适合自己的路，告诉学生除了认真学习之外，还应该关注国家、关注社会、关注未来，用更大的格局和更广的眼界去思考和看待问题，让学生知道，人的一生可以有更平和的内心和更大的价值。有师如此，人之幸事。"},{"id":115651,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-08-15 11:45:38","like_diff":17,"likes":41,"dislikes":24,"content":"阮老师真的是我见过最关心学生的人，他每周把自己的时间表提前放在网上方便大家查阅，从来不关办公室的门，时刻欢迎学生去找他，每一次总是竭尽全力帮助我们。不是水军，真的感恩。"},{"id":202805,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-14 12:46:24","like_diff":17,"likes":19,"dislikes":2,"content":"一门靠一节课两次签到和给分留住同学的课"},{"id":216800,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-03-26 01:04:15","like_diff":17,"likes":19,"dislikes":2,"content":"锐评rjh\n\n\n\n我感觉rjh除了他的宣传有点令人不太舒服 以及他自己可能还是老一辈的那种说教方法外\n\n\n\n我感觉他还是人不错的了 一个学工部副部长 完全可以把自己的精力放在如何讨好上级领导 让自己努力获得晋升 退休前搞个正处 干啥要给你们这帮以后认都不一定认识的小屁孩 拉关系 结交人脉 帮助你向上结交\n\n\n\n俺觉得他搞宣传实际也是为了让更多同学来听他的课吧 能够在和企业家的交流中获益  他拉人为cls平反 我感觉也是为了这个原因吧 毕竟实际上这个学校的老师你再怎么骂他 只要上面人觉得好 他就可以被提拔（参考前社系css）他也只需要对上面负责 舔好校党委就可以了 并且学工部副部长也没必要开一门课 搞什么紫领黄土地 免费给你提供资源人脉 每天累死累活 \n\n\n\n并且相比于我付出的那些如帮忙转发推文 点赞红心这种 我感觉自己从他那里得到的更多 rjh还是一个比较好的老师了 毕竟天下没有免费的午餐 能让我和自己地位阶层相差很大的人同处一个房间 并且进行交流 这个行动本身就已经有很大意义了（当然如果你说人与人之间没有阶级 互相平等 我也无话可说）"},{"id":80277,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-06-24 05:45:26","like_diff":16,"likes":36,"dislikes":20,"content":"阮老师坚持了多年的公益环保事业，创办绿色浙江、绿之源等等，通过众多行动和倡议来改善环境。紫领和强鹰两个非常好的育人平台的发展都离不开阮老师的坚持。他非常关心我们的成长，我仍然记得大一下和他聊天，改变了我对大学生活的规划，让我成为一个更好的人，为了理想而奋斗的人。谢谢阮老师！"},{"id":184959,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-24 15:41:21","like_diff":16,"likes":21,"dislikes":5,"content":"感觉这门课还是不错的，很多厉害的企业家给我们分享，传递正能量，也学到了不少东西。"},{"id":184966,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-24 18:12:26","like_diff":16,"likes":19,"dislikes":3,"content":"在刚有双创这门课时，我就报了这门课，现在结束几个月了。\n\n首先，平心而论，阮老师的风格确实很独特。但他只带第一节课。而且后面一共就三节课，最重要的是每节课都有不同领域的大咖过来完完整整地上好属于他们各自的课。我上的时候，上课的有我是演说家全国总冠军， 有中国乃至世界潮汐发电的领军人物，有多年如一日坚守环保组织的精神小伙。他们不是过来露个面就走，而是很认真地去分享他们的经历和感受。\n\n然后说到阮老师。一位一手创办了强鹰、紫领、绿之源等组织、社团和其他活动的浙大的教授，一位号召起来近百位青年企业家、领军企业家、资深政界人士的人物，其人格魅力是可敬的，可学习的。确实，他的性格有其独特之处，但也很正常，很有趣。\n\n大家各有各的喜好。没有一门课能满足所有人的要求，但我觉得这门创新创业启蒙博雅课程，已经兼顾了大多数人的想法和需求。这门课没有小组展示，没有小组讨论，不需要你社牛，不像许多别的职业相关课程一样；你需要做的，就是简单的到课，很短但要真实的读后感，还有一颗期待的心。\n\n在大学，一场讲座，可能就是你未来的一个方向。曾经疫情时代，外面的社会人物进不来，学生们苦于闭塞的学习。现在，像这样有众多的名家讲座的校园，真正是百花齐放思想活跃乃至迸发生命力的校园，才是兼收并蓄又活跃包容的大学。没有任务的压力，听听别人的故事，或许还能有自己的启发，顺便拿到创业课分，它不香吗？"},{"id":185207,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-27 05:14:03","like_diff":16,"likes":28,"dislikes":12,"content":"这个评价网站不是评价老师的课程吗？阮老师双创实践启蒙的课就是很好啊，听陈行甲上课的体验非常好，高赞的评论真的上过课吗？？没上过课有什么资格评论"},{"id":203955,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-22 08:29:01","like_diff":16,"likes":18,"dislikes":2,"content":"营销有一手的"},{"id":207252,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 03:35:14","like_diff":16,"likes":17,"dislikes":1,"content":"朵朵请水军真绷不住了"},{"id":207366,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-21 02:43:17","like_diff":16,"likes":16,"dislikes":0,"content":"喜欢请水军是吧😅😅😅"},{"id":111731,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-03 05:35:22","like_diff":15,"likes":56,"dislikes":41,"content":"这人就不应该呆在高校，垃圾分类还是有必要落实的。"},{"id":191147,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-04-08 14:37:14","like_diff":15,"likes":16,"dislikes":1,"content":"都别争了，其实我才是如假包换的真余涛"},{"id":191902,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-05-04 09:56:43","like_diff":15,"likes":17,"dislikes":2,"content":"就事论事 只谈双创启蒙这门课 请来的很多讲课老师都讲得很好 特别是陈行甲 感动到我了 每节课都点名 课后感悟+一次企业实践和感悟+一次企业调研和感悟+课程论文 对i人挺友好的 最后给分也很好 作为创新创业课来说真的很好了 推荐！"},{"id":207398,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-24 11:01:52","like_diff":15,"likes":17,"dislikes":2,"content":"阮把学生当作试验田了，说实话课程内容挺不错的，但是要忙的事对不上1.5的学分，创业本身是要有钱有人脉的，虽说生活无处不存在创新，大多数人只需要了解一下思想就行了，真不是所有人都能把握时代风口致富的.总而言之1.5学分性价比低，看得出来阮很想继续自己的课程实验但是不算成功，给一点建议，减少课程作业或者改成2学分课程，大多数人都是来混着2学分的大家都清楚😅"},{"id":207621,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-23 09:52:32","like_diff":15,"likes":16,"dislikes":1,"content":"请的老师真的很好，要是他们在查老师里肯定都9分10分，讲的非常好！\n\n哦你说阮俊华啊，那是sb"},{"id":60746,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-09-24 13:06:58","like_diff":14,"likes":70,"dislikes":56,"content":"阮老师非常为学生着想，全身心关注学生的发展。愿意把自己的空余时间都拿出来服务学生，这样的老师太少了，非常感谢阮老师！"},{"id":74604,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-03-04 14:30:43","like_diff":14,"likes":51,"dislikes":37,"content":"充满激情，给人以满满正能量！阮老师对学生很关心，让人感到温暖。"},{"id":75511,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-03-13 01:18:02","like_diff":14,"likes":41,"dislikes":27,"content":"求是强鹰、彩虹人生使我感受到了平台的力量，一群人在一起做有意义的事情，并有诸多导师作为学员们成长路上的背后支持力量，引领浙大学子展翅高飞！"},{"id":79785,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-06-13 14:37:13","like_diff":14,"likes":41,"dislikes":27,"content":"在这里，可以遇见更优秀的自己，甚至改变命运，因为一位老师和N个育人平台。阮老师为了学生成长创立了很多育人平台，为了培养学生从政能力创立的紫领计划，政府领导担任导师；为了培养学生的走商业之路创立的强鹰计划，企业老总担任导师，这些平台都是高水平的育人平台，对我们学生来讲非常珍贵，是非常难得的机会。在这里，阮 老师求学时给我们引领培养，工作后为我们引路帮助。阮老师是我们一生的老师，有情怀、有格局、有激情，让我们自立自强自信，无比感恩！"},{"id":117266,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-03 05:35:33","like_diff":14,"likes":57,"dislikes":43,"content":"所谓的紫领就是阮某培养自己势力的工具，只有那些当上高官的人才有资格成为阮某的嫡传弟子，其他人还是洗洗睡了吧。"},{"id":184954,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-24 15:27:25","like_diff":14,"likes":22,"dislikes":8,"content":"很好的老师，有情怀，更有坚持；很好的课程，有干货，更有收获！！开始不难，难的是数十年如一日的坚持！！老师不少，少的事难得的人生导师！！高人指路，贵人相助，让更多人信仰起来！！我在紫领和强鹰收获了宝贵的经历、宽广的眼界，以及友情甚至爱情，女朋友也考上了选调生！！结婚都想要阮老师来证婚！感谢彩虹人生！感谢阮老师！！"},{"id":79683,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-06-12 15:44:26","like_diff":13,"likes":41,"dislikes":28,"content":"阮老师是一个非常非常好的老师！他毫无架子，平易近人，为学生开设彩虹人生绿色通道，鼓励学生们和他交流，为学生们指点迷津！和阮老师交流过几次，觉得非常非常有收获，感谢阮老师一直以来的默默付出！"},{"id":184947,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-24 15:05:01","like_diff":13,"likes":17,"dislikes":4,"content":"很好的老师，给分也不错"},{"id":193854,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-06-20 08:44:41","like_diff":13,"likes":16,"dislikes":3,"content":"纯纯传销"},{"id":34340,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2016-10-04 13:58:52","like_diff":12,"likes":66,"dislikes":54,"content":"阮老师非常关心学生的成长"},{"id":58876,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2017-09-18 07:52:21","like_diff":12,"likes":56,"dislikes":44,"content":"一心为学生，别无他心"},{"id":86156,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-09-09 09:21:20","like_diff":12,"likes":26,"dislikes":14,"content":"很用心到老师"},{"id":94517,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-01 14:35:51","like_diff":12,"likes":52,"dislikes":40,"content":"这里全是水军"},{"id":116729,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-03 05:35:44","like_diff":12,"likes":42,"dislikes":30,"content":"社会毒瘤\n\n乌烟瘴气"},{"id":153820,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-05-12 05:31:23","like_diff":12,"likes":16,"dislikes":4,"content":"承认老师确实很有能力，但在做一些事情的时候太个人主观性了，而且对男女生存在性别偏重"},{"id":182318,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-11-14 13:19:59","like_diff":12,"likes":20,"dislikes":8,"content":"这个老师我蹦做出太凶狠刺激的评价，我只能够说说，如果你喜欢听相声，喜欢一些比较歪曲的道理，例如一些奇怪的价值观（比如想要卓越就不要谈恋爱），以及想去听传销组织头头讲话（孤注一掷，懂得都懂）/"},{"id":192182,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-05-11 04:10:10","like_diff":12,"likes":14,"dislikes":2,"content":"课不错\n\n人也还好\n\n大多数信徒可敬，少部分拥趸恶心"},{"id":193180,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-06-04 08:06:43","like_diff":12,"likes":14,"dislikes":2,"content":"请的老师感觉有的就是纯吹牛逼"},{"id":75510,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-03-13 01:13:32","like_diff":11,"likes":40,"dislikes":29,"content":"迷茫时，懈怠时，惶惑时，阮老师的精神和事迹总能鼓舞人，给人力量、信心和方向！向阮老师学习致敬！"},{"id":185114,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-26 10:52:07","like_diff":11,"likes":16,"dislikes":5,"content":"撇开rjh老师不谈，就《创新创业实践启蒙》这门课来说，确实是一门性价比比较高的课程。能够借此机会和校外比较知名的企业家上课交流、去阿里云等企业参访，这种经历对于之后对商业、创业比较感兴趣的同学对于了解前辈的创业历程、一些伟大的公司确实有所帮助。并且作业也只有每次课后感想+最后的一篇总结，整体下来还是比较轻松的，也能够拿个博雅技艺学分。"},{"id":207358,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-21 02:01:33","like_diff":11,"likes":12,"dislikes":1,"content":"请水军难评"},{"id":207490,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-22 11:14:37","like_diff":11,"likes":14,"dislikes":3,"content":"把保护打在公屏上❤️"},{"id":215070,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-02-21 03:36:07","like_diff":11,"likes":14,"dislikes":3,"content":"傻逼，老师是傻逼，助教也是傻逼，组员很抽象"},{"id":11735,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2015-12-13 12:19:01","like_diff":10,"likes":49,"dislikes":39,"content":"阮老师对学生很好"},{"id":60744,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2017-10-29 08:23:38","like_diff":10,"likes":49,"dislikes":39,"content":"一心为了学生的好老师！"},{"id":60745,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2017-10-29 08:24:49","like_diff":10,"likes":49,"dislikes":39,"content":"课讲的很精彩，很投入，好老师！"},{"id":75504,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-03-13 00:19:56","like_diff":10,"likes":37,"dislikes":27,"content":"很好，很受鼓舞，人生导师，浙大这样的老师太少了"},{"id":107696,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-05-08 10:40:19","like_diff":10,"likes":38,"dislikes":28,"content":"彩虹人生的水军都来查老师了？"},{"id":183237,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-11-23 04:20:52","like_diff":10,"likes":15,"dislikes":5,"content":"感谢阮姥爷"},{"id":193722,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-06-16 13:15:40","like_diff":10,"likes":13,"dislikes":3,"content":"20240614那条评论，一眼丁真"},{"id":202952,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-15 10:57:58","like_diff":10,"likes":15,"dislikes":5,"content":"给9分吧，扣一分的原因包括但不限于一节课多次签到点名、有时拖堂能拖十多分钟、他本人讲课内容不行\n\n但是企业参访和调研是很难得的经历，听他请来的各位老师分享故事也收获很多，最后得分也很好，所以还是给了九分。"},{"id":207867,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-24 15:06:46","like_diff":10,"likes":12,"dislikes":2,"content":"请来的嘉宾支持以色列 太难评了"},{"id":75518,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-03-13 02:05:37","like_diff":9,"likes":31,"dislikes":22,"content":"十年育人，百年育树。强鹰让成长更有意义，风云浙商带徒模式精神传承。为阮老师点赞，为强鹰点赞！"},{"id":75637,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-03-14 10:02:33","like_diff":9,"likes":28,"dislikes":19,"content":"寻梦彩虹人生作者，为广大学子铺起彩虹人生之路。"},{"id":115664,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-08-17 03:17:06","like_diff":9,"likes":26,"dislikes":17,"content":"如电影《哪吒》里讲的一样：“人心中的成见就像一座大山，任你怎么努力也休想搬得动。”是哪吒，就不折于世俗，“不认命，就是哪吒的命”！透过剧情看彩虹人生给无数学生校友带来的成长和改变，相信会唤起这个大学里，每一个脚步匆匆的追梦人、每一个爱心满满的老师和学生内心深处的共鸣，坚持做一件对的事情。"},{"id":185185,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-27 03:22:43","like_diff":9,"likes":16,"dislikes":7,"content":"看到创新创业实践启蒙课有陈行甲、林东、忻皓、方毅、倪徳锋、小邪等众多卓越人物公益支持阮老师，看到2022本科毕业只身赴西藏那曲基层工作的武超学长对阮老师的评价，感受到老师对同学们的真诚关心和爱心用心。"},{"id":185266,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-27 12:14:41","like_diff":9,"likes":16,"dislikes":7,"content":"双创启蒙是新开的创新创业课，这确实是一门好课，想自习的同学可以放心自习，除了每节课开始gps点名之外没有别的事情，每节课后200字感想，负担真的不大，给分也好。想学习到相关知识的同学也有很多机会可以学习到创新创业相关的知识。阮老师以前固然产生过一些问题，但是不妨碍这是一门好课以及阮老师确实是有在努力为学生做事情的好老师。"},{"id":202737,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-14 05:31:44","like_diff":9,"likes":13,"dislikes":4,"content":"可能有同学刚刚上双创课还不太适应阮老师的风格，对阮老师有误解。其实，阮老师是真心给我们请来真真正正的大佬给我们做真真正正的讲座的，与其质疑其目的，不如观察，学习，提升自己"},{"id":207463,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-22 05:04:30","like_diff":9,"likes":10,"dislikes":1,"content":"司马玩意儿阮军话"},{"id":216510,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-03-17 15:02:11","like_diff":9,"likes":14,"dislikes":5,"content":"所以说，五十多岁的老师就拿工资好好享受生活，不要费心思为学生拉从政或创业的平台，对自己有什么好处呢？工资不涨职务也就副院长，还要被学生千夫所指。活该浙大校友在某方面的凝聚力不行"},{"id":153565,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-05-05 00:53:52","like_diff":8,"likes":22,"dislikes":14,"content":"“低需氧老师”即使被评1分也应该无所谓的吧？分数越少，老师应该越努力才对。"},{"id":153567,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-05-05 02:02:44","like_diff":8,"likes":29,"dislikes":21,"content":"傻逼 日你老母"},{"id":153598,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-05-05 11:00:14","like_diff":8,"likes":20,"dislikes":12,"content":"低需氧真的牛逼"},{"id":75509,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-03-13 01:10:52","like_diff":7,"likes":37,"dislikes":30,"content":"十年前的一份初心，化作坚持十年的育人使命，团结吸引数以百计的社会各界精英人士，通过一步一个脚印的带徒实践，影响成就了无数的青年学子！阮老师，用十年告诉我们，专注一件事并把它做到极致，就是最大成功！"},{"id":185056,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-26 04:39:25","like_diff":7,"likes":10,"dislikes":3,"content":"事少分高还行吧，课上也没什么事，就当自习了。其实在课堂上听很多大佬来讲课感觉还不错，听听课堂之外的事，也许能脱下长衫哈哈，也许只是我想多了，不过我也的确能见到很多除了当纯纯牛马打工人之外的发展路线，还蛮好的"},{"id":202509,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-13 02:41:31","like_diff":7,"likes":7,"dislikes":0,"content":"就是事情多，每节课都写课后感悟\n\n都用ai生成的\n\n有pre宣讲，两次企业参访和实践调研\n\n绩点4.58平均分其实挺好了吧"},{"id":207255,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 03:40:36","like_diff":7,"likes":7,"dislikes":0,"content":"氵如军"},{"id":79936,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-06-15 12:54:13","like_diff":6,"likes":24,"dislikes":18,"content":"精神力量"},{"id":79987,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-06-18 12:30:43","like_diff":6,"likes":26,"dislikes":20,"content":"阮老师的坚持和付出给人信念和力量"},{"id":117787,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-01 13:30:08","like_diff":6,"likes":21,"dislikes":15,"content":"阮老师用自身行动带给我诸多感动。从日常关心学生，到坚持用紫领强鹰等优质育人平台引导同学。个人选择走上辅导员的道路，也离不开阮老师在思想和行动上的影响。"},{"id":181906,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-11-07 06:25:56","like_diff":6,"likes":23,"dislikes":17,"content":"想成为希特勒一样的煽动者，却又没有那个能力，反人类和毒瘤程度倒差不多，这老师搞笑是真的搞笑"},{"id":184961,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-24 16:02:17","like_diff":6,"likes":9,"dislikes":3,"content":"好课，推荐"},{"id":201815,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-06 12:38:55","like_diff":6,"likes":10,"dislikes":4,"content":"在ZJU真正意义上的第一坨答辩"},{"id":205718,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-11 12:15:33","like_diff":6,"likes":9,"dislikes":3,"content":"呃，有些讲座还不错的，每节课两次雷达签到，现在坐第一排加分机制取消了"},{"id":207258,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 03:43:13","like_diff":6,"likes":7,"dislikes":1,"content":"事多课烦像传销，现在还去朵朵上请水军了，查老师上还开个新马甲，给分也不过差强人意"},{"id":207393,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-21 07:40:50","like_diff":6,"likes":7,"dislikes":1,"content":"请来的人水平也参差不齐，7-8分最多了，再扣除rjh的傻*言论和一堆破事，6分"},{"id":207410,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-21 10:46:56","like_diff":6,"likes":7,"dislikes":1,"content":"周末宣讲拖堂这么久真的要脸吗？我可真是潮死你的马"},{"id":212167,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-01-13 09:52:08","like_diff":6,"likes":9,"dislikes":3,"content":"分不是很高，事多，会有一定的资源提供"},{"id":65868,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-01-09 16:00:27","like_diff":5,"likes":33,"dislikes":28,"content":"可以说是很喜欢阮老师了"},{"id":75517,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-03-13 01:59:23","like_diff":5,"likes":38,"dislikes":33,"content":"在浙大碰到最好的老师，二十年如一日的奉献。感恩遇见阮老师，感恩强鹰，感恩彩虹人生！"},{"id":79788,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-06-13 14:11:03","like_diff":5,"likes":24,"dislikes":19,"content":"激情澎湃，催人奋进"},{"id":86155,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-09-09 09:02:32","like_diff":5,"likes":21,"dislikes":16,"content":"真心为同学们着想，不可多得的好老师。"},{"id":115652,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-08-15 13:18:56","like_diff":5,"likes":18,"dislikes":13,"content":"阮老师工作认真为同学着想，还做很多公益事业，点赞?"},{"id":115653,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-08-15 13:31:51","like_diff":5,"likes":19,"dislikes":14,"content":"阮老师真的是一个很好的老师 一心为学生着想 一心为学生付出"},{"id":117610,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-09-26 15:34:56","like_diff":5,"likes":16,"dislikes":11,"content":"二十年是如何坚持下来的！值得学习感悟"},{"id":117781,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-01 12:29:20","like_diff":5,"likes":15,"dislikes":10,"content":"阮老师很关心学生，非常无私。"},{"id":117827,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-04 01:41:28","like_diff":5,"likes":16,"dislikes":11,"content":"听很多人说起老师对他们的帮助，赞"},{"id":117828,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-04 01:59:28","like_diff":5,"likes":18,"dislikes":13,"content":"经常看到老师很迟下班，感觉老师很辛苦"},{"id":182814,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-11-21 05:36:01","like_diff":5,"likes":11,"dislikes":6,"content":"给阮老爷磕一个"},{"id":183311,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-11-23 15:13:39","like_diff":5,"likes":7,"dislikes":2,"content":"还不错"},{"id":191095,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-04-02 10:59:32","like_diff":5,"likes":7,"dislikes":2,"content":"逆天言论无话可说"},{"id":191473,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-04-23 11:02:49","like_diff":5,"likes":5,"dislikes":0,"content":"会教你各种社会规范（当然有时候挺无聊），但是点名非常频繁，有签到和签退.ps:课程人满为患"},{"id":201106,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-10-28 15:02:42","like_diff":5,"likes":10,"dislikes":5,"content":"别的不多说，就是请过来的某些学长创业能力或许不错，但素质实在有待提高，课上讲女生的黄段子，半夜打电话到女寝骚扰竟然被说成是上大学时最大的乐趣？这样的学长真的适合进入课堂分享吗？只能说来分享的老师水平参差不齐（确实有好的），但另一部分……\n\n还有就是互动的全是托，坐第一排加分也是纯纯傻逼，提前一个半小时去教室已经全被占完了（虽然我也不想坐一排，但这种加分未免太难评，说是鼓励学生坐第一排积极听课，实际就是几个卷王坐第一排开着电脑做自己的事情，也完全没有尊重来讲课的老师）"},{"id":201702,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-05 13:43:05","like_diff":5,"likes":9,"dislikes":4,"content":"依托愁勾石"},{"id":202473,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-13 01:08:29","like_diff":5,"likes":6,"dislikes":1,"content":"客观评价，每节课点两次名，事情真的很多，一共要写500*7+3000+1000+1000左右。但最后给分还蛮好的。"},{"id":207265,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 04:17:47","like_diff":5,"likes":5,"dislikes":0,"content":"事多分多，老师是有情怀的，但至于行为方式我只能说不咋看得惯，不是传销胜似传销。发现查老师有不好的评价，直接在班级群里发问让大家顶贴子，刷屏“保护”，这我真的很难评价……最后给分8分吧，请来的老师10分，真的挺不错的，但是rjh-2分"},{"id":208870,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-01-03 01:29:07","like_diff":5,"likes":6,"dislikes":1,"content":"课程邀请众多优秀企业家授课，还有企业参访活动\n\n虽然但是评分是给rjh，对其个人难评"},{"id":110017,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-06-21 07:53:42","like_diff":4,"likes":19,"dislikes":15,"content":"每场讲座，我的讲话，欲与zq试比高"},{"id":117513,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-09-25 08:26:48","like_diff":4,"likes":13,"dislikes":9,"content":"挺佩服"},{"id":153590,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-05-05 10:11:16","like_diff":4,"likes":13,"dislikes":9,"content":"建议丢到太空，毕竟你低需氧"},{"id":205255,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-03 09:46:15","like_diff":4,"likes":5,"dislikes":1,"content":"………"},{"id":207374,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-21 04:02:42","like_diff":4,"likes":5,"dislikes":1,"content":"乐水军"},{"id":212265,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-01-13 15:21:07","like_diff":4,"likes":5,"dislikes":1,"content":"阮老师的课上有很多商界大佬来做讲座，听了其实也挺有收获的，课程的事情略多。如果能主动当组长或者认真(1000字左右且不用AI，也不能流水线)地写每一次的感想，最后4.8甚至5.0都是可以的。如果你每次都是AI完成作业，稍微用点心也可以有4.2。怕麻烦的人和没时间的人慎选，有时候一周占用的时间比微积分还多。"},{"id":216302,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-03-13 03:46:42","like_diff":4,"likes":5,"dislikes":1,"content":"虽然本人讲话不太爱听，但是老师人脉很广，记忆最深的是上学期请到了陈行甲老师和强脑科技的老师来做讲座，认真听听还是很有收获的"},{"id":216681,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-03-21 01:13:55","like_diff":4,"likes":7,"dislikes":3,"content":"我觉得老师很好，论迹不论心，他真的干了很多事实"},{"id":90350,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-01 12:33:00","like_diff":3,"likes":42,"dislikes":39,"content":"让同学陪同新生之友下新生寝室，到处宣传“加入紫领，改变人生”，弄得新生之友超级尴尬。这不算传销这算什么！"},{"id":153595,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-05-05 10:40:31","like_diff":3,"likes":20,"dislikes":17,"content":"救命啊，求求水军看看别的老师的好评怎么样的吧。\n\n写的话看起来就是溜须拍马小跟班，滚呐"},{"id":162355,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-11-20 16:54:38","like_diff":3,"likes":21,"dislikes":18,"content":"这个水军团队话术太生硬了吧！属于是一眼丁真的尬吹水平"},{"id":184967,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-25 01:01:29","like_diff":3,"likes":6,"dislikes":3,"content":"谦逊基于力量，傲慢基于无能。\n\n尼采"},{"id":191281,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-04-16 13:28:10","like_diff":3,"likes":6,"dislikes":3,"content":"有毅力有能力有势力的成功的理想主义者"},{"id":202409,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-12 12:00:38","like_diff":3,"likes":6,"dislikes":3,"content":"传销组织"},{"id":202465,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-13 00:48:48","like_diff":3,"likes":8,"dislikes":5,"content":"依托答辩"},{"id":202480,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-13 01:33:45","like_diff":3,"likes":3,"dislikes":0,"content":"2024年秋冬开始，这门课的学分由原来的0.5增至1.5学分，给分也发生了相应变化。我课后感悟基本沿袭23年秋冬，但是总评多了10分。"},{"id":207262,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 04:04:05","like_diff":3,"likes":4,"dislikes":1,"content":"抽象。他自我评价很对，知道不喜欢自己的人不少，犟，但确实起了桥梁作用，不过演讲真不行。请来的人有不错的，但也不是都很好，有的没讲透。"},{"id":207336,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 14:50:32","like_diff":3,"likes":3,"dislikes":0,"content":"官僚主义、形式主义，rjh一刻不停地大谈自己的黄土地计划、紫领、强鹰，受不了了啊啊，在各个群里面疯狂转发这些项目的推文、图文，要宣传也不至于这样宣传吧，真的传销头子……他指导的那些组织里面的氛围据说有些也非常难绷，真的是近墨者黑……"},{"id":209105,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-01-04 13:20:03","like_diff":3,"likes":5,"dislikes":2,"content":"嘉宾偶有逆天发言，令人反感\n\n事多，但给分不错，想卷绩的可选"},{"id":210338,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-01-09 03:00:18","like_diff":3,"likes":4,"dislikes":1,"content":"一直会点名"},{"id":212207,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-01-13 11:29:10","like_diff":3,"likes":5,"dislikes":2,"content":"给分没有想象中的好，每一项作业都认真做了，本来想着事情那么多给分好也就算了，但出分还是挺令人失望的"},{"id":216567,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-03-18 14:06:28","like_diff":3,"likes":4,"dislikes":1,"content":"一课给分不是很高，亮点是给加0.5二课，事情比较多比较繁杂。\n\n如果这是一门两学分的创新创业类课程我想会受欢迎。"},{"id":217424,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-10 06:29:50","like_diff":3,"likes":3,"dislikes":0,"content":"这课上着太坐牢了，是有嘉宾讲得很好，但是没法抵消这门课b事太多的痛苦。"},{"id":217771,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-16 08:09:23","like_diff":3,"likes":4,"dislikes":1,"content":"期末给分98，居然扣了两分，早知道不用爱思助手，去听课做第一排刷脸了"},{"id":217965,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-18 11:54:11","like_diff":3,"likes":5,"dislikes":2,"content":"傻逼 草 像屎一样"},{"id":60747,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2017-10-29 09:03:28","like_diff":2,"likes":23,"dislikes":21,"content":"有毅力，扎实，略呆板"},{"id":104274,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-01 14:15:56","like_diff":2,"likes":37,"dislikes":35,"content":"不去紫领 滚啊"},{"id":117788,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-01 13:47:39","like_diff":2,"likes":28,"dislikes":26,"content":"看到少数同学对阮老师误解和偏见，我想说，骂人从来都是容易的，我们永远不可能让每个人对某件事情相信，尤其是在这个充满怀疑的时代。只是希望更多人能够理性的，更多了解阮老师的二十年人生路以后再做出评判。我相信，这股像“傻子般”的坚持精神与二十年来的诸多事迹是足以证明很多事情的，换做是你，又能这么奉献付出几天呢？我不是个能力突出的学生，可在学生时代包括现在都深受阮老师的影响，在彩虹人生育人平台上与多位志同道合的益友共同成长突破自我，共同坚守信仰。希望更多人能够用更加全面的关念看待事物，也希望你我在生活中知行合一，寻得始终！"},{"id":159894,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-09-08 05:17:24","like_diff":2,"likes":15,"dislikes":13,"content":"想成功，三条路：绿色浙江，求是强鹰，紫领计划。总之，彩虹人生。\n\n绝对的1分。"},{"id":174059,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-06-06 08:52:23","like_diff":2,"likes":30,"dislikes":28,"content":"实话实说，本科参加了诸多社团组织，最后悔的选择就是加入了阮老师的某鹰。本科参加了诸多实习，最后悔的就是参加了某鹰计划，实习被pua，甚至有一些无法言说的事情，导师选择请重人品…"},{"id":185681,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-01-03 13:10:20","like_diff":2,"likes":5,"dislikes":3,"content":"Ⅹ屎屎"},{"id":186262,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-01-10 07:32:29","like_diff":2,"likes":3,"dislikes":1,"content":"给分可以，想学到东西也可以从后面的导师上学到，别乱看水军，不想学东西，课也能水"},{"id":191471,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-04-23 11:02:08","like_diff":2,"likes":4,"dislikes":2,"content":"。。。"},{"id":202493,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-13 02:07:12","like_diff":2,"likes":3,"dislikes":1,"content":"事情很多给分很好"},{"id":202494,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-13 02:13:26","like_diff":2,"likes":3,"dislikes":1,"content":"事很多，但分也很多"},{"id":202633,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-13 13:14:25","like_diff":2,"likes":4,"dislikes":2,"content":"好老师，无需多言"},{"id":207277,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 05:23:23","like_diff":2,"likes":2,"dislikes":0,"content":"水如军"},{"id":207288,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 07:23:23","like_diff":2,"likes":2,"dislikes":0,"content":"这人要是别想着给自己刷好评根本不会有这么多事，笑死了"},{"id":207631,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-23 11:05:51","like_diff":2,"likes":3,"dislikes":1,"content":"睡觉睡觉"},{"id":214680,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-02-16 15:04:04","like_diff":2,"likes":4,"dislikes":2,"content":"给分不好"},{"id":217665,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-15 02:39:05","like_diff":2,"likes":2,"dislikes":0,"content":"没上过"},{"id":218516,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-24 06:10:22","like_diff":2,"likes":2,"dislikes":0,"content":"事情确实多，雷达签到签退，课后感想，两次校外调研，小组调研报告，最后还有个人pre，但给分也确实挺好的"},{"id":79787,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-06-13 14:01:38","like_diff":1,"likes":20,"dislikes":19,"content":"很棒很正能量"},{"id":79791,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2018-06-13 15:03:13","like_diff":1,"likes":16,"dislikes":15,"content":"好老师棒棒棒"},{"id":104360,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-03-18 17:30:24","like_diff":1,"likes":30,"dislikes":29,"content":"这么多水军？"},{"id":115650,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-08-15 11:42:26","like_diff":1,"likes":14,"dislikes":13,"content":"很有毅力，有想法"},{"id":115654,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-08-15 14:30:19","like_diff":1,"likes":12,"dislikes":11,"content":"耐心细致"},{"id":117782,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-01 12:36:17","like_diff":1,"likes":13,"dislikes":12,"content":"阮老师坚持一心为学生服务，得遇良师受益匪浅。"},{"id":117785,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-01 13:07:17","like_diff":1,"likes":15,"dislikes":14,"content":"一直把阮老师作为榜样，二十年如一日把学生的培养放在首要位置"},{"id":117786,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-01 13:29:48","like_diff":1,"likes":15,"dislikes":14,"content":"阮老师眼界开阔，为我们提供了一个很好的平台，很高的起点。"},{"id":117790,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-01 15:45:50","like_diff":1,"likes":13,"dislikes":12,"content":"非常好的一位老师，一心只为学生！"},{"id":117791,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-01 15:53:42","like_diff":1,"likes":12,"dislikes":11,"content":"阮老师对于学生很关心，生活和学习上都是如此。"},{"id":117801,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-02 05:48:07","like_diff":1,"likes":17,"dislikes":16,"content":"阮老师是个平易近人又有着很高威信的老师，他总说做一个老师是幸福的，而做他的学生是一件更幸福的事情，你可以感受到他身上那种孜孜不倦，一心为学生成长的精神，好大学就是在你忘记了所有的知识之外所学到的东西，阮老师也一样，好的老师是可以让自己受益一生的，也许人生会有很多坎坷和困难，但是想到他，一切都变得阳光和自信，感谢有你！"},{"id":153686,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-05-08 08:18:57","like_diff":1,"likes":17,"dislikes":16,"content":"厌氧丁真，鉴定为傻阮"},{"id":161731,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-11-11 12:40:42","like_diff":1,"likes":17,"dislikes":16,"content":"官僚主义太严重，就是个大学老师感觉自己比国家领导人还牛逼\n\n逃开彩虹人生"},{"id":178258,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-07-09 03:24:09","like_diff":1,"likes":17,"dislikes":16,"content":"你真的是nb啊阮俊华，纯纯pua大师"},{"id":179701,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-09-19 11:24:23","like_diff":1,"likes":5,"dislikes":4,"content":"666"},{"id":182313,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-11-14 12:02:20","like_diff":1,"likes":6,"dislikes":5,"content":"给阮老爷磕一个"},{"id":184971,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-25 02:19:20","like_diff":1,"likes":5,"dislikes":4,"content":"给分好，水分选"},{"id":185368,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-28 11:50:59","like_diff":1,"likes":3,"dislikes":2,"content":"真心好"},{"id":202447,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-12 23:40:44","like_diff":1,"likes":1,"dislikes":0,"content":"客观的"},{"id":202479,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-13 01:24:12","like_diff":1,"likes":5,"dislikes":4,"content":"课内容超多但纯纯吹牛逼"},{"id":202579,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-13 07:58:14","like_diff":1,"likes":1,"dislikes":0,"content":"上课除了点名多之外其他还行， 事也有点多"},{"id":202630,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-13 13:07:01","like_diff":1,"likes":5,"dislikes":4,"content":"很负责务实的老师，双创课能够提供非常难得的与杭州一线青创产业负责人交流和深入企业调研的机会，水课的话不建议选，如果想要真正有所收获、积累创业经验非常值得推荐！另外如果想要锻炼交流管理能力狠狠建议报名当组长，事情会多一点但是收获很大"},{"id":207289,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 07:23:33","like_diff":1,"likes":1,"dislikes":0,"content":"自卖自夸，喜欢讲自己有多厉害，还一堆事"},{"id":207290,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 07:25:17","like_diff":1,"likes":3,"dislikes":2,"content":"???慕名而来打1分"},{"id":207297,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 08:14:03","like_diff":1,"likes":2,"dislikes":1,"content":"懂的都懂"},{"id":207315,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 10:40:19","like_diff":1,"likes":2,"dislikes":1,"content":"我觉得作业好多QAQ但是嘉宾们其实都挺好的，特别是最后一节课的陈行甲老师，有些长评说到这门课阮老师有些浮夸，像传销确实是对的。感觉这也是时代通病吧，太过于浮躁喧嚣(￣_，￣ )"},{"id":207337,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 14:56:25","like_diff":1,"likes":2,"dislikes":1,"content":"赏你一分可怜可怜你"},{"id":217711,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-15 10:57:18","like_diff":1,"likes":2,"dislikes":1,"content":"✋😭🤚\\O/\n\n恩情老师"},{"id":217714,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-15 11:15:42","like_diff":1,"likes":2,"dislikes":1,"content":"前有傻逼，所以接下来差评很有用"},{"id":218393,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-23 06:31:13","like_diff":1,"likes":1,"dislikes":0,"content":"按要求完成任务给分就不会差，有的讲座听听还是有意思有意义的"},{"id":218417,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-23 09:12:04","like_diff":1,"likes":1,"dislikes":0,"content":"给分还8错"},{"id":218419,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-23 09:15:40","like_diff":1,"likes":1,"dislikes":0,"content":"事情多但是想水还是没问题的，给分不错"},{"id":218532,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-24 08:51:03","like_diff":1,"likes":1,"dislikes":0,"content":"老师确实有些同学们觉得不太理解的谈吐思维方式，但是，对于阮老师和他的团队而言，我总体上还是能看到他们想把这门课程做好，为低年级同学提供相关经验的所谓情怀和努力的。虽然大部分创业者的经验不可复制，但是能有这样一个渠道向上了解也是很好的，至少在双创课堂上，我看到了阮老师团队的良苦用心，安排了多次企业参访活动，还是有意义的，尤其是对于真心想学习这方面内容的同学。事情是有的，每次写感想吧，还有调研报告。认真做完，最后的给分还是很好的，旁边哪怕是随便完成的也都有4.5，我自己付出的不少，最后结果也是相当满意"},{"id":218535,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-24 09:28:56","like_diff":1,"likes":1,"dislikes":0,"content":"言辞轻浮 缺乏求是精神"},{"id":111732,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-07-02 16:33:20","like_diff":0,"likes":24,"dislikes":24,"content":"一分还是太高了"},{"id":117516,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-09-25 09:04:44","like_diff":0,"likes":12,"dislikes":12,"content":"有激情，有理想！"},{"id":153633,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-05-06 16:42:30","like_diff":0,"likes":14,"dislikes":14,"content":"水军能不能上点心？"},{"id":153673,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-05-07 12:25:18","like_diff":0,"likes":6,"dislikes":6,"content":"我们是否应该成为低需氧人才？"},{"id":153978,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-05-18 10:55:22","like_diff":0,"likes":11,"dislikes":11,"content":"低需氧人才…快进到人有多大胆地有多大产"},{"id":159800,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-09-01 01:12:09","like_diff":0,"likes":11,"dislikes":11,"content":"搞传销"},{"id":185283,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-27 13:39:43","like_diff":0,"likes":4,"dislikes":4,"content":"怎么秋学期结课现在怎么多人评论"},{"id":188729,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-01-19 17:27:52","like_diff":0,"likes":1,"dislikes":1,"content":"别的不说，给分真好"},{"id":189105,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-01-22 02:20:32","like_diff":0,"likes":6,"dislikes":6,"content":"老师可能在教学上能力略逊其他老师一筹，但是他本身所做的事情是很有意义的，创新创业实践启蒙这门课让我学到很多。尤其是去企业的参观，让我看到一些大佬的有趣灵魂。"},{"id":191021,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-03-28 12:03:59","like_diff":0,"likes":2,"dislikes":2,"content":"好好好"},{"id":201347,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-13 01:54:24","like_diff":0,"likes":6,"dislikes":6,"content":"在我看来这堂双创课对那些真正有创业想法的人是有实质性的帮助的，不喜欢阮老师的人一定会有，但是他在做的事情绝对是厉害的，个人虽然不喜欢听课但是对阮老师保有深深的敬意\n\n给我的分数不是很好看，改成8分"},{"id":201898,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-07 08:43:38","like_diff":0,"likes":5,"dislikes":5,"content":"感谢尊者开悟🙏\n\n老师我太想进步了！"},{"id":202446,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-12 23:38:49","like_diff":0,"likes":1,"dislikes":1,"content":"2024秋开始事情更多了，每人有pre，但给分还不错"},{"id":203180,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-17 16:00:13","like_diff":0,"likes":6,"dislikes":6,"content":"很有情怀的一位老师，因为育人情感很深、很想更好帮助更多学生，导致身边有一小部分学生因为有误解开始诋毁。平心而论，是位好老师。"},{"id":207305,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 09:01:01","like_diff":0,"likes":1,"dislikes":1,"content":"利益不相关，但pyq，朵朵上经常脏眼睛，来扣一个"},{"id":207323,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 12:06:38","like_diff":0,"likes":0,"dislikes":0,"content":"给分还行吧，感觉确实比其他同类课程事少点，内容不评价感觉观念有点老旧"},{"id":218425,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-23 11:09:52","like_diff":0,"likes":0,"dislikes":0,"content":"难评。"},{"id":117695,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-09-29 03:58:39","like_diff":-1,"likes":18,"dislikes":19,"content":"每隔一段时间，都会在同一天密集出现吹捧的言论，是不是水军一目了然"},{"id":185387,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-28 15:27:00","like_diff":-1,"likes":4,"dislikes":5,"content":"阮老师二十多年如一日为同学们搭建学习平台的用心非常感人，课程邀请的校外导师的分享也很有收获"},{"id":203290,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-19 02:49:52","like_diff":-1,"likes":12,"dislikes":13,"content":"看一个老师，不在于他说了什么，而要看他干了什么！发现帮助同学学术科研成长的启真问学创新平台也是阮老师创办和牵头负责的，发现竟然有300多位浙大专业教师教授参加做志愿者结对服务本科生上千人。阮老师竟然做了这么多好事实事！"},{"id":204009,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-23 03:22:32","like_diff":-1,"likes":7,"dislikes":8,"content":"能给机会企业参访其实挺宝贵的，而且给分还行"},{"id":207287,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 07:13:33","like_diff":-1,"likes":1,"dislikes":2,"content":"装逼且牛逼"},{"id":207302,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 08:44:34","like_diff":-1,"likes":1,"dislikes":2,"content":"好好好"},{"id":218310,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-22 12:09:01","like_diff":-1,"likes":2,"dislikes":3,"content":"太坑了，报课的时候来这里查9分多没想到纯是个搞传销的破事还贼多，签到签退都有。。。上完了才知道还有刷分这回事。。一句话赶紧跑"},{"id":218466,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-24 02:19:07","like_diff":-1,"likes":0,"dislikes":1,"content":"阮军话和它的狗都死了"},{"id":218613,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-27 02:43:11","like_diff":-1,"likes":0,"dislikes":1,"content":"事情巨多无比，都干完了也只有4.5，那我为什么不选职业生涯规划？"},{"id":218622,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-27 07:43:33","like_diff":-1,"likes":0,"dislikes":1,"content":"每节课后交感想，每两周有小组讨论，有个人pre，要参加企业参访，有小组合作的调研报告等等等等…不可否认确实可以带来创新创业的视野，但是请问忙前忙后做了这么多事最后获得一个批发的分数它合理吗？这个分和付出的努力匹配吗？甚至于我还是组长…"},{"id":60750,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2017-10-29 09:31:53","like_diff":-2,"likes":21,"dislikes":23,"content":"很棒很好很享受"},{"id":117517,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-09-25 09:05:13","like_diff":-2,"likes":14,"dislikes":16,"content":"贵在坚持"},{"id":142232,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2021-11-09 03:47:41","like_diff":-2,"likes":10,"dislikes":12,"content":"理想的现实主义者"},{"id":202302,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-11 10:53:03","like_diff":-2,"likes":6,"dislikes":8,"content":"老师挺抽象的，请来的企业家有的基本都在吹nb，有的还是很有帮助的，给分高事少，上课可听可不听，总体来讲还是推荐选的"},{"id":207280,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 05:38:22","like_diff":-2,"likes":2,"dislikes":4,"content":"这门课是老师请各个企业的大牛讲课，含金量不错，事多分多，课前课后两次点名，老师说话有点像传销，但总体还不错，参观企业什么的按照老师说的还能加二课和三课分，但对于老师在查老师里面新开马甲，在98和朵朵以及群里面拉拢水军刷分带节奏的做法感到恶心，评价一个人要看他做了什么这句话自然不假，老师确实做了很多实事，但这些像传销一样的操作同样是他做的，只能说辩证看待"},{"id":212347,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-01-14 01:54:19","like_diff":-2,"likes":3,"dislikes":5,"content":"创新创业实践启蒙 2024冬 课程更适合有想法，不怕折腾的人，给分挺好"},{"id":217893,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-17 14:27:03","like_diff":-2,"likes":6,"dislikes":8,"content":"最好的学校领导，没有之一\n\n给同学们搭建那么好的平台，提供那么多资源。还经常百忙之中和普通同学当面交流，这样的领导你去哪找？\n\n建议同学们别被网上信息蒙蔽，实地接触和感受才是最好的方式"},{"id":109376,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-08-31 07:53:12","like_diff":-3,"likes":27,"dislikes":30,"content":"阮某推出一周台历，美其名曰方便学生办事，实际前面上千字宣传彩虹人生，关键一周时间安排一张图糊得一批"},{"id":124888,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2020-07-15 02:58:50","like_diff":-3,"likes":13,"dislikes":16,"content":"虚伪的意思表示无效！"},{"id":160007,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-09-11 12:44:00","like_diff":-3,"likes":12,"dislikes":15,"content":"传销老师"},{"id":179446,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-09-16 01:34:36","like_diff":-3,"likes":3,"dislikes":6,"content":"感觉要寄"},{"id":184859,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-23 13:55:03","like_diff":-3,"likes":10,"dislikes":13,"content":"水军太多了"},{"id":191379,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-04-19 02:36:03","like_diff":-3,"likes":4,"dislikes":7,"content":"阮老师是一位好老师，双创课程真的不错"},{"id":191509,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-04-24 05:27:39","like_diff":-3,"likes":7,"dislikes":10,"content":"好老师，讲课很好"},{"id":207449,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-01-14 16:34:05","like_diff":-3,"likes":4,"dislikes":7,"content":"课程非常好，老师也非常高 给分非常不错"},{"id":212164,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-01-13 09:46:14","like_diff":-3,"likes":4,"dislikes":7,"content":"把保护打在公屏上❤❤"},{"id":151108,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-02-23 05:35:12","like_diff":-4,"likes":10,"dislikes":14,"content":"很好的老师"},{"id":153850,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-05-13 05:36:42","like_diff":-4,"likes":9,"dislikes":13,"content":"多少有点毛病"},{"id":180720,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-09-25 10:48:00","like_diff":-4,"likes":11,"dislikes":15,"content":"政治高压打击异己，不禁让我想起了一位故人。"},{"id":203164,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-17 13:34:30","like_diff":-4,"likes":10,"dislikes":14,"content":"给9分\n\n接触下来发现，老师是一个真实、纯粹、真心为学生考虑的人。至少这样的人担得起“老师”、“先生”这样的字眼。\n\n至于说老师有的观点可能有些老旧，过分激进什么的，首先这个是可以讨论的，不是原则性问题；其次，吾之蜜糖，汝之砒霜，这个不同人好恶也不同，至少老师人品没问题，也愿意帮助学生。说句实话，这样的老师在今天的浙大已经不算好找了。"},{"id":206652,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-17 03:13:39","like_diff":-4,"likes":5,"dislikes":9,"content":"事儿挺多，每节课都雷达签到，但是给分不错，课程内容也很好。"},{"id":207273,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 04:56:00","like_diff":-4,"likes":2,"dislikes":6,"content":"那些和每节课两次点名过不去的真是笑死了，这不是最基本的到现场就行吗？要是真想去都不去的水课那你报其他的啊，多了去了，在这里要什么画面呢，人家在讨论课好不好，你连听都没听过在叫什么？这大也是蛀虫不少"},{"id":207318,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 10:49:23","like_diff":-4,"likes":1,"dislikes":5,"content":"十年前的一份初心，化作坚持十年的育人使命，团结吸引数以百计的社会各界精英人士，通过一步一个脚印的带徒实践，影响成就了无数的青年学子！阮老师，用十年告诉我们，专注一件事并把它做到极致，就是最大成功！"},{"id":117783,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-01 15:20:09","like_diff":-5,"likes":15,"dislikes":20,"content":"非常喜欢听阮老师的课，很受益"},{"id":117784,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-01 12:54:26","like_diff":-5,"likes":14,"dislikes":19,"content":"阮老师发自内心为学生发展，赞！"},{"id":153617,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-05-06 05:40:32","like_diff":-5,"likes":13,"dislikes":18,"content":"厌氧丁真，鉴定为 你马不吃草要死。"},{"id":153636,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-05-06 23:48:57","like_diff":-5,"likes":8,"dislikes":13,"content":"建议老师降低工资吃草挤血哦"},{"id":153674,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2022-05-07 13:38:31","like_diff":-5,"likes":9,"dislikes":14,"content":"傻逼老师"},{"id":182489,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-11-16 12:16:12","like_diff":-5,"likes":5,"dislikes":10,"content":"无语了"},{"id":207264,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 04:13:16","like_diff":-5,"likes":0,"dislikes":5,"content":"事多分多，还行吧"},{"id":207902,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-25 02:13:22","like_diff":-5,"likes":6,"dislikes":11,"content":"只能说，接触过老师，老师虽然是喜欢打鸡血，但是他确实是个好老师。不可否认，这门课确实逼着很i很i的我站到了台前，发表自己的观点，当时准备小组沙龙的时候我很焦虑，怕会上去丢脸，好在最后结果是好的。非常感谢阮老师的课，如果没有这门课，我估计不会接触到这么多卓越的嘉宾们，也不会站上讲台一展风采。课程评价确实是千人前面吧。如人饮水，没有对错之分"},{"id":214675,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-02-16 12:09:03","like_diff":-5,"likes":3,"dislikes":8,"content":"阮老师真的很负责，很有思想，对社会做出很大的贡献，课事情有点多但是收获不小"},{"id":205269,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-03 13:52:23","like_diff":-6,"likes":3,"dislikes":9,"content":"谢谢老师所作的事情"},{"id":212184,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-01-13 10:29:04","like_diff":-6,"likes":3,"dislikes":9,"content":"要绩点就上，上课该水水，课后作业随便做，参访报告随便写，直接满绩拿下。不用管老师怎么怎么样，只要当耳旁风就行，作业该做就做，谁会和绩点过不去呢对吧。"},{"id":213020,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-01-15 15:37:53","like_diff":-6,"likes":5,"dislikes":11,"content":"守护守护 给分超好 虽然事真的很多但也比较好写 完全对得起我微薄的努力"},{"id":184833,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-23 08:13:30","like_diff":-7,"likes":8,"dislikes":15,"content":"shabi"},{"id":193083,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-06-03 09:56:58","like_diff":-7,"likes":1,"dislikes":8,"content":"给分不错"},{"id":207499,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-22 12:09:18","like_diff":-7,"likes":1,"dislikes":8,"content":"听说给分不错，期待"},{"id":179699,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-09-19 11:23:33","like_diff":-8,"likes":10,"dislikes":18,"content":"是很恐怖的老师。官僚资本主义。"},{"id":181907,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-11-04 12:36:19","like_diff":-8,"likes":8,"dislikes":16,"content":"🌿泥马"},{"id":215559,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-02-28 07:30:50","like_diff":-8,"likes":1,"dislikes":9,"content":"把保护打在公屏上！"},{"id":60749,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2017-10-29 09:28:10","like_diff":-9,"likes":19,"dislikes":28,"content":"很资茨"},{"id":184946,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2023-12-24 14:53:10","like_diff":-9,"likes":10,"dislikes":19,"content":"不是你开个课怎么还宣传到我们学院的院群了？你配吗你这玩意"},{"id":60514,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2017-11-26 07:17:46","like_diff":-10,"likes":26,"dislikes":36,"content":"不错不错"},{"id":110016,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-06-21 07:48:27","like_diff":-12,"likes":14,"dislikes":26,"content":"老师来自敦煌"},{"id":110037,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-06-21 13:39:55","like_diff":-12,"likes":13,"dislikes":25,"content":"垂死梦中惊坐起 老师真敦煌来的"},{"id":117864,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2019-10-06 09:05:15","like_diff":-12,"likes":20,"dislikes":32,"content":"经常聆听教诲，感到阮老师对学生的关心和成长是长期的，细致的，没有任何功利心的，单凭这一点，无论本人有什么讲课或为人特点，都值得学生尊重并从中汲取无尽的精神营养，我认为这一点最难学，业务吸引不吸引人是其次"},{"id":205191,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-02 12:48:40","like_diff":-13,"likes":1,"dislikes":14,"content":"还不错，的确创建了一个很好的平台"},{"id":207227,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 02:20:29","like_diff":-13,"likes":8,"dislikes":21,"content":"第一印象觉得有点喜欢说漂亮话，但是后来接触下来发现是非常平易近人，为学生真正提供平台和机会的老师，真的是在为学生做实事。"},{"id":217649,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-04-14 14:40:15","like_diff":-13,"likes":3,"dislikes":16,"content":"感觉是当校长的好料子。我很奇怪为什么一定要有科研成果的人才能当浙大校长呢？让阮哥这种人脉巨广、组织能力也强的人来当不好吗。而且他也是浙江本地人，而且在浙江也挺有地位，也不贪职位，而且喜欢搞事情，像彩虹人生，求是强鹰，启真晨跑，绿色浙江，难道不比中科大的一个科研成果有影响力么\n\n（没有看低马校长的意思，还是很看好他的）\n\n\n\n说回课程，还是挺建议选的，不过这个小组任务确实有点牢，只能说做好心理准备。"},{"id":207731,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-24 05:35:39","like_diff":-14,"likes":1,"dislikes":15,"content":"拓宽了我们的视野，像老师说的，专业课的知识网上都能找到甚至能找到更好的(清北的)，所以专业课不听。像这种人文科学的课就是用来增长见识的，而阮老师的课倒倒是可以让我们见到各种大咖，听到更多新奇的见解，这种课网上是没有替代的"},{"id":204997,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-11-29 10:18:07","like_diff":-19,"likes":5,"dislikes":24,"content":"启真问学平台是阮俊华老师一手操办起来的，可以说是全浙大真正为同学服务、为同学着想、门槛最低的本科生科研平台。好好把握机会，或许是一次改变人生的机会"},{"id":60751,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2017-10-29 09:55:24","like_diff":-22,"likes":21,"dislikes":43,"content":"手长脚长脖子长，眼亮心亮声音亮。\n\n颜高体美气质佳，才比子建貌潘安。"},{"id":207251,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 03:41:00","like_diff":-23,"likes":3,"dislikes":26,"content":"作为大一的学生，如果不是有这门课，我是不可能接触到那么多优秀的企业家的，不可能有与他们面对面提问的机会的。或许最开始选课时，我很大程度上是因为给分好而选的，但一次次课堂下来，越来越觉得这门课提升了我自己的认知，给了我更多机会，真的收获满满，也非常感谢阮老师给了我们这么好的平台！至于对于一个人的评价，我们不能只看他说了什么，更要看他做了什么。有些人说阮老师宣传自己，可是如果不宣传自己又有谁会知道信服呢？更何况阮老师是实实在在做到了，一个老师费劲心血将这么牛的老师都请进课堂，除了情怀外还有什么可以解释呢？而老师还为这门课申请了二三课堂学分，为的不就是我们学生能腾出时间去做更多有意义的事吗？如果想真正有所收获，强烈推荐这门课！"},{"id":207808,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2025-01-13 10:23:50","like_diff":-26,"likes":9,"dislikes":35,"content":"挺好的，挺有情怀一老师，努力为学生找了很多资源。让一个大一小登甚至走进了阿里云参观，搞不明白为什么这么多喷的😅阮老师甚至为了性别平等找了女嘉宾来分享经验。管的严你也可以逃啊，水课想让你学的东西还有错了？\n\n补充一点：给分超好"},{"id":207218,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 01:55:16","like_diff":-34,"likes":4,"dislikes":38,"content":"10分，双创课邀请著名企业家、创新家、创业者来为浙大学子开办讲座，这门课认真听真的可以收获很多，只是许多人都埋头做作业或者看手机电脑，没能理解阮老师的良苦用心。所谓“传销”更是无稽之谈，本人没有参加强鹰之类的项目，只是参加过启真晨跑，真心觉得阮老师很关心学生发展！"},{"id":207248,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-12-20 03:25:40","like_diff":-39,"likes":4,"dislikes":43,"content":"君子论迹不论心。有些学生说阮老师的课是“传销”，自己自视清高，我想问问你如果负责学校的创新创业工作，有没有阮老师做的好。从“彩虹人生”到“创新创业实践启蒙”，整个浙大的双创教育，哪里没有阮老师的影子？刷低分的同学，建议自己反思一下，是不是“心”里生了病。我听过阮老师的课，上过“创新创业实践启蒙”，我觉得我的收获很大，也很钦佩阮老师的事业。立德树人，思政育人，阮老师值得！"},{"id":190728,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-03-16 08:44:35","like_diff":-46,"likes":3,"dislikes":49,"content":"我余涛实名10分，创业引路人！照亮浙大的光！"},{"id":193655,"teacher_id":1046,"teacher_name":"阮俊华","post_time":"2024-06-14 13:01:30","like_diff":-59,"likes":9,"dislikes":68,"content":"这门课最大的收获莫过于能够和很多真正卓越的人近距离交流，从而在内心埋下创新创业的种子，点燃追求卓越的激情，学习他们的创新创业精神和家国情怀。而且还能结交很多同样优秀且志同道合的朋友，互相交流彼此新奇的想法，相互学习，共同成长。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

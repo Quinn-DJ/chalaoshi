@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>冯波 - 物理学系 - 浙大教评</title>
+    <meta name="description" content="冯波教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="冯波,物理学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">冯波</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">物理学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.20</div>
+                    <div class="rating-participants">62人参与评分</div>
+                    <div class="attendance-info">19.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (1 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">力学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.30</span>
+                            <span class="students">选课: 31人</span>
+                            <span class="std-dev">标准差: 0.76</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (54 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":65313,"teacher_id":249,"teacher_name":"冯波","post_time":"2018-01-03 02:48:59","like_diff":52,"likes":58,"dislikes":6,"content":"看完了评论，各位我今天算是要得罪你们一下。还不是因为浙大数学物理等基础课以前太过水了，大家都以为大学是这个样子。。。大学哪是这个样子的。。。看看某科，看看两个top，哪个不是课程压力上天的。三本浙把物理上成ppt课也是少有的(包括某H)。fb大概是高估了各位的水平，以为这真是世界一流大学了。各位还要多加努力啊，提高对自己的要求啊。。这么划水怎么行呢，上面怕也是意识到这个问题了，这一两个学年公共课的去水是相当明显的。希望这个趋势能够继续下去。"},{"id":60343,"teacher_id":249,"teacher_name":"冯波","post_time":"2017-11-22 12:48:37","like_diff":22,"likes":28,"dislikes":6,"content":"我是16级的学生，之后的新生听着，冯老师的课不是一般人能上的，老师最喜欢讲打星号的章节（就是不考的），布置的作业是往难的挑的，（考试会考的不布置），我并没有说这个老师不好，只是自学能力不强，而且不是十分自信的同学千万别选这个老师！"},{"id":60504,"teacher_id":249,"teacher_name":"冯波","post_time":"2017-10-23 01:11:50","like_diff":17,"likes":19,"dislikes":2,"content":"老师热衷于讲相对论"},{"id":18853,"teacher_id":249,"teacher_name":"冯波","post_time":"2016-01-22 15:42:05","like_diff":11,"likes":20,"dislikes":9,"content":"上过+旁听过冯老师开的所有本科生课，难得能把数学物理融合在讲的老师，观点也很鲜明，跟着学了不少东西"},{"id":69392,"teacher_id":249,"teacher_name":"冯波","post_time":"2018-01-24 14:59:26","like_diff":9,"likes":9,"dislikes":0,"content":"首先老师的数学水平很强，其次老师物理境界高到你们难以想象以至于听课费劲，然后没有很强自学能力微积分线代常微分复变数学物理方法学得很好且对物理抱有极大兴趣的同学慎选，想通俗易懂考试不慌的请找评分高的前三位，最后感叹一句是我们太渣了老师强得一批。（无小测不点名作业多且难）"},{"id":79110,"teacher_id":249,"teacher_name":"冯波","post_time":"2018-05-23 07:20:46","like_diff":9,"likes":10,"dislikes":1,"content":"我的课你们只要听懂百分之50就行了\n\n"},{"id":82824,"teacher_id":249,"teacher_name":"冯波","post_time":"2018-07-09 07:43:02","like_diff":9,"likes":10,"dislikes":1,"content":"坐等一波力学的朋友来反思自己"},{"id":125833,"teacher_id":249,"teacher_name":"冯波","post_time":"2020-09-14 15:19:59","like_diff":9,"likes":9,"dislikes":0,"content":"大师。力学课：授课内容有难度，但考试不要求，只考基本力学题，每节课都值得认真听，老师对数学物理的结合让学生极受启发，适合有力学基础的同学学习。板书有点难看懂，但讲义很清楚。这门课无需考虑给分，仅讲授水平便足以得10分。"},{"id":59141,"teacher_id":249,"teacher_name":"冯波","post_time":"2018-01-24 15:18:06","like_diff":8,"likes":15,"dislikes":7,"content":"终于知道为啥评分上9了。因为期末给分还不错"},{"id":60235,"teacher_id":249,"teacher_name":"冯波","post_time":"2017-10-18 03:17:40","like_diff":8,"likes":12,"dislikes":4,"content":"完全浇灭我对物理的热情。。。"},{"id":18356,"teacher_id":249,"teacher_name":"冯波","post_time":"2016-01-21 13:16:48","like_diff":7,"likes":13,"dislikes":6,"content":"对学生自学能力要求高"},{"id":59786,"teacher_id":249,"teacher_name":"冯波","post_time":"2017-09-27 03:18:19","like_diff":7,"likes":9,"dislikes":2,"content":"他说要有意培养我们自学能力。。。"},{"id":76599,"teacher_id":249,"teacher_name":"冯波","post_time":"2018-04-16 06:21:03","like_diff":6,"likes":13,"dislikes":7,"content":"追求绩点的同学去看上面的评论。凭良心说，冯老师的大物课内容绝对是其他老师都比不上的。拓展线性代数，介绍相对论的四矢量方法，最小作用量原理，量子纠缠效应，其他老师课上听得到吗？他的大物课不是为了成绩，而是培养自主学习能力。他说不想听的随时可以离开，可以回去自学课本内容。那些绩点低的自己想想平时花了多少时间来学。教师的水平不是简单的均绩就能评判的。"},{"id":60227,"teacher_id":249,"teacher_name":"冯波","post_time":"2017-12-13 03:10:52","like_diff":5,"likes":11,"dislikes":6,"content":"上课的人越来越少了…听课的人也超不过十个…真的是讲得太快作业还太多?遭不住啊"},{"id":60599,"teacher_id":249,"teacher_name":"冯波","post_time":"2017-10-25 02:47:02","like_diff":5,"likes":8,"dislikes":3,"content":"冯老师17秋冬第一次开大物课，以前教的都是比较高级的物理课，所以他上课的风格其实并不适合那些没有物理基础的同学，然而大物课本身就是基础物理课，所以会觉得那啥是在所难免的。不推荐没有物理兴趣没有物理基础没有很强的物理自习能力的学生选冯老师的课，但物理系的同学们可以去选冯老师的另外两门课，绝对是物理系的良心课程"},{"id":65314,"teacher_id":249,"teacher_name":"冯波","post_time":"2018-01-03 02:53:02","like_diff":5,"likes":9,"dislikes":4,"content":"看完了评论，各位我今天算是要得罪你们一下。还不是因为浙大数学物理等基础课以前太过水了，大家都以为大学是这个样子。。。大学哪是这个样子的。。。看看某科，看看两个top，哪个不是课程压力上天的。三本浙把物理上成ppt课也是少有的(包括某H)。fb大概是高估了各位的水平，以为这真是世界一流大学了。各位还要多加努力啊，提高对自己的要求啊。。这么划水怎么行呢，上面怕也是意识到这个问题了，这一两个学年公共课的去水是相当明显的。希望这个趋势能够继续下去。\n\n//本人工科16级，"},{"id":78035,"teacher_id":249,"teacher_name":"冯波","post_time":"2018-05-16 02:25:15","like_diff":5,"likes":6,"dislikes":1,"content":"听不懂学不会什么都学不到"},{"id":76324,"teacher_id":249,"teacher_name":"冯波","post_time":"2018-04-03 03:59:39","like_diff":4,"likes":5,"dislikes":1,"content":"老师很厉害，数理结合，作业很多，好好完成对期中期末帮助很大，对自学能力要求比较高吧，还有助教太辛苦了，改作业估计要哭\n\n"},{"id":110305,"teacher_id":249,"teacher_name":"冯波","post_time":"2019-06-25 12:39:26","like_diff":4,"likes":5,"dislikes":1,"content":"上课的确很累，很多地方都听不懂，需要课后自学，但是！自学过后再一想老师上课讲的内容和发了讲义，就突然感觉豁然开朗。用老师的话来说就是，书上讲的太啰嗦了，我喜欢直指本源"},{"id":110420,"teacher_id":249,"teacher_name":"冯波","post_time":"2019-06-26 13:23:55","like_diff":4,"likes":4,"dislikes":0,"content":"谢谢老师海底捞，我小论文没写，期末考啥也不会都及格了"},{"id":18841,"teacher_id":249,"teacher_name":"冯波","post_time":"2016-01-22 15:31:28","like_diff":3,"likes":8,"dislikes":5,"content":"渣渣被虐成狗的感觉"},{"id":60435,"teacher_id":249,"teacher_name":"冯波","post_time":"2018-01-23 02:58:35","like_diff":3,"likes":9,"dislikes":6,"content":"冯波老师还算很负责的吧。不过他喜欢在自己了解的领域，讲得很深，不太了解的地方一下带过，这有点。。。"},{"id":105082,"teacher_id":249,"teacher_name":"冯波","post_time":"2019-04-03 09:38:55","like_diff":3,"likes":6,"dislikes":3,"content":"一边倒的偏向好评，我问问大家物理课是不是基础扎实最重要?平地建高楼?\n\n我不是爱因斯坦，希望老师能更注重些基础。讲课深入是一种本事，浅出也是一种本事"},{"id":110629,"teacher_id":249,"teacher_name":"冯波","post_time":"2020-01-12 06:37:39","like_diff":3,"likes":6,"dislikes":3,"content":"4.8飘过。。。相信我，总是有办法的"},{"id":122662,"teacher_id":249,"teacher_name":"冯波","post_time":"2020-03-13 08:33:21","like_diff":3,"likes":4,"dislikes":1,"content":"冯老师的力学课程飘过，相对论、刚体力学部分挺有深度的，还拓展了很多其他物理课没有的内容。从课堂上真的能学到很多东西，不光是数学，还有物理思维。当然老师人也很好，风趣幽默，给分也不错的~"},{"id":16086,"teacher_id":249,"teacher_name":"冯波","post_time":"2016-01-17 07:04:22","like_diff":2,"likes":5,"dislikes":3,"content":"老师数学太凶残了"},{"id":18847,"teacher_id":249,"teacher_name":"冯波","post_time":"2016-01-22 15:33:50","like_diff":2,"likes":5,"dislikes":3,"content":"学渣上完课一身内伤"},{"id":59547,"teacher_id":249,"teacher_name":"冯波","post_time":"2017-10-11 04:55:04","like_diff":2,"likes":4,"dislikes":2,"content":"快快快"},{"id":59775,"teacher_id":249,"teacher_name":"冯波","post_time":"2017-09-27 03:08:12","like_diff":2,"likes":6,"dislikes":4,"content":"开飞机？"},{"id":59793,"teacher_id":249,"teacher_name":"冯波","post_time":"2017-09-27 03:52:01","like_diff":2,"likes":4,"dislikes":2,"content":"同一身伤。。。"},{"id":60635,"teacher_id":249,"teacher_name":"冯波","post_time":"2017-10-26 00:39:19","like_diff":2,"likes":5,"dislikes":3,"content":"我只能说冯波老师的大雾不适合我，(?)"},{"id":79729,"teacher_id":249,"teacher_name":"冯波","post_time":"2018-06-13 06:19:34","like_diff":2,"likes":6,"dislikes":4,"content":"只想说一个好老师并不要求他学术能力如何科研成果如何，评判的标准应该是他的教学能力，学生能否接受他所教授的内容。基础都不打好以后怎么学"},{"id":110411,"teacher_id":249,"teacher_name":"冯波","post_time":"2019-06-26 12:29:59","like_diff":2,"likes":2,"dislikes":0,"content":"相信我，选他的课不会错的，真的超级棒。我是18级的，刚学了他的物理1，特别有收获。他的讲课方式很独特，但是也很有魅力，不会让人想睡觉不想听课，一次听三节都ok的。这门课不水，需要课后花时间看讲义看书，推荐的那些书老师都帮我找图书馆借好，我们去图书馆就能看，这么好的老师哪里找。强调一下，不是绩杀不是绩杀不是绩杀，他真的不是绩杀。"},{"id":112074,"teacher_id":249,"teacher_name":"冯波","post_time":"2019-07-03 11:52:27","like_diff":2,"likes":3,"dislikes":1,"content":"不预习大概率是听不懂的，预习了大概率也是听不懂的，，不过半年下来自学能力确实如他所说有一定提高，微积分线代上完了有时候回想老师讲课的一些东西，发现老师用到的数学推导大部分也不是很难，希望老师以后照顾一下大家的数学基础，或者多分享一下相关的数学课程吧（老师是真的强，是我tcl"},{"id":119233,"teacher_id":249,"teacher_name":"冯波","post_time":"2019-11-11 12:01:26","like_diff":2,"likes":3,"dislikes":1,"content":"课很难，但真的不错"},{"id":63302,"teacher_id":249,"teacher_name":"冯波","post_time":"2018-01-15 00:37:05","like_diff":1,"likes":9,"dislikes":8,"content":"不说别的，100多人的班后面只有十几个上课，可想而知老师有多优秀，呵呵"},{"id":64515,"teacher_id":249,"teacher_name":"冯波","post_time":"2017-12-25 00:55:53","like_diff":1,"likes":3,"dislikes":2,"content":"上的很快，可能我比较喜欢快节奏的老师吧，反正我觉得老师很好！"},{"id":84020,"teacher_id":249,"teacher_name":"冯波","post_time":"2018-07-12 00:11:38","like_diff":1,"likes":2,"dislikes":1,"content":"1.那个xxx（忘了）的目标是不让学生全听懂，只听懂80％，我还没他那么厉害，我只能让你们听懂50％。\n\n2.你们觉得听懂我课50％的举手\n\n（有几个人举手）我觉得我好失败，没事，培养你们的自学能力。\n\n3.老师很强，是我太辣鸡了。虽然物理学一成功贡献我的最低绩点（全靠师生情没挂），但是老师是真的强。（10分）\n\n4.对了，不点名的。"},{"id":103842,"teacher_id":249,"teacher_name":"冯波","post_time":"2019-03-06 07:52:27","like_diff":1,"likes":2,"dislikes":1,"content":"强\n\n\n\n10分"},{"id":104165,"teacher_id":249,"teacher_name":"冯波","post_time":"2019-03-13 08:06:17","like_diff":1,"likes":2,"dislikes":1,"content":"不适合基础不强的人"},{"id":110380,"teacher_id":249,"teacher_name":"冯波","post_time":"2019-06-26 08:13:43","like_diff":1,"likes":1,"dislikes":0,"content":"上物理学一的后来的小朋友，强推MIT的《力学概论》。老师上课比较深，基础不清楚的先看那本，多练题目，比较熟悉了，再看老师给的讲义。会有很大的收获。老师给分还是很好的，虽然难了一点，，要花很多时间，但是这样才是大学生应该有的样子。"},{"id":123593,"teacher_id":249,"teacher_name":"冯波","post_time":"2020-06-10 10:11:38","like_diff":1,"likes":1,"dislikes":0,"content":"有点难度，给分不错"},{"id":133449,"teacher_id":249,"teacher_name":"冯波","post_time":"2021-03-01 01:49:32","like_diff":1,"likes":1,"dislikes":0,"content":"冯波老师 上课认真 内容详细"},{"id":19481,"teacher_id":249,"teacher_name":"冯波","post_time":"2016-01-24 10:50:29","like_diff":0,"likes":7,"dislikes":7,"content":"老师实力真心好，就是太高估我们实力了，讲课太快。9分。"},{"id":19833,"teacher_id":249,"teacher_name":"冯波","post_time":"2016-01-25 11:08:34","like_diff":0,"likes":9,"dislikes":9,"content":"男神啊不解释"},{"id":40266,"teacher_id":249,"teacher_name":"冯波","post_time":"2016-12-31 06:22:21","like_diff":0,"likes":6,"dislikes":6,"content":"男神，强到无话可说"},{"id":67845,"teacher_id":249,"teacher_name":"冯波","post_time":"2018-01-22 08:12:43","like_diff":0,"likes":3,"dislikes":3,"content":"\n\n老师的思维速度很快，拓展内容也很多，适合学有余力的同学"},{"id":72112,"teacher_id":249,"teacher_name":"冯波","post_time":"2018-01-29 11:15:05","like_diff":0,"likes":2,"dislikes":2,"content":"老师真厉害"},{"id":86143,"teacher_id":249,"teacher_name":"冯波","post_time":"2018-09-08 03:26:15","like_diff":0,"likes":2,"dislikes":2,"content":"很好，非常好"},{"id":96569,"teacher_id":249,"teacher_name":"冯波","post_time":"2019-01-21 06:38:46","like_diff":0,"likes":1,"dislikes":1,"content":"物理一，给老师拉低均绩了。\n\n不过1.5飘过，还是要感谢老师!"},{"id":137505,"teacher_id":249,"teacher_name":"冯波","post_time":"2021-07-04 15:07:30","like_diff":0,"likes":0,"dislikes":0,"content":"上课很有价值的"},{"id":75615,"teacher_id":249,"teacher_name":"冯波","post_time":"2018-03-14 05:43:56","like_diff":-1,"likes":1,"dislikes":2,"content":"你在说什么"},{"id":59779,"teacher_id":249,"teacher_name":"冯波","post_time":"2018-10-18 14:36:48","like_diff":-4,"likes":18,"dislikes":22,"content":"他的课是讲给他自己听得，不要看下面那些评论，什么男神之类的。其实他根本没有把知识点讲透，只是一味按照他的数学水平去推，然后好像一切都是当然的不需要解释。偶尔讲一些和课程无关的物理概念，也只是讲一下名称，有点哗众取宠的感觉。书上知识，完全自学。上学期评分还是7点几不知道谁给他刷的分。"},{"id":59144,"teacher_id":249,"teacher_name":"冯波","post_time":"2017-10-25 02:59:38","like_diff":-10,"likes":5,"dislikes":15,"content":"zz。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

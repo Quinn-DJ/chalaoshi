@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>真大成 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="真大成教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="真大成,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">真大成</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">7.12</div>
+                    <div class="rating-participants">71人参与评分</div>
+                    <div class="attendance-info">33.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (6 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">人文社科概论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.19</span>
+                            <span class="students">选课: 111人</span>
+                            <span class="std-dev">标准差: 0.65</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">古代汉语Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.00</span>
+                            <span class="students">选课: 288人</span>
+                            <span class="std-dev">标准差: 1.00</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">校勘学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.43</span>
+                            <span class="students">选课: 129人</span>
+                            <span class="std-dev">标准差: 0.46</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">毕业实习</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.38</span>
+                            <span class="students">选课: 11人</span>
+                            <span class="std-dev">标准差: 0.37</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会实践</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.12</span>
+                            <span class="students">选课: 12人</span>
+                            <span class="std-dev">标准差: 0.65</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会调查</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.86</span>
+                            <span class="students">选课: 22人</span>
+                            <span class="std-dev">标准差: 0.15</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (58 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":109661,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-06-18 07:40:09","like_diff":35,"likes":42,"dislikes":7,"content":"平心而论老师的课干货没有我想象中多，但这不是我打低分的理由。一个老师，首先应该是个正常人，一个正常人，首先该有稳定的情绪和最基本的共情能力。真可惜今天老师的言行让我感到无比失望。原定7.1交作业，我们都非常感激老师愿意体谅我们，然而今天突然说因为大部分同学还没开始做作业就盛怒之下把ddl提前到后天？中文系期末有多忙您也知道，我们大部分人都已经按照ddl安排好了自己的学习计划，我们是真的希望能在写完那些日期更为紧迫的论文后认认真真做您的作业保质保量完成，可您这么一来，对您最直接影响到的不就是您看重的作业质量。我们不是只有您的作业，总要根据ddl有个先来后到吧。行，刷夜呗，这命我不要了。"},{"id":109674,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-06-18 09:06:27","like_diff":26,"likes":27,"dislikes":1,"content":"课讲的不错，但是真的有点虚伪，说着体谅学生，作业晚点做交上去不就好了嘛，大家都忙，说好了的ddl一发脾气突然提前，真的不好啊，考虑过同学和周三上课那些老师，课上发现学生都在写校勘学感受吗？而且我真的感觉这个老师虽然人还是不错，但思想不够包容，气量有点小。"},{"id":109640,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-06-18 06:15:18","like_diff":25,"likes":27,"dislikes":2,"content":"为什么没有零分"},{"id":72440,"teacher_id":3443,"teacher_name":"真大成","post_time":"2018-01-30 06:37:37","like_diff":16,"likes":21,"dislikes":5,"content":"绝望，说好的好老师呢？我遇到的是假的吧，给分低出翔，我天!"},{"id":95435,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-01-19 11:37:49","like_diff":15,"likes":24,"dislikes":9,"content":"想问问老师期末题出成这样有意思吗：-）还反复强调很简单的不用复习，只觉得辛辛苦苦背的书都喂狗了"},{"id":96852,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-01-21 10:47:40","like_diff":15,"likes":22,"dislikes":7,"content":"古代汉语II 期末题大多从课外出的。 作为一名留学生 我真的很绝望 我背的都是课本上有的啊！刻苦的看书 、古语又很难懂。再给我几年时间 还是这样出题 我怎么会过？自己已经做得最好了、我不知老师在想什么。哎～多说了也没什么用。"},{"id":109629,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-06-18 04:21:58","like_diff":15,"likes":17,"dislikes":2,"content":"校勘学原本定好7月1号交的作业改到了这周四，虽然理解老师很生气，但是我也挺生气的"},{"id":109658,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-06-18 07:39:01","like_diff":15,"likes":16,"dislikes":1,"content":"我知道老师对于校勘作业生气，但是把ddl提前11天，我也觉得挺荒谬的。事情总归分个轻重缓急，18 19 20连着三篇论文要交，原定20开始写校勘作业，这下好了，从现在开始还有两个夜可以刷，也不晓得能不能搞完八卷。已经为了论文熬了一个多星期，在这里问问有没有约着一起刷夜的朋友，万一出什么事情还能帮忙打个120."},{"id":115438,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-07-23 23:52:12","like_diff":12,"likes":12,"dislikes":0,"content":"给分说实在的还可以 但是老师有点意气用事了 有点故意"},{"id":174500,"teacher_id":3443,"teacher_name":"真大成","post_time":"2023-06-13 08:30:53","like_diff":10,"likes":10,"dislikes":0,"content":"校勘學，講課速度實在有點慢，上課有點水（很喜歡把一句話來回重複說）。説要展示，一開始說希望大家自願報名，結果到了周一晚上九點公佈了抽到了周三展示的人的名單？？？？？（問就是我被抽到了）本來打算之後再做大作業，還在準備西方文論課堂考試呢，好嘛……這個期末周有校勘學而精彩……"},{"id":95374,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-01-19 09:30:52","like_diff":9,"likes":16,"dislikes":7,"content":"古代汉语2老师讲得很好，学到很多，我自己差，成绩真的很烂，虽然认真听讲认真做笔记认真背书认真复习，结果还是很差。都是因为自己不努力，没其他原因了。"},{"id":96332,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-01-21 00:25:46","like_diff":9,"likes":14,"dislikes":5,"content":"古代汉语2，绩杀"},{"id":109677,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-06-18 09:41:53","like_diff":8,"likes":10,"dislikes":2,"content":"我太天真了……"},{"id":15148,"teacher_id":3443,"teacher_name":"真大成","post_time":"2016-01-12 08:10:52","like_diff":6,"likes":8,"dislikes":2,"content":"刚刚过"},{"id":14619,"teacher_id":3443,"teacher_name":"真大成","post_time":"2016-01-08 03:24:26","like_diff":5,"likes":18,"dislikes":13,"content":"上课挺有意思的 而且人萌萌哒 汉语与古代文化觉得见了不少奇葩的知识 期末一篇论文 不过给分还不知道～"},{"id":75191,"teacher_id":3443,"teacher_name":"真大成","post_time":"2018-03-08 02:33:50","like_diff":5,"likes":5,"dislikes":0,"content":"。。。"},{"id":145998,"teacher_id":3443,"teacher_name":"真大成","post_time":"2022-01-05 02:57:58","like_diff":5,"likes":6,"dislikes":1,"content":"不知道是不是老师调整了教学方法，感觉我们这学期遇到的真老师和评论区展现出来的完全不是同一个？老师真的蛮可爱的，平常上课思路很清晰，复习起来也很轻松，考前划重点，最后试卷题都讲到过，也比较容易。但并不意味着可以水，因为给分是公平的，试卷简单也要努力才能达到预期。"},{"id":211850,"teacher_id":3443,"teacher_name":"真大成","post_time":"2025-01-12 17:00:28","like_diff":5,"likes":6,"dislikes":1,"content":"纯双面人，品德败坏"},{"id":115439,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-07-24 00:48:04","like_diff":3,"likes":5,"dislikes":2,"content":"校勘学:老师课讲的挺有意思的，给分也蛮好的。突然提前是有不对的地方，但是部分同学态度确实有问题。最后老师也把时间改回来了，我觉得老师怎么着也不是6.9的水平吧…………6月之前还8分来着…"},{"id":131885,"teacher_id":3443,"teacher_name":"真大成","post_time":"2021-01-29 14:05:23","like_diff":3,"likes":6,"dislikes":3,"content":"无力吐槽了"},{"id":215428,"teacher_id":3443,"teacher_name":"真大成","post_time":"2025-02-26 05:31:27","like_diff":3,"likes":3,"dislikes":0,"content":"不怎么滴感觉，有点虚伪"},{"id":162505,"teacher_id":3443,"teacher_name":"真大成","post_time":"2022-11-23 21:01:00","like_diff":2,"likes":9,"dislikes":7,"content":"只能说人品不太行"},{"id":187945,"teacher_id":3443,"teacher_name":"真大成","post_time":"2024-01-18 01:09:11","like_diff":2,"likes":3,"dislikes":1,"content":"不管以前怎么样，这学期真老师的课可以说是我收获最大的专业了，老师很专业，学术水平和授课能力都摆在那里，讲课确实算古代汉语里比较有趣的了。而且考试只要平时好好听，记笔记，期末复习笔记（ppt）问题就不大，老师也会稍微捞捞，完全没我想象的那么严格。"},{"id":187951,"teacher_id":3443,"teacher_name":"真大成","post_time":"2024-01-18 01:27:44","like_diff":2,"likes":4,"dislikes":2,"content":"呜呜呜100分，大学第一个100分，太感动了呜呜呜呜\n\n总的来说，真老师的古汉课很注重从课本进行扩展，然后严格来说其实讲的课文不算多，书上的字词复习比较轻松。特别需要注意的就是每节课要认真听！一定要去上课！然后老师的ppt也要注意看。真老师考前会划范围，这个也要着重记\n\n上课认真听！考前认真复习！一定会有个好成绩的！\n\n再次感谢真老师！！"},{"id":201747,"teacher_id":3443,"teacher_name":"真大成","post_time":"2024-11-06 02:33:08","like_diff":2,"likes":2,"dislikes":0,"content":"老师挂名的人文社科概论，虽然通知了要写期末论文但迟迟不告知提交方式和时间，然后在7月5日晚上告知我们论文要在7号前完成，只能说不要拖延把…"},{"id":202702,"teacher_id":3443,"teacher_name":"真大成","post_time":"2024-11-14 02:32:12","like_diff":2,"likes":2,"dislikes":0,"content":"哦敬爱的老师，您不给要求并在截止前两天说要交论文，让学生获得了快速写论文的能力，您的打分也十分喜爱卡绩"},{"id":209343,"teacher_id":3443,"teacher_name":"真大成","post_time":"2025-01-05 12:58:20","like_diff":1,"likes":2,"dislikes":1,"content":"古汉2，整体内容不是特别多，对所讲的文选中的字词讲得很细，会重复很多遍叮嘱大家记住，没什么听课压力~\n\n考试内容85%都是原原本本讲过的，剩下的15%也可以在PPT上找到，只是要稍微灵活运用一下。\n\n总体来说出题不为难大家，给分也超棒！"},{"id":210077,"teacher_id":3443,"teacher_name":"真大成","post_time":"2025-01-08 06:00:28","like_diff":1,"likes":1,"dislikes":0,"content":"给这么好的分是想让我们过个好年吗"},{"id":95567,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-01-19 15:33:56","like_diff":0,"likes":12,"dislikes":12,"content":"古汉二：不点名，偶尔留课后思考题（上课抽人提问），期末一个考试（好好复习绝对好过）。然而这都不重要，老师人超可爱，热情（活泼？）耐心还有点点小皮，上课细致有想法，讲得比较慢，不会有哐哐灌水的感觉。所以不管老师给我多少分我给老师都是满分。明年校勘学还要约！"},{"id":122419,"teacher_id":3443,"teacher_name":"真大成","post_time":"2020-02-27 02:06:26","like_diff":0,"likes":3,"dislikes":3,"content":"讲课很明白 深入浅出 考试也不难 谢谢谢谢"},{"id":131893,"teacher_id":3443,"teacher_name":"真大成","post_time":"2021-01-29 09:02:24","like_diff":0,"likes":2,"dislikes":2,"content":"老师上课还不错，事情不多，上课会小测当点名，偶尔有作业，不过作业不多，也就2/3次思考题。\n\n比较难顶的是考试（别相信老师说的简单hh），通论很重要，尤其是古书的注解，课本ppt也要背，关注通假字、注释等等。\n\n最后，关于给分，我的还行，感觉被老师捞了一档，但身边很多同学都炸了，应该是老师出的题目比较出其不意。\n\n相对来说，fyx老师比较安全，会捞，zdc老师讲得不错，收获比较大。供参考。"},{"id":145918,"teacher_id":3443,"teacher_name":"真大成","post_time":"2022-01-04 10:45:14","like_diff":0,"likes":4,"dislikes":4,"content":"不点名，有小测，但小测不算分，也会有一两次平时作业，不过分数只看期末考。考前会划重点，基本就是考划到的，考前补天了分数就很不错，不用太担心！老师平时讲课也蛮有趣的，完全可以选！"},{"id":153984,"teacher_id":3443,"teacher_name":"真大成","post_time":"2022-05-18 11:58:55","like_diff":0,"likes":3,"dislikes":3,"content":"马保国的真正大成拳！太极拳高段！嘿，哈！"},{"id":170314,"teacher_id":3443,"teacher_name":"真大成","post_time":"2023-03-02 17:44:46","like_diff":0,"likes":3,"dislikes":3,"content":"很温柔很可爱的老师，对学生的要求合理地严格（或者只是在要求他的合格？hhh）刚开始很害怕老师，后来觉得自己确实太拉垮，emm，而且觉得老师很关照大家，是觉得很感谢的。其实吧，我感觉我们做学生的，要老师体谅我们，我们也要多体谅老师，我们喜欢好的老师和老师喜欢好的学生是一个道理，要把自己作为学生的分内事做好了，期望的成绩或者结果应该差不多也就如愿了。共勉～"},{"id":188879,"teacher_id":3443,"teacher_name":"真大成","post_time":"2024-01-20 11:04:27","like_diff":0,"likes":1,"dislikes":1,"content":"老师上课可能内容量没有那么大，当然我觉得古代汉语这种课程也确实没有必要将文选从头到尾讲一遍，所以我还是非常喜欢真老师这种有点水水的上课节奏的。跟着老师可以学到很多文献学的一些内容，期末考试题不算很难，只要你去认真上课了，看了PPT，上4基本没问题。"},{"id":209517,"teacher_id":3443,"teacher_name":"真大成","post_time":"2025-01-06 07:14:05","like_diff":0,"likes":4,"dislikes":4,"content":"不知道之前怎么样 反正今年明显捞我们了 考试只需要好好准备不会差的 老师上课也娓娓道来 很清楚 支持"},{"id":21712,"teacher_id":3443,"teacher_name":"真大成","post_time":"2016-03-01 01:09:32","like_diff":-1,"likes":8,"dislikes":9,"content":"课有点水，讲的还不错，最后评分挺好的。"},{"id":110205,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-06-24 12:28:10","like_diff":-1,"likes":6,"dislikes":7,"content":"也不至于7分一下吧hhh"},{"id":111784,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-07-02 22:48:07","like_diff":-1,"likes":14,"dislikes":15,"content":"真老师人是真的好。古汉二每一个知识点都出自ppt和课本（不服来辩，我拿到卷子就知道了，每一个点都在课本和ppt里出现过），那些说出自课外的，那是自己死背书还怪老师。当然不可否认ddl提前的那个问题确实存在。首先是立场：ddl提前确实不对。但是我觉得老师是被学生激怒之后情绪失控。因为我了解到有的同学理直气壮漫不经心根老师说（不用我点名了大家都知道是哪位）自己什么都没做。事情是躲但是你不能好好解释吗？非要态度随便激怒老师，设想哪个老师在这样情境下不愤怒？"},{"id":118698,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-10-31 00:00:25","like_diff":-1,"likes":6,"dislikes":7,"content":"讲课还可，然而另一个老师的课甚至会随机掉落一个张涌泉，选课的时候还是要考虑清楚。\n\n古汉鼓励恶竞，老师完全不觉得鼓励学生两三周一次的作业都最好要写十几页有什么问题。唯页数论，是页数不是字数，想把作业写精一点的同学省省吧，只要页数多，把庄子内外篇不加说明地总结作者习惯用语都可以。研究先秦语料，不分析左传吕氏春秋分析庄子也没事，只要你页数多，就是精品。\n\n你的观点和过程都不要紧，页数够多就行，时间紧张的同学就不要选了。\n\n上课偶尔会有小测当点名。\n\n"},{"id":202613,"teacher_id":3443,"teacher_name":"真大成","post_time":"2024-11-13 11:09:28","like_diff":-1,"likes":0,"dislikes":1,"content":"人社概论满绩了 谢谢"},{"id":25128,"teacher_id":3443,"teacher_name":"真大成","post_time":"2016-05-06 01:52:02","like_diff":-2,"likes":6,"dislikes":8,"content":"老师讲得很不错，作业要求很清晰，课堂展示也是自愿。给分也不错！"},{"id":27539,"teacher_id":3443,"teacher_name":"真大成","post_time":"2016-06-27 03:04:45","like_diff":-2,"likes":6,"dislikes":8,"content":"上课很有意思，期末一篇论文不求深刻只求个人思考，给分很赞，老师满腹经纶，也喜欢跑步～（汉语与古代文化"},{"id":95366,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-01-19 09:18:31","like_diff":-2,"likes":5,"dislikes":7,"content":"老师超级可爱的！提问互动很多很及时，给分也超好！"},{"id":99955,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-01-25 10:42:11","like_diff":-2,"likes":5,"dislikes":7,"content":"上课讲的很细致，知识涉及很多，因此考试也是如此。并且考试成绩就等于总成绩，所以要求还是蛮高的吧。"},{"id":115435,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-07-23 14:59:24","like_diff":-2,"likes":3,"dislikes":5,"content":"还阔以"},{"id":15082,"teacher_id":3443,"teacher_name":"真大成","post_time":"2016-01-21 15:06:43","like_diff":-3,"likes":6,"dislikes":9,"content":"好好好老师"},{"id":17795,"teacher_id":3443,"teacher_name":"真大成","post_time":"2016-01-21 01:45:27","like_diff":-3,"likes":8,"dislikes":11,"content":"老师上课挺有意思的，只期末一篇论文，但给分相当不错。"},{"id":26248,"teacher_id":3443,"teacher_name":"真大成","post_time":"2016-06-16 11:37:29","like_diff":-3,"likes":5,"dislikes":8,"content":"上课全当放松?深入浅出，旁征博引，炒鸡有趣，老师开明，给分特别棒。期末就论文和展示，展示自愿，很轻松～"},{"id":44687,"teacher_id":3443,"teacher_name":"真大成","post_time":"2017-01-18 06:23:15","like_diff":-3,"likes":6,"dislikes":9,"content":"古代汉语，老师超级棒，给分好"},{"id":95361,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-01-19 09:04:34","like_diff":-4,"likes":8,"dislikes":12,"content":"老师真的太太太可爱了！给分也很好！"},{"id":113247,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-07-06 02:40:12","like_diff":-6,"likes":4,"dislikes":10,"content":"安利校勘学"},{"id":44647,"teacher_id":3443,"teacher_name":"真大成","post_time":"2017-01-18 05:23:26","like_diff":-7,"likes":8,"dislikes":15,"content":"古代汉语 真天使"},{"id":106658,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-04-28 22:51:18","like_diff":-8,"likes":5,"dislikes":13,"content":"老师人很可爱 不乱给分 期末卷子略难 有研究生入学考试题 上课气氛好  大家可参考着选"},{"id":132053,"teacher_id":3443,"teacher_name":"真大成","post_time":"2021-01-30 04:28:14","like_diff":-10,"likes":7,"dislikes":17,"content":"臭傻逼"},{"id":126119,"teacher_id":3443,"teacher_name":"真大成","post_time":"2020-09-18 00:19:31","like_diff":-14,"likes":8,"dislikes":22,"content":"老秃驴"},{"id":24442,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-02-21 17:10:47","like_diff":-17,"likes":14,"dislikes":31,"content":"期末一篇论文，只签到一次。认真听还是有收获的，从六书讲起，有一些关于汉语的专题。不过老师我建议可以减少两次展示耶！给宝宝满绩了！满绩了！第一次太激动！"},{"id":112930,"teacher_id":3443,"teacher_name":"真大成","post_time":"2019-07-23 22:45:34","like_diff":-19,"likes":16,"dislikes":35,"content":"课上的水还不尊重学生，就知道看好看的女生，死秃驴，老色鬼"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

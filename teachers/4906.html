@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>谷岩 - 医学院 - 浙大教评</title>
+    <meta name="description" content="谷岩教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="谷岩,医学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">谷岩</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">医学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">5.17</div>
+                    <div class="rating-participants">43人参与评分</div>
+                    <div class="attendance-info">26.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">分子医学实验</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.32</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.48</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">医学生物化学与分子生物学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.37</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.85</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (41 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":78617,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-05-14 01:29:39","like_diff":56,"likes":63,"dislikes":7,"content":"以后有了人工智能，第一个取代他。"},{"id":78616,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-05-14 01:29:31","like_diff":38,"likes":44,"dislikes":6,"content":"我TM还以为是实现了人工智能的机器人在这上课"},{"id":87331,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-09-27 05:47:59","like_diff":30,"likes":33,"dislikes":3,"content":"非常优秀的老师，上课睡觉是一种享受！"},{"id":75471,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-03-14 01:54:23","like_diff":25,"likes":37,"dislikes":12,"content":"老师其实不错的，那些说老师上课无聊的，你知道他为了认对ppt上面的每一个字付出了多少努力吗"},{"id":133774,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2021-03-05 03:27:46","like_diff":22,"likes":23,"dislikes":1,"content":"老师的PPT做的很用心，上课的所有内容都得到了体现。"},{"id":103273,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2019-02-27 06:02:08","like_diff":18,"likes":19,"dislikes":1,"content":"精神折磨，学生是孙悟空，他是唐三藏"},{"id":87354,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-09-27 10:22:06","like_diff":16,"likes":19,"dislikes":3,"content":"老师本科中科大也在那里完成了博士，学术方面应该挺厉害的，但是每个人的特质原因吧，可能不适合上课什么的"},{"id":133802,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2021-03-05 13:25:22","like_diff":15,"likes":16,"dislikes":1,"content":"仿佛社畜做工作报告，内心：“好烦啊，我为什么在这里啊，可以躺着吗，好想死一死啊”\n\n真的被迫营业"},{"id":79316,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-05-31 02:01:21","like_diff":14,"likes":18,"dislikes":4,"content":"谷大哥不得了"},{"id":104151,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2019-03-13 05:24:31","like_diff":13,"likes":15,"dislikes":2,"content":"我把屁屁踢拷到word，word读的都比他好\n\n中科大出来的吗\n\n怕他把自己读催眠了"},{"id":134016,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2021-03-12 02:26:22","like_diff":12,"likes":14,"dislikes":2,"content":"老师，您敢不敢上课抬个头"},{"id":74972,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-03-26 08:02:01","like_diff":10,"likes":19,"dislikes":9,"content":"我给了10分，把ppt一字不落念下来不容易"},{"id":74720,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-03-12 05:51:42","like_diff":9,"likes":21,"dislikes":12,"content":"ppt拟人化"},{"id":75475,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-03-12 08:36:42","like_diff":9,"likes":16,"dislikes":7,"content":"我看到了你，想起了卓别林"},{"id":192776,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2024-05-30 07:08:46","like_diff":8,"likes":8,"dislikes":0,"content":"我觉得老师可能是个超级社恐\n\n他上课真的全程都没抬过头\n\n但凡多讲一个ppt上没有的字都会结巴\n\n老师人还是挺好的\n\n下课去交流都挺耐心的\n\n而且讨论课不管说什么都是这位同学说的很好"},{"id":197854,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2024-08-16 05:56:05","like_diff":8,"likes":9,"dislikes":1,"content":"作为谷老师的研究生，必须说一下，谷老师确实不善于社交是个社恐，但是为人处事对学生是真的很好很善良，而且科研上也完全有能力指导学生，读研的都懂。这几年实验室越来越壮大，也逐渐有经费了，欢迎大家加入Gulab"},{"id":75476,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-03-12 08:44:47","like_diff":7,"likes":14,"dislikes":7,"content":"美美睡一觉，醒来自习吧"},{"id":116717,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2019-09-14 03:12:12","like_diff":6,"likes":8,"dislikes":2,"content":"我觉得这个老师还可以吧，这是第一个我发邮件给他，会回我邮件的老师，简直太感动了"},{"id":151008,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2022-03-01 04:30:45","like_diff":6,"likes":6,"dislikes":0,"content":"如果我有罪，请让法律来制裁我，而不是让我上谷老师的课。"},{"id":75008,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-03-07 03:27:34","like_diff":5,"likes":14,"dislikes":9,"content":"讲的是什么玩意？这生化上的稀碎稀碎的，读PPT还没感情，该快慢，该慢快，?希望生化能过"},{"id":133609,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2021-03-03 01:05:11","like_diff":5,"likes":6,"dislikes":1,"content":"嘤嘤嘤，只会念PPT"},{"id":133612,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2021-03-03 01:21:12","like_diff":4,"likes":5,"dislikes":1,"content":"师傅别念了，我认字。。。"},{"id":133775,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2021-03-05 03:41:15","like_diff":4,"likes":5,"dislikes":1,"content":"我都想上去把话筒抢下讲课了，我照着ppt念都比他慷慨激昂。"},{"id":76005,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-03-24 05:00:37","like_diff":3,"likes":6,"dislikes":3,"content":"特别烂\n\n"},{"id":99374,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2019-01-24 15:40:16","like_diff":3,"likes":4,"dislikes":1,"content":"要是能重来"},{"id":134024,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2021-03-12 04:05:43","like_diff":2,"likes":3,"dislikes":1,"content":"师傅别念了 实在太煎熬了"},{"id":170575,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2023-03-07 01:12:25","like_diff":2,"likes":2,"dislikes":0,"content":"PPT很棒，答疑很认真"},{"id":75473,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-03-12 07:54:43","like_diff":1,"likes":12,"dislikes":11,"content":"念ppt都还会舌头打结"},{"id":176225,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2023-06-28 06:16:24","like_diff":1,"likes":1,"dislikes":0,"content":"老师答疑解惑很及时！"},{"id":182666,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2023-11-19 07:00:26","like_diff":1,"likes":1,"dislikes":0,"content":"老师上课主要念ppt为主，可能很催眠但是可以不听（可以写报告）。最后的展示真的很水，没有鼓励卷发言，按照要求做完就行。平时课上有问题都会很积极帮助解决，最后给分也不错。"},{"id":190548,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2024-03-08 03:31:46","like_diff":1,"likes":1,"dislikes":0,"content":"唯一作用就是能够降低我看PPT的速度"},{"id":216275,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2025-03-13 01:48:55","like_diff":1,"likes":1,"dislikes":0,"content":"谷老师非常nice，学问很大，只是社恐些"},{"id":74995,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-03-19 08:19:04","like_diff":0,"likes":9,"dislikes":9,"content":"把ppt带上拼音   小学生都念得比你6"},{"id":170573,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2023-03-07 00:48:57","like_diff":0,"likes":1,"dislikes":1,"content":"避坑吧，PPT以外的话不会讲，说话全程一个调，能把人催眠的那种"},{"id":92782,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2019-01-04 11:53:48","like_diff":-1,"likes":2,"dislikes":3,"content":"体验极佳"},{"id":109896,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2019-06-20 05:18:53","like_diff":-1,"likes":1,"dislikes":2,"content":"哈哈哈哈哈哈哈哈哈"},{"id":74973,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-03-07 01:53:03","like_diff":-2,"likes":9,"dislikes":11,"content":"念PPT我也会偶\n\n"},{"id":75472,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-03-12 07:49:34","like_diff":-2,"likes":7,"dislikes":9,"content":"非常好玩"},{"id":76469,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-04-10 10:08:41","like_diff":-2,"likes":8,"dislikes":10,"content":"真的，重点分明。\n\n尤其是现在上过另一个老师的课后，我很想念他！！"},{"id":75445,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-03-12 05:10:13","like_diff":-3,"likes":9,"dislikes":12,"content":"最受不了的是把20个氨基酸的数据全部念一遍。\n\n（Anosa，有什么在校内老师匿名评价系统里面发表恶臭言论的必要吗？削除，请。"},{"id":89555,"teacher_id":4906,"teacher_name":"谷岩","post_time":"2018-11-19 14:10:19","like_diff":-4,"likes":3,"dislikes":7,"content":"很棒啊"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

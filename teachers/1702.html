@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>毛峥嵘 - 医学院 - 浙大教评</title>
+    <meta name="description" content="毛峥嵘教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="毛峥嵘,医学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">毛峥嵘</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">医学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.69</div>
+                    <div class="rating-participants">44人参与评分</div>
+                    <div class="attendance-info">32.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (16 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">Forensic medicine</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.47</span>
+                            <span class="students">选课: 195人</span>
+                            <span class="std-dev">标准差: 0.74</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">Medical Chinese Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.00</span>
+                            <span class="students">选课: 139人</span>
+                            <span class="std-dev">标准差: 0.79</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">Pathology</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 2.98</span>
+                            <span class="students">选课: 269人</span>
+                            <span class="std-dev">标准差: 0.87</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">临床前课程概论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.49</span>
+                            <span class="students">选课: 216人</span>
+                            <span class="std-dev">标准差: 0.68</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">人体探秘——认识自己，预防疾病</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.05</span>
+                            <span class="students">选课: 279人</span>
+                            <span class="std-dev">标准差: 0.58</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">人体结构功能与健康</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.10</span>
+                            <span class="students">选课: 90人</span>
+                            <span class="std-dev">标准差: 0.50</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">人类学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.02</span>
+                            <span class="students">选课: 141人</span>
+                            <span class="std-dev">标准差: 0.47</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">医疗纠纷与司法鉴定</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.92</span>
+                            <span class="students">选课: 400人</span>
+                            <span class="std-dev">标准差: 0.56</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">基础医学各论Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.03</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.83</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">基础医学各论Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.79</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.76</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">基础医学各论Ⅲ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.53</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.77</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">比较人体形态学Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.17</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.71</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">比较人体形态学Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.17</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.72</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">法医学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.05</span>
+                            <span class="students">选课: 353人</span>
+                            <span class="std-dev">标准差: 0.90</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">病理与药理学基础</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.03</span>
+                            <span class="students">选课: 247人</span>
+                            <span class="std-dev">标准差: 0.73</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">病理学（乙）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.66</span>
+                            <span class="students">选课: 484人</span>
+                            <span class="std-dev">标准差: 0.95</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (36 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":26800,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2016-06-21 06:38:29","like_diff":19,"likes":25,"dislikes":6,"content":"课前预习比较严格，上课会让学生自己讲解切片，喜欢叫同学回答问题，每次实验上到4:30多，讲得很细"},{"id":48176,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2017-03-01 05:47:08","like_diff":14,"likes":19,"dislikes":5,"content":"毛老师讲课非常认真，可以学到很多真正的东西。另外回复楼上为什么删减图片，因为法医鉴定中心的很多照片有版权、隐私，周韧老师上病理的时候也不会给病例PPT给我们"},{"id":48473,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2017-03-06 01:00:28","like_diff":11,"likes":13,"dislikes":2,"content":"课前会有预习的作业，上课会点同学回答问题或者描述标本，但只要预习过了基本不会有问题，老师也不凶的。标本讲的很仔细，还有些拓展思维的题目。下课不早但是很认真。同样回答说删减照片的，不知道你为什么故意黑老师……司法照片不流通这是基本常识，能给我们看就不错了……"},{"id":106928,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2019-04-30 09:49:06","like_diff":10,"likes":13,"dislikes":3,"content":"我是医学生，想说句公道话，感觉医学生没有恶竞吧。老师分层布置的作业不只是医学生拿了高分，反而是那些非医学专业的喜欢写满满一整张（标本我只写了两三行drl）。期末题目我有的也不会做，可能是我菜。课后任务比其他通识课多，但是不用写论文我很满意。"},{"id":153157,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2022-04-26 09:05:21","like_diff":10,"likes":10,"dislikes":0,"content":"非医学院的慎选"},{"id":109539,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2019-06-16 16:42:29","like_diff":8,"likes":9,"dislikes":1,"content":"我上了她的通识课“人体探秘——认识自己，预防疾病”。我不是医学生。但也认真学了，最后4.8。老师人挺好，就是这门课要刷慕课（我个人不是很喜欢刷慕课hhh）但老师人真的很好很温柔！个人观点，只要肯认真学，不怕麻烦，成绩不会低的。"},{"id":101772,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2019-01-29 04:55:09","like_diff":5,"likes":5,"dislikes":0,"content":"绝对的好老师！上课很认真，讲的很好。"},{"id":113175,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2019-07-06 01:07:46","like_diff":5,"likes":7,"dislikes":2,"content":"我永远喜欢毛峥嵘老师！"},{"id":142814,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2021-11-16 11:12:25","like_diff":5,"likes":8,"dislikes":3,"content":"人体探秘，上课划水，期末考试大摆烂，被绩杀了，3.3，然后知识真的很硬核，开卷考，一定要把ppt都打印下来，不要像我，连资料都没准备"},{"id":213924,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2025-01-21 11:54:38","like_diff":4,"likes":4,"dislikes":0,"content":"真的特别特别好的老师，病理讲的特别特别好，讨论课上很多知识点其实理论课都有提及，理论课虽然PPT全英但是讲课绝对可以的，看智云的时候反复感叹以前线下的时候怎么不认真听orz另外也是很有人文关怀的老师🥹这学期受伤给毛老师钉钉发了请假条，她还专门问了一下伤势是否严重，特别暖心总之🥹🥹🥹而且给分超级超级惊喜，简直就是再生妈妈"},{"id":115216,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2019-07-17 01:25:41","like_diff":3,"likes":4,"dislikes":1,"content":"老师人超级nice，上课会要你提前预习，会有预习小测，上课会提问，让你上去讲解标本切片balabala，刚开始觉得事情好多…习惯了之后觉得这样上课效率比较高，期末复习也很轻松，最后给分也很好?上课讲的很好，提问也回答的很详细(⁎⁍̴̛ᴗ⁍̴̛⁎)喜欢毛老师！"},{"id":28627,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2016-06-28 11:14:19","like_diff":2,"likes":5,"dislikes":3,"content":"很好的老师，需要预习"},{"id":142843,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2021-11-17 00:56:15","like_diff":2,"likes":2,"dislikes":0,"content":"绩点4.2，老师很专业，课干货很多，但考核方式还可以更好一些。"},{"id":153808,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2022-05-12 00:04:01","like_diff":2,"likes":3,"dislikes":1,"content":"毛老师作为病理学系的一名老师，专业素养是过硬的，同时对待教学也非常严谨。有幸上过毛老师的各论1，比较1，医疗纠纷和法医学，老师每节课都上得非常认真，风格甚至会有些像高中老师。但是，各论和比较应学院要求，是全英文的，孩子有些看不懂。建议有需要的同学上sloffde下载她前几届的PPT"},{"id":189541,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2024-01-25 09:48:55","like_diff":2,"likes":2,"dislikes":0,"content":"老师是很温柔的好老师，但是真的劝退医疗纠纷与司法鉴定。发言加分也加了作业也认真做了考试也认真弄了最后3.3。比较感兴趣才选的这门课，毛老师的部分很不错，但是拼盘课确实不是所有老师都很有魅力。"},{"id":205590,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2024-12-10 02:13:15","like_diff":2,"likes":3,"dislikes":1,"content":"讲的一般般，不点名，上课无聊"},{"id":212490,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2025-01-14 05:39:02","like_diff":2,"likes":2,"dislikes":0,"content":"临床的【病理与药理学基础】，毛老师上【病理学】理论课的部分，个人不太适应毛老师的讲课方式，PPT全英，感觉以标本为主讲知识点，学生听的时候感觉逻辑没那么清晰，有时候需要有一定预习才能听懂。最后出分个人觉得还算蛮捞的。"},{"id":135000,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2021-04-26 11:11:46","like_diff":1,"likes":2,"dislikes":1,"content":"通识课人体探秘——认识自己，预防疾病：这个课，劝各位医学生别选，虽然上课内容与专业课差不多，大部分也学过，但是重点不在你掌握了多少知识，重点在卷，每周都有小作业，每一个小作业都要很用心去做，老师是医学院老师，个人觉得对医学生更加严格。但是如果你喜欢卷并且卷的厉害，就当我没说"},{"id":212292,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2025-01-14 00:55:14","like_diff":1,"likes":1,"dislikes":0,"content":"大爱毛老师，讲的条理清晰，给分也很好！"},{"id":132748,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2021-02-03 12:23:42","like_diff":0,"likes":0,"dislikes":0,"content":"最爱毛老师，没有之一！！超棒的老师！！"},{"id":142087,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2021-11-05 12:00:56","like_diff":0,"likes":0,"dislikes":0,"content":"怎么说呢，老师人很好，但是小组展示的时候不控制时间，规定的时间有些小组大大超时，而且还是小组互评打分，就很emmm"},{"id":173743,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2023-06-02 06:13:53","like_diff":0,"likes":0,"dislikes":0,"content":"666"},{"id":175941,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2023-06-27 08:15:46","like_diff":0,"likes":0,"dislikes":0,"content":"讲课很清晰，对学生也很好"},{"id":205948,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2024-12-13 01:53:38","like_diff":0,"likes":2,"dislikes":2,"content":"大爱毛老师~"},{"id":212324,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2025-01-14 01:31:54","like_diff":0,"likes":0,"dislikes":0,"content":"好捞呀"},{"id":212509,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2025-01-14 06:03:07","like_diff":0,"likes":0,"dislikes":0,"content":"【医疗纠纷与司法鉴定】平盘课不是很成体系，但是各位老师单独看的话讲得都很好，认真听可以学到东西。平时会点名，有平时作业，但不是很多，最后在学在浙大上答题就行。老师会捞，我到了89分"},{"id":166574,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2023-01-13 01:25:44","like_diff":-1,"likes":8,"dislikes":9,"content":"#医疗纠纷与司法鉴定\n\n首先说一下这门课程的总体情况。无论文，平时任务就是每节课一个小作业，最多半个小时可以完成，期末考试是最后一节课上解决，线下每节课都会点名，上课老师比较多，轮流上课。给分情况，作业都是很认真的完成，因此民法典第六章我都会背了，期末考试会考作业原题，我在资料库里找到了标准答案，并且与民法典结合的题目，我都一条一条全部背出来了，所以期末考试的成绩在我的角度来看应该是非常高的，从未缺勤，最后成绩4.2。拉了均绩0.1。再说一下这门课学什么，主要是学一些案例分析，关于医生医德的法律条款等，案例分析比较难，初学者无论是法律专业还是医学专业别说是工科专业，都很困难，只能凭感觉。综上所述，老师们水平都蛮高吧，私信询问问题，都比较耐心及时回复，虽然我对成绩很不满意，但是就这样吧，给同学们点参考。"},{"id":177010,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2023-07-01 04:56:52","like_diff":-1,"likes":0,"dislikes":1,"content":"比较I 一个班30人 来自期末考后老师在群里的消息：\n\n祝贺“…”五位同学比较人体形态学I总评成绩满绩！\n\n祝贺各位同学比较人体形态学I考出了优秀的成绩！本次我们班的期末卷面平均成绩是86.9分，超过了全年级平均成绩将近10分。有一道皮肤纤维瘤的切片诊断失分较多。另外，总评成绩我们班还有11位同学是4.8绩点，8位同学是4.5绩点。\n\n祝贺大家！希望下学期比较II能再接再厉！\n\n暑假愉快！\n\n\n\nxdjm们懂了吧！就是上课要小组展示 感觉效果不如直接听讲好"},{"id":105129,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2019-04-04 05:43:29","like_diff":-2,"likes":6,"dislikes":8,"content":"通识课--人体探秘。老师是好老师，但课程内容比较专业，对非医学生来说不是很友好，作业也是。作为一门通识课，事情有点多：四次作业加考试，还要在MOOC上刷视频。更可怕的是，恶竞不过医学生。如果不care这些还对医学知识感兴趣，这门课还是推荐的。如果想水学分或者刷绩点的话，还是不要选这门课。"},{"id":172654,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2023-05-03 13:55:09","like_diff":-2,"likes":1,"dislikes":3,"content":"避雷，划水的话绩点真低"},{"id":105086,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2019-04-03 10:44:05","like_diff":-3,"likes":8,"dislikes":11,"content":"我上的是毛老师的通识课——人体探秘巴拉巴拉。我觉得毛老师和其他老师上课是没问题，无可诟病的，但是这门通识课事情多，仅此告诉学弟学妹这一信息，如果真的没兴趣想刷分，请别选这门课（你比不过恶竞的医学生）"},{"id":212245,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2025-01-13 14:03:54","like_diff":-6,"likes":1,"dislikes":7,"content":"完全不为学生考虑，上课讲得没逻辑和重点"},{"id":125106,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2020-08-31 14:19:16","like_diff":-8,"likes":3,"dislikes":11,"content":"人体探秘课，感觉内容还是挺专业的，开卷考试认真准备了1整天（没错就1整天但是考点基本都复习到了，ppt是个好东西一定多看），平时作业有点多，MOOC要看会作为1次平时分。本以为至少也能4.8但是可能还是课堂互动少了，只有4.5"},{"id":107057,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2019-05-01 08:05:08","like_diff":-16,"likes":4,"dislikes":20,"content":"医学生相当鹅颈\n\n两三行的标本描述居然有人写成了厚厚一叠的论文\n\n我也是服气的"},{"id":30381,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2016-07-01 12:45:22","like_diff":-24,"likes":4,"dislikes":28,"content":"挺好的，好好学，一不小心满级，"},{"id":3665,"teacher_id":1702,"teacher_name":"毛峥嵘","post_time":"2015-06-17 02:08:42","like_diff":-44,"likes":4,"dislikes":48,"content":"不按课本讲课 最不能理解的是实验课的时候讲课ppt和下发ppt不一样 下发ppt是删减版 这是让我们少学一点的意思吗"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

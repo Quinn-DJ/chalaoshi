@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>干于 - 电气工程学院 - 浙大教评</title>
+    <meta name="description" content="干于教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="干于,电气工程学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">干于</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">电气工程学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">5.91</div>
+                    <div class="rating-participants">98人参与评分</div>
+                    <div class="attendance-info">11.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (4 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">企业认知实习</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.80</span>
+                            <span class="students">选课: 187人</span>
+                            <span class="std-dev">标准差: 0.46</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">电工电子工程训练</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.09</span>
+                            <span class="students">选课: 324人</span>
+                            <span class="std-dev">标准差: 0.58</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">电路与模拟电子技术实验</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.60</span>
+                            <span class="students">选课: 398人</span>
+                            <span class="std-dev">标准差: 0.83</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">电路与电子技术实验II</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.70</span>
+                            <span class="students">选课: 25人</span>
+                            <span class="std-dev">标准差: 0.71</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (88 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":33074,"teacher_id":991,"teacher_name":"干于","post_time":"2016-09-12 00:28:59","like_diff":21,"likes":25,"dislikes":4,"content":"呵呵，为什么我tm3.3"},{"id":87190,"teacher_id":991,"teacher_name":"干于","post_time":"2018-09-21 15:35:33","like_diff":18,"likes":19,"dislikes":1,"content":"给分是瞎给的吗！？"},{"id":110794,"teacher_id":991,"teacher_name":"干于","post_time":"2019-06-28 08:35:22","like_diff":16,"likes":16,"dislikes":0,"content":"实话实说，这个课你的付出绝对和你的成绩不成比例，说平时好好做，报告好好写然后老师给分好的只是少数的存在"},{"id":133418,"teacher_id":991,"teacher_name":"干于","post_time":"2021-02-28 03:30:37","like_diff":14,"likes":18,"dislikes":4,"content":"为了岩王帝君！\n\n       ————甘雨"},{"id":193666,"teacher_id":991,"teacher_name":"干于","post_time":"2024-06-14 15:12:34","like_diff":13,"likes":13,"dislikes":0,"content":"统一解释一下评论两极分化的原因，仔细听这个老登的课就会发现这老登压根不备课，上去就是念PPT，PPT念不清楚要求提不清楚，还阴阳怪气“我PPT不可能写出全部要求，如果要你干嘛都写在PPT上，那......”\n\n\n\n事确实少，人是真垃圾，一点不关心学生死活，事少也不是为了学生考虑，纯纯楼下说的一样为了自己去干饭。。。楼下那b还把他列为“中等水平”，试问哪个理论课“中等水平”的老师敢一点课不备虚短虚断算不明白就敢上台去讲？业务能力极差，别人的模电实验事再多也多少能辅助正课理解，他的模电实验对正课半点帮助没有，教电院的学生跟教大一通识课一样，所有要求都不说清楚搁那故弄玄虚，问他还阴阳怪气。只能说学期中到考试一直拿不清不楚的要求折磨学生，就不要怪学期末学生拿1分教评折磨你"},{"id":25808,"teacher_id":991,"teacher_name":"干于","post_time":"2016-06-08 14:20:07","like_diff":12,"likes":13,"dislikes":1,"content":"只能说课程设置的不好，对电路和软件不熟悉的同学学起来有点吃力，但关键还只是一门通识而已。。坑啊"},{"id":10229,"teacher_id":991,"teacher_name":"干于","post_time":"2015-11-17 14:31:33","like_diff":11,"likes":14,"dislikes":3,"content":"自己动手"},{"id":193443,"teacher_id":991,"teacher_name":"干于","post_time":"2024-06-11 04:30:53","like_diff":10,"likes":10,"dislikes":0,"content":"烂老师，纯粹的sb"},{"id":193741,"teacher_id":991,"teacher_name":"干于","post_time":"2024-06-17 06:52:54","like_diff":10,"likes":10,"dislikes":0,"content":"真的是一个sb"},{"id":193502,"teacher_id":991,"teacher_name":"干于","post_time":"2024-06-12 02:42:34","like_diff":8,"likes":8,"dislikes":0,"content":"只能说从平时考查和期末考试来看，这个老师不适合任教任何五级制的课。选他就等着随机绩点吧"},{"id":201107,"teacher_id":991,"teacher_name":"干于","post_time":"2024-10-28 17:32:37","like_diff":8,"likes":8,"dislikes":0,"content":"与成绩无关，非期中期末出分时间，特意来查老师给gy一个差评。师者传道授业解惑倒是占一个啊!纯纯学生求学路上的阻碍。。。\n\n看了下面的评论，我都好奇是不是有老师和他重名。问问题是敷衍着回答的，一句话能敷衍过去的不会说第二句，问一点有技术含量的问题打个哈哈就能糊弄过去，真服了。钉钉私信是四个小时以上才回的，课程的群更是一点不看。实验前的准备“忘了说”，群里有同学问跟没看见一样，影响到了所有同学上实验课。唉，当初是哪些人在说他很好，快冲的啊。。。唉，就算我热爱模电实验，也经不起gy这么摧残啊。"},{"id":201160,"teacher_id":991,"teacher_name":"干于","post_time":"2024-10-29 12:15:55","like_diff":8,"likes":8,"dislikes":0,"content":"逆天老湿，任务多的一批，讲课速度还慢，讲的东西还少，回去写报告的时候对照课件写基本是写不全面的。平时钉钉是半天才回的，群里消息是不看的，回答问题是敷衍的，打哈哈就过去的。报告是难写的，花好几个小时写的报告就因为几个数据没有算（因为他的课件里没有让你测）喜提最低分，任务里做的东西是不够用的，写报告就知道任务少测量了一部分，那部分你要么瞎编，要么要别人的，要么等着扣分。总之它太逆天了，本来模电实验事情就多，干于还搞背刺，随便做的ppt整的我们实验数据少于报告要求，然后理所当然的狠狠的给你你用了几小时写出来的报告打低分。这就是我们干于老湿的教学态度，ppt是劣质的，币事是多的，答疑是不回的，背刺是经常的。"},{"id":45144,"teacher_id":991,"teacher_name":"干于","post_time":"2017-01-19 04:57:48","like_diff":7,"likes":7,"dislikes":0,"content":"经常就没有实验报告了..  但是你报告写不好的话什么都白搭"},{"id":105654,"teacher_id":991,"teacher_name":"干于","post_time":"2019-04-18 02:43:35","like_diff":7,"likes":8,"dislikes":1,"content":"电子电工概论是我上过最蠢的一门通识，早知道我同学退课的时候我也退了，最近闲来无事翻开查老师，特地补充这条评论"},{"id":136016,"teacher_id":991,"teacher_name":"干于","post_time":"2021-06-09 09:40:59","like_diff":7,"likes":7,"dislikes":0,"content":"强烈建议学校改革实验课"},{"id":7021,"teacher_id":991,"teacher_name":"干于","post_time":"2015-08-29 01:33:16","like_diff":6,"likes":9,"dislikes":3,"content":"对他不想说什么"},{"id":35885,"teacher_id":991,"teacher_name":"干于","post_time":"2016-11-10 08:41:31","like_diff":6,"likes":7,"dislikes":1,"content":"老师，我真的不会连电路啊，你再怎么跟我讲原理我还是不会啊。。"},{"id":71625,"teacher_id":991,"teacher_name":"干于","post_time":"2018-01-28 17:58:04","like_diff":6,"likes":9,"dislikes":3,"content":"绩杀 慎重点 兄弟"},{"id":87231,"teacher_id":991,"teacher_name":"干于","post_time":"2018-09-26 02:46:31","like_diff":6,"likes":6,"dislikes":0,"content":"对学生有固定看法。"},{"id":146157,"teacher_id":991,"teacher_name":"干于","post_time":"2022-01-05 15:03:51","like_diff":6,"likes":6,"dislikes":0,"content":"你就这么喜欢打3.3吗"},{"id":202793,"teacher_id":991,"teacher_name":"干于","post_time":"2024-11-14 11:42:41","like_diff":6,"likes":6,"dislikes":0,"content":"刚开始几节课感觉尚可，最近几节课逐渐感觉到逆天了，ppt上要求写不清楚，每次听完你讲课不知道自己要做什么，今天演示实验居然自己在讲台上卡了十分钟左右......"},{"id":36433,"teacher_id":991,"teacher_name":"干于","post_time":"2016-11-13 12:22:23","like_diff":5,"likes":9,"dislikes":4,"content":"分真低，第一节课直说正态"},{"id":110829,"teacher_id":991,"teacher_name":"干于","post_time":"2019-06-28 09:48:55","like_diff":5,"likes":7,"dislikes":2,"content":"老师还是比较好，但我认真做实验和报告分还是很低"},{"id":136177,"teacher_id":991,"teacher_name":"干于","post_time":"2021-06-12 02:39:47","like_diff":5,"likes":5,"dislikes":0,"content":"这位老师是只会打3.3吗？问了好多课友都是3.3就很离谱……"},{"id":200743,"teacher_id":991,"teacher_name":"干于","post_time":"2024-10-22 00:52:19","like_diff":5,"likes":5,"dislikes":0,"content":"依托答辩烂完了，你的PPT和别人的真的能比吗？"},{"id":33048,"teacher_id":991,"teacher_name":"干于","post_time":"2016-09-11 05:13:53","like_diff":3,"likes":4,"dislikes":1,"content":"靠自己！全靠自己！"},{"id":35926,"teacher_id":991,"teacher_name":"干于","post_time":"2016-11-10 08:54:08","like_diff":3,"likes":4,"dislikes":1,"content":"真的靠自己，上课一般讲的比较少，"},{"id":38683,"teacher_id":991,"teacher_name":"干于","post_time":"2016-12-14 11:24:17","like_diff":3,"likes":6,"dislikes":3,"content":"作业好好做，绩点还低死，就是坑"},{"id":47328,"teacher_id":991,"teacher_name":"干于","post_time":"2017-01-25 09:12:50","like_diff":3,"likes":5,"dislikes":2,"content":"讲的偏少，强烈建议提前预习ppt"},{"id":60344,"teacher_id":991,"teacher_name":"干于","post_time":"2017-10-18 02:01:37","like_diff":3,"likes":6,"dislikes":3,"content":"看起来有点凶，但实际非常关心学生，问他问题也很有耐心!好老师!"},{"id":118996,"teacher_id":991,"teacher_name":"干于","post_time":"2019-11-09 05:12:00","like_diff":3,"likes":3,"dislikes":0,"content":"烦，认认真真做实验写实验报告，反手给我一个3.3"},{"id":181324,"teacher_id":991,"teacher_name":"干于","post_time":"2023-10-14 12:27:12","like_diff":3,"likes":3,"dislikes":0,"content":"什么鬼老师做不来就‘高中物理没交’？这门课也是个鬼，实验报告要花挺多时间，没基础的人建议能逃则逃"},{"id":196869,"teacher_id":991,"teacher_name":"干于","post_time":"2024-07-05 16:23:16","like_diff":3,"likes":3,"dislikes":0,"content":"对学生有固定看法。"},{"id":10015,"teacher_id":991,"teacher_name":"干于","post_time":"2015-11-14 09:00:22","like_diff":2,"likes":4,"dislikes":2,"content":"做实验基本还是靠自己"},{"id":10335,"teacher_id":991,"teacher_name":"干于","post_time":"2015-11-18 06:15:06","like_diff":2,"likes":3,"dislikes":1,"content":"不知道为什么分有点低"},{"id":13392,"teacher_id":991,"teacher_name":"干于","post_time":"2015-12-27 14:43:12","like_diff":2,"likes":2,"dislikes":0,"content":"自己动手"},{"id":30809,"teacher_id":991,"teacher_name":"干于","post_time":"2016-07-02 14:14:01","like_diff":2,"likes":5,"dislikes":3,"content":"老师上课讲的有点快，自己做的时间很多，需要多用心，实验报告也认真写，分数还可以的"},{"id":59398,"teacher_id":991,"teacher_name":"干于","post_time":"2017-09-21 06:44:39","like_diff":2,"likes":8,"dislikes":6,"content":"干老师是真的帅"},{"id":91967,"teacher_id":991,"teacher_name":"干于","post_time":"2018-12-25 06:32:42","like_diff":2,"likes":2,"dislikes":0,"content":"绩杀难受，"},{"id":105986,"teacher_id":991,"teacher_name":"干于","post_time":"2019-04-24 04:40:57","like_diff":2,"likes":2,"dislikes":0,"content":"呵呵呵"},{"id":130655,"teacher_id":991,"teacher_name":"干于","post_time":"2021-01-24 06:11:41","like_diff":2,"likes":6,"dislikes":4,"content":"还好，认真点做绩点还行，电子电工训练实验报告图画画好，就算不是班里最好几个绩点上四应该不是太难。\n\n但老师人挺不错啊，很有耐心的啊，有一次电脑上的实验没做完，学生节那天中午去打扰他也没说啥啊。每次实验课，都是同学问这问那，老师都好好回答的，感觉评论里有些人是不是因为绩点低了，对老师印象都变了"},{"id":202552,"teacher_id":991,"teacher_name":"干于","post_time":"2024-11-13 05:58:06","like_diff":2,"likes":2,"dislikes":0,"content":"挠摊一样，报告给分特别逆天，你花心血时间写的报告很有可能给分巨低，而且扣分理由及其离谱。"},{"id":202953,"teacher_id":991,"teacher_name":"干于","post_time":"2024-11-15 11:04:46","like_diff":2,"likes":2,"dislikes":0,"content":"烂完了，记得期末官方那个系统给他一分教评，都是刷查老师评分的B，牢光坠机了牢干怎么还活着，教学质量督察不查模电实验了属于是"},{"id":205169,"teacher_id":991,"teacher_name":"干于","post_time":"2024-12-02 11:16:25","like_diff":2,"likes":2,"dislikes":0,"content":"呵呵了，真别选，你不知道他的实验报告到底在要求什么"},{"id":10026,"teacher_id":991,"teacher_name":"干于","post_time":"2015-11-14 11:44:49","like_diff":1,"likes":5,"dislikes":4,"content":"给分还可以的..."},{"id":17264,"teacher_id":991,"teacher_name":"干于","post_time":"2018-10-29 01:25:26","like_diff":1,"likes":10,"dislikes":9,"content":"老师人不错哒～给分也很好。实验很有意思，也学到了很多，推荐！！！"},{"id":21391,"teacher_id":991,"teacher_name":"干于","post_time":"2016-02-28 12:43:36","like_diff":1,"likes":4,"dislikes":3,"content":"老师上课讲不清，很多自己都不了解，实验出问题问了也不知道怎么解决，经验不够"},{"id":36028,"teacher_id":991,"teacher_name":"干于","post_time":"2016-11-10 10:18:16","like_diff":1,"likes":2,"dislikes":1,"content":"老师上课讲课还好，但电工电子这个课还是看自己的动手能力\n\n"},{"id":59777,"teacher_id":991,"teacher_name":"干于","post_time":"2017-09-27 02:30:26","like_diff":1,"likes":3,"dislikes":2,"content":"太啰嗦了。"},{"id":89547,"teacher_id":991,"teacher_name":"干于","post_time":"2018-11-19 12:49:19","like_diff":1,"likes":1,"dislikes":0,"content":"讲太快了。。。听天书。。。"},{"id":96272,"teacher_id":991,"teacher_name":"干于","post_time":"2019-01-20 15:51:12","like_diff":1,"likes":2,"dislikes":1,"content":"主要还是课程本身的问题，老师是很好的老师"},{"id":121443,"teacher_id":991,"teacher_name":"干于","post_time":"2019-12-16 06:04:09","like_diff":1,"likes":1,"dislikes":0,"content":"呵呵呵"},{"id":124375,"teacher_id":991,"teacher_name":"干于","post_time":"2020-06-30 03:00:23","like_diff":1,"likes":3,"dislikes":2,"content":"上的是模电实验，感觉礼貌点问老师，老师还是很热心地帮忙解答或者帮你找问题的，前提是你要认真做好预习工作，上课好好听。如果是上课强调过的东西，你再去问，显然没有听课，老师当然不乐意了。就是模电实验是五级制的，最高4.5，有点坑"},{"id":149896,"teacher_id":991,"teacher_name":"干于","post_time":"2022-01-17 15:30:29","like_diff":1,"likes":6,"dislikes":5,"content":"老师本身比较佛系，模电实验事情比较少，对实验报告要求也不高，班级氛围相对来说不是很卷，实验有困难的时候也会亲自指导，体验还不错，就是模电实验这课又正态又五级制，整体给分就不太好"},{"id":182676,"teacher_id":991,"teacher_name":"干于","post_time":"2023-11-19 11:12:57","like_diff":1,"likes":4,"dislikes":3,"content":"老师超级温柔有耐心，我一个大一的医学生上课一脸懵，自己动手啥也不会，后面几节课在电脑上操作更是会不了一点，但是每次老师都很关照像我一样做得慢的同学，做不完还会和我约时间去教室做，甚至还手把手给我的电脑装上了 Altium designer 软件！有任何问题钉钉私信他，全都是秒回！就问有几个老师能钉钉秒回？太帅啦！课上是真的学到东西了，我比较菜，大概是班里倒数的几个同学之一，但绩点 4.5，只能说爱惨干老师（最后提醒大家实验报告认真写，别拖，高分不累）"},{"id":186662,"teacher_id":991,"teacher_name":"干于","post_time":"2024-01-12 11:34:10","like_diff":1,"likes":8,"dislikes":7,"content":"模电实验彻底结束了，来给老师打个满分。干于老师真的很好很耐心，模电实验报告要求应该是所有老师中最低的了，只需要你把实验讲清楚报告就能拿高分，没有什么感想之类的要求，而且也不需要进行实验仿真和做线上的学习，期中考试附近那几次实验甚至不需要交报告只需要交数据。总之，冲！"},{"id":755,"teacher_id":991,"teacher_name":"干于","post_time":"2015-03-16 09:36:22","like_diff":0,"likes":10,"dislikes":10,"content":"老师长得很帅，知识水平很高，上课有趣主要还是由于和我室友同名，于是过来点赞"},{"id":13098,"teacher_id":991,"teacher_name":"干于","post_time":"2015-12-25 01:00:11","like_diff":0,"likes":0,"dislikes":0,"content":"主要靠自己"},{"id":61743,"teacher_id":991,"teacher_name":"干于","post_time":"2017-11-20 13:33:21","like_diff":0,"likes":3,"dislikes":3,"content":"给我3.3分，大水课，不能选"},{"id":97535,"teacher_id":991,"teacher_name":"干于","post_time":"2019-01-22 10:12:04","like_diff":0,"likes":0,"dislikes":0,"content":"讲的细致，解答问题也很耐心"},{"id":125403,"teacher_id":991,"teacher_name":"干于","post_time":"2020-09-08 06:53:36","like_diff":0,"likes":5,"dislikes":5,"content":"垃圾老师"},{"id":186653,"teacher_id":991,"teacher_name":"干于","post_time":"2024-01-12 10:58:50","like_diff":0,"likes":7,"dislikes":7,"content":"nt老师"},{"id":202309,"teacher_id":991,"teacher_name":"干于","post_time":"2024-11-11 11:48:23","like_diff":0,"likes":3,"dislikes":3,"content":"似乎是有重名的情况，我上的模电实验没有遇到过老师提前一小时下课干饭的。就我上的这个老师而言，实验讲的还是比较清楚的，做不出来他会帮你慢慢查，最后考试的电路搞不好也能问他。拿了一个良好吧好像是，实验报告也没有给最低分的情况。看评论区严重两极分化，应该是有重名老师"},{"id":65317,"teacher_id":991,"teacher_name":"干于","post_time":"2018-01-22 04:42:06","like_diff":-1,"likes":5,"dislikes":6,"content":"实验轻松，给分好，长得帅，干老师的模电实验，你值得拥有"},{"id":122183,"teacher_id":991,"teacher_name":"干于","post_time":"2020-02-19 15:20:37","like_diff":-2,"likes":2,"dislikes":4,"content":"我绩点3.6，我给自己打及格，给老师也打及格"},{"id":142561,"teacher_id":991,"teacher_name":"干于","post_time":"2021-11-13 09:42:32","like_diff":-2,"likes":1,"dislikes":3,"content":"实验报告好好写，接线图好好画，虽然我的实验做得不太好，但老师给分不错！"},{"id":60071,"teacher_id":991,"teacher_name":"干于","post_time":"2017-10-09 10:48:08","like_diff":-3,"likes":1,"dislikes":4,"content":"老师有耐心"},{"id":69801,"teacher_id":991,"teacher_name":"干于","post_time":"2018-01-25 11:58:50","like_diff":-3,"likes":1,"dislikes":4,"content":"老师讲课认真，遇到问题也会各种帮你解决。至于学不会，要么是没预习实验，要么就是理论课没跟上"},{"id":155550,"teacher_id":991,"teacher_name":"干于","post_time":"2022-06-14 08:34:37","like_diff":-3,"likes":2,"dislikes":5,"content":"电工电子工程训练，一个班就14人，老师非常耐心指导我们做实验，理论讲解也很细致！超级好玩的通识课\n\n实验报告好好写，接线接整齐，给分不错的"},{"id":182609,"teacher_id":991,"teacher_name":"干于","post_time":"2023-11-18 07:45:09","like_diff":-3,"likes":0,"dislikes":3,"content":"老师非常友好亲切～课程是有难度的，组员之间沟通一下可能会好很多，当然还是要有一定基础的好，实验报告认真写，减少错误，上课不懂的地方多问，老师还是很耐心回答的，感觉投入和回报还是可以成正比的，给分还是不错的"},{"id":187026,"teacher_id":991,"teacher_name":"干于","post_time":"2024-01-14 07:41:36","like_diff":-3,"likes":5,"dislikes":8,"content":"模电实验课主打一个耐心细致，只要愿意问老师总是能彻底解决问题。\n\n给分也很不错，平时实验报告认真写的话平时分就能拿很高了，期末操作题也不难。\n\n谢谢老师。"},{"id":209502,"teacher_id":991,"teacher_name":"干于","post_time":"2025-01-06 06:21:52","like_diff":-3,"likes":0,"dislikes":3,"content":"干老师能干学生，能干饭，唯独不能干绩点"},{"id":142726,"teacher_id":991,"teacher_name":"干于","post_time":"2021-11-15 13:27:44","like_diff":-4,"likes":1,"dislikes":5,"content":"给分很棒"},{"id":148300,"teacher_id":991,"teacher_name":"干于","post_time":"2022-01-12 05:45:52","like_diff":-4,"likes":0,"dislikes":4,"content":"模电实验，实验考炸了，感谢老师捞我"},{"id":182606,"teacher_id":991,"teacher_name":"干于","post_time":"2023-11-18 06:42:06","like_diff":-4,"likes":1,"dislikes":5,"content":"老师上课讲解挺多，实验时对同学也一直在认真指导，只是对之前没有基础、动手能力不够的同学可能确实不太友好。给分不高？想水绩点的同学别来吧。反正我认认真真做完每个实验就4.2……感觉有被调分"},{"id":209363,"teacher_id":991,"teacher_name":"干于","post_time":"2025-01-05 15:19:55","like_diff":-4,"likes":0,"dislikes":4,"content":"卡绩，别选！"},{"id":51634,"teacher_id":991,"teacher_name":"干于","post_time":"2017-06-07 16:40:13","like_diff":-7,"likes":3,"dislikes":10,"content":"电工电子训练里算是比较水的，不会要你多做，适合不怎么了解电路来凑学分的，如果你是大神就别选了，一件事，动手能力不过，实验报告来凑，实验报告非常非常重要"},{"id":89199,"teacher_id":991,"teacher_name":"干于","post_time":"2018-11-16 15:23:22","like_diff":-7,"likes":1,"dislikes":8,"content":"我一个没选物理的妹子上了工程训练课。 老师人很好很温柔会很耐心地讲解 在不会的时候老师一下就弄好了 太帅了?"},{"id":121181,"teacher_id":991,"teacher_name":"干于","post_time":"2020-01-20 02:46:46","like_diff":-7,"likes":1,"dislikes":8,"content":"辣鸡老师，上课讲一堆没有的东西，实验做错只会说一句“你高中物理没学过吗”，我高中要是会还要老师来上课？"},{"id":186645,"teacher_id":991,"teacher_name":"干于","post_time":"2024-01-12 10:08:49","like_diff":-7,"likes":3,"dislikes":10,"content":"呜呜老师真的太好了，模电实验真的是每次都能让我自我怀疑的课，但是干于老师真的很好，问问题会很耐心的教（有时候会故意不说让我们自己动脑子，但最后如果实在想不出来还是会教的！老师和学生像朋友一样相处，哈哈会一起探究问题，如果时间再充足些，ppt再把要求细化一下，简直是理想的实验课（ppt不详细应该是要我们自己调试，不过上课时间真的太紧张了），焊电路板也超有成就感好吧，试音的时候我们几个人都很激动。好好写实验报告，平时操作有不懂的弄明白，平时多出点奇奇怪怪的问题对最后操作考试很有帮助！"},{"id":191768,"teacher_id":991,"teacher_name":"干于","post_time":"2024-04-30 03:57:51","like_diff":-7,"likes":2,"dislikes":9,"content":"干饭于，是真的喜欢干饭，每次实验必提前两个小时讲完，提前一个小时下课，学生都没走完自己先去干饭。。。\n\n\n\n讲课水平在电院属于中等水平，干饭能力在电院老师中属于加分项，冲他每次提前下课这一点，本来打八分，现在给打九分。"},{"id":36326,"teacher_id":991,"teacher_name":"干于","post_time":"2018-10-29 01:25:04","like_diff":-8,"likes":5,"dislikes":13,"content":"电工电子工程实验的，上课好好学，作业简单而且不多，最后绩点可高了。"},{"id":102790,"teacher_id":991,"teacher_name":"干于","post_time":"2019-02-23 05:54:29","like_diff":-8,"likes":1,"dislikes":9,"content":"讲道理自己不行不能怪老师，做的好了分自然高。老师给分很公道，指望一点不动脑经的还是不要选了"},{"id":3258,"teacher_id":991,"teacher_name":"干于","post_time":"2015-05-24 11:44:08","like_diff":-10,"likes":4,"dislikes":14,"content":"讲课很清晰，很好懂"},{"id":87209,"teacher_id":991,"teacher_name":"干于","post_time":"2018-09-22 12:47:58","like_diff":-10,"likes":1,"dislikes":11,"content":"刚刚出了小学期绩点前来表白干于老师！老师人很好讲课很慢很细致（个人体验），布置的实验报告内容要求在我知道的里面不算多，强势感谢老师（｡ò ∀ ó｡）"},{"id":87426,"teacher_id":991,"teacher_name":"干于","post_time":"2018-09-29 01:19:26","like_diff":-11,"likes":3,"dislikes":14,"content":"我是小学期的电工电子实习，强电部分我是认真听课的，主要是要看懂原理图和知道各个器件是什么，这个上课没听懂的话其实随便问问同学或者学长都可以。弱电部分画图的时候老师其实讲得很好的，关键你不能走神...一走神就不知道该怎么画了...然后焊电路板其实蛮简单，老师也说过关键是焊芯用量和顺着焊脚往上走。焊芯用量主要看接触时间，注意这两个关键点真的能焊好，最后那个示波器我没听懂，直接抄了后面同学的数据。老师对实验报告要求很少，真的很少。完全不需要恶竞，恶竞也没用。我就是只按照老师要求去做，其他一点没多写别的东西。五级制度最后4.5，大家自己看吧"},{"id":89196,"teacher_id":991,"teacher_name":"干于","post_time":"2018-11-16 14:58:08","like_diff":-11,"likes":1,"dislikes":12,"content":"老师挺好...但是能不能不要卡我绩哇！89不也是90以下的嘛…也符合正态分布的呀…哭辽"},{"id":67678,"teacher_id":991,"teacher_name":"干于","post_time":"2018-01-22 04:56:02","like_diff":-12,"likes":5,"dislikes":17,"content":"电工电子工程训练。本人工科，本来自己就想学。刚开始也不明白，不过小伙伴是大佬，前几次实验抱他腿。后来多画了几次电路图，复习复习，查查资料就跟上了，其实老师讲得挺清晰的，实验报告要求也很明确，不然大一萌新根本不知道要写什么。总之我喜欢，个人意见，仅供参考。最后满绩。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

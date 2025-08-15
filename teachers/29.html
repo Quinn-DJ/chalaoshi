@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>肖炜麟 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="肖炜麟教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="肖炜麟,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">肖炜麟</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.73</div>
+                    <div class="rating-participants">52人参与评分</div>
+                    <div class="attendance-info">39.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (5 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">专业认知与见习</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.38</span>
+                            <span class="students">选课: 88人</span>
+                            <span class="std-dev">标准差: 0.33</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">智能财务研究方法</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.53</span>
+                            <span class="students">选课: 21人</span>
+                            <span class="std-dev">标准差: 0.37</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">毕业论文</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.75</span>
+                            <span class="students">选课: 31人</span>
+                            <span class="std-dev">标准差: 0.42</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">计量经济学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.33</span>
+                            <span class="students">选课: 246人</span>
+                            <span class="std-dev">标准差: 0.66</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">认识实习</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.69</span>
+                            <span class="students">选课: 124人</span>
+                            <span class="std-dev">标准差: 0.66</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (41 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":17014,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2016-01-19 12:38:17","like_diff":29,"likes":31,"dislikes":2,"content":"人超好，划重点，夫妻档教计量，日常恩爱系列"},{"id":184440,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2023-12-19 15:35:37","like_diff":18,"likes":18,"dislikes":0,"content":"“管院教学办天天说我给分不公允，但是我不care，我作为老师我想让我的学生都有一个更好的前途”\n\n“你们期末尽心大胆的写，我们保证尽可能多的同学满绩”"},{"id":198,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2015-03-14 16:46:00","like_diff":17,"likes":21,"dislikes":4,"content":"很好很喜欢，老师教龄30+，知识很丰富，不光计量，还有其它知识，但不会浪费时间，规划合理，上了一年课都坚持不拖堂，［但仍然讲授清楚］，很喜欢！"},{"id":123350,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2020-06-04 15:33:21","like_diff":17,"likes":17,"dislikes":0,"content":"好老师！数学大牛啊啊啊"},{"id":215,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2015-03-14 16:56:19","like_diff":16,"likes":16,"dislikes":0,"content":"负责任、亲切。对学生不错。"},{"id":5906,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2015-07-10 01:38:55","like_diff":16,"likes":17,"dislikes":1,"content":"老师人超级好！上课轻松愉悦！而且找他问问题有问必答，十分仔细！写论文的时候发邮件他回了好长的给我。不断给予表扬和信心，给分也棒！"},{"id":147247,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2022-01-09 08:36:00","like_diff":13,"likes":14,"dislikes":1,"content":"我愿称肖老师为D神"},{"id":98286,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2019-01-23 09:18:26","like_diff":11,"likes":11,"dislikes":0,"content":"肖老师的上课内容不局限于书本，期末划重点很准，给分好"},{"id":133252,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2021-02-21 03:07:53","like_diff":11,"likes":12,"dislikes":1,"content":"肖老师真的是一个好人，是真诚的学者和老师。\n\n\n\n（如果老师以后上课能讲的更深入、细致一些就更好啦～）"},{"id":152395,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2022-04-07 17:43:16","like_diff":11,"likes":12,"dislikes":1,"content":"就差直接告诉你考试考什么了，给分好"},{"id":176117,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2023-06-28 00:40:32","like_diff":11,"likes":12,"dislikes":1,"content":"夫妻档指的是肖老师和哪位老师呀"},{"id":15258,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2016-01-13 04:55:41","like_diff":10,"likes":10,"dislikes":0,"content":"老师非常认真！而且真的喜欢学生，喜欢授课～负责的好老师。"},{"id":69131,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2018-01-24 08:48:43","like_diff":10,"likes":10,"dislikes":0,"content":"话不多说 十分"},{"id":6159,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2015-07-11 13:05:22","like_diff":9,"likes":9,"dislikes":0,"content":"棒 讲课认真！"},{"id":18143,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2016-01-21 08:15:19","like_diff":9,"likes":9,"dislikes":0,"content":"能让学生在计量课上露出笑脸没有几个老师能做到O(∩_∩)O\n\n"},{"id":69128,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2018-01-24 08:47:45","like_diff":9,"likes":9,"dislikes":0,"content":"老师真的太好了(*'ε`*)"},{"id":69132,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2018-01-24 08:49:59","like_diff":9,"likes":9,"dislikes":0,"content":"老师人超级好!超级有耐心！考前会划重点，超级好!为肖老师打call"},{"id":69133,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2018-01-24 08:50:15","like_diff":9,"likes":9,"dislikes":0,"content":"计量老师超级好!上课会拓展很多 考前划重点很准啊੧ᐛ੭发邮件会很耐心回复 真的是很好很好的老师了!"},{"id":97742,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2019-01-22 14:40:18","like_diff":9,"likes":9,"dislikes":0,"content":"肖老师真的很好，讲课思路清晰，启发我们拓展阅读，认真负责，给分也好！"},{"id":168219,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2023-02-03 11:18:08","like_diff":9,"likes":9,"dislikes":0,"content":"本人Ai水平很高，上课也干货很多，给分及其心善"},{"id":190663,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2024-03-13 16:04:24","like_diff":9,"likes":10,"dislikes":1,"content":"肖老师超好~~~男神！ 顺便回复夫妻档是zxl老师~（我已渴死）"},{"id":6030,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2015-07-10 10:44:44","like_diff":8,"likes":8,"dislikes":0,"content":"好，很负责"},{"id":188027,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2024-01-18 04:43:00","like_diff":8,"likes":8,"dislikes":0,"content":"考试周的爹"},{"id":17525,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2016-01-20 10:34:59","like_diff":7,"likes":7,"dislikes":0,"content":"好老师！！"},{"id":19461,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2016-01-24 09:30:48","like_diff":7,"likes":7,"dislikes":0,"content":"讲得很好 给分也好 人很和善 有真正学到知识"},{"id":69142,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2018-01-24 08:55:31","like_diff":7,"likes":7,"dislikes":0,"content":"老师真的人超好，上课讲的很有条理，同学们不懂的问题提出来他都会认真解答，非常耐心，还会经常鼓励同学们，觉得同学们学的真好(✪▽✪)，考试给分也非常好，还会耐心解决同学们邮件里的问题，感谢老师！！"},{"id":97971,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2019-01-23 03:00:19","like_diff":7,"likes":8,"dislikes":1,"content":"本来以为考试都要挂了，没想到给分还不错"},{"id":168090,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2023-01-26 10:59:17","like_diff":7,"likes":10,"dislikes":3,"content":"考前钉钉会议告诉你考什么，给分超好，最重要的是教得超好，有基础有拓展"},{"id":188479,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2024-01-19 05:17:25","like_diff":7,"likes":7,"dislikes":0,"content":"非常好的老师"},{"id":189180,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2024-01-22 09:18:34","like_diff":7,"likes":8,"dislikes":1,"content":"人好+给分好，但是管院计量教的实在太浅太简单，对管院学生非常重要的时间序列分析居然完全不讲，如果想认真学计量的话，建议去选经院的计量经济学听听"},{"id":15946,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2016-01-16 16:31:02","like_diff":6,"likes":6,"dislikes":0,"content":"讲的挺仔细的～"},{"id":17532,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2016-01-20 10:48:55","like_diff":6,"likes":6,"dislikes":0,"content":"超赞的"},{"id":25353,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2016-05-15 16:04:25","like_diff":6,"likes":7,"dislikes":1,"content":"老师的好，无以言表"},{"id":69537,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2019-04-25 08:22:28","like_diff":6,"likes":13,"dislikes":7,"content":"老师划重点不准…跪了"},{"id":70132,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2018-01-26 07:04:19","like_diff":6,"likes":8,"dislikes":2,"content":"老师上课和给分真的都超级好，不过期末考试对我们的要求有点太松了?，其实希望老师上课讲得再深入一点哈哈哈哈，最后满了好开心"},{"id":183863,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2023-12-01 12:20:31","like_diff":5,"likes":5,"dislikes":0,"content":"班主任必须满分"},{"id":97749,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2019-01-22 14:52:41","like_diff":4,"likes":4,"dislikes":0,"content":"老师讲课挺细致的，也很有趣，给分巨好。"},{"id":188203,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2024-01-18 11:39:17","like_diff":4,"likes":4,"dislikes":0,"content":"上课生动有趣 尽量给同学们讲清楚；考试划重点就差把题目告诉你了 给分好的我受之有愧 谁懂啊 肖哥 我的神！！！"},{"id":213754,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2025-01-19 12:25:22","like_diff":4,"likes":4,"dislikes":0,"content":"重点划得也太准了救命"},{"id":213843,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2025-01-20 10:47:48","like_diff":4,"likes":4,"dislikes":0,"content":"性格好教学好又会为学生着想 怎么能不爱上他…"},{"id":216878,"teacher_id":29,"teacher_name":"肖炜麟","post_time":"2025-03-28 01:30:25","like_diff":2,"likes":2,"dislikes":0,"content":"老公 男神"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

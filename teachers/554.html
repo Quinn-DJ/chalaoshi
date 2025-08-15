@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姜海 - 教育学院 - 浙大教评</title>
+    <meta name="description" content="姜海教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="姜海,教育学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">姜海</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">教育学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">5.08</div>
+                    <div class="rating-participants">99人参与评分</div>
+                    <div class="attendance-info">24.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息</h3>
+                <p class="no-data">暂无课程GPA数据</p>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (84 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":14701,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-08-29 03:54:28","like_diff":63,"likes":103,"dislikes":40,"content":"姜海就是一傻逼，不学无术，用几十年前的理念招摇撞骗忽悠同学，更可悲的是被忽悠的同学还丝毫没有察觉。贵校的摄影水平就被这样一个江湖骗子带得啥都不是。"},{"id":39146,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-08-29 03:54:49","like_diff":46,"likes":53,"dislikes":7,"content":"总是骂学生上课水手机看电脑，他的逻辑思路乱七八糟，讲到中国足球就气的好像要把教室给炸了，讲到父亲母亲这类的照片总是要说我们坐在温暖的教室不好好学习对不起变老的爸爸妈妈，我就想说，我爸妈才没那么老，我爸妈漂亮的很，我也没不好好学习"},{"id":14838,"teacher_id":554,"teacher_name":"姜海","post_time":"2016-01-10 02:57:10","like_diff":34,"likes":42,"dislikes":8,"content":"至今我也没想明白他到底是害了很多届学生造就了很多半吊子的老法师还是给浙江大学的学生摄影水平有了从0到0.2的提升。。。有些话听听就好，不必较真"},{"id":14841,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-08-29 03:54:34","like_diff":31,"likes":40,"dislikes":9,"content":"这老法师招摇撞骗多年，用的摄影理论都老掉牙了，还在课上推销相机，不知道学校有木有规定管一管他"},{"id":86872,"teacher_id":554,"teacher_name":"姜海","post_time":"2018-09-26 15:02:05","like_diff":30,"likes":30,"dislikes":0,"content":"打鸟 大片 吹设备 坚决不（不会）ps 吹学员\n\n讲真您老拍的照片真的一般 很多还辣眼睛\n\n真是一个标准的老法师了"},{"id":14837,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-08-29 03:54:17","like_diff":26,"likes":39,"dislikes":13,"content":"这位东海老法师，不学无术。基础知识谁都能教。课程万年不变的佳能清洗券，佳能相机好。你这不是搞笑呢？一遇到自己失误说错东西同学指正一下，就把同学朋友圈屏蔽了。"},{"id":88833,"teacher_id":554,"teacher_name":"姜海","post_time":"2019-09-07 16:43:20","like_diff":26,"likes":27,"dislikes":1,"content":"我想问问 您老在课程的群里发照片没人给您点赞您就发脾气说以后不发了四怎么回四呢(￢_￢)为什么没人点心里没点B数吗"},{"id":1906,"teacher_id":554,"teacher_name":"姜海","post_time":"2015-03-26 05:34:15","like_diff":23,"likes":38,"dislikes":15,"content":"摄影艺术是推荐上的，只是上了这个课的同学们建议你们再选选别人的摄影课，姜海老师的一家之言在很多别的老师那里是不一样的，不要盲目崇拜"},{"id":3118,"teacher_id":554,"teacher_name":"姜海","post_time":"2015-05-15 02:59:03","like_diff":21,"likes":28,"dislikes":7,"content":"还是推荐岑兆峰老师吧"},{"id":28914,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-08-29 03:55:22","like_diff":17,"likes":20,"dislikes":3,"content":"傻逼老师 自以为是 给分差"},{"id":43799,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-01-17 03:39:04","like_diff":17,"likes":18,"dislikes":1,"content":"给分能再烂一点吗"},{"id":51207,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-05-24 05:24:16","like_diff":17,"likes":19,"dislikes":2,"content":"垃圾课，懒得上他就放纪录片放水，整天大光圈小光圈，速度快速度慢，只有三板斧，开个短学期还差不多，有摄影基础的根本就听不下去，小白们还被忽悠，动不动就批判玩手机，真的想说听他的课不如玩手机，做微积分，不推荐。"},{"id":59470,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-09-21 15:45:59","like_diff":17,"likes":18,"dislikes":1,"content":"红衣女孩油纸伞  懂的赞我"},{"id":14839,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-08-29 03:55:12","like_diff":16,"likes":26,"dislikes":10,"content":"守着过时的东西和自己半吊子的水平的老法师，自己不懂还要装逼，滥竽充数，欺世盗名"},{"id":21280,"teacher_id":554,"teacher_name":"姜海","post_time":"2016-02-28 03:07:42","like_diff":15,"likes":18,"dislikes":3,"content":"shi zai la ji"},{"id":53668,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-08-29 03:56:17","like_diff":15,"likes":19,"dislikes":4,"content":"想知道有多少人来骂的……平时凶也就算了，上课无聊重复也就算了，上了一个长学期就学到了大光圈小光圈速度快速度慢也就算了，为什么他妈给分还这么差啊！每一次课都去了，没错过任何一次点名、作业，期中期末都认真拍了，按照要求交了，有摄影基础（在学校里的比赛拿了一次一等奖两次二等奖），结果3.3？？？无fuck说？？请大家来说说?点好嘛！我想知道按照他的标准是不是都这么低！\n\n还有，强烈建议教务处安排这门课变成短学期…上课内容到后面重复太多，评讲学生作业两节课，讲课半节…长学期浪费时间"},{"id":88217,"teacher_id":554,"teacher_name":"姜海","post_time":"2018-10-24 05:48:44","like_diff":15,"likes":15,"dislikes":0,"content":"看到骂声一片我就放心了 我浙的同学还是有觉悟的"},{"id":29100,"teacher_id":554,"teacher_name":"姜海","post_time":"2016-06-29 08:38:22","like_diff":14,"likes":17,"dislikes":3,"content":"理论并不先进，学识并不渊博，形式重于内容，不推荐"},{"id":15662,"teacher_id":554,"teacher_name":"姜海","post_time":"2016-01-16 05:13:17","like_diff":13,"likes":19,"dislikes":6,"content":"交作业的最后一天FTP崩了，打电话和他沟通差点被骂哭了TAT"},{"id":36414,"teacher_id":554,"teacher_name":"姜海","post_time":"2016-11-13 09:12:12","like_diff":13,"likes":14,"dislikes":1,"content":"完全没听到什么有用的，ftp还会崩"},{"id":18797,"teacher_id":554,"teacher_name":"姜海","post_time":"2016-01-22 14:26:29","like_diff":12,"likes":14,"dislikes":2,"content":"红雨伞"},{"id":44043,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-01-17 08:40:15","like_diff":12,"likes":14,"dislikes":2,"content":"呵呵了喜欢摄影的人你还是自己去网上看教程吧，这老师不能给你带来任何东西。自己ftp有问题，补交还要被骂"},{"id":44148,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-01-17 10:47:00","like_diff":12,"likes":12,"dislikes":0,"content":"被正态 手动再见"},{"id":51215,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-05-24 09:37:28","like_diff":12,"likes":14,"dislikes":2,"content":"请同学准备好一只单反，或者朋友有的，手机党真的快哭了"},{"id":52570,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-06-21 06:51:59","like_diff":12,"likes":13,"dislikes":1,"content":"不展開了"},{"id":79291,"teacher_id":554,"teacher_name":"姜海","post_time":"2018-05-30 06:00:12","like_diff":12,"likes":12,"dislikes":0,"content":"好了，不展开了啊"},{"id":76163,"teacher_id":554,"teacher_name":"姜海","post_time":"2018-03-28 06:01:38","like_diff":9,"likes":9,"dislikes":0,"content":"骂人上课法的。。怕了\n\n"},{"id":82440,"teacher_id":554,"teacher_name":"姜海","post_time":"2018-07-08 07:47:34","like_diff":9,"likes":9,"dislikes":0,"content":"很凶，很看重人文的东西，但是摄影专业知识不咋地，推荐水课"},{"id":49608,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-04-20 07:16:47","like_diff":8,"likes":9,"dislikes":1,"content":"呵呵呵呵呵"},{"id":73608,"teacher_id":554,"teacher_name":"姜海","post_time":"2018-02-02 05:43:38","like_diff":8,"likes":8,"dislikes":0,"content":"同学一学期就上了三次课，从没签过到，期中作业也没交，我认认真真学了一学期，结果分还没他高"},{"id":52393,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-06-19 13:24:40","like_diff":7,"likes":9,"dislikes":2,"content":"这老师给了我他的QQ但是我加了一学期他还没同意，上课老是父母辛苦你们不好好学习要反思，口头禅是“不要牛批轰轰”，谁怎么他了就牛批轰轰，整天莫名其妙被骂，讲得也不怎么样，摄影眼光就几十年前还让我们不要学现在网上那些，作业都是玄学，全看他喜不喜欢给分的。人特别特别凶，毫无亲和力的倔老头。"},{"id":53675,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-06-27 09:46:19","like_diff":7,"likes":8,"dislikes":1,"content":"哎 真的只有一声叹息 可还是有用的 观点也有点偏激 脾气是真的不好  有次差点被骂哭 真的只是在靠近DDL的时候交的作业啊……每节课鸡汤味很浓 哎 给分很迷 当时就应该听学长学姐的话 毕竟自己对艺术真的一窍不通 还想以此来提高自己的艺术水平??? 算了 反正很失望"},{"id":53701,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-06-27 10:31:12","like_diff":7,"likes":9,"dislikes":2,"content":"一幅自己摄影很厉害的样子 上课因为同学的摄影作品不符合他的要求就直接登鼻子上脸 上了一学期课基本上没收获 给分还很差 。恩反正我是没什么艺术素养的提高"},{"id":55626,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-07-02 05:17:53","like_diff":7,"likes":8,"dislikes":1,"content":"上他的课我甚至连写微积分都写不下去....太吵了orz拍照什么的大概要完全看他心情吧.......其实大概一学期上下来能摸清楚他喜欢什么样的照片，就看你愿不愿意投其所好了......如果想水学分还是推荐的，毕竟就期中期末两张照片。"},{"id":60277,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-10-16 11:18:39","like_diff":7,"likes":9,"dislikes":2,"content":"傻逼一个"},{"id":71057,"teacher_id":554,"teacher_name":"姜海","post_time":"2018-01-28 02:12:18","like_diff":7,"likes":7,"dislikes":0,"content":"要得高分，得拍老师喜欢的片子¯\\_(ツ)_/¯呵"},{"id":54501,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-06-29 12:11:07","like_diff":6,"likes":8,"dislikes":2,"content":"期中期末作业全部准时交，上课每次都去签到都在，上交的作业在别的专业摄影课上都拿90分左右的分数，他给我3.3，发邮箱问为什么不回，QQ上问也没有回应，上大学以来就接触摄影也出了不少作品，为了凑学分选的摄影课，以为总不可能太差，结果不知道要多少成绩才能把均绩拉回来，上课天天就知道说我们不好好上课辜负父母的期望，还要上交和父母的谈话记录，我要辜负父母期望就不会来上你的课了！！整天说没相机就拍不好照片，一定要我们买相机，以相机的好坏直接断定照片的质量，牛逼轰轰毫无干货，上课就知道骂人，就知道吹嘘他的学员有多厉害，好了我知道了老师真的厉害，给分这么随便我也是第一次遇到，3.3我认了:)"},{"id":53621,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-06-28 09:27:53","like_diff":5,"likes":6,"dislikes":1,"content":"3.3……"},{"id":76991,"teacher_id":554,"teacher_name":"姜海","post_time":"2018-04-27 11:25:28","like_diff":5,"likes":7,"dislikes":2,"content":"老师，我想交作业，明明4月30号是截止日期，为什么ftp没权限还提前三天办公室就没人了，我给你10分，你改一下ftp让我交交作业好不好，谢谢你了老师，我哭晕。"},{"id":102885,"teacher_id":554,"teacher_name":"姜海","post_time":"2019-02-24 16:35:36","like_diff":4,"likes":6,"dislikes":2,"content":"一开始看查老师 感觉说的挺过分的 现在上完课 你们说的真对"},{"id":107674,"teacher_id":554,"teacher_name":"姜海","post_time":"2019-05-08 06:58:06","like_diff":4,"likes":5,"dislikes":1,"content":"讲得不咋地声音倒是能把??耳朵整烂\n\n"},{"id":93368,"teacher_id":554,"teacher_name":"姜海","post_time":"2019-01-09 08:03:03","like_diff":3,"likes":4,"dislikes":1,"content":"看了楼上各位的评论我突然觉得彭韧虽然没啥摄影水平，至少不骂人……"},{"id":5254,"teacher_id":554,"teacher_name":"姜海","post_time":"2015-07-06 04:57:08","like_diff":2,"likes":8,"dislikes":6,"content":"千万别翘课 尤其是在要签到的时候"},{"id":98709,"teacher_id":554,"teacher_name":"姜海","post_time":"2019-01-24 00:06:55","like_diff":2,"likes":3,"dislikes":1,"content":"傻逼一个，自以为是，给分奇差，建议不选"},{"id":107678,"teacher_id":554,"teacher_name":"姜海","post_time":"2019-05-08 07:53:12","like_diff":2,"likes":3,"dislikes":1,"content":"真的超级垃圾了，不懂为什么这种人也能当浙大老师，莫名其妙，耳朵要被吼聋了，不知道什么毛病，总扯些有的没的。"},{"id":106714,"teacher_id":554,"teacher_name":"姜海","post_time":"2019-04-29 05:06:59","like_diff":1,"likes":2,"dislikes":1,"content":"讲真，客观来讲，垃圾。\n\n一个学期讲的东西，一篇推文就能明白，在课程群里发他公众号的推文，都是什么感想、感谢姜老师，还说我们都不点赞就不发了？？？真的笑死，你还有脾气了喔"},{"id":108117,"teacher_id":554,"teacher_name":"姜海","post_time":"2019-05-15 07:30:02","like_diff":1,"likes":2,"dislikes":1,"content":"极其睿智，三节课里两节课灌鸡汤半节课骂人半节课放视频"},{"id":108587,"teacher_id":554,"teacher_name":"姜海","post_time":"2019-05-29 06:09:44","like_diff":1,"likes":2,"dislikes":1,"content":"在听这位老师讲中国女排上他的课第6遍一模一样的照片一直放，几乎每节课都讲:)\n\nfine我觉得我要吐了"},{"id":112327,"teacher_id":554,"teacher_name":"姜海","post_time":"2019-07-04 01:48:09","like_diff":1,"likes":1,"dislikes":0,"content":"你们看过我的朋友圈吗？我有一张照片收获了很多赞(◐‿◑)﻿"},{"id":103166,"teacher_id":554,"teacher_name":"姜海","post_time":"2019-02-26 10:09:02","like_diff":0,"likes":3,"dislikes":3,"content":"江湖骗子"},{"id":112416,"teacher_id":554,"teacher_name":"姜海","post_time":"2019-07-04 05:13:23","like_diff":-1,"likes":0,"dislikes":1,"content":"\n\n最后给1分是因为最低只有1分"},{"id":104557,"teacher_id":554,"teacher_name":"姜海","post_time":"2019-03-23 14:10:55","like_diff":-4,"likes":3,"dislikes":7,"content":"老师讲的都是摄影的基础知识，我不明白那些人为什么要喷。老师讲的非常好，还结合了自己半辈子的摄影经验，非常好的课程。"},{"id":4127,"teacher_id":554,"teacher_name":"姜海","post_time":"2015-06-18 01:41:58","like_diff":-6,"likes":10,"dislikes":16,"content":"能学到很多东西\n\n但是特别主观，这点要注意"},{"id":23658,"teacher_id":554,"teacher_name":"姜海","post_time":"2016-04-12 01:07:51","like_diff":-6,"likes":7,"dislikes":13,"content":"老师上课还是不错的 确实热爱摄影 有些摄影原则会反复啰嗦就是啦 作为摄影启蒙还是不错的 \n\n偶尔签到点名"},{"id":29122,"teacher_id":554,"teacher_name":"姜海","post_time":"2016-06-29 09:06:19","like_diff":-6,"likes":3,"dislikes":9,"content":"虽然比较严厉，但暂时治愈了我的拖延症。喜欢有人文关怀的作品。"},{"id":39803,"teacher_id":554,"teacher_name":"姜海","post_time":"2016-12-27 22:56:23","like_diff":-6,"likes":8,"dislikes":14,"content":"其实认真听下去，还满有收获的～摄影技术的确可以提升，就是他平时牛吹得太过"},{"id":51879,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-07-27 04:51:46","like_diff":-6,"likes":2,"dislikes":8,"content":"好老师\n\n"},{"id":67088,"teacher_id":554,"teacher_name":"姜海","post_time":"2018-01-20 09:05:59","like_diff":-6,"likes":10,"dislikes":16,"content":"我觉得凭心而论吧，我就是一个摄影小白，可能很多大神不乐意听一些基础的东西，可是我觉得老师讲的东西对我很有用。是，老师说话是有点激动，而且喜欢夸耀自己的学员啥的，但是这并不妨碍老师传授知识啊，我收获的不仅仅是摄影知识，还有摄影背后定格的是一段回不去的历史和故事。谢谢老师这一个学期的教导，虽然我绩点不是太高，但还算满意，谢谢老师o(^o^)o"},{"id":67319,"teacher_id":554,"teacher_name":"姜海","post_time":"2018-01-20 18:21:38","like_diff":-6,"likes":4,"dislikes":10,"content":"对我这种零基础，还爱水课的学生来说，的确学到了一些东西，老师给分也很好，感觉自己拍的并不怎么样也给了4.5，对我来说已经很满意了。"},{"id":837,"teacher_id":554,"teacher_name":"姜海","post_time":"2016-09-18 00:05:24","like_diff":-7,"likes":39,"dislikes":46,"content":"喜欢摄影的真的要上上他的课，不了解的更要上上他的课。除了对于光影的精心巧妙布局之外，姜老师更向同学展现了摄影的内涵与意义，有血有肉。"},{"id":1116,"teacher_id":554,"teacher_name":"姜海","post_time":"2015-03-21 16:12:34","like_diff":-7,"likes":11,"dislikes":18,"content":"很好玩！摄影启蒙课！"},{"id":10331,"teacher_id":554,"teacher_name":"姜海","post_time":"2015-11-18 05:59:35","like_diff":-7,"likes":13,"dislikes":20,"content":"老师摄影方面很独到，能学到很多。但是有些发表观点的地方个人认为可能有些偏颇，不太认同他的价值观。交作业很凶。"},{"id":13045,"teacher_id":554,"teacher_name":"姜海","post_time":"2015-12-24 15:31:33","like_diff":-7,"likes":2,"dislikes":9,"content":"………"},{"id":25166,"teacher_id":554,"teacher_name":"姜海","post_time":"2016-05-06 13:47:35","like_diff":-7,"likes":2,"dislikes":9,"content":"6666666"},{"id":38897,"teacher_id":554,"teacher_name":"姜海","post_time":"2016-12-19 16:40:46","like_diff":-7,"likes":5,"dislikes":12,"content":"能收获很多摄影以外的东西"},{"id":43783,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-01-17 03:06:03","like_diff":-7,"likes":2,"dislikes":9,"content":"给分还不错的考试"},{"id":67082,"teacher_id":554,"teacher_name":"姜海","post_time":"2018-01-20 08:46:11","like_diff":-7,"likes":2,"dislikes":9,"content":"还行吧"},{"id":13,"teacher_id":554,"teacher_name":"姜海","post_time":"2015-03-14 01:41:36","like_diff":-8,"likes":19,"dislikes":27,"content":"如果作业交晚了，会被狠狠的骂一顿。。不过也算是能让我们养成一个好习惯吧"},{"id":596,"teacher_id":554,"teacher_name":"姜海","post_time":"2015-03-15 06:23:07","like_diff":-8,"likes":8,"dislikes":16,"content":"非常好的老师 很负责"},{"id":820,"teacher_id":554,"teacher_name":"姜海","post_time":"2015-03-17 12:59:06","like_diff":-8,"likes":3,"dislikes":11,"content":"上课还好，平时群里交流的话不怎么样"},{"id":1364,"teacher_id":554,"teacher_name":"姜海","post_time":"2015-03-22 01:01:13","like_diff":-8,"likes":8,"dislikes":16,"content":"非常棒，专业人带我们领略不只是泛滥的摄影\n\n"},{"id":1624,"teacher_id":554,"teacher_name":"姜海","post_time":"2015-03-23 02:28:29","like_diff":-8,"likes":7,"dislikes":15,"content":"老师很好的，不仅教摄影也有很多人生的道理。认真上课的话既会有收获也能拿不错的绩点。"},{"id":28917,"teacher_id":554,"teacher_name":"姜海","post_time":"2016-06-29 03:26:42","like_diff":-8,"likes":2,"dislikes":10,"content":"好老师！"},{"id":67148,"teacher_id":554,"teacher_name":"姜海","post_time":"2018-01-20 10:32:20","like_diff":-8,"likes":5,"dislikes":13,"content":"虽然说我是水课党，但是老师还是很好哒。或许他没有教那些很深奥很专业的知识点，但也有很多基本知识。摄影不仅仅是一张照片，还承载了人的情感。我没有认真去学，自己水平也不够，这点分数我觉得很合理了，毕竟上课老师给我们看过其他人的作业，那是真的好。但我觉得 ，不管怎样 ，学到了一点东西，就算跟技术无关也是好的。"},{"id":12,"teacher_id":554,"teacher_name":"姜海","post_time":"2015-03-14 01:40:15","like_diff":-9,"likes":21,"dislikes":30,"content":"很有个性的老师，能学到不少东西。"},{"id":534,"teacher_id":554,"teacher_name":"姜海","post_time":"2015-03-15 04:25:12","like_diff":-9,"likes":9,"dislikes":18,"content":"老师很严格，但是知识非常渊博。"},{"id":825,"teacher_id":554,"teacher_name":"姜海","post_time":"2015-03-17 15:15:19","like_diff":-9,"likes":9,"dislikes":18,"content":"眼神光!最专业的视角!"},{"id":5276,"teacher_id":554,"teacher_name":"姜海","post_time":"2015-07-06 08:52:29","like_diff":-9,"likes":4,"dislikes":13,"content":"很激情"},{"id":28894,"teacher_id":554,"teacher_name":"姜海","post_time":"2016-06-29 02:58:39","like_diff":-9,"likes":1,"dislikes":10,"content":"老师讲的很棒，学到了很多东西，但是他对摄影的看法和大多数人都不一样。给分还不错的，打算去听听另外一个老师的课。"},{"id":29237,"teacher_id":554,"teacher_name":"姜海","post_time":"2016-06-29 13:05:43","like_diff":-9,"likes":3,"dislikes":12,"content":"认真听课真的会很有收获。不要觉得通识想水过去就随便搞搞最后分低了还骂老师。。。。虽然有时候是会有些啰嗦，尤其是爱的教育。。但确实是让我开始思考照片意义的重要性！有经验的好老师！"},{"id":56952,"teacher_id":554,"teacher_name":"姜海","post_time":"2017-07-05 04:40:03","like_diff":-10,"likes":1,"dislikes":11,"content":"老师水平极高，人品好，人称晴男。给分公平公正，善待努力的孩子。性格直爽 幽默，不会拐弯抹角，比起面子更重视里子。最喜欢的老师之一。"},{"id":69157,"teacher_id":554,"teacher_name":"姜海","post_time":"2018-01-24 09:09:28","like_diff":-11,"likes":2,"dislikes":13,"content":"明明很好的好吗！"},{"id":28947,"teacher_id":554,"teacher_name":"姜海","post_time":"2016-06-29 04:14:23","like_diff":-12,"likes":1,"dislikes":13,"content":"喜欢秀优越，但是眼光独到，侧重点不同，不要随便和别的老师比较，按他说的做，成绩不会差，超级轻松，还有小礼品，给分还行，和付出的努力相称。基础课，从小白到入门。不准P图！"},{"id":68029,"teacher_id":554,"teacher_name":"姜海","post_time":"2018-01-22 13:33:58","like_diff":-12,"likes":2,"dislikes":14,"content":"老师很和蔼可亲 不仅能学到知识 老师还三观很正 作业是让我们给家里人打电话 很关注国家发展 很好的老师！"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

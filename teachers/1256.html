@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>白春晓 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="白春晓教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="白春晓,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">白春晓</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">6.72</div>
+                    <div class="rating-participants">38人参与评分</div>
+                    <div class="attendance-info">36.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息</h3>
+                <p class="no-data">暂无课程GPA数据</p>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (33 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":1328,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-03-22 00:06:54","like_diff":31,"likes":34,"dislikes":3,"content":"国旗下讲话"},{"id":9548,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-10-30 02:30:01","like_diff":15,"likes":16,"dislikes":1,"content":"典型的历史老师，严谨正经，一身绅士的感觉……特别清晰记得的是上课穿太多汗水哗啦啦滴下来但他就是不肯脱外套！！然后拿出来一块仔细叠好的手绢………………擦了擦……"},{"id":1689,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-07-12 10:24:13","like_diff":13,"likes":15,"dislikes":2,"content":"不知道为什么世界文明史的分数意外高"},{"id":3593,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-06-17 01:45:55","like_diff":11,"likes":13,"dislikes":2,"content":"能把应该很有趣的希腊罗马史讲得和高中政治一样"},{"id":8785,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-09-27 09:13:12","like_diff":7,"likes":9,"dislikes":2,"content":"男神！！满绩小天使！！"},{"id":11288,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-11-26 09:09:08","like_diff":7,"likes":7,"dislikes":0,"content":"人很帅～我觉得他的古希腊史还是很棒的，世界文明史课太大了所以有点无聊"},{"id":12714,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-12-24 02:25:00","like_diff":7,"likes":7,"dislikes":0,"content":"上课一定是正装，冬天外面的外套脱掉还是一身正装希腊课课前回顾上节课内容是点名提问，对了还有小小希腊本土的礼物。"},{"id":2535,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-05-04 13:39:30","like_diff":6,"likes":8,"dislikes":2,"content":"读PPT，无聊。"},{"id":5109,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-07-04 07:23:25","like_diff":6,"likes":6,"dislikes":0,"content":"平时分很坑"},{"id":5560,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-07-17 23:25:54","like_diff":6,"likes":7,"dislikes":1,"content":"感觉所谓没有被点到名平时分扣十分是个谣言。我平时没有回答过问题，成绩却是超过90的，猜测并没有扣10分这样大的幅度。"},{"id":18431,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2016-01-21 15:18:41","like_diff":4,"likes":4,"dislikes":0,"content":"老师很帅，很负责，上课虽然会比较枯燥，但是讨论课还会和你开玩笑什么的，其实学历史学的就是一种看世界的方式，推荐！"},{"id":5231,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-07-06 03:17:26","like_diff":3,"likes":4,"dislikes":1,"content":"提心吊胆被点名，点不到平时分又要扣，哦，再见了。"},{"id":9634,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-11-03 13:15:10","like_diff":3,"likes":3,"dislikes":0,"content":"好老师，上课有意思"},{"id":10749,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-11-23 04:20:15","like_diff":3,"likes":3,"dislikes":0,"content":"绅士风度！"},{"id":15438,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2016-01-14 11:14:49","like_diff":3,"likes":3,"dislikes":0,"content":"典型的一丝不苟的男神老师啊！课后找他探讨问题就觉得老师真是太认真了。给分也不差啊！\n\n"},{"id":22694,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2016-03-10 02:49:04","like_diff":3,"likes":4,"dislikes":1,"content":"白老师特别好呀！世界文明史希腊那部分讲的很有趣，幽默，很喜欢的！"},{"id":3171,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-05-18 14:47:21","like_diff":2,"likes":6,"dislikes":4,"content":"认真"},{"id":5028,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-07-02 09:40:53","like_diff":2,"likes":8,"dislikes":6,"content":"十分认真严谨的老师，但也不失风趣，经常在要讲的问题中插入一些搞笑的现代的东西，可以看出是很用心的。只是可能才开始当老师，有时候比较紧张"},{"id":5110,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-07-04 07:23:37","like_diff":2,"likes":4,"dislikes":2,"content":"上课无聊 平时分只看有没有回答过问题 被点的和主动都算 没被点过的人瞬间减十分"},{"id":5112,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-07-04 07:30:21","like_diff":2,"likes":8,"dislikes":6,"content":"男神～～很有气质"},{"id":5446,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-07-07 13:50:59","like_diff":2,"likes":5,"dislikes":3,"content":"有意思"},{"id":6217,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-07-12 05:57:37","like_diff":2,"likes":3,"dislikes":1,"content":"帅，认真！"},{"id":6250,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-07-12 10:13:59","like_diff":2,"likes":3,"dislikes":1,"content":"白老师很认真"},{"id":6286,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-07-12 15:57:00","like_diff":2,"likes":2,"dislikes":0,"content":"好课"},{"id":18208,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2016-01-21 09:30:56","like_diff":2,"likes":2,"dislikes":0,"content":"不知道怎么死的"},{"id":3666,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-06-17 02:08:46","like_diff":1,"likes":4,"dislikes":3,"content":"讨论课点名，主讲课不点名。\n\n有两次观影测验，挺有趣。\n\n很认真的老师，每个同学的论文都写了评语又发下来。\n\n期末考试开卷，简单，但总评分一般。"},{"id":5234,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-07-06 03:20:27","like_diff":1,"likes":3,"dislikes":2,"content":"读PPT"},{"id":17959,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2016-01-21 04:50:08","like_diff":1,"likes":1,"dislikes":0,"content":"很喜欢老师 脾气很好"},{"id":22425,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2016-03-05 07:54:38","like_diff":1,"likes":2,"dislikes":1,"content":"挺有趣的历史课。"},{"id":6253,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2015-07-12 10:54:03","like_diff":0,"likes":2,"dislikes":2,"content":"不回答问题还不被点到就是平时分零的既视感绩点"},{"id":17710,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2017-10-21 01:15:22","like_diff":-4,"likes":0,"dislikes":4,"content":"我以为90分。我以为。。。绩杀，绝对的"},{"id":11429,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2017-10-21 01:15:12","like_diff":-5,"likes":1,"dislikes":6,"content":"无聊，读PPT，还会提问，还有观影测试，一个选择题10分，天哪！！点名，作业，每周都有！！！绩点我猜不会高"},{"id":6237,"teacher_id":1256,"teacher_name":"白春晓","post_time":"2017-10-21 01:14:59","like_diff":-6,"likes":2,"dislikes":8,"content":"课烂 还绩杀"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

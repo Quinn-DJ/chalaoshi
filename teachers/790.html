@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>郑大方 - 理学院 - 浙大教评</title>
+    <meta name="description" content="郑大方教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="郑大方,理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">郑大方</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.56</div>
+                    <div class="rating-participants">131人参与评分</div>
+                    <div class="attendance-info">20.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">大学物理（甲）Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.31</span>
+                            <span class="students">选课: 157人</span>
+                            <span class="std-dev">标准差: 1.01</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大学物理（甲）Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.56</span>
+                            <span class="students">选课: 430人</span>
+                            <span class="std-dev">标准差: 1.12</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">计算物理</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.21</span>
+                            <span class="students">选课: 79人</span>
+                            <span class="std-dev">标准差: 1.20</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (113 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":96396,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-01-21 02:17:24","like_diff":55,"likes":62,"dislikes":7,"content":"刚考完就来评分。老师侧重讲理论，感觉挺适合我的，细节分析得很到位，是真正地在教书育人"},{"id":17859,"teacher_id":790,"teacher_name":"郑大方","post_time":"2016-01-21 02:53:42","like_diff":46,"likes":51,"dislikes":5,"content":"上课还行吧，人挺和蔼，不喜欢学生上课迟到。给分真的好，我都被老师的师生情感动到了，后悔期末没好好复习。"},{"id":55822,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-07-02 12:24:08","like_diff":34,"likes":39,"dislikes":5,"content":"不错不错"},{"id":17855,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-06-12 05:18:01","like_diff":33,"likes":37,"dislikes":4,"content":"老师讲的很好，很为我们着想，给分大方"},{"id":36180,"teacher_id":790,"teacher_name":"郑大方","post_time":"2016-11-11 01:59:31","like_diff":27,"likes":29,"dislikes":2,"content":"认真学的人听他的课还是很不错的。"},{"id":62185,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-06-12 05:17:51","like_diff":27,"likes":29,"dislikes":2,"content":"老师挺好很负责，上课要认真听。"},{"id":43740,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-01-17 01:59:57","like_diff":26,"likes":29,"dislikes":3,"content":"浓浓师生情\n\n"},{"id":44001,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-01-17 07:49:19","like_diff":18,"likes":21,"dislikes":3,"content":"老师挺好的……自我感觉期中和平时分挺低的...但期末考的不错给分真挺好的"},{"id":3646,"teacher_id":790,"teacher_name":"郑大方","post_time":"2015-06-17 02:00:49","like_diff":17,"likes":29,"dislikes":12,"content":"虽然总是走神 但是这是鄙人的问题  鄙人在其他课也这样。。所以鄙人感觉郑老师讲课是不错"},{"id":86810,"teacher_id":790,"teacher_name":"郑大方","post_time":"2018-09-19 02:01:29","like_diff":16,"likes":20,"dislikes":4,"content":"还有哪些物理老师上课没有小测？？？给10分"},{"id":60873,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-11-01 01:12:02","like_diff":13,"likes":22,"dislikes":9,"content":"希望沉迷物理的同学上课别和他探讨学术问题   神展开根本停不下来    教学进度都赶不上"},{"id":100252,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-01-26 00:59:01","like_diff":12,"likes":12,"dislikes":0,"content":"挺好的，讲课清晰"},{"id":29963,"teacher_id":790,"teacher_name":"郑大方","post_time":"2018-09-18 23:50:10","like_diff":11,"likes":14,"dislikes":3,"content":"给分好 给分真的好"},{"id":70442,"teacher_id":790,"teacher_name":"郑大方","post_time":"2018-01-26 15:38:53","like_diff":10,"likes":15,"dislikes":5,"content":"首先给老师十分因为我卡六十分过的课程。阿弥陀佛，谢谢老师。另外说一下对课程的感受：我觉得我复习已经很认真了，但是考试真的迷。真糟糕，每次物理考试看到题目就紧张发慌，为什么我的专业要学大物甲呢，真的拉绩点……"},{"id":72057,"teacher_id":790,"teacher_name":"郑大方","post_time":"2018-01-29 09:08:33","like_diff":10,"likes":13,"dislikes":3,"content":"客观的评价，郑老师还是很关心学生的，师生情也很浓厚。坦白的说，讲课确实慢了点，考试周才刚刚讲完新课，不过讲的也算比较详细吧。认真听听总还是有收获，不过想拿到比较高的分数主要还看自己（我的几何光学是室友教的），最后平时分给分主要看考试，我4.8。最后强调一下 ，其实他不叫郑大方，而是郑大昉，日字加方字组成，教务网上打不出这个字来（考试时老师名字写错的主动发一封道歉邮件? ）。"},{"id":80481,"teacher_id":790,"teacher_name":"郑大方","post_time":"2018-06-27 03:26:09","like_diff":10,"likes":10,"dislikes":0,"content":"人间天使。超级温柔，耐心。"},{"id":104572,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-05-05 13:45:18","like_diff":10,"likes":11,"dislikes":1,"content":"zdf语录：自学是没有前途的"},{"id":118353,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-10-25 09:28:14","like_diff":10,"likes":12,"dislikes":2,"content":"我再来吹一波郑老师。没有小测够良心了，各位想想为什么没有小测，因为老师讲得慢，为什么讲得慢，因为讲得细。说实话，在上郑老师的课之前，我都没碰到有老师讲得这么细致。这种细致，就是书上没有总结出来的东西，或者说没有提到的东西，老师都会讲到。上别的老师的课，这些东西你需要自己思考并得出结论，但郑老师都会帮你分析，可以加深认识。我有种感觉，就是我想知道或者确认的东西，老师都会知道一样，知道我们哪里可能出现什么疑问，哪里理解会有困难，会重点分析。认真听课，或许你会觉得大物也不过如此，只是之前没有碰到好的老师而已。我上的是大物甲2，供参考"},{"id":112071,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-07-03 11:42:03","like_diff":9,"likes":10,"dislikes":1,"content":"很温柔的大物老师，上课没有小测，讲课也很认真，但PPT不是自己做的。\n\n老师对学生真的很好，邮件积极给学生回答问题，还鼓励期中没考好的学生。我期中才考七十多分。老师上课对我们说没关系，还花了很长时间给我们说些鼓励的话，真的感动。"},{"id":20535,"teacher_id":790,"teacher_name":"郑大方","post_time":"2016-01-28 08:10:58","like_diff":8,"likes":11,"dislikes":3,"content":"好老师。给分好。"},{"id":103967,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-03-08 04:44:49","like_diff":8,"likes":9,"dislikes":1,"content":"老师的“r”念得很有特色"},{"id":30209,"teacher_id":790,"teacher_name":"郑大方","post_time":"2016-07-01 05:39:15","like_diff":7,"likes":9,"dislikes":2,"content":"给分好 不错"},{"id":69295,"teacher_id":790,"teacher_name":"郑大方","post_time":"2018-01-24 12:16:35","like_diff":7,"likes":9,"dislikes":2,"content":"还没出分。我物理不好，但是我真的莫名爱上了郑大方hhh……"},{"id":75801,"teacher_id":790,"teacher_name":"郑大方","post_time":"2018-03-19 02:01:58","like_diff":7,"likes":7,"dislikes":0,"content":"让我们从0开始，我就当大家从来没学过C语言..."},{"id":100448,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-01-26 06:45:33","like_diff":7,"likes":8,"dislikes":1,"content":"老师叫郑大昉"},{"id":170319,"teacher_id":790,"teacher_name":"郑大方","post_time":"2023-03-03 00:33:41","like_diff":7,"likes":7,"dislikes":0,"content":"坐第一排那个同学不要老是装b了"},{"id":26113,"teacher_id":790,"teacher_name":"郑大方","post_time":"2016-06-16 01:30:56","like_diff":6,"likes":7,"dislikes":1,"content":"给分好\n\n"},{"id":106553,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-04-28 05:42:35","like_diff":6,"likes":6,"dislikes":0,"content":"郑老师也太可爱了吧！"},{"id":55390,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-07-01 11:58:42","like_diff":5,"likes":15,"dislikes":10,"content":"老师还是很认真的，可是真的不调分是么，平时很认真了啊，平时分还被扣掉两分，心塞。"},{"id":176749,"teacher_id":790,"teacher_name":"郑大方","post_time":"2023-06-30 03:52:16","like_diff":5,"likes":5,"dislikes":0,"content":"和之前有些同学分享的一样，老师会不定时点名，他一直在强调到课率的重要性，可能数据上确实大部分挂科的同学是缺课率高的，最后平时成绩看来基本上是缺课一次总评-1。小测一般有四次，时间固定在每四周的某次课上的第二节课，测45分钟，每次5-6道题，难度不是很大，想要提前准备的同学可以去智云课堂上面看看历年的题目，会有2-3题一样的，至于期中考试和期末考试，这个就是看自己的水平了，老师不会在这两个成绩上做修改的。总而言之，老师确实是关心学生的，例如你在钉钉上问他问题会很细心地给你答复，但无奈大物课确实有其他更多讲课好的老师，老师的讲课水平只能算是中等。"},{"id":112060,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-07-03 10:47:15","like_diff":4,"likes":7,"dislikes":3,"content":"谢谢郑大昉老师！老师是真的大方啊"},{"id":30225,"teacher_id":790,"teacher_name":"郑大方","post_time":"2016-07-01 05:49:23","like_diff":3,"likes":9,"dislikes":6,"content":"这老师挺好的。上课很仔细。虽然偶尔会吹吹牛皮。上课也略有枯燥。但是是课的问题不是老师的问题。给分不错哒。"},{"id":43877,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-01-17 05:29:32","like_diff":3,"likes":7,"dislikes":4,"content":"这届出题的人有毒"},{"id":43972,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-01-17 07:19:16","like_diff":3,"likes":17,"dislikes":14,"content":"哪里大方了...挂了???"},{"id":60340,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-10-18 01:15:08","like_diff":3,"likes":4,"dislikes":1,"content":"多往前坐，往后坐就完蛋了"},{"id":71093,"teacher_id":790,"teacher_name":"郑大方","post_time":"2018-01-28 02:48:58","like_diff":3,"likes":12,"dislikes":9,"content":"总评4.8，感谢老师平时分给满，但是我自己考的分数真的和老师的课没什么关系。郑老师人的确很好，但是老师讲课真的不怎么清晰，平时都是靠xxp的ppt复习自学的。还有某大佬真的别再打断老师说话了，您上课一时爽，我考试周就要自行预习他没有讲完的章节，期中的电磁感应，期末的几何光学，呵呵，大概时间都续给您了吧。"},{"id":112527,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-07-04 17:03:40","like_diff":3,"likes":3,"dislikes":0,"content":"其实郑老师真的很好，上课很温和，不点名，不小测，发邮件也会很耐心的回复，只是我自己不知道怎么期末莫名奇妙地炸，搞得绩点有点惨。但是还是感谢老师平时分给满了? ? ?"},{"id":125293,"teacher_id":790,"teacher_name":"郑大方","post_time":"2020-09-05 17:26:23","like_diff":3,"likes":4,"dislikes":1,"content":"感天动地好老师"},{"id":128978,"teacher_id":790,"teacher_name":"郑大方","post_time":"2020-12-27 14:51:16","like_diff":3,"likes":5,"dislikes":2,"content":"上课生动真大方，歌声动听吴朝晖"},{"id":135155,"teacher_id":790,"teacher_name":"郑大方","post_time":"2021-05-05 02:42:20","like_diff":3,"likes":13,"dislikes":10,"content":"说说对这个老师的感受。\n\n-你们有问题别来问我，找助教去，我上完课很累的没有心情给你们答疑\n\n-你们期中考考完可以查卷，但只能核对分数是否统计有误，不能说哪题改错了。\n\n-你们大物课必须要到，不能申请免修\n\n-专业课划划水就好了，我的大物必须要听\n\n-PPT这里是不是打错了啊……嗯，是PPT这里打错了，这题不是这么解的……哦哦哦不对，PPT没错，是这个方法，我搞糊涂了\n\n\n\n简而言之就是一个上课只会念PPT还念不明白的老师，没有责任心，屁事又贼多，助教给分也差，真不愧是卧龙凤雏。另外，郑大昉基本天天上课前都会点到并强调一遍到课率问题。自称大物不听就学不来，可我咋感觉听了你的课反而不会学了？\n\n也不想多说什么，上过他课的人就知道我说的并不是假话。除非你有把握不听课还能考好大物并且无视他的逼逼赖赖和不负责任，否则还是慎选吧"},{"id":144789,"teacher_id":790,"teacher_name":"郑大方","post_time":"2021-12-23 15:22:14","like_diff":3,"likes":3,"dislikes":0,"content":"。。。"},{"id":170022,"teacher_id":790,"teacher_name":"郑大方","post_time":"2023-03-01 04:21:11","like_diff":3,"likes":6,"dislikes":3,"content":"大物上下均满绩，大物实验也满绩来评价郑老师。总结：好老师，速选！\n\n小测之前必提早很多时间来通知，让你准备充足去考试，而不是突然你坐在教室的时候，跟你说要小测。\n\n而且小测安排合理，一次有四五道题目，这样就算一个小的细节失误，对总的分数影响不大。有些老师的班级当中，题目就很少，有时候一卡住没做出来，对成绩就非常伤。还有有些老师是提早交小测卷，然后还给你指出问题，然后你可以再改，然后再上交，我觉得很不好，你要意识到平时分数是强制正态的，按班级内位次赋分的，相当于你奋斗了很多，别人被老师指出问题了，然后他分数高起来，与你的差距就缩小了，然后你自己的赋分可能就不好看了。我更喜欢郑老师！\n\n答疑很迅速，经常问他问题，他直接电话打过来跟我仔细讲解。好几次，凌晨的时候我还在学大物，有疑惑，发消息给老师了，凌晨的时候他与我电话交流知识点。\n\n关于讲课，我感觉讲的蛮好的。\n\n大学物理如何拿满绩学好呢？我觉得要把知识点弄懂，然后课本例题弄透，作业弄透，上课听懂，例题会做，我觉得差不多了\n\nby your wangwang xuezhang"},{"id":12346,"teacher_id":790,"teacher_name":"郑大方","post_time":"2015-12-23 04:27:30","like_diff":2,"likes":9,"dislikes":7,"content":"八个字，曲高和寡，课前预习"},{"id":74431,"teacher_id":790,"teacher_name":"郑大方","post_time":"2018-02-23 06:19:43","like_diff":2,"likes":7,"dislikes":5,"content":"大昉人还是很好的，不点名没有小测，平时分跟作业关系也不大，主要看考试，期中期末有一次考的好平时分不会低。上课嘛，可以看出他很用心，经常提醒后排的同学听课，注重物理知识的掌握，但是节奏比较慢，缺乏激情比较沉闷，对于认真听课的同学可能不太合适。"},{"id":100431,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-01-26 06:20:55","like_diff":2,"likes":2,"dislikes":0,"content":"救命恩人呀"},{"id":100772,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-01-26 23:37:07","like_diff":2,"likes":3,"dislikes":1,"content":"老师还行，这门课很大程度上取决于自己的努力，最后平时分给满了，但是两次考试真的感觉挺好，结果全爆炸QAQ"},{"id":112635,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-07-04 23:19:46","like_diff":2,"likes":2,"dislikes":0,"content":"很好?"},{"id":117308,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-09-23 01:36:29","like_diff":2,"likes":2,"dislikes":0,"content":"讲课太慢了"},{"id":126334,"teacher_id":790,"teacher_name":"郑大方","post_time":"2020-09-23 02:39:55","like_diff":2,"likes":2,"dislikes":0,"content":"讲课好慢呀"},{"id":90121,"teacher_id":790,"teacher_name":"郑大方","post_time":"2018-11-22 07:01:07","like_diff":1,"likes":2,"dislikes":1,"content":"期中考爆炸了555"},{"id":106652,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-04-28 16:06:20","like_diff":1,"likes":5,"dislikes":4,"content":"计算物理满了前来打卡"},{"id":106742,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-04-29 07:37:14","like_diff":1,"likes":4,"dislikes":3,"content":"计算物理满了谢谢老师真的好 重在平时收获真的，我平时还不够认真的反省去了"},{"id":112408,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-07-04 04:30:38","like_diff":1,"likes":2,"dislikes":1,"content":"好！很好！"},{"id":132119,"teacher_id":790,"teacher_name":"郑大方","post_time":"2021-01-30 11:59:49","like_diff":1,"likes":2,"dislikes":1,"content":"惨遭卡机我完蛋"},{"id":134984,"teacher_id":790,"teacher_name":"郑大方","post_time":"2021-04-25 23:35:29","like_diff":1,"likes":7,"dislikes":6,"content":"不认真讲这门课就不要开这门课祸害人"},{"id":160143,"teacher_id":790,"teacher_name":"郑大方","post_time":"2022-09-14 00:22:40","like_diff":1,"likes":1,"dislikes":0,"content":"看来给分过于求是是普遍现象"},{"id":160407,"teacher_id":790,"teacher_name":"郑大方","post_time":"2022-09-21 12:32:41","like_diff":1,"likes":1,"dislikes":0,"content":"给分巨好，会提前发PPT"},{"id":163118,"teacher_id":790,"teacher_name":"郑大方","post_time":"2022-12-07 12:28:45","like_diff":1,"likes":1,"dislikes":0,"content":"郑老师值10分，如若你不觉得，可能你还没有深入认识他"},{"id":24165,"teacher_id":790,"teacher_name":"郑大方","post_time":"2016-04-28 03:17:31","like_diff":0,"likes":3,"dislikes":3,"content":"没去过"},{"id":59750,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-09-26 14:24:30","like_diff":0,"likes":1,"dislikes":1,"content":"…………"},{"id":71113,"teacher_id":790,"teacher_name":"郑大方","post_time":"2018-01-28 03:17:16","like_diff":0,"likes":6,"dislikes":6,"content":"第一排听郑老师的课听了一学期。觉得看看课件自学其实差不多，上课的内容和PPT一样，缺少一些创新。期中期末考的都一般般，然后平时分没给满被卡了绩点。。诶，老师人不错，但是也就这样。。中评是最好不过了。"},{"id":106639,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-04-28 13:46:01","like_diff":0,"likes":1,"dislikes":1,"content":"上的计算物理，平时认真码代码，没有特别难，用心做就好了。期末背ppt都有范围的，听说很多人满了。"},{"id":136541,"teacher_id":790,"teacher_name":"郑大方","post_time":"2021-06-20 14:12:27","like_diff":0,"likes":1,"dislikes":1,"content":"啊啊啊"},{"id":137465,"teacher_id":790,"teacher_name":"郑大方","post_time":"2021-07-04 09:20:02","like_diff":0,"likes":1,"dislikes":1,"content":"老师上课讲得很好，思路很清晰。虽然讲得有点慢，但是可以一边听一边记笔记，老师会强调解题方法和重点，下课的时候会问前排同学有没有听懂，认真听的话可以学得很好。问问题的时候也很有耐心！是个很好的老师！下个学期没有选上郑老师的课，呜呜。"},{"id":163079,"teacher_id":790,"teacher_name":"郑大方","post_time":"2022-12-07 06:32:09","like_diff":0,"likes":0,"dislikes":0,"content":"好老师，喜欢"},{"id":168363,"teacher_id":790,"teacher_name":"郑大方","post_time":"2023-02-14 02:52:25","like_diff":0,"likes":0,"dislikes":0,"content":"老师是好老师，可惜上课风格不是很喜欢，没什么学习兴趣"},{"id":170783,"teacher_id":790,"teacher_name":"郑大方","post_time":"2023-03-09 15:06:32","like_diff":0,"likes":0,"dislikes":0,"content":"深入浅出"},{"id":187322,"teacher_id":790,"teacher_name":"郑大方","post_time":"2024-01-15 13:03:28","like_diff":0,"likes":0,"dislikes":0,"content":"给分超好"},{"id":5120,"teacher_id":790,"teacher_name":"郑大方","post_time":"2015-07-04 09:08:05","like_diff":-2,"likes":11,"dislikes":13,"content":"平平淡淡，给分好。"},{"id":9772,"teacher_id":790,"teacher_name":"郑大方","post_time":"2015-11-09 01:07:52","like_diff":-2,"likes":18,"dislikes":20,"content":"会催眠术的老师"},{"id":70422,"teacher_id":790,"teacher_name":"郑大方","post_time":"2018-01-26 15:07:35","like_diff":-2,"likes":3,"dislikes":5,"content":"客观评价，虽然最后自己考的还行，但是老师上课真的并不能说是很好，老师人是不错的，自己需要在课后花更多的时间去理解一些知识点。"},{"id":135771,"teacher_id":790,"teacher_name":"郑大方","post_time":"2021-07-06 13:18:26","like_diff":-2,"likes":4,"dislikes":6,"content":"期末考的好老师真的会把平时分拉满让你满绩，期中和小测没考好的同学不要丧失信心奥"},{"id":5466,"teacher_id":790,"teacher_name":"郑大方","post_time":"2015-07-07 16:41:36","like_diff":-3,"likes":4,"dislikes":7,"content":"真的很大方？"},{"id":147295,"teacher_id":790,"teacher_name":"郑大方","post_time":"2022-01-09 12:22:43","like_diff":-3,"likes":2,"dislikes":5,"content":"感谢老师不杀之恩，捞捞我的大物"},{"id":4976,"teacher_id":790,"teacher_name":"郑大方","post_time":"2015-07-02 00:31:39","like_diff":-4,"likes":8,"dislikes":12,"content":"一般，感觉和高中平行班老师差不多"},{"id":8140,"teacher_id":790,"teacher_name":"郑大方","post_time":"2015-09-17 06:20:13","like_diff":-4,"likes":8,"dislikes":12,"content":"很一般，上课不如自学"},{"id":33847,"teacher_id":790,"teacher_name":"郑大方","post_time":"2016-09-22 05:37:36","like_diff":-4,"likes":2,"dislikes":6,"content":"呵呵呵呵"},{"id":64722,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-12-27 02:36:43","like_diff":-4,"likes":6,"dislikes":10,"content":"讲的真的慢，看了前面几个评论居然没人吐槽这点。。。我们上的真的是同一个老师的课嘛！！！？我以前看到评论说某某老师的课全靠自学，我还不相信，觉得评价者偏颇，明明自己学的不好还总找客观原因，上了郑老师的课之后，我才明白，有的课，真的是全靠自学。老师上课都说，“第某某章也不是重点，你们自学吧”。希望老师以后讲的快一点，希望报他的课的同学三思。"},{"id":93304,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-01-09 02:37:35","like_diff":-4,"likes":1,"dislikes":5,"content":"老师长的有点像马云"},{"id":137951,"teacher_id":790,"teacher_name":"郑大方","post_time":"2021-07-06 23:33:23","like_diff":-4,"likes":2,"dislikes":6,"content":"郑老师确实有时候会比较思路新奇吧，比如让你提前交卷之类的。在平时分正态的情况下，他甚至会跟我们说小测没关系，期中期末好好考。开始以为他在哄我们，结果期末考满之后，平时分差不多拉满，最后就满绩了。个人平时小测平均分在85，按理说也拿不到39的平时分。总之老师给分还是不错的，大物这门课重视两次大考，至少在郑老师这里还是有很多机会拿高分滴。（不过老师平常上课的东西是否有用就因人而异了）"},{"id":147316,"teacher_id":790,"teacher_name":"郑大方","post_time":"2022-01-09 13:40:58","like_diff":-4,"likes":1,"dislikes":5,"content":"老师平时很和蔼，讲课也很认真；不过上课风格和思维方式可能比较清奇。比如说小测不重要；平时次次点名；考试的时候催人交卷子。。总体还行，放心选吧"},{"id":33926,"teacher_id":790,"teacher_name":"郑大方","post_time":"2016-09-23 01:53:38","like_diff":-5,"likes":4,"dislikes":9,"content":"真的有毒"},{"id":135811,"teacher_id":790,"teacher_name":"郑大方","post_time":"2021-05-27 04:21:39","like_diff":-5,"likes":4,"dislikes":9,"content":"肾虚，说话声音小的很，根本听不清。"},{"id":143966,"teacher_id":790,"teacher_name":"郑大方","post_time":"2022-01-09 12:20:36","like_diff":-5,"likes":1,"dislikes":6,"content":"老师的讲课方法可能不适合每个人，但是是一个会关心人的好老师！！"},{"id":28508,"teacher_id":790,"teacher_name":"郑大方","post_time":"2016-06-30 17:31:40","like_diff":-6,"likes":4,"dislikes":10,"content":"给分坑"},{"id":77646,"teacher_id":790,"teacher_name":"郑大方","post_time":"2018-05-07 04:56:35","like_diff":-6,"likes":2,"dislikes":8,"content":"计算物理，给分是真的好，当然也像老师说的，这个学期付出了很多时间\n\n不过希望老师把成绩的方差再拉大一点，这样更有区分度"},{"id":152543,"teacher_id":790,"teacher_name":"郑大方","post_time":"2022-04-27 16:29:24","like_diff":-6,"likes":5,"dislikes":11,"content":"这人是变态吧？和学生斗心眼很有意思吗？"},{"id":153773,"teacher_id":790,"teacher_name":"郑大方","post_time":"2022-05-10 13:05:55","like_diff":-6,"likes":1,"dislikes":7,"content":"给分好，讲的不错，我睡得很香。（讲得好和讲得催眠不冲突）"},{"id":43903,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-01-18 07:03:54","like_diff":-7,"likes":7,"dislikes":14,"content":"期中考七十不到 期末拿了满绩 所以说考试要抓重点 重要的考试一定要考好！"},{"id":64829,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-12-27 09:49:06","like_diff":-7,"likes":2,"dislikes":9,"content":"我觉得他上不完了，其实上课认真听觉得讲得还行，但是他语速慢＋某同学一直打断，就没耐心听了"},{"id":147346,"teacher_id":790,"teacher_name":"郑大方","post_time":"2022-01-09 15:49:23","like_diff":-7,"likes":0,"dislikes":7,"content":"上课语速比较慢，态度很好，问问题什么的总是耐心解答"},{"id":34283,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-02-17 14:39:11","like_diff":-9,"likes":5,"dislikes":14,"content":"嘴上说的要和我们好好把物理学好，不侧重讲题应付考试，结果最后给分还很好。=*="},{"id":43724,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-01-17 01:28:54","like_diff":-9,"likes":1,"dislikes":10,"content":"老师人蛮可爱的，至于上课…讲的和高中平行班老师差不多，大雾这种东西老师教的再好不也得靠自己吗？"},{"id":34867,"teacher_id":790,"teacher_name":"郑大方","post_time":"2016-10-25 14:19:04","like_diff":-10,"likes":1,"dislikes":11,"content":"给分很大方上课我只能呵呵听他讲不如自己看书自学"},{"id":43894,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-01-17 05:46:58","like_diff":-10,"likes":1,"dislikes":11,"content":"他讲的物理。。。不是我喜欢的那种生动"},{"id":104258,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-03-15 03:06:23","like_diff":-11,"likes":1,"dislikes":12,"content":"请自学"},{"id":18619,"teacher_id":790,"teacher_name":"郑大方","post_time":"2016-01-22 06:45:14","like_diff":-12,"likes":0,"dislikes":12,"content":"课一般 给分好"},{"id":43731,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-01-17 01:45:31","like_diff":-12,"likes":2,"dislikes":14,"content":"大方哥，上课比较平淡，给分还行吧"},{"id":45949,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-01-20 09:40:25","like_diff":-12,"likes":1,"dislikes":13,"content":"上课有点迷，但是给分还好，也需要自己看一下书复习预习一下。"},{"id":113525,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-07-06 22:53:12","like_diff":-12,"likes":3,"dislikes":15,"content":"给分确实不错，平时分好像大多数人都给满了\n\n但是，emmm，讲课真的不是很行，还不喜欢你们自学"},{"id":55502,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-07-01 16:11:20","like_diff":-14,"likes":5,"dislikes":19,"content":"首先请明确一个概念 并不是一个给分好的老师就不会让你挂 他可能给分好 但是并不一定在你身上实现 每次作业认真写按时交从未逃课平时分并未满 上课能把一个清晰的东西讲的一塌糊度是他的问题 还是请大家能选择一个能给大家物理希望的老师"},{"id":44642,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-01-18 05:16:53","like_diff":-15,"likes":5,"dislikes":20,"content":"讲的不怎么样，也没多少人去，去的也没多少人在听"},{"id":48773,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-03-12 15:42:58","like_diff":-15,"likes":6,"dislikes":21,"content":"老师上课讲你知道的东西，作业布置你不会的东西"},{"id":100408,"teacher_id":790,"teacher_name":"郑大方","post_time":"2019-01-26 05:35:32","like_diff":-15,"likes":1,"dislikes":16,"content":"听课的话，我觉得很一般\n\n而且给分也...不大方"},{"id":49378,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-04-09 01:46:50","like_diff":-17,"likes":2,"dislikes":19,"content":"不如自学"},{"id":17848,"teacher_id":790,"teacher_name":"郑大方","post_time":"2016-01-21 02:36:56","like_diff":-20,"likes":11,"dislikes":31,"content":"讲课不错的，虽然最后没满有些桑心。。。。。。"},{"id":91184,"teacher_id":790,"teacher_name":"郑大方","post_time":"2018-12-03 01:26:41","like_diff":-20,"likes":4,"dislikes":24,"content":"不用扩音器还很骄傲我不是很懂，后排同学怎么办？讲话语无伦次，ppt讲完后面又翻到前面讲，毫无重点。\n\n\n\n我真的还是去看书吧（微笑）"},{"id":45754,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-06-28 13:24:25","like_diff":-21,"likes":4,"dislikes":25,"content":"。。。白瞎了他的名字，15级的都懂吧"},{"id":47205,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-01-24 12:13:41","like_diff":-23,"likes":2,"dislikes":25,"content":"想听课就别选他"},{"id":8702,"teacher_id":790,"teacher_name":"郑大方","post_time":"2015-09-24 07:37:16","like_diff":-25,"likes":3,"dislikes":28,"content":"恶心，就会放ppt，而且说话不流利"},{"id":72294,"teacher_id":790,"teacher_name":"郑大方","post_time":"2018-01-29 23:56:53","like_diff":-29,"likes":2,"dislikes":31,"content":"上课实在是糟糕的体验"},{"id":55393,"teacher_id":790,"teacher_name":"郑大方","post_time":"2017-07-01 12:11:11","like_diff":-30,"likes":4,"dislikes":34,"content":"垃圾老师，作业每次都交了，只是一次忘带作业本之后也补交了，平时分居然硬生生被扣了三分Ծ‸Ծ"},{"id":61944,"teacher_id":790,"teacher_name":"郑大方","post_time":"2018-12-25 06:53:33","like_diff":-79,"likes":4,"dislikes":83,"content":"傻逼老师"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

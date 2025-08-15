@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王小毅 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="王小毅教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="王小毅,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">王小毅</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.81</div>
+                    <div class="rating-participants">74人参与评分</div>
+                    <div class="attendance-info">29.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (6 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">企业诊断与管理优化</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.81</span>
+                            <span class="students">选课: 90人</span>
+                            <span class="std-dev">标准差: 0.63</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">商业模式</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.23</span>
+                            <span class="students">选课: 198人</span>
+                            <span class="std-dev">标准差: 0.33</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">商业模式设计与创新</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.19</span>
+                            <span class="students">选课: 49人</span>
+                            <span class="std-dev">标准差: 0.42</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">数字营销</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.42</span>
+                            <span class="students">选课: 102人</span>
+                            <span class="std-dev">标准差: 0.61</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">毕业论文</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.13</span>
+                            <span class="students">选课: 25人</span>
+                            <span class="std-dev">标准差: 0.81</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">电子商务与电子政务</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.46</span>
+                            <span class="students">选课: 47人</span>
+                            <span class="std-dev">标准差: 0.28</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (65 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":2489,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-05-04 13:15:00","like_diff":45,"likes":51,"dislikes":6,"content":"非常生动有趣！收获很大"},{"id":7408,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-09-14 08:21:15","like_diff":34,"likes":34,"dislikes":0,"content":"老师讲课非常有趣，再加上我本来就对电商有兴趣，根本停不下来，短学期的课太快结束了。"},{"id":9817,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-11-10 07:37:18","like_diff":24,"likes":25,"dislikes":1,"content":"绝对的好老师!!!王老师的课有一节没上我都觉得是一种损失，半个学期的课根本不够啊啊啊!"},{"id":891,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-03-18 12:15:34","like_diff":18,"likes":21,"dislikes":3,"content":"有趣，实用"},{"id":3320,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-06-01 09:07:18","like_diff":16,"likes":18,"dislikes":2,"content":"王老师结合实例讲课十分耐听，给分也很厚道。"},{"id":3325,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-06-02 02:32:22","like_diff":13,"likes":13,"dislikes":0,"content":"有用 给分好"},{"id":9857,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-11-11 10:15:38","like_diff":12,"likes":12,"dislikes":0,"content":"很生动很有趣，不水真的能收获很多。"},{"id":10451,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-11-19 01:48:21","like_diff":10,"likes":10,"dislikes":0,"content":"讲的实用，教会思维！\n\n考核轻松！"},{"id":9686,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-11-04 11:36:08","like_diff":8,"likes":8,"dislikes":0,"content":"十分好玩"},{"id":10128,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-11-16 13:19:27","like_diff":7,"likes":7,"dislikes":0,"content":"老师上课很有趣，能学到很多东西，不只是电商方面的，强烈推荐"},{"id":7614,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-09-15 06:33:38","like_diff":6,"likes":8,"dislikes":2,"content":"老师人好，课程内容很生动实用，留的作业也很有意思"},{"id":9877,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-11-11 12:51:40","like_diff":6,"likes":7,"dislikes":1,"content":"讲的好到没话说"},{"id":11626,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-12-08 12:05:36","like_diff":6,"likes":6,"dislikes":0,"content":"超级棒，超级有趣！给分又好！"},{"id":13374,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-12-27 11:14:36","like_diff":6,"likes":6,"dislikes":0,"content":"好得很"},{"id":10687,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-11-22 11:13:34","like_diff":5,"likes":5,"dislikes":0,"content":"思维火花迸发的课堂 超级有趣的老师"},{"id":11627,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-12-08 12:16:42","like_diff":5,"likes":5,"dislikes":0,"content":"讲课超有趣，给分超好，老师超帅，没谁了。"},{"id":12235,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-12-22 12:30:48","like_diff":5,"likes":5,"dislikes":0,"content":"nice"},{"id":11629,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-12-08 12:51:42","like_diff":4,"likes":4,"dislikes":0,"content":"最轻松有趣的课，最有魅力的老师！"},{"id":192156,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2024-05-10 07:38:11","like_diff":4,"likes":5,"dislikes":1,"content":"2024.5.10职业生涯规划大赛\n\n该老师在不清楚评分标准的情况下进行贬低式点评，评价中频频爆典。\n\n发出诸如“有志于学术就应该去了解领域顶尖人士，阅读专业书籍，做研究做到凌晨四点，跟着老师做项目算什么，项目只是老师的项目”的逆天评价，颇有纸上谈兵搞乌托邦主义之意；对于评分标准中的“要有备选方案”完全不知晓而说出“你们有备选方案就是对这个职业规划不坚定”的离谱发言，与此同时又对于聚焦某一职业的同学说出“你的规划太窄了”的逆天双标，属于是既要所谓“坚定”又不能“狭窄”，既当又立了属于是。\n\n\n\n毅言丁真，鉴定为皮堰出气就图一乐，真放屁还得看您。"},{"id":12223,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-12-22 11:53:33","like_diff":3,"likes":3,"dislikes":0,"content":"绝壁良心\n\n"},{"id":12631,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-12-23 16:17:39","like_diff":3,"likes":3,"dislikes":0,"content":"老师很风趣幽默"},{"id":12792,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-12-24 05:01:26","like_diff":3,"likes":3,"dislikes":0,"content":"非常有趣\n\n"},{"id":19081,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-01-23 08:18:03","like_diff":3,"likes":3,"dislikes":0,"content":"老师讲课超级棒，真心喜欢"},{"id":27670,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-06-27 07:50:21","like_diff":3,"likes":3,"dislikes":0,"content":"上课幽默风趣，跟同学互动很多，是个好老师。给分方面，期末一张他出的卷子，平时可以有展示，最神奇的是平时作业他要我们集两百个赞给他看！"},{"id":11910,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-12-21 08:25:44","like_diff":2,"likes":2,"dislikes":0,"content":"上课很好，给分也好好"},{"id":15499,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-01-15 01:43:06","like_diff":2,"likes":2,"dislikes":0,"content":"强推王老师的课，不舍得不认真听的那种！"},{"id":26173,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-06-16 07:06:26","like_diff":2,"likes":2,"dislikes":0,"content":"老师讲课很有趣 但是由于自己没什么经济头脑有些东西因为没认真听就没怎么听得懂 老师这学期点名的方式比较特别 课比较不水 但是给分好 上课内容充实"},{"id":40746,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2017-01-05 08:06:38","like_diff":2,"likes":2,"dislikes":0,"content":"无与伦比的好"},{"id":98174,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2019-01-23 06:54:07","like_diff":2,"likes":2,"dislikes":0,"content":"太棒了结课的时候非常舍不得"},{"id":152213,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2022-03-30 13:25:00","like_diff":2,"likes":3,"dislikes":1,"content":"王老师的课值得反复来听，每次都有新内容。一些是知识点，一些是他自己潜心研究的成果。把商学讲得深入浅出。而且他自己都在实践很多理论，有很多心得，是管理学院少有的全面型教授，还经常在电视上看到他，有一次居然是在给跑男讲大国重器！"},{"id":11628,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-12-08 12:25:20","like_diff":1,"likes":2,"dislikes":1,"content":"小毅男神 享受啊"},{"id":11674,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-12-10 05:38:02","like_diff":1,"likes":2,"dislikes":1,"content":"课很好 给分也很好"},{"id":11962,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-12-22 05:41:20","like_diff":1,"likes":1,"dislikes":0,"content":"收获良多。"},{"id":13668,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-12-30 09:26:34","like_diff":1,"likes":1,"dislikes":0,"content":"赞，生动有趣"},{"id":13986,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-01-03 11:27:20","like_diff":1,"likes":1,"dislikes":0,"content":"收获良多，强力推荐，可惜下学期不开了。。"},{"id":16586,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-01-18 12:33:56","like_diff":1,"likes":1,"dislikes":0,"content":"给分超级好"},{"id":20799,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-02-01 00:27:26","like_diff":1,"likes":1,"dislikes":0,"content":"Interesting."},{"id":21186,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-02-26 02:52:34","like_diff":1,"likes":1,"dislikes":0,"content":"讲课超级好，学到了很多东西"},{"id":21568,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-02-29 08:20:45","like_diff":1,"likes":1,"dislikes":0,"content":"完美。"},{"id":22091,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-03-02 10:13:38","like_diff":1,"likes":1,"dislikes":0,"content":"好好好好好"},{"id":22152,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-03-02 15:13:30","like_diff":1,"likes":1,"dislikes":0,"content":"简直不能再棒！上到现在最好的一门通识！上的好给分也赞！强推！"},{"id":24796,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-05-03 16:30:30","like_diff":1,"likes":1,"dislikes":0,"content":"非常好的一门课，非常好的一个老师，非常好的学习体验，非常好的给分。"},{"id":24802,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-05-03 23:40:07","like_diff":1,"likes":1,"dislikes":0,"content":"听着很有收获"},{"id":24807,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-05-04 00:43:45","like_diff":1,"likes":1,"dislikes":0,"content":"真的是有趣又博学的老师。\n\n讲课很用心 是认真听便可以学到东西的。\n\n\n\n给分也相当有师生情 赞"},{"id":24830,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-05-04 02:47:06","like_diff":1,"likes":1,"dislikes":0,"content":"人格魅力与知识传递与真切关心 最好的老师 没有之一"},{"id":26223,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-06-16 09:56:26","like_diff":1,"likes":1,"dislikes":0,"content":"老师教学系统化，而且很有趣，能学到很多东西"},{"id":26243,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-06-16 11:17:09","like_diff":1,"likes":1,"dislikes":0,"content":"声音超级好听！！！然后！不点名有干货！\n\n"},{"id":78733,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2018-05-15 02:14:31","like_diff":1,"likes":1,"dislikes":0,"content":"王老师特别有趣，讲课也很好，人也超级好！！！！"},{"id":90059,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2018-11-22 04:01:34","like_diff":1,"likes":1,"dislikes":0,"content":"每次下课都希望能不下课接着讲"},{"id":134843,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2021-04-18 13:41:17","like_diff":1,"likes":1,"dislikes":0,"content":"非常认真负责的老师"},{"id":153351,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2022-04-28 09:49:57","like_diff":1,"likes":3,"dislikes":2,"content":"非常专业的营销大佬！在MBA和EMBA中更受欢迎。"},{"id":214788,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2025-02-18 02:26:02","like_diff":1,"likes":1,"dislikes":0,"content":"说一下电子商务与电子政务通识：事少分高，还不点名，全程AI分数也很高，无脑冲！（就是出分很慢，寒假过完才出…）"},{"id":11533,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-12-04 00:28:07","like_diff":0,"likes":0,"dislikes":0,"content":"挺不错的"},{"id":23444,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-03-30 04:08:50","like_diff":0,"likes":0,"dislikes":0,"content":"很有趣"},{"id":30422,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-07-01 14:09:23","like_diff":0,"likes":0,"dislikes":0,"content":"上课好给分好"},{"id":32479,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-07-07 05:09:18","like_diff":0,"likes":0,"dislikes":0,"content":"男神 大爱"},{"id":36150,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2016-11-10 15:14:56","like_diff":0,"likes":0,"dislikes":0,"content":"非常有意思，干货满满。"},{"id":142225,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2021-11-09 02:01:29","like_diff":0,"likes":1,"dislikes":1,"content":"冬学期第一节课老师没来。。。"},{"id":155738,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2022-06-15 12:12:58","like_diff":0,"likes":0,"dislikes":0,"content":"很棒的老师"},{"id":188998,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2024-01-21 06:05:42","like_diff":0,"likes":0,"dislikes":0,"content":"很棒的课程，很好的老师。就是ww商业模式为啥不出分呀！"},{"id":198631,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2024-09-10 09:36:39","like_diff":0,"likes":1,"dislikes":1,"content":"讲课是真牛逼"},{"id":214138,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2025-01-25 07:52:30","like_diff":0,"likes":0,"dislikes":0,"content":"出分太慢辣！老师！！！"},{"id":215721,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2025-03-04 16:01:53","like_diff":0,"likes":0,"dislikes":0,"content":"电子商务与电子政务，事情少分数高，讲课也比较有意思，但是老师，您的出分也太慢啦！成绩怎么就忘了提交了呢"},{"id":11877,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2015-12-20 03:53:12","like_diff":-1,"likes":3,"dislikes":4,"content":"还好啦"},{"id":204017,"teacher_id":2149,"teacher_name":"王小毅","post_time":"2024-11-23 04:39:34","like_diff":-1,"likes":0,"dislikes":1,"content":"一副很江湖的样子 不怎么样"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

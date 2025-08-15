@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>包爱民 - 医学院 - 浙大教评</title>
+    <meta name="description" content="包爱民教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="包爱民,医学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">包爱民</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">医学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.29</div>
+                    <div class="rating-participants">61人参与评分</div>
+                    <div class="attendance-info">34.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (5 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">大学生物学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.96</span>
+                            <span class="students">选课: 180人</span>
+                            <span class="std-dev">标准差: 0.58</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大脑与社会</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.00</span>
+                            <span class="students">选课: 214人</span>
+                            <span class="std-dev">标准差: 0.67</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">神经生物学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.47</span>
+                            <span class="students">选课: 311人</span>
+                            <span class="std-dev">标准差: 0.69</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">神经科学——探索生命的最深奥秘</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.10</span>
+                            <span class="students">选课: 72人</span>
+                            <span class="std-dev">标准差: 0.60</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">脑与认知</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.02</span>
+                            <span class="students">选课: 252人</span>
+                            <span class="std-dev">标准差: 0.64</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (59 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":23541,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2016-04-05 10:36:30","like_diff":42,"likes":59,"dislikes":17,"content":"她跟包利民老师是什么关系"},{"id":43153,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-01-16 01:10:44","like_diff":15,"likes":18,"dislikes":3,"content":"给分很差"},{"id":54358,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-06-29 07:24:33","like_diff":12,"likes":15,"dislikes":3,"content":"给分怎么那么低，害怕?\n\n我的均绩，心疼"},{"id":54337,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-06-29 06:17:55","like_diff":11,"likes":20,"dislikes":9,"content":"大脑与社会真的是一门非常有意思的通识课，听的很开心，但是成绩给的比较实在，主观题不太适合我吧，最后成绩是所有通识里最低的了。如果单纯感兴趣，不考虑?点的话，强推这门课"},{"id":121785,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2020-01-22 01:41:26","like_diff":11,"likes":14,"dislikes":3,"content":"只针对大学生物学 不针对老师。别选大学生物学 别选大学生物学 别选大学生物学 上课要举手恶竟因为占分 要看慕课完全靠自学期末还闭卷 两次PPT展示 最后还被完全正态到底"},{"id":52751,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-06-22 12:20:02","like_diff":7,"likes":9,"dislikes":2,"content":"老师想给我们呈现很多东西，不过讨论课的恶竞真的累 能拼命找话题尬问的建议选"},{"id":54342,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-06-29 06:23:19","like_diff":7,"likes":10,"dislikes":3,"content":"每节课提心吊胆还绩杀，在乎绩点的同学慎选！"},{"id":138331,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2021-07-08 14:14:12","like_diff":7,"likes":7,"dislikes":0,"content":"给分很差！"},{"id":64498,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-12-24 15:09:38","like_diff":6,"likes":6,"dislikes":0,"content":"很棒，墙裂安利大脑与社会，这门课非常有意思，听完全程不走神的课"},{"id":54318,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-06-29 05:48:37","like_diff":5,"likes":8,"dislikes":3,"content":"超棒的大脑与社会"},{"id":65256,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2018-01-02 05:33:44","like_diff":5,"likes":5,"dislikes":0,"content":"课很棒，绩点还不知道。但是是大一上过的最有趣最值得的通识课。"},{"id":70881,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2018-01-27 16:35:17","like_diff":5,"likes":5,"dislikes":0,"content":"蛤蛤蛤，给了我3.0? 大概历史最低。\n\n但是呢，不得不服，就算3.0我依然服她的课，干货很多，老师们讲的都很好很好。老师要求很严格也很负责，课上大佬多。\n\n认真准备PPT，频繁发言，但是小组展示队友出了点岔子，所以3.0。\n\n大家看着选吧，还是强推!"},{"id":82489,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2018-07-08 10:27:53","like_diff":5,"likes":8,"dislikes":3,"content":"说实话，这门绩点3.6，通识课最差，平心而论，我每节课都做笔记，每节课都听的认认真真，而且考试的时候还复习了，自认为选择题考得很好，但是3.6真的不敢恭维，客观题……是凭什么给分的呢?不得而知。但是老师讲课很好，很多知识，哎……自己命不好，怪谁?慎选!如果考虑绩点的话，每位老师都是公平的，所以自己得了低绩点也没啥好说的了"},{"id":147902,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2022-01-11 06:29:23","like_diff":5,"likes":14,"dislikes":9,"content":"大生 草泥马的几把傻逼水课 你妈死了才会开这种死马课"},{"id":80883,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2018-07-02 09:10:51","like_diff":4,"likes":4,"dislikes":0,"content":"上课很有趣，难得有课可以让我一点不走神，就是不知道为什么绩点有点。。难看"},{"id":80890,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2018-07-02 10:53:27","like_diff":4,"likes":4,"dislikes":0,"content":"上过最有意思的科技类通识了！！特别喜欢包老师和外教，觉得作为科普性大脑知识真的应该每个人都来上上"},{"id":139469,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2021-07-16 08:26:38","like_diff":4,"likes":7,"dislikes":3,"content":"课又讲不清楚 给分好差 我直接1.5"},{"id":148674,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2022-01-13 07:47:41","like_diff":4,"likes":13,"dislikes":9,"content":"我日你妈的大学生物学 教务网的人妈都死完了 开这种几把课 草泥马了个逼"},{"id":157791,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2022-06-25 00:14:27","like_diff":4,"likes":5,"dislikes":1,"content":"大脑与社会，人生一课🥹"},{"id":40487,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-01-03 16:08:11","like_diff":3,"likes":6,"dislikes":3,"content":"课很舒服，把脑科学和哲学联系在一起，能学到东西。"},{"id":54325,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-06-29 05:57:21","like_diff":3,"likes":7,"dislikes":4,"content":"大脑与社会强推！也上过老师的新生研讨课不过相比还是喜欢这门课。学到了超丰富超有趣的关于大脑的知识，对很多东西有了新的看法。有感觉很厉害的荷兰外教上课，老师作翻译，还能练听力？每节课后会有小测我觉得挺好的，能促进认真听课。最后的考试也还好。表示还想再选老师的其他课！"},{"id":123534,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2020-06-09 13:09:47","like_diff":3,"likes":7,"dislikes":4,"content":"还没有出分，但是私以为包老师真的值得十分！绩点如何尚且不知，但如果想学干货、想听到妙趣横生的知识，选就完事！是那种你越听越起劲完全不想干其他事的课堂！另外，老师的语言很活泼生动，知识面也很广，经常讲着讲着就衍生到社会呀艺术呀这样更广的领域，当然，专业知识也很过硬。还有就是，大脑与社会这门课每节课都会推很多有意思的电影，也会就同学们的思考作业做延伸性点评～任务的话，闭卷考有（但是每节课课后都会划考点，btw：ppt是纯英文），影评有，平均每人一次的堂测有，但是作为长学期的课，感觉事情并不是很多～"},{"id":147241,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2022-01-09 08:15:23","like_diff":3,"likes":4,"dislikes":1,"content":"无语😓"},{"id":196522,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2024-07-04 02:07:12","like_diff":3,"likes":3,"dislikes":0,"content":"每节课都认真听，ppt也查阅各种文献，点名没缺过一次，讨论课也积极发言，期中没用GPT，期末考私以为考的还行，结果最后给我来了个3.6？付出和收货完全不成正比，慎选。"},{"id":53270,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-06-26 09:26:00","like_diff":2,"likes":4,"dislikes":2,"content":"这门课用来开拓眼界很不错。考核是小组presentation，选题建议选大家感兴趣的话题，然后找个大腿抱着"},{"id":80871,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2018-07-02 06:43:29","like_diff":2,"likes":3,"dislikes":1,"content":"强强强推大脑与社会！是我最喜欢的一门K类啦～外教讲课nice，包老师中文翻译得也很到位，全程都认真听了，学到超多知识?每节课末尾，老师讲的对人生观的升华部分也很给人启发，假期打算去看《我即我脑》hhhhh事情少，两次随机小测＋期末闭卷考试，题目也不难，给分比较客观。"},{"id":81728,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2018-07-06 05:41:37","like_diff":2,"likes":3,"dislikes":1,"content":"神经科学"},{"id":125925,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2020-09-15 23:57:55","like_diff":2,"likes":4,"dislikes":2,"content":"不知道是个人能力有限还是什么，最后只有3.3，还卡绩了，本学期最低的课，另外对于她上课的一些讲授的内容我不赞同，主观题提出了异见，可能也是因为这个吧。"},{"id":175523,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2023-06-25 10:33:20","like_diff":2,"likes":3,"dislikes":1,"content":"医学院专业课神经生物学，老师讲得真的太好了，能学到很多，10分！"},{"id":75094,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2018-03-07 10:27:30","like_diff":1,"likes":1,"dislikes":0,"content":"神经科学这门新生研讨课很有意思.干货很多，每节课老师不同，有几个老师讲的很不错，没什么作业，小组展示认真搞就好，平时水水也没什么问题，给分也不错."},{"id":79777,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2018-06-13 12:37:37","like_diff":1,"likes":2,"dislikes":1,"content":"还没考试特地来评论！大脑与社会真的很有意思！对文科生很友好！真的学到了很多知识 而且也不枯燥，和社会现象结合的很好，老师还有一个推荐的电影清单！外教也很妙！"},{"id":113251,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2019-07-06 02:47:24","like_diff":1,"likes":3,"dislikes":2,"content":"大脑与社会真的超有趣啦，是我听得最认真收获也最多的一门通识！最后绩点4.2，我也很满意啦！"},{"id":120896,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2020-01-18 10:34:52","like_diff":1,"likes":3,"dislikes":2,"content":"带我们看了脑库"},{"id":126331,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2020-09-23 01:12:35","like_diff":1,"likes":3,"dislikes":2,"content":"大脑与社会强推，看三节40分钟左右的mooc等同于老师讲三节两个半小时。懂得都懂"},{"id":196499,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2024-07-04 00:16:08","like_diff":1,"likes":3,"dislikes":2,"content":"大脑与社会，一门发人深省的好课程。"},{"id":202035,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2024-11-08 12:53:44","like_diff":1,"likes":2,"dislikes":1,"content":"并不是擅长学生物的，甚至不太喜欢生物当中的某些研究方式，而且专业和生物完全不相关，因为一时兴趣选的所以绩点3.6是我应该的（以后不选生物了好吗好的），非常喜欢有爱又耐心会给我解答的包老师，上课也很风趣幽默！很佩服这些博学的学者wwww"},{"id":218130,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2025-04-21 10:54:38","like_diff":1,"likes":1,"dislikes":0,"content":"点名巨多，其他事情也很多，讨论课鼓励恶竞，ppt经典医学院蓝白英文shit，越听越感觉老师讲课是纯纯在输出自己所支持的价值观，讨论课表达自己不同的观点就会被反驳没有科学依据，必须接受课上所谓有“文献支持的”那一套。。。"},{"id":14998,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2016-01-11 13:06:35","like_diff":0,"likes":4,"dislikes":4,"content":"讲课很有启发性"},{"id":41954,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-01-13 09:48:15","like_diff":0,"likes":2,"dislikes":2,"content":"没体验"},{"id":42612,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-01-14 14:50:25","like_diff":0,"likes":7,"dislikes":7,"content":"每节课老师都会换，内容完全用PPT过一遍总是感觉不能给人印象深刻，考核是小组展示，拿分与见识和表现能力有关，与是否认真学无太大关系;老师在考核方面特别认真，评价也很公正，想锻炼自己展示能力的可以选一下"},{"id":52485,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-06-20 12:28:47","like_diff":0,"likes":3,"dislikes":3,"content":"给分如何不敢说，但讲课技术已经超神"},{"id":52754,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-06-22 12:40:24","like_diff":0,"likes":1,"dislikes":1,"content":"点名，不水。"},{"id":52794,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-06-23 02:52:25","like_diff":0,"likes":3,"dislikes":3,"content":"新生研讨课！真的好老师！每个小组的展示都全程听认真听连手机都不看，还有做笔记，做总结的时候真的超级感动！难得好老师！虽然讲high了的话会拖一点堂但是绝对能学到东西！"},{"id":54374,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-06-29 08:10:36","like_diff":0,"likes":0,"dislikes":0,"content":"包老师思路清晰，讲课生动。上了大脑与社会这门课，学到很多，也很感谢Swaab教授，上的课题让我思考很多，刷新了一些理念。值得推荐！"},{"id":54405,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-06-29 09:25:30","like_diff":0,"likes":1,"dislikes":1,"content":"大脑与社会点赞包老师o(^o^)o"},{"id":82607,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2018-07-08 16:34:38","like_diff":0,"likes":1,"dislikes":1,"content":"老师人很好！大脑与社会可以学到很多，很有收获。每节课抽人小测，需要复习一下。"},{"id":85299,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2018-07-17 00:57:55","like_diff":0,"likes":2,"dislikes":2,"content":"神经科学研讨课，课程很不错，不同的老师院士研究人员讲述的介绍性课程。小组展示的考核机制有些局限，和组员水平及努力都有关，努力付出的话给分还是不错的，这学期并没有明显的恶竞氛围。"},{"id":173931,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2023-06-05 02:32:02","like_diff":0,"likes":1,"dislikes":1,"content":"博学有热情的老师"},{"id":201188,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2024-10-30 02:00:40","like_diff":0,"likes":1,"dislikes":1,"content":"脑与认知喜欢提问？"},{"id":208326,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2024-12-27 01:40:06","like_diff":0,"likes":0,"dislikes":0,"content":"包老师算是浙大脑院最有教学水准讲课最生动最有教学热情的一位老师了，她的课抑扬顿挫妙语连珠是真的有能够让你放下手上的东西认真听，只说教课还是很过得去的。"},{"id":41971,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-01-13 10:37:43","like_diff":-1,"likes":5,"dislikes":6,"content":"上她的课其实学到很多，给分也很实在，我表现不好绩点低也不能怨老师了。。"},{"id":42187,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-01-14 00:42:01","like_diff":-1,"likes":2,"dislikes":3,"content":"如果是新生研讨，其实每节课上课都不一定会是同一个老师，授课主题是大脑，考核方式是小组presentation展示以及围绕pre展开的问答表现。就我个人而言，ppt做得一般讲得一般问答也没有很在点子上…本来以为要正态了最后得分也还不错。还有一个感觉就是这门课dalao很多。建议选课。积极投入真的可以学到很多东西"},{"id":42006,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-01-13 11:46:33","like_diff":-2,"likes":2,"dislikes":4,"content":"新生研讨课挺好玩的。。。"},{"id":52667,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2017-06-22 05:04:18","like_diff":-2,"likes":3,"dislikes":5,"content":"大脑与社会对于文科生来说收获很多。还特地请来荷兰的教授讲课。但是课的时间改来改去，考试时间提前一周才通知，真的给我的时间安排造成了困扰。打8分"},{"id":201354,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2024-11-01 04:50:46","like_diff":-2,"likes":1,"dislikes":3,"content":"抽象 碰到你是我的霉运"},{"id":107607,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2019-07-05 23:32:55","like_diff":-4,"likes":4,"dislikes":8,"content":"我真的好喜欢爱民老师啊！！！好可爱的大姐姐！！！笑起来真的好温暖，讲话也很暖心，有如沐春风之感！！！最重要的是，她好像我高中的女神政治老师哦…呜呜呜真的一样暖一样美(╥﹏╥)喜欢！swaab教授也好可爱啊！真的是很伟大的人！爱了！//出分补评：给分超好！期末考也不难，真的认真准备就不会差！大脑与社会这门课我觉得非常公正，一切都公正严谨，让人欣赏的认真。最后94！意外之喜！谢谢老师！爱您~"},{"id":206010,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2024-12-13 03:04:12","like_diff":-4,"likes":1,"dislikes":5,"content":"来评一下大脑与社会。\n\n是通核。课程内容我认为是很不错的，是我大学到现在最喜欢的一门通识课了。喜欢生物喜欢脑科学请快来选，不喜欢要慎重，我觉得任务量还蛮大，不过可能通核都是这样（？\n\n任务量是上课纸质签到+讨论课雷达签到+1-2次展示（1次20分钟左右）+MOOC课后练习（很快，一学期半小时）+期末闭卷考（60分选择+4道论述题）。\n\n期末的选择几乎全是mooc里的，上课听了的话，做mooc是没有压力的，再稍微记一下错题就能考了。论述题印象里是开放式问题，上课听过了就可以写出很多东西。\n\n给分据说是求是的。这个可以善用搜索。我全勤+上课放松地听+2次认真准备的展示+期末扫了一眼mooc课后练习上考场，最后是4.8。"},{"id":201935,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2024-11-07 12:52:37","like_diff":-6,"likes":1,"dislikes":7,"content":"史中史"},{"id":137188,"teacher_id":2364,"teacher_name":"包爱民","post_time":"2021-07-02 06:15:39","like_diff":-7,"likes":3,"dislikes":10,"content":"老师正直、幽默、有见解，能看出她对神经科学是真爱"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

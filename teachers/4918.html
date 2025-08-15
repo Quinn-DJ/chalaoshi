@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>马娟 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="马娟教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="马娟,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">马娟</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">6.74</div>
+                    <div class="rating-participants">36人参与评分</div>
+                    <div class="attendance-info">38.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (5 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">丝绸之路与中外文化交流</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.86</span>
+                            <span class="students">选课: 154人</span>
+                            <span class="std-dev">标准差: 0.65</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">中国古代史（下）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.44</span>
+                            <span class="students">选课: 119人</span>
+                            <span class="std-dev">标准差: 0.55</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">中国古代史（下）（Q）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.08</span>
+                            <span class="students">选课: 47人</span>
+                            <span class="std-dev">标准差: 0.50</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">中国古代民族史</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.39</span>
+                            <span class="students">选课: 18人</span>
+                            <span class="std-dev">标准差: 0.53</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">中西关系史</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.23</span>
+                            <span class="students">选课: 165人</span>
+                            <span class="std-dev">标准差: 0.82</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (27 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":84422,"teacher_id":4918,"teacher_name":"马娟","post_time":"2018-07-12 22:56:37","like_diff":18,"likes":26,"dislikes":8,"content":"选通核的同学，可以先移步冯培红老师的“查老师”。评论中说的，对历史没有真正兴趣慎选，就是我的肺腑之言。\n\n\n\n可是，奇怪的是，尽管是通核，说到底也是通识，是面向各个学科门类、各个年级、各个知识层面的学生的一般性教育。\n\n然而，两位老师似乎将我们视为文史底蕴深厚、学术素养扎实、课余时间充足的硕士生、博士生？！"},{"id":84205,"teacher_id":4918,"teacher_name":"马娟","post_time":"2018-07-12 08:20:51","like_diff":11,"likes":15,"dislikes":4,"content":"有一门通核 丝绸之路与中外文化交流。对历史没有真正兴趣的同学慎选，别为了上通核而上通核。任务之繁重，考试之艰难，得分之低廉，令人气馁。 既知正态，也就不怕这些，但苦的是一整个学期下来没什么收获，也许这样被正态也正常了吧"},{"id":84754,"teacher_id":4918,"teacher_name":"马娟","post_time":"2018-07-13 21:34:04","like_diff":11,"likes":13,"dislikes":2,"content":"老师的课很难捕捉重点...考试复习像是在大海捞针"},{"id":183093,"teacher_id":4918,"teacher_name":"马娟","post_time":"2023-11-22 06:11:49","like_diff":5,"likes":7,"dislikes":2,"content":"马老师的中国古代史，嘿嘿，针不戳嘞"},{"id":77936,"teacher_id":4918,"teacher_name":"马娟","post_time":"2018-05-08 16:30:54","like_diff":3,"likes":5,"dislikes":2,"content":"宗教大牛！"},{"id":127516,"teacher_id":4918,"teacher_name":"马娟","post_time":"2020-11-24 00:38:14","like_diff":3,"likes":4,"dislikes":1,"content":"马娟老师的课真的全是干货，一节课从头到尾记笔记，人名地名概念名，真的有被马娟老师的专业知识储备量所折服，尤其是还会波斯文，惊呆了"},{"id":136781,"teacher_id":4918,"teacher_name":"马娟","post_time":"2021-06-24 11:13:42","like_diff":3,"likes":4,"dislikes":1,"content":"上的中西关系史 老师真的挺好的呀 知识渊博 可能因为上的是专业课吧 但真的很厉害！只要好好记笔记 读书报告写完 分数不会差的"},{"id":192293,"teacher_id":4918,"teacher_name":"马娟","post_time":"2024-05-14 06:28:37","like_diff":3,"likes":4,"dislikes":1,"content":"要求太多了吧"},{"id":85352,"teacher_id":4918,"teacher_name":"马娟","post_time":"2018-07-17 07:43:26","like_diff":2,"likes":12,"dislikes":10,"content":"大牛老师，上课充满干货，好好听没问题"},{"id":195450,"teacher_id":4918,"teacher_name":"马娟","post_time":"2024-06-28 06:09:19","like_diff":2,"likes":3,"dislikes":1,"content":"丝绸之路。\n\n课程到了马娟老师这一部分就从不点名变成了节节课点名。马娟老师对同学们的课堂参与度看得很重，我怀疑她能记住所有和她曾经互动过的同学的名字。讨论课到了课程的后半程就没法像课程的前半程那样轻松地水过去了，可能对于其它课程量比较少的同学来说无所谓，对于专业课任务繁重的同学就有点地狱了。\n\n马娟老师讲课的内容我还蛮喜欢的，虽然跟课程的前半程一样，由于课程主题的原因，内容是比较繁杂的，可能马娟老师对元代史格外熟悉，那些莫名其妙的音译都记得那么清楚，对于未来要去工地打水泥的我来说确实不可想象。\n\n总体体验还不错吧，每次看到小组讨论题的时候确实很崩溃，现在想来也算一段不错的回忆。"},{"id":160416,"teacher_id":4918,"teacher_name":"马娟","post_time":"2022-09-21 23:58:10","like_diff":1,"likes":3,"dislikes":2,"content":"作为一个历史系的学生来看，老师讲课水平一般，没有逻辑性，ppt制作简陋，考试范围不明确，难以捕捉重点"},{"id":176038,"teacher_id":4918,"teacher_name":"马娟","post_time":"2023-06-27 13:09:03","like_diff":1,"likes":2,"dislikes":1,"content":"老师人真的很好呀，很温柔，而且在民族方面知识储备超丰富，还会波斯语，虽然容易把握不到她的逻辑，但是仔细听可以学到好多知识"},{"id":217815,"teacher_id":4918,"teacher_name":"马娟","post_time":"2025-04-17 02:43:42","like_diff":1,"likes":1,"dislikes":0,"content":"慎选。课件老旧，多是念稿，居简行简无乃太简；注重考试，分值过高，一题失误满盘皆输。"},{"id":77605,"teacher_id":4918,"teacher_name":"马娟","post_time":"2018-05-07 01:57:27","like_diff":0,"likes":4,"dislikes":4,"content":"老师的课有点水，基本就是她在上面讲。"},{"id":79612,"teacher_id":4918,"teacher_name":"马娟","post_time":"2018-06-11 11:30:24","like_diff":0,"likes":8,"dislikes":8,"content":"随机点名。上课不给ppt，大概是ppt做的太烂，不好意思给吧。ppt开局几个字，讲课全靠说。建议听课的时候好好记笔记，记下老师口述的内容。"},{"id":107115,"teacher_id":4918,"teacher_name":"马娟","post_time":"2019-05-01 16:27:55","like_diff":0,"likes":2,"dislikes":2,"content":"老师人很好，课堂很轻松，认真听就好。会点名，考核只有一篇读书报告，事很少。认真会有回报哒！"},{"id":107240,"teacher_id":4918,"teacher_name":"马娟","post_time":"2019-05-02 14:18:56","like_diff":0,"likes":3,"dislikes":3,"content":"我觉得老师超级棒，知识储备超级丰富，老师也很可爱呀～"},{"id":125071,"teacher_id":4918,"teacher_name":"马娟","post_time":"2020-08-26 13:14:59","like_diff":0,"likes":0,"dislikes":0,"content":"讲解深入浅出"},{"id":135072,"teacher_id":4918,"teacher_name":"马娟","post_time":"2021-04-29 03:36:52","like_diff":0,"likes":0,"dislikes":0,"content":"老师人特别好，知识超级渊博，还会波斯文，上课很有意思，这个学期因为还有线上的同学所以没有点名，就有时候会抽查笔记，只要上课认真听，勤记笔记，最后的读书报告好好写，分数就会不错，太喜欢这个老师啦~"},{"id":153938,"teacher_id":4918,"teacher_name":"马娟","post_time":"2022-05-17 09:53:25","like_diff":0,"likes":0,"dislikes":0,"content":"中西关系史。老师人真的很好！外专业选了给分也好。谢谢老师！"},{"id":157149,"teacher_id":4918,"teacher_name":"马娟","post_time":"2022-06-22 05:21:27","like_diff":0,"likes":2,"dislikes":2,"content":"老师知识太渊博了，认真负责，每节讨论课都认真从头听到尾，还有一次带了她自己做的奶茶给我们喝，我觉得是很不错的老师"},{"id":189743,"teacher_id":4918,"teacher_name":"马娟","post_time":"2024-01-28 06:31:08","like_diff":0,"likes":3,"dislikes":3,"content":"马娟老师喜欢课堂互动，而且人很好，很关心学生，几乎问过一次问题，或回答过一次问题，她便能记住你的名字。\n\n马娟老师会几种语言，波斯语，突厥语，蒙古语等等。上课会以语言的角度讲“大蒙古国”，“大元”。收获很大。\n\n老师的课程考核一般会要求笔记，像我种习惯手写笔记的人需要备足马力。\n\n老师讲述的内容主要以叙述为主，不是问题导向型的。或许很多人不习惯这种叙述性的教学，这个问题有个人倾向。但老师的讲述是有大纲有框架的，如果你认为没有逻辑，可能是你没仔细听。\n\n老师会点名，但给分很好。\n\n已经上过老师两门课了。"},{"id":190806,"teacher_id":4918,"teacher_name":"马娟","post_time":"2024-03-20 01:21:32","like_diff":0,"likes":1,"dislikes":1,"content":"马娟老师的中西关系史，嘿嘿，针不戳嘞"},{"id":195387,"teacher_id":4918,"teacher_name":"马娟","post_time":"2024-06-28 02:25:39","like_diff":0,"likes":1,"dislikes":1,"content":"给分不好"},{"id":218421,"teacher_id":4918,"teacher_name":"马娟","post_time":"2025-04-23 09:39:49","like_diff":0,"likes":0,"dislikes":0,"content":"老师的知识储备真的很丰富！可能讲课方式有些无聊，但是干货满满，认真听可以学到很多东西！每次听老师说“我不知道你们到底有没有在听啊”这种话，其实是因为没人跟她互动唉，但老师还是挺有热情的，像我的高中历史老师。我是从未发言，就完成了作业，最后绩点也就平均水平。"},{"id":91735,"teacher_id":4918,"teacher_name":"马娟","post_time":"2018-12-19 03:47:38","like_diff":-16,"likes":2,"dislikes":18,"content":"辣鸡辣鸡"},{"id":91731,"teacher_id":4918,"teacher_name":"马娟","post_time":"2018-12-27 13:34:03","like_diff":-32,"likes":4,"dislikes":36,"content":"这老师还能更垃圾一点吗\n\n学校买个大佬来不得不带个lj？\n\n能不能回去写论文别来祸害学生？"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

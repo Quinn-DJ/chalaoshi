@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项坚 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="项坚教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="项坚,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">项坚</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">2.04</div>
+                    <div class="rating-participants">67人参与评分</div>
+                    <div class="attendance-info">13.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (4 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">商业分析与决策</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.03</span>
+                            <span class="students">选课: 134人</span>
+                            <span class="std-dev">标准差: 0.70</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">商业分析与研究</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.96</span>
+                            <span class="students">选课: 194人</span>
+                            <span class="std-dev">标准差: 0.74</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">市场调研与分析</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.40</span>
+                            <span class="students">选课: 171人</span>
+                            <span class="std-dev">标准差: 0.37</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">教学实习</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.76</span>
+                            <span class="students">选课: 23人</span>
+                            <span class="std-dev">标准差: 0.75</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (57 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":45250,"teacher_id":933,"teacher_name":"项坚","post_time":"2017-01-19 08:08:07","like_diff":20,"likes":23,"dislikes":3,"content":"我只知道他去了美国，并且给分很差"},{"id":59864,"teacher_id":933,"teacher_name":"项坚","post_time":"2017-09-28 01:12:05","like_diff":17,"likes":18,"dislikes":1,"content":"没见过这么善变的老师，八周的课，一周一个想法……还是好好做你的董事长，别在职祸害学生了"},{"id":59088,"teacher_id":933,"teacher_name":"项坚","post_time":"2017-09-19 11:23:12","like_diff":14,"likes":15,"dislikes":1,"content":"课堂没有干货  废话太多  跑题太远   给分不好"},{"id":45569,"teacher_id":933,"teacher_name":"项坚","post_time":"2017-01-19 22:50:41","like_diff":13,"likes":15,"dislikes":2,"content":"认真听课还不如自己多看点书，给分hh"},{"id":46297,"teacher_id":933,"teacher_name":"项坚","post_time":"2017-01-21 07:08:32","like_diff":12,"likes":13,"dislikes":1,"content":"很水上课一般般，好像会偏爱活跃的同学一点，对于不活跃的同学给分挺辣鸡的。期末考说不重要其实考差了也是不太能有好分数的。"},{"id":40472,"teacher_id":933,"teacher_name":"项坚","post_time":"2017-01-03 14:13:59","like_diff":11,"likes":13,"dislikes":2,"content":"虽然老师是个好人，但上课内容带给我们理论收获少、实战收获也少"},{"id":181127,"teacher_id":933,"teacher_name":"项坚","post_time":"2023-10-09 11:51:43","like_diff":11,"likes":11,"dislikes":0,"content":"在考研的关键时候接到一些莫名其妙且毫无必要的作业并且要求立刻完成导致一晚上都在烦的人打下这句话 真服了"},{"id":135320,"teacher_id":933,"teacher_name":"项坚","post_time":"2021-05-08 06:03:58","like_diff":9,"likes":9,"dislikes":0,"content":"我是商业分析与研究的，饕餮咋写，写出来加两分，两个很恶心而且还学不到啥东西的小组作业，一个是不明觉厉的鞋类品类分析，一个是创业的啥分析，课很水，但作业很恶心，外专业要是想选个性的话请赶紧逃！"},{"id":200091,"teacher_id":933,"teacher_name":"项坚","post_time":"2024-10-12 17:46:38","like_diff":9,"likes":9,"dislikes":0,"content":"第一堂课说“大四了，不给学生增加负担”，可笑至极"},{"id":20166,"teacher_id":933,"teacher_name":"项坚","post_time":"2016-01-26 10:54:43","like_diff":8,"likes":10,"dislikes":2,"content":"矫情。"},{"id":181837,"teacher_id":933,"teacher_name":"项坚","post_time":"2023-11-02 03:52:37","like_diff":8,"likes":8,"dislikes":0,"content":"让你的大学没有一个开心愉悦的收场就是说 恶心"},{"id":199330,"teacher_id":933,"teacher_name":"项坚","post_time":"2024-10-21 14:54:50","like_diff":8,"likes":8,"dislikes":0,"content":"见过最烂的老师，以至于每次去上课都觉得是一种精神折磨"},{"id":85611,"teacher_id":933,"teacher_name":"项坚","post_time":"2018-07-21 05:39:30","like_diff":7,"likes":7,"dislikes":0,"content":"不太懂从业二十多年的老师讲课还会出现这个。。。那个。。。就是。。这么多nonsense words"},{"id":181489,"teacher_id":933,"teacher_name":"项坚","post_time":"2023-10-19 05:02:20","like_diff":7,"likes":7,"dislikes":0,"content":"笪霎弼：)"},{"id":181754,"teacher_id":933,"teacher_name":"项坚","post_time":"2023-10-31 03:51:14","like_diff":7,"likes":7,"dislikes":0,"content":"为什么不能给0分？？讲课不知所云，拖堂第一，问学生人尽皆知的营销模型是哪里来的，特别特别无语的老师一位。"},{"id":181313,"teacher_id":933,"teacher_name":"项坚","post_time":"2023-10-14 03:28:26","like_diff":6,"likes":6,"dislikes":0,"content":"怎么没有0分啊"},{"id":199564,"teacher_id":933,"teacher_name":"项坚","post_time":"2024-09-25 11:24:22","like_diff":6,"likes":6,"dislikes":0,"content":"大四了，一个秋学期的课还要整两个小组大作业…"},{"id":198588,"teacher_id":933,"teacher_name":"项坚","post_time":"2024-09-10 05:52:08","like_diff":5,"likes":5,"dislikes":0,"content":"平时应该比较喜欢看意林读者等等各种意义上"},{"id":199367,"teacher_id":933,"teacher_name":"项坚","post_time":"2024-09-22 09:30:45","like_diff":5,"likes":5,"dislikes":0,"content":"请假要提前发邮件附上面试通知，咋地，秋招人不配咯。一定会点名，真以为人人都能保研啊，大四这么忙要求还这么多，而且要求一周一变，平时看的文章也都是一堆营销号。"},{"id":199409,"teacher_id":933,"teacher_name":"项坚","post_time":"2024-09-23 04:19:56","like_diff":5,"likes":5,"dislikes":0,"content":"巨恶心呐，变着法点名，都大四了，每个人都有自己的事情要做，学院故意给安排的两节课都是用来恶心学生的，管院有什么实力呐，和企业合作的实习岗位都是呵呵了"},{"id":73049,"teacher_id":933,"teacher_name":"项坚","post_time":"2018-01-31 18:06:23","like_diff":4,"likes":4,"dislikes":0,"content":"非常烂"},{"id":100147,"teacher_id":933,"teacher_name":"项坚","post_time":"2019-01-25 15:52:29","like_diff":4,"likes":4,"dislikes":0,"content":"。。。"},{"id":143861,"teacher_id":933,"teacher_name":"项坚","post_time":"2021-12-09 07:02:33","like_diff":4,"likes":4,"dislikes":0,"content":"。。。"},{"id":181314,"teacher_id":933,"teacher_name":"项坚","post_time":"2023-10-14 03:34:17","like_diff":4,"likes":4,"dislikes":0,"content":"这辈子没见过这么抽象的人，很难评"},{"id":181756,"teacher_id":933,"teacher_name":"项坚","post_time":"2023-10-31 04:06:39","like_diff":4,"likes":4,"dislikes":0,"content":"槽多无口"},{"id":200778,"teacher_id":933,"teacher_name":"项坚","post_time":"2024-10-22 07:47:26","like_diff":4,"likes":4,"dislikes":0,"content":"媚外。拉踩学生。总之上课就是浪费时间。"},{"id":200779,"teacher_id":933,"teacher_name":"项坚","post_time":"2024-10-22 07:49:21","like_diff":4,"likes":4,"dislikes":0,"content":"歪屁股烂人，狂舔洋大人，一张嘴就知道他要放屁。没任何能力，老拿营销号文章作引用，学术水平看来是还不如我一个本科生。不尊重学生，上课恶心。到底是谁把他招进来的"},{"id":199910,"teacher_id":933,"teacher_name":"项坚","post_time":"2024-10-08 08:14:32","like_diff":3,"likes":3,"dislikes":0,"content":"几乎每节课点名（请假还要邮件+一堆证明），每2周一次随堂小测，2个小组大作业，呵呵"},{"id":203408,"teacher_id":933,"teacher_name":"项坚","post_time":"2024-11-19 12:26:17","like_diff":3,"likes":3,"dislikes":0,"content":"诗人握持"},{"id":165385,"teacher_id":933,"teacher_name":"项坚","post_time":"2023-01-15 04:38:57","like_diff":2,"likes":2,"dislikes":0,"content":"垃圾老师，给分差还乱扯理由"},{"id":204088,"teacher_id":933,"teacher_name":"项坚","post_time":"2024-11-24 03:08:13","like_diff":2,"likes":2,"dislikes":0,"content":"让灵魂跟得上脚步，逆天玩意"},{"id":117484,"teacher_id":933,"teacher_name":"项坚","post_time":"2019-09-25 02:13:53","like_diff":1,"likes":1,"dislikes":0,"content":"无效。"},{"id":153241,"teacher_id":933,"teacher_name":"项坚","post_time":"2022-04-27 03:46:55","like_diff":1,"likes":1,"dislikes":0,"content":"快逃吧"},{"id":199907,"teacher_id":933,"teacher_name":"项坚","post_time":"2024-10-08 05:42:35","like_diff":1,"likes":1,"dislikes":0,"content":"点名大师"},{"id":200717,"teacher_id":933,"teacher_name":"项坚","post_time":"2024-10-21 09:12:31","like_diff":1,"likes":1,"dislikes":0,"content":"不尊重学生 固执己见"},{"id":201086,"teacher_id":933,"teacher_name":"项坚","post_time":"2024-10-28 09:46:22","like_diff":1,"likes":1,"dislikes":0,"content":"展示不停的打断人，基本的尊重都没有，不关注展示的具体内容只知道挑展示人的刺，张口能感觉只看营销号。。。。。"},{"id":66261,"teacher_id":933,"teacher_name":"项坚","post_time":"2018-01-14 09:13:11","like_diff":0,"likes":0,"dislikes":0,"content":"想知道期末考都考啥，该怎么复习\n\n"},{"id":72701,"teacher_id":933,"teacher_name":"项坚","post_time":"2018-01-31 02:15:49","like_diff":0,"likes":0,"dislikes":0,"content":"市场营销学，期末重点看PPT但要结合课本，把比如促销过程背下来，选择题有些是上课没讲过的，不知道书上有没有"},{"id":87227,"teacher_id":933,"teacher_name":"项坚","post_time":"2018-09-26 02:04:08","like_diff":0,"likes":1,"dislikes":1,"content":"讲不清楚\n\n"},{"id":183089,"teacher_id":933,"teacher_name":"项坚","post_time":"2023-11-22 06:04:57","like_diff":0,"likes":0,"dislikes":0,"content":"给分真的6"},{"id":200718,"teacher_id":933,"teacher_name":"项坚","post_time":"2024-10-21 09:13:59","like_diff":0,"likes":0,"dislikes":0,"content":"这破课就是我们一定要上是嘛？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？"},{"id":200842,"teacher_id":933,"teacher_name":"项坚","post_time":"2024-10-23 08:45:49","like_diff":0,"likes":0,"dislikes":0,"content":"感觉这门课是我大学四年最受折磨的课，想拿起一把刀直接在课上发疯。"},{"id":200919,"teacher_id":933,"teacher_name":"项坚","post_time":"2024-10-28 08:30:04","like_diff":0,"likes":0,"dislikes":0,"content":"他每节课都能让你大开眼界"},{"id":201893,"teacher_id":933,"teacher_name":"项坚","post_time":"2024-11-07 08:10:26","like_diff":-4,"likes":0,"dislikes":4,"content":"总觉得老师是个好老师，但很多操作却扑朔迷离，嘴巴说不想增加负担不想让学生熬夜，但作业要求一直改，总之这门课只有这一位老师，也是专业最后一门必修课，就抱着顺利毕业的心态就好"},{"id":100468,"teacher_id":933,"teacher_name":"项坚","post_time":"2019-01-26 07:20:39","like_diff":-5,"likes":2,"dislikes":7,"content":"给分很好。"},{"id":183046,"teacher_id":933,"teacher_name":"项坚","post_time":"2023-11-22 00:52:42","like_diff":-5,"likes":1,"dislikes":6,"content":"每个课堂一定会点名签到，也会出现拖堂的情况，但老师性格很好，有什么情况可以直接跟他讨论商量。商业分析整个课程给我的感觉就是培养学生学习就业后如何与顾客、老板汇报的方式；如何利用已有的知识去面对某一商业情况的分析。老师对汇报PPT与展示也有要求，之后的小组分配还需要认真对待这个部分。我觉得认真去分析这门课整个内容与教学目的，就知道这门课真的很值得去学习。"},{"id":102717,"teacher_id":933,"teacher_name":"项坚","post_time":"2019-02-22 02:58:28","like_diff":-6,"likes":1,"dislikes":7,"content":"老师绝对会点名，所以必须去，上课要给些反应让老师记得你。人好给分不错，还会分享外面的一些事"},{"id":61454,"teacher_id":933,"teacher_name":"项坚","post_time":"2018-09-14 08:15:29","like_diff":-7,"likes":2,"dislikes":9,"content":"老师很关心学生"},{"id":102706,"teacher_id":933,"teacher_name":"项坚","post_time":"2019-02-21 14:23:58","like_diff":-7,"likes":0,"dislikes":7,"content":"老师人很亲切的，但是上课不可以走神！上课时最好是多给老师一些反应，让他知道你有在认真上课。老师通常都会点名的！所以务必要上课"},{"id":124382,"teacher_id":933,"teacher_name":"项坚","post_time":"2020-06-30 03:43:02","like_diff":-7,"likes":0,"dislikes":7,"content":"挺好的，不错哦"},{"id":18743,"teacher_id":933,"teacher_name":"项坚","post_time":"2016-01-22 12:36:27","like_diff":-8,"likes":6,"dislikes":14,"content":"是个很温暖的老师，会分享很多生活故事和人生感悟，上课轻松，但是不要走神:）"},{"id":45648,"teacher_id":933,"teacher_name":"项坚","post_time":"2017-01-22 03:23:21","like_diff":-8,"likes":3,"dislikes":11,"content":"虽然老师给了我不太满意的分数，但是老师是个好老师。还打电话安慰，总之是自己没用心吧"},{"id":45747,"teacher_id":933,"teacher_name":"项坚","post_time":"2017-01-20 04:15:25","like_diff":-9,"likes":2,"dislikes":11,"content":"很朴实的老师，认真负责，自己多问还是可以学到东西的"},{"id":20438,"teacher_id":933,"teacher_name":"项坚","post_time":"2016-01-27 14:30:50","like_diff":-10,"likes":5,"dislikes":15,"content":"老师非常认真负责！"},{"id":41915,"teacher_id":933,"teacher_name":"项坚","post_time":"2017-01-13 08:21:16","like_diff":-10,"likes":4,"dislikes":14,"content":"老师上课时候会插入生活小故事～和课程联系在一起 萌萌哒～"},{"id":62917,"teacher_id":933,"teacher_name":"项坚","post_time":"2017-11-27 10:44:34","like_diff":-12,"likes":1,"dislikes":13,"content":"课不错"},{"id":49887,"teacher_id":933,"teacher_name":"项坚","post_time":"2017-04-27 02:03:13","like_diff":-15,"likes":3,"dislikes":18,"content":"项老师非常认真负责，上过他的市场研究课觉得实用性很强，课上会和大家聊聊人生经验，不知道为什么会有人比较抵触但是感觉还蛮有趣的。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2025-05-02</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
