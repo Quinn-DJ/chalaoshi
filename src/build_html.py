@@ -791,7 +791,7 @@ class SingleHTMLBuilder:
                 searchHint.style.display = 'none';
                 
                 resultsList.innerHTML = matchedTeachers.slice(0, 50).map(teacher => `
-                    <a href="teachers/${{teacher.id}}.html" class="result-item">
+                    <a href="t/${{teacher.id}}.html" class="result-item">
                         <div class="teacher-info">
                             <span class="teacher-name">${{teacher.name}}</span>
                             <span class="teacher-college">${{teacher.college}}</span>
@@ -2314,7 +2314,7 @@ def main():
             print("📝 使用说明:")
             print("1. 打开 web/index.html 查看教师索引")
             print("2. 点击教师姓名查看详情页面")
-            print("3. 每个教师页面URL: web/teachers/{教师ID}.html")
+            print("3. 每个教师页面URL: web/t/{教师ID}.html")
             print("4. 教师页面可通过'返回首页'回到索引页")
         
         print("📝 主要功能:")
