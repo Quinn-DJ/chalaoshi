@@ -25,12 +25,12 @@ class SingleHTMLBuilder:
             base_dir = script_dir.parent
             default_source_dir = base_dir / "comment" / "extracted"
             default_output_file = base_dir / "web" / "complete.html"
-            default_teachers_dir = base_dir / "web" / "teachers"
+            default_teachers_dir = base_dir / "web" / "t"
         else:
             # 脚本在项目根目录中，使用原来的路径
             default_source_dir = script_dir / "comment" / "extracted"
             default_output_file = script_dir / "web" / "complete.html"
-            default_teachers_dir = script_dir / "web" / "teachers"
+            default_teachers_dir = script_dir / "web" / "t"
         
         self.source_dir = Path(source_dir) if source_dir else default_source_dir
         self.output_file = Path(output_file) if output_file else default_output_file
