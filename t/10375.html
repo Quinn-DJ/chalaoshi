@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李莎 - 外国语学院 - 浙大教评</title>
+    <meta name="description" content="李莎教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="李莎,外国语学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">李莎</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">外国语学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.76</div>
+                    <div class="rating-participants">59人参与评分</div>
+                    <div class="attendance-info">35.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (4 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">大学英语Ⅲ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.56</span>
+                            <span class="students">选课: 240人</span>
+                            <span class="std-dev">标准差: 0.78</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大学英语Ⅳ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.50</span>
+                            <span class="students">选课: 213人</span>
+                            <span class="std-dev">标准差: 0.80</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">学术英文写作</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.02</span>
+                            <span class="students">选课: 55人</span>
+                            <span class="std-dev">标准差: 0.51</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">新工科学术英语</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.53</span>
+                            <span class="students">选课: 8人</span>
+                            <span class="std-dev">标准差: 0.42</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (48 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":198555,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-09-10 02:39:58","like_diff":23,"likes":24,"dislikes":1,"content":"最好的英语老师！"},{"id":199499,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-09-24 14:41:10","like_diff":18,"likes":19,"dislikes":1,"content":"事少，通情达理"},{"id":198679,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-09-10 23:34:59","like_diff":16,"likes":16,"dislikes":0,"content":"大英三大英四都是李莎老师，上课讲的很好，没有pre，小测分数改的挺高的，很完美"},{"id":203789,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-11-21 05:28:22","like_diff":14,"likes":14,"dislikes":0,"content":"很好的老师，很温柔，不会强制发言，没有杂七杂八的事，上课很有意思"},{"id":207626,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-12-23 10:52:34","like_diff":12,"likes":12,"dislikes":0,"content":"去年上的老师的大英三和大英四，老师很温柔，上课不强制发言，没有作业，听写全对可以拿到老师的小奖励，小测还会帮大家再改高几分。永远记得老师说的\"English learning is a lifelong process\"，最好的大英老师！"},{"id":200151,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-10-14 04:54:45","like_diff":11,"likes":11,"dislikes":0,"content":"挺不错的"},{"id":205293,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-12-04 03:46:18","like_diff":11,"likes":12,"dislikes":1,"content":"无作业无pre"},{"id":201135,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-10-29 08:09:53","like_diff":10,"likes":10,"dislikes":0,"content":"大一，现在目前感觉很好"},{"id":203357,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-11-19 10:37:15","like_diff":10,"likes":11,"dislikes":1,"content":"超级好老师，上课会分享她自己的经历，课前就放点小视频，而且超级体贴学生，要不要pre都来征求我们的意见。而且老师非常非常好说话，上次我出车祸了，和老师说一下就请假了，都没有要求有什么什么手续的，然后第二节课还主动来问我有没有事，人怎么样，尸体暖暖的\n\n平时也会有听写什么的，但是不会很苛刻，主要就是为了促进学习的，而且会给听写得很好的同学发小礼物，虽然没有发我，但是不妨碍我吹她。\n\n总之就是非常非常好的老师，然后给分的话，大英课的给分能操作空间不大，所以选好老师就完事啦，选李莎就完事啦～"},{"id":201004,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-10-26 12:42:22","like_diff":9,"likes":10,"dislikes":1,"content":"很好的老师👍🏻"},{"id":205969,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-12-13 02:24:49","like_diff":8,"likes":9,"dislikes":1,"content":"老师应该是刚上大英没几年，但是上课的时候还是给人感觉很有经验，很有亲和力。预置了李莎老师的大英，真的很幸运。但是就是老师好像是习惯把考试安排（就是quiz内容这些）都放在教学日历里，然后会在开学初就全部展示一遍。对考试和平时的quiz要求较高的同学可能要提前注意一下。\n\nps:忘了说，李莎老师还会主动给听写满分的同学发小礼品，对英语基础不好的同学也很耐心，真的很喜欢李老师！！！"},{"id":206675,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-12-17 04:57:36","like_diff":8,"likes":8,"dislikes":0,"content":"老师超温柔，又带有小幽默，事情也少，回答问题时会微笑着看着你点头鼓励，总之超级好"},{"id":208076,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-12-25 13:02:55","like_diff":8,"likes":8,"dislikes":0,"content":"伟大 无需多言。\n\n事真的少，听写不收。"},{"id":206896,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-12-18 08:26:15","like_diff":7,"likes":7,"dislikes":0,"content":"伟大无需多言"},{"id":207365,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-12-21 02:41:34","like_diff":7,"likes":7,"dislikes":0,"content":"很好的老师！"},{"id":206244,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-12-13 10:53:03","like_diff":6,"likes":6,"dislikes":0,"content":"非常好老师，事少分高，希望大英四还能选上"},{"id":208134,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-12-26 01:33:29","like_diff":6,"likes":6,"dislikes":0,"content":"老师发fortune cookie 老师好\n\n老师大英三事真少 课上知识点也到位 老师真好\n\n续费续费"},{"id":208145,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-12-26 02:39:37","like_diff":6,"likes":6,"dislikes":0,"content":"完美"},{"id":208214,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-12-26 07:42:18","like_diff":6,"likes":6,"dislikes":0,"content":"很好的老师，虽然我由于听力不好成绩有点差，但老师真是好人，很关心学生"},{"id":208570,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-12-29 14:04:21","like_diff":6,"likes":6,"dislikes":0,"content":"Lisa老师真的是上大学之后见到的为数不多的真正把学生放在心上的老师 我们有问题是可以随时去找她的 我们慧学外语没完成她是比我们还着急的 结课是会发fortune cookie作礼物的 关键是上课从不点名 没pre 课间我们趴下睡觉也会很温柔地敲话筒把我们叫醒 老师其实很幽默很有梗 而且总是一本正经地讲很好笑的话哈哈哈 Lisa老师的课闭眼冲就好啦"},{"id":208606,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-12-30 03:16:05","like_diff":6,"likes":6,"dislikes":0,"content":"超级好超级通情达理的老师，小测给分也好，很温柔，喜欢喜欢！！"},{"id":209420,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-01-06 02:34:29","like_diff":6,"likes":6,"dislikes":0,"content":"满分满分 没有任何pre，也没有作业，上课也很老道，而且老师人很温柔很好，有时候也很幽默，总是不经意间玩梗的感觉，小测批的比较松，最后也上4了～～～"},{"id":206473,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-12-15 11:39:38","like_diff":5,"likes":5,"dislikes":0,"content":"老师很温柔，上课氛围很好，而且很轻松"},{"id":209032,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-01-04 09:07:07","like_diff":5,"likes":5,"dislikes":0,"content":"李莎老师真的好 \n\n小测打分也很好\n\n上课也很用心\n\n不会强制发言\n\n课后没有作业\n\n只有两次听写\n\n能选上的都是有福之人\n\n大英三还没出分\n\n但估计不会太差"},{"id":209295,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-01-05 10:57:09","like_diff":4,"likes":4,"dislikes":0,"content":"好老师，放心选"},{"id":205812,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-12-12 06:07:04","like_diff":3,"likes":6,"dislikes":3,"content":"事情很少课上挺轻松的适合没那么想学英语的人"},{"id":219893,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-06-10 09:23:45","like_diff":3,"likes":3,"dislikes":0,"content":"为什么评论这么少，个人感觉李莎老师应该是大英里面最好的了，事情少，人也好，小测改得也宽，尤其课内翻译那里，几乎随便写都算对了\n\n听写全对有小礼品，我领到了一个小本子嘿嘿"},{"id":219921,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-06-11 06:54:38","like_diff":3,"likes":3,"dislikes":0,"content":"母亲般的关怀😭😭"},{"id":206286,"teacher_id":10375,"teacher_name":"李莎","post_time":"2024-12-13 14:22:38","like_diff":2,"likes":3,"dislikes":1,"content":"事少分高，伟大无需多言"},{"id":209391,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-01-06 01:27:53","like_diff":2,"likes":2,"dislikes":0,"content":"老师人好极了"},{"id":209516,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-01-06 07:10:55","like_diff":2,"likes":2,"dislikes":0,"content":"事少分高，最完美的老师！\n\n无作业，无pre，上课只有一节课一两次的回答问题，讲课也很有趣！"},{"id":214549,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-02-12 06:33:18","like_diff":2,"likes":3,"dislikes":1,"content":"没有作业没有pre，很好的老师，而且给分挺好"},{"id":217738,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-04-16 00:02:16","like_diff":2,"likes":2,"dislikes":0,"content":"很好啊，没有点名，没有作业，没有pre，只有听写和小测，还给听写全对的同学发了小礼品哦"},{"id":219721,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-06-05 00:39:41","like_diff":2,"likes":2,"dislikes":0,"content":"Fortune Biscuits😋"},{"id":224418,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-11-19 09:33:45","like_diff":2,"likes":2,"dislikes":0,"content":"无pre，基本无作业，上课不强制要求发言，耐心提醒惠学外语和quiz的时间，人美又温柔，预制李莎老师的课是很幸运的💗。（ps：感觉李莎老师有一种搞笑姐姐的气质）"},{"id":225943,"teacher_id":10375,"teacher_name":"李莎","post_time":"2026-01-05 08:15:12","like_diff":2,"likes":2,"dislikes":0,"content":"好老师，事少分多"},{"id":209473,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-01-06 04:59:53","like_diff":1,"likes":1,"dislikes":0,"content":"老师人很好，平时不要求发言，i人狂喜，小测改得很松，可惜下学期没选到她的课"},{"id":209482,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-01-06 05:16:47","like_diff":1,"likes":1,"dislikes":0,"content":"挺好的，事少"},{"id":209491,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-01-06 05:35:35","like_diff":1,"likes":1,"dislikes":0,"content":"好！好极了！"},{"id":209492,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-01-06 05:36:38","like_diff":1,"likes":1,"dislikes":0,"content":"好老师，放心选！"},{"id":209617,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-01-06 11:10:45","like_diff":1,"likes":1,"dislikes":0,"content":"喜欢莎莎"},{"id":220523,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-06-18 11:18:45","like_diff":1,"likes":1,"dislikes":0,"content":"很好的大英老师 本人大英四几乎不听课 一直写其他作业 只有两次小测前认真背了单词看课文\n\n再加上期末前一天晚上临时突击刷夜 最后给了我4.2 老师人很好 小测改得松 结课给同学们发幸运饼干 慧学外语还会提醒完成 感觉从小到大英语老师都是我最喜欢的老师🥰"},{"id":220614,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-06-19 02:23:59","like_diff":1,"likes":1,"dislikes":0,"content":"最好的大英老师 大英三预置到的时候还没有评分 \n\n太幸运了能上李莎老师的课 通情达理 关心学生 \n\n助教quiz也很捞 ！"},{"id":221141,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-06-21 12:17:02","like_diff":1,"likes":1,"dislikes":0,"content":"事少分高的好老师！"},{"id":225528,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-12-25 02:35:39","like_diff":1,"likes":1,"dislikes":0,"content":"李老师真的非常温柔，没有pre，与同学亲密交流答疑解惑，还会鼓励宽慰大家。很幸运预置的就是李莎老师的课！"},{"id":209541,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-01-06 08:11:25","like_diff":0,"likes":0,"dislikes":0,"content":"蛮好的老师"},{"id":209582,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-01-06 09:36:06","like_diff":0,"likes":0,"dislikes":0,"content":"老师牛逼"},{"id":209602,"teacher_id":10375,"teacher_name":"李莎","post_time":"2025-01-06 10:40:46","like_diff":0,"likes":0,"dislikes":0,"content":"非常好的老师，很贴心也很幽默"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>张嘉捷 - 化学系 - 浙大教评</title>
+    <meta name="description" content="张嘉捷教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="张嘉捷,化学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">张嘉捷</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">化学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.86</div>
+                    <div class="rating-participants">102人参与评分</div>
+                    <div class="attendance-info">27.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">工程化学实验</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.17</span>
+                            <span class="students">选课: 95人</span>
+                            <span class="std-dev">标准差: 0.46</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">普通化学实验（乙）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.08</span>
+                            <span class="students">选课: 266人</span>
+                            <span class="std-dev">标准差: 0.50</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">普通化学实验（甲）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.16</span>
+                            <span class="students">选课: 56人</span>
+                            <span class="std-dev">标准差: 0.50</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (87 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":6316,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2015-07-13 02:44:16","like_diff":24,"likes":28,"dislikes":4,"content":"绝对的好老师"},{"id":38947,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2016-12-20 03:12:01","like_diff":19,"likes":20,"dislikes":1,"content":"超喜欢老师，很可爱，讲课很细致，比很多助教都要亲切，在老师面前出错一点都不心慌啊，如果她有空还会在旁边帮帮你，实验报告给分比助教批要高，赞赞赞！"},{"id":104777,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2019-04-17 05:15:03","like_diff":14,"likes":16,"dislikes":2,"content":"我儿子大二找了个女朋友 大三分手了 哈哈"},{"id":14218,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2016-01-05 12:33:30","like_diff":13,"likes":14,"dislikes":1,"content":"很和善"},{"id":35606,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-10 03:44:17","like_diff":11,"likes":12,"dislikes":1,"content":"超级棒的老师！虽然每周要写实验报告也是很难过，但是真的对学生超好，她自称最喜欢和我们这些小孩子打交道了"},{"id":37283,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2016-11-18 07:44:14","like_diff":11,"likes":12,"dislikes":1,"content":"学有所获又和蔼可亲，很为学生着想"},{"id":93586,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2019-01-10 14:51:53","like_diff":9,"likes":9,"dislikes":0,"content":"毫不犹豫给10分！进浙大来最喜欢的老师了！讲课思路超清晰，很有效率。人还超级超级可爱，会和我们打趣，完全没有距离感！对我们超好！和学生站在统一战线的哈哈哈哈。长得也好看，上次听到老师说自己五十岁还吓了一跳呢。然后助教小姐姐性格也很好，平时实验报告给分挺客观的，写的认真还有加分。"},{"id":36481,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2016-11-14 05:46:47","like_diff":8,"likes":9,"dislikes":1,"content":"很和蔼，还努力跟上年轻人的步伐"},{"id":39443,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2016-12-22 18:29:17","like_diff":8,"likes":9,"dislikes":1,"content":"超棒 自称喜欢嘲笑学生 他很喜欢和学生打交道的 喜欢开玩笑很有趣！\n\n"},{"id":39647,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2016-12-26 12:24:12","like_diff":8,"likes":9,"dislikes":1,"content":"超级可爱，超级好，绝对的好老师一枚"},{"id":96867,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2019-01-21 11:06:52","like_diff":7,"likes":7,"dislikes":0,"content":"老师人真的超级和蔼！上课的时候不仅指导做实验而且会指导你实验报告里哪些最好要写！\n\n并且还会跟我们说她以前和她的孩子\n\n说感觉我们都和她孩子一般大不忍心发火\n\n真的是到浙大来以后碰到的最好的老师之一\n\n疯狂为张老师打电话?！！！\n\n（与张老师相比某些谢姓教师来代课的时候上课课堂氛围就很迷了 我是不信大一学生跟着xyq能把实验做出来的? ）"},{"id":106690,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2019-04-29 03:06:34","like_diff":7,"likes":7,"dislikes":0,"content":"是心目中浙大老师的模样\n\n"},{"id":49847,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-04-26 12:51:49","like_diff":6,"likes":6,"dislikes":0,"content":"老师挺好的。对助教无语。"},{"id":22786,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2016-03-11 06:57:31","like_diff":5,"likes":6,"dislikes":1,"content":"很和蔼很友善"},{"id":41019,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-08 07:56:28","like_diff":5,"likes":6,"dislikes":1,"content":"老师很赞~温柔友善 讲实验的时候思路清晰 板书简练 嗯"},{"id":41955,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-13 09:49:02","like_diff":5,"likes":6,"dislikes":1,"content":"超级萌的老师！很棒！！年轻校花！！"},{"id":46791,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-22 10:20:27","like_diff":5,"likes":5,"dislikes":0,"content":"老师人挺好，助教给发呵呵了"},{"id":95555,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2019-01-19 14:57:40","like_diff":5,"likes":5,"dislikes":0,"content":"超级棒的老师，慈祥和蔼有人格魅力，就是那种第一节课就觉得喜欢的"},{"id":108198,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2019-05-16 07:01:01","like_diff":5,"likes":5,"dislikes":0,"content":"我想问一下有没有老师的联系方式，"},{"id":143802,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2021-12-07 06:59:22","like_diff":5,"likes":5,"dislikes":0,"content":"啊啊啊啊啊老师人超级好啊！！大一上学期唯一喜欢的老师（哈哈哈哈可能有点夸张了）！每周的盼头就是周三的普化实验了！虽然不点名，但要是第一节课就迟到被老师记住了之后每次课就逃不掉了哈哈哈哈哈。助教xgg人也很好很负责，每次实验报告都会把我们的问题总结起来发群里。实验报告认真写的话给分还是很高的。天呐，越说越舍不得这门课了呜呜呜"},{"id":37293,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2016-11-18 08:30:12","like_diff":4,"likes":6,"dislikes":2,"content":"特别可爱的老师，讲课也不错啊"},{"id":58850,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-09-18 05:33:27","like_diff":4,"likes":4,"dislikes":0,"content":"繁重的课程中的一点令人舒心的关怀"},{"id":41881,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-13 07:07:30","like_diff":3,"likes":4,"dislikes":1,"content":"老师超级和善，而且博学幽默 给分也好！"},{"id":41910,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-13 08:09:29","like_diff":3,"likes":3,"dislikes":0,"content":"妈妈一样和善，超喜欢?"},{"id":42035,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-13 12:46:02","like_diff":3,"likes":5,"dislikes":2,"content":"虽然我才4.3，但是老师真的超级可爱，还经常穿着一双科比11代到处晃悠"},{"id":42050,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-13 13:09:08","like_diff":3,"likes":4,"dislikes":1,"content":"给分不错，老师人也很好。\n\n不过实验课有几个助教比较坑的..."},{"id":77641,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2018-05-07 04:41:00","like_diff":3,"likes":3,"dislikes":0,"content":"老师很和蔼，助教很漂亮，老师超级温柔！讲的又快又好又有趣！"},{"id":134911,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2021-04-22 05:13:03","like_diff":3,"likes":3,"dislikes":0,"content":"是上了大学遇到的最好的老师了"},{"id":186684,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2024-01-12 12:34:58","like_diff":3,"likes":3,"dislikes":0,"content":"大家放心冲，老师不仅关心学生通情达理，和蔼可亲，还很可爱个人魅力拉满，给分挺好。\n\n而且每次上老师的课下课都比较早，爽爽爽"},{"id":41978,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-13 10:50:29","like_diff":2,"likes":3,"dislikes":1,"content":"棒！讲课棒，人也棒棒的！\n\n"},{"id":41994,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-13 11:21:38","like_diff":2,"likes":4,"dislikes":2,"content":"好！能学到很多东西"},{"id":42119,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-13 15:21:33","like_diff":2,"likes":4,"dislikes":2,"content":"没什么好说的，4.11的均绩离我好遥远。。。老师是很不错的。"},{"id":43377,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-16 07:56:31","like_diff":2,"likes":3,"dislikes":1,"content":"老师挺好的，给分不错。很好讲话的。"},{"id":94778,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2019-01-18 06:18:42","like_diff":2,"likes":2,"dislikes":0,"content":"老师真的非常可爱！！示范的时候无实物表演还会碎碎念“假假的”，最后一节课还说了一点八卦hhh"},{"id":136804,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2021-06-25 02:38:32","like_diff":2,"likes":2,"dislikes":0,"content":"太喜欢了，舍不得她😭每周都在期待周一的普化实验"},{"id":137215,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2021-07-02 10:12:20","like_diff":2,"likes":3,"dislikes":1,"content":"强烈推荐！！老师可以叫出每个同学的名字，对每个同学都很耐心指导！大学里真的很难遇到这样的好老师！"},{"id":139282,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2021-07-14 04:37:52","like_diff":2,"likes":2,"dislikes":0,"content":"想喊张老师一声老婆😘，对学生真的超级好，一点都没有架子，还会和大家讨论人生规划"},{"id":184482,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2023-12-20 12:51:58","like_diff":2,"likes":2,"dislikes":0,"content":"张老师真的超级负责，虽然已不再年轻，但与同学们交往毫无隔阂，和蔼可亲。只要认真看预习视频，写预习报告，在老师的悉心指导下，实验一定是稳稳上岸，而且收获到的不只是知识，还有浓浓的师生情谊哈。还有助教也是一位非常认真负责的及颜值与才华一体的暖男，你在实验报告上费的心思一定不会付诸东流，而是会收到一个感人的分数。真心建议闭眼冲。"},{"id":42083,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-13 14:21:45","like_diff":1,"likes":2,"dislikes":1,"content":"老师很不错～人挺好的！而且很关心同学！"},{"id":42557,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-14 12:42:57","like_diff":1,"likes":2,"dislikes":1,"content":"非常棒的老师"},{"id":42626,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-04-26 06:03:54","like_diff":1,"likes":3,"dislikes":2,"content":"老师人挺不错的"},{"id":44500,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-18 01:44:30","like_diff":1,"likes":2,"dislikes":1,"content":"老师批报告比助要高"},{"id":49838,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-04-26 11:10:00","like_diff":1,"likes":1,"dislikes":0,"content":"老师很和善"},{"id":49857,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-04-26 14:55:58","like_diff":1,"likes":2,"dislikes":1,"content":"不冲这门课，就冲这个老师，超喜欢！"},{"id":76787,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2018-04-23 10:22:02","like_diff":1,"likes":1,"dislikes":0,"content":"最后一节课啦，老师和助教小姐姐都超级棒～"},{"id":85640,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2018-07-23 14:35:42","like_diff":1,"likes":1,"dislikes":0,"content":"愉快的一堂课"},{"id":96036,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2019-01-20 11:49:02","like_diff":1,"likes":2,"dislikes":1,"content":"老师讲课很清楚，人也很可爱"},{"id":97153,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2019-01-21 21:15:35","like_diff":1,"likes":1,"dislikes":0,"content":"很好的老师?对学生尽心尽责"},{"id":105965,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2019-04-23 17:02:52","like_diff":1,"likes":1,"dislikes":0,"content":"真的是很和蔼很可爱的老师了，给分超级超级好！！"},{"id":128937,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2020-12-27 06:44:42","like_diff":1,"likes":1,"dislikes":0,"content":"真的是个宝藏老师"},{"id":146349,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2022-01-06 09:45:42","like_diff":1,"likes":1,"dislikes":0,"content":"oTina，巨负责，回复巨快，说话巨有趣，人也巨可爱的老师！在实验课上能感受到努力付出是有回报的，巨感动，棒呆了！！"},{"id":149748,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2022-01-16 15:59:40","like_diff":1,"likes":1,"dislikes":0,"content":"好喜欢张老师！！每个星期最期待的就是实验课了！！讲实验的时候会开一些玩笑还有碎碎念，总之就是很可爱！！原理要点什么的也都讲得很到位啦，本化学白痴都能够清清楚楚！实验报告好好写最后的分也可以令人满意的！选她！！"},{"id":175130,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2023-06-21 16:54:12","like_diff":1,"likes":1,"dislikes":0,"content":"老师人很好，你不会做实验的话她还会亲自教你怎么做，是一位非常认真细心的老师。\n\n希望有机会能跟老师切磋一下COC🤔️"},{"id":178746,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2023-07-21 13:43:20","like_diff":1,"likes":1,"dislikes":0,"content":"老师好好！像妈妈一样😍上课能叫出基本上所有同学的名字"},{"id":178747,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2023-07-21 13:43:20","like_diff":1,"likes":1,"dislikes":0,"content":"老师好好！像妈妈一样😍上课能叫出基本上所有同学的名字"},{"id":188236,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2024-01-18 12:57:40","like_diff":1,"likes":1,"dislikes":0,"content":"老师超级好"},{"id":189079,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2024-01-21 15:23:20","like_diff":1,"likes":1,"dislikes":0,"content":"老师超级好！很和蔼，很耐心！"},{"id":203027,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2024-11-16 03:31:04","like_diff":1,"likes":1,"dislikes":0,"content":"10分！普化实验期中考错过ddl，老师二话不说直接再给一次机会ww，赞美老师！！"},{"id":206878,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2024-12-18 06:25:35","like_diff":1,"likes":1,"dislikes":0,"content":"为张嘉捷老师疯狂打call～～\n\n老师和助教学姐人都超级好，每次碎碎念都超可爱，指导实验时超级耐心，得知我别的选修课被正态还安慰我。预置到的同学可以偷着乐了"},{"id":209643,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2025-01-06 11:50:04","like_diff":1,"likes":1,"dislikes":0,"content":"老师人真的超级超级亲切，事少分高，期末还会捞！！！助教学姐人也特别的好！"},{"id":42024,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-13 12:29:50","like_diff":0,"likes":2,"dislikes":2,"content":"是助教讲的实验，都很好很认真啦！"},{"id":42117,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-13 15:19:47","like_diff":0,"likes":1,"dislikes":1,"content":"均绩4.11怎么来的 3的绩点。。"},{"id":42451,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-14 08:46:59","like_diff":0,"likes":1,"dislikes":1,"content":"超级棒的老师，有时候还会来开玩笑"},{"id":43225,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-16 04:14:55","like_diff":0,"likes":3,"dislikes":3,"content":"好老师，友善，给分好\n\n只要用心听，起码4.2"},{"id":49879,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-04-27 00:07:50","like_diff":0,"likes":2,"dislikes":2,"content":"虽然卡在89分上了不过是好老师哇"},{"id":50600,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-05-03 23:57:48","like_diff":0,"likes":1,"dislikes":1,"content":"均绩上四的课绩点还是没有上四。。。看来还是自己太菜了啊。。。。冏rz"},{"id":50973,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-05-10 14:43:07","like_diff":0,"likes":0,"dislikes":0,"content":"老师很和蔼"},{"id":51792,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-06-10 09:45:33","like_diff":0,"likes":0,"dislikes":0,"content":"超级好的老师！超级友善！！给分也很公平。"},{"id":87922,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2018-10-17 23:49:40","like_diff":0,"likes":0,"dislikes":0,"content":"挺好的，老师很温柔，讲话也有趣"},{"id":105603,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2019-04-17 05:15:56","like_diff":0,"likes":1,"dislikes":1,"content":"超鸡棒"},{"id":105978,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2019-04-24 02:48:24","like_diff":0,"likes":0,"dislikes":0,"content":"棒！！"},{"id":130374,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2021-01-21 12:57:52","like_diff":0,"likes":0,"dislikes":0,"content":"很幸运碰到张老师～\n\n温馨提示，把TISAB的中文名记下来。"},{"id":137219,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2021-07-02 10:52:34","like_diff":0,"likes":1,"dislikes":1,"content":"老师人很好 是我不配呜呜呜"},{"id":159551,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2022-08-08 21:34:57","like_diff":0,"likes":1,"dislikes":1,"content":"老师人很好。为什么给分好差。。。"},{"id":165390,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2023-01-04 05:02:18","like_diff":0,"likes":1,"dislikes":1,"content":"老师总给我一种淡然平和的感觉，喜欢她的课"},{"id":168287,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2023-02-09 11:51:48","like_diff":0,"likes":1,"dislikes":1,"content":"张老师超棒！！！！！！！！"},{"id":194128,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2024-06-22 06:10:26","like_diff":0,"likes":0,"dislikes":0,"content":"老师很好很和蔼，被捞上95了"},{"id":202392,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2024-11-12 09:48:00","like_diff":0,"likes":0,"dislikes":0,"content":"超级棒的老师"},{"id":206012,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2024-12-13 03:06:13","like_diff":0,"likes":0,"dislikes":0,"content":"太喜欢了"},{"id":207917,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2024-12-25 03:14:06","like_diff":0,"likes":0,"dislikes":0,"content":"老师人真的好，上课讲的很细\n\n助教很认真，会一一指出实验报告和预习报告里的问题，而且有时候实验报告有错也不扣分"},{"id":208362,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2024-12-27 05:40:37","like_diff":0,"likes":0,"dislikes":0,"content":"老师人真的很好，体贴又温柔。真的能把我放在心上。知道我实验报告写的不好后还手把手教我怎么改好实验报告。泪目了"},{"id":208367,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2024-12-27 06:55:44","like_diff":0,"likes":0,"dislikes":0,"content":"老师人超级好！超级温柔、特别耐心，像妈妈一样！"},{"id":209253,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2025-01-05 08:02:37","like_diff":0,"likes":0,"dislikes":0,"content":"很好的老师"},{"id":215499,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2025-02-27 05:16:07","like_diff":0,"likes":0,"dislikes":0,"content":"最好的实验老师，没有之一"},{"id":75942,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2018-03-22 09:26:15","like_diff":-2,"likes":1,"dislikes":3,"content":"老师人挺好。助教傻逼"},{"id":47282,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2017-01-25 05:04:20","like_diff":-5,"likes":4,"dislikes":9,"content":"呵呵呵，通识最低，莫名其妙，助教给分一点都不客观，有的嬉皮笑脸，有的天天拉个长脸，实验认真做，报告每次都拿出半天时间写，考试前认真准备，卷子答得好，最后低于这个破课的均绩，拜拜\n\n最后再跟你们说一点，选这个课，真的需要去跟助教有意拉近关系，虚伪恶心\n\n不知道为啥上个课还要这么累\n\n老师倒是挺和善的，但可惜90%的时间都是助教在，老师不怎么参与"},{"id":105972,"teacher_id":3017,"teacher_name":"张嘉捷","post_time":"2019-04-24 01:30:00","like_diff":-9,"likes":1,"dislikes":10,"content":"虽然花了超多时间在这个半学分课上（对的鹅颈），但还是只有4.5，不过老师真的超好，助教给分较谜。。。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

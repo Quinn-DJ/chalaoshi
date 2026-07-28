@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>景俊 - 物理学系 - 浙大教评</title>
+    <meta name="description" content="景俊教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="景俊,物理学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">景俊</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">物理学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">6.72</div>
+                    <div class="rating-participants">84人参与评分</div>
+                    <div class="attendance-info">15.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">力学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.66</span>
+                            <span class="students">选课: 207人</span>
+                            <span class="std-dev">标准差: 0.89</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">理论力学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.59</span>
+                            <span class="students">选课: 282人</span>
+                            <span class="std-dev">标准差: 1.16</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">量子光学与量子信息导论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.59</span>
+                            <span class="students">选课: 15人</span>
+                            <span class="std-dev">标准差: 0.68</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (66 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":104871,"teacher_id":4595,"teacher_name":"景俊","post_time":"2019-03-29 04:46:40","like_diff":20,"likes":28,"dislikes":8,"content":"佛系讲课，胡乱给分"},{"id":168187,"teacher_id":4595,"teacher_name":"景俊","post_time":"2023-02-01 08:11:01","like_diff":15,"likes":16,"dislikes":1,"content":"讲的啥，根本听不懂"},{"id":126617,"teacher_id":4595,"teacher_name":"景俊","post_time":"2020-10-09 02:01:39","like_diff":13,"likes":15,"dislikes":2,"content":"自身科研实力应该很强\n\n有些口吃\n\n教学水平不太好，不会因材施教\n\n有自己的一套思路和方法，就看你适不适应了\n\n最好自己有了框架后再来听他拔高和补充思路，否则很容易弃修"},{"id":131377,"teacher_id":4595,"teacher_name":"景俊","post_time":"2021-01-27 09:11:56","like_diff":11,"likes":18,"dislikes":7,"content":"这个学期的力学老师，\n\n虽然乍一看评分不太高，但老师还是很有思想的。\n\n非物竞党，一开学直接微积分+矩阵，让我很难受（因为没学过呜呜）直到后面角动量和相对论，全程没有让我有机会划水。\n\n这正是我学物理的重要原因，让思想物理化，有深度化。\n\n平时讲课不能走神半分钟，否则会听得一头雾水。\n\n学到最后回头一看，确实学到不少东西。\n\n老师人还挺好的，听说也有一定研究成果。\n\n此课比较适合真正向往物理学的朋友们。"},{"id":122407,"teacher_id":4595,"teacher_name":"景俊","post_time":"2020-02-26 09:27:54","like_diff":9,"likes":10,"dislikes":1,"content":"可能不是很适合讲课吧。有点一头雾水。"},{"id":118840,"teacher_id":4595,"teacher_name":"景俊","post_time":"2019-11-12 01:55:01","like_diff":8,"likes":16,"dislikes":8,"content":"再见了，垃圾老师！我弃修了，你可能是很牛逼的雾里学家，可是你的教学实在太垃圾了！"},{"id":133732,"teacher_id":4595,"teacher_name":"景俊","post_time":"2021-03-04 09:15:05","like_diff":8,"likes":13,"dislikes":5,"content":"（量子光学与量子信息导论）老师负责量子信息部分，讲得真心不错，让人很有激情继续往这个方向研究。不过上完之后倒也理解为什么老师上不好大雾之类的课了，可能对于他来讲大雾的东西太简单了甚至很多都是“不严谨、不正确的”，有很多东西想讲，并且直接默认所有来选他的课的人都是高年级物理系学生吧。><要是有兴趣有基础的话挺建议跟着他深入学习哒～"},{"id":186340,"teacher_id":4595,"teacher_name":"景俊","post_time":"2024-01-10 14:15:53","like_diff":8,"likes":10,"dislikes":2,"content":"听不懂"},{"id":103577,"teacher_id":4595,"teacher_name":"景俊","post_time":"2019-03-01 11:54:21","like_diff":7,"likes":15,"dislikes":8,"content":"老师在教书的时候的思想很清晰，而且都是以希望同学可以真正学到物理的方式在教书，可以说是真正的好老师，而且去问问题也会解答。要说不足的话大概就是没有提议建功课群，结果没人建就真的有点悲催了。是个好老师别错过了"},{"id":118588,"teacher_id":4595,"teacher_name":"景俊","post_time":"2019-10-29 03:55:15","like_diff":7,"likes":12,"dislikes":5,"content":"老师有一颗负责的心，但讲的东西不太适合大一上学期新生来听，一开始就带入微积分和矩阵和复杂的空间坐标系，真心听不懂。而且讲的东西跟课本不一样，无从预习。"},{"id":186316,"teacher_id":4595,"teacher_name":"景俊","post_time":"2024-01-10 14:16:37","like_diff":6,"likes":7,"dislikes":1,"content":"建议有竞赛基础的来上"},{"id":189615,"teacher_id":4595,"teacher_name":"景俊","post_time":"2024-01-26 03:31:47","like_diff":6,"likes":8,"dislikes":2,"content":"老实说给分是真的迷惑，至于上课，感觉学过一遍回来听更合适。"},{"id":217911,"teacher_id":4595,"teacher_name":"景俊","post_time":"2025-04-18 01:44:00","like_diff":6,"likes":6,"dislikes":0,"content":"听不懂，已经开始想念王大伟老师了"},{"id":72334,"teacher_id":4595,"teacher_name":"景俊","post_time":"2018-01-30 02:20:44","like_diff":5,"likes":7,"dislikes":2,"content":"为大角默哀"},{"id":74092,"teacher_id":4595,"teacher_name":"景俊","post_time":"2018-02-05 05:07:14","like_diff":5,"likes":7,"dislikes":2,"content":"平时分。。。很坑。。。"},{"id":114102,"teacher_id":4595,"teacher_name":"景俊","post_time":"2019-07-08 23:13:27","like_diff":5,"likes":11,"dislikes":6,"content":"极度自以为是"},{"id":122803,"teacher_id":4595,"teacher_name":"景俊","post_time":"2020-04-08 03:27:39","like_diff":5,"likes":6,"dislikes":1,"content":"听天书"},{"id":123227,"teacher_id":4595,"teacher_name":"景俊","post_time":"2020-05-21 13:23:44","like_diff":5,"likes":6,"dislikes":1,"content":"选修课听着听着就没几个学生了"},{"id":143914,"teacher_id":4595,"teacher_name":"景俊","post_time":"2021-12-12 10:27:07","like_diff":5,"likes":7,"dislikes":2,"content":"就凭疫情只交两份作业我给打十分"},{"id":188106,"teacher_id":4595,"teacher_name":"景俊","post_time":"2024-01-18 08:00:57","like_diff":5,"likes":6,"dislikes":1,"content":"认识的人全都卡绩了🫡"},{"id":194111,"teacher_id":4595,"teacher_name":"景俊","post_time":"2024-06-22 04:40:07","like_diff":5,"likes":6,"dislikes":1,"content":"给分确实怪，处分还贼快"},{"id":194310,"teacher_id":4595,"teacher_name":"景俊","post_time":"2024-06-23 07:50:43","like_diff":5,"likes":6,"dislikes":1,"content":"备课认真但不一定听得懂，需要自己花时间\n\n有点口吃，一开始需要适应一下\n\n明说不点名\n\n出分好多卡绩……"},{"id":189901,"teacher_id":4595,"teacher_name":"景俊","post_time":"2024-02-01 17:57:37","like_diff":4,"likes":7,"dislikes":3,"content":"给分真的特别奇怪，存在看人给分的现象，跟5.0的同学对答案计算分数有80分上下，出分只有约50分，同学只写了五道十分的题却有70分"},{"id":209063,"teacher_id":4595,"teacher_name":"景俊","post_time":"2025-01-04 10:30:22","like_diff":4,"likes":4,"dislikes":0,"content":"胡乱给分，全员被卡，我服了"},{"id":209126,"teacher_id":4595,"teacher_name":"景俊","post_time":"2025-01-04 14:52:36","like_diff":4,"likes":4,"dislikes":0,"content":"总体还行(指讲课效果)，上课很有自己的思想，但平时分真的是乱给，而且完全不给查，助教也是整个学期在玩失踪，不知道怎么想的"},{"id":126403,"teacher_id":4595,"teacher_name":"景俊","post_time":"2020-09-25 03:31:14","like_diff":3,"likes":5,"dislikes":2,"content":"牛逼牛逼\n\n自己牛逼\n\n当老师差点\n\n怕你骄傲\n\n2分拿去"},{"id":126660,"teacher_id":4595,"teacher_name":"景俊","post_time":"2020-10-12 07:47:20","like_diff":3,"likes":3,"dislikes":0,"content":"“选修课就是不要求一定拿到学分的课”难怪上到后来就没几个学生了"},{"id":137745,"teacher_id":4595,"teacher_name":"景俊","post_time":"2021-07-06 03:08:57","like_diff":3,"likes":3,"dislikes":0,"content":"上的理论力学。可以看出来老师很努力地想让我们听懂，但是数学味道太重了所以听懂真的挺困难的。。。但还是挺不错的老师"},{"id":188100,"teacher_id":4595,"teacher_name":"景俊","post_time":"2024-01-18 07:55:01","like_diff":3,"likes":4,"dislikes":1,"content":"给分很奇怪，也不透露给分细节。课堂内容过于拓展，想完全吸收需要花费大量课余时间。而期末的考试和平时学的没有多大关系，并且最终得分和个人感觉有较大差异，总的来说不太行。给分真的奇怪…"},{"id":209055,"teacher_id":4595,"teacher_name":"景俊","post_time":"2025-01-04 10:00:48","like_diff":3,"likes":4,"dislikes":1,"content":"讲课自成一套，挺有思想的，竞赛生会觉得基础，没学过竞赛的觉得痛苦。所以上课前预习这一整章的内容食用效果最佳（注意是一整章，因为你不知道景老师的思路跳的多快）。很好的老师，但是被卡绩了呜呜呜。。"},{"id":223779,"teacher_id":4595,"teacher_name":"景俊","post_time":"2025-10-19 08:45:20","like_diff":3,"likes":4,"dislikes":1,"content":"PRA之王"},{"id":73551,"teacher_id":4595,"teacher_name":"景俊","post_time":"2018-02-02 03:08:35","like_diff":2,"likes":7,"dislikes":5,"content":"非常赞，讲得非常好（记得参加竞赛，不然平时分就只有18咯）"},{"id":79696,"teacher_id":4595,"teacher_name":"景俊","post_time":"2018-06-13 01:49:35","like_diff":2,"likes":4,"dislikes":2,"content":"之前说参加竞赛平时分加分，结果最后是不参加竞赛平时分扣2…"},{"id":97998,"teacher_id":4595,"teacher_name":"景俊","post_time":"2019-01-23 03:33:16","like_diff":2,"likes":3,"dislikes":1,"content":"感觉老师讲的是一套，参考书里又是一套。。。不过考试很简单，都只涉及基础的知识，甚至还有一模一样的作业布置过的题。。。"},{"id":100058,"teacher_id":4595,"teacher_name":"景俊","post_time":"2019-01-25 13:29:16","like_diff":2,"likes":2,"dislikes":0,"content":"呵呵哒"},{"id":121472,"teacher_id":4595,"teacher_name":"景俊","post_time":"2019-12-15 16:21:15","like_diff":2,"likes":2,"dislikes":0,"content":"听天书"},{"id":177892,"teacher_id":4595,"teacher_name":"景俊","post_time":"2023-07-05 09:28:23","like_diff":2,"likes":3,"dislikes":1,"content":"出卷判卷非常奇怪"},{"id":209122,"teacher_id":4595,"teacher_name":"景俊","post_time":"2025-01-04 14:44:09","like_diff":2,"likes":4,"dislikes":2,"content":"评价一下力学：虽然是面向大一学生，但课上补充了很多额外的物理知识，比如讲积分计算时拿出一个固体物理里的路径积分，介绍保守场和无旋场的不等价性，备课认真，还会传授许多物理学家的思想，但是有时上课节奏跳跃，有点口吃，数学难度对初学者较大。给分方面，我的和个人预期匹配，但根据身边统计学，很多人被绩杀，且给分不透明，不过上课从不点名。总体而言，老师很有物理思想，科研水平应该也很强，但还是适合有竞赛基础或者不那么在意绩点的同学选。"},{"id":210112,"teacher_id":4595,"teacher_name":"景俊","post_time":"2025-01-08 07:31:31","like_diff":2,"likes":3,"dislikes":1,"content":"认识的人里面很多都卡绩了啊怎么说，能不能公开一下明细？起码让我们卡得心服口服吧"},{"id":130720,"teacher_id":4595,"teacher_name":"景俊","post_time":"2021-01-24 11:18:49","like_diff":1,"likes":2,"dislikes":1,"content":"听课不如自己看书 越听越困惑"},{"id":181609,"teacher_id":4595,"teacher_name":"景俊","post_time":"2023-10-24 07:12:14","like_diff":1,"likes":2,"dislikes":1,"content":"只能说有一套自己的教学思路，是想给学生讲点真有用的东西，但是思路过于跳跃了，本普通人非天才难以跟上，而且根据身边统计法很多同学也跟不上，总体来说还是不太行"},{"id":209059,"teacher_id":4595,"teacher_name":"景俊","post_time":"2025-01-04 10:15:59","like_diff":1,"likes":1,"dislikes":0,"content":"老师力学海底捞了，把我捞上及格了。好爱老师。\n\n虽然，好像老师有点乱改卷子。"},{"id":222433,"teacher_id":4595,"teacher_name":"景俊","post_time":"2025-07-06 22:35:59","like_diff":1,"likes":1,"dislikes":0,"content":"理论力学，感觉上课还可以，PPT蛮清晰的。给分离谱至极😅"},{"id":102418,"teacher_id":4595,"teacher_name":"景俊","post_time":"2019-02-01 15:46:18","like_diff":0,"likes":3,"dislikes":3,"content":"挺不错的一个老师，不过给个建议，下次能不能建一下学生群？这样子交流比较方便一点，虽说回邮件特别及时，但感觉还是不太方便。"},{"id":120795,"teacher_id":4595,"teacher_name":"景俊","post_time":"2020-01-17 08:51:59","like_diff":0,"likes":1,"dislikes":1,"content":"老师讲的还是不错的，但是很多时候节奏会比较快，比较难跟上，"},{"id":132441,"teacher_id":4595,"teacher_name":"景俊","post_time":"2021-02-01 15:24:39","like_diff":0,"likes":1,"dislikes":1,"content":"还行吧"},{"id":146395,"teacher_id":4595,"teacher_name":"景俊","post_time":"2022-01-06 12:34:12","like_diff":0,"likes":2,"dislikes":2,"content":"景俊大佬～"},{"id":154405,"teacher_id":4595,"teacher_name":"景俊","post_time":"2022-06-01 03:00:03","like_diff":0,"likes":4,"dislikes":4,"content":"可爱捏"},{"id":167509,"teacher_id":4595,"teacher_name":"景俊","post_time":"2023-01-17 00:41:23","like_diff":0,"likes":1,"dislikes":1,"content":"上的还行"},{"id":167743,"teacher_id":4595,"teacher_name":"景俊","post_time":"2023-01-18 23:36:12","like_diff":0,"likes":4,"dislikes":4,"content":"很棒的老师"},{"id":194118,"teacher_id":4595,"teacher_name":"景俊","post_time":"2024-07-02 05:57:05","like_diff":0,"likes":5,"dislikes":5,"content":"理力教的有自己的一套体系（大框架是借鉴晓光大师的），逻辑还是挺清晰的。上课的课件也都是自己做的，备课还算认真。会补充很多超纲的拓展知识，但是ppt里都会打星号标注出来，听不懂也没必要一定搞懂，听个大概就行。自己上课不点名，但是习题课会让助教点（悲）"},{"id":194563,"teacher_id":4595,"teacher_name":"景俊","post_time":"2024-06-24 11:15:06","like_diff":0,"likes":2,"dislikes":2,"content":"还不错"},{"id":204938,"teacher_id":4595,"teacher_name":"景俊","post_time":"2024-11-29 00:58:00","like_diff":0,"likes":1,"dislikes":1,"content":"ppt上的符号规定太差了。。影响阅读"},{"id":209061,"teacher_id":4595,"teacher_name":"景俊","post_time":"2025-01-04 10:24:05","like_diff":0,"likes":1,"dislikes":1,"content":"他上的课蛮有深度的，讲的是力学，但可以延伸到更多的地方。由此可以看出来他是一个很好的物理学家，但是从某种意义上来说，正因为如此可能会让一些没有基础的学生听得有点混乱。"},{"id":215096,"teacher_id":4595,"teacher_name":"景俊","post_time":"2025-02-21 03:40:06","like_diff":0,"likes":0,"dislikes":0,"content":"，，，，，，，，，，"},{"id":181321,"teacher_id":4595,"teacher_name":"景俊","post_time":"2023-10-14 08:29:27","like_diff":-2,"likes":1,"dislikes":3,"content":"老师水平很高"},{"id":122158,"teacher_id":4595,"teacher_name":"景俊","post_time":"2020-02-17 12:57:03","like_diff":-3,"likes":6,"dislikes":9,"content":"老师最后一节课：你们的成绩不是你们努力的结果，而是我努力的结果，我尽量给你们一个不拖累你们期末的平时分。\n\n说实话老师教的还不错的，人品也挺好的，就是建议平时分可以公开一下..."},{"id":164956,"teacher_id":4595,"teacher_name":"景俊","post_time":"2022-12-28 05:07:21","like_diff":-4,"likes":3,"dislikes":7,"content":"老师讲课很好，人也很好"},{"id":73784,"teacher_id":4595,"teacher_name":"景俊","post_time":"2018-02-03 05:36:26","like_diff":-6,"likes":1,"dislikes":7,"content":"老师上课挺认真的"},{"id":120902,"teacher_id":4595,"teacher_name":"景俊","post_time":"2020-01-18 12:31:54","like_diff":-6,"likes":0,"dislikes":6,"content":"老师真的很认真负责！"},{"id":72048,"teacher_id":4595,"teacher_name":"景俊","post_time":"2018-01-29 09:00:46","like_diff":-7,"likes":2,"dislikes":9,"content":"老师讲课很好，而且很负责任"},{"id":120722,"teacher_id":4595,"teacher_name":"景俊","post_time":"2020-01-16 00:18:17","like_diff":-13,"likes":1,"dislikes":14,"content":"考完以为慢了，回头一看4. 2"},{"id":117408,"teacher_id":4595,"teacher_name":"景俊","post_time":"2019-09-24 03:36:09","like_diff":-20,"likes":1,"dislikes":21,"content":"感觉老师可以讲的再难一些"},{"id":81042,"teacher_id":4595,"teacher_name":"景俊","post_time":"2018-07-03 12:10:01","like_diff":-21,"likes":2,"dislikes":23,"content":"虽然满了，但还是坑"},{"id":209097,"teacher_id":4595,"teacher_name":"景俊","post_time":"2025-01-04 12:23:42","like_diff":-22,"likes":2,"dislikes":24,"content":"今天出绩点了，爽拿满绩👍"},{"id":96369,"teacher_id":4595,"teacher_name":"景俊","post_time":"2019-01-21 01:20:07","like_diff":-24,"likes":4,"dislikes":28,"content":"课讲的还好……物理系学生觉得讲的稍微有点简单……要是能再深入些就更好了"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>万歆 - 物理学系 - 浙大教评</title>
+    <meta name="description" content="万歆教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="万歆,物理学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">万歆</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">物理学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.65</div>
+                    <div class="rating-participants">156人参与评分</div>
+                    <div class="attendance-info">36.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">普通物理学Ⅱ（H）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.51</span>
+                            <span class="students">选课: 228人</span>
+                            <span class="std-dev">标准差: 0.90</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">量子信息基础</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.82</span>
+                            <span class="students">选课: 99人</span>
+                            <span class="std-dev">标准差: 0.68</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (136 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":506,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-03-15 03:39:59","like_diff":75,"likes":97,"dislikes":22,"content":"谁来告诉我这平均绩点是不是真的"},{"id":108267,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-05-18 14:27:45","like_diff":46,"likes":51,"dislikes":5,"content":"恳请浙大能够取消全英的普物，我是渡边老师班的，老师确实是好老师，但搞不懂学校为什么请说日式英语的外教，学校到底是想高效率地传递物理知识，还是让一部分英语听力牛的人和高考不考英语听力的人在这一门课上两极分化啊，普物全英教学我敢说至少有四分之一的人是全程懵逼的，真心搞不懂学校到底想要干什么，想教学生英语可以开一门“物理中的奇妙英语”啊，mdzz\n\n，但渡边老师教学很负责，人也很好，虽然对我来说这门课知识实际的传递效率有些低"},{"id":3804,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-06-17 04:51:47","like_diff":38,"likes":43,"dislikes":5,"content":"好老师！不同于很多老师应试教育下的知识填充，他更注重发现问题思考问题的方法，类似国外授课方式，能启发思考。ps真男神！每次上课都忍不住hc！讲话儒雅穿衣有品！"},{"id":4966,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-07-01 15:58:52","like_diff":31,"likes":34,"dislikes":3,"content":"宽肩细腰翘臀（ˉ﹃ˉ）"},{"id":625,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-03-15 08:19:10","like_diff":28,"likes":33,"dislikes":5,"content":"万富帅"},{"id":81689,"teacher_id":1526,"teacher_name":"万歆","post_time":"2018-07-07 05:08:13","like_diff":28,"likes":30,"dislikes":2,"content":"想问楼下说老师人渣的那位，若他真的人品有问题请拿出实锤到相关部门diss，在查老师这匿名diss也没有什么用。倘若他真的有什么重大问题，我想你也不会只在查老师这里匿名骂一句。没有拿出实锤就随意中伤他人，不求是"},{"id":4951,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-07-01 11:13:32","like_diff":22,"likes":28,"dislikes":6,"content":"是我见过最最深入浅出的老师。很重视知识广度和我们分析能力的培养而不是做题能力。喜欢难题的小伙伴可能不怎么喜欢他这种老师。普林斯顿大学毕业，很有西方的上课风范。"},{"id":81742,"teacher_id":1526,"teacher_name":"万歆","post_time":"2018-07-06 04:58:51","like_diff":21,"likes":22,"dislikes":1,"content":"期中50左右 期末估计也只有50多了  跪求老师让我过 不想退院嘤嘤嘤"},{"id":6067,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-07-10 14:50:23","like_diff":18,"likes":18,"dislikes":0,"content":"男神！！"},{"id":5081,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-07-03 13:18:15","like_diff":17,"likes":19,"dislikes":2,"content":"很男神～不注重刷题 专注于物理思想和视野～能听到很多有趣的东西～"},{"id":6410,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-07-13 22:19:37","like_diff":15,"likes":19,"dislikes":4,"content":"那绩点是假的，只有两个人。万男神给分很好，尽量不让挂，只要认真学就可以拿高分"},{"id":109787,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-07-06 22:49:08","like_diff":14,"likes":14,"dislikes":0,"content":"看到楼下物竞dl的评论，是不是wx热衷于给卡绩，他也卡了我的？"},{"id":83653,"teacher_id":1526,"teacher_name":"万歆","post_time":"2018-07-11 02:38:25","like_diff":13,"likes":13,"dislikes":0,"content":"对基础不太好的同学来说有些部分听懂比较难。但是万老师非常温柔，他会很耐心的跟学生讲题。而且教的东西更多是本质，后面真正理解的时候想起来会有种恍然大悟的感觉。\n\n万老师更看重过程，我半期没及格，期末好了很多，他给的分也很好。\n\n很感谢他。"},{"id":83657,"teacher_id":1526,"teacher_name":"万歆","post_time":"2018-07-11 02:58:28","like_diff":13,"likes":13,"dislikes":0,"content":"普物I出分了，万歆老师给分真的很好，感觉他已经非常尽力没让我总评挂了……这学期没有认真听课，感觉很对不起老师。考试考得不好是自己的问题。"},{"id":84479,"teacher_id":1526,"teacher_name":"万歆","post_time":"2018-07-13 02:53:17","like_diff":13,"likes":13,"dislikes":0,"content":"真的超级喜欢万歆老师。感觉听他的课才是真正的学物理啊，能根据特殊情况推及普遍情况，用数据进一步分析得出结论。这才是真正的物理啊！卷子虽然很迷，但我觉得比死记公式，死记题型的物理有意思多了。"},{"id":107129,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-05-02 00:52:26","like_diff":13,"likes":13,"dislikes":0,"content":"老师的期中考试太难了。。。"},{"id":6308,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-07-13 02:11:58","like_diff":11,"likes":11,"dislikes":0,"content":"男神，儒雅"},{"id":3970,"teacher_id":1526,"teacher_name":"万歆","post_time":"2018-05-19 01:12:53","like_diff":10,"likes":11,"dislikes":1,"content":"男神"},{"id":81816,"teacher_id":1526,"teacher_name":"万歆","post_time":"2018-07-07 06:34:30","like_diff":10,"likes":10,"dislikes":0,"content":"期末出的什么奇奇怪怪的题目啊。。。"},{"id":148565,"teacher_id":1526,"teacher_name":"万歆","post_time":"2022-01-13 01:38:41","like_diff":10,"likes":10,"dislikes":0,"content":"万哥超级帅。讲课真的很用心。能感受到万哥的思路很清晰，藤校PHD超级强。\n\n我是菜鸡，但还是能感受到万哥希望普物和大物不一样的地方，大物和高考差不多，刷题记公式不求甚解就行。但是普物，万哥是真的想让我们领略物理的魅力。想让我们明白真正物理学是如何思考的。\n\n可惜我太菜了，之前数分学的一般，遇到普物II的公式感到非常无力，也一直理解有很多困难。（之前我还是很喜欢物理的，高考还想过去北大强基物理哈哈哈哈哈）。日常作业真的写不动，刚开始和最后还自己写，中间作业就直接借鉴室友了。\n\n期中考的时候深感自己数学功底不够，也不如别人理解得好，最后期中44，排在倒数十名了。\n\n期末真的有认真复习过PPT做笔记，最后能写多少写多少，但是水平在这里了，也明白自己听课最后听不下去。最后2.7感谢不退院之恩。去虎哥很可能要凉了。\n\n    给各位学弟学妹提个醒，好好学数分，早做打算多理解，尤其是日常作业，还是有很多收获的。\n\n    我没有学明白多少，很是惭愧没有跟好老师的思路，对不起万哥，物理依然是我喜欢的，只是下次我准备好再来修读课程吧。\n\n最后感谢万哥。各位加油。\n\n大学不要水，平时那些卖弱没复习开摆的话都别信。\n\n千万别水。\n\n没人是傻子，这是个不努力不如去死的世界。"},{"id":1197,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-08-08 09:39:37","like_diff":9,"likes":10,"dislikes":1,"content":"讲课非常好"},{"id":6345,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-07-13 13:07:04","like_diff":9,"likes":9,"dislikes":0,"content":"好帅"},{"id":83719,"teacher_id":1526,"teacher_name":"万歆","post_time":"2018-07-11 05:33:35","like_diff":9,"likes":9,"dislikes":0,"content":"老师人不错，但ppt复习起来真的累，考试完全懵。但自己也没好好学，总的来说，还是要自觉"},{"id":29674,"teacher_id":1526,"teacher_name":"万歆","post_time":"2016-06-30 07:19:23","like_diff":8,"likes":12,"dislikes":4,"content":"万老师讲课很有启迪性，特别注重原理。记得讲相对论的时候他给我们讲了两个故事，在两个故事下把相对论的所有东西都推了出来。认真听他的故事，肯定会有很大的收获。\n\n第一节课他会说学习物理的基本方法，按照那些方法来，认真学，认真听课，最后的结果一定不会差。"},{"id":48687,"teacher_id":1526,"teacher_name":"万歆","post_time":"2017-03-09 10:32:08","like_diff":8,"likes":9,"dislikes":1,"content":"看脸就应该10分啊。不过讲真，老师课讲的好，人好但又不失原则。"},{"id":84571,"teacher_id":1526,"teacher_name":"万歆","post_time":"2018-07-13 08:06:19","like_diff":8,"likes":8,"dislikes":0,"content":"不敢说是个好老师，但一定是个好人。"},{"id":104546,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-03-23 10:26:51","like_diff":8,"likes":8,"dislikes":0,"content":"在物理知识和身材上都想达到男神的水平～"},{"id":110924,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-07-06 17:26:25","like_diff":8,"likes":9,"dislikes":1,"content":"谢谢万歆爸爸！给分太感人了！！"},{"id":149537,"teacher_id":1526,"teacher_name":"万歆","post_time":"2022-01-16 02:01:42","like_diff":8,"likes":9,"dislikes":1,"content":"物理菜鸡上普物过程中极其痛苦，数学、物理、英语都不是很明白...每次课后都要花很长的时间消化老师讲授的内容。进入光学部分，由于高中没有学过光学，所以LLK上课基本听不懂，都靠课后大雾书自学。进入量子力学部分，更加玄学，最后一次作业基本一道题都做不出来（不会做一定要研究明白答案，因为万歆老师很有可能出自己作业的类似题目）。但是到现在回顾这一门课，深深感觉到万物和大学物理的不同。迥乎于应试的物理教学方法，万老师想要向非物理专业的我们了解物理学的思维和更深入的一些东西。谢谢万歆男神！"},{"id":30267,"teacher_id":1526,"teacher_name":"万歆","post_time":"2016-07-01 07:10:07","like_diff":7,"likes":7,"dislikes":0,"content":"万富帅，一个有原则而又善良的人"},{"id":53098,"teacher_id":1526,"teacher_name":"万歆","post_time":"2017-07-03 03:29:59","like_diff":7,"likes":12,"dislikes":5,"content":"期末考的这么烂，最后居然 这！！！！么！！！！高！!!!!  好像在做梦啊啊啊啊啊啊啊啊"},{"id":109712,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-06-28 18:25:59","like_diff":7,"likes":7,"dislikes":0,"content":"求男神捞捞? ?"},{"id":113662,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-07-07 02:28:13","like_diff":7,"likes":7,"dislikes":0,"content":"看了看楼下的评论……物竞也有层次之分啊。牌和省队，省队和省一之间的差距还挺大的。所以还是从自身实际情况出发，选择学习策略吧。"},{"id":148580,"teacher_id":1526,"teacher_name":"万歆","post_time":"2022-01-13 02:13:58","like_diff":7,"likes":7,"dislikes":0,"content":"wx，我的超人！\n\n老师尽量避免繁杂的公式推导，尽量从不严格但直观易懂的角度解释定理。作为物竞生也深感普物II的内容超出物竞太多了，数学知识也非常多。后面也就只能看老师的PPT听老师讲了。如果想感受一波海底捞，期末考一定要多写过程，大胆猜，答案没有那么重要的（因为我没一题能完整做出hhh）\n\nps:本学期期末考与期中考内容正交"},{"id":148642,"teacher_id":1526,"teacher_name":"万歆","post_time":"2022-01-13 05:49:43","like_diff":7,"likes":8,"dislikes":1,"content":"老师很帅，很优雅，衣品也很好，这一点下面都说了很多了哈哈哈哈\n\n本来是预置的其他老师，看见万歆老师的普林斯顿学历还有研究量子计算这种高级方向就被吸引过来了（他是真的爱量子）\n\n万歆老师真的很希望大家能学到真正的知识，上课有时候是有点玄学，但是我打开回放再看一遍会慢慢理解老师想传达的东西。刚开始英文上课我摸鱼了，看了去年中文授课的智云课堂感觉还是很清晰的，后来量子力学老师用中文也清晰了不少，中间也会讲讲一些故事开开玩笑。\n\n很感谢万歆老师，我想这个学期选到万歆老师班上，学到的不仅有麦克斯韦方程组，或者是全新的量子物理知识，更重要的是一些直觉，一些思想，一些思考问题的方式，对于我这种榆木脑袋算是给我开了光了。\n\n关于考试，按照老师的说法就是，每个题目是一个“故事”，每一个题目都有老师希望表达的东西，正如他的每一次授课都有想要我们真正掌握的东西一样。他说，希望有一些东西是我们五年十年之后还能记得的，我想认真听是可以做到的。\n\n老师期中考试难度不是很大，但是确实有些题目有点玄乎，但是老师讲过之后发现其实就是把所学知识灵活运用。期末考试5个大题，3道量子力学（佛了），但是都是他讲过的东西，所以平常好好听课学习，好好做作业（不得不说有些作业题很有启发性），理解老师希望传达的内容是能取得好成绩的，更何况万歆老师捞人还有一手呢。\n\n总之很感谢老师，也很推荐同学们选（第一次在查老师上发这么长的评论献给万歆老师）"},{"id":3632,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-06-17 01:55:28","like_diff":6,"likes":7,"dislikes":1,"content":"男神上课"},{"id":6370,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-07-13 09:18:03","like_diff":6,"likes":6,"dislikes":0,"content":"好！"},{"id":6508,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-07-14 14:26:19","like_diff":6,"likes":6,"dislikes":0,"content":"男神老师！非常棒呀"},{"id":28525,"teacher_id":1526,"teacher_name":"万歆","post_time":"2016-06-28 09:52:49","like_diff":6,"likes":9,"dislikes":3,"content":"认真听课做作业就肯定不会差……对付考试的话，看课件就够了，刷那些大雾的题根本和考试题不对口0 0不过老师的教学对认识物理和自己思考很有帮助，每部分的讲解方式和中文的课本也很不同。所以，还是要上课认真听。"},{"id":76754,"teacher_id":1526,"teacher_name":"万歆","post_time":"2018-04-21 02:26:36","like_diff":6,"likes":6,"dislikes":0,"content":"不会ode，pde学什么普物?"},{"id":76940,"teacher_id":1526,"teacher_name":"万歆","post_time":"2018-04-26 07:24:55","like_diff":6,"likes":6,"dislikes":0,"content":"绝对男神老师，万高富帅，穿着举止非常有气质，gentleman。而且物理思想真的好，理解领悟至上，素质教育。而且人真滴好啊，课后会耐心回答每一个问题，有时拖得挺晚我自己都不好意思。唉这男神得嘛不用说了"},{"id":82273,"teacher_id":1526,"teacher_name":"万歆","post_time":"2018-07-07 15:33:45","like_diff":6,"likes":6,"dislikes":0,"content":"跪求老师让我过"},{"id":83800,"teacher_id":1526,"teacher_name":"万歆","post_time":"2018-07-11 08:42:05","like_diff":6,"likes":6,"dislikes":0,"content":"建议上课之前下好ppt上课配套使用效果更佳哦～平常学习的话，要注重理解，考试的时候原始公式都会给，但是一些引出公式还是要记的哦不然会gg…"},{"id":113474,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-07-06 17:54:56","like_diff":6,"likes":6,"dislikes":0,"content":"我是渡边老师班的，但总的分数是wx老师给的。老师出的题，确实是不囿于题型了，重视分析能力和数学推导，不过用英文确实有点迷了，本菜鸡真的有些看不懂，而且期中期末也实在是做得一塌糊涂。但最后还是感谢老师把我捞上来了。"},{"id":113641,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-07-11 01:37:59","like_diff":6,"likes":10,"dislikes":4,"content":"92分，努力没白费，满足了"},{"id":132079,"teacher_id":1526,"teacher_name":"万歆","post_time":"2021-01-30 06:38:22","like_diff":6,"likes":7,"dislikes":1,"content":"万歆老师讲课非常好！很具有启发性，注重思维(我们可以期待(雾)，但同时也很难。(ಥ_ಥ)，尤其是普物二的量子力学部分(我想我已经把你们弄得足够糊涂了.jpg)。\n\n整个学期只有一两次点名，到了加分不到不扣分。还有几道小测(都是选择)，只要交了基本都是满的。\n\n作业好好做，万歆自己出的题目题目比较雷人，题目数量少但是占比很高要注意。\n\n期中考试是刘钊出的卷子，和高中电磁学很像，题目不算雷人。\n\n期末考试是万歆自己出的卷子，没有一道大题完整地做出来(我问了好几个人都和我差不多)。。。但是多写点，万歆捞人还是相当强的(最后给分真的超级出乎我的意料)。就算不会也可以尝试写一下思路想法什么的，老师说会给分的。"},{"id":157580,"teacher_id":1526,"teacher_name":"万歆","post_time":"2022-06-24 00:26:54","like_diff":6,"likes":9,"dislikes":3,"content":"量子信息基础，平时事情巨多，但是平时分还很低，因为互评这样往往很低，而且平时分不调，虽然万歆很好但是总觉得不爽"},{"id":3657,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-06-17 02:04:32","like_diff":5,"likes":8,"dislikes":3,"content":"虽然室友说很男神但我并没有感觉到，他就是一个严肃的逗比"},{"id":52862,"teacher_id":1526,"teacher_name":"万歆","post_time":"2017-06-23 08:14:08","like_diff":5,"likes":6,"dislikes":1,"content":"趁我还没考来表白万歆老师，老师讲课非常有逻辑 气质优雅 ppt排版也很优雅 2333"},{"id":111895,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-07-03 02:17:56","like_diff":5,"likes":7,"dislikes":2,"content":"希望在数分那里丢掉的能在这里找回来……"},{"id":175344,"teacher_id":1526,"teacher_name":"万歆","post_time":"2023-06-24 05:54:22","like_diff":5,"likes":6,"dislikes":1,"content":"如果再给我一次选择的机会，我会选生科导，至少期末题目能看懂"},{"id":4898,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-06-30 06:55:47","like_diff":4,"likes":7,"dislikes":3,"content":"颜值爆表，男神！就是讲课有点无聊……"},{"id":6629,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-07-16 15:25:24","like_diff":4,"likes":5,"dislikes":1,"content":"男神男神，绩点是假的"},{"id":6846,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-07-25 03:08:59","like_diff":4,"likes":5,"dislikes":1,"content":"长得帅，给分好∠( ᐛ 」∠)＿"},{"id":8648,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-09-23 13:29:51","like_diff":4,"likes":4,"dislikes":0,"content":"男神咯"},{"id":15168,"teacher_id":1526,"teacher_name":"万歆","post_time":"2016-01-12 10:46:18","like_diff":4,"likes":5,"dislikes":1,"content":"成绩不好就是自己的错，嗯。"},{"id":23046,"teacher_id":1526,"teacher_name":"万歆","post_time":"2016-03-16 12:24:56","like_diff":4,"likes":7,"dislikes":3,"content":"人确实帅且温和，但是真的不知道在讲什么……自学吧……"},{"id":29671,"teacher_id":1526,"teacher_name":"万歆","post_time":"2016-06-30 07:14:19","like_diff":4,"likes":6,"dislikes":2,"content":"男神！！！绝对男神，讲课清晰注重思维，尊重个人兴趣，认真负责，既儒雅又有西方教授的风格。"},{"id":48671,"teacher_id":1526,"teacher_name":"万歆","post_time":"2017-03-09 06:37:12","like_diff":4,"likes":4,"dislikes":0,"content":"男神啊，儒雅有气质。讲的也好，很赞的老师，超级推荐。尤其是相对论讲的很棒。"},{"id":53154,"teacher_id":1526,"teacher_name":"万歆","post_time":"2017-06-26 05:15:44","like_diff":4,"likes":4,"dislikes":0,"content":"老师教的很好，我不认真，没学好，很对不起老师"},{"id":56050,"teacher_id":1526,"teacher_name":"万歆","post_time":"2017-07-03 03:41:45","like_diff":4,"likes":4,"dislikes":0,"content":"人特别好，有点冷幽默，给分好"},{"id":56316,"teacher_id":1526,"teacher_name":"万歆","post_time":"2017-07-03 13:09:09","like_diff":4,"likes":4,"dislikes":0,"content":"人好人帅很温和，好吧但我始终没适应他的讲课语调。，。\n\n最终自己翻车啦"},{"id":56505,"teacher_id":1526,"teacher_name":"万歆","post_time":"2017-07-04 02:08:01","like_diff":4,"likes":4,"dislikes":0,"content":"虽然普物学得很艰难，但也消磨不了我对男神的崇拜"},{"id":110148,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-06-24 02:27:34","like_diff":4,"likes":4,"dislikes":0,"content":"好老师鸭！对于物理思维的培养十分注重。"},{"id":113442,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-07-06 17:22:45","like_diff":4,"likes":4,"dislikes":0,"content":"普物I，88/4.2。作为一个物竞生本想靠这门课提提分，但是结果可能不尽如人意(当然，这是由于某大题整个没看懂想问什么……只能怪自己菜)。下面的话写给以后选课的物竞生：万歆老师的确有真正大学老师的风范，讲课优雅，最重要的是他努力不让教育走进刷题和背题型的误区。这也就导致他的考试题型很迷……加上是英文表述就更显得迷……因此，以后的物竞党千万不要觉得很稳：万歆老师的套路和竞赛是不一样的……血的教训。"},{"id":113518,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-07-06 22:30:22","like_diff":4,"likes":5,"dislikes":1,"content":"万歆老师一年四季只穿衬衫。\n\n回归正题。\n\n上课很温柔，考试很凶残。考试方面，老师会更注重推导过程而不是公式结论，所以作业很简单，考试很凶残，但是理解原理之后不会很难，然后从期中考卷的批改情况来看，老师会尽力找给分点。最后感谢老师，我期中没及格，没到平均分（差8分），但期末好好预习了，自认把大部分知识掌握了，虽然很多题目还是做不出来，很多推导过程考试的时候还是忘了，给了我一个虽然不高，但是比我预期好的分数。\n\n另，老师上课的时候还反复强调英语的重要性。"},{"id":114390,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-07-10 00:36:08","like_diff":4,"likes":4,"dislikes":0,"content":"自己认真?ppt，成绩也不会特别差。考试前面重新做一遍作业题，收获丰富。"},{"id":146116,"teacher_id":1526,"teacher_name":"万歆","post_time":"2022-01-05 13:45:09","like_diff":4,"likes":5,"dislikes":1,"content":"Xin Wan是真的帅\n\n不愧是FDU出身的\n\n把自由而无用的精神发挥到了极致"},{"id":6347,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-07-13 06:09:46","like_diff":3,"likes":6,"dislikes":3,"content":"讲的一般，比较男神，题简单"},{"id":29709,"teacher_id":1526,"teacher_name":"万歆","post_time":"2016-06-30 08:13:56","like_diff":3,"likes":3,"dislikes":0,"content":"不错呦"},{"id":48914,"teacher_id":1526,"teacher_name":"万歆","post_time":"2017-03-16 07:18:53","like_diff":3,"likes":3,"dislikes":0,"content":"不错诶"},{"id":56044,"teacher_id":1526,"teacher_name":"万歆","post_time":"2017-07-03 03:33:54","like_diff":3,"likes":3,"dislikes":0,"content":"男神！！！给分真好"},{"id":56049,"teacher_id":1526,"teacher_name":"万歆","post_time":"2017-07-03 03:41:12","like_diff":3,"likes":6,"dislikes":3,"content":"老师讲课确实听不懂，靠自学。不过老师人很好，最后是我自己考太差了……"},{"id":110978,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-06-29 02:53:32","like_diff":3,"likes":7,"dislikes":4,"content":"没出分前先来打个十分。我遇到过很多物理老师，男神wx是唯一一个我非常非常努力想成为的人，也让我就差一点打算转去物理系，男神你再多开几门课吧w君生我未生，我生君已老，想嫁不得嫁呜呜呜"},{"id":113803,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-07-07 15:42:00","like_diff":3,"likes":5,"dislikes":2,"content":"同物竞 同被卡4.8 wx老师讲的很好 然后布置的作业也很有思考性 关于题的问题 看楼下说的 可能半期的考试内容和题型更加套路化符合竞赛的学习内容吧 期末的题目更加新颖有趣(大腿和我复习的内容重合率基本为0) 总之 如果真是竞赛的 可能只能保证一个不低的分数 想要拿很高分就要吸取我的教训吧 平时好好做作业好好准备考试"},{"id":168557,"teacher_id":1526,"teacher_name":"万歆","post_time":"2023-02-19 11:09:43","like_diff":3,"likes":4,"dislikes":1,"content":"注重思想的老师，普物会讲很多量子，最后考试很多原题，难度不大，强推！"},{"id":169068,"teacher_id":1526,"teacher_name":"万歆","post_time":"2023-02-24 07:50:38","like_diff":3,"likes":3,"dislikes":0,"content":"老师虽然经常点名，但期末我一点不会，还给我了很高绩点。真的一点不会，只能做出第四题的第一问💋我的评价是，如果有需要，我可以给老师养老（os上课声音很小，建议提前站前排座位，智云课堂根本听不见）"},{"id":5136,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-07-04 16:23:03","like_diff":2,"likes":3,"dislikes":1,"content":"攒人品"},{"id":23290,"teacher_id":1526,"teacher_name":"万歆","post_time":"2016-03-23 18:31:42","like_diff":2,"likes":3,"dislikes":1,"content":"有个性吧"},{"id":52813,"teacher_id":1526,"teacher_name":"万歆","post_time":"2017-06-23 04:37:04","like_diff":2,"likes":2,"dislikes":0,"content":"好老师啊"},{"id":57623,"teacher_id":1526,"teacher_name":"万歆","post_time":"2017-07-10 22:51:10","like_diff":2,"likes":2,"dislikes":0,"content":"好老师！"},{"id":58844,"teacher_id":1526,"teacher_name":"万歆","post_time":"2017-09-18 05:29:03","like_diff":2,"likes":2,"dislikes":0,"content":"很有思想"},{"id":83246,"teacher_id":1526,"teacher_name":"万歆","post_time":"2018-07-10 03:29:48","like_diff":2,"likes":3,"dislikes":1,"content":"上课全程懵逼，是自己没认真吧。ppt真的很迷，自学难度挺大。考试出的题目都是考理解的，分析失败.jpg。卷子后面一页的公式，可是我没记住的都不在上面(￣へ￣)"},{"id":105665,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-05-04 14:33:52","like_diff":2,"likes":2,"dislikes":0,"content":"万老师真的超好 超级帅"},{"id":108097,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-05-15 00:25:55","like_diff":2,"likes":2,"dislikes":0,"content":"又高又帅又儒雅"},{"id":109498,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-06-16 03:45:44","like_diff":2,"likes":2,"dislikes":0,"content":"温文尔雅的男神！！！"},{"id":113795,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-07-07 14:31:34","like_diff":2,"likes":3,"dislikes":1,"content":"感谢万歆爸爸"},{"id":114309,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-07-09 17:37:28","like_diff":2,"likes":2,"dislikes":0,"content":"感谢老师。下学期依然是您的课。会更努力学的。"},{"id":148596,"teacher_id":1526,"teacher_name":"万歆","post_time":"2022-01-13 02:56:44","like_diff":2,"likes":2,"dislikes":0,"content":"老师人挺好，就是全英文授课，最后的期末考难度是挺高的不过老师也挺能捞的，平时课上会有quiz，不过不看对错，当点名用。爱了爱了"},{"id":169092,"teacher_id":1526,"teacher_name":"万歆","post_time":"2023-02-24 09:10:45","like_diff":2,"likes":2,"dislikes":0,"content":"万歆老师是我永远的男神！！对学生很好，体谅我们线上上课的种种困难做出了很多调整，看得出来老师对这门课非常用心！当然老师的教学能力也真的很棒，跟着老师的思路绝对能够对物理有新的认识，听完一学期后感觉很多地方的知识都能够相互联系而不是单纯的知识灌输。\n\n普物是有难度的课，但万歆老师的普物二是这个学期认为选得最正确的一门课！"},{"id":175252,"teacher_id":1526,"teacher_name":"万歆","post_time":"2023-06-23 03:52:27","like_diff":2,"likes":5,"dislikes":3,"content":"给分奇差无比"},{"id":177406,"teacher_id":1526,"teacher_name":"万歆","post_time":"2023-07-03 07:18:25","like_diff":2,"likes":2,"dislikes":0,"content":"量子课很好"},{"id":205573,"teacher_id":1526,"teacher_name":"万歆","post_time":"2024-12-09 11:10:57","like_diff":2,"likes":2,"dislikes":0,"content":"非常好"},{"id":29993,"teacher_id":1526,"teacher_name":"万歆","post_time":"2016-06-30 16:24:17","like_diff":1,"likes":3,"dislikes":2,"content":"卧槽…"},{"id":80629,"teacher_id":1526,"teacher_name":"万歆","post_time":"2018-06-28 13:18:59","like_diff":1,"likes":2,"dislikes":1,"content":"不好意思真的听不懂老师在讲什么，PPT也很迷根本没法复习"},{"id":82742,"teacher_id":1526,"teacher_name":"万歆","post_time":"2018-07-09 05:04:42","like_diff":1,"likes":1,"dislikes":0,"content":"跪求过"},{"id":107379,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-05-04 14:39:44","like_diff":1,"likes":1,"dislikes":0,"content":"好！好！非常好！"},{"id":113679,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-09-28 22:51:33","like_diff":1,"likes":1,"dislikes":0,"content":"无.."},{"id":114187,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-07-09 17:21:13","like_diff":1,"likes":2,"dislikes":1,"content":"我真的......我数分普物大程全...被卡 老师出的题给我的感觉就是正常人出不出来（有点像泛珠三角州的题 阅读量也是很大那种）但是风格会更加迷一些 感觉考前复习没用因为考的特别偏 我们就考到了什么拍频 波动直接考了两个大题"},{"id":114277,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-07-09 17:12:47","like_diff":1,"likes":2,"dislikes":1,"content":"感谢XIN WAN的给分，期末试卷不难但我没考好，不过最后给的分数确实让我感到了温暖"},{"id":114370,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-07-10 00:03:42","like_diff":1,"likes":1,"dislikes":0,"content":"很有启发"},{"id":114373,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-07-10 00:08:30","like_diff":1,"likes":1,"dislikes":0,"content":"老师很温柔 给分很宽松"},{"id":114775,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-07-11 13:37:19","like_diff":1,"likes":1,"dislikes":0,"content":"男神♪～(´ε｀　)"},{"id":122090,"teacher_id":1526,"teacher_name":"万歆","post_time":"2020-02-12 14:19:40","like_diff":1,"likes":3,"dislikes":2,"content":"男神老师！特别有大师风范！虽然考试内容比平时难一些，但是感觉他真希望我们学到点东西。抛开绩点不说我很享受每一节课~"},{"id":128187,"teacher_id":1526,"teacher_name":"万歆","post_time":"2020-12-11 04:15:59","like_diff":1,"likes":4,"dislikes":3,"content":"我觉得一个好老师不能仅仅看课上的怎么样，我觉得万歆是个好老师。"},{"id":131193,"teacher_id":1526,"teacher_name":"万歆","post_time":"2021-01-26 13:05:01","like_diff":1,"likes":3,"dislikes":2,"content":"老师太帅了！！男神！！！"},{"id":133755,"teacher_id":1526,"teacher_name":"万歆","post_time":"2021-03-04 12:26:37","like_diff":1,"likes":3,"dislikes":2,"content":"万歆，我的超人！"},{"id":152616,"teacher_id":1526,"teacher_name":"万歆","post_time":"2022-04-16 03:28:39","like_diff":1,"likes":4,"dislikes":3,"content":"不装了\n\n我摊牌了\n\nwx我男神\n\n普物Ⅱyyds"},{"id":152617,"teacher_id":1526,"teacher_name":"万歆","post_time":"2022-04-16 03:28:35","like_diff":1,"likes":4,"dislikes":3,"content":"不装了\n\n我摊牌了\n\nwx我男神\n\n普物Ⅱyyds"},{"id":169077,"teacher_id":1526,"teacher_name":"万歆","post_time":"2023-02-24 08:27:03","like_diff":1,"likes":1,"dislikes":0,"content":"普物II 虽然老师点了两次名 不过老师说点名只是为了给他的教学作参考而不会扣分hhh 期末出得比较简单 绩点出来直呼亲爹\n\n如果说我有多么憎恶普物这门课 那一定是这门课本身造成的 而不是wx\n\n真要说的话 为什么我的普物老师智云声音都这么小啊 学了一年耳朵要废了（悲）"},{"id":174988,"teacher_id":1526,"teacher_name":"万歆","post_time":"2023-06-20 14:41:40","like_diff":1,"likes":1,"dislikes":0,"content":"量子信息求捞呜呜呜"},{"id":203067,"teacher_id":1526,"teacher_name":"万歆","post_time":"2024-11-16 07:56:04","like_diff":1,"likes":1,"dislikes":0,"content":"听了老师的诺奖解读，真的很有一种学者的风范"},{"id":215635,"teacher_id":1526,"teacher_name":"万歆","post_time":"2025-03-03 06:07:04","like_diff":1,"likes":1,"dislikes":0,"content":"男神，上完专业学院各位牛鬼蛇神的课之后，再来上万老师的课真是如沐春风"},{"id":217614,"teacher_id":1526,"teacher_name":"万歆","post_time":"2025-04-14 06:30:33","like_diff":1,"likes":1,"dislikes":0,"content":"男神，但我是真听不懂啊"},{"id":29776,"teacher_id":1526,"teacher_name":"万歆","post_time":"2016-06-30 10:00:56","like_diff":0,"likes":5,"dislikes":5,"content":"注重物理思维的培养，给分很好。"},{"id":81635,"teacher_id":1526,"teacher_name":"万歆","post_time":"2018-07-05 15:32:11","like_diff":0,"likes":1,"dislikes":1,"content":"上课有范，很注重知识的拓展与思维的培养，考试时不强求背公式，卷子上相关公式都有列出，主要考理解和运用。英文PPT重点难把握的话，可以结合大物教材。很赞，十分走起。"},{"id":86655,"teacher_id":1526,"teacher_name":"万歆","post_time":"2018-09-18 01:08:02","like_diff":0,"likes":0,"dislikes":0,"content":"很认真的老师，非常重视学生"},{"id":142077,"teacher_id":1526,"teacher_name":"万歆","post_time":"2021-11-05 06:36:42","like_diff":0,"likes":4,"dislikes":4,"content":"万歆老师虽然说英语上课而且有点玄学，但是真的很有启发性，应该说打开了一扇新的思维方式的大门，这很珍贵"},{"id":150212,"teacher_id":1526,"teacher_name":"万歆","post_time":"2022-01-20 11:08:19","like_diff":0,"likes":4,"dislikes":4,"content":"跪谢万爸爸不挂之恩！"},{"id":157980,"teacher_id":1526,"teacher_name":"万歆","post_time":"2022-06-26 02:42:34","like_diff":0,"likes":7,"dislikes":7,"content":"上的量子信息基础，课真的好！\n\n学到了很多捏"},{"id":170061,"teacher_id":1526,"teacher_name":"万歆","post_time":"2023-03-01 07:23:44","like_diff":0,"likes":0,"dislikes":0,"content":"llk那里过来的，我破防了"},{"id":195775,"teacher_id":1526,"teacher_name":"万歆","post_time":"2024-06-30 02:17:04","like_diff":0,"likes":0,"dislikes":0,"content":"谨记教诲"},{"id":203123,"teacher_id":1526,"teacher_name":"万歆","post_time":"2024-11-17 05:28:01","like_diff":0,"likes":4,"dislikes":4,"content":"上课水平不敢恭维"},{"id":223856,"teacher_id":1526,"teacher_name":"万歆","post_time":"2025-10-24 13:33:34","like_diff":0,"likes":0,"dislikes":0,"content":"高统，讲的非常快，过于快了，感觉就是念ptt（或者念书）\n\nPPT是书里这截一点那截一点形成的，感觉做的很一般，不成体系"},{"id":148715,"teacher_id":1526,"teacher_name":"万歆","post_time":"2022-01-13 09:39:17","like_diff":-1,"likes":0,"dislikes":1,"content":"是真的能捞"},{"id":6019,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-07-10 08:46:33","like_diff":-5,"likes":9,"dislikes":14,"content":"讲得不行，基本没必要听"},{"id":5142,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-07-05 02:40:20","like_diff":-9,"likes":9,"dislikes":18,"content":"长得挺帅，就是讲得实在有点烂..."},{"id":113600,"teacher_id":1526,"teacher_name":"万歆","post_time":"2019-07-07 01:00:58","like_diff":-9,"likes":3,"dislikes":12,"content":"男神！男神！男神！男神调分了！我爱万歆！物理菜鸡的（非卡绩）4.2！（话说楼下那个物竞的，是什么水平呢...反正我认识一个学物竞的4.8呀（而且还卡绩了），我觉得也要看个人对物理的理解和感觉吧...？"},{"id":3650,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-06-17 02:02:04","like_diff":-11,"likes":2,"dislikes":13,"content":"卧槽"},{"id":161093,"teacher_id":1526,"teacher_name":"万歆","post_time":"2022-10-26 14:09:07","like_diff":-11,"likes":4,"dislikes":15,"content":"狗屎。"},{"id":1591,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-03-23 00:44:37","like_diff":-15,"likes":5,"dislikes":20,"content":"卧槽。上过的告诉我绩点真的这么坑吗？"},{"id":161110,"teacher_id":1526,"teacher_name":"万歆","post_time":"2022-10-27 08:47:32","like_diff":-18,"likes":5,"dislikes":23,"content":"ppt做的不行，讲的层次感很差，声音又小又娘又不用话筒，平常的作业好多都是数学题，偏竞赛，我学普物不是为了受偏怪折磨的。"},{"id":7826,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-09-15 14:13:23","like_diff":-19,"likes":7,"dislikes":26,"content":"虚有其表"},{"id":32160,"teacher_id":1526,"teacher_name":"万歆","post_time":"2016-07-06 00:14:18","like_diff":-19,"likes":9,"dislikes":28,"content":"完全过誉。不适合教学生，看起来很儒雅，真正听懂了的有几个？不备课导致上课讲错了很多东西，只是大家都懵逼，知道的人不说而已。"},{"id":3967,"teacher_id":1526,"teacher_name":"万歆","post_time":"2015-06-17 11:22:27","like_diff":-20,"likes":2,"dislikes":22,"content":"日了"},{"id":81231,"teacher_id":1526,"teacher_name":"万歆","post_time":"2020-01-13 15:19:23","like_diff":-98,"likes":4,"dislikes":102,"content":"站在台面上还行，私底下就一人渣"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

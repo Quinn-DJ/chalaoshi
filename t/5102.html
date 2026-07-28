@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>应晶 - 计算机科学与技术学院 - 浙大教评</title>
+    <meta name="description" content="应晶教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="应晶,计算机科学与技术学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">应晶</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">计算机科学与技术学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.60</div>
+                    <div class="rating-participants">33人参与评分</div>
+                    <div class="attendance-info">12.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">程序设计与算法基础</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.46</span>
+                            <span class="students">选课: 149人</span>
+                            <span class="std-dev">标准差: 0.56</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">程序设计基础</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.57</span>
+                            <span class="students">选课: 202人</span>
+                            <span class="std-dev">标准差: 0.91</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (27 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":148334,"teacher_id":5102,"teacher_name":"应晶","post_time":"2022-01-12 07:05:34","like_diff":8,"likes":10,"dislikes":2,"content":"1.老师人真的很好，这个没得说，讲课会一再问有没有没听懂的地方，考试考的不好去问他会耐心开解鼓励\n\n2.是真的希望学生能独立思考学出成绩，上课提问希望得到的是经过认真思考的答案\n\n3.助教缪老师也很好，认真负责，问他问题有问必答，编程大作业他负责打分的时候还会很耐心地解答同学的疑惑，甚至帮忙完善程序（不是作弊放水意味，就是同学编的时候可能有地方不够完善他会指出来然后教你怎么做更好，打分还是看你一开始交上来的成果）"},{"id":149912,"teacher_id":5102,"teacher_name":"应晶","post_time":"2022-01-17 17:28:55","like_diff":7,"likes":8,"dislikes":1,"content":"是绝世大好人没错了，好到已经找不到什么词来形容了，选上他的课就是一种幸运吧。"},{"id":133292,"teacher_id":5102,"teacher_name":"应晶","post_time":"2021-02-23 13:14:28","like_diff":5,"likes":7,"dislikes":2,"content":"老师非常负责，讲课新手向，有个小组大作业的要求。期末批大作业的时候还会一个一个鼓励同学。但是编程这事再新手向也得靠自己。"},{"id":133644,"teacher_id":5102,"teacher_name":"应晶","post_time":"2021-03-03 06:32:30","like_diff":5,"likes":5,"dislikes":0,"content":"老师人很耐心，讲到也很不错，比较喜欢叫后排的同学回答问题，课程很不错哒。"},{"id":152175,"teacher_id":5102,"teacher_name":"应晶","post_time":"2022-03-29 12:00:05","like_diff":4,"likes":4,"dislikes":0,"content":"讲课讲得非常好，为了保证同学们听懂了，经常向同学提问，同学不会时他还会给很多提示。给同学们的成绩也非常高。吹爆！\n\n满绩学生前来感谢！"},{"id":167491,"teacher_id":5102,"teacher_name":"应晶","post_time":"2023-01-16 16:08:49","like_diff":3,"likes":3,"dislikes":0,"content":"呜呜  应晶老师太棒啦  激动得连夜来写评论！！！\n\n本人C零基础，整个学期也都学的很忐忑。\n\n老师让看英文原著，可我一个学期就啃下来三章[暴风哭泣]\n\n老师让做小组作业，看到队友的各种高级操作，分给我的任务也做的一塌糊涂（最后队友把我做的全改了（此处匿名感谢[合十]\n\n不过惊喜的是，期末竟然飘过啦。\n\n应老师讲课循循善诱，课间课后去问问题也都超级耐心。记得刚开始我经常去问一些现在看来很低级的问题，但是老师还是会一点一点的解释，并且还会给我一些小问题让我回去自己编编试验。\n\n应老师讲课幽默风趣，伴随着一些他与师兄(zhgg)的小故事，以及窃取别人账号（bushi）的各种故事让我对于知识的记忆也更加深刻。\n\n应老师为人和蔼可亲，刚开始我不知道选课原理就退掉了C小，但是和应老师邮件沟通后他很爽快的就同意了我的补选，后期在钉钉上也很和蔼，从来不会已读不回[可怜]尤其线上考试以及模拟测试的时候，老师的话语都让我莫名的心暖。\n\n顺便bd缪学长（助教），PTA上的无数bug，mfgg都是一点一点帮我找的（其实我做的思路特别绕，完全不是出题人要的那种），但是每次学长都会先指出我编的问题然后才会告诉我更好的思路，而不是直接就告诉我标准答案。这一点吹爆mfgg!\n\n感谢应老师和缪学长，大家都来选吖！"},{"id":212110,"teacher_id":5102,"teacher_name":"应晶","post_time":"2025-01-13 07:50:04","like_diff":3,"likes":3,"dislikes":0,"content":"期末被狠狠捞起来！老师人特别好！冲！！"},{"id":125937,"teacher_id":5102,"teacher_name":"应晶","post_time":"2020-09-16 01:59:39","like_diff":2,"likes":2,"dislikes":0,"content":"芜湖快乐"},{"id":143748,"teacher_id":5102,"teacher_name":"应晶","post_time":"2021-12-04 07:20:46","like_diff":2,"likes":2,"dislikes":0,"content":"老师非常棒"},{"id":145583,"teacher_id":5102,"teacher_name":"应晶","post_time":"2021-12-30 10:38:49","like_diff":2,"likes":2,"dislikes":0,"content":"老师人好"},{"id":207941,"teacher_id":5102,"teacher_name":"应晶","post_time":"2024-12-25 04:09:29","like_diff":2,"likes":2,"dislikes":0,"content":"很好的老师，讲解很清楚，会追着你一直到你把这个概念弄懂，讲课也超有意思"},{"id":119614,"teacher_id":5102,"teacher_name":"应晶","post_time":"2019-11-14 06:33:52","like_diff":1,"likes":1,"dislikes":0,"content":"为什么没人评分？"},{"id":188659,"teacher_id":5102,"teacher_name":"应晶","post_time":"2024-01-19 13:15:01","like_diff":1,"likes":1,"dislikes":0,"content":"上课会抽取幸运观众到讲台领讲"},{"id":189618,"teacher_id":5102,"teacher_name":"应晶","post_time":"2024-01-26 03:43:26","like_diff":1,"likes":1,"dislikes":0,"content":"期末谢谢谢谢谢谢\n\n男神！"},{"id":205918,"teacher_id":5102,"teacher_name":"应晶","post_time":"2024-12-12 16:03:21","like_diff":1,"likes":1,"dislikes":0,"content":"上课笑眯眯的！ppt和板书结合，讲得很清楚，很详细，适合不太有基础的同学。上课会点人回答，但是不会为难你，回答对了会鼓励！！下课去问他问题也会很有耐心地回答，总之选上他你们就偷着乐吧！"},{"id":207717,"teacher_id":5102,"teacher_name":"应晶","post_time":"2024-12-24 03:35:12","like_diff":1,"likes":1,"dislikes":0,"content":"非常非常非常好的老师！"},{"id":212122,"teacher_id":5102,"teacher_name":"应晶","post_time":"2025-01-13 08:24:19","like_diff":1,"likes":1,"dislikes":0,"content":"应老师男神！\n\n上课循循善诱非常有耐心，会点人检验成果，如果你不会他会一点一点讲清楚，课堂效果非常好这能学到很多东西\n\n机房课比较水，不过作业一定要认真完成，个人感觉pta还挺好玩（？）\n\n平时有问题随时问，大型作业应老师非常爱夸夸，鼓励引导进步\n\n从来没学过c语言，最后感觉收获颇多\n\n赞赞赞！"},{"id":215043,"teacher_id":5102,"teacher_name":"应晶","post_time":"2025-02-20 08:50:15","like_diff":1,"likes":1,"dislikes":0,"content":"会努力使每个学生都学会了，很耐心。给分好！"},{"id":225472,"teacher_id":5102,"teacher_name":"应晶","post_time":"2025-12-24 01:52:36","like_diff":1,"likes":1,"dislikes":0,"content":"绝对的大好人，无人能敌!!!!混合前辈才是最懂混合的人!!!"},{"id":189819,"teacher_id":5102,"teacher_name":"应晶","post_time":"2024-01-30 08:04:05","like_diff":0,"likes":1,"dislikes":1,"content":"程设\n\n期末大题5道只做出三道半，小组作业认真对待，绩点4.8\n\n老师是很好的老师，混合班的前辈学长\n\n（上课抽取幸运观众到讲台领讲是讲课一大特色（为的是让学生试错、真正搞懂））"},{"id":201722,"teacher_id":5102,"teacher_name":"应晶","post_time":"2024-11-05 15:54:36","like_diff":0,"likes":0,"dislikes":0,"content":"非常负责任，上课会随机抽取幸运观众上台回答问题，但绝对不会为难你，即使你一头雾水他也会耐心地帮你把这个问题搞明白，上应老师的课有一种被手把手教学的感觉；但是高中没有选秀信息技术的同学学习c语言基础这门课可能还是比较有难度的，如果英语教材比较难读也可以去mooc上找公开课自学一下。"},{"id":204603,"teacher_id":5102,"teacher_name":"应晶","post_time":"2024-11-27 03:40:40","like_diff":0,"likes":0,"dislikes":0,"content":"应老师上课确实非常细致耐心，属于会手把手教的那种老师。但是对于想要专心自学的同学，上课高强度点人发言并不是非常友好。"},{"id":212355,"teacher_id":5102,"teacher_name":"应晶","post_time":"2025-01-14 02:06:47","like_diff":0,"likes":0,"dislikes":0,"content":"巨好巨好的老师，没上过他的课就是亏了"},{"id":223512,"teacher_id":5102,"teacher_name":"应晶","post_time":"2025-09-26 10:47:34","like_diff":0,"likes":0,"dislikes":0,"content":"很厉害"},{"id":225925,"teacher_id":5102,"teacher_name":"应晶","post_time":"2026-01-05 02:20:32","like_diff":0,"likes":0,"dislikes":0,"content":"太完美了"},{"id":134173,"teacher_id":5102,"teacher_name":"应晶","post_time":"2021-03-18 02:20:50","like_diff":-8,"likes":0,"dislikes":8,"content":"事情多"},{"id":154156,"teacher_id":5102,"teacher_name":"应晶","post_time":"2022-05-25 01:12:31","like_diff":-41,"likes":3,"dislikes":44,"content":"这名字😅"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

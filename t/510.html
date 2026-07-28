@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赵静 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="赵静教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="赵静,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">赵静</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">5.67</div>
+                    <div class="rating-participants">152人参与评分</div>
+                    <div class="attendance-info">10.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">中级财务会计Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.87</span>
+                            <span class="students">选课: 102人</span>
+                            <span class="std-dev">标准差: 0.96</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">中级财务会计Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.55</span>
+                            <span class="students">选课: 311人</span>
+                            <span class="std-dev">标准差: 1.02</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">会计学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.72</span>
+                            <span class="students">选课: 205人</span>
+                            <span class="std-dev">标准差: 0.97</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (137 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":99947,"teacher_id":510,"teacher_name":"赵静","post_time":"2019-01-25 10:29:54","like_diff":48,"likes":57,"dislikes":9,"content":"其实赵静老师也没那么差，上课确实只是念ppt，有点困，但是回答同学问题还是很耐心，考试前问题也都回答，讲的很清楚。期末考不难，希望老师给分也变善！！"},{"id":101361,"teacher_id":510,"teacher_name":"赵静","post_time":"2019-01-28 05:38:26","like_diff":42,"likes":47,"dislikes":5,"content":"老师很好啊，这学期最后的试卷不难，绩杀不存在的，给出的分数比较客观所以差距有些大叭。而且老师最后答疑的时候超认真超负责啊，不像隔壁某l老师，自己搞不清楚问题还来上课..."},{"id":147248,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-01-09 08:37:35","like_diff":26,"likes":27,"dislikes":1,"content":"上了赵静的中财二，就愈发怀念徐晓燕的中财一"},{"id":167106,"teacher_id":510,"teacher_name":"赵静","post_time":"2023-01-15 03:35:32","like_diff":17,"likes":19,"dislikes":2,"content":"回答问题确实非常耐心详细，但这也算是唯一的优点了吧\n\n上课纯念ppt，中财二给分非常绩杀，甚至考试的时候出题能出错了，连错两道，虽然后面还说给大家补偿其中一个错题满分，但是在考场上第一年就摊销完了的那种无力感……真的让人一度陷入怀疑自己……\n\n考完之后信心满满结果喜提绩杀……\n\n不建议学弟学妹大三选这节课，尤其是有保研计划的同学，最好推到大四修\n\n我浙商科年年如此孱弱，唉，如此教学质量我院何时才能成为世界一流\n\n“培养引领中国发展的健康力量”，你们的培养就是如此么"},{"id":166302,"teacher_id":510,"teacher_name":"赵静","post_time":"2023-01-12 00:01:02","like_diff":15,"likes":17,"dislikes":2,"content":"3.0大绩杀，讲课讲不清楚出题出不清楚，给分又很烂，大三了均绩直接掉0.04，谢谢你断了我的保研梦"},{"id":189036,"teacher_id":510,"teacher_name":"赵静","post_time":"2024-01-21 10:38:35","like_diff":15,"likes":18,"dislikes":3,"content":"我要为赵静正名，真的是一个好老师，解答同学问题永远很及时。那些喷她的人先问问自己有没有认真学了？课后花时间了吗？课后花了多少时间？赵静老师上课不水，几乎没有一句废话，会把重点强调好几遍，输出很流畅。没有磨人且低效的小组作业、没有上课卷发言的牛马操作，给分客观求是，纯靠自己努力，喜欢这种一分努力一分回报的课。"},{"id":208693,"teacher_id":510,"teacher_name":"赵静","post_time":"2024-12-31 03:40:04","like_diff":15,"likes":15,"dislikes":0,"content":"你知道复习中财二有多崩溃吗"},{"id":82138,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-07-19 10:11:51","like_diff":13,"likes":22,"dislikes":9,"content":"还不错，为静静正名"},{"id":176657,"teacher_id":510,"teacher_name":"赵静","post_time":"2023-06-29 15:21:23","like_diff":10,"likes":10,"dislikes":0,"content":"给老师十分。\n\n80 3.6 期末大概70多\n\n老师PPT很清楚 讲的也很到位 但是我由于性格原因 没有听过课 都是课上课下自学。\n\n老师给分很不错的 平时分只要认真完成作业 都会很不错的 期末考试占比很高 期末考很重要 背的东西很多 有许多没记住 考的不好\n\n至于说老师🐔杀的。我希望你客观一点 看看是不是期末考试的问题或者平时态度的问题 看看你付出了多少 你以为考试做对了 但其实没有做对 老师还是很值得选的 我认为她给的成绩和努力匹配（也不是说努力 和期末成绩匹配）"},{"id":20133,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-01-26 07:44:51","like_diff":9,"likes":37,"dislikes":28,"content":"给分特别差！慎重啊！"},{"id":176839,"teacher_id":510,"teacher_name":"赵静","post_time":"2023-06-30 10:46:16","like_diff":8,"likes":8,"dislikes":0,"content":"会计学满了www我也给静静满上！只要按部就班地听课和写作业，平时也没有小测，考试前刷一刷大作业，感觉就没有问题了。赵老师讲课思路很清晰，而且经常会拓展一些知识。大家可以放心选~主要还是要抓牢平时啦！"},{"id":70241,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-01-26 09:31:06","like_diff":7,"likes":22,"dislikes":15,"content":"给分奇差无比，这个老师没有平时分的概念，没有适当调分的概念，出分之前我一直对她很有好感，虽然讲课无聊，但是真的很负责，然而中财二创下了我最低绩点的记录"},{"id":70247,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-01-26 09:47:32","like_diff":7,"likes":27,"dislikes":20,"content":"想给0分，因为这门课就只给开一个老师，没有其他选择，绝望，感觉很多东西都讲不出内在的逻辑，还不如企业伦理老师上课随便讲讲深入，给分毫无逻辑可言，付出努力回报不成正比，史上最低成绩，看学的很认真的同学成绩也很惨淡，大家做好心理准备！"},{"id":167514,"teacher_id":510,"teacher_name":"赵静","post_time":"2023-01-17 02:36:44","like_diff":7,"likes":9,"dislikes":2,"content":"希望老师能把隔壁l老师换下来教教税法，至少可以把相关内容都好好的放到ppt里，至少会解答题目...."},{"id":178167,"teacher_id":510,"teacher_name":"赵静","post_time":"2023-07-07 11:26:40","like_diff":7,"likes":7,"dislikes":0,"content":"老师上课讲的很详细"},{"id":157881,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-06-25 10:11:27","like_diff":6,"likes":7,"dislikes":1,"content":"赵老师讲得很清楚，上她的会计学课虽然略有些无聊，但是真的收获了很多的干货。把各种概念结合她的ppt搞清楚，最后也取得了很满意的成绩！我来为静静正名！"},{"id":157884,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-06-25 10:21:07","like_diff":6,"likes":7,"dislikes":1,"content":"上课超认真！！！（每节课都点名哦）回答钉钉问题也非常迅速，给分不错！本来以为要挂了的，老师太能捞啦！！！"},{"id":189703,"teacher_id":510,"teacher_name":"赵静","post_time":"2024-01-27 06:11:51","like_diff":6,"likes":7,"dislikes":1,"content":"为静静正名！没有说的那么不堪，但是也不要抱有太大期待~"},{"id":6639,"teacher_id":510,"teacher_name":"赵静","post_time":"2015-07-19 15:46:16","like_diff":5,"likes":29,"dislikes":24,"content":"无聊，给分差"},{"id":14309,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-01-06 07:45:44","like_diff":5,"likes":24,"dislikes":19,"content":"给分超级差"},{"id":23153,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-03-20 10:38:38","like_diff":5,"likes":17,"dislikes":12,"content":"一字不落地念PPT"},{"id":69156,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-01-26 10:03:20","like_diff":5,"likes":20,"dislikes":15,"content":"想给0分 差到无底 所有课的最低绩点 我复习超久的啊 这门课花了最多时间"},{"id":148394,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-01-12 10:40:53","like_diff":5,"likes":8,"dislikes":3,"content":"大大大绩杀！讲课也糟糕！给负分都嫌高！！😠 😠 😠 😠 😠 😠"},{"id":166292,"teacher_id":510,"teacher_name":"赵静","post_time":"2023-01-11 17:47:16","like_diff":5,"likes":5,"dislikes":0,"content":"给分巨差，ppt花花绿绿复习眼睛都要瞎了，考试出题也是错的，但中财二也没得选，只能说答疑什么态度还行，但课真的无语"},{"id":174515,"teacher_id":510,"teacher_name":"赵静","post_time":"2023-06-13 12:37:27","like_diff":5,"likes":5,"dislikes":0,"content":"赵静老师上课ppt真的准备的很充分，钉钉回复问题真的很快，只能说如果没有学好一定是自己没有好好学"},{"id":10275,"teacher_id":510,"teacher_name":"赵静","post_time":"2015-11-18 01:14:42","like_diff":4,"likes":21,"dislikes":17,"content":"很无聊 给分也不好"},{"id":85274,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-07-16 16:16:42","like_diff":4,"likes":7,"dislikes":3,"content":"讲的不好，出题没个把握，量大不说，还很难。甚至考场上有道题数字错了，老师竟然说将错就错吧excuse me？难道就没想过这个数字的错误会让很多人一直在重复验算吗？！说实话，选上了赵静老师的课，我只能默默祈祷。唉不说了，下学期还是她的中财二，自求多福喽"},{"id":157882,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-06-25 10:18:18","like_diff":4,"likes":5,"dislikes":1,"content":"超喜欢老师上课的风格！！\n\nppt也很清楚，考试补天看ppt完全可行！！"},{"id":167464,"teacher_id":510,"teacher_name":"赵静","post_time":"2023-01-16 13:27:03","like_diff":4,"likes":5,"dislikes":1,"content":"中财二给分巨差啊......因为这波疫情，很多同学都是考前阳过了的，根本没有充足的时间复习，考的还是一堆偏门知识点+题量巨大+一堆错题，就问zj考倒学生有意思吗？？"},{"id":189596,"teacher_id":510,"teacher_name":"赵静","post_time":"2024-01-25 14:42:31","like_diff":4,"likes":6,"dislikes":2,"content":"从客观角度来讲，ppt的排版制作确有欠缺，且从会计学到中财I和II用的都是同一模版，在复习时给学生增添难度我表示赞同。但从答疑、授课内容、期末考、成绩组成来讲，我觉得没什么可挑剔的，老师没有义务去捞你，选择、判断、分录，会就是会，不会就是不会，没有能捞你的地方，期末考占比也摆在那，也就注定了期末考试顺利，成绩也不会太差，拿到低绩点的同学可以反思一下平常上课来了吗？认真听了吗？课后回顾了吗？作业认真写了吗？疑难认真思考了吗？中财2的内容如果纯靠期末3-4天速成还是有难度的，最多及格，卷子简单+赌题赌中，上4也是有可能，所以静静除了可以再美化ppt这个方面，专业能力没什么可挑剔的"},{"id":6640,"teacher_id":510,"teacher_name":"赵静","post_time":"2015-07-17 01:14:56","like_diff":3,"likes":17,"dislikes":14,"content":"上课总是睡着orz"},{"id":74160,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-02-06 02:52:09","like_diff":3,"likes":4,"dislikes":1,"content":"给分不是一般的差！慎选！"},{"id":148424,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-01-12 12:09:16","like_diff":3,"likes":6,"dislikes":3,"content":"谢谢你大绩杀"},{"id":149081,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-01-14 10:22:03","like_diff":3,"likes":4,"dislikes":1,"content":"给分不太行的，可惜中财二只能选她"},{"id":157893,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-06-25 10:38:20","like_diff":3,"likes":7,"dislikes":4,"content":"会计学\n\n必须给老师10分，老师真的好好哇！这里评论说老师给分差确定你们认真学了吗？老师讲课有点点点无聊，但是上课还是很认真的，考前老师很细心提醒要注意复习的部分，晚上私信老师也是秒回！真的选赵老师就对了！对了，最后给分也超级好！"},{"id":164878,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-12-27 07:11:08","like_diff":3,"likes":4,"dislikes":1,"content":"赵静老师讲课很清晰呀，PPT也很详细，为静静正名！"},{"id":177520,"teacher_id":510,"teacher_name":"赵静","post_time":"2023-07-03 14:41:46","like_diff":3,"likes":3,"dislikes":0,"content":"会计学：老师上课真的很无聊，讲的很慢，而且每节课都点名。但是胜在ppt比较详细，补天起来比较方便。给分还可以，但是我最后被卡绩了。"},{"id":189677,"teacher_id":510,"teacher_name":"赵静","post_time":"2024-01-26 14:37:07","like_diff":3,"likes":4,"dislikes":1,"content":"为赵静老师正名+1，老师很负责，会计类课程内容多任务重是教学安排/培养方案设置的问题，不是老师的问题。这种课也确实一分努力一分回报，没什么好说的"},{"id":197115,"teacher_id":510,"teacher_name":"赵静","post_time":"2024-07-08 01:36:49","like_diff":3,"likes":3,"dislikes":0,"content":"老师挺求是的，但是评价机制很固定，自学党可以上（每节课前必雷达、数字点名，但也只是课前点名），点名可以补所以有很多操作空间。给分求是，但是会计学本身知识不难，期末可以补天。\n\n（悄咪咪说一下，因为自己听过隔壁ss老师的课，讲得是真的好，能选ss就选ss吧，不过ss老师会push一点哈哈哈哈哈）"},{"id":20103,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-01-26 06:03:50","like_diff":2,"likes":14,"dislikes":12,"content":"给分差，给分差，给分差，重要的话说三遍。"},{"id":29279,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-06-29 14:10:05","like_diff":2,"likes":13,"dislikes":11,"content":"60分1.5绩点 我是没有平时分？"},{"id":29525,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-06-30 02:31:07","like_diff":2,"likes":7,"dislikes":5,"content":"给分极差\n\n"},{"id":55895,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-07-02 14:58:28","like_diff":2,"likes":10,"dislikes":8,"content":"真的给分差到无语，最开始还不相信，绩点出来眼泪都要掉下来了。每节课都到每次作业都及时交考试也认真复习了，最后出的绩点太伤人心了，真的让人不相信努力了，不求你师生情但是也不能刻意打低吧，过分了。"},{"id":70257,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-01-26 10:02:38","like_diff":2,"likes":13,"dislikes":11,"content":"如果能换老师，我真心会选择别人，真的体谅一下我们学生好吗？就差给挂了吧？会计学，中财1，中财2都栽在她手里，无话可说"},{"id":70295,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-01-26 11:26:37","like_diff":2,"likes":6,"dislikes":4,"content":"平时上课什么的是还好的，也讲的细致，这个不否认，但是真的没有深入的分析层面的内容，给分呵呵呵呵。希望这个课多开别的老师，让我们真的能自由选课吧吧吧！"},{"id":73191,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-02-01 06:32:31","like_diff":2,"likes":3,"dislikes":1,"content":"给分不好啊"},{"id":101407,"teacher_id":510,"teacher_name":"赵静","post_time":"2019-01-28 07:03:00","like_diff":2,"likes":7,"dislikes":5,"content":"我觉得赵老师很好，PPT全面清晰，考前一个月开始复习，结果满意，棒棒哒\n\n"},{"id":114152,"teacher_id":510,"teacher_name":"赵静","post_time":"2019-07-09 01:33:07","like_diff":2,"likes":3,"dislikes":1,"content":"给分奇差无比，明明是花时间最多的课，最后确分数最差"},{"id":124742,"teacher_id":510,"teacher_name":"赵静","post_time":"2020-07-07 17:10:50","like_diff":2,"likes":3,"dislikes":1,"content":"老师人是不错哒！会计学，平时作业在书本，上课内容也是书本（我其实并没有觉得有什么不妥），任务不重。上课（网课）听听再自学一会儿肯定是能学会的。需要注意的是，老师在评分、调分上不太灵活，因此建议大家如果有异议、疑问要第一时间和老师商量沟通。"},{"id":157885,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-06-25 10:23:26","like_diff":2,"likes":3,"dislikes":1,"content":"赵静老师其实感觉不错，讲课挺好的，远比这个评分好，拉一拉。最后会计分录没调账以为分全扣完了结果比想象好，老师应该还是捞了一下的😍"},{"id":166118,"teacher_id":510,"teacher_name":"赵静","post_time":"2023-01-11 07:07:51","like_diff":2,"likes":2,"dislikes":0,"content":"感觉老师真的蛮好的，平时问问题也很快回复，只希望最后给分能好点"},{"id":176625,"teacher_id":510,"teacher_name":"赵静","post_time":"2023-06-29 12:53:24","like_diff":2,"likes":2,"dislikes":0,"content":"上课无聊，PPT不好看是真的，但是我没被绩杀，中财1给了4.5，可能是老师有改善了吗"},{"id":193218,"teacher_id":510,"teacher_name":"赵静","post_time":"2024-06-04 13:40:16","like_diff":2,"likes":2,"dislikes":0,"content":"会计学本身就很繁杂，老师讲课纯念ppt，反正对我而言知识无法入脑，完全对所学提不起兴趣。一句话：能跑则跑。"},{"id":197141,"teacher_id":510,"teacher_name":"赵静","post_time":"2024-07-08 05:38:32","like_diff":2,"likes":2,"dislikes":0,"content":"隔壁ss老师的课和zj老师的课都听了，感觉zj老师并没有评价上听起来那么可怕。ss老师的课框架和体系搭的比较好，我一般用ss老师的ppt先记好课前笔记；zj老师的课比较详实，甚至还会讲到很多ss老师上课没有讲到的细节点，但是ppt字有点多，不太好直接消化，上课也容易无聊。\n\nss老师的课与时事接轨、拓展多，注重培养学生的前瞻性思维；zj老师的课则比较中规中矩，涵盖面广，细节多，其实好好消化应对考试是不错的。\n\n在我看来两位老师课堂最不同的点在于上课氛围，zj老师的课确实沉闷无聊许多，许多同学受课堂氛围影响也就自顾自的摸鱼，这可能是导致同学学习体验差、出不了好成绩的直接原因。"},{"id":210673,"teacher_id":510,"teacher_name":"赵静","post_time":"2025-01-09 15:37:21","like_diff":2,"likes":2,"dislikes":0,"content":"中财二，好痛"},{"id":220280,"teacher_id":510,"teacher_name":"赵静","post_time":"2025-06-26 11:13:20","like_diff":2,"likes":2,"dislikes":0,"content":"中财一\n\n1.老师花了接近三周九节课的时间讲一个期末考试完全不考的东西\n\n2.课程量和复习量非常非常大，一千多页PPT画满了重点\n\n3.和xxy老师班级相比，对考试完全不熟悉。。。\n\n4.但是平常只有小测和作业，没有期中考和pre，点名很水\n\n\n\n中财你要是1.喜欢受虐2.大佬3.翘课去听xxy就来\n\n\n\n更新\n\n给分不错（我收回之前的话"},{"id":17254,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-01-20 02:42:59","like_diff":1,"likes":6,"dislikes":5,"content":"给分太差了"},{"id":20026,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-01-26 02:27:44","like_diff":1,"likes":5,"dislikes":4,"content":"上课还行吧，就是给分真的很客观"},{"id":25612,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-05-28 12:19:54","like_diff":1,"likes":8,"dislikes":7,"content":"讲得令人昏睡，给分真的是呵呵呵"},{"id":29273,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-06-29 14:02:45","like_diff":1,"likes":10,"dislikes":9,"content":"一门课出惨被拉0.2 给分神坑啊考几分就几分的吗"},{"id":29508,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-06-30 01:59:09","like_diff":1,"likes":7,"dislikes":6,"content":"真的太低了吧，虽然没认真学，但是也不至于那么差"},{"id":29531,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-06-30 02:42:33","like_diff":1,"likes":7,"dislikes":6,"content":"给分特别差 出分还慢...上课啊好无聊"},{"id":29877,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-06-30 12:42:49","like_diff":1,"likes":6,"dislikes":5,"content":"给分神坑d(ŐдŐ๑)"},{"id":29943,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-06-30 14:24:24","like_diff":1,"likes":2,"dislikes":1,"content":"很困。。。"},{"id":30164,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-07-01 04:22:53","like_diff":1,"likes":6,"dislikes":5,"content":"给分是真的坑，没有平时分。认真学了却比其他低很多真的很失望"},{"id":33445,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-09-19 10:44:06","like_diff":1,"likes":3,"dislikes":2,"content":"无聊，念ppt"},{"id":48696,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-03-09 13:57:54","like_diff":1,"likes":8,"dislikes":7,"content":"讲的超级差，完全没有逻辑，遇到问题都略过，对知识点自身也是一知半解，感觉毫无经验，全靠自学，给分超烂！大家别选。只能帮你们到这里了。"},{"id":51555,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-06-07 05:30:29","like_diff":1,"likes":7,"dislikes":6,"content":"总是猝不及防"},{"id":55872,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-07-02 13:59:02","like_diff":1,"likes":13,"dislikes":12,"content":"大?杀"},{"id":55876,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-07-02 14:04:14","like_diff":1,"likes":6,"dislikes":5,"content":"慎选。。"},{"id":55921,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-07-02 16:02:43","like_diff":1,"likes":7,"dislikes":6,"content":"完完全全的垃圾老师\n\n老子平时分都不只这点吧\n\n你给分是用蹄子给的吧"},{"id":55945,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-07-02 17:31:24","like_diff":1,"likes":5,"dislikes":4,"content":"给分很魔幻啊"},{"id":56029,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-07-03 02:59:43","like_diff":1,"likes":4,"dislikes":3,"content":"辣鸡\n\n给分巨差，慎选"},{"id":56300,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-07-03 12:31:51","like_diff":1,"likes":3,"dislikes":2,"content":"我赵日天先给0分，给分真的很差"},{"id":57305,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-07-06 13:55:33","like_diff":1,"likes":4,"dislikes":3,"content":"给分坑，没有平时分"},{"id":57969,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-07-19 00:42:10","like_diff":1,"likes":8,"dislikes":7,"content":"讲的不好。后来听了其他老师的课才发觉。感觉赵静老师自己对会计并没有一个透彻的理解。以后学弟学妹再学中财多看看东奥的张志凤的会计课。自学，不然中财一二都跟了这个老师，自己又没好好自学，真的就瞎了。"},{"id":60612,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-10-25 08:27:49","like_diff":1,"likes":2,"dislikes":1,"content":"辣鸡老师"},{"id":70250,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-01-26 09:50:20","like_diff":1,"likes":5,"dislikes":4,"content":"mmp，去你的吧"},{"id":70252,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-01-26 09:52:17","like_diff":1,"likes":10,"dislikes":9,"content":"给分真的巨差 别上了吧 又学不到东西 全靠自己看"},{"id":70260,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-01-26 10:11:56","like_diff":1,"likes":5,"dislikes":4,"content":"给分极差"},{"id":70276,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-01-26 10:36:44","like_diff":1,"likes":3,"dislikes":2,"content":"我可能不适合学会计吧emmmm我现在会计专业大三"},{"id":74135,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-02-05 14:41:14","like_diff":1,"likes":3,"dislikes":2,"content":"毁会计基础的老师…想给零分 中财这门课很重要好嘛？学校真的不考虑换个老师?mmp"},{"id":78867,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-05-16 03:18:24","like_diff":1,"likes":4,"dislikes":3,"content":"真的讲的烂\n\n"},{"id":78938,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-05-17 06:11:46","like_diff":1,"likes":6,"dislikes":5,"content":"不要总是读PPT好吗？"},{"id":85214,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-07-16 05:35:31","like_diff":1,"likes":4,"dislikes":3,"content":"无聊，出分慢"},{"id":121536,"teacher_id":510,"teacher_name":"赵静","post_time":"2019-12-12 17:09:40","like_diff":1,"likes":2,"dislikes":1,"content":"老师很棒哦"},{"id":124503,"teacher_id":510,"teacher_name":"赵静","post_time":"2020-07-02 05:29:53","like_diff":1,"likes":2,"dislikes":1,"content":"老师答疑真的很及时很好呀，中财本来就难，还是靠自己"},{"id":124685,"teacher_id":510,"teacher_name":"赵静","post_time":"2020-07-06 07:45:06","like_diff":1,"likes":2,"dislikes":1,"content":"上课=念ppt，ppt=书本，所以就单纯自学看书吧"},{"id":155268,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-06-10 03:56:29","like_diff":1,"likes":1,"dislikes":0,"content":"老师讲课讲得很好，答疑也很及时。课程很难很无聊但老师绝对认真负责，静静的分数不应该这么低"},{"id":155545,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-06-14 07:49:12","like_diff":1,"likes":1,"dislikes":0,"content":"挂了挂了 大四重修。瑟瑟发抖 哭天喊地。六十分的同学就庆幸吧。已经是极大的仁慈"},{"id":157886,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-06-25 10:25:44","like_diff":1,"likes":1,"dislikes":0,"content":"上课是认真的，并且授课内容深度难度都大于考试，如果好好学的话成绩不会太差"},{"id":162556,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-11-25 07:34:57","like_diff":1,"likes":1,"dislikes":0,"content":"ppt太难看了！"},{"id":199520,"teacher_id":510,"teacher_name":"赵静","post_time":"2024-09-25 02:23:44","like_diff":1,"likes":2,"dislikes":1,"content":"为赵老师正名。课本身就硬，上课都是干货不能摸鱼，可能会跟不上但ppt很清楚，课后回答问题也很耐心很及时，说给分差的先问问自己学了多少，以及推免的学弟学妹千万别听下面的评论大四再选，会计的预推免必须掌握中财。唯一要诟病的还是中财的课程设置，中财一感觉水水的，中财二内容非常饱和，希望可以调整的均匀一点"},{"id":213608,"teacher_id":510,"teacher_name":"赵静","post_time":"2025-01-18 13:57:02","like_diff":1,"likes":2,"dislikes":1,"content":"其实中财二事情蛮少的给分也还行，签到也很松，就是ppt能不能适合人阅读一点👁️👁️你知道看一千五百页ppt有多崩溃吗。"},{"id":5440,"teacher_id":510,"teacher_name":"赵静","post_time":"2015-07-07 13:17:12","like_diff":0,"likes":9,"dislikes":9,"content":"还行吧～有点无聊，不过条理还是好的"},{"id":19268,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-01-23 17:07:56","like_diff":0,"likes":6,"dislikes":6,"content":"老师上课挺有条理的，但是给分的话，也的确不算好吧。"},{"id":26082,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-06-15 13:01:25","like_diff":0,"likes":4,"dislikes":4,"content":"PPT不错"},{"id":29393,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-06-29 16:13:33","like_diff":0,"likes":5,"dislikes":5,"content":"讲的略无聊\n\nppt很清楚\n\n自学看ppt就够了\n\n基本会计知识能涉及到但不够生动、和生活脱离太远"},{"id":29658,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-06-30 06:49:05","like_diff":0,"likes":5,"dislikes":5,"content":"差老师"},{"id":56602,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-07-04 05:29:22","like_diff":0,"likes":3,"dislikes":3,"content":"给分没有那么差，反正我是心满意足了。会计学这种课本来就是看考试的"},{"id":73689,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-02-02 16:23:47","like_diff":0,"likes":2,"dislikes":2,"content":"还蛮认真的老师～"},{"id":85208,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-07-16 04:55:11","like_diff":0,"likes":3,"dislikes":3,"content":"大绩杀！\n\n不解释！\n\n想打负分来着\n\n结果最低都得打一分\n\n"},{"id":114293,"teacher_id":510,"teacher_name":"赵静","post_time":"2019-07-09 17:25:22","like_diff":0,"likes":0,"dislikes":0,"content":"上课有点过多念ppt了，不是很有吸引力，人很好，给分还行。"},{"id":116611,"teacher_id":510,"teacher_name":"赵静","post_time":"2019-09-12 04:01:37","like_diff":0,"likes":1,"dislikes":1,"content":"垃圾。。。自学吧"},{"id":148480,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-01-12 15:32:20","like_diff":0,"likes":3,"dislikes":3,"content":"个人觉得给分还是看自己的复习程度吧，老师大概只是不调分"},{"id":156688,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-06-20 15:16:51","like_diff":0,"likes":0,"dislikes":0,"content":"评分公正 感觉会微调一点分 说不好。但老师认真负责是真的"},{"id":157890,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-06-25 10:33:23","like_diff":0,"likes":0,"dislikes":0,"content":"爱住，老师讲课很细致，会总结一些疑难点，问问题回复也很及时，真的很棒"},{"id":160461,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-09-23 04:28:38","like_diff":0,"likes":1,"dislikes":1,"content":"老师讲的很好啊，逻辑清晰，思维缜密，能把知识串起来，个人受益匪浅"},{"id":213841,"teacher_id":510,"teacher_name":"赵静","post_time":"2025-01-20 10:46:07","like_diff":0,"likes":0,"dislikes":0,"content":"老师人挺好的 仅课前点名 教考不分离 但多点对会计准则的解读会更好 以及ppt的美工可以再精进一点 如果大家觉得ppt太多的话 阅读教材也很不错 因为ppt约等于教材.."},{"id":213849,"teacher_id":510,"teacher_name":"赵静","post_time":"2025-01-20 11:39:44","like_diff":0,"likes":0,"dislikes":0,"content":"赵老师挺好的"},{"id":76168,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-03-28 07:16:03","like_diff":-1,"likes":3,"dislikes":4,"content":"为什么老师这么多年了还是讲师呢，老师考过注会吗？"},{"id":132216,"teacher_id":510,"teacher_name":"赵静","post_time":"2021-01-31 04:06:12","like_diff":-1,"likes":2,"dislikes":3,"content":"赵老师还是很负责的 但是如果能更多涉及会计准则背后的原理就好了。"},{"id":213579,"teacher_id":510,"teacher_name":"赵静","post_time":"2025-01-18 10:22:03","like_diff":-1,"likes":0,"dislikes":1,"content":"非常好的老师"},{"id":12173,"teacher_id":510,"teacher_name":"赵静","post_time":"2015-12-22 07:03:50","like_diff":-2,"likes":5,"dislikes":7,"content":"讲得令人昏昏欲睡，关键给分也太坑了吧"},{"id":15651,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-01-16 04:47:38","like_diff":-2,"likes":3,"dislikes":5,"content":"想睡觉"},{"id":55943,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-07-02 17:24:33","like_diff":-2,"likes":5,"dislikes":7,"content":"期末题不难的。"},{"id":56372,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-07-03 15:09:48","like_diff":-2,"likes":3,"dislikes":5,"content":"基本都是按ppt在讲，不太有趣，但中财给分也没有说得那么差吧，感觉这类课就是靠自己…"},{"id":74215,"teacher_id":510,"teacher_name":"赵静","post_time":"2018-02-06 18:21:19","like_diff":-2,"likes":1,"dislikes":3,"content":"中财1。上课按PPT讲，比较容易跑神。但个人感觉思路还可以吧。期末出的卷子比较常规，做得比较踏实。最后3.9。"},{"id":125130,"teacher_id":510,"teacher_name":"赵静","post_time":"2020-09-01 12:54:12","like_diff":-2,"likes":2,"dislikes":4,"content":"太喜欢赵老师的课了。赵老师上的非常好，我听的很仔细，不懂的地方反复听。最后认真准备考试，得分很棒。"},{"id":136330,"teacher_id":510,"teacher_name":"赵静","post_time":"2021-06-16 10:38:04","like_diff":-2,"likes":2,"dislikes":4,"content":"赵老师上课很清晰，解答问题有耐心"},{"id":136331,"teacher_id":510,"teacher_name":"赵静","post_time":"2021-06-16 11:18:10","like_diff":-2,"likes":1,"dislikes":3,"content":"老师上课挺好的"},{"id":149436,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-01-15 10:36:51","like_diff":-2,"likes":3,"dislikes":5,"content":"不线下点名，作业也不多，回答问题真的超级细致耐心，考试也给我们减少了难度qwq中财二要记的东西确实很多很容易记混，老师给分虽然求是但也不该被说成这样吧..."},{"id":16092,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-01-17 07:40:45","like_diff":-3,"likes":8,"dislikes":11,"content":"讲的其实不错 可是为什么分数这么低"},{"id":29954,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-06-30 14:48:49","like_diff":-3,"likes":7,"dislikes":10,"content":"客观说 讲的的确没什么趣味性 但真的还是挺清楚的 条理也不错 分数比较看自己 拿来评价老师就不太合适了"},{"id":32438,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-07-06 23:49:17","like_diff":-3,"likes":8,"dislikes":11,"content":"PPT上内容很多，但是自己认真成绩不会差的"},{"id":32492,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-01-23 02:09:54","like_diff":-3,"likes":7,"dislikes":10,"content":"蛮好的"},{"id":34095,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-09-27 03:01:28","like_diff":-3,"likes":2,"dislikes":5,"content":"思路清楚"},{"id":176685,"teacher_id":510,"teacher_name":"赵静","post_time":"2023-06-29 16:54:43","like_diff":-3,"likes":0,"dislikes":3,"content":"平时认真学，期末也有好好准备考试，为什么给分能这么这么差！！！（恼！）"},{"id":22369,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-03-04 03:05:17","like_diff":-4,"likes":7,"dislikes":11,"content":"很清晰！思路很棒！讲得也很透彻~"},{"id":55893,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-07-02 14:52:51","like_diff":-4,"likes":4,"dislikes":8,"content":"平心而论，这个老师讲的不怎么样，不过会计学考试也不难，绩杀有一点吧……不过没有辣么恐怖60分什么的"},{"id":15466,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-01-14 13:27:55","like_diff":-5,"likes":6,"dislikes":11,"content":"可能是个体差异……反正对我来说给分很好，上课没有睡着……好吧我爱的可能是会计"},{"id":148494,"teacher_id":510,"teacher_name":"赵静","post_time":"2022-01-12 16:26:30","like_diff":-5,"likes":4,"dislikes":9,"content":"老师上课确实上的有点糟糕，最大的问题就是讲课眉毛胡子一把抓分不清重点，听得晕乎乎的，但人确实很好，下课期间/钉钉私戳问她问题都会认真给你解答，讲课时重要的内容和细节也会再三强调。不调分也是事实，但给分差和不调分还是两码事吧，讲道理考试的题目已经简单的不能再简单了，很多比较重要比较难的会计处理（像追溯调整）都没考，你也不能说自己没好好学就把所有的气都撒在老师头上吧（毕竟好好想想自己一学期听了多少时间的课看过多久的PPT。。）"},{"id":56393,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-07-03 15:29:48","like_diff":-7,"likes":5,"dislikes":12,"content":"老师思路挺清晰的，确实念PPT，但是PPT内容全也有利于复习省得记笔记了呀。会签到，反正我每次都到，小测感觉一般般，考试感觉不难，但是自我感觉一般般，最后4.5。并不绩杀。"},{"id":176588,"teacher_id":510,"teacher_name":"赵静","post_time":"2023-06-29 10:18:06","like_diff":-7,"likes":1,"dislikes":8,"content":"被狠狠绩杀，，，"},{"id":55910,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-07-02 15:28:00","like_diff":-16,"likes":5,"dislikes":21,"content":"老师讲的挺好的呀，只要平时好好学，考试前多刷题，给分不差的，反正我满绩了"},{"id":27195,"teacher_id":510,"teacher_name":"赵静","post_time":"2016-06-23 13:02:59","like_diff":-17,"likes":3,"dislikes":20,"content":"蒙住眼睛一般就是90"},{"id":55869,"teacher_id":510,"teacher_name":"赵静","post_time":"2017-07-02 13:54:42","like_diff":-18,"likes":10,"dislikes":28,"content":"讲的还可以吧，条理比较清楚也很详实……不是那种很水完全依靠自学的老师。选之前被查老师的评分吓到，调剂到她班上去了，事实证明还是看个人。会计学比较琐碎，老师讲的不错，但班里挺多人碎觉作业也不做的……所以均绩低。每次作业好好做，课本好好复习，期末考试不难都是基础题，最后绩点4.8"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李浩 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="李浩教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="李浩,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">李浩</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">4.84</div>
+                    <div class="rating-participants">45人参与评分</div>
+                    <div class="attendance-info">18.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (4 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">供应链系统建模与优化</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.98</span>
+                            <span class="students">选课: 29人</span>
+                            <span class="std-dev">标准差: 0.67</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">信息管理</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.43</span>
+                            <span class="students">选课: 39人</span>
+                            <span class="std-dev">标准差: 0.89</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">创业启程</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.45</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.68</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">管理信息系统</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.00</span>
+                            <span class="students">选课: 25人</span>
+                            <span class="std-dev">标准差: 0.56</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (41 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":167713,"teacher_id":758,"teacher_name":"李浩","post_time":"2023-01-18 13:47:16","like_diff":18,"likes":18,"dislikes":0,"content":"绩杀，快跑"},{"id":157861,"teacher_id":758,"teacher_name":"李浩","post_time":"2022-06-25 07:18:34","like_diff":17,"likes":19,"dislikes":2,"content":"选不了职规，选了这个垃圾课，平时93（比平均分高），商业计划书和报告都认真写了，最后总评3.3\n\nmd这课学了有个jb意义，一堆瞎扯淡虚无缥缈的知识能指导nm创业，现在没有正态大家都给89不行吗\n\n整个学校的创新创业模块就是sb，整个就应该从培养方案里去除\n\n当然客观来说不怎么花时间，平常不用上课，如果选不上职规&&不想花时间&&不在乎这一点绩点的完全可以选"},{"id":47105,"teacher_id":758,"teacher_name":"李浩","post_time":"2017-01-24 00:31:32","like_diff":12,"likes":20,"dislikes":8,"content":"出分之前本来不想给差评的。。。"},{"id":190660,"teacher_id":758,"teacher_name":"李浩","post_time":"2024-03-13 14:42:27","like_diff":10,"likes":10,"dislikes":0,"content":"我操你妈"},{"id":147724,"teacher_id":758,"teacher_name":"李浩","post_time":"2022-01-10 14:20:57","like_diff":7,"likes":8,"dislikes":1,"content":"牛马，绩杀"},{"id":188506,"teacher_id":758,"teacher_name":"李浩","post_time":"2024-01-19 06:03:48","like_diff":7,"likes":7,"dislikes":0,"content":"不理解这个课存在的意义是什么，平常根本不用的课本期末要考的那么细，就是单纯的为了卷而卷吗？老师给分可能是很“求是”，但是这门课就是一坨"},{"id":96977,"teacher_id":758,"teacher_name":"李浩","post_time":"2019-01-21 13:43:39","like_diff":5,"likes":5,"dislikes":0,"content":"老师上课没有什么干货，考试开卷但是找不到答案，我太菜了"},{"id":143169,"teacher_id":758,"teacher_name":"李浩","post_time":"2021-11-20 11:32:36","like_diff":5,"likes":5,"dislikes":0,"content":"求求您高抬贵手调下分吧"},{"id":188411,"teacher_id":758,"teacher_name":"李浩","post_time":"2024-01-19 02:49:37","like_diff":5,"likes":5,"dislikes":0,"content":"全是线上课程，感觉学不到什么东西，而且给分着实不友好"},{"id":57402,"teacher_id":758,"teacher_name":"李浩","post_time":"2017-07-07 09:21:00","like_diff":4,"likes":12,"dislikes":8,"content":"上课很认真，会点名，但是有点绩杀...慎选"},{"id":147780,"teacher_id":758,"teacher_name":"李浩","post_time":"2022-01-10 23:50:31","like_diff":4,"likes":10,"dislikes":6,"content":"千万不要选创业启程会变得不幸"},{"id":188424,"teacher_id":758,"teacher_name":"李浩","post_time":"2024-01-19 03:31:56","like_diff":4,"likes":5,"dislikes":1,"content":"给分一坨屎"},{"id":196023,"teacher_id":758,"teacher_name":"李浩","post_time":"2024-07-01 07:42:00","like_diff":4,"likes":4,"dislikes":0,"content":"真操你妈"},{"id":150815,"teacher_id":758,"teacher_name":"李浩","post_time":"2022-02-19 02:47:09","like_diff":3,"likes":3,"dislikes":0,"content":"给分很差"},{"id":157889,"teacher_id":758,"teacher_name":"李浩","post_time":"2022-06-25 10:33:09","like_diff":3,"likes":3,"dislikes":0,"content":"挺无语的，个人觉得商业计划书占分比例太少了。我做商业计划书做了很久，慕课总分98.8，读后感也是认真写的，最后给分挺低的。害，就是随机给分呗。"},{"id":177787,"teacher_id":758,"teacher_name":"李浩","post_time":"2023-07-05 01:15:05","like_diff":3,"likes":3,"dislikes":0,"content":"3.0"},{"id":188444,"teacher_id":758,"teacher_name":"李浩","post_time":"2024-01-19 04:21:45","like_diff":3,"likes":3,"dislikes":0,"content":"绩杀启程，快跑。除非你在考试周能够拿出好几天时间背那本从来没上过的书，做回忆卷。这门课的评分体系太抽象了，完全教考分离"},{"id":192963,"teacher_id":758,"teacher_name":"李浩","post_time":"2024-06-01 08:42:08","like_diff":3,"likes":3,"dislikes":0,"content":"真他妈的傻逼一个"},{"id":194818,"teacher_id":758,"teacher_name":"李浩","post_time":"2024-06-25 13:55:55","like_diff":3,"likes":3,"dislikes":0,"content":"无语死了👎"},{"id":128761,"teacher_id":758,"teacher_name":"李浩","post_time":"2020-12-25 07:30:44","like_diff":2,"likes":2,"dislikes":0,"content":"给分特别差，点名都在也参与课堂考试平时成绩无缘无故就扣到快没有，真的无语"},{"id":157819,"teacher_id":758,"teacher_name":"李浩","post_time":"2022-06-25 03:23:32","like_diff":2,"likes":3,"dislikes":1,"content":"这门课真是吃力不讨好，退学启程快跑"},{"id":188441,"teacher_id":758,"teacher_name":"李浩","post_time":"2024-01-19 04:18:06","like_diff":2,"likes":3,"dislikes":1,"content":"成绩出来后，没有一个人谢谢老师"},{"id":63437,"teacher_id":758,"teacher_name":"李浩","post_time":"2017-12-04 05:34:05","like_diff":1,"likes":1,"dislikes":0,"content":"老师人很好的哇 不过课上略无聊"},{"id":147903,"teacher_id":758,"teacher_name":"李浩","post_time":"2022-01-11 06:32:14","like_diff":1,"likes":2,"dislikes":1,"content":"事情挺多的，雨课堂上有视频和讨论题还有商业策划书，平时听讲座要交2000以上听后感，教材从来不讲，最后期末考试闭卷考教材。事情真的很多，给分也不高。有点折磨人唔"},{"id":157820,"teacher_id":758,"teacher_name":"李浩","post_time":"2022-06-25 03:23:37","like_diff":1,"likes":13,"dislikes":12,"content":"创业启程算是创业类课程里性价比最高的课了。刷慕课（1h），听讲座+读后感（6h），复习课本（6h），考试（1h）+商业计划书（可抄30mins-5h）+第一节课（45mins）。如果把上述时间都花了，保底4.5。"},{"id":157988,"teacher_id":758,"teacher_name":"李浩","post_time":"2022-06-26 03:19:05","like_diff":1,"likes":2,"dislikes":1,"content":"创启给分随机 想水的来 想稳定拿绩点还是去隔壁职规吧"},{"id":172628,"teacher_id":758,"teacher_name":"李浩","post_time":"2023-05-02 14:14:08","like_diff":1,"likes":1,"dislikes":0,"content":"供应链管理 感觉还是比较水的 分也还行 但没有到满意的程度 不知道大家怎么样"},{"id":97114,"teacher_id":758,"teacher_name":"李浩","post_time":"2019-01-21 16:17:31","like_diff":0,"likes":1,"dislikes":1,"content":"讲课略有无聊，期末考试开卷，书上确实都有，但一部分真的太难找了，整体下来给分还ok"},{"id":142815,"teacher_id":758,"teacher_name":"李浩","post_time":"2021-11-16 11:12:15","like_diff":0,"likes":1,"dislikes":1,"content":"还可以"},{"id":149639,"teacher_id":758,"teacher_name":"李浩","post_time":"2022-01-16 08:48:57","like_diff":0,"likes":1,"dislikes":1,"content":"给分还可以，但考试有些折磨人。"},{"id":154542,"teacher_id":758,"teacher_name":"李浩","post_time":"2022-06-02 05:41:03","like_diff":0,"likes":4,"dislikes":4,"content":"客观评价：\n\n我是2021年冬学期上的课，平时雨课堂挂在那边（懂得都懂），雨课堂有网上的练习题与一个商业计划书（练习题做到满分，商业计划书好好做），晚上考试下午背了一下午书，最后4.5\n\n事情少是真的，给分的话努力分数肯定不错的"},{"id":167510,"teacher_id":758,"teacher_name":"李浩","post_time":"2023-01-17 01:10:23","like_diff":0,"likes":0,"dislikes":0,"content":"感觉老师很细心负责，有问题回复的也很快，比起这个学期某门专业课的老师不知道好了有多少（流汗黄豆），希望最后给分好一点"},{"id":167557,"teacher_id":758,"teacher_name":"李浩","post_time":"2023-01-17 09:50:05","like_diff":0,"likes":0,"dislikes":0,"content":"出成绩前先来打个6分，中规中矩吧。在lgl老师的税法出成绩过后希望不要再杀一门课了，出国er真的受不了。我最后那个论述题写了超级多，老师你看着办吧呜呜呜"},{"id":189727,"teacher_id":758,"teacher_name":"李浩","post_time":"2024-01-27 15:43:08","like_diff":0,"likes":1,"dislikes":1,"content":"不是很推荐创业启程这门课。创业启程不会有线下课，所以并不体现李老师本人的教学能力，该课程分数由期末考、观后感、讲座、mooc四部分组成。期末考闭卷考，考点比较细，真选了建议上98找历年卷。mooc建议拿满，mooc题目的答案在98上也能找到。商业计划书我拿的不是很高不知道如何下手。讲座观后感也没经验，我纯凑字数。最后绩点3.3。"},{"id":212076,"teacher_id":758,"teacher_name":"李浩","post_time":"2025-01-13 06:59:01","like_diff":0,"likes":0,"dislikes":0,"content":"绩杀，跑啊!全上的网课，课程没有任何含金量，水课还给分这么低，本来出分前是不想给差评的，但我自问对这水课的态度已经很认真了，期末闭卷考也很认真背了，最后给这个分还是挺不服的，不开心……"},{"id":3602,"teacher_id":758,"teacher_name":"李浩","post_time":"2015-06-17 01:47:58","like_diff":-1,"likes":7,"dislikes":8,"content":"赞"},{"id":150910,"teacher_id":758,"teacher_name":"李浩","post_time":"2022-02-21 04:20:45","like_diff":-2,"likes":1,"dislikes":3,"content":"老师严谨客观，作业写得认真的话，给分就不错"},{"id":168026,"teacher_id":758,"teacher_name":"李浩","post_time":"2023-01-23 03:34:08","like_diff":-3,"likes":0,"dislikes":3,"content":"大绩杀，最后一个大题写了21个点，每个大题都写了很多，选择题感觉十拿九稳，就这个分？你是要把这些分留着回家过年吗？"},{"id":157897,"teacher_id":758,"teacher_name":"李浩","post_time":"2022-06-25 11:30:05","like_diff":-5,"likes":6,"dislikes":11,"content":"客观评价：\n\n老师很好，没有恶意给低分。讲座观后感总评只扣了2分，商业计划书也有95，最后考试真的算是良心的，书上都有，花一天时间看完背背，最后4.5。不知道为啥评分这么低，周围同学都上四了。认真听讲座，翻翻书，写写计划书真的能学到很多。"},{"id":167704,"teacher_id":758,"teacher_name":"李浩","post_time":"2023-01-18 12:21:43","like_diff":-7,"likes":3,"dislikes":10,"content":"上的创业启程，只需要上一次线下课，比较轻松。老师挺负责的，群内问题都会及时解答。闭卷考，98上有挺多资料。花一天好好看了资料，过了一遍课本，出分4.2。"},{"id":167720,"teacher_id":758,"teacher_name":"李浩","post_time":"2023-01-18 15:02:36","like_diff":-7,"likes":3,"dislikes":10,"content":"说实话，个人对这门课还是挺满意的，我觉得算得上是我上过最水的课了，只用去第一节课，只要商业计划书和观后感都写了，没错写了就行（别太离谱），雨课堂都有答案，最后期末突击一天看看书，刷刷98历年卷，起码上4我觉得问题不大，花这点时间拿这样的绩点还要什么自行车？如果肯再多花点时间润色一下作业，考试前多背背，就4.5+了。（以上均是个人看法）"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阮建青 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="阮建青教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="阮建青,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">阮建青</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.32</div>
+                    <div class="rating-participants">56人参与评分</div>
+                    <div class="attendance-info">21.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">中国农业经济史</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.29</span>
+                            <span class="students">选课: 96人</span>
+                            <span class="std-dev">标准差: 0.58</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">微观经济学（甲）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.67</span>
+                            <span class="students">选课: 397人</span>
+                            <span class="std-dev">标准差: 0.86</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (51 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":124367,"teacher_id":761,"teacher_name":"阮建青","post_time":"2020-06-30 00:06:07","like_diff":13,"likes":16,"dislikes":3,"content":"绩杀绩杀绩杀绩杀绩杀绩杀绩杀！！！！！！！！！！\n\n"},{"id":124302,"teacher_id":761,"teacher_name":"阮建青","post_time":"2020-06-29 02:45:07","like_diff":12,"likes":17,"dislikes":5,"content":"这学期看了一学期mooc，真的全靠自觉，老师给的自由太多反而会导致同学放松，我就因此喜提一个绩杀。最初选老师是因为看他评分高评论里说他讲得好，但这学期真是搞得很难受。老师讲得好不好不知道，但是至少这学期体验不怎么好。"},{"id":18970,"teacher_id":761,"teacher_name":"阮建青","post_time":"2016-01-23 01:17:25","like_diff":11,"likes":20,"dislikes":9,"content":"阮老师的中微满满的生活体验，绝对是真正的经济学"},{"id":196670,"teacher_id":761,"teacher_name":"阮建青","post_time":"2024-07-05 07:37:16","like_diff":9,"likes":10,"dislikes":1,"content":"一共四次签到 有几次小作业和6000字小组论文\n\n上课很有自己的风格，感觉讲的也很清晰\n\n就是给分好像没有去年那么好..."},{"id":124313,"teacher_id":761,"teacher_name":"阮建青","post_time":"2020-06-29 04:57:21","like_diff":8,"likes":9,"dislikes":1,"content":"看评价好才选的老师，可能是因为疫情网课的原因，也有可能是老师第一次教微经，老师全程让我们看慕课自学，体验感不怎么好吧(毕竟慕课和老师上课肯定没法比)给分不好，喜提3.6"},{"id":9026,"teacher_id":761,"teacher_name":"阮建青","post_time":"2015-10-10 06:57:30","like_diff":5,"likes":12,"dislikes":7,"content":"老师讲课思路清晰，很有耐心，挺好。"},{"id":17453,"teacher_id":761,"teacher_name":"阮建青","post_time":"2016-01-20 08:38:16","like_diff":4,"likes":8,"dislikes":4,"content":"超喜欢阮老师！他的中微课很有趣，不会很无聊。"},{"id":45349,"teacher_id":761,"teacher_name":"阮建青","post_time":"2017-01-19 12:16:57","like_diff":4,"likes":9,"dislikes":5,"content":"12:30考完 当天4:00出分 这速度还有谁!\n\n老师特别亲和 很有逻辑。"},{"id":46143,"teacher_id":761,"teacher_name":"阮建青","post_time":"2017-01-20 16:27:15","like_diff":4,"likes":7,"dislikes":3,"content":"老师上课不用ppt，生动有趣"},{"id":159011,"teacher_id":761,"teacher_name":"阮建青","post_time":"2022-07-04 12:45:35","like_diff":4,"likes":4,"dislikes":0,"content":"微经，确确实实很催眠，但是我觉得真的教得很好啊，讲得很清晰很通俗了，但主要是老师本身上课就没有什么吸引人的地方吧。确实很肝。但只要好好学，课认真听一下，主要是加强理解、启发思维，但不能依靠听课，一定要好好把书多翻几遍，期末再做点题目，感觉其实绩点也不会差的。"},{"id":18760,"teacher_id":761,"teacher_name":"阮建青","post_time":"2016-01-22 13:08:40","like_diff":3,"likes":6,"dislikes":3,"content":"老师讲的很好，深入浅出，上课很有趣，人也很好，会很耐心的回答问题。给分也很好哦"},{"id":68947,"teacher_id":761,"teacher_name":"阮建青","post_time":"2018-01-24 06:55:14","like_diff":3,"likes":5,"dislikes":2,"content":"不知道有多少人听了阮老师的课后悔没选农经，至少我觉得我选了农经专业能和老师学习三年是很幸运的"},{"id":87641,"teacher_id":761,"teacher_name":"阮建青","post_time":"2018-10-09 02:26:07","like_diff":3,"likes":5,"dislikes":2,"content":"超喜欢老师的讲课风格！不用ppt 写板书！\n\n相比汪韬的微经...学了又有什么用呢 讲的什么辣鸡）没有对比就没有伤害"},{"id":95145,"teacher_id":761,"teacher_name":"阮建青","post_time":"2019-01-19 01:40:56","like_diff":3,"likes":5,"dislikes":2,"content":"出分前客观评价一波！\n\n我真的超级喜欢阮老师的啊！上课思路很清晰，用板书不是ppt，每节课梳理框架，逻辑清晰也不困，还总是笑眯眯的！推荐推荐！"},{"id":98022,"teacher_id":761,"teacher_name":"阮建青","post_time":"2019-01-23 04:01:35","like_diff":3,"likes":3,"dislikes":0,"content":"说实话中微这么课程没有什么太大的意义，很多是微经的重复，本来应该讲的新东西基本都没有讲。\n\n但是，阮老师确实一个非常好的老师，他会带你梳理中微的框架，这种框架下的分析思路逻辑结构真的有很大的帮助。上课不用PPT，板书虽然慢但是却很符合听课节奏。事情很少，就一些小作业和一次课程论文加展示。\n\n总之，阮老师10分，中微这门课6分"},{"id":124305,"teacher_id":761,"teacher_name":"阮建青","post_time":"2020-06-29 03:36:54","like_diff":3,"likes":5,"dislikes":2,"content":"疫情全程mooc....期末补天未果 读书报告写起来都困难 给分凉凉 大概是自己太菜了吧"},{"id":156922,"teacher_id":761,"teacher_name":"阮建青","post_time":"2022-06-21 10:37:48","like_diff":3,"likes":3,"dislikes":0,"content":"很有耐心很温和的老师，给分也算比较高的，不要太苛责他"},{"id":169211,"teacher_id":761,"teacher_name":"阮建青","post_time":"2023-02-24 16:02:54","like_diff":3,"likes":3,"dislikes":0,"content":"农经系本系学生评价：\n\n阮老师是咱们系人品最好的老师之一，借用帅老师的评价“与人非常友善，公共事务像牛一样的干”（帅老师竟然还顺带押了个韵哈哈哈）\n\n作为被阮老师悉心帮助过的学生，直接10分送上~~\n\n看到这的农经系学弟学妹们，以后学业上遇到各种麻烦事都可以找他，请相信他会特别认真地帮助你的。"},{"id":172740,"teacher_id":761,"teacher_name":"阮建青","post_time":"2023-05-06 02:01:46","like_diff":3,"likes":3,"dislikes":0,"content":"老师人也太好了呜呜呜，下课期间走到后面来关心同学们听懂没"},{"id":196759,"teacher_id":761,"teacher_name":"阮建青","post_time":"2024-07-05 03:38:02","like_diff":3,"likes":3,"dislikes":0,"content":"24年给分确实不好，但除了给分之外老师还是挺好的......根据往年情况推测老师可能是一年给分好，一年给分不好。唉，但是感觉自己非常非常努力了，看到这成绩好难受。"},{"id":33319,"teacher_id":761,"teacher_name":"阮建青","post_time":"2016-09-18 06:36:36","like_diff":2,"likes":4,"dislikes":2,"content":"我班主任，好老师好老师好老师"},{"id":138063,"teacher_id":761,"teacher_name":"阮建青","post_time":"2021-07-07 08:30:42","like_diff":2,"likes":3,"dislikes":1,"content":"可能是第一次自己讲微经，很多时候自己都没有理清，最后绩杀"},{"id":153907,"teacher_id":761,"teacher_name":"阮建青","post_time":"2022-05-16 13:00:17","like_diff":2,"likes":3,"dislikes":1,"content":"教学态度尚可，但教学方法，体系框架，实践经验等方面却不敢恭维，不清楚评论区为何有这些叫好的同学，我的整体感觉是很差，不适合给MBA上课"},{"id":153909,"teacher_id":761,"teacher_name":"阮建青","post_time":"2022-05-16 13:02:49","like_diff":2,"likes":3,"dislikes":1,"content":"管理经济学上的太差了。\n\n课件老土，教学方法落后\n\n就记得炒股了\n\n学了个寂寞"},{"id":159058,"teacher_id":761,"teacher_name":"阮建青","post_time":"2022-07-05 08:01:06","like_diff":2,"likes":2,"dislikes":0,"content":"平时多来听课，多在老师面前刷脸！（这样你平时分就会高一些）"},{"id":160514,"teacher_id":761,"teacher_name":"阮建青","post_time":"2022-09-25 09:22:04","like_diff":2,"likes":2,"dislikes":0,"content":"老师可能有点社恐哈哈哈哈哈，但真的是很好很好很好很好很好的老师！"},{"id":49284,"teacher_id":761,"teacher_name":"阮建青","post_time":"2017-04-01 07:39:13","like_diff":1,"likes":4,"dislikes":3,"content":"儒雅男神"},{"id":65945,"teacher_id":761,"teacher_name":"阮建青","post_time":"2018-01-10 11:50:49","like_diff":1,"likes":3,"dislikes":2,"content":"还没有考试先表白一波老师！！！"},{"id":124311,"teacher_id":761,"teacher_name":"阮建青","post_time":"2020-06-29 04:38:25","like_diff":1,"likes":5,"dislikes":4,"content":"就微经这门课来说，一学期自学看mooc所以也没法对老师的教学水平做出评价。自学+绩杀 这就是体验感"},{"id":125104,"teacher_id":761,"teacher_name":"阮建青","post_time":"2020-08-31 14:11:33","like_diff":1,"likes":2,"dislikes":1,"content":"疫情期间全靠MOOC和看书自学，我也很水，但是论文认真研究了餐馆受疫情影响产生的价格波动，考前认真看了书上的概念，刷了5章的习题和往年的题，MOOC上的题也做了，老师平时不布置作业，最后给了几道题个人觉得是送分的。4.5还行吧寝室最高了"},{"id":135144,"teacher_id":761,"teacher_name":"阮建青","post_time":"2021-05-03 12:54:22","like_diff":1,"likes":1,"dislikes":0,"content":"就这个样子吧"},{"id":138061,"teacher_id":761,"teacher_name":"阮建青","post_time":"2021-07-07 08:26:02","like_diff":1,"likes":3,"dislikes":2,"content":"上课讲得特别细致特别清楚，非常可爱的老师"},{"id":139748,"teacher_id":761,"teacher_name":"阮建青","post_time":"2021-07-23 08:39:42","like_diff":1,"likes":1,"dislikes":0,"content":"呵呵呵"},{"id":45243,"teacher_id":761,"teacher_name":"阮建青","post_time":"2017-01-19 08:03:47","like_diff":0,"likes":3,"dislikes":3,"content":"老师超好！！给分好！！"},{"id":94522,"teacher_id":761,"teacher_name":"阮建青","post_time":"2019-01-17 04:51:52","like_diff":0,"likes":0,"dislikes":0,"content":"老师讲课特别清晰，每节课都会帮我们顺一次中微的框架体系。特别喜欢阮老师！"},{"id":124681,"teacher_id":761,"teacher_name":"阮建青","post_time":"2020-07-06 04:49:03","like_diff":0,"likes":1,"dislikes":1,"content":"疫情期间不上课，仅答疑，全程mooc，最后给分也不好😭"},{"id":125993,"teacher_id":761,"teacher_name":"阮建青","post_time":"2020-09-16 10:29:01","like_diff":0,"likes":1,"dislikes":1,"content":"阮老师向来评分很高，但网课期间完全不讲课，全靠mooc，由于我个人自学能力差，听课心态爆炸，最后得分凉凉。体验极差"},{"id":128196,"teacher_id":761,"teacher_name":"阮建青","post_time":"2020-12-12 04:50:34","like_diff":0,"likes":2,"dislikes":2,"content":"被绩杀自己活该好吧"},{"id":145213,"teacher_id":761,"teacher_name":"阮建青","post_time":"2021-12-28 08:49:35","like_diff":0,"likes":0,"dislikes":0,"content":"。。。"},{"id":153912,"teacher_id":761,"teacher_name":"阮建青","post_time":"2022-05-16 13:12:21","like_diff":0,"likes":1,"dislikes":1,"content":"心地善良，课程确实太乱了，串联不起来，无聊，枯燥，不生动\n\n理论有错的，讲授方式亟待提升\n\n不适合MBA，有损浙大形象"},{"id":156153,"teacher_id":761,"teacher_name":"阮建青","post_time":"2022-06-20 08:42:36","like_diff":0,"likes":1,"dislikes":1,"content":"老师呀，慕课自学的章节安排的不太合理呀😢，后面几章不是重点考察的可以线上慕课自学，但是为啥四大市场这种重中之重的难点让学生自学呢，感觉真的需要您亲自讲解啊😭可能是我太笨了，期末复习是真的有点痛苦的。其他没毛病😭😭。"},{"id":171829,"teacher_id":761,"teacher_name":"阮建青","post_time":"2023-04-07 02:40:32","like_diff":0,"likes":0,"dislikes":0,"content":"c x"},{"id":175838,"teacher_id":761,"teacher_name":"阮建青","post_time":"2023-06-27 02:21:56","like_diff":0,"likes":3,"dislikes":3,"content":"微经，emmm怎么说，老师最后给分很好，但内容是自己补了三四天才考的🤡🤡，讲课很枯燥。总结来说，如果你自学能力很好，选他；自己看不懂的话，看看其他老师把。"},{"id":221902,"teacher_id":761,"teacher_name":"阮建青","post_time":"2025-06-27 09:24:10","like_diff":0,"likes":0,"dislikes":0,"content":"是很好的老师，非常儒雅"},{"id":175912,"teacher_id":761,"teacher_name":"阮建青","post_time":"2023-06-27 06:23:25","like_diff":-1,"likes":0,"dislikes":1,"content":"非常非常好的老师！老师人真的很温柔很好，很会站在学生的角度考虑问题。虽然说微经讲课可能没有ljq老师那么好，但是依然很有自己的风格特色！给分非常好👍"},{"id":153913,"teacher_id":761,"teacher_name":"阮建青","post_time":"2022-05-16 13:16:25","like_diff":-2,"likes":0,"dislikes":2,"content":"客观评价老师很温柔儒雅，但！这个课确实觉得学了个寂寞，同学们课后一聊，都不知道在讲啥、有啥用，理论没记住，实践用不上，时间投入成本倒是很高，上课总能睡倒一片。大家花这么多钱，周末还不休息来上课，蓝码还那么费事，还是想来学点有趣、有用的东西的！"},{"id":154012,"teacher_id":761,"teacher_name":"阮建青","post_time":"2022-05-19 05:05:28","like_diff":-2,"likes":2,"dislikes":4,"content":"没有课程框架，讲课枯燥乏味，只记得他炒股。其他没有，很多同学都去别的班级蹭课，浪费钱的课！"},{"id":175831,"teacher_id":761,"teacher_name":"阮建青","post_time":"2023-06-27 01:55:02","like_diff":-2,"likes":0,"dislikes":2,"content":"全靠自觉吧，一学期没听过课自学的，不过老师给分还不错"},{"id":133756,"teacher_id":761,"teacher_name":"阮建青","post_time":"2021-03-04 12:40:18","like_diff":-3,"likes":5,"dislikes":8,"content":"教学观念有问题，三观不正，教学时夹带私货，老是讲一些社会问题，严重影响学生的正常听课感受！"},{"id":175833,"teacher_id":761,"teacher_name":"阮建青","post_time":"2023-06-27 02:01:58","like_diff":-3,"likes":0,"dislikes":3,"content":"太能捞了吧，连我这样的人都能捞上来🥺🥺"},{"id":173520,"teacher_id":761,"teacher_name":"阮建青","post_time":"2023-05-27 16:17:52","like_diff":-6,"likes":1,"dislikes":7,"content":"家人们谁懂？？？快逃"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

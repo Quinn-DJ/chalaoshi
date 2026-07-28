@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金少华 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="金少华教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="金少华,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">金少华</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.97</div>
+                    <div class="rating-participants">136人参与评分</div>
+                    <div class="attendance-info">32.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">《文选》导读</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.22</span>
+                            <span class="students">选课: 71人</span>
+                            <span class="std-dev">标准差: 0.62</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大学语文</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.99</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.63</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (122 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":59272,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-09-20 12:01:56","like_diff":27,"likes":33,"dislikes":6,"content":"这是我看到过 最喜欢尬笑的老师hhhhhh比较萌"},{"id":70963,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-01-28 01:05:35","like_diff":15,"likes":35,"dislikes":20,"content":"楼下那个两整天的……emmm算了不多说了，我4.5，91，觉得付出了近一个月打磨论文，老师看在眼里吧，虽然没有到我的心里预期。给一下建议☞选题角度小，新颖，最好能特殊化以及和现实情况相结合。格式也要好看。"},{"id":81232,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-07-04 11:18:46","like_diff":15,"likes":22,"dislikes":7,"content":"刚刚交完期末作业，我就来评分，因为真的想为大家安利这个肥肠有趣的老师了。大学语文是老师第一次开课，整体结构还有些不成熟，但是拓展的内容很好玩也不难理解，期中一篇文言文自传，下笔很难但是慢慢写还是磨得出来的，没有字数要求。期末是一篇翻译，看群里dl们讨论很多难点就知道了，然后推荐一个在线网站国学大师，很好用，但是典故什么的还是问度娘吧。老师的尬笑非常真诚，能感受到他想把课上好的想法，课程内容真的贼有意思所以好好听肯定有收获。"},{"id":21814,"teacher_id":3682,"teacher_name":"金少华","post_time":"2016-03-01 07:18:20","like_diff":12,"likes":32,"dislikes":20,"content":"讲课很热情，从来不点名，研究敦煌写卷的老师～但以前是电气系的。上课有展示，评分是展示加论文结合～只要你认真做了这些给分应该就不错"},{"id":112388,"teacher_id":3682,"teacher_name":"金少华","post_time":"2019-07-04 03:40:52","like_diff":12,"likes":23,"dislikes":11,"content":"没翘过一节课，期中的文言自传写了一周，为做期末的翻译把古汉语常用词典翻遍，为了解释原文里“内外百官考”把唐代考课制度的论文看了个遍，最后绩点3.3。有的人经常翘课，绩点4以上，我还能说什么？或许老师铁面无私吧，不会因为你不翘不占平时分的没有点名的每一节课而觉得你态度好而给你高分，只会以自己公正无私客观真实的评分标准来从你的作业里评分吧。另外，老师可真是善行小慧，坚决不加微信群，学生只能单独加他，呵。公披狐白裘，不知人间寒。"},{"id":62642,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-26 08:52:52","like_diff":9,"likes":15,"dislikes":6,"content":"上课笑眯眯，给分mmmmmp"},{"id":166542,"teacher_id":3682,"teacher_name":"金少华","post_time":"2023-01-12 16:48:46","like_diff":9,"likes":11,"dislikes":2,"content":"每节课都到 两次作业都认认真真写 最后3.3 共勉"},{"id":83645,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-07-11 02:08:33","like_diff":8,"likes":11,"dislikes":3,"content":"上的金老师的大学语文。老师真的很不错，平时讲课专业，上课自由，任务很少，整个课程只要一篇文言翻译和一篇文言自传，最后给分很好，至少你付出多少一定会物超所值。PS:老师上课最喜欢讲的是文字的演变哦，喜欢研究文字的同学的福利！"},{"id":125107,"teacher_id":3682,"teacher_name":"金少华","post_time":"2020-08-31 14:20:22","like_diff":8,"likes":8,"dislikes":0,"content":"大学语文，作为博雅技艺事情真的很少，1个墓志铭翻译1个自传，好好写就行了，平时课没咋听过（主要总是讲汉字实在兴趣不大而且不是很懂），4.2"},{"id":26431,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-12-28 03:24:41","like_diff":7,"likes":13,"dislikes":6,"content":"给分一般"},{"id":62632,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-26 08:39:27","like_diff":7,"likes":12,"dislikes":5,"content":"水课，无分，慎选"},{"id":66818,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-01-19 07:14:04","like_diff":7,"likes":9,"dislikes":2,"content":"和选课的时候预期有差距，本来是想来了解敦煌的文化和风土人情的，结果发现老师是研究敦煌写卷的，所以上课内容也是写卷相关…但总体来说还是个很亲近的老师"},{"id":165685,"teacher_id":3682,"teacher_name":"金少华","post_time":"2023-01-09 09:11:04","like_diff":7,"likes":7,"dislikes":0,"content":"老师人超可爱！问问题也会及时回答！两次评分作业开始就讲清楚了，不论是想氵学分还是想学到真知识的uu都非常推荐！！！认真做作业分数超好的😍"},{"id":83627,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-07-11 00:27:39","like_diff":6,"likes":8,"dislikes":2,"content":"不点名，原来听说只讲文言文也不想听的，但老师人格魅力折服了我，真的很用心备课，态度非常认真！课上还是有很多有趣的干货，应该是最棒的大学语文了。"},{"id":83639,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-07-11 01:23:50","like_diff":6,"likes":7,"dislikes":1,"content":"老师人不错，给分看态度，从来不点名。"},{"id":138673,"teacher_id":3682,"teacher_name":"金少华","post_time":"2021-07-10 09:02:02","like_diff":6,"likes":6,"dislikes":0,"content":"有点离谱这给分 我真的很认真 还找了好多同学帮我看看 无语了"},{"id":59833,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-09-27 10:47:55","like_diff":5,"likes":7,"dislikes":2,"content":"老师很努力\n\n很烦第二排某男生一直在插话"},{"id":70934,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-01-28 00:31:12","like_diff":5,"likes":11,"dislikes":6,"content":"老师超级萌超级可爱，上课很有意思，有很多干货。最后的论文只要认真写，有自己的一些感悟，给分就很好。太喜欢金老师啦～"},{"id":90629,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-11-24 15:30:06","like_diff":5,"likes":6,"dislikes":1,"content":"敦煌这门课真的不错，老师是我上过的通识课中少有的上课时热情澎湃的，可以看出真的很喜欢敦煌，很想把课上好，虽然上课的内容与想象的敦煌风土人情有差异，依然被老师叙述的敦煌写卷吸引，推荐大家选这门课"},{"id":112383,"teacher_id":3682,"teacher_name":"金少华","post_time":"2019-07-04 03:23:09","like_diff":5,"likes":8,"dislikes":3,"content":"给分好差啊 可能是我太弱了吧..."},{"id":132774,"teacher_id":3682,"teacher_name":"金少华","post_time":"2021-02-03 13:57:32","like_diff":5,"likes":7,"dislikes":2,"content":"冬学期的大学语文，花了两周写期中的文言文自传，三周磨出了墓志的注释和翻译，最后圆满。老师备课很认真，讲篇章，专业知识侧重点完全符合他的研究方向哈哈哈，八堂课听下来可以学到很多（就是音韵实在太难了SOS）。感觉是通识里很有干货的一门，成绩是只要用心做，一定有回报。"},{"id":183054,"teacher_id":3682,"teacher_name":"金少华","post_time":"2023-11-22 02:33:05","like_diff":5,"likes":5,"dislikes":0,"content":"上课讲的内容和我预想的大学语文还是有点不一样的...个人感觉更偏重于考证而不是文学...每次上课都来，作业认真完成，绩杀了💔💔💔"},{"id":62627,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-26 08:31:31","like_diff":4,"likes":9,"dislikes":5,"content":"老师人可好了，还会耐心的和你聊天，分数超好，估计是我这学期绩点最高的一门通识课了，就是出成绩比较慢。"},{"id":70817,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-01-27 14:30:21","like_diff":4,"likes":7,"dislikes":3,"content":"老师很好，绩点太低"},{"id":83617,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-07-10 23:59:43","like_diff":4,"likes":7,"dislikes":3,"content":"选到了老师第一次开课的大学语文，由于老师自身研究方向的原因，课上都在讲文言文相关知识，但是一点都不枯燥，很有意思，对这方面感兴趣的同学强烈推荐。期中一篇文言文自传，期末一篇翻译作业，只要认真完成了，老师给分超级棒的！"},{"id":83637,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-07-11 01:16:46","like_diff":4,"likes":4,"dislikes":0,"content":"我觉得至少大学语文群里大多数人都会觉得分数会对得起你自己的付出，是个好老师"},{"id":83638,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-07-11 01:20:16","like_diff":4,"likes":4,"dislikes":0,"content":"老师人很好，上课讲的也很风趣，大学语文课上，感觉收货了许多古典文学的知识，非常好的老师，大学语文课期末作业也不难，可以说是非常不错了，强烈推荐去上老师的课。"},{"id":83640,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-07-11 01:43:43","like_diff":4,"likes":5,"dislikes":1,"content":"分数是靠自己努力得到的，感谢这样的老师。"},{"id":83834,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-07-11 09:31:25","like_diff":4,"likes":6,"dislikes":2,"content":"老师很可爱的，可以看出老师从心里想把课上好，整天关心我们有没有听懂"},{"id":90636,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-11-24 15:47:40","like_diff":4,"likes":5,"dislikes":1,"content":"老师真的炒鸡有热情的！就是笑点有点突然hhh论文好好写～给分不会差❤️"},{"id":109825,"teacher_id":3682,"teacher_name":"金少华","post_time":"2019-06-19 13:40:31","like_diff":4,"likes":6,"dislikes":2,"content":"老师真的很可爱、很用心，人也很好！点名会明确告诉你是第几周，还会反复提醒，作业的期限也十分宽，很爱笑，很有热情，看得出来也很喜欢现在古籍研究的工作。分数还没出，预先好评啦！"},{"id":153306,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-04-28 01:12:03","like_diff":4,"likes":5,"dislikes":1,"content":"一次纸质签到\n\n老师人超好\n\n给分也很好诶\n\n最喜欢听他说“诸位”的时候了哈哈哈"},{"id":154703,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-06-03 17:59:19","like_diff":4,"likes":4,"dislikes":0,"content":"大学以来第一门超级喜欢的课程！几乎每一节课都兴趣满满，恋恋不舍下课，老师准备很多但是总讲不完，每次我都想说老师我愿意拖堂的！！！\n\n上课从古代的天文知识、唧唧含义的探讨，到古代名家散文的欣赏，再到李斯，到格律，到别赋\n\n只能说老师一己之力让我想转专业！"},{"id":166986,"teacher_id":3682,"teacher_name":"金少华","post_time":"2023-01-14 13:13:34","like_diff":4,"likes":4,"dislikes":0,"content":"大学语文，就两次作业，一次抄繁体字，一次翻译，可以说是事情很少了，真想拿分的话只要用点心就好了。"},{"id":183180,"teacher_id":3682,"teacher_name":"金少华","post_time":"2023-11-22 14:13:59","like_diff":4,"likes":4,"dislikes":0,"content":"虽然不点名作业少 并且课讲得也很好\n\n但是我认真完成被绩杀了\n\n谨慎"},{"id":202439,"teacher_id":3682,"teacher_name":"金少华","post_time":"2024-11-12 17:53:51","like_diff":4,"likes":7,"dislikes":3,"content":"老师事真的很少，从不点名，一学期交两次作业即可。成绩按作业质量来的，一次繁体字抄写一次是翻译文言文。上课很认真讲很多干货，但我没听，忏悔一下。抄写是手写大概一页浙大方格纸。文言文翻译我是上ai了，然后ai不足的地方查了一些资料，结合了好几个ai。这个要求给打印稿。最后绩点4.5真的很开心，因为这门课翘了好几次，作业也不是特别认真写完的，老师真的很好，感谢🙏"},{"id":17804,"teacher_id":3682,"teacher_name":"金少华","post_time":"2016-01-21 01:58:35","like_diff":3,"likes":9,"dislikes":6,"content":"之所以在成绩出来之前就评分，是因为老师人太好了。"},{"id":59259,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-09-20 11:32:23","like_diff":3,"likes":7,"dislikes":4,"content":"一般般"},{"id":73950,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-02-03 18:00:28","like_diff":3,"likes":5,"dislikes":2,"content":"老师平时笑呵呵的。课上写卷其实不大让人懂啦，和我预期的敦煌文化欣赏有差距，更偏理论一些。作业认真做，4.5。"},{"id":84051,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-07-12 02:46:47","like_diff":3,"likes":9,"dislikes":6,"content":"老师的大学语文又水给分还高还没考试"},{"id":114925,"teacher_id":3682,"teacher_name":"金少华","post_time":"2019-07-12 21:42:18","like_diff":3,"likes":3,"dislikes":0,"content":"真的很不错！作业有点麻烦但比写论文和考试有趣的多！"},{"id":124506,"teacher_id":3682,"teacher_name":"金少华","post_time":"2020-07-02 07:06:40","like_diff":3,"likes":4,"dislikes":1,"content":"大学语文，事少，上课有趣，给分不错"},{"id":150945,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-02-21 09:28:19","like_diff":3,"likes":3,"dislikes":0,"content":"挺好的，老师上课内容挺丰富"},{"id":162047,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-11-16 09:12:41","like_diff":3,"likes":3,"dislikes":0,"content":"3.6。。。"},{"id":173697,"teacher_id":3682,"teacher_name":"金少华","post_time":"2023-06-01 15:17:45","like_diff":3,"likes":3,"dislikes":0,"content":"事真的不多，认真写作业给分也还好。老师知识面太广啦，每次下课都感觉收获满满、意犹未尽。喜欢古代文学的朋友们冲！"},{"id":18998,"teacher_id":3682,"teacher_name":"金少华","post_time":"2016-01-23 02:52:31","like_diff":2,"likes":12,"dislikes":10,"content":"可能是经验不足，上这堂课感觉并不是很好，很多形势方面的都不清楚，虽然不点名但是要做展示……而且给分也并不是很好"},{"id":62637,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-26 08:45:28","like_diff":2,"likes":4,"dislikes":2,"content":"上课不点名，水水的，成绩根据展示加两篇文章，绩点一般"},{"id":62663,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-26 09:57:59","like_diff":2,"likes":7,"dislikes":5,"content":"老师上课尬笑超可爱的www上课也会讲一些有趣的东西。论文用心了分数肯定是高的，只是不推荐之前没有接触过历史论文写作的人选，不然可能不知道自己绩点为什么这么低"},{"id":70821,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-01-27 14:36:47","like_diff":2,"likes":5,"dislikes":3,"content":"给分极差"},{"id":73574,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-02-02 04:07:55","like_diff":2,"likes":4,"dislikes":2,"content":"老师讲的还行，从来不点名，给分完全看自己的能力，认真做了应该不会太差。"},{"id":83636,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-07-11 01:16:23","like_diff":2,"likes":2,"dislikes":0,"content":"爽的不行"},{"id":115097,"teacher_id":3682,"teacher_name":"金少华","post_time":"2019-07-15 12:35:20","like_diff":2,"likes":2,"dislikes":0,"content":"很爽的老师"},{"id":119878,"teacher_id":3682,"teacher_name":"金少华","post_time":"2019-11-16 13:01:10","like_diff":2,"likes":2,"dislikes":0,"content":"老师人很好人很好，敦煌任务也少，点名会提前说，给分也很好，只要你写卷抄写认认真真做了，就可以拿高分。是真的很好。上课内容也是干货，老师讲课也挺好的，没有相关基础的也可以融入！希望大家多听听老师讲课吧"},{"id":124457,"teacher_id":3682,"teacher_name":"金少华","post_time":"2020-07-01 12:07:16","like_diff":2,"likes":2,"dislikes":0,"content":"超好的老师"},{"id":129570,"teacher_id":3682,"teacher_name":"金少华","post_time":"2021-01-07 14:03:59","like_diff":2,"likes":2,"dislikes":0,"content":"大学语文，任务只有自传＋翻译，很佛系很好的课"},{"id":144534,"teacher_id":3682,"teacher_name":"金少华","post_time":"2021-12-26 03:12:38","like_diff":2,"likes":2,"dislikes":0,"content":"挺好一老师"},{"id":144549,"teacher_id":3682,"teacher_name":"金少华","post_time":"2021-12-22 08:18:03","like_diff":2,"likes":3,"dislikes":1,"content":"【大学语文】很好很用心的老师，上课内容是分析几篇常见的文言文，可以学到很多，真的就是听几节课讲座。作业是古代碑文的辨识和翻译，不难的。"},{"id":155338,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-06-11 05:49:55","like_diff":2,"likes":8,"dislikes":6,"content":"他给了我95\n\n我却只能给他10\n\n超级好的老师\n\n钉钉回复超级及时\n\n最后一句诸位 我们结课啦 真的很感动"},{"id":163722,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-12-16 04:19:17","like_diff":2,"likes":2,"dislikes":0,"content":"老师很可爱啊呜呜呜 事情也不多 给分好（前提是你得认真做） 上课超级有热情"},{"id":183067,"teacher_id":3682,"teacher_name":"金少华","post_time":"2023-11-22 04:03:23","like_diff":2,"likes":2,"dislikes":0,"content":"老师很博学，大学语文事少分高，就一篇抄写一篇翻译，认真写分不会低"},{"id":189891,"teacher_id":3682,"teacher_name":"金少华","post_time":"2024-02-01 11:45:47","like_diff":2,"likes":4,"dislikes":2,"content":"汉语言文学选手 3.6 悲伤那么大哈"},{"id":200383,"teacher_id":3682,"teacher_name":"金少华","post_time":"2024-10-16 12:05:30","like_diff":2,"likes":2,"dislikes":0,"content":"非常有水平，也非常感谢老师，少有在学校听到的有干货的课程。没出分，但是我知道假如分数不高只能是我自己水平不够，老师治学很严谨，人也很好。"},{"id":202622,"teacher_id":3682,"teacher_name":"金少华","post_time":"2024-11-13 11:34:55","like_diff":2,"likes":2,"dislikes":0,"content":"老师人真的很好，讲课也非常有水平有深度，对于喜欢古代文学的人真的是福音！！\n\n大学语文事情是真的非常非常少，老师也不点名，唯一一次类点名是交课堂作业哈哈哈哈哈，甚至关注到线上的同学允许钉钉交。\n\n真的是非常非常好的老师，虽然我被卡绩了（）但是真的感受到了文言文的魅力，学到了很多知识！"},{"id":61568,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-18 15:27:25","like_diff":1,"likes":4,"dislikes":3,"content":"喜欢这个喜欢尬笑的老师，在成绩还没出来就忍不住评分了。"},{"id":62638,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-26 08:45:34","like_diff":1,"likes":2,"dislikes":1,"content":"收获很少"},{"id":62639,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-26 08:46:19","like_diff":1,"likes":9,"dislikes":8,"content":"很伤心了，认真写的论文不如其他同学基本复制粘贴的要高，绩点给这么低我觉得产出比不上投入吧。建议论文就全抄吧。"},{"id":62640,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-26 08:46:29","like_diff":1,"likes":5,"dislikes":4,"content":"醉了，我辛辛苦苦写的论文，呵呵哒3.3\n\n平时还可以，上课可以干自己想干的事。给分，心累。"},{"id":62732,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-26 15:43:46","like_diff":1,"likes":4,"dislikes":3,"content":"老师会对同学的问题解答很详细！"},{"id":62806,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-27 04:31:37","like_diff":1,"likes":6,"dislikes":5,"content":"为老师正名吧，上课挺好的，偶尔看看视频也不会太无趣，认真做ppt和论文还是很好的，我没有专业知识查了很多书籍资料觉得给分也挺好的。评分不知道有多少人是前几天出成绩不满意就来查老师跳的，真的幼稚"},{"id":65064,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-12-30 07:39:20","like_diff":1,"likes":5,"dislikes":4,"content":"老师对没来的同学很宽容啊，有同学不交作业，老师还愿意停课以后的下一周来教室等同学们交，给分也很不错，我觉得自己论文写得一般都4.2了。唯一的缺点就是真的挺没意思的，老师上课一直切换PPT，但我感觉都是同一张，可能自己确实对敦煌写卷没兴趣吧。老师还是很nice的"},{"id":66108,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-01-12 00:11:58","like_diff":1,"likes":5,"dislikes":4,"content":"我觉得这门课上的挺好的啊，虽然老师会尬笑，但其实还是能学到很多东西的啊，感觉老师讲的俗字什么的真到位非常有趣！\n\n论文认真写的，展示认真准备了，还没出分……这次论文是我写的第一篇论文，看完评论有点虚……\n\n不过还没出分，出分再补充。\n\n就上课内容来看我觉得值得选，没有评论说的那么水。"},{"id":90640,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-11-24 15:53:27","like_diff":1,"likes":3,"dislikes":2,"content":"很好的老师"},{"id":99509,"teacher_id":3682,"teacher_name":"金少华","post_time":"2019-01-25 01:42:58","like_diff":1,"likes":4,"dislikes":3,"content":"我很水 水了3.9"},{"id":99538,"teacher_id":3682,"teacher_name":"金少华","post_time":"2019-01-25 02:26:46","like_diff":1,"likes":3,"dislikes":2,"content":"感恩！！"},{"id":161947,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-11-15 09:28:33","like_diff":1,"likes":1,"dislikes":0,"content":"事少分低"},{"id":161956,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-11-15 11:18:32","like_diff":1,"likes":1,"dislikes":0,"content":"每节课都认真听了，直接扫去一天的疲倦，金老师学识渊博，上知天文下知地理，喜欢讲文字演变和古音学，上课也很有意思，喜爱古代中国文化的不可错过！！"},{"id":162093,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-11-17 00:19:07","like_diff":1,"likes":1,"dislikes":0,"content":"老师真的很好！学识渊博，上他的课可以学到好多东西（但是他的课可能更多按照他的研究和节奏来讲，不会按照一般的大学语文设置来）~课程内容主要是一些代表性文本的分析，还有一些研究方法，和相关的文言知识（星宿、格律之类的），平常不点名，第一节课就说好了作业内容和标准，作业认真做就绩点高捏（认真做作业被老师捞到刚好4.5嘿嘿）~很喜欢老师的性格，下课会很详细地回答问题，而且感觉很真诚！！"},{"id":162507,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-11-24 00:51:39","like_diff":1,"likes":1,"dislikes":0,"content":"讲古汉语文言文，加以天文地理，人文历史，发音等等，作业很少，至少我这学期只有期中期末作业和一次随便写一句话的作业（代替点名），最后的给分，还好吧，毕竟作业那么少，评判学生的水平也不太容易"},{"id":163163,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-12-08 11:41:10","like_diff":1,"likes":3,"dislikes":2,"content":"很水，但是给分很迷，我觉得自己作业还蛮认真，但是只有3.6"},{"id":163429,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-12-14 09:23:15","like_diff":1,"likes":2,"dislikes":1,"content":"我觉得老师的课还挺好的啊，老师知识面很广，让我看到了很多，讲课也很有热情。大学语文，做的比较认真，感谢老师给的满绩"},{"id":163456,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-12-14 11:13:09","like_diff":1,"likes":1,"dislikes":0,"content":"虽然我卡绩了 但不得不说老师上课很有意思 事情也不多"},{"id":164075,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-12-18 00:43:25","like_diff":1,"likes":2,"dislikes":1,"content":"老师的课很有趣，知识丰富，作业也少，就点了一次名（鬼知道那次我怎么会因为迟到想摆烂不上，好在课上有两个同学提醒我），作业我都是在课上拿电脑写的，最后给分4.5，有点惶恐感觉做的没有非常好，但还是谢谢老师"},{"id":180565,"teacher_id":3682,"teacher_name":"金少华","post_time":"2023-09-23 02:21:13","like_diff":1,"likes":1,"dislikes":0,"content":"文选导读，课很硬，师强我渣，认真做作业听课写论文，给分还是可以的，只能说比较实事求是，一分辛苦一分收获"},{"id":182033,"teacher_id":3682,"teacher_name":"金少华","post_time":"2023-11-08 13:26:59","like_diff":1,"likes":1,"dislikes":0,"content":"讲课很好，上课也不点名，放心选"},{"id":189179,"teacher_id":3682,"teacher_name":"金少华","post_time":"2024-01-22 09:17:38","like_diff":1,"likes":2,"dislikes":1,"content":"选的大学语文，老师上课挺有意思但是想自习也没有问题，一共两次作业，算是事少吧，但是本人文学基础不好所以都忙活了挺久的，综合起来应该算任务量和绩点丰俭由人？建议做的时候可以找汉语言或者古籍研究相关的专业的同学请教一下。最后出分4.8供参考。"},{"id":62631,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-26 08:38:58","like_diff":0,"likes":4,"dislikes":4,"content":"为什么给分这么低"},{"id":62665,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-26 10:08:32","like_diff":0,"likes":4,"dislikes":4,"content":"蛮不错的 综合来看 付出和收获成正比  很满足\n\n"},{"id":62666,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-26 10:17:24","like_diff":0,"likes":4,"dislikes":4,"content":"老师人挺好的，讲课也认真，就是喜欢尬笑，对敦煌有兴趣的同学可以选，能学到很多知识。"},{"id":62667,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-26 10:17:31","like_diff":0,"likes":4,"dislikes":4,"content":"老师人很好 论文作业也是正常量 绩点就看你作业和展示课表现"},{"id":62683,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-26 11:08:06","like_diff":0,"likes":4,"dislikes":4,"content":"真的，他的尬笑，呵呵呵，哈哈哈，给分不错，正态也是没办法的，好好写论文吧"},{"id":65938,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-01-10 11:28:54","like_diff":0,"likes":4,"dislikes":4,"content":"这课太养老了 没有恶竞 舒服"},{"id":70834,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-01-27 15:04:34","like_diff":0,"likes":5,"dislikes":5,"content":"我认真准备了展示资料，认真用两整天写了论文，为什么要给我3.3？？"},{"id":161958,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-11-15 11:26:46","like_diff":0,"likes":1,"dislikes":1,"content":"东西太偏，给分随缘，课程太水"},{"id":162232,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-11-18 04:14:29","like_diff":0,"likes":0,"dislikes":0,"content":"老师很好，讲课很风趣。没有考试，作业也很少，认真完成就好啦"},{"id":162770,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-12-06 03:42:07","like_diff":0,"likes":0,"dislikes":0,"content":"卡绩了QAQ但老师有问必答，是一个好老师！"},{"id":163091,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-12-07 07:46:35","like_diff":0,"likes":0,"dislikes":0,"content":"非常可爱、大学语文课有点跳脱，但能学到东西，作业耐心做可以拿好成绩～平时不会的在钉钉上问老师也会得到及时回复"},{"id":173963,"teacher_id":3682,"teacher_name":"金少华","post_time":"2023-06-05 08:51:04","like_diff":0,"likes":1,"dislikes":1,"content":"大学语文，事少，给分还行"},{"id":183028,"teacher_id":3682,"teacher_name":"金少华","post_time":"2023-11-21 15:03:58","like_diff":0,"likes":0,"dislikes":0,"content":"感谢老师捞我！！！"},{"id":183197,"teacher_id":3682,"teacher_name":"金少华","post_time":"2023-11-22 15:11:42","like_diff":0,"likes":0,"dislikes":0,"content":"老师很好，我比较弱，3.6，确实努力了但没达到老师要求吧"},{"id":184090,"teacher_id":3682,"teacher_name":"金少华","post_time":"2023-12-08 11:16:40","like_diff":0,"likes":0,"dislikes":0,"content":"老师课讲的超级好，不听甚至有点惭愧。\n\n一次点名，一般是最后那么几节课。作业就是一个在网上找不到翻译的文言文文段，期中作业是繁体字转简体字且找出不规范用字，老师提供的有电子版字典（而且简体字版本在期末作业的文件里有，可以去对照）。起码是翻译文段。\n\n交作业那天看见助教了，作业应该是助教改。给分…自认为写的比较认真，最后3.9"},{"id":184813,"teacher_id":3682,"teacher_name":"金少华","post_time":"2023-12-23 04:32:21","like_diff":0,"likes":1,"dislikes":1,"content":"老师讲得很好，作业量也不太大，虽然对于语文不好的同学看似简单的作业也费了一番功夫……总体来说上课体验很好，只在最后有一次纸质点名，整体还是比较轻松的，适合对汉语言感兴趣的同学。作业都认真写了，最后出分4.2，供参考。"},{"id":188614,"teacher_id":3682,"teacher_name":"金少华","post_time":"2024-01-19 11:54:11","like_diff":0,"likes":2,"dislikes":2,"content":"大学语文:\n\n以回答问题的方式点一次名，老师讲课很有水平，期中作业是抄繁体字，期末作业是翻译文言文，没有考试。给分因人而异，没有比较好的文学功底和文言文功底的还是比较容易绩杀的，理工科学生如果在意绩点慎选！"},{"id":207153,"teacher_id":3682,"teacher_name":"金少华","post_time":"2024-12-19 12:30:44","like_diff":0,"likes":0,"dislikes":0,"content":"老师人很好，讲课很有深度，在教室后排摸鱼也能时不时听一嘴知识，很喜欢老师的声音，很有气势哈哈哈哈。\n\n点名的话，后面几节课的某一节会让大家在纸上写一些东西（今年是读过的赋，其实写什么不重要，权当点名）\n\n不知道是不是随机给分，今年的翻译作业我用心写了，查了一些资料，给分好的有点点出乎意料！"},{"id":212298,"teacher_id":3682,"teacher_name":"金少华","post_time":"2025-01-14 01:01:53","like_diff":0,"likes":0,"dislikes":0,"content":"强推大学语文，事少分高\n\n只有期中期末两次作业\n\n一次抄繁体一次注释\n\n虽然不能说毫无难度，但是可以请教一下相关专业的同学，或者利用输入法写繁体\n\n上课真的很有水准，如果你热爱语文的话真的很值得听哪怕不考虑分\n\n最后是4.5，非常满意"},{"id":213857,"teacher_id":3682,"teacher_name":"金少华","post_time":"2025-01-20 13:18:04","like_diff":0,"likes":1,"dislikes":1,"content":"事少对应的就是容错率较低了，两次作业都需要很用力，不知道怎么用力可以直接问老师，我怎么没想到嘤嘤嘤"},{"id":62619,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-26 07:50:15","like_diff":-1,"likes":3,"dislikes":4,"content":"老师还不错。"},{"id":66176,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-01-12 11:51:49","like_diff":-1,"likes":3,"dislikes":4,"content":"老师是研究敦煌写卷的  所以课程也好论文也好主要是这个方向  跟我想象差距有点大  给分还不错  主要还是得自己认真写论文。"},{"id":70845,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-01-27 15:35:22","like_diff":-1,"likes":4,"dislikes":5,"content":"绩杀。"},{"id":135332,"teacher_id":3682,"teacher_name":"金少华","post_time":"2021-05-08 06:42:27","like_diff":-1,"likes":1,"dislikes":2,"content":"。。。"},{"id":188594,"teacher_id":3682,"teacher_name":"金少华","post_time":"2024-01-19 10:29:08","like_diff":-1,"likes":3,"dislikes":4,"content":"老师太好了，大学语文事少分高谁懂啊"},{"id":188712,"teacher_id":3682,"teacher_name":"金少华","post_time":"2024-01-19 15:55:47","like_diff":-1,"likes":0,"dislikes":1,"content":"大学语文点一次名，老师感觉很有水平，讲课也不错，事情比较少，期中抄一篇繁体字，期末翻译文言文。但是文学功底不好的uu慎选，理工科在意绩点的uu慎选，只能说事少，分高适合于那些基础好的。"},{"id":161957,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-11-15 11:18:28","like_diff":-2,"likes":2,"dislikes":4,"content":"尽力了，课太水感觉学不到什么不，给分随缘"},{"id":163475,"teacher_id":3682,"teacher_name":"金少华","post_time":"2022-12-14 11:54:59","like_diff":-2,"likes":2,"dislikes":4,"content":"上课有趣的老师，作业很少，给分也不错的。理科生，4.5，收获大量快乐，我感觉已经非常好了。\n\n他“点名性质的小测”确实是点名性质的，发张纸，写姓名学号，然后时间足够的话，写自己最喜欢的文学作品名字和里面的一句话，时间不够的话，就不写也行。\n\n那天正好在下雨，于是我写的是“奥雷里亚诺，马孔多在下雨”。"},{"id":62629,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-26 08:35:48","like_diff":-4,"likes":3,"dislikes":7,"content":"说句实话，课有些无聊，学到的东西不多。但是，可以看出老师是想把这个课上好的。尬笑也很可爱，上课要求不多，写两篇文章就可以，算是很良心了。给分也还不错哦。"},{"id":62641,"teacher_id":3682,"teacher_name":"金少华","post_time":"2017-11-26 08:46:49","like_diff":-4,"likes":0,"dislikes":4,"content":"特别水的课，当然如果自己想认真学还是可以的"},{"id":112376,"teacher_id":3682,"teacher_name":"金少华","post_time":"2019-07-04 03:14:34","like_diff":-4,"likes":3,"dislikes":7,"content":"好老师o(^o^)o"},{"id":78124,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-05-09 12:10:00","like_diff":-10,"likes":7,"dislikes":17,"content":"慎选！！！亲测大学语文全上成文言文，不按照书本，鲁迅什么的文章你不上吗？期中作业文言文自传，期末是闭卷考文言文篇目翻译，很差劲，这根本不是大学语文，是你的古汉语专业课吧？"},{"id":107826,"teacher_id":3682,"teacher_name":"金少华","post_time":"2019-07-04 08:46:02","like_diff":-11,"likes":9,"dislikes":20,"content":"自传挥笔立就，翻译磨了一两天，平时没去过课，4.8"},{"id":203237,"teacher_id":3682,"teacher_name":"金少华","post_time":"2024-11-18 09:01:50","like_diff":-29,"likes":1,"dislikes":30,"content":"煞笔老师，我鈤尼玛，你凭什么给我3.0绩点，卧槽你八辈"},{"id":115552,"teacher_id":3682,"teacher_name":"金少华","post_time":"2019-08-03 07:30:49","like_diff":-30,"likes":3,"dislikes":33,"content":"论文建议直接从知网上复制粘贴。若是勤恳恳地自己写，那就等着被绩杀吧。"},{"id":70816,"teacher_id":3682,"teacher_name":"金少华","post_time":"2018-01-27 14:27:17","like_diff":-39,"likes":4,"dislikes":43,"content":"攻略：本人第一堂课去了，第二堂课翘课建qq群布置小作业，第三堂课去了结果发现要交小作业，当堂写了1500字下课打印交给老师。第四堂课翘了老师点了没在qq群里的同学被当堂查杀。我痛定思痛苦苦思索一晚如何让老师忘却那个年幼无知不懂事的我。后忽醒悟遗忘是最好的疗伤药。于是隐姓埋名继续翘课让老师渐渐遗忘了我，最后论文3900字，绩点4.5。"},{"id":127416,"teacher_id":3682,"teacher_name":"金少华","post_time":"2020-11-22 17:06:40","like_diff":-65,"likes":5,"dislikes":70,"content":"大学语文才4.2…\n\n感觉和自己的预期蛮不符合，唉，可能是我太菜了吧。\n\n不过老师真的很不错，给八分。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

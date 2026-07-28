@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李啸风 - 化学系 - 浙大教评</title>
+    <meta name="description" content="李啸风教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="李啸风,化学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">李啸风</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">化学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">1.38</div>
+                    <div class="rating-participants">194人参与评分</div>
+                    <div class="attendance-info">28.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (8 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">中级化学实验Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.81</span>
+                            <span class="students">选课: 38人</span>
+                            <span class="std-dev">标准差: 0.52</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">化学专业技能强化训练</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.74</span>
+                            <span class="students">选课: 101人</span>
+                            <span class="std-dev">标准差: 0.53</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大学化学实验（A）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.73</span>
+                            <span class="students">选课: 111人</span>
+                            <span class="std-dev">标准差: 0.61</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">物理化学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.26</span>
+                            <span class="students">选课: 305人</span>
+                            <span class="std-dev">标准差: 1.05</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">物理化学Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.20</span>
+                            <span class="students">选课: 27人</span>
+                            <span class="std-dev">标准差: 0.57</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">物理化学Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.64</span>
+                            <span class="students">选课: 29人</span>
+                            <span class="std-dev">标准差: 0.77</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">物理化学Ⅲ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.77</span>
+                            <span class="students">选课: 27人</span>
+                            <span class="std-dev">标准差: 0.68</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">现代化学方法论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.81</span>
+                            <span class="students">选课: 205人</span>
+                            <span class="std-dev">标准差: 0.52</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (153 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":180626,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-09-23 15:23:46","like_diff":61,"likes":64,"dislikes":3,"content":"《诗经·彼阳》\n\n\n\n彼阳若至，初升东曦。\n\n\n\n绯雾飒蔽，似幕绡绸。\n\n\n\n彼阳篝碧，雾霂涧滁。\n\n\n\n赤石冬溪，似玛瑙潭。\n\n\n\n彼阳晚意，暖梦似乐。\n\n\n\n寐游浮沐，若雉飞舞。"},{"id":191427,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-04-23 12:19:04","like_diff":54,"likes":62,"dislikes":8,"content":"自己出的物化期中卷子，76个人就9个及格。对的，不是90+有9个，而是及格就9个。\n\n跟历年卷完全不一样，选择题全考推理题，推理某个数值变大变小或不变，没有那种送分的。\n\n大题全是又臭又长的解题，没有那种一行公式能秒的，你但凡模仿历年卷出个1题简单的大题，都不至于只有9个及格。\n\n骂的就是你，踩了就踩了，遇到你是学生倒霉"},{"id":23203,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2017-06-09 13:14:09","like_diff":33,"likes":39,"dislikes":6,"content":"混乱，不能仔细听，仔细听更乱"},{"id":180624,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-09-23 15:10:38","like_diff":31,"likes":33,"dislikes":2,"content":"啸风老师，学问未见有何高明，但善于输出自己在人生中好不容易积累的歪理，评分更是不知所谓，大抵是闭眼盲选吧。明明可以把实践课调成二级分制，可他偏要用3.5来恶心我们，我真的哭死。"},{"id":183668,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-11-28 12:02:53","like_diff":30,"likes":31,"dislikes":1,"content":"我已经是出离的愤怒了\n\n现代化学方法论这么课是好课，可惜lxf是答辩\n\n讲话语无伦次，不知道在说什么\n\n只会贬低学生，“我的儿子独立生活能力比你们强得多”\n\n最后答辩也不听是吧，我认认真真做PPT讲精心准备的学术问题，没有任何卵用\n\n表面上说“不想看到别人吹捧自己”，实际上只有这样才有机会4.5？\n\n你也知道竺院绩点要求高，但就说一句“学校有比例要求我也没办法”就乱打分？？？\n\n幸好他自己说过几年“把接力棒交给下一任”，希望以后的学弟学妹们不要被他祸害了"},{"id":191704,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-04-30 04:00:35","like_diff":27,"likes":27,"dislikes":0,"content":"槽点太多，总的来说不要对他抱有任何的期望\n\n1讲课完全按照自己的想法乱来，和教材根本对不上号，PPT给你一堆没用的公式，书是一点都没看过吧？\n\n2作业乱来，布置一堆要用excel大规模计算的公式，纯恶心人。而且这些作业很多都是用他自己的无用东西，对于掌握课本知识毫无帮助\n\n3上课喜欢扯淡，浪费时间来讲很多假大空的东西，连课都上不好还教学生做人啊？？？\n\n4考试瞎出题，选择题一个过程出十几道题目，考察的东西很窄，也就是说我要是有一个参量变化弄不清楚可能这些分全都送了。你但凡多考察一些知识点出点正常的选择题也不会让期中考试这么难看。出了教学事故就是你作，非要按自己认定的东西乱来，期中考完后还是布置一些鬼作业，没见过你这么不会亡羊补牢的\n\n综上所述，lxf是一个自以为是又缺少教学水平的家伙，遇到他就是学生倒霉\n\n\n\n2024.4.30补档：意见是一点不听，还觉着自己上课和试卷那是相当牛逼，上高度认为自己才是真正的“教书育人”。迂腐，固执，愚昧而不自知，春夏的物理化学课真是被你毁了，愤登"},{"id":108673,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2019-05-31 00:56:12","like_diff":24,"likes":25,"dislikes":1,"content":"李啸风，存在主义带哲学家，干涉主义带经济学家，理性主义集带成者，现任教于浙江大学化学系，名人名言：那是因为你笨。"},{"id":194404,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-07-04 13:53:36","like_diff":23,"likes":24,"dislikes":1,"content":"lxf的物化，直到出完分了才去调分，隔壁的cl都看不下去了，搞的他也继续跟着调分，他的理由是：因为平行班李啸风不遵守既定评分规则需要进行重新赋分……\n\n如此可以见得，lxf说自己被排挤不是没有原因的"},{"id":27370,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2016-06-25 09:16:12","like_diff":21,"likes":31,"dislikes":10,"content":"春夏学期唯一的物化老师。老师很认真，周末无偿来上习题课，也是彭神习题课的老师，彭神每节课他都坐在第一排听课。用的彭神教材，把彭神三个短学期的物化压缩到了一个长学期。上课有点跳，夹杂了很多“人生哲理”，我很难跟上他的思维。作业难且繁，数据要自己找。考试很难。慎选。"},{"id":211206,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2025-01-11 04:18:14","like_diff":20,"likes":21,"dislikes":1,"content":"大家好!下面那条评论是假的，我才是李老师。看到下面这么多的负面评价，我很难过，进行了深刻的反思。以后能当我面言我之过的同学，都会奖励一个华为手表"},{"id":180625,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-09-23 15:27:14","like_diff":19,"likes":20,"dislikes":1,"content":"同学们，这边举报需要具体证据，麻烦大家与他谈话时搜集证据（录音之类），我们需要有正确价值观、对待同学们有正确态度的老师！"},{"id":196336,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-07-03 03:16:53","like_diff":19,"likes":20,"dislikes":1,"content":"李啸风是全球第一位无脑猿类，他的头骨内部藏着一颗只会放屁的气球。大家都说他没有脑子，其实他根本就是一只被人类穿着裤子的鸵鸟，每天都在为找不到脑子而苦恼不已。他的行为举止就像一只误入人间的外星生物，甚至比外星生物还要荒谬可笑。如果你在街上看到一只脑子被忘在家里的猿猴，那么十有八九就是李啸风。"},{"id":180623,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-09-23 15:09:02","like_diff":18,"likes":20,"dislikes":2,"content":"根据五级分制，lxf被评为2.5一档"},{"id":198868,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-11-23 03:15:19","like_diff":16,"likes":16,"dislikes":0,"content":"鲜花坊出分4.5\n\n那就给你打个两分高兴一下😡"},{"id":193826,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-06-20 03:12:18","like_diff":15,"likes":16,"dislikes":1,"content":"史，但助教人很好，觉得助教不该跟这托史"},{"id":18513,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2016-01-22 01:10:27","like_diff":14,"likes":18,"dislikes":4,"content":"不咋样"},{"id":28261,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2016-06-28 08:22:42","like_diff":14,"likes":15,"dislikes":1,"content":"作业难，考试难，上课先扯30分钟。。"},{"id":193761,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-06-17 14:36:42","like_diff":14,"likes":14,"dislikes":0,"content":"你猜我舍友为什么骂了他一晚上"},{"id":193965,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-06-21 06:25:49","like_diff":14,"likes":15,"dislikes":1,"content":"是人我吃，只可惜打不了负分"},{"id":194133,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-06-22 06:31:45","like_diff":14,"likes":15,"dislikes":1,"content":"类人生物。"},{"id":194154,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-06-22 08:53:57","like_diff":14,"likes":15,"dislikes":1,"content":"从大家的评论可以看出来李啸峰中化实验的探究实验带了三届了，还是没有什么改变，诗人握持"},{"id":197765,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-08-11 14:32:16","like_diff":14,"likes":14,"dislikes":0,"content":"活全家东西"},{"id":200816,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-10-23 01:53:37","like_diff":14,"likes":14,"dislikes":0,"content":"我是化学家，这就是铈"},{"id":204417,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-12-02 18:08:05","like_diff":14,"likes":14,"dislikes":0,"content":"还有不到两个星期就要选物化课了，学弟学妹们擦亮眼睛，不要被它道貌岸然的人品哲学讲授蒙骗了，悬浊液过滤之后会留下滤渣，李啸风不需要过滤就是（）（）。"},{"id":205757,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-12-12 16:58:13","like_diff":14,"likes":14,"dislikes":0,"content":"你们怎么能给我们天下第一好的lxf打低分啊？\n\n必养的老师👍👍👍，祖国的奋变😄😄😄，民族的挑担💪💪💪，社会的英精🌹🌹🌹"},{"id":25777,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2016-06-25 13:15:58","like_diff":13,"likes":20,"dislikes":7,"content":"客观的说 李老师非常认真。但认真不一定代表讲课学生能听懂。其实本来物理化学就很难靠别人讲来学懂 更多的是自己课下投入精力"},{"id":181242,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-10-12 04:05:04","like_diff":13,"likes":13,"dislikes":0,"content":"现代化学方法论：第二次课结束后说第三次课后要求上交听课笔记，第三次课结束后告知需要电子版，自行体会。"},{"id":192416,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-05-18 13:30:55","like_diff":13,"likes":13,"dislikes":0,"content":"让人充分认识到什么叫道貌岸然。。。\n\n明明教学已经出很大问题了，意见却还是一点不听，整天沉浸在自己所谓的“教书育人”和“对物理化学的不同理解”中，挺可悲的。"},{"id":193750,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-06-17 12:36:35","like_diff":13,"likes":13,"dislikes":0,"content":"探究实验答辩完了，今天再更一期连续剧\n\n实验后面两周，一次挂机，一次只问我们有啥问题，最后还是陈志春先发现问题的。\n\n最后答辩的时候一直叫个不停，红外探究某一组展示完了直接自己开始哔哔，差点没考虑有同学还要提问。\n\n红外两个小组都展示完了，更是把两组的人全喊上台来又是一通做人道理的输出\n\n最后还说：我这个实验自己不给你们解法就是想让你们体验探究的乐趣！\n\n再结合那个语气，怎么说了……简直把“事后诸葛亮”演绎得活灵活现"},{"id":194044,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-06-21 14:21:29","like_diff":13,"likes":14,"dislikes":1,"content":"助教真我干爹，再捞不上来我真是狗了，全靠助教哥哥擦的屁股"},{"id":200040,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-10-11 14:11:20","like_diff":13,"likes":13,"dislikes":0,"content":"纯纯的傻B，废话一堆，给分也是傻B，只有4.5和3.5，能拿4.5的不超过5个，真的很难想象美好的大学生活会摊上这种傻B，凭什么？他有什么水平？ 什么成果？ 真恶心，一个纯傻B， 诅咒他一辈子，化学系赶紧开掉他吧，真晦气"},{"id":204727,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-11-27 13:47:48","like_diff":13,"likes":13,"dislikes":0,"content":"一把年纪的副教授，鉴定为入机"},{"id":134003,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2021-03-11 14:46:12","like_diff":12,"likes":12,"dislikes":0,"content":"助教XGG人很好，但LXF……就一言难尽了\n\n\n\n物理化学（×）\n\nEXCEL作业（√）\n\n\n\n讲课有自己的一套（跟书上有很大出入，动不动就不按书上讲）\n\n布置作业多且总要用EXCEL做\n\n自己觉得自己挺NB\n\n\n\nWDNMD"},{"id":162072,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2022-11-16 12:34:39","like_diff":12,"likes":12,"dislikes":0,"content":"李老师的现代化学方法论给分很差，上课时候天天diss不认真听课题组宣传bb的同学（真的没啥好听的啊）。而且这课的外出见习除了是个秋游啥也学不到，走路还累。"},{"id":178272,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-07-12 04:10:08","like_diff":12,"likes":12,"dislikes":0,"content":"开的实践课是什么东西啊，方法论听学生报告出去接电话好久，给分纯主观还差，实践课成绩一出主修均绩狂掉。出去实习和研究所的人说自己是属于被浙大排挤的老师，被排挤了就来乱开没什么用给分差的实践课啊"},{"id":181224,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-10-12 05:49:34","like_diff":12,"likes":13,"dislikes":1,"content":"什么玩意儿？？？"},{"id":182744,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-11-21 02:48:30","like_diff":12,"likes":12,"dislikes":0,"content":"鉴定为：史"},{"id":192500,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-05-22 04:35:18","like_diff":12,"likes":13,"dislikes":1,"content":"同样是红外定量分析探究实验，陈志春已经把红外定量分析聚合物的适用的方法讲授给了自己那边的同学，指导上比李啸风好得多，李啸风这边根本就不会指导，每次就问我们有什么方法，当我们在介绍方法时碰到难题，就只会说：方法有的是！只能说红外是好实验，但是lxf是答辩。任何一位诗人，但凡了解过它一点皮毛，都会留下这样的评价：这旧时诗，诗人握持！"},{"id":192612,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-05-26 10:53:57","like_diff":12,"likes":12,"dislikes":0,"content":"想死就选春夏的物理化学课（考试都是他出题）。讲课与教材分离，作业与讲课分离，考试与作业分离，有水平[赞][赞][赞]"},{"id":193759,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-06-17 14:29:27","like_diff":12,"likes":12,"dislikes":0,"content":"无敌老师，上实验课喜欢说谜语，问问题答非所问，真无敌了"},{"id":197555,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-07-18 15:03:19","like_diff":12,"likes":12,"dislikes":0,"content":"怎么形容呢？它基本上可以说是广州地铁6号线往浔峰岗方向的倒数第三站，武汉地铁16号线通航机场的前一站，深圳地铁3号线木棉湾和丹竹头之间的那一站，达芬奇没有奇，贺知章没有姓"},{"id":81907,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2018-07-06 12:56:52","like_diff":11,"likes":12,"dislikes":1,"content":"太自以为是了"},{"id":166414,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-01-12 08:01:05","like_diff":11,"likes":11,"dislikes":0,"content":"专业课拉我均绩，给分纯主观，垃圾"},{"id":183759,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-11-30 00:09:14","like_diff":11,"likes":13,"dislikes":2,"content":"乱给分😅，没能力当老师就别当，头一次见全员3.5的，有水平👍👍👍"},{"id":190578,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-03-10 06:39:29","like_diff":11,"likes":11,"dislikes":0,"content":"你布置的作业和你讲的东西有一点关系吗"},{"id":191905,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-05-04 12:31:54","like_diff":11,"likes":11,"dislikes":0,"content":"一个字：史"},{"id":194134,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-06-22 06:32:08","like_diff":11,"likes":12,"dislikes":1,"content":"衣冠-"},{"id":199067,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-09-15 02:33:18","like_diff":11,"likes":11,"dislikes":0,"content":"说尊重的那个是本人上号了？"},{"id":191046,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-04-01 05:02:04","like_diff":10,"likes":10,"dislikes":0,"content":"要人品有人品，要教学水平有人品，动不动就扯到名人名言，作业乱来还不给答案"},{"id":192370,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-05-17 01:00:34","like_diff":10,"likes":10,"dislikes":0,"content":"我的本意是不想攻击老师的\n\n除非讲的确实是不好且不自知\n\n固执己见认为自己在塑造学生的高尚人格而其实连最基本的知识传授都做不好\n\n妄图装出尊重学生的假象实则对所谓的到课率百般计较\n\n很可悲的一个老师"},{"id":194147,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-06-22 08:32:35","like_diff":10,"likes":11,"dislikes":1,"content":"能不能让这个老登滚出关于仪器分析的任何实验课，然后全让czc接管！这个尸位素餐的玩意，就算把它扔到大野地里饿死也没人收尸，腊鸡玩意！还敢说自己被浙大排挤？我看你特么长的就像个巨大的教学事故，活该被排挤！"},{"id":208390,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-12-27 10:13:28","like_diff":10,"likes":16,"dislikes":6,"content":"各位同学们好！我是李啸风老师。我知道大家可能对我有一些误解，但请大家忽视评论区的差评。我推荐同学们选我开设的《物理化学》课程，因为我的课事情少，给分高。希望通过我的努力，让大家能学得轻松愉快，获得满意的成绩！"},{"id":25435,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2016-05-19 03:11:58","like_diff":9,"likes":13,"dislikes":4,"content":"不知道在讲些什么，和彭神差远了"},{"id":104286,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2019-05-07 15:53:52","like_diff":9,"likes":9,"dislikes":0,"content":"没有翅膀就带我们飞，结果就是摔倒很惨，得不偿失。总之就是不讲基础，强行起飞。"},{"id":181237,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-10-12 03:42:28","like_diff":9,"likes":9,"dislikes":0,"content":"前人之述备矣，收敛于一"},{"id":190749,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-03-17 09:02:00","like_diff":9,"likes":9,"dislikes":0,"content":"唉，您老人家不讲考试考的就算了，能不能作业留点你讲的，或者给点答案解析呢。。"},{"id":192831,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-05-31 02:40:07","like_diff":9,"likes":9,"dislikes":0,"content":"上过的化学课就你小测次数比2周一次还多的，5分钟5道题，就算开卷也是鸟用没有"},{"id":194648,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-06-25 00:44:46","like_diff":9,"likes":11,"dislikes":2,"content":"上的物理化学\n\n老师坏，助教哥哥好"},{"id":197456,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-07-15 14:45:23","like_diff":9,"likes":9,"dislikes":0,"content":"花姑娘的太君"},{"id":202040,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-11-08 14:31:15","like_diff":9,"likes":9,"dislikes":0,"content":"李啸风退休的那天记得喊我去放鞭炮"},{"id":205155,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-12-02 08:24:57","like_diff":9,"likes":9,"dislikes":0,"content":"我澡称码勒个福"},{"id":206940,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-12-18 15:14:32","like_diff":9,"likes":9,"dislikes":0,"content":"现代化学方法论，聆听各课题组介绍，参观企业，让你写感想做PPT，顺便把均绩从4.2拉到3.9多"},{"id":191703,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-04-28 12:16:35","like_diff":8,"likes":8,"dislikes":0,"content":"考试给的公式都是错的，自己什么水平无需多言，连书都不愿意看一眼"},{"id":197674,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-07-27 01:13:49","like_diff":8,"likes":8,"dislikes":0,"content":"楼下说尊重的那个，你知不知道尊重都是相互的！lxf在它自以为是、刚愎自用、不听学生意见的时候，在它乱给分，探究实验挂机，教学自以为是的时候，真的尊重学生了吗？！凭什么一定要我们给这种人足够的尊重呢！你这么给它洗是圣母心泛滥了欠收拾吗！"},{"id":204372,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-11-25 13:44:14","like_diff":8,"likes":8,"dislikes":0,"content":"我乃鸟类学家，这就是雕👍"},{"id":208452,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2025-01-01 10:28:17","like_diff":8,"likes":10,"dislikes":2,"content":"李 魈 酆， 鉨 j ι υ 惿 個 寄 δ 巴 ！\n\n李 鸮 蜂， 尓 勼 寔 個 寄 妑 ！\n\n李 嚣 ф е н г， γ o υ 就 四 個 寄 紦 ！\n\n李 嚻 麷 ， 伱 噈 寔 箇 寄 o 巴 ！"},{"id":26439,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2016-07-01 08:37:18","like_diff":7,"likes":14,"dislikes":7,"content":"出分以后 黑转粉 给分还是挺良心的 不过考试之前那种看课件没用看课本要疯的状态真的不想体验第二次了 因为上课内容跟考试内容脱节太严重"},{"id":107563,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2019-05-06 16:10:28","like_diff":7,"likes":7,"dislikes":0,"content":"讲得东西书上没有的呵呵，不按教材讲\n\n"},{"id":109074,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2019-06-07 10:15:58","like_diff":7,"likes":7,"dislikes":0,"content":"物化弟中弟，选他的课真的坑到你怀疑人生"},{"id":135045,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2021-04-27 15:40:21","like_diff":7,"likes":7,"dislikes":0,"content":"听不懂救命 你上课就好好把概念和公式讲清楚不好吗 我们大部分又不是天才😆"},{"id":173815,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-06-03 07:54:20","like_diff":7,"likes":7,"dislikes":0,"content":"水平没有，歪理一堆的垃圾老师，又菜又爱讲，误人子弟"},{"id":180887,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-09-28 00:17:48","like_diff":7,"likes":7,"dislikes":0,"content":"不会讲课可以不讲，别出来祸害人，感兴趣的同学可以看看他个人主页，这人怎么进的浙大？"},{"id":181238,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-10-12 03:42:44","like_diff":7,"likes":7,"dislikes":0,"content":"无语。。。"},{"id":192143,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-05-10 06:17:52","like_diff":7,"likes":7,"dislikes":0,"content":"听不懂"},{"id":192832,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-05-31 02:42:21","like_diff":7,"likes":7,"dislikes":0,"content":"快跑！没话说"},{"id":194252,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-06-23 02:02:21","like_diff":7,"likes":8,"dislikes":1,"content":"萎黯的老师"},{"id":194636,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-06-24 17:55:25","like_diff":7,"likes":8,"dislikes":1,"content":"傻卵老师上课作业考试三分离 老师坏 助教哥哥捞捞开习题课复习 助教好 如果你不是想被他拓展无数用不到的东西的话慎重选择"},{"id":195523,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-06-28 14:36:48","like_diff":7,"likes":8,"dislikes":1,"content":"宇宙大爆炸以来地球历史第一初生"},{"id":199214,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-09-19 08:45:15","like_diff":7,"likes":7,"dislikes":0,"content":"很难想象一个老师连上课教室都能说错"},{"id":200498,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-10-17 17:32:02","like_diff":7,"likes":7,"dislikes":0,"content":"lxf的评分居然不是最低，这我是不认可的。"},{"id":204002,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-11-23 03:05:28","like_diff":7,"likes":7,"dislikes":0,"content":"必样的老师（必须成为榜样的）\n\n绩点无脑给3.5\n\n建议是不听的，提建议的人是要被喷的，答辩课程最后还要答辩再给答辩一样的分"},{"id":204724,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-11-27 13:43:54","like_diff":7,"likes":7,"dislikes":0,"content":"我 曹 肆 倪 的 嘛"},{"id":206183,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-12-13 07:21:29","like_diff":7,"likes":7,"dislikes":0,"content":"十分的新鲜，十分的美味，希望其受到淳平的厚待"},{"id":224196,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2025-11-12 09:13:45","like_diff":7,"likes":7,"dislikes":0,"content":"lxf：好像觉得这么些东西老是重复，重复是好事情啊，重复那就意味着这个东西非常稳定了。就前面的人已经把流程都做好了，所以人才有时间空下来干点自己有兴趣的事情。比方说什么业余爱好，那这个时候在工作之余才有时间搞。天天忙的跟狗一样的，那就是说是不可能有什么爱好。\n\n所以就说是我们出来呀，千万别太拼命了。你父母眼里就说你找个好工作就可以了，而不是说儿子啊，女儿啊，你将来要多创新啊。创新很辛苦的，而且要有很好的平台，很好的氛围，很好的导师，很好的先辈，才有机会创新的大部分情况下，你能很好的活着就可以了。\n\n————《现代化学方法论》"},{"id":224771,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2025-12-02 02:35:49","like_diff":7,"likes":7,"dislikes":0,"content":"前面那个骑lxf老冯的，依旧凌空飞行"},{"id":51384,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2017-06-04 02:43:17","like_diff":6,"likes":8,"dislikes":2,"content":"喜欢讲科学精神，但讲课水平不咋样"},{"id":133543,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2021-03-02 02:56:04","like_diff":6,"likes":6,"dislikes":0,"content":"讲的课和作业完全不符 第一节课就感到无语。"},{"id":134193,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2021-03-18 14:18:20","like_diff":6,"likes":8,"dislikes":2,"content":"上他的课学会了很多与这门课无关的东西——数据库、excel、origin。被迫无师自通= ="},{"id":141614,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2021-10-18 02:26:45","like_diff":6,"likes":6,"dislikes":0,"content":"误人子弟啊老李"},{"id":162104,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2022-11-17 01:04:31","like_diff":6,"likes":6,"dislikes":0,"content":"乱给分"},{"id":201517,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-11-04 04:29:56","like_diff":6,"likes":6,"dislikes":0,"content":"构思一坨"},{"id":201570,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-11-04 11:51:59","like_diff":6,"likes":6,"dislikes":0,"content":"byd"},{"id":204137,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-11-24 14:42:14","like_diff":6,"likes":6,"dislikes":0,"content":"化学系遇到的最差的老师"},{"id":219154,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2025-05-22 12:01:06","like_diff":6,"likes":6,"dislikes":0,"content":"锂啸疯今年又把中化一的探究实验恶心出了一个新高度\n\n本来去年是苯乙烯——丙烯酸丁酯共聚物红外分析成分比例\n\n锂啸疯完全没指导就够恶心的\n\n今年是塑料袋成分分析，先是红外然后烧成灰分，拿灰分做原子吸收，未知种类未知大概含量，实验室只有几种灯\n\n结果就是锂啸疯手底下的人实际上在被分散给各个老师带，谁看不下去就帮一把"},{"id":49120,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2017-03-27 06:15:52","like_diff":5,"likes":7,"dislikes":2,"content":"听着半截大化A就过来评论了。。反正也是在闲聊，思路也太跳跃了_(:з」∠)_"},{"id":50147,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2017-04-30 09:02:10","like_diff":5,"likes":6,"dislikes":1,"content":"还是乖乖的听彭神的视频公开课吧"},{"id":109608,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2019-07-04 09:02:15","like_diff":5,"likes":7,"dislikes":2,"content":"努力了一个学期，考试感觉不错，结果没有想要的成绩，关键是卡了绩点，有点难受。还是别选了吧，真正有用的寥寥无几"},{"id":134008,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2021-03-12 00:45:21","like_diff":5,"likes":5,"dislikes":0,"content":"我麻了"},{"id":137902,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2021-07-06 13:50:07","like_diff":5,"likes":6,"dislikes":1,"content":"25w的zju电灯泡尽力了，谢谢助教物化指导，谢谢老师的哲学指导，然后抄到下一页…"},{"id":162176,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2022-11-17 09:27:34","like_diff":5,"likes":5,"dislikes":0,"content":"给分什么玩意"},{"id":191381,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-04-19 02:53:21","like_diff":5,"likes":5,"dislikes":0,"content":"纯sm，别扯你那做人哲学了，你先当个人再说吧🤣"},{"id":195811,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-06-30 04:09:35","like_diff":5,"likes":6,"dislikes":1,"content":"傻逼李啸风期中搞了个阴间考试，然后搞得班级均绩巨低，然后出了分之后才开始调分，搞人心态，真尼玛出生玩意儿"},{"id":200038,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-10-11 13:35:23","like_diff":5,"likes":5,"dislikes":0,"content":"不好评价"},{"id":201209,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-10-30 07:56:07","like_diff":5,"likes":5,"dislikes":0,"content":"任何一位美食家，但凡碰到了李啸风，都会这么介绍它：这就是你在某些高档会员制餐厅会遇到的东西（非常的新鲜，非常的美味！）"},{"id":203614,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-11-20 07:09:44","like_diff":5,"likes":5,"dislikes":0,"content":"这就是使"},{"id":204003,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-11-23 03:09:31","like_diff":5,"likes":5,"dislikes":0,"content":"给个两分报答一下"},{"id":224744,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2025-11-30 09:18:21","like_diff":5,"likes":5,"dislikes":0,"content":"骑着lxf的老冯高调路过"},{"id":57717,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2017-07-13 00:10:55","like_diff":4,"likes":7,"dislikes":3,"content":"其实老师上课很用心"},{"id":75443,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2018-03-12 02:59:18","like_diff":4,"likes":5,"dislikes":1,"content":"老师超级无敌口头禅“就说说是”一块把我逼疯，你就简单地说“就是”不就完了。但是看起来好像挺关心同学的。课实在听不下去。"},{"id":124026,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2020-06-21 06:51:23","like_diff":4,"likes":4,"dislikes":0,"content":"两个助教小哥哥真的超级超级认真负责，作业批改反馈，答疑，总结，私戳回答问题都很仔细，爱了爱了"},{"id":176988,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-07-01 03:33:20","like_diff":4,"likes":4,"dislikes":0,"content":"给分什么东西"},{"id":176989,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-07-01 03:33:36","like_diff":4,"likes":4,"dislikes":0,"content":"给分针不行吧？"},{"id":179734,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-09-19 15:27:12","like_diff":4,"likes":4,"dislikes":0,"content":"出题品味特别差"},{"id":181241,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-10-12 03:54:22","like_diff":4,"likes":5,"dislikes":1,"content":"好好好"},{"id":204007,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-11-23 03:20:32","like_diff":4,"likes":4,"dislikes":0,"content":"Byd弱智\n\n废话一坨，课程依托，给分也一坨\n\n（选这门课的话，基本上就做好3.5的准备吧）"},{"id":224078,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2025-11-08 10:00:44","like_diff":4,"likes":4,"dislikes":0,"content":"纯🧠痰"},{"id":225177,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2025-12-19 12:06:55","like_diff":4,"likes":4,"dislikes":0,"content":"屎中屎"},{"id":225421,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2025-12-23 08:19:42","like_diff":4,"likes":4,"dislikes":0,"content":"依托答辩现代化学方法论"},{"id":47490,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2017-01-28 01:27:51","like_diff":3,"likes":5,"dislikes":2,"content":"不知所云的老师"},{"id":49776,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2017-04-26 01:12:58","like_diff":3,"likes":4,"dislikes":1,"content":"大化给分最低"},{"id":107634,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2019-05-08 00:35:26","like_diff":3,"likes":3,"dislikes":0,"content":"听不懂(=_=)"},{"id":136580,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2021-06-21 08:16:29","like_diff":3,"likes":4,"dislikes":1,"content":"真不如自己找网课听"},{"id":141230,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2021-09-27 03:10:37","like_diff":3,"likes":3,"dislikes":0,"content":"感觉物理化学上了个寂寞，啥也没学到"},{"id":203020,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-11-16 02:49:52","like_diff":3,"likes":3,"dislikes":0,"content":"你无敌了"},{"id":57457,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2017-07-08 05:38:49","like_diff":2,"likes":4,"dislikes":2,"content":"讲课很迷，让人完全不想听。但是也能感觉出来老师在努力多教给我们一点东西，还有很多道理。平时作业做起来很痛苦，要查阅英文网站，并且跟考试内容不怎么相关，不过也有很大的收获。考试题还算挺简单的，仔细看过ppt和课本没什么问题，老师给分也特别好。"},{"id":110191,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2019-06-24 09:40:23","like_diff":2,"likes":4,"dislikes":2,"content":"老师人倒是蛮和蔼的，只是讲课……实在不敢恭维啊。建议非大佬还是不要选了，我就是教训。"},{"id":128034,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2020-12-03 15:46:53","like_diff":2,"likes":7,"dislikes":5,"content":"恩师！他已经很努力了，你们要是还是一点兴趣也没有，那他也是一点办法也没有。我劝各位年轻人好好反思。"},{"id":160521,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2022-09-26 00:39:54","like_diff":2,"likes":2,"dislikes":0,"content":"呵呵，呵呵"},{"id":204006,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-11-23 03:18:59","like_diff":2,"likes":2,"dislikes":0,"content":"💩💩💩"},{"id":219163,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2025-05-22 14:25:25","like_diff":2,"likes":2,"dislikes":0,"content":"史中史"},{"id":223579,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2025-09-30 07:11:12","like_diff":2,"likes":3,"dislikes":1,"content":"如何在展示的时候让他给你比较好的分数避免最后几乎全员3.5呢？什么硬讲什么，千万不要按他自己的要求来。让他p也听不懂就行"},{"id":25891,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2016-07-01 07:18:40","like_diff":1,"likes":8,"dislikes":7,"content":"讲真他上的物化听不懂…开学说期中考考过的不考，结果考完期中考又说期末还要考…出尔反尔不能忍"},{"id":28195,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2016-06-28 08:16:46","like_diff":1,"likes":3,"dislikes":2,"content":"八点开始上课就八点十五过去，八点半过去也没问题。别问我为什么。"},{"id":30761,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2016-07-02 12:02:21","like_diff":1,"likes":3,"dislikes":2,"content":"呵呵了。"},{"id":110145,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2019-06-24 01:59:58","like_diff":1,"likes":2,"dislikes":1,"content":"老师挺关心大家的，但上课的效果不太理想"},{"id":111884,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2019-07-03 02:07:52","like_diff":1,"likes":2,"dislikes":1,"content":"讲的挺认真的，但是讲的效果实在是不行 期中考简直是地狱 期末考很师生情"},{"id":225651,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2025-12-26 15:57:21","like_diff":1,"likes":1,"dislikes":0,"content":"大傻逼"},{"id":111901,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2019-07-03 02:23:46","like_diff":-1,"likes":2,"dislikes":3,"content":"给分非常好，上课着实无聊，全靠自学。但是老师会很耐心的解答问题，浓浓师生情。"},{"id":124371,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2020-06-30 01:36:55","like_diff":-1,"likes":1,"dislikes":2,"content":"讲的内容不错，很有收获，作业有点难，但还是努力一把就可以做出来的。考试在数学和计算方面不难，但一定要清楚概念，许多题目错一个就可能连续错。我前半学期很认真，后半学期不太认真，最后几讲完全靠突击，作业缺了几次，最后4.5"},{"id":57719,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2017-07-13 00:30:00","like_diff":-2,"likes":4,"dislikes":6,"content":"老师原来的小胡子很帅，不过后来剃掉了。咳咳，老师更像人生导师。(他似乎很敬重彭笑刚"},{"id":112165,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2019-07-03 18:14:52","like_diff":-2,"likes":2,"dislikes":4,"content":"物理化学。我给老师打10分，因为他的教学态度，他是真正想让我们学到有用的东西的老师。但是物化这门课真的太玄了555，感觉是平时花的最多时间的一门课，书看了好几遍了，刷完作业＋助教给的题目，可能是期末考试最后一个大题做错的原因，最后只有3.3。但是还是给老师满分，至于老师的教学水平嘛，emmm，还是自学吧！"},{"id":111086,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2019-06-29 14:01:13","like_diff":-4,"likes":2,"dislikes":6,"content":"听李老师上课挺有趣的，他会在课前和坐在前排的同学交流，在课堂上穿插一些科学小故事和自己对物化的见解，上课不用ppt都是板书，不过当时没好好听的话回头看笔记十有八九是看不懂的，所以新课内容有问题要及时去问。他经常会推错公式，但是最后的结果不知道为啥总是对的……和他争论一般是争论不过他的，因为他总是鄙视我们这群刚学物化的人，最后也没把问题讲清楚。想学好要把笔记和书结合起来看，作业题和考试题都是有关系的，不用记公式，要理解公式的适用条件，笔记最好不要记书上，否则就会像我一样期末复习的时候老找不到。总的来说李老师的课很不错，大家静下心来本着听故事的心态就不会想睡觉啦。"},{"id":31576,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2016-07-04 06:57:18","like_diff":-5,"likes":6,"dislikes":11,"content":"给分不错"},{"id":108934,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2019-06-04 10:59:11","like_diff":-6,"likes":1,"dislikes":7,"content":"大化实验a给讲了一些别的东西，老师讲课非常认真。个人认为老师说的一些很有道理，受益匪浅。对于成绩给分不了解，但就上课插入的内容来说，见仁见智。"},{"id":84391,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2018-07-12 16:48:55","like_diff":-7,"likes":0,"dislikes":7,"content":"特此跪谢不挂之恩"},{"id":136130,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2021-06-11 06:17:39","like_diff":-7,"likes":0,"dislikes":7,"content":"恩师，人生导师，给分巨好。至于物理化学？智云课堂不香嘛。"},{"id":128023,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2020-12-03 10:27:50","like_diff":-8,"likes":5,"dislikes":13,"content":"李老师真的很努力了！评分也超好的！不要被课否的错误统计欺骗了，我身边没有4. 5以下的"},{"id":26664,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2016-06-21 00:03:08","like_diff":-14,"likes":4,"dislikes":18,"content":"男神系列～"},{"id":181236,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-10-12 04:44:18","like_diff":-17,"likes":7,"dislikes":24,"content":"很好的老师！满分！作业布置得也很通情达理，从来不给学生找麻烦，作业要求很简单，在每一个老师介绍完课题组的时候，他都不会废话，也不会逼我们问问题，他的话很少，也很少跟我们讲一些空的道理，满嘴都是学术，挺好"},{"id":183829,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2023-11-30 15:01:16","like_diff":-20,"likes":4,"dislikes":24,"content":"本人觉得老师人还可以吧 至少能看出来是挺善良的老师…而且要是真的认真完成作业了（这个请见仁见智 觉得委屈的可以看看那些高分的同学的作业 其实老师也没有那么严格（勿喷 虽然本人分也不高 但是觉得不能简单地以乱给分的评价抹杀掉别人的努力"},{"id":16909,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2016-06-18 12:12:51","like_diff":-25,"likes":10,"dislikes":35,"content":"超级好的老师！满分！"},{"id":134417,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2021-03-27 15:38:03","like_diff":-28,"likes":2,"dislikes":30,"content":"事实上，如果我们仔细去读物化教材，就会发现很多问题自己没法解决。而这些问题正好是老师会用更细致的数理推导讲到的。我相信热爱数理的人会喜欢李老师。"},{"id":196476,"teacher_id":1758,"teacher_name":"李啸风","post_time":"2024-07-03 16:34:11","like_diff":-95,"likes":3,"dislikes":98,"content":"看到化学系各位同学对老师的评价，真是悲哀：无论如何，也应保持对老师最起码的尊重，体现自己的修养。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

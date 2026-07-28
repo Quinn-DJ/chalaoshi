@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>杨敏 - 医学院 - 浙大教评</title>
+    <meta name="description" content="杨敏教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="杨敏,医学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">杨敏</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">医学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.06</div>
+                    <div class="rating-participants">125人参与评分</div>
+                    <div class="attendance-info">26.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (5 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">临床营养学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.72</span>
+                            <span class="students">选课: 57人</span>
+                            <span class="std-dev">标准差: 0.68</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大学英语Ⅲ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.48</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.73</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大学英语Ⅳ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.40</span>
+                            <span class="students">选课: 354人</span>
+                            <span class="std-dev">标准差: 0.77</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">实用营养与保健</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.97</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.65</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">营养与食品卫生学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.97</span>
+                            <span class="students">选课: 227人</span>
+                            <span class="std-dev">标准差: 0.61</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (110 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":77944,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-05-09 01:46:05","like_diff":31,"likes":45,"dislikes":14,"content":"楼上各位应该评错老师了，这位是医学院的杨敏老师，你们应该去另一个外国语学院的评，这位杨老师也很漂亮温柔，上课好好听课有收获的，最起码帮助我减肥平衡膳食，但是，真的，给分太迷了，我都不知道他们到底标准是什么，我辛辛苦苦每节课第一排，最接近老师的地方，不说100%听课，也有80%认真听课了，我觉得我比大部分人都认真，比那些上课说话的留学生好很多了，每次作业认认真真，结果最后八十几分，考核方式是每节课的小作业很简单，期末是课堂大作业，允许查手机，给自己的膳食评估加合理建议，但是实在不明白，我为什么分那么低，九十分是给谁了？感觉努力与成绩不成正比，给8分了，另外两分敬我的绩点"},{"id":120052,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-11-17 08:03:15","like_diff":24,"likes":36,"dislikes":12,"content":"对不起 实用营养与保健我每节课都在前三排 作业也认真完成了 21天微习惯养成也每天打卡了 最后绩点3.0我真是呵呵了 我不知道那些坐后排每节课玩手机的同学们绩点怎么样 反正我是想告诉大家为了水可以选这个课 为了绩点还是算了吧?"},{"id":22523,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-05-08 05:20:03","like_diff":20,"likes":39,"dislikes":19,"content":"好漂亮"},{"id":119949,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-11-17 01:44:37","like_diff":15,"likes":17,"dislikes":2,"content":"实用营养与保健的通识课感觉就是在趁机找学生做问卷，评分标准很迷，每节课都去了参加那个21天健康计划也都每天打卡了，最后3.3被正态了，但老师还是不错叭，上课很水很水很水考试也很水"},{"id":120054,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-11-17 08:15:20","like_diff":14,"likes":15,"dislikes":1,"content":"水是挺水的，老师也很温柔很好，21天微习惯养成也在好好做，群里也在积极回答问题，但是给分挺迷的，被正态了? ?"},{"id":119925,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-11-17 01:03:24","like_diff":12,"likes":12,"dislikes":0,"content":"我感觉每一次都是用心听课了，每次都在坐前排，认真做笔记，认真学习，21天养成计划我也好好做了，结果最后得了八十多分，老师不错，讲课挺好的，很有意思。但是很多人都是上课干别的，上课写代码，做微积分线代，我不知道他们得多少分，我也不知道90多分给谁了。不怪老师，老师很好，但是就是得分的方式有点迷，不知道怎么得好绩点。"},{"id":22655,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2016-03-09 10:35:11","like_diff":11,"likes":15,"dislikes":4,"content":"超漂亮 声音超好听"},{"id":123544,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2020-06-09 14:12:42","like_diff":9,"likes":12,"dislikes":3,"content":"实用营养与保健 就两个字 无语"},{"id":120062,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-11-17 09:09:16","like_diff":8,"likes":8,"dislikes":0,"content":"给分乱七八糟，不参加21给分烂"},{"id":53507,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-06-27 01:15:00","like_diff":7,"likes":10,"dislikes":3,"content":"超温柔！女神气质！口语也好听！啊啊啊啊啊啊啊啊！"},{"id":182887,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2023-11-21 02:56:11","like_diff":7,"likes":13,"dislikes":6,"content":"实用营养与保健，通识课，一个班七八十个人，四个人九十➕，期末考试恶心不调分，私信问她问题已读不回，课后事情巨多，都是配合她科研并提供数据（无偿），一门通识课给你属实玩明白了😅😅"},{"id":54300,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-06-29 04:14:18","like_diff":5,"likes":5,"dislikes":0,"content":"就很美很温柔啊，想知道一个帅帅助教的号码?"},{"id":94021,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-01-15 02:32:23","like_diff":5,"likes":11,"dislikes":6,"content":"杨敏老师的大英三，最后一节课结束了。\n\n老师最深最直接的印象就是，是个说话就带着笑意的老师！我超爱杨老师，看得出她也超爱她的学生。她教书很有经验了，任何事都做的很周到，课程很完美。与她在课上的交流，从不会因为口语差而担心，反而收到鼓励，也不是没有压力，因为老师从来不敷衍你，甚至有挑战性的反问你。她很看重我们每个人，一视同仁，真好。老师真好，不管什么时候都是笑眯眯的。有几次展示感觉老师失望了，老师不要sad，我们有尽力哦，不会唱歌的我，也练了好久的歌。希望给老师留下过美好的回忆吧！"},{"id":142619,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2021-11-14 15:01:21","like_diff":5,"likes":5,"dislikes":0,"content":"真绩杀，劝想要高绩点的别选，很难拿高绩点，匿名互评也会把你恶心死，还有人总分一百分给你打三十分以下的分，吐了。"},{"id":191970,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2024-05-06 12:53:35","like_diff":5,"likes":6,"dislikes":1,"content":"什金，给分巨烂"},{"id":24701,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2016-05-03 06:57:52","like_diff":4,"likes":5,"dislikes":1,"content":"好好好"},{"id":26651,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2016-06-20 15:30:48","like_diff":4,"likes":4,"dislikes":0,"content":"人好漂亮声音好好听"},{"id":48829,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-03-14 07:02:46","like_diff":4,"likes":9,"dislikes":5,"content":"英语老师一节课九十五分钟。"},{"id":53533,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-06-27 02:00:26","like_diff":4,"likes":4,"dislikes":0,"content":"老师人很好的，很负责。后悔没有好好背单词。课上有机会提升水平的，认真对待吧"},{"id":67995,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-01-22 12:46:12","like_diff":4,"likes":8,"dislikes":4,"content":"老师讲话温柔，口语比较好。上课压力也不大，虽然有点小无聊...考核主要看quiz、练习作文、期末考、口试，课堂表现关系不是很大；老师整理quiz、期末考题型很负责，邮件回复也及时，就是老师邮件回复有时会小不耐烦?我英语底子不算特别好吧，虽然感觉这半年英语退步了很多，还卡绩了orz至少上四了（大英给分和老师关系不大"},{"id":120055,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-11-17 08:21:08","like_diff":4,"likes":6,"dislikes":2,"content":"到底是怎么给分的啊…"},{"id":120351,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-11-29 23:04:22","like_diff":4,"likes":4,"dislikes":0,"content":"实用营养与保健的课。老师挺好的，但可惜有一个不知道在干嘛的助教。明明老师说了可以选答两小题或者一大题，结果这位神仙助教居然觉得这样难以制定所谓的公平的评分标准，于是他默认答大题的同学们少答了一道题。都9102年了这样的“公平”我真的前所未见闻所未闻。没什么别的意思，就是来问候一下这次的给分的助教某qc，希望他能继续幸福地生活下去? P.S.有一说一 ，课确实水，任务不算太重。如果不怕这奇特的评分标准，大可放心选。老师挺不错的，很温柔也很有耐心。"},{"id":134884,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2021-04-20 11:38:52","like_diff":4,"likes":5,"dislikes":1,"content":"两分，不能再多了，这个是评的是公共卫生学院的杨敏老师，说真的，选一个通识课没必要这么和自己过不去，这个杨老师…真的不推荐"},{"id":24734,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2016-05-03 08:53:51","like_diff":3,"likes":4,"dislikes":1,"content":"好温柔"},{"id":42597,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-01-14 13:45:24","like_diff":3,"likes":3,"dislikes":0,"content":"给分不太好..."},{"id":53508,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-06-27 01:15:31","like_diff":3,"likes":6,"dislikes":3,"content":"老师口语很好，给分太凶很…"},{"id":73601,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-02-02 05:24:26","like_diff":3,"likes":3,"dislikes":0,"content":"虽然我是2.7，但老师还是好老师。"},{"id":87095,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-09-20 08:42:33","like_diff":3,"likes":3,"dislikes":0,"content":"听到她哑着嗓子上课真的很心疼。像高中老师一样认真！"},{"id":182952,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2023-11-21 08:05:31","like_diff":3,"likes":5,"dislikes":2,"content":"实用营养依托"},{"id":217182,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2025-04-03 07:22:31","like_diff":3,"likes":3,"dislikes":0,"content":"跑，感觉事情还是太多了，一次半小时的小组展示，一次7天训练营（小程序设计一坨），还有线上课程测试，题目都不简单（有100题），还有一次作业，还有期末闭卷考试"},{"id":223063,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2025-09-12 03:05:11","like_diff":3,"likes":3,"dislikes":0,"content":"大英的杨老师，人蛮温柔的，上课可水，任务完成即可。成绩还是看个人水平，英语水平较高大英三四都是4.8供参考。"},{"id":34269,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2016-11-18 13:47:01","like_diff":2,"likes":2,"dislikes":0,"content":"给分一般，不高不低。。。"},{"id":34273,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2016-09-29 12:31:49","like_diff":2,"likes":2,"dislikes":0,"content":"。。。"},{"id":47482,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-01-27 16:57:21","like_diff":2,"likes":2,"dislikes":0,"content":"我英语不好，分低能理解，老师很好。"},{"id":52987,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-06-24 12:41:09","like_diff":2,"likes":2,"dislikes":0,"content":"英语给分不在老师，老师人超好超温柔，关键是口语很好。"},{"id":75246,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-03-08 06:56:37","like_diff":2,"likes":2,"dislikes":0,"content":"跟我想的漂亮不一样 但人不错"},{"id":95112,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-01-19 00:13:42","like_diff":2,"likes":2,"dislikes":0,"content":"我  卡绩  了   难受   但是老师超级好啊"},{"id":123549,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2020-06-09 23:06:34","like_diff":2,"likes":2,"dislikes":0,"content":"就疫情期间的上课来说吧！事情很多，每次上完课都需要上传笔记到学在浙大上，但是PPT非常多，一张的PPT就有一二百页，反正我是胡乱写的，但是因为同学互评的原因，我看到其他人要付出的时间很多，另外还有要制作海报放在朋友圈里，积赞可以增加分数，这一点遭到了班里很多同学的恶心，其次，我不明白，每次上完课还要在下节课之前把直播回放给删除是什么操作，各种介绍上说没有大考试，但是最后一次突然来了一次期末考试，根本不知道是考什麽，一开始说的是提前20分钟开始考试就能考完，结果墨迹了45分钟，最后的课堂展示也是大家没有问题，还非要同学提问题，随便点一个人还让他必须要提一个问题，在提出问题的时候，助教那一句我给你十秒钟的时间思考，真的是服了。最后又开始第二次考试，考到了大约晚上十点多的样子。不说了，打死我以后都不选她的课。"},{"id":123848,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2020-06-15 02:56:23","like_diff":2,"likes":2,"dislikes":0,"content":"真的绝对不要听她的课，事情好多非常多（每周笔记作业），ppt也很多不知道他们说什么..最后期末考试太可怕了，也挺难的，像一个必修课一样..（要开摄像头，好严格）+上课时老师很爱说话，晚下课😂。"},{"id":124609,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2020-07-03 15:45:19","like_diff":2,"likes":3,"dislikes":1,"content":"这学期增加了很多任务，给分也不像之前那么迷了，线上考试确实会出现很多不确定因素，这也不能完全怪老师，而且朋友圈集赞的做法遭到同学抵制后老师也是取消了集赞只要求发朋友圈，总体来说还是中规中矩，但期末考试真的有很多不会，可能是我没好好复习吧"},{"id":127511,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2020-11-24 00:04:59","like_diff":2,"likes":2,"dislikes":0,"content":"最后小测挺难的吧，各种时间啊之类的很细的知识点，上课就是读ppt，可以水，但是考前要复习ppt。考核大概就是期间会有几次作业，我觉得挺享受的，要好好做。然后最后是课堂展示海报+测验，海报一定要课上展示，不然应该会比较惨。"},{"id":154652,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2022-06-03 01:25:30","like_diff":2,"likes":3,"dislikes":1,"content":"不推荐"},{"id":205551,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2024-12-09 06:20:20","like_diff":2,"likes":2,"dislikes":0,"content":"老师人很好！营养那节课感觉认真做小组作业啥的分数就不会低，期末考是最后一节课当堂测试"},{"id":224761,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2025-12-01 10:39:58","like_diff":2,"likes":2,"dislikes":0,"content":"实用营养的ym老师给分超级烂，千万不要选"},{"id":42686,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-01-15 02:32:36","like_diff":1,"likes":2,"dislikes":1,"content":"温柔善良的女神\n\n"},{"id":46504,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-01-22 01:21:27","like_diff":1,"likes":6,"dislikes":5,"content":"竟然只有8.5？？？上了杨老师的大英三，必须十分。助教小哥哥超级帅，而且温和善良给分仁慈。老师上课也挺有意思啦，毕竟是大英课不能在这方面要求太高。很耐心细致有条理，超负责的，人也很好，嗯给分很好。明年继续大英四"},{"id":50627,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-05-04 02:33:10","like_diff":1,"likes":1,"dislikes":0,"content":"老师人超好，很温柔，如果每次都认真学的话，会觉得上课很有趣。还有，要多参与，个人感觉。"},{"id":53482,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-06-26 17:45:07","like_diff":1,"likes":2,"dislikes":1,"content":"嗯，很水，老师还好，上课很舒服，给分太实在。平时分高没有用，关键看考试"},{"id":53553,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-06-27 03:29:23","like_diff":1,"likes":1,"dislikes":0,"content":"大英三大英四都是老师教的，口语很棒，很耐心也很负责。唉，我自己太水了。"},{"id":67405,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-01-21 06:21:18","like_diff":1,"likes":2,"dislikes":1,"content":"杨老师非常温柔，口语超好听，也很负责。大英三每单元都会组织一些课堂活动，开始不是很适应，后面觉得非常有意思了。平时每一项都做得还不错的话给分也完全不会低，能上这门课非常幸运啦。"},{"id":76224,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-03-29 09:33:34","like_diff":1,"likes":2,"dislikes":1,"content":"老师非常nice，口语也很棒，同学不会回答问题，老师也是循循善诱，有耐心到让人心疼。上课能学到很多知识。"},{"id":81530,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-07-05 09:37:23","like_diff":1,"likes":1,"dislikes":0,"content":"上老师的课很舒服而且有一种安心感，老师很负责，跟着老师的上课节奏来，分数应该都不会低的，而且对学生非常友好。"},{"id":95468,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-01-19 12:31:00","like_diff":1,"likes":1,"dislikes":0,"content":"老师蛮好的 组织很多次活动也很好 但可能小组任务略多 相当于每学期要做多次展示emmmmm然后平时很温柔有时候很严厉吓到我了 最后大英要好好学呜呜呜(┯_┯)自己不努力 严重拉均绩 我真的错了"},{"id":95519,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-01-19 13:54:21","like_diff":1,"likes":2,"dislikes":1,"content":"很OK"},{"id":96710,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-01-21 09:31:17","like_diff":1,"likes":1,"dislikes":0,"content":"老师很温柔，很有耐心。就是上课略略有那么点无聊...给分就正常叭，不是很看重课堂表现，关键还是期末考吧（我jio得）。老师人是真的好!!!"},{"id":114028,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-07-08 11:29:43","like_diff":1,"likes":4,"dislikes":3,"content":"对不起，知道这里是医学院杨敏老师的评论区，但是发现大多数同学都跑这来评论了，就把那边的复制过来，给学弟学妹提供点经验---分---割---线---19春夏的情况:会固定座位分小组，相当于变相点名，请假需要提前写一封请假信，不然当做缺到，正常操作。平时上课积极回答问题，期末平时分可以多0.5-1分的样子，作文练习比较多但是自愿，情理之中。老师的口音听得很舒服，人还是温柔的，不清楚为什么外院词条那边的评分有点低了，最后考得怎么样更多看自己吧。 助教姐姐平时小测给分炒鸡好，期末监考的助教哥哥好帅呀，溜了溜了~ 还有再提醒一遍，千万不要把医学院和外院的杨敏老师搞错了，评分不一样的~"},{"id":142616,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2021-11-14 14:16:04","like_diff":1,"likes":1,"dislikes":0,"content":"。。。"},{"id":154651,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2022-06-03 01:25:31","like_diff":1,"likes":3,"dislikes":2,"content":"不推荐"},{"id":203653,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2024-11-20 10:26:40","like_diff":1,"likes":1,"dislikes":0,"content":"实用营养与保健，i人一次课堂发言都没有，只是按部就班完成任务，最后给分还不错，从以前评价来看，现在的任务量感觉少了很多，线上课可以做两次刷分。"},{"id":225859,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2025-12-31 09:41:22","like_diff":1,"likes":1,"dislikes":0,"content":"大英的杨老师非常好，上课不严，作业不多。助教也很好，作文给分不错"},{"id":225918,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2026-01-04 14:41:47","like_diff":1,"likes":1,"dislikes":0,"content":"非常好的老师，一直没懂为什么评分这么低，刚开始选上看到这个评分还以为毁了。\n\nquiz中的句子翻译可以直接给你划出来，这就领先很多老师了（当然你也可以不复习然后凭感觉自己翻译），而且老师quiz的班级平均分高于其他班不是一点，第一次quiz班级平均分比我几个舍友班平均高了4分（我们46+，舍友42+），第二次高了1分左右。大英quiz根本不需要什么动脑，就是老老实实背单词，熟悉课内。\n\n作文也是平均分12分左右，还觉得低我真没招了。\n\n再聊聊老师单独掌握的课堂表现，就5分，反正ym老师这里绝大部分是4.5，比较积极、pre完成得好就5分，课堂完全不表现、pre真的很差那没办法，就4分，但是很少（缺勤太多活该）\n\n说什么大英无聊，拜托，问问自己高中英语课是不是也差不多，老师不幽默、没有梗当然很无趣，语言学习就是这样，但是这从来不是扣分项，你真正想学好，老师课件的知识点很细，有问题也会仔细回答。\n\n综上，真的很不错。"},{"id":34341,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2016-10-04 23:52:30","like_diff":0,"likes":1,"dislikes":1,"content":"好温柔，好漂亮"},{"id":34467,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-02-25 17:41:05","like_diff":0,"likes":2,"dislikes":2,"content":"温柔漂亮有耐心～"},{"id":34533,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2016-10-13 02:01:33","like_diff":0,"likes":0,"dislikes":0,"content":"还好吧"},{"id":35160,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2016-11-03 10:40:48","like_diff":0,"likes":1,"dislikes":1,"content":"很有气质的老师"},{"id":35200,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2016-11-05 01:56:20","like_diff":0,"likes":0,"dislikes":0,"content":"很详细且负责"},{"id":35941,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2016-11-10 08:59:40","like_diff":0,"likes":0,"dislikes":0,"content":"超优雅的～讲解很到位～"},{"id":36190,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2016-11-11 02:44:22","like_diff":0,"likes":0,"dislikes":0,"content":"老师好美丽温柔，内容很实用，考核方式贴近生活，很有意思，很喜欢"},{"id":37289,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2016-11-18 08:02:50","like_diff":0,"likes":0,"dislikes":0,"content":"老师跟温柔 给分一般"},{"id":37373,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2016-11-18 13:50:22","like_diff":0,"likes":1,"dislikes":1,"content":"很有气质，很温柔，平常作业是记录3天饮食，上课做个简单的问卷，最后考核是大作业很有用！给分很好！"},{"id":38705,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2016-12-15 06:55:50","like_diff":0,"likes":1,"dislikes":1,"content":"女神。如沐春风"},{"id":39644,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2016-12-26 11:47:39","like_diff":0,"likes":10,"dislikes":10,"content":"实用营养与保健是这位老师在教没论文，最后一次大作业用心做得了4.2，个人感觉比较满足"},{"id":42621,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-01-14 15:20:59","like_diff":0,"likes":0,"dislikes":0,"content":"喜欢老师"},{"id":42924,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-01-15 12:13:33","like_diff":0,"likes":0,"dislikes":0,"content":"上了一个学期大英3，老师还是很负责的，上课形式也很多，平时作文没写好可以补交然后按补交的分记入总分，上课也会有小辩论，不发言也没关系，嗯课前还有pre可以准备一下ppt效果会比较好，老师也会经常提醒记单词和quiz，她说起来比较严格，但是其实老师还是很好的_(:з」∠)_顺便感谢一下老师让这么辣鸡的我过了"},{"id":48417,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-03-03 03:40:23","like_diff":0,"likes":0,"dislikes":0,"content":"很棒的老师"},{"id":48650,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-03-09 01:51:59","like_diff":0,"likes":1,"dislikes":1,"content":"喜欢老师"},{"id":48880,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-03-15 10:47:34","like_diff":0,"likes":0,"dislikes":0,"content":"真的漂亮有气质！！！"},{"id":53656,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-06-27 09:08:48","like_diff":0,"likes":1,"dislikes":1,"content":"真的是位好老师，每次去上课真的是一种享受，想到结束，突然感伤…"},{"id":57787,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2017-07-15 14:48:48","like_diff":0,"likes":0,"dislikes":0,"content":"老师很好的，分低，好吧，怪自己"},{"id":67330,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-01-21 00:02:33","like_diff":0,"likes":0,"dislikes":0,"content":"老师人真的是巨好，女神级别的，口语很棒，自己绩点低，只能是自己基础问题啦。"},{"id":67414,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-01-21 07:07:12","like_diff":0,"likes":0,"dislikes":0,"content":"老师人很温柔，很不错的老师"},{"id":67633,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-01-22 02:57:12","like_diff":0,"likes":1,"dislikes":1,"content":"平时任务也不多 我平时上课也没举手回答问题 平时分也一般般 主要还是看期末吧 挺好的一个老师 上课挺轻松"},{"id":67957,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-01-22 11:33:01","like_diff":0,"likes":1,"dislikes":1,"content":"浓浓师生情，作为河南考生基础不好也没听过课，3.3知足了"},{"id":67990,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-01-22 12:26:30","like_diff":0,"likes":0,"dislikes":0,"content":"老师很漂亮很性感? \n\n人很好"},{"id":68987,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-01-24 07:29:05","like_diff":0,"likes":0,"dislikes":0,"content":"非常非常好"},{"id":69177,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-01-24 09:31:08","like_diff":0,"likes":1,"dislikes":1,"content":"老师很温柔，每组都会分到一次展示"},{"id":69212,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-01-24 10:16:43","like_diff":0,"likes":1,"dislikes":1,"content":"老师的负责帮你省了很多事。\n\n建议能多花时间在英语的同学选，这样收获很大。"},{"id":81314,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-07-04 15:56:57","like_diff":0,"likes":0,"dislikes":0,"content":"真的好"},{"id":81355,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-07-05 01:59:23","like_diff":0,"likes":0,"dislikes":0,"content":"讲课讲得超级棒 到大学这样负责的老师真的不多"},{"id":81447,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-07-05 06:11:53","like_diff":0,"likes":1,"dislikes":1,"content":"老师人很nice 声音也很好听 但是和学生之间有一种疏离感"},{"id":81950,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2018-07-06 15:12:46","like_diff":0,"likes":1,"dislikes":1,"content":"很好的"},{"id":94237,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-01-16 03:08:36","like_diff":0,"likes":0,"dislikes":0,"content":"超级温柔啊啊啊啊啊tenderness"},{"id":102380,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-02-01 09:51:17","like_diff":0,"likes":0,"dislikes":0,"content":"很不错的老师，虽然平时分有点低，但是上课还是很耐心负责的"},{"id":106801,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-04-29 15:27:50","like_diff":0,"likes":4,"dislikes":4,"content":"给分很迷 次次到课认真听讲 作业也都交了 结果超低还卡绩 垃圾"},{"id":111662,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-07-02 12:09:05","like_diff":0,"likes":0,"dislikes":0,"content":"老师人是真的好，期末考试听力是真的难"},{"id":127566,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2020-11-24 12:23:18","like_diff":0,"likes":1,"dislikes":1,"content":"这个老师本人很温柔，很有耐心，但确实没几个人在听。平常每节课都有课堂小测，最后还有微习惯训练营，但给分。。才3.6，算比较低吧，但也不好怎么抱怨老师，也是自己没特别用心。认真的话应该会有高分的"},{"id":182197,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2023-11-12 11:38:23","like_diff":0,"likes":2,"dislikes":2,"content":"老师真的很温柔欸"},{"id":201383,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2024-11-01 10:06:24","like_diff":0,"likes":0,"dislikes":0,"content":"老师上课讲的很认真，内容也很有用，想听的话很有收获，想水课的话也可以，只有一个期末测试，难度不大，平时的作业也很轻松，点名是每次都点"},{"id":205939,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2024-12-13 01:35:23","like_diff":0,"likes":3,"dislikes":3,"content":"给分一坨"},{"id":206149,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2024-12-13 06:23:57","like_diff":0,"likes":3,"dislikes":3,"content":"给分挺好的，实用营养任务减轻了"},{"id":209237,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2025-01-05 06:58:48","like_diff":0,"likes":0,"dislikes":0,"content":"学生先展示再由老师来补充这个形式挺好的\n\n感觉可以讲得再深一点 或者说往更好实践的方向上讲"},{"id":218994,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2025-05-17 07:47:15","like_diff":0,"likes":0,"dislikes":0,"content":"刚开始说课堂要求时也没有强调发言的必要性 结果最后总评因为没发言被扣了六分 作业和考试都认真完成但是绩点低 要么就卷发言 要么就别选这门课了 保研er 跑"},{"id":224676,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2025-11-26 15:15:48","like_diff":0,"likes":1,"dislikes":1,"content":"老师是好老师，讲课有意思，研究的领域也有影响，切切实实在为改变尼浙做出一份努力\n\n至于实用营养与保健这门课的给分......我只能说一坨\n\n我可能就20%期末和10%的训练营比较摆，全勤全作业网课全上喜提78正态大手"},{"id":163956,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2022-12-17 02:19:37","like_diff":-1,"likes":3,"dislikes":4,"content":"作业蛮多但还算简单，就是看一看慕课答答题，两次小组报告，一次测验，一次训练营心得，给分蛮意外的有4.8（不知道其他人）不要被查老师绩点吓到了"},{"id":175187,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2023-06-22 08:14:47","like_diff":-1,"likes":2,"dislikes":3,"content":"爱你😘"},{"id":110827,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-06-28 09:43:38","like_diff":-2,"likes":1,"dislikes":3,"content":"老师真的很负责了，会在书上划重要的语法点，会把各种听力材料和每章的重点放到群文件上。我们班上课气氛不是很活跃，感觉老师有时候有点尴尬，但还是认真地把课上下去（要是我的口语好一点我一定会多和您互动的）。上半个学期学的挺认真的，quiz和作文写得不错膨胀了，结果下半个学期一懈怠，成绩马上掉下来了，期末听力听到一半心态爆炸，最后压线3.9，也算是我大英4的真实写照吧。希望接下来有幸做杨老师学生的同学能好好听课，老师水平很高，人很nice。"},{"id":214934,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2025-02-19 07:25:00","like_diff":-2,"likes":1,"dislikes":3,"content":"我上的老师的实用营养与实践，老师会签到，人超级温柔很好，会很认真回答问题，会很认真听你的pre，给分也超级不错，还有一周的饮食训练营，很有意思，平时感觉水水的，但还能学到点东西，选吧！"},{"id":172620,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2023-05-02 10:30:15","like_diff":-4,"likes":3,"dislikes":7,"content":"（实用营养与保健）给分很捞！吹爆！如果认真听可以学到很多有用的知识的"},{"id":119964,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2019-11-17 02:19:07","like_diff":-6,"likes":3,"dislikes":9,"content":"不得不提！老师真的很美丽很温柔啊！太有气质了呜呜呜！说话也太好听了！平时上课其实听不听看自己吧，跟最终成绩可能也没有很大关系，就看自己兴趣，虽然有些问卷什么有一点点麻烦，也不知道最终给分的标准，但是没有什么作业，还是挺轻松的一门课，可以水一水，最终成绩也不错～"},{"id":171023,"teacher_id":1756,"teacher_name":"杨敏","post_time":"2023-03-14 07:53:02","like_diff":-7,"likes":0,"dislikes":7,"content":"大英四事巨多，"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

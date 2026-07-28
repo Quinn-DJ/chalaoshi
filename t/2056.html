@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李宁 - 化学系 - 浙大教评</title>
+    <meta name="description" content="李宁教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="李宁,化学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">李宁</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">化学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">7.77</div>
+                    <div class="rating-participants">131人参与评分</div>
+                    <div class="attendance-info">26.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (7 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">基础化学实验</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.35</span>
+                            <span class="students">选课: 20人</span>
+                            <span class="std-dev">标准差: 0.40</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">工程化学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.84</span>
+                            <span class="students">选课: 420人</span>
+                            <span class="std-dev">标准差: 0.85</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">工程化学实验</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.27</span>
+                            <span class="students">选课: 309人</span>
+                            <span class="std-dev">标准差: 0.40</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">无机和分析化学实验</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.35</span>
+                            <span class="students">选课: 51人</span>
+                            <span class="std-dev">标准差: 0.30</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">普通化学实验（乙）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.24</span>
+                            <span class="students">选课: 25人</span>
+                            <span class="std-dev">标准差: 0.56</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">普通化学实验（甲）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.20</span>
+                            <span class="students">选课: 221人</span>
+                            <span class="std-dev">标准差: 0.41</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">综合化学实验</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.26</span>
+                            <span class="students">选课: 43人</span>
+                            <span class="std-dev">标准差: 0.32</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (120 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":9262,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-12-28 07:48:40","like_diff":27,"likes":47,"dislikes":20,"content":"讲的混乱，而且与学生脱节，自顾自地讲。"},{"id":2166,"teacher_id":2056,"teacher_name":"李宁","post_time":"2015-04-04 09:38:31","like_diff":25,"likes":36,"dislikes":11,"content":"不条理"},{"id":14460,"teacher_id":2056,"teacher_name":"李宁","post_time":"2016-01-07 07:11:43","like_diff":20,"likes":31,"dislikes":11,"content":"李宁老师很和蔼，有责任心，课下很认真地答疑。只是上课不怎么有条理，重点也不太突出，需要下功夫预习。"},{"id":76246,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-03-30 03:54:08","like_diff":19,"likes":26,"dislikes":7,"content":"给分随意，不知所云? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?? ? ? ? ? ? ? ? ? ? ? ?"},{"id":48651,"teacher_id":2056,"teacher_name":"李宁","post_time":"2017-03-22 06:41:43","like_diff":17,"likes":24,"dislikes":7,"content":"没条理，混乱，自顾自的讲，无语。"},{"id":75336,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-03-09 03:49:37","like_diff":17,"likes":20,"dislikes":3,"content":"第一节课就让我绝望了\n\n讲课真的讲不清楚"},{"id":48705,"teacher_id":2056,"teacher_name":"李宁","post_time":"2017-03-10 01:32:46","like_diff":16,"likes":23,"dislikes":7,"content":"口音重，ppt差，水平低，不知道她在讲什么，这样的也能当老师?"},{"id":81995,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-06 19:29:21","like_diff":14,"likes":19,"dislikes":5,"content":"老实人真的很好 是我觉得上浙大以来心最好的老师\n\n对于学习不好的人也很关怀\n\n虽然我挂了 但还是很喜欢她的\n\n半夜两三点看到学生讯息都会回复的老师不多了"},{"id":105959,"teacher_id":2056,"teacher_name":"李宁","post_time":"2019-04-23 14:20:34","like_diff":12,"likes":13,"dislikes":1,"content":"老师很和蔼的，知识点多看几遍很容易理解清的，自己没预习，上课不认真的，就不要怪老师了，什么都不努力的话谁还能帮你，说没有条理可以再看看PPT，其实都是按照化学的思路降下来的，那些骂老师的摸着良心反思一下，自己努力没有！！"},{"id":9260,"teacher_id":2056,"teacher_name":"李宁","post_time":"2015-10-19 05:54:43","like_diff":10,"likes":14,"dislikes":4,"content":"不调理"},{"id":107022,"teacher_id":2056,"teacher_name":"李宁","post_time":"2019-05-01 01:48:55","like_diff":10,"likes":11,"dislikes":1,"content":"不明白为什么老师的评分那么低\n\n在浙上了两学期的课了觉得是我见过最负责的老师之一\n\n我上的是《工程化学》  班上应该也是五十多人的班嘛  人每次都来不齐  可能因为是开卷考大家都很水嘛……每周两次课都是早课   \n\n记得老师每次课上都要复习上次课的内容  有疑问QQ上都很耐心解答的    要课堂小测了还叫我们提醒没来的同学记得要来上课   最后考试反复提醒我们不要紧张然而大家可能都觉得题目偏简单  计算机忘带老师也有备用虽然最后我还是自己又买了一个555\n\n嘤嘤嘤   总而言之老师真的很好   顶up?"},{"id":75993,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-03-23 07:04:36","like_diff":9,"likes":11,"dislikes":2,"content":"上过她的无分…真的没有条理…啥都听不懂…"},{"id":49197,"teacher_id":2056,"teacher_name":"李宁","post_time":"2017-03-29 06:26:39","like_diff":8,"likes":14,"dislikes":6,"content":"可以给负分吗？讲的什么乱七八糟的…一门开卷考的课，每节课都要强调考试很难考试很难考试很难？烦不烦？"},{"id":82035,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-08 12:59:20","like_diff":8,"likes":9,"dislikes":1,"content":"人是很好的，给平时分是乱来的。"},{"id":185902,"teacher_id":2056,"teacher_name":"李宁","post_time":"2024-01-05 15:21:41","like_diff":8,"likes":8,"dislikes":0,"content":"老师真的很好\n\n实验课解答的很耐心 不摆架子\n\n每次我做实验都特慢 老师每次都肯留下来等我等到很晚\n\n下课了也会唠唠家常 真的很和蔼 很亲切 很会关心同学们\n\n不知道是不是以前因为什么原因导致老师分不高\n\n（老师刚刚知道有这个东西 真的怕老师看到评分会伤心\n\n（另外吹爆普化实验的助教 超级负责 超级有趣 交流起来完全没隔阂\n\n还爱打三国杀（bushi）"},{"id":50525,"teacher_id":2056,"teacher_name":"李宁","post_time":"2017-05-03 09:38:32","like_diff":7,"likes":14,"dislikes":7,"content":"老师人很好啊，期末了还来专门答疑"},{"id":105975,"teacher_id":2056,"teacher_name":"李宁","post_time":"2019-04-24 02:29:07","like_diff":7,"likes":9,"dislikes":2,"content":"老师讲的还是比较细致的，最重要的是考前会发上课讲的ppt，很认真的解答同学们的疑惑。考试的时候还帮忙接水，送计算机。我刚考完，吹爆！！！"},{"id":128594,"teacher_id":2056,"teacher_name":"李宁","post_time":"2020-12-24 09:30:53","like_diff":7,"likes":9,"dislikes":2,"content":"老师讲课很慢，讲的很详细，一个学期快结束了，课本还有三分之二没讲完。"},{"id":85123,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-15 14:09:59","like_diff":6,"likes":6,"dislikes":0,"content":"老师讲课真的不怎么样，但是人挺好。这种课还是主要自学吧。平时分可能是看期末成绩给的，期末努力考好吧。"},{"id":107287,"teacher_id":2056,"teacher_name":"李宁","post_time":"2019-05-03 04:19:38","like_diff":6,"likes":7,"dislikes":1,"content":"虽然业务水平可能确实有所欠缺，但她的态度还是非常认真的，而且也十分关心学生。"},{"id":122787,"teacher_id":2056,"teacher_name":"李宁","post_time":"2020-04-07 01:46:48","like_diff":6,"likes":9,"dislikes":3,"content":"次次拖堂"},{"id":152074,"teacher_id":2056,"teacher_name":"李宁","post_time":"2022-03-25 02:54:30","like_diff":6,"likes":7,"dislikes":1,"content":"首先，我打一分是因为没有零分。\n\n讲课乱七八糟根本听不懂。或许她可能研究很好，但绝对不是一个好老师。"},{"id":188418,"teacher_id":2056,"teacher_name":"李宁","post_time":"2024-01-19 03:08:33","like_diff":6,"likes":6,"dislikes":0,"content":"很棒的老师！"},{"id":76630,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-04-24 12:22:34","like_diff":5,"likes":7,"dislikes":2,"content":"不知所云……上课是课件放到哪里她就念到哪里，没有条理、重点不突出"},{"id":122734,"teacher_id":2056,"teacher_name":"李宁","post_time":"2020-03-27 02:54:56","like_diff":5,"likes":6,"dislikes":1,"content":"上网课毫无时间观念"},{"id":208278,"teacher_id":2056,"teacher_name":"李宁","post_time":"2024-12-26 12:53:14","like_diff":5,"likes":5,"dislikes":0,"content":"李老师的分数这么低是出乎我想象的，只能说李老师是我大学两年里面碰到的最好的老师之一，人非常和蔼可亲，讲课讲的也还不错呀，我高中学过化学，听她的普化实验课没有觉得很混乱。反正强推李老师，真的好老师。"},{"id":78857,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-05-16 00:56:57","like_diff":4,"likes":8,"dislikes":4,"content":"老师人还不错吧。但是，真的真的真的真的不会讲课啊。重点难点没有表示，所有知识点都是几句话带过，根本不考虑学生的感受啊。"},{"id":79523,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-06-08 02:30:42","like_diff":4,"likes":6,"dislikes":2,"content":"最难受的课，没有之一"},{"id":80990,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-03 08:08:26","like_diff":4,"likes":6,"dislikes":2,"content":"老师人挺好的，就是课的话真的是没法听，全靠自学。理论课真的别选了。"},{"id":107018,"teacher_id":2056,"teacher_name":"李宁","post_time":"2019-05-01 00:31:59","like_diff":4,"likes":4,"dislikes":0,"content":"老师讲课比较用心，也很细致，有时候也会讲一些自己的故事，或许会有一些细节不清楚，但可以理解，毕竟课多时间少，课下向老师问的问题，老师都会很用心的解答，给分也很好，真的是一个用心负责的考试。考试的时候还积极给同学借计算器，打水，令人感动！"},{"id":143201,"teacher_id":2056,"teacher_name":"李宁","post_time":"2021-11-21 10:37:51","like_diff":4,"likes":5,"dislikes":1,"content":"老师人很好，热爱生活，很喜欢与学生分享生活和实验中的趣事，人很温柔，体贴学生！"},{"id":172581,"teacher_id":2056,"teacher_name":"李宁","post_time":"2023-05-01 01:56:35","like_diff":4,"likes":4,"dislikes":0,"content":"老师很好了呀。我高中只学了一年化学，但是我前几节课认真听完全可以听懂，后面上课不太认真但是考前看PPT也全部看懂了。因为考试的时候有很多名词看不懂，他也没告诉我化学式，我这个化学基础差的最怕最怕挂科了，结果给我捞的蛮高。老师不错的，但是你要用心上课。"},{"id":79524,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-06-08 02:34:48","like_diff":3,"likes":3,"dislikes":0,"content":"重点一句话带过，时间大部分放在没意义的地方\n\n"},{"id":105974,"teacher_id":2056,"teacher_name":"李宁","post_time":"2019-04-24 02:23:00","like_diff":3,"likes":4,"dislikes":1,"content":"老师解答可耐心"},{"id":122936,"teacher_id":2056,"teacher_name":"李宁","post_time":"2020-04-22 14:01:31","like_diff":3,"likes":5,"dislikes":2,"content":"老师人非常好，但是上课能力的确有点欠缺，还喜欢拖课。但是对学生很热心很细致，这一点可以掩盖很多瑕疵"},{"id":124890,"teacher_id":2056,"teacher_name":"李宁","post_time":"2020-07-15 09:53:09","like_diff":3,"likes":5,"dislikes":2,"content":"老师很好，人特别好，而且今年知道了给分规则以后也说会好好给分了，只是讲东西有点太理所当然，大概是不清楚很多东西我们是不知道的"},{"id":125367,"teacher_id":2056,"teacher_name":"李宁","post_time":"2020-09-07 14:14:36","like_diff":3,"likes":5,"dislikes":2,"content":"真的感觉老师挺好的，一直都在好好讲课，只是缺点很明显，就是讲的不太好。好好预习肯定没问题的，老师特别有责任心，课后会给上补习课，这真的是很可贵了好吧！老师分数这么低，很难以想象这怎么可能。"},{"id":127383,"teacher_id":2056,"teacher_name":"李宁","post_time":"2020-11-22 02:18:05","like_diff":3,"likes":5,"dislikes":2,"content":"李老师明明超好有没有，有哪个老师上课前会给我们做题并且会抽同学提问直到我们弄懂为止，而且还会专门给我们准备复习课，平时分也尽量拉，能给满就给满，那些说老师不好的？？？？？？"},{"id":139243,"teacher_id":2056,"teacher_name":"李宁","post_time":"2021-07-13 16:41:45","like_diff":3,"likes":4,"dislikes":1,"content":"老师真的很好，我觉得选上了也不用换的，讲的其实蛮清楚，本来分化乙要求也不是很高。而且老师真的蛮和善的，超级善良，很考虑学生，给分也不错。"},{"id":139251,"teacher_id":2056,"teacher_name":"李宁","post_time":"2021-07-13 23:22:38","like_diff":3,"likes":5,"dislikes":2,"content":"感谢老师！96前来答谢啦～"},{"id":172583,"teacher_id":2056,"teacher_name":"李宁","post_time":"2023-05-01 02:07:26","like_diff":3,"likes":3,"dislikes":0,"content":"这学期跟的老师的工程化学和工程化学实验，看评论好多人说讲的混乱，这点我比较认同。老师是不太会讲课，但是没有认真听怎么会听的懂，认真听了真的能学到很多东西。李老师上课点名会提醒大家好几次，还用数字点名让没来教室的同学也能顺利签到。在平时成绩上让大家尽量拿高分不让大家最后成绩难看。在平时上课也说了很多很多生活的真谛和自己学术生涯过程中碰到的人和事。她是一位很负责很贴心一直在改正自己的老师。这一学期的两门课，我不认同评论区大多数人的观点。她不能只因讲课不够十分而只有低评分。大学劝大家在上课别玩手机，鼓励大家多去外面转转，多与同学玩，有问题害怕在群里问尽量私戳问她……这样的帖心老师真的不多啊"},{"id":173973,"teacher_id":2056,"teacher_name":"李宁","post_time":"2023-06-05 10:19:06","like_diff":3,"likes":3,"dislikes":0,"content":"建议看评论的同学同时注意一下评论的年份。李老师还是挺好的。课上会点名，但是会说下节课点名，没来的同学大家相互提醒一下，让他赶过来。工化内容不算难，看看课件基本能搞明白，建议还是听老师讲，就算一开始听不懂，在看完课件之后回头听智云，你会发现老师讲得很不错。我是浙江考生，没选过化学，化学基础挺差的，课上老师讲得全能搞明白，虽然最后考试有很多当常识的化合物我甚至搞不清楚化学式净瞎选，考得也还可以。绩点3.9，对我来说算满意。一分付出一分收获吧。"},{"id":190973,"teacher_id":2056,"teacher_name":"李宁","post_time":"2024-03-27 02:06:15","like_diff":3,"likes":3,"dislikes":0,"content":"真的好"},{"id":208861,"teacher_id":2056,"teacher_name":"李宁","post_time":"2025-01-02 15:25:13","like_diff":3,"likes":3,"dislikes":0,"content":"老师很温柔，讲的也很好，人脾气很好很有耐心，尤其要吹爆助教小哥哥，人特别好，实验报告给分高，最后还会给我们礼物书签和巧克力，很好的老师"},{"id":39520,"teacher_id":2056,"teacher_name":"李宁","post_time":"2016-12-23 12:54:13","like_diff":2,"likes":2,"dislikes":0,"content":"这么一来"},{"id":80466,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-06-27 01:33:55","like_diff":2,"likes":4,"dislikes":2,"content":"这么不推荐…PPT基本都是书上删减一些来的，直接照着念，也没有条理，听了和没听过一样…"},{"id":82020,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-07 01:13:46","like_diff":2,"likes":3,"dislikes":1,"content":"怎么没有0分？"},{"id":82094,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-07 05:58:47","like_diff":2,"likes":3,"dislikes":1,"content":"讲课极差，思路混乱，自顾自讲，该停的地方不停，该快的地方不快。上课口胡，错误奇多。\n\n平时分很迷，中间学生的末日"},{"id":107021,"teacher_id":2056,"teacher_name":"李宁","post_time":"2019-05-01 01:14:14","like_diff":2,"likes":2,"dislikes":0,"content":"思路确实有些不清晰 大不自多 但是人很好啊 课后答疑很耐心滴"},{"id":120303,"teacher_id":2056,"teacher_name":"李宁","post_time":"2019-11-28 01:16:21","like_diff":2,"likes":2,"dislikes":0,"content":"老师是我们的班主任，也是本学期综化实验的老师。老师确实是一个负责任的班主任，对我们的学习情况还是比较关心的，也会出席我们班会。带实验方面也没有什么问题，一切都做了很充分的准备。可能唯一不足的就是本南方人有时真的听不太懂老师的口音吧233"},{"id":122900,"teacher_id":2056,"teacher_name":"李宁","post_time":"2020-04-18 09:27:46","like_diff":2,"likes":3,"dislikes":1,"content":"老师人很好，可是上课真的不怎么有调理，都靠自学"},{"id":152483,"teacher_id":2056,"teacher_name":"李宁","post_time":"2022-04-13 01:06:37","like_diff":2,"likes":2,"dislikes":0,"content":"听不懂啊，听不懂"},{"id":191873,"teacher_id":2056,"teacher_name":"李宁","post_time":"2024-05-02 18:23:28","like_diff":2,"likes":2,"dislikes":0,"content":"永远的神，讲课给力，课后辅导无敌！学生值得信任的老师"},{"id":191940,"teacher_id":2056,"teacher_name":"李宁","post_time":"2024-05-06 02:01:01","like_diff":2,"likes":2,"dislikes":0,"content":"老师人很好，很慈祥，工程化学这门课，签到都会提前说，平时成绩也是努力给我们高分，感觉学过化学的同学选李老师挺合适的，不过没有化学基础的同学应该还是上hjm老师的课更轻松（我是没有化学基础的，上课会听不懂，然后看hjm老师的智云活下来的）最后86非常满意了，李老师人真的很和蔼，答疑也很认真"},{"id":191942,"teacher_id":2056,"teacher_name":"李宁","post_time":"2024-05-06 02:59:10","like_diff":2,"likes":2,"dislikes":0,"content":"很棒的老师，认真负责，给分好，选了绝对不后悔（是不想辜负的老师）"},{"id":59486,"teacher_id":2056,"teacher_name":"李宁","post_time":"2017-09-22 01:49:43","like_diff":1,"likes":1,"dislikes":0,"content":"哈哈哈"},{"id":81997,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-06 21:00:52","like_diff":1,"likes":5,"dislikes":4,"content":"讲真无机这门课其实书本编排就乱的要死，老师也只是按教学安排讲而已。大学本来也就是更多看自学而非老师讲的多好。考的不好怪老师讲的不好吗。我觉得至少老师很尽力想要每个同学都能好好的了，虽然考的不好，但我觉得更多还是我自己的原因。这样的老师能特别耐心得讲题，半夜也能答疑，甚至我们成绩也是半夜出来的，节日的时候还在群里发红包，小测基本也只是当点名尽量给平时分的老师已经很棒了。"},{"id":82005,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-06 23:38:30","like_diff":1,"likes":4,"dislikes":3,"content":"神tm乱给平时分，上课无数次小测，这种要考试的硬课给这点平时分真的是脑残。"},{"id":82023,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-07 01:35:05","like_diff":1,"likes":2,"dislikes":1,"content":"上课先让我们做几道题，但大家基本都不会做，她自己balabala讲思路，讲完就上新课。因为本子下课要交，我们只能在课上做，做完差不多快下课了，根本就不用再听课了，所以还是靠自学吧。"},{"id":82219,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-07 12:52:28","like_diff":1,"likes":2,"dislikes":1,"content":"评分和实际蛮符合的\n\n老师想交给我们点什么但没有那个能力"},{"id":82541,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-08 12:27:11","like_diff":1,"likes":3,"dislikes":2,"content":"PPT和上课方式都不喜欢，口音很重让人很无语，最重要的是平时分有些给得莫名其妙的低"},{"id":83273,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-10 03:59:27","like_diff":1,"likes":3,"dislikes":2,"content":"老师人品还是不错的，但是讲课真的很混乱，建议自学。另外告诉各位一个坏消息，无机现在是纯闭卷的，公式也不让带，难度也大，因为面太广了"},{"id":106227,"teacher_id":2056,"teacher_name":"李宁","post_time":"2019-04-25 23:50:19","like_diff":1,"likes":2,"dislikes":1,"content":"老师很负责，每节课有课前回顾，课后会答疑。老师真的很用心。"},{"id":131303,"teacher_id":2056,"teacher_name":"李宁","post_time":"2021-01-27 04:36:33","like_diff":1,"likes":3,"dislikes":2,"content":"老师非常复责，辅导非常耐心\n\n感觉评分不应该这么低的"},{"id":132545,"teacher_id":2056,"teacher_name":"李宁","post_time":"2021-02-02 08:02:58","like_diff":1,"likes":3,"dislikes":2,"content":"老师给我满了我也要给老师满绩！"},{"id":132549,"teacher_id":2056,"teacher_name":"李宁","post_time":"2021-02-02 08:23:07","like_diff":1,"likes":3,"dislikes":2,"content":"虽然上课讲得云里雾里 但是看得出来老师真的很努力很认真地在讲了 最后考前突击了一下 抄了一天的A4 给了4.5"},{"id":133436,"teacher_id":2056,"teacher_name":"李宁","post_time":"2021-02-28 15:36:59","like_diff":1,"likes":2,"dislikes":1,"content":"好老师"},{"id":134934,"teacher_id":2056,"teacher_name":"李宁","post_time":"2021-04-23 06:48:12","like_diff":1,"likes":2,"dislikes":1,"content":"上的是老师的实验课，觉得老师真的很和善，对学生很好，很细致"},{"id":136677,"teacher_id":2056,"teacher_name":"李宁","post_time":"2021-06-23 01:40:52","like_diff":1,"likes":3,"dislikes":2,"content":"老师人很好！很和善！经常会问我们上课进度快不快是否需要调整；上课水平可能确实差点火候，不过对分析化学这种主要靠自学的科目影响不大；然后就是下节课要点名都会在上节课提前预告哈哈哈哈哈哈"},{"id":138337,"teacher_id":2056,"teacher_name":"李宁","post_time":"2021-07-08 14:25:24","like_diff":1,"likes":2,"dislikes":1,"content":"感觉老师人很好，每节课都过得很开心。没想到老师评分这么低，可能老师其他课讲得不太好吧，但是半个学期下来真的挺开心的。"},{"id":166265,"teacher_id":2056,"teacher_name":"李宁","post_time":"2023-01-11 14:59:33","like_diff":1,"likes":1,"dislikes":0,"content":"老师很和蔼，就是比较喜欢卡绩😅"},{"id":172091,"teacher_id":2056,"teacher_name":"李宁","post_time":"2023-04-19 07:16:54","like_diff":1,"likes":1,"dislikes":0,"content":"老师太好，我好爱她呀家人们"},{"id":172752,"teacher_id":2056,"teacher_name":"李宁","post_time":"2023-05-06 05:56:51","like_diff":1,"likes":1,"dislikes":0,"content":"老师人很好"},{"id":180897,"teacher_id":2056,"teacher_name":"李宁","post_time":"2023-09-28 02:49:35","like_diff":1,"likes":1,"dislikes":0,"content":"老师挺和蔼的呀"},{"id":192760,"teacher_id":2056,"teacher_name":"李宁","post_time":"2024-05-30 05:37:36","like_diff":1,"likes":1,"dislikes":0,"content":"老师非常温柔，点名都会提前说，真的很棒。"},{"id":214804,"teacher_id":2056,"teacher_name":"李宁","post_time":"2025-02-18 03:52:48","like_diff":1,"likes":1,"dislikes":0,"content":"给分不错"},{"id":1646,"teacher_id":2056,"teacher_name":"李宁","post_time":"2015-03-23 05:26:05","like_diff":0,"likes":7,"dislikes":7,"content":"好老师，但有口误。前提是你认真听，看一遍ppt和书"},{"id":24733,"teacher_id":2056,"teacher_name":"李宁","post_time":"2016-05-03 08:47:42","like_diff":0,"likes":3,"dislikes":3,"content":"虽然老师挺好的   但感觉给分太坑   明明自己特别努力的复习  自我感觉考的也不错 但最后只有78  太伤心了"},{"id":81555,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-05 11:00:55","like_diff":0,"likes":2,"dislikes":2,"content":"负责任\n\n"},{"id":81985,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-06 17:02:01","like_diff":0,"likes":3,"dislikes":3,"content":"别选。。。"},{"id":81998,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-06 22:05:42","like_diff":0,"likes":2,"dislikes":2,"content":"上课不知所云\n\n平时分不知道怎么给\n\n反正正好卡绩"},{"id":82001,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-06 22:47:42","like_diff":0,"likes":2,"dislikes":2,"content":"很难过，给分很随意，讲课乱七八糟"},{"id":82011,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-07 00:08:03","like_diff":0,"likes":2,"dislikes":2,"content":"平时分怎么给的，讲的都是什么啊"},{"id":82056,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-07 03:24:33","like_diff":0,"likes":2,"dislikes":2,"content":"上面说先想想自己有没有认真听，有没有按时交作业什么的再来问平时分的。\n\n答：上课认真，作业按时从未补交且每次都全对，上课让写在本子上的都写了，小测全对。但为什么还是不给满？\n\n老师至少也要说明给分依据好吗？"},{"id":82093,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-07 05:57:55","like_diff":0,"likes":1,"dislikes":1,"content":"自学吧，听不听都可以"},{"id":85441,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-18 01:42:19","like_diff":0,"likes":1,"dislikes":1,"content":"下厂实习体验巨差"},{"id":122778,"teacher_id":2056,"teacher_name":"李宁","post_time":"2020-04-03 11:05:39","like_diff":0,"likes":4,"dislikes":4,"content":"老师主动额外习题课为学生排忧解惑，人太好了！"},{"id":126819,"teacher_id":2056,"teacher_name":"李宁","post_time":"2020-10-21 11:03:34","like_diff":0,"likes":2,"dislikes":2,"content":"我是疫情期间上的工化，好几次课都没听，后来才知道翘课一定数目直接挂科，发邮件跟老师说了之后她同意我补上了，最后真的没挂！"},{"id":127839,"teacher_id":2056,"teacher_name":"李宁","post_time":"2020-11-28 08:09:44","like_diff":0,"likes":3,"dislikes":3,"content":"普化实验超级好"},{"id":129676,"teacher_id":2056,"teacher_name":"李宁","post_time":"2021-01-11 00:03:05","like_diff":0,"likes":3,"dislikes":3,"content":"喜欢 很负责"},{"id":133549,"teacher_id":2056,"teacher_name":"李宁","post_time":"2021-03-02 04:31:52","like_diff":0,"likes":1,"dislikes":1,"content":"yyds"},{"id":144645,"teacher_id":2056,"teacher_name":"李宁","post_time":"2021-12-23 03:21:02","like_diff":0,"likes":1,"dislikes":1,"content":"老师很好啊，体贴关心学生，和蔼可亲，会和学生聊聊天啥的"},{"id":144646,"teacher_id":2056,"teacher_name":"李宁","post_time":"2021-12-23 03:21:01","like_diff":0,"likes":1,"dislikes":1,"content":"老师很好啊，体贴关心学生，和蔼可亲，会和学生聊聊天啥的"},{"id":149343,"teacher_id":2056,"teacher_name":"李宁","post_time":"2022-01-15 06:36:09","like_diff":0,"likes":1,"dislikes":1,"content":"感觉普化甲实验老师人还挺好的，课讲的也比较清楚，给分还可以"},{"id":150600,"teacher_id":2056,"teacher_name":"李宁","post_time":"2022-02-03 09:48:01","like_diff":0,"likes":1,"dislikes":1,"content":"超级和蔼温柔"},{"id":151148,"teacher_id":2056,"teacher_name":"李宁","post_time":"2022-02-23 12:06:06","like_diff":0,"likes":1,"dislikes":1,"content":"老师老了，你们还年轻"},{"id":153495,"teacher_id":2056,"teacher_name":"李宁","post_time":"2022-05-02 02:08:11","like_diff":0,"likes":0,"dislikes":0,"content":"好老师 虽然最后被卡绩点了"},{"id":153511,"teacher_id":2056,"teacher_name":"李宁","post_time":"2022-05-03 02:33:41","like_diff":0,"likes":1,"dislikes":1,"content":"老师很温柔，看得出在努力讲清楚了\n\n其实个人感觉工程化学这门课本来就不好讲，如果你想深入了解清楚，工化只讲皮毛，肯定是讲不明白的，涉及面广但每一部分都是浅讲一下，割裂性强不系统\n\n所以对高中没选化学的uu来说肯定有点费劲，如果有时间建议把高中的有机结构的基础知识自学一下，至少有点概念，有什么不明白的地方积极问老师和助教，或者去答疑\n\n努力了最后绩点不会难看的"},{"id":206008,"teacher_id":2056,"teacher_name":"李宁","post_time":"2024-12-13 03:02:09","like_diff":0,"likes":0,"dislikes":0,"content":"老师很负责，普通化学实验很有趣，经常分享化学与生活的联系，激发同学们的兴趣。指导学生非常耐心，很和蔼，经常给学生鼓励，老师经常留到最后才走"},{"id":210288,"teacher_id":2056,"teacher_name":"李宁","post_time":"2025-01-08 17:34:54","like_diff":0,"likes":0,"dislikes":0,"content":"综合化学实验，老师很和蔼，在我们实验失败手忙脚乱的时候会直接帮忙，多的不想说，第一次在大学老师里面感觉到师生情的温暖"},{"id":213380,"teacher_id":2056,"teacher_name":"李宁","post_time":"2025-01-17 06:34:06","like_diff":0,"likes":0,"dislikes":0,"content":"老师很负责任，很在意学生，最后一节课还给所有人准备了礼物"},{"id":217162,"teacher_id":2056,"teacher_name":"李宁","post_time":"2025-04-03 01:46:18","like_diff":0,"likes":1,"dislikes":1,"content":"签到的史"},{"id":219161,"teacher_id":2056,"teacher_name":"李宁","post_time":"2025-05-22 14:24:47","like_diff":0,"likes":0,"dislikes":0,"content":"老师很好"},{"id":220232,"teacher_id":2056,"teacher_name":"李宁","post_time":"2025-06-16 14:10:31","like_diff":0,"likes":0,"dislikes":0,"content":"老师人很好，点名会提前通知，很关心学生。上课可能不太明白，但给分很好，而且工化本身以高中知识为主。"},{"id":225632,"teacher_id":2056,"teacher_name":"李宁","post_time":"2025-12-26 11:52:18","like_diff":0,"likes":0,"dislikes":0,"content":"上的是李老师和徐老师一块开的基础化学实验，实验内容非常丰富，就是讲义跟不上实际课程太难受了"},{"id":12139,"teacher_id":2056,"teacher_name":"李宁","post_time":"2015-12-22 03:47:30","like_diff":-1,"likes":1,"dislikes":2,"content":"一般般"},{"id":81991,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-06 18:08:51","like_diff":-1,"likes":3,"dislikes":4,"content":"不如不听 浪费生命 学校为什么招这种老师？？？？"},{"id":85769,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-08-05 06:34:01","like_diff":-1,"likes":1,"dislikes":2,"content":"她的课让我转了专业，不再去学化学，再见"},{"id":137507,"teacher_id":2056,"teacher_name":"李宁","post_time":"2021-07-04 15:14:06","like_diff":-1,"likes":2,"dislikes":3,"content":"如听仙乐耳暂明"},{"id":50984,"teacher_id":2056,"teacher_name":"李宁","post_time":"2017-05-11 03:26:15","like_diff":-2,"likes":0,"dislikes":2,"content":"哈哈哈"},{"id":82019,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-07-07 01:13:01","like_diff":-2,"likes":4,"dislikes":6,"content":"说平时分乱给的，自己问问自己，上课都认真听了吗，老师上课让写在本子上的都写了吗，作业每次都交了吗，有没有补交的，作业都认真写了吗。麻烦再看看跟自己平时分对不对等，再来查老师评论！"},{"id":93764,"teacher_id":2056,"teacher_name":"李宁","post_time":"2019-01-13 09:34:08","like_diff":-5,"likes":1,"dislikes":6,"content":"讲的不好 毫无条理 给分也不好"},{"id":188345,"teacher_id":2056,"teacher_name":"李宁","post_time":"2024-01-18 16:56:25","like_diff":-5,"likes":1,"dislikes":6,"content":"给分不好，而且个人认为期末笔试的内容片面，并未起到考察整个学期学习情况的作用，运气成分大"},{"id":105945,"teacher_id":2056,"teacher_name":"李宁","post_time":"2019-04-23 12:32:48","like_diff":-7,"likes":1,"dislikes":8,"content":"垃圾老师。上课没有条理。PPT差。重点一句带过。把时间浪费在不重要的地方。老是搞一些自以为幽默的比喻。浪费时间"},{"id":50782,"teacher_id":2056,"teacher_name":"李宁","post_time":"2017-05-05 09:14:09","like_diff":-8,"likes":3,"dislikes":11,"content":"给分好 抬一手"},{"id":4955,"teacher_id":2056,"teacher_name":"李宁","post_time":"2015-07-01 13:43:00","like_diff":-11,"likes":2,"dislikes":13,"content":"还可以"},{"id":50593,"teacher_id":2056,"teacher_name":"李宁","post_time":"2017-05-03 23:39:36","like_diff":-11,"likes":4,"dislikes":15,"content":"期末给分不错，给个十分拉拉平均水平。。_(:_」∠)_"},{"id":5192,"teacher_id":2056,"teacher_name":"李宁","post_time":"2015-07-05 16:34:29","like_diff":-13,"likes":3,"dislikes":16,"content":"还好"},{"id":50893,"teacher_id":2056,"teacher_name":"李宁","post_time":"2017-05-08 06:25:51","like_diff":-15,"likes":2,"dislikes":17,"content":"给分炒鸡好，人也很好啊~"},{"id":2270,"teacher_id":2056,"teacher_name":"李宁","post_time":"2018-03-30 03:54:24","like_diff":-106,"likes":7,"dislikes":113,"content":"至少给我满绩了（≧∇≦）"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

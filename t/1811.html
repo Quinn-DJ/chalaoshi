@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>苏德矿 - 数学科学学院 - 浙大教评</title>
+    <meta name="description" content="苏德矿教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="苏德矿,数学科学学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">苏德矿</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">数学科学学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.77</div>
+                    <div class="rating-participants">688人参与评分</div>
+                    <div class="attendance-info">21.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (4 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">微积分Ⅰ（H）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.70</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.85</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">微积分Ⅱ（H）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.88</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.86</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">微积分（甲）Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.89</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.88</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">微积分（甲）Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.60</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.98</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (513 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":3,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-03-13 04:48:08","like_diff":762,"likes":886,"dislikes":124,"content":"矿哥会给大伙唱歌的"},{"id":839,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-07-15 21:23:07","like_diff":548,"likes":672,"dislikes":124,"content":"当年我们期末考微三的时候是矿哥监考，只见他在门口踱来踱去，有些许心事的样子，然后口中突然哼起一支曲子，竟然是浙大校歌啊"},{"id":334,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-03-15 00:59:14","like_diff":296,"likes":442,"dislikes":146,"content":"老师很可爱，不点名，会上课叫人回答问题。问题不难。答对通常有加分。\n\n只是不适合我吧………他的课不适合我。上课让我觉得节奏不适应。\n\n所以也不一定适合所有人。"},{"id":409,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-03-15 02:00:38","like_diff":239,"likes":282,"dislikes":43,"content":"我的数学被他带入了前所未有的境界。。。。。被拯救了"},{"id":6949,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-09-11 03:40:53","like_diff":191,"likes":420,"dislikes":229,"content":"浙大过誉的老师之一"},{"id":28751,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-06-28 13:55:10","like_diff":174,"likes":194,"dislikes":20,"content":"对于一些理科同学来说可能觉得矿爷的课不适合自己，但是，矿爷真的是数学不那么好的文科生的救星啊！！！而且非常负责任。他的学术水平也许不像其他数学教授那么高，但是作为一个老师矿爷绝对是最称职的。"},{"id":5964,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-06-23 07:35:09","like_diff":166,"likes":303,"dislikes":137,"content":"虽然像神话，但感觉一般，比他讲的好的老师大有人在"},{"id":38460,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-09-02 02:07:02","like_diff":162,"likes":172,"dislikes":10,"content":"老师真的很用心，非常关心大家的学习！每次他都是要用10分钟吃完学霸餐然后去赶车，上次买学霸餐他来迟了，没有位置坐，就拿着学霸餐站在阶梯上吃，5分钟就吃完了~当时我看着真的很感动~这样的老师我很服气的！！虽然他上课很细心以至于我觉得太慢，但并不影响我很喜欢这个老师！！！"},{"id":1095,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-11-19 07:27:41","like_diff":139,"likes":166,"dislikes":27,"content":"最经典的一句话：同志们啊。有天上课发困突然听他说一句，那个同志…吓哭了都。"},{"id":8340,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-09-18 14:07:17","like_diff":135,"likes":205,"dislikes":70,"content":"不是对苏老师贬低，但是我认为他的套路去教高中或考研辅导班会取得更大的成就。"},{"id":133364,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-02-26 10:11:34","like_diff":130,"likes":143,"dislikes":13,"content":"有的人，别成天过誉过誉，脚踏实地，干好自己"},{"id":91754,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-06-20 14:35:57","like_diff":129,"likes":132,"dislikes":3,"content":"上了一年矿爷的课了，我真的很感谢他这一年教授我微积分。矿爷今年六十多了，上课还是很幽默很有活力，想努力让大家对微积分有兴趣（但微积分下确实难而枯燥，微积分上还好），而且每一个定理一定要给你证明，有的东西一再而反复地强调，甚至矿爷有时候调侃自己都觉得啰嗦，目的就是让同学们理解并记住。明明眼睛已经高度近视到「伸手不见五指」，却仍然坚持在各个平台上帮助同学们。不敢说是一种以天下为己任的胸怀，但绝对受心里的责任感驱使。最近在中国大学mooc上的开课广受好评，至少在我的身边，「拯救」了我的一些听不懂自己学校高数课的高中同学。矿爷不是神，本身草根出身，能取得如今的成就真的不容易，他的微积分课不能说是浙大最好的，但是矿爷这个人绝对是我最感激而最钦佩的数学老师。谢谢矿爷。"},{"id":1953,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-12-27 13:45:21","like_diff":93,"likes":116,"dislikes":23,"content":"很细致 容易困"},{"id":48681,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-04-15 16:30:49","like_diff":90,"likes":95,"dislikes":5,"content":"找老师签了条子去数学开课办被那个老师骂出来 微博私信矿爷 他让我打电话给他 安慰并向我解释情况～真的很暖（我并不是补选他的课，之前也和他不认识）"},{"id":436,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-03-15 02:23:16","like_diff":76,"likes":88,"dislikes":12,"content":"很和蔼  时不时来一句潮流句子"},{"id":133,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-04-14 13:49:54","like_diff":72,"likes":90,"dislikes":18,"content":"没正式选上过，很遗憾"},{"id":7272,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-09-12 13:30:41","like_diff":61,"likes":121,"dislikes":60,"content":"沒有傳說那麼神"},{"id":9932,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-08-04 04:17:12","like_diff":59,"likes":66,"dislikes":7,"content":"老师人好，但学不学的好微积分还看个人"},{"id":16,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-03-14 15:17:59","like_diff":52,"likes":67,"dislikes":15,"content":"矿爷威武！！"},{"id":21907,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-03-01 14:18:01","like_diff":51,"likes":94,"dislikes":43,"content":"其实感觉大家捧的太严重了"},{"id":20020,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-26 02:12:09","like_diff":46,"likes":50,"dislikes":4,"content":"其实矿爷最大的成就是微积分课程一套详细完整的在线资料……"},{"id":392,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-03-15 01:52:14","like_diff":45,"likes":50,"dislikes":5,"content":"很细致，很真诚"},{"id":174484,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-06-13 03:18:06","like_diff":44,"likes":45,"dislikes":1,"content":"这助教dwl真无语………………"},{"id":178606,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-07-16 14:44:11","like_diff":43,"likes":53,"dislikes":10,"content":"建议助教也上査老师系统。\n\n不患寡而患不均。md你一个助教给分比其他班给分低这么多，你这已经不能说严格要求了，你不觉得是纯纯耽误学生吗？你良心不痛吗??????!!!!!!!????!!"},{"id":118712,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-10-31 03:06:37","like_diff":40,"likes":42,"dislikes":2,"content":"十分！老师特别有学问，最让我感动的是老师讲到费马定理、罗尔定理、拉格朗日定理的时候说了一句：很多数学家都是站在巨人的肩膀上得到了新的结论，我还是站起来讲吧。六十多岁了。"},{"id":137190,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-07-02 06:29:53","like_diff":40,"likes":42,"dislikes":2,"content":"没有传说中那么神。但是上课上的也够好，职业态度好，备课认真。还很了解实事，经常分享一些八卦，哈哈哈。很难想象这是一位已经64岁高龄的老师，强推"},{"id":19302,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-24 00:23:49","like_diff":39,"likes":47,"dislikes":8,"content":"上课非常细致，节奏很慢，很易理解。适合文科生。对于那些数学本来就非常逆天的家伙来说不合适。很爱卖萌。"},{"id":73895,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-02-03 11:14:23","like_diff":37,"likes":46,"dislikes":9,"content":"这么说吧，苏老师的学生水平明显低于卢老师的，但是苏老师的学生绩点可能比卢老师的高，以前是卷子简单，现在统一试卷了，苏老师的学生反应很大，但是两个老师各自批卷的啊，卢老师出分之后，苏老师还在努力解救广大文科生，最后苏老师班绩点都好的。"},{"id":139635,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-07-18 15:23:47","like_diff":32,"likes":35,"dislikes":3,"content":"微甲Ⅰ是矿矿教当时我像评论里很多人一样觉得这个老师不过尔尔。微甲Ⅱ换了另一个老师，虽然查老师评分不比矿矿低但是水平差距还是肉眼可见。想来自己半年前的观点真是暴论，只能劝各位学弟学妹珍惜苏德矿老师。"},{"id":175073,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-06-21 11:20:45","like_diff":32,"likes":33,"dislikes":1,"content":"远离dwl助教的班"},{"id":2665,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-05-05 04:32:15","like_diff":31,"likes":57,"dislikes":26,"content":"不上矿爷的课会是大学里最大的遗憾"},{"id":175755,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-06-26 12:09:12","like_diff":31,"likes":34,"dislikes":3,"content":"代汶利是真的伞兵，远离她，不然会变得不幸"},{"id":134025,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-03-12 06:01:34","like_diff":28,"likes":29,"dislikes":1,"content":"矿爷依旧坚守在教学一线，甚至期末出分后还让大家给他提提建议，“希望自己能教得更好！”，六十四岁的矿爷就是一面旗帜，飘扬在空中，永不褪色！"},{"id":168869,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-02-23 05:40:17","like_diff":28,"likes":29,"dislikes":1,"content":"矿爷人很好，但是就是dwl给分太…"},{"id":176206,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-06-28 05:01:59","like_diff":28,"likes":33,"dislikes":5,"content":"远离dwl远离dwl远离dwl这个助教"},{"id":106684,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-04-29 02:46:54","like_diff":27,"likes":28,"dislikes":1,"content":"积你太美！"},{"id":177360,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-07-03 04:24:41","like_diff":23,"likes":25,"dislikes":2,"content":"首先我想说的是，矿爷人挺好，不过课程不适合快节奏的人上，如果你的数学非常不错，建议直接听慕课，因为听他的课真的容易睡着；其次，助教给分太过于求是了，校风恪守的是真的好啊（阴阳怪气），明明今年的题难一些，不知道正态分布是吧？是一点也不捞啊，就想问问有几个人能拿到90分？几个人能4绩点以上？真是当助教当傻了！"},{"id":178572,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-07-15 06:30:41","like_diff":23,"likes":26,"dislikes":3,"content":"远离dwl，太恨了。矿爷怎么说，感觉廉颇老矣。"},{"id":187350,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-01-15 14:19:16","like_diff":23,"likes":30,"dislikes":7,"content":"代汶利sb，简直脑瘫"},{"id":3897,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-06-17 07:44:45","like_diff":22,"likes":27,"dislikes":5,"content":"虽然我是不听课的学渣。。但感觉老师还是很用心在讲"},{"id":35643,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-18 11:37:40","like_diff":22,"likes":27,"dislikes":5,"content":"矿爷爷的课，杠杠的，好好学习天天向上"},{"id":180981,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-09-30 12:15:47","like_diff":22,"likes":28,"dislikes":6,"content":"大一新生刚听了四次课，感觉矿爷讲的挺好，但是在dwl班上，有没有学长学姐细说一下为啥她不好，有点害怕。。。"},{"id":4726,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-12-13 06:39:55","like_diff":21,"likes":21,"dislikes":0,"content":"非常轻松就学会了 是享受 矿爷人超好"},{"id":796,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-03-17 04:52:28","like_diff":20,"likes":26,"dislikes":6,"content":"很耐心，很细心，对学生超好"},{"id":152660,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-04-17 15:44:49","like_diff":19,"likes":20,"dislikes":1,"content":"矿爷老了，讲的也没有mooc中那样好了\n\n但矿爷始终认真负责地对待每一个学生，这是我可以肯定的"},{"id":175427,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-06-25 01:00:32","like_diff":19,"likes":22,"dislikes":3,"content":"我永远喜欢汤yt助教姐姐!!!"},{"id":188908,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-01-20 14:04:30","like_diff":19,"likes":23,"dislikes":4,"content":"讲课比较慢，不适合所有人。对于个人来说，不如自己看书。"},{"id":104882,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-03-29 10:00:23","like_diff":18,"likes":22,"dislikes":4,"content":"十分 谢谢矿爷的网课 帮我更好地学习了微积分"},{"id":122204,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-02-20 03:10:53","like_diff":18,"likes":19,"dislikes":1,"content":"H期末平均50，不调分"},{"id":81102,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-07-04 02:29:04","like_diff":17,"likes":19,"dislikes":2,"content":"考完来评个分，确实大学教授里能像苏老师这么尽职尽责的不多了。上课讲的很详细而且期末为我们准备了充足的复习视频和资料。真的给10分嫌少?"},{"id":137237,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-07-02 13:16:06","like_diff":17,"likes":18,"dislikes":1,"content":"不敢说矿爷的敬业达到了感动中国的水平，但是我愿意称他为我心中的标兵\n\n今天刚考完期末，就算没被捞我也要给他打10分"},{"id":156744,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-06-21 01:14:56","like_diff":17,"likes":19,"dislikes":2,"content":"咋还没出分呀 闲着没事来给矿爷评一下\n\n微二H 老师喜欢用讲稿投影的方式。讲得非常非常细！！！我觉得有种把新课和习题课结合在一起的感觉，上课经常会总结做题的方法，听完矿爷的课感觉也不需要听助教的习题课了。不过老师上课语速非常慢，太困了听不下去我就会听慕课（老师上课内容和慕课一模一样，连例题都一样）。总之老师上课内容无敌好，但语速实在很慢，听不下去的可以试试慕课doge\n\n老师有偶尔会用奇怪的方式点名（比如课中点名，把数字写在纸上传着看防止智云的人听到）\n\n然后说点别的。矿爷亲自给我们直播了大概五次习题课，每一次都有两到三个小时，甚至还录了两节常微分的课给我们选着听，花的都是他本可以拿来休息的时间。诚然看这么多课确实给比较占用时间，但是能感受到矿爷为教学花费的巨大精力。矿爷年纪也大了，但他对学生耐心关爱的态度从来没变，对教学不遗余力的态度也从来没变。能遇到这样的老师，是我幸运。\n\n一介书生，无以为报，十分满上，祝矿爷身体安康，永远少年。"},{"id":99002,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-24 06:42:16","like_diff":16,"likes":19,"dislikes":3,"content":"感觉有一点高中老师的风格。虽然真的没有传的那么神吧，但矿爷备课和上课很认真，绝对对得起大多数同学给他的10分"},{"id":168701,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-02-21 07:37:08","like_diff":16,"likes":21,"dislikes":5,"content":"矿爷六十多岁了还在一线教学，他对我们学生是真的用心，认真，负责。他的敬业的态度令人敬佩。dwl助教也很认真负责，每次作业都会仔细批改，不过今年的给分貌似有点求是…？"},{"id":88518,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-10-31 15:47:28","like_diff":15,"likes":16,"dislikes":1,"content":"一个是被矿爷的人品打动了，另一方面是矿爷对学生的理解。矿爷真的非常理解我们，而且三观很正，很为我们着想。"},{"id":135551,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-05-13 09:21:59","like_diff":15,"likes":17,"dislikes":2,"content":"大一的时候上矿爷的课，没有什么过多的感觉，今年准备考研，回过头再看矿爷的mooc，有些知识点真的感到醍醐灌顶，感觉自己大一的时候低估了矿爷的讲课水平，矿爷出圈除了因为他的段子，我觉得更因为他对概念上的理解运用太深刻了，把定理一气呵成、水到渠成地推出来的讲课方式真的妙。"},{"id":194240,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-06-23 01:02:48","like_diff":15,"likes":18,"dislikes":3,"content":"给分一般，上课比较有意思，不过最近感觉状态没有自己在MOOC上讲得好了"},{"id":1999,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-03-28 07:08:27","like_diff":14,"likes":17,"dislikes":3,"content":"矿爷讲的特别认真！"},{"id":154219,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-05-26 05:47:50","like_diff":14,"likes":16,"dislikes":2,"content":"来给矿爷刷到满，越往后越感觉矿爷讲得是真的好，能把很难的东西讲得很简单"},{"id":168916,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-02-23 11:49:14","like_diff":14,"likes":16,"dislikes":2,"content":"矿爷yyds，助教给分过于求是了"},{"id":169373,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-02-25 15:51:47","like_diff":14,"likes":15,"dislikes":1,"content":"苏德矿老师是好老师，认真、用心、负责。dwl助教也很认真负责，仔细批改每一次作业，不过今年给分挺求是的。。。"},{"id":807,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-03-17 08:47:53","like_diff":13,"likes":20,"dislikes":7,"content":"能让人学懂数学的老师！"},{"id":123490,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-06-09 06:50:48","like_diff":13,"likes":14,"dislikes":1,"content":"讲课细致，人很可爱，没有传说中那么神，但总体来说还是很棒的。好好交作业做mooc测试平时分就能满（在我跟苏老师学微积分的同时，我南京大学的同学如获至宝地跟我推荐了苏老师的mooc，我………手动滑稽）"},{"id":126337,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-09-23 05:25:28","like_diff":13,"likes":14,"dislikes":1,"content":"H课友，矿爷讲课肯定是没问题的，毕竟那么多人靠着他的mooc学好了数学😢给分啥的我也不清楚啥调不调分的，没挂就好了，123分别70 91 80，作为一个菜鸡已经很满意了"},{"id":168415,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-02-15 14:33:03","like_diff":13,"likes":14,"dislikes":1,"content":"苏老师真的很认真负责，绝对称得上是大学数学的引路人。\n\n或许有些人认为矿爷讲的太慢太细，不及其他老师。私以为，苏老师讲的慢是事实，但是一方面是出于严谨，另一方面是对广大学生的负责。不可否认即使在浙大课堂中也存在明显的水平差异，老师的选择只能是让大部分人听懂。在这方面，苏老师绝对是当仁不让的好老师。\n\n不管数学系内部怎样看待，拥有B站、微博的百万粉丝苏老师，照亮了很多人学数学的路。"},{"id":117295,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-09-22 14:18:00","like_diff":12,"likes":14,"dislikes":2,"content":"听了矿爷的微课，二倍速食用，感觉极佳"},{"id":122688,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-03-19 04:04:22","like_diff":12,"likes":15,"dislikes":3,"content":"矿爷不再是以前的矿爷了，期末不调分，年纪大了脾气没以前好了，不过在负责认真上，他一如既往。平时作业挺多的有好处，不要幻想期末调分"},{"id":133213,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-02-18 06:02:40","like_diff":12,"likes":12,"dislikes":0,"content":"老师的MOOC拯救了微积分"},{"id":190702,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-03-15 06:24:08","like_diff":12,"likes":19,"dislikes":7,"content":"苏老师讲得很好很清楚。只是dwl助教简直了，教导主任上身了，9分一分扣给助教。"},{"id":209812,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-07 08:12:52","like_diff":12,"likes":17,"dislikes":5,"content":"谁骂dwl助教啊？助教不是挺好的，会捞！苏老师讲课虽然比较慢，但很细致，不会让人昏昏欲睡，认真听课绝对能听懂。代助教也挺好的，习题课会讲拓展内容（有些确实会有点难），给分又好，为什么会有人骂？"},{"id":56463,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-07-04 00:59:57","like_diff":11,"likes":18,"dislikes":7,"content":"觉得老师花太多时间在直播上了，期末复习到三重积分让大家去找直播复习，课堂上就花了一节课过了一遍"},{"id":60591,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-10-24 23:20:10","like_diff":11,"likes":13,"dislikes":2,"content":"老师会把上课内容挂到微博上让其它人学习? 。而且我在微信群上问的问题都会很快得到回应。做的事都是为了让学生们学的更好。是个非常尽职尽责的老师！"},{"id":94476,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-16 16:52:54","like_diff":11,"likes":11,"dislikes":0,"content":"我爱矿矿！我是专业矿吹"},{"id":114700,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-11 04:18:32","like_diff":11,"likes":13,"dislikes":2,"content":"矿爷是不是很喜欢赵雅芝"},{"id":153445,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-04-29 23:06:14","like_diff":11,"likes":11,"dislikes":0,"content":"这才是教育者"},{"id":209701,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-06 15:56:08","like_diff":11,"likes":12,"dislikes":1,"content":"今天晚上刚刚出分\n\n满绩拿下\n\n苏老师真的很好 上课质量很好 只要跟上思路 上课一定是受益匪浅的 重视原理和思维逻辑\n\n（虽然我听的不多 感觉还是吃高中竞赛老本。）\n\n代助教也不至于被喷\n\n一个长学期就那点工资你还指望人家给你提供什么 而且我认为给分还是可以的 习题课的选题也还是蛮有新意的 只要好好学都还是很不错的\n\n（虽然一个月去一次。）\n\n没必要说老师的不对"},{"id":209813,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-07 07:17:03","like_diff":11,"likes":14,"dislikes":3,"content":"dwl助教很好，海底捞，矿爷讲课也很好"},{"id":209823,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-07 07:39:55","like_diff":11,"likes":11,"dislikes":0,"content":"你给我5.0，我给你10.0，神，无需多言。"},{"id":33052,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-09-11 08:08:03","like_diff":10,"likes":12,"dislikes":2,"content":"听矿矿的课是一种享受！唯一的槽点在于那有点欲盖弥彰的教案?"},{"id":36203,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-11-11 04:55:42","like_diff":10,"likes":12,"dislikes":2,"content":"上课讲段子，比我们还潮\n\n\n\n"},{"id":52408,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-06-20 01:32:08","like_diff":10,"likes":29,"dislikes":19,"content":"过誉了。老师人不错。有那时间关心直播卡不卡观众能不能听懂粉丝多不多不如多关注关注课堂质量和作业情况。"},{"id":105651,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-04-18 02:04:55","like_diff":10,"likes":16,"dislikes":6,"content":"手写的讲稿字大，但是屏幕上显示的东西很少，连续性不强；上课确实有点幽默；说话抑扬顿挫，但是只是念讲稿；最主要的就是手写的讲稿让我脑子里连续不起来（个人观点"},{"id":146516,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-01-06 23:32:00","like_diff":10,"likes":11,"dislikes":1,"content":"期末完来评分，虽然成绩还没出，但不得不说老师讲得确实很好，很细致，很多定理也会证明给同学们看，加深大家对定理的理解。至于投影自己手写的稿件，确实屏幕上显示的字比较少，但是矿爷课后都会把上课讲的内容都拍照发在钉钉群里。这学期的助教小哥哥人也很好，很可爱也很有耐心。然后就是老师给分真的也好，只要平时认真听课，好好写作业，平时分都给得挺高的。以上。"},{"id":146766,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-01-07 11:37:42","like_diff":10,"likes":10,"dislikes":0,"content":"老师是好老师，助教是好助教，能捞我就更好了"},{"id":170119,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-03-01 11:51:46","like_diff":10,"likes":20,"dislikes":10,"content":"是个认真负责的好老师，但水平着实没有外界吹捧的那么高"},{"id":216396,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-03-15 11:25:08","like_diff":10,"likes":11,"dislikes":1,"content":"我不想做作业还要抄题目😭"},{"id":65429,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-01-04 01:58:52","like_diff":9,"likes":11,"dislikes":2,"content":"担当大任，认真负责，名不虚传！"},{"id":113563,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-07 00:05:04","like_diff":9,"likes":10,"dislikes":1,"content":"上了矿爷一年微积分。希望他的课可以有两倍速。三观很正，也是我喜欢的讲课风格，虽然身边的人都觉得矿爷没有那么好，但我觉得矿爷很好，值得我的10分。微积分其实做做课后题，记住公式，并会用，就能拿不低的分数。"},{"id":115662,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-08-16 11:29:51","like_diff":9,"likes":9,"dislikes":0,"content":"选过矿爷的微积分，感觉还行，可能不像大家传的那么神，但是对学生特别负责，我挺喜欢的。"},{"id":145665,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-12-31 04:02:30","like_diff":9,"likes":9,"dislikes":0,"content":"给十分是因为最高只有十分\n\n不管最后给多少绩点矿爷永远我的超人\n\n以及表白助教giegie！！"},{"id":157701,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-06-24 11:39:30","like_diff":9,"likes":11,"dislikes":2,"content":"上了矿爷的微H②，比我在卢姥爷微H1的绩点稍高一些（也可能是教学内容差异导致的）。总的来看，矿爷讲的比较慢，会反复强调细节，对于基础差的同学比较友好。但是对基础好的同学来说很容易睡着。肉眼可见一学期过去，教室里越来越空，还是挺心疼矿爷的。平时周末会给我们开直播复习，但是时间会比较长。"},{"id":159310,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-07-12 04:10:37","like_diff":9,"likes":11,"dislikes":2,"content":"“我不说你都知道”"},{"id":168198,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-02-01 13:37:33","like_diff":9,"likes":10,"dislikes":1,"content":"不敢说是学术水平最高的研究员，但作为一个老师，矿爷真的是做的很好了，认真负责的态度真的是无可挑剔，而且上网课睡过头了矿爷也会帮忙补签hhhh(就这一点就值十分）讲课真的超级细致，（有点犯困hhh）但不影响是个好老师，理科的同学可能觉得有点无聊hhhh，喜欢讲课细致老师的同学强推"},{"id":203321,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-11-19 06:38:09","like_diff":9,"likes":9,"dislikes":0,"content":"矿爷手动版PPTyyds"},{"id":206446,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-12-15 06:52:04","like_diff":9,"likes":12,"dislikes":3,"content":"助教沈姐姐简直天使，非常非常非常负责，讲的超级清晰，手写讲义很方便课后复习，没有她活不下去啊🥺"},{"id":210703,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-12 09:50:03","like_diff":9,"likes":9,"dislikes":0,"content":"苏老师讲得虽然慢，但确实很有趣，而且不会影响你自己的节奏，外加助教沈姐姐好评（后期矿爷迷恋上了点名这种神秘的力量）"},{"id":1061,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-03-21 16:03:36","like_diff":8,"likes":10,"dislikes":2,"content":"很棒！学数学学得很开心"},{"id":44282,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-17 14:05:49","like_diff":8,"likes":8,"dislikes":0,"content":"很幽默，很风趣。讲课也很有逻辑。给分也比较照顾同学"},{"id":51069,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-05-16 02:53:59","like_diff":8,"likes":26,"dislikes":18,"content":"老师上的太简单 还不如自学 效率更高"},{"id":84952,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-07-14 13:52:48","like_diff":8,"likes":9,"dislikes":1,"content":"很荣幸上了矿爷一个学年的课！矿爷讲课非常细致啊，简直是文科生的福音。我的微积分成绩从微一到微二到微三一直在涨啊！真心感谢老师！当然自己努力多做题多复习总结也是很重要的！"},{"id":99937,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-25 10:13:33","like_diff":8,"likes":10,"dislikes":2,"content":"讲的偏基础"},{"id":141565,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-10-15 00:12:23","like_diff":8,"likes":8,"dislikes":0,"content":"矿爷慕课学生。虽然有不少学生说矿爷过誉，但我觉得他真的很不错，打牢基础，理解清晰，真的是我听过的最让人踏实的课。而且矿爷板书还挺好看，写字擦黑板也挺快，每次几乎就是上台就滔滔不绝，可以说是很负责的老师了。"},{"id":145027,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-12-26 15:59:16","like_diff":8,"likes":11,"dislikes":3,"content":"助教giegie🤤🤤🤤我的助教giegie🤤🤤🤤🤤"},{"id":156837,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-06-21 05:34:26","like_diff":8,"likes":10,"dislikes":2,"content":"矿爷给了我98，可惜我只能给他打10分。注：矿爷点名是吓吓我们的，点名分实际上每个人都给满！"},{"id":157227,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-06-22 12:26:17","like_diff":8,"likes":11,"dislikes":3,"content":"上课既仔细又幽默，还会在考前亲自给我们直播习题课，听完之后连我这种数学小垃圾都感觉豁然开朗。能跟着矿爷学一整年的微积分，是我在ckc遇到的最大幸事之一！愿有趣的灵魂永远年轻！"},{"id":169733,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-02-27 14:58:10","like_diff":8,"likes":10,"dislikes":2,"content":"矿爷是我见过最耐心的数学老师，把微积分Ⅱ讲的特别清楚特别容易理解，简直是文科生数学救星！矿爷教学态度超级认真，会在周末开作业直播课，让我想起高中数学老师那种非常负责的气质55555上课也特别有趣，会给大家分享生活趣事还有励志的话哈哈哈哈哈，超级超级喜欢矿爷！！"},{"id":171923,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-04-12 14:38:27","like_diff":8,"likes":9,"dislikes":1,"content":"说实话，老师讲的是真的细，不过可能也是因为年龄比较大了，说话可能啰嗦一点，不过讲的还是非常不错的。不过可能不适合快节奏的学生，上着上着课能睡着"},{"id":209821,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-07 07:39:20","like_diff":8,"likes":9,"dislikes":1,"content":"感谢苏老师，感谢助教姐姐🥰我只能说10分不是老师的极限啊😭"},{"id":223689,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-10-13 10:10:09","like_diff":8,"likes":8,"dislikes":0,"content":"delllllllta！"},{"id":2612,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-05-04 17:19:05","like_diff":7,"likes":7,"dislikes":0,"content":"老师很有个性"},{"id":14285,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-06 05:47:42","like_diff":7,"likes":9,"dislikes":2,"content":"真心浙大招牌好老师"},{"id":34313,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-18 05:24:54","like_diff":7,"likes":8,"dislikes":1,"content":"ym矿爷!万岁!"},{"id":35847,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-18 12:06:06","like_diff":7,"likes":10,"dislikes":3,"content":"谢矿爷不挂之恩！"},{"id":44850,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-18 11:32:56","like_diff":7,"likes":8,"dislikes":1,"content":"矿爷贼稳，认真听能学到很多"},{"id":108684,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-05-31 06:37:28","like_diff":7,"likes":11,"dislikes":4,"content":"啥都好，就是作业太多，是别的老师布置的两倍以上。"},{"id":125464,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-09-09 15:36:17","like_diff":7,"likes":9,"dislikes":2,"content":"老师上学期一节课点三次名"},{"id":130961,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-01-25 11:40:51","like_diff":7,"likes":7,"dislikes":0,"content":"矿爷总体来说针不戳！！！很有耐心，上课也很有趣！但比较重视定义和公式的推导，对题目讲的没那么多（可能本人太菜），而且H没有习题课，学弟学妹们自己做点题或者多看看答案"},{"id":138385,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-07-09 00:24:40","like_diff":7,"likes":11,"dislikes":4,"content":"矿宝必须满分"},{"id":146905,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-01-08 03:38:11","like_diff":7,"likes":8,"dislikes":1,"content":"我爱矿爷，我爱助教！"},{"id":156786,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-06-21 03:10:26","like_diff":7,"likes":10,"dislikes":3,"content":"我必须给矿矿满分！！今天去出分啦好激动好激动！微1也就3.6 微2能有4.5真的出乎我的意料我真的哭死！！矿矿其实很适合数学一般的文科生（比如我）他每个步骤都会讲得很细，而且期中期末考试前也会在周末直播讲一些典型例题，真的很有帮助！！"},{"id":159522,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-08-02 08:22:34","like_diff":7,"likes":8,"dislikes":1,"content":"矿爷人真的超好，讲课很细致，从微一3.6到微二4.8，算是给一年的微积分学习画上了圆满的句号"},{"id":159549,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-08-08 14:34:25","like_diff":7,"likes":8,"dislikes":1,"content":"矿爷慕课，适合预习"},{"id":199523,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-09-25 02:44:35","like_diff":7,"likes":8,"dislikes":1,"content":"讲得好！"},{"id":218065,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-04-20 06:41:51","like_diff":7,"likes":8,"dislikes":1,"content":"老师人真的很好，但是作业太多了吧"},{"id":33,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-03-14 15:29:34","like_diff":6,"likes":8,"dislikes":2,"content":"苏爷爷威武"},{"id":8075,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-09-17 02:05:07","like_diff":6,"likes":11,"dislikes":5,"content":"重修班终于是矿爷的课大概也是圆满了？。"},{"id":11518,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-12-03 10:44:54","like_diff":6,"likes":9,"dislikes":3,"content":"只能听懂矿爷的课"},{"id":12018,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-12-21 13:48:11","like_diff":6,"likes":8,"dislikes":2,"content":"矿爷威武"},{"id":18444,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-21 15:53:43","like_diff":6,"likes":8,"dislikes":2,"content":"认真的老师总要给他点个赞"},{"id":44842,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-18 11:17:28","like_diff":6,"likes":6,"dislikes":0,"content":"矿爷很可爱的 讲课也好！虽然本人学渣差点挂科 但是矿爷讲课真的很好！"},{"id":74297,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-02-10 02:21:10","like_diff":6,"likes":10,"dislikes":4,"content":"过誉了"},{"id":77307,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-05-04 13:14:29","like_diff":6,"likes":10,"dislikes":4,"content":"有时候还挺想睡觉的，感觉被严重过誉了，不过可能是文科生不适合学数学吧"},{"id":98448,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-23 12:52:39","like_diff":6,"likes":8,"dislikes":2,"content":"学渣爱矿爷"},{"id":103921,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-03-07 08:54:49","like_diff":6,"likes":22,"dislikes":16,"content":"也就那样吧，过于注重自己所谓的“网红”了"},{"id":104849,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-03 10:17:11","like_diff":6,"likes":10,"dislikes":4,"content":"给分挺求是的。作业多，还要做慕课的题目，不过期末时终于明白矿爷的心了，这么多作业的确给我打下了不错的基础(๑•ั็ω•็ั๑)"},{"id":113008,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-05 17:27:33","like_diff":6,"likes":11,"dislikes":5,"content":"感谢苏老师孜孜不倦三个学期都卡我绩点"},{"id":144868,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-12-25 09:23:19","like_diff":6,"likes":7,"dislikes":1,"content":"对微积分毫无兴趣\n\n矿爷拯救了我的微积分\n\n还教了我其他很多\n\n感谢您挽救了我濒危的兴趣"},{"id":145562,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-12-30 08:41:13","like_diff":6,"likes":9,"dislikes":3,"content":"表白热心又负责的助教，别拦我，我要做giegie的狗🤤🤤🤤🤤🤤"},{"id":146767,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-01-07 11:37:27","like_diff":6,"likes":6,"dislikes":0,"content":"老师是好老师，助教是好助教，能捞我就更好了"},{"id":155245,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-06-09 17:44:48","like_diff":6,"likes":7,"dislikes":1,"content":"矿矿为了教会我们真的是不遗余力……对不起ಥ_ಥ"},{"id":167932,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-01-20 11:53:54","like_diff":6,"likes":9,"dislikes":3,"content":"讲课最大的特点就是很细致很细致，会一个定理一个定理地推导，从基础知识讲到拓展的知识，很全面，很细致。对于数学不好的人来说是很不错的选择。\n\n要做mooc，有点麻烦。\n\n会在群里发上课的讲义和整理的基本公式，也会在群里回答同学提出的问题。\n\n很喜欢“站起来就说，说对的加分”，上网课之后“第一个找出错误的，加分”，但每次都是那几个人站起来讲。"},{"id":184300,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-12-16 04:24:20","like_diff":6,"likes":7,"dislikes":1,"content":"1.5-2倍速的mooc通俗易懂，很适合预习"},{"id":184350,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-12-18 05:59:46","like_diff":6,"likes":10,"dislikes":4,"content":"矿爷课讲得真的很细，他参与编写的教材和课堂上也有很多例子帮助理解；不过习惯快节奏的同学们可以选择慕课，上矿爷的课我打过好几次瞌睡）而且上课有时候还会讲点故事哈哈哈\n\ndwl助教老师习题课也很负责，给分从平时分和期中（23-24秋冬）来看还是可以的"},{"id":202903,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-11-15 05:31:31","like_diff":6,"likes":8,"dislikes":2,"content":"感谢矿✌️将我从xry的课堂中把我救赎"},{"id":209827,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-07 07:46:20","like_diff":6,"likes":6,"dislikes":0,"content":"助教姐姐海底捞啊，呜呜呜"},{"id":210390,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-12 12:27:09","like_diff":6,"likes":7,"dislikes":1,"content":"微积分甲。讲课很细，给分很好。唯一的缺陷是助教的习题课有些过于深奥。"},{"id":101,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-03-14 15:52:08","like_diff":5,"likes":20,"dislikes":15,"content":"作为南方人无法理解北方人的痛苦"},{"id":1727,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-03-24 00:20:04","like_diff":5,"likes":7,"dislikes":2,"content":"讲得十分细致，总结的好！"},{"id":4296,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-06-18 16:32:10","like_diff":5,"likes":6,"dislikes":1,"content":"拍视频。。"},{"id":8109,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-09-17 05:10:28","like_diff":5,"likes":8,"dislikes":3,"content":"比较慢，但是极细致，好人，矿爷万岁！"},{"id":12387,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-12-23 07:22:05","like_diff":5,"likes":8,"dislikes":3,"content":"很棒哦"},{"id":12734,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-12-24 02:50:12","like_diff":5,"likes":6,"dislikes":1,"content":"一句话，很好"},{"id":15097,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-12 04:33:14","like_diff":5,"likes":10,"dislikes":5,"content":"论好老师的重要性，不水手机微积分绝对不用操心了。上课细致，平易近人，没有教授的架子。能选一定要选！"},{"id":28420,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-06-28 08:55:35","like_diff":5,"likes":6,"dislikes":1,"content":"赞赞赞"},{"id":44890,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-18 12:42:20","like_diff":5,"likes":6,"dislikes":1,"content":"感谢矿爷不挂之恩，矿爷讲课还是准备得很很认真仔细的"},{"id":46215,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-21 02:51:11","like_diff":5,"likes":7,"dislikes":2,"content":"简单平实 适合理解比较慢的同学"},{"id":56491,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-07-04 01:43:33","like_diff":5,"likes":8,"dislikes":3,"content":"期末好难啊，苏老师平时答疑绝对的第一好，期末是自己考的太崩了。微积分gg，下学期再战吧"},{"id":70887,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-01-27 17:24:49","like_diff":5,"likes":6,"dislikes":1,"content":"礦爺謝謝你\n\n"},{"id":93252,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-08 11:48:37","like_diff":5,"likes":5,"dislikes":0,"content":"好老师，上他的课提不起精神，但是课后会找他的视频来看，助教人也挺可爱"},{"id":98470,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-23 13:15:44","like_diff":5,"likes":5,"dislikes":0,"content":"感谢不挂"},{"id":115990,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-08-28 08:19:53","like_diff":5,"likes":7,"dislikes":2,"content":"讲课还不错，作业有点多，慕课也要做。不过得亏作业多，期末复习少忙活。"},{"id":138400,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-07-09 02:39:14","like_diff":5,"likes":5,"dislikes":0,"content":"老师很好的，讲课特别地细。"},{"id":140142,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-08-29 03:49:25","like_diff":5,"likes":6,"dislikes":1,"content":"矿爷yyds"},{"id":143397,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-11-25 03:30:26","like_diff":5,"likes":9,"dislikes":4,"content":"虽然矿爷上课是挺好，但是事情实在太多了，慕课问答之类的事情真的很让人头疼"},{"id":143949,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-12-14 01:50:47","like_diff":5,"likes":7,"dislikes":2,"content":"矿爷yyds！！真的是讲得好有热情还很负责，虽然网课放的是之前的视频但还是会一直陪着我们解答问题！！\n\n下学期还选您的课"},{"id":155191,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-06-21 03:09:20","like_diff":5,"likes":7,"dislikes":2,"content":"爱矿矿呜呜呜呜呜"},{"id":159526,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-08-03 09:55:58","like_diff":5,"likes":8,"dislikes":3,"content":"开二倍速依然那么清晰易懂"},{"id":176282,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-06-28 08:35:09","like_diff":5,"likes":12,"dislikes":7,"content":"22-23春夏 微甲2地狱难度\n\n喜提史低3.3\n\n我对老师没有任何不好的感觉 dwl姐姐也非常好\n\n但是真的很想要吐槽一下这张卷子"},{"id":188338,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-01-18 16:16:01","like_diff":5,"likes":8,"dislikes":3,"content":"矿爷讲课很清楚，H课的助教人也很好，期末还被捞的，超棒哦"},{"id":194900,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-06-26 01:38:20","like_diff":5,"likes":16,"dislikes":11,"content":"H课，我更喜欢卢姥爷的上课风格（哭）"},{"id":214465,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-02-06 03:23:54","like_diff":5,"likes":5,"dislikes":0,"content":"钉上问矿爷会秒回，伟大，无需多言"},{"id":205,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-03-14 16:49:20","like_diff":4,"likes":10,"dislikes":6,"content":"矿爷真的很可爱 很体贴"},{"id":7527,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-09-15 02:07:25","like_diff":4,"likes":4,"dislikes":0,"content":"好"},{"id":8058,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-09-17 00:44:54","like_diff":4,"likes":8,"dislikes":4,"content":"值得尊敬的老师"},{"id":8660,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-09-23 23:52:48","like_diff":4,"likes":6,"dislikes":2,"content":"矿爷超可爱"},{"id":8720,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-09-24 11:38:46","like_diff":4,"likes":6,"dislikes":2,"content":"非常好"},{"id":21898,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-03-01 13:14:28","like_diff":4,"likes":5,"dislikes":1,"content":"好好好！"},{"id":21899,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-03-01 13:13:38","like_diff":4,"likes":7,"dislikes":3,"content":"无论是听得还是看得都很清楚，很耐心，好老师啊！同志们，要学会珍惜！"},{"id":23632,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-04-11 07:47:25","like_diff":4,"likes":5,"dislikes":1,"content":"好厉害\n\n"},{"id":31907,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-07-05 06:43:46","like_diff":4,"likes":6,"dislikes":2,"content":"讲道理，矿爷讲的挺好的尤其复习课很有用。"},{"id":35542,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-11-10 07:25:24","like_diff":4,"likes":14,"dislikes":10,"content":"不知道为什么都说他的课很好，反正我一听就想睡觉，不是因为微积分难，就是听不进去他讲的"},{"id":36046,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-11-10 10:50:42","like_diff":4,"likes":5,"dislikes":1,"content":"满满正能量～矿爷萌萌哒～～赞赞赞"},{"id":44839,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-19 06:19:43","like_diff":4,"likes":5,"dislikes":1,"content":"爱矿爷！矿爷真好！"},{"id":44845,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-18 11:20:39","like_diff":4,"likes":5,"dislikes":1,"content":"是个很好的老师，满满的师生情。"},{"id":59605,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-09-25 00:54:13","like_diff":4,"likes":5,"dislikes":1,"content":"非常好"},{"id":66642,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-01-18 02:41:54","like_diff":4,"likes":4,"dislikes":0,"content":"讲得很细，很有条理，认真做笔记就可以了，课下多做做矿业推荐的题，困难不是太大，但讲例题的时候真的容易睡着。学期末会有复习课，课下有小测，期末就最好不要旷课看直播了"},{"id":77274,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-05-04 09:14:49","like_diff":4,"likes":5,"dislikes":1,"content":"就是非常细致，把基础概念弄懂，后面就腾飞了"},{"id":86193,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-09-10 08:28:50","like_diff":4,"likes":5,"dislikes":1,"content":"老师，节日快乐！啊啊啊"},{"id":98404,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-23 12:04:59","like_diff":4,"likes":5,"dislikes":1,"content":"矿爷太好了鸭，平时分直接给满了！"},{"id":104197,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-03-13 23:40:42","like_diff":4,"likes":9,"dislikes":5,"content":"矿爷讲课真的特别详细，特别适合我这种数学不好的人。人也很可爱。反正只要上课认真听讲，课后作业弄懂的话4.2以上应该不成问题。"},{"id":111582,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-02 04:48:38","like_diff":4,"likes":6,"dislikes":2,"content":"老师人很好没错\n\n但讲东西实在有点无趣 听不下去"},{"id":115328,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-18 16:55:30","like_diff":4,"likes":4,"dislikes":0,"content":"很细致"},{"id":119481,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-11-13 04:17:55","like_diff":4,"likes":11,"dislikes":7,"content":"没有李将云老师好"},{"id":122025,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-02-01 13:59:43","like_diff":4,"likes":6,"dislikes":2,"content":"这几天在家看老师的MOOC 这也太香了"},{"id":136228,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-06-13 06:46:21","like_diff":4,"likes":6,"dislikes":2,"content":"微积分上下都是苏老师上的，很棒"},{"id":137954,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-07-07 00:47:17","like_diff":4,"likes":5,"dislikes":1,"content":"矿爷又敬业又可爱"},{"id":141562,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-10-14 15:01:20","like_diff":4,"likes":4,"dislikes":0,"content":"矿爷yyds"},{"id":148217,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-01-12 01:46:02","like_diff":4,"likes":6,"dislikes":2,"content":"矿爷yyds！"},{"id":156913,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-06-21 10:29:30","like_diff":4,"likes":4,"dislikes":0,"content":"感谢矿爷"},{"id":161759,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-11-12 10:54:40","like_diff":4,"likes":9,"dislikes":5,"content":"当年跟着姥爷学微积分1绩点3.6，跟着矿爷学微2喜提满绩 真的想哭 矿宝矿宝矿宝！"},{"id":168625,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-02-20 11:15:20","like_diff":4,"likes":6,"dislikes":2,"content":"矿爷的授课水平毋庸置疑，感觉只要认真听课，就可以学的比较扎实\n\n而且吧，矿爷给分比较好，感谢矿爷捞我一手"},{"id":197469,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-07-16 06:49:03","like_diff":4,"likes":8,"dislikes":4,"content":"上课风格个人不太喜欢，但23-24春夏H的助教姐姐挺好的，很负责，批卷子很快（bushi"},{"id":198585,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-09-10 05:36:19","like_diff":4,"likes":4,"dislikes":0,"content":"好好好"},{"id":205578,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-12-09 11:46:38","like_diff":4,"likes":5,"dislikes":1,"content":"老师好可爱，快乐小老头嘿嘿"},{"id":209967,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-07 15:04:23","like_diff":4,"likes":6,"dislikes":2,"content":"矿✌是我的神！虽然vjf学得稍许辛苦（作业有点多而且还要抄题），但是最终的分数还是很好的！课上讲题会有很多例题便于理解，dwl助教也很好哇，讲题很细致而且很有耐心的"},{"id":4108,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-06-17 17:47:12","like_diff":3,"likes":5,"dislikes":2,"content":"很好"},{"id":5002,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-07-02 02:46:03","like_diff":3,"likes":5,"dislikes":2,"content":"教的确实好"},{"id":7206,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-09-10 23:44:49","like_diff":3,"likes":5,"dislikes":2,"content":"很带劲\n\n"},{"id":7281,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-09-17 05:14:29","like_diff":3,"likes":4,"dislikes":1,"content":"很好很幽默"},{"id":12321,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-12-23 03:16:58","like_diff":3,"likes":10,"dislikes":7,"content":"好棒的老师，虽然有点催眠"},{"id":12443,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-12-23 09:32:15","like_diff":3,"likes":5,"dislikes":2,"content":"很有趣"},{"id":12985,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-12-24 12:36:05","like_diff":3,"likes":5,"dislikes":2,"content":"讲的细，重点分明，对学生好"},{"id":16144,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-17 10:04:00","like_diff":3,"likes":9,"dislikes":6,"content":"就是喜欢矿爷啊啊啊啊啊啊均绩低什么的都不算事儿"},{"id":20473,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-27 16:59:49","like_diff":3,"likes":15,"dislikes":12,"content":"过誉了"},{"id":25639,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-05-30 10:31:30","like_diff":3,"likes":7,"dislikes":4,"content":"微三不是让你一周五节课的?"},{"id":26126,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-06-16 05:14:47","like_diff":3,"likes":5,"dislikes":2,"content":"不听是遗憾"},{"id":28021,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-06-28 07:59:54","like_diff":3,"likes":5,"dislikes":2,"content":"非常有意思"},{"id":33338,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-23 09:24:31","like_diff":3,"likes":4,"dislikes":1,"content":"很认真的老师^ω^"},{"id":34531,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-10-13 01:49:06","like_diff":3,"likes":3,"dislikes":0,"content":"超级可爱的老师，非常敬业"},{"id":35956,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-11-10 09:09:29","like_diff":3,"likes":4,"dislikes":1,"content":"受益良多\n\n"},{"id":35961,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-23 00:10:58","like_diff":3,"likes":9,"dislikes":6,"content":"微1满绩，很棒的体验"},{"id":48063,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-02-28 08:38:45","like_diff":3,"likes":3,"dislikes":0,"content":"很快乐"},{"id":48460,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-03-05 07:58:23","like_diff":3,"likes":4,"dislikes":1,"content":"棒棒哒"},{"id":58180,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-08-16 03:45:48","like_diff":3,"likes":5,"dislikes":2,"content":"首先，先感谢老师不挂之恩。矿爷真的很细心认真，但是自己没好好学，有点辜负了老师的期望，希望还能有机会上老师的课。谢谢矿爷！"},{"id":64701,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-12-26 13:18:50","like_diff":3,"likes":4,"dislikes":1,"content":"矿爷超可耐(●'◡'●)ﾉ❤"},{"id":68373,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-01-23 05:30:08","like_diff":3,"likes":5,"dislikes":2,"content":"希望老师念及我们的师生情"},{"id":69034,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-01-24 07:44:48","like_diff":3,"likes":9,"dislikes":6,"content":"老师还不错 但是给分完全不调分的 差0.15分绩点从3.9到4.2 毕竟是一门大课 学分真的不少啊\n\n"},{"id":74534,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-03-03 05:30:35","like_diff":3,"likes":5,"dislikes":2,"content":"不在乎课怎么样，矿爷真的是展现了为人师表的情怀，崇敬至极，给满分。"},{"id":81124,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-07-04 05:16:16","like_diff":3,"likes":3,"dislikes":0,"content":"老师人很好，为学生着想，给分也还不错，"},{"id":98426,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-23 12:35:51","like_diff":3,"likes":4,"dislikes":1,"content":"萌萌哒"},{"id":98436,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-23 12:41:42","like_diff":3,"likes":6,"dislikes":3,"content":"给分超级好，吹爆我矿爷!"},{"id":98484,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-23 13:25:33","like_diff":3,"likes":4,"dislikes":1,"content":"给分超级棒"},{"id":101053,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-27 10:50:46","like_diff":3,"likes":5,"dislikes":2,"content":"话太多……有点迷"},{"id":111052,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-06-29 10:59:49","like_diff":3,"likes":6,"dislikes":3,"content":"前面说小测怎样的同学，自己菜别怨别人"},{"id":112404,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-04 04:19:14","like_diff":3,"likes":3,"dislikes":0,"content":"看完网课，期末没挂，前来拜谢"},{"id":118170,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-10-22 03:19:16","like_diff":3,"likes":11,"dislikes":8,"content":"老师人很好 但讲得真的太催眠了 适合文科生 对于理科生来讲节奏慢了 而且真的没太大意思"},{"id":123893,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-06-15 20:02:18","like_diff":3,"likes":4,"dislikes":1,"content":"别的老师讲课听不懂的时候，可以从mooc听听他的课有利于打好基础，矿爷好老师"},{"id":126949,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-10-29 08:42:52","like_diff":3,"likes":4,"dislikes":1,"content":"实事求是"},{"id":132084,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-01-30 07:12:59","like_diff":3,"likes":5,"dislikes":2,"content":"啧啧啧"},{"id":135206,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-05-06 02:53:38","like_diff":3,"likes":5,"dislikes":2,"content":"矿爷竟然没满分"},{"id":147436,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-01-10 03:38:48","like_diff":3,"likes":4,"dislikes":1,"content":"好老师好助教，认真负责讲课轻松有趣"},{"id":148464,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-01-12 14:43:31","like_diff":3,"likes":5,"dislikes":2,"content":"感谢矿矿和助教给我一个这么好的绩点啊啊啊 真的是把我从考试周崩溃边缘拉回来了！！！！"},{"id":151350,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-03-01 05:02:32","like_diff":3,"likes":10,"dislikes":7,"content":"作业又多又难，上课讲的很细致但对作业帮助不是特别大。"},{"id":156236,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-06-21 13:42:53","like_diff":3,"likes":5,"dislikes":2,"content":"爱矿爷！！"},{"id":168556,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-02-19 10:26:37","like_diff":3,"likes":4,"dislikes":1,"content":"真的很好😭老师 但我学的有点烂 下学期会好好学的"},{"id":186081,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-01-08 08:14:03","like_diff":3,"likes":6,"dislikes":3,"content":"速度慢，有点催眠"},{"id":187279,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-01-15 11:36:56","like_diff":3,"likes":11,"dislikes":8,"content":"老师人很好，点名没去可以改过来，但是课上的一般，上课放手写的ppt，实在是催眠。给分也一般，只捞了快挂的，最后我总评和两次考试卷面分持平。"},{"id":210851,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-10 05:33:16","like_diff":3,"likes":3,"dislikes":0,"content":"真的好，强推"},{"id":213476,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-17 15:38:31","like_diff":3,"likes":3,"dislikes":0,"content":"助教哥哥第一次让我尝到了不苦的苦瓜😍"},{"id":220237,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-06-23 14:49:31","like_diff":3,"likes":3,"dislikes":0,"content":"矿爷无敌了，上过矿爷的课可以吹一辈子了哈哈哈哈！微积分（H）一直上是矿爷上的，两次的助教都是SJW姐姐，她也是讲课超级好，改作业和期中期末试卷效律奇高，还很捞分！！！"},{"id":220242,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-06-16 15:04:11","like_diff":3,"likes":3,"dislikes":0,"content":"矿爷讲课很细致比较慢，比较适合基础比较差理解能力不强的人。另外H的助教sjw姐姐真的人超好，改卷超级捞，效率也很快"},{"id":2198,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-04-07 15:44:20","like_diff":2,"likes":5,"dislikes":3,"content":"上课前会放节目"},{"id":3161,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-06-17 02:29:21","like_diff":2,"likes":5,"dislikes":3,"content":"好"},{"id":3871,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-06-17 07:07:53","like_diff":2,"likes":4,"dislikes":2,"content":"讲课方式很独特，上课有趣味"},{"id":8337,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-09-18 12:41:34","like_diff":2,"likes":11,"dislikes":9,"content":"我室友都快被他搞疯了"},{"id":8778,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-09-26 11:57:27","like_diff":2,"likes":6,"dislikes":4,"content":"矿爷真棒"},{"id":9545,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-10-29 23:14:33","like_diff":2,"likes":4,"dislikes":2,"content":"很棒很幽默很喜剧\n\n"},{"id":11845,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-12-17 12:55:56","like_diff":2,"likes":5,"dislikes":3,"content":"听老师的课不仅学到知识，而且是人生导师。"},{"id":17672,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-20 15:15:42","like_diff":2,"likes":5,"dislikes":3,"content":"感谢矿爷让我过了"},{"id":19987,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-26 00:25:12","like_diff":2,"likes":10,"dislikes":8,"content":"一般的体验，许多老师都可以做到"},{"id":20647,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-29 10:28:25","like_diff":2,"likes":4,"dislikes":2,"content":"好好好"},{"id":24637,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-05-02 14:03:54","like_diff":2,"likes":4,"dislikes":2,"content":"挺好的挺不错"},{"id":25467,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-05-21 07:11:28","like_diff":2,"likes":6,"dislikes":4,"content":"矿爷是我学微积分的动力"},{"id":25510,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-05-24 03:58:00","like_diff":2,"likes":5,"dislikes":3,"content":"一般，延长时间，不是让你讲的更慢T_T"},{"id":26322,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-06-17 01:29:11","like_diff":2,"likes":13,"dislikes":11,"content":"徒有虚名的感觉"},{"id":30343,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-07-01 10:25:08","like_diff":2,"likes":7,"dislikes":5,"content":"见面不如闻名"},{"id":32294,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-07-06 05:58:26","like_diff":2,"likes":4,"dislikes":2,"content":"超级棒，不愧矿爷"},{"id":32386,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-07-06 11:36:53","like_diff":2,"likes":3,"dislikes":1,"content":"矿爷的复习课还是很有用的。"},{"id":33821,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-09-22 02:50:25","like_diff":2,"likes":5,"dislikes":3,"content":"听得清楚"},{"id":36609,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-18 11:25:19","like_diff":2,"likes":4,"dislikes":2,"content":"很棒！！！"},{"id":44281,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-17 14:05:11","like_diff":2,"likes":4,"dislikes":2,"content":"老师讲的好，问题耐心解答，可惜自己太渣"},{"id":44844,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-18 11:20:08","like_diff":2,"likes":3,"dislikes":1,"content":"大学第一个数学老师，棒棒，，"},{"id":44885,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-18 12:38:27","like_diff":2,"likes":3,"dislikes":1,"content":"矿爷很棒呀"},{"id":59001,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-09-19 05:18:45","like_diff":2,"likes":5,"dislikes":3,"content":"没有传说中的那么神，但上课的确很有趣"},{"id":60023,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-10-05 02:16:04","like_diff":2,"likes":5,"dislikes":3,"content":"选上矿爷的课真是太幸运了！认真负责，节奏适中，让我对数学又燃起了信心啦！✪ω✪打call! 希望以后能多听到矿爷唱歌?"},{"id":61004,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-11-07 01:48:46","like_diff":2,"likes":8,"dislikes":6,"content":"平凡的老师，平凡的课堂。"},{"id":62949,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-11-27 12:17:54","like_diff":2,"likes":3,"dislikes":1,"content":"挺不错"},{"id":75878,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-03-20 13:02:23","like_diff":2,"likes":4,"dislikes":2,"content":"挺好的啊\n\n老是无敌\n\n\n\n"},{"id":76640,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-04-17 03:57:34","like_diff":2,"likes":4,"dislikes":2,"content":"谢谢矿爷爷"},{"id":80769,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-06-30 13:44:36","like_diff":2,"likes":2,"dislikes":0,"content":"很负责任呀！还有语音"},{"id":88776,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-11-07 14:01:35","like_diff":2,"likes":2,"dislikes":0,"content":"老师节奏很棒！认真听课基本知识掌握的差不多辽！"},{"id":88892,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-11-12 00:45:04","like_diff":2,"likes":4,"dislikes":2,"content":"课前好好预习，课中好好记笔记，课后多做题，听老师的话，会有很多收获的。很好?"},{"id":90841,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-11-26 12:14:26","like_diff":2,"likes":4,"dislikes":2,"content":"离开矿爷的半个学期，想他，人这么好的老师真的不多"},{"id":98410,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-23 12:21:46","like_diff":2,"likes":5,"dislikes":3,"content":"吹爆矿爷 平时分直接给满"},{"id":98481,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-23 13:21:59","like_diff":2,"likes":3,"dislikes":1,"content":"棒棒哒"},{"id":105767,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-04-20 07:58:23","like_diff":2,"likes":3,"dislikes":1,"content":"我爱苏老师"},{"id":109471,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-06-15 12:44:39","like_diff":2,"likes":3,"dislikes":1,"content":"老师讲课真好，专心听很有收获"},{"id":112355,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-04 02:35:18","like_diff":2,"likes":3,"dislikes":1,"content":"还是十分吧！虽然这学期绩点又炸又卡，比1低了好多，但矿爷和助教xjj超好。期末考好难；mooc当小测 也比较难"},{"id":116369,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-09-09 23:09:03","like_diff":2,"likes":3,"dislikes":1,"content":"棒棒哒萌萌哒"},{"id":118917,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-11-07 16:32:02","like_diff":2,"likes":6,"dislikes":4,"content":"我上的是苏老师的网课，强烈安利，拯救了我的微积分期中考！适合女孩子！"},{"id":123716,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-06-12 10:55:21","like_diff":2,"likes":4,"dislikes":2,"content":"手写笔记狂魔！不过还是感觉李将云和卢兴江比较好。"},{"id":123766,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-06-14 02:32:05","like_diff":2,"likes":2,"dislikes":0,"content":"很幽默很可爱的老师！"},{"id":125260,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-09-05 02:51:17","like_diff":2,"likes":3,"dislikes":1,"content":"矿爷yyds，上课讲的特别细，还帮着复习，真的有很大的帮助，最后的成绩也比预期的高，也许老师调了分？"},{"id":126789,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-10-20 04:32:38","like_diff":2,"likes":2,"dislikes":0,"content":"wfe"},{"id":132844,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-02-04 06:27:48","like_diff":2,"likes":4,"dislikes":2,"content":"矿爷yyds！！\n\n很注重基础~在平时讲课时会注重灌输数学思想 易理解！\n\n给分也很好！ 满了\n\n大爱~~ 【微博留言去了~】"},{"id":141172,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-09-25 15:12:57","like_diff":2,"likes":3,"dislikes":1,"content":"矿爷yyds"},{"id":145400,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-12-29 10:22:08","like_diff":2,"likes":5,"dislikes":3,"content":"点了几次名\n\n感觉蛮好的 在纸上手写上课要讲的内容，大家都可以看的清楚，讲课调理也清晰。\n\n然后就是 嘿嘿🤤🤤 助教哥哥我的助教哥哥🤤🤤"},{"id":157285,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-06-23 00:43:16","like_diff":2,"likes":3,"dislikes":1,"content":"数学小垃圾亲测体验超级良好！！！大爱矿矿！！！"},{"id":161225,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-11-01 07:25:46","like_diff":2,"likes":4,"dislikes":2,"content":"卡绩了捏🤯矿矿🥺🥺😭😭"},{"id":161462,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-11-07 07:12:52","like_diff":2,"likes":2,"dislikes":0,"content":"666"},{"id":161723,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-11-11 07:54:03","like_diff":2,"likes":3,"dislikes":1,"content":"矿爷最高"},{"id":170002,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-03-01 03:18:05","like_diff":2,"likes":3,"dislikes":1,"content":"友好型课程"},{"id":185144,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-12-26 15:56:36","like_diff":2,"likes":5,"dislikes":3,"content":"我天天上矿爷网课，不打十分过不去了"},{"id":188474,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-01-19 05:10:33","like_diff":2,"likes":8,"dislikes":6,"content":"矿✌yyds！"},{"id":189885,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-02-01 06:19:21","like_diff":2,"likes":8,"dislikes":6,"content":"讲课慢，但仔细，有意思，直接满昏"},{"id":194086,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-06-22 02:19:02","like_diff":2,"likes":8,"dislikes":6,"content":"老师讲得有点缺乏条理，一个点说太久导致思路不明晰，还有课前喜欢毒鸡汤有点不太受得了，很潮的一个小老头，观念也有一点封建。"},{"id":198570,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-09-10 03:56:00","like_diff":2,"likes":3,"dislikes":1,"content":"太好辣"},{"id":211633,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-12 05:36:41","like_diff":2,"likes":4,"dislikes":2,"content":"好好好"},{"id":213071,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-16 02:21:24","like_diff":2,"likes":3,"dislikes":1,"content":"sjm助教救我狗命，我其实觉得助教是一个很严谨的姐姐，每次问她问题她基本都是秒回，最后补天的时候助教jj没少帮我回答问题。她帮我超级多，习题课如果认真听能发现她的选题都很有代表性。\n\n矿爷不必多说，很有趣，讲课非常明白，是让我这种小菜狗能get到并且能应用的。"},{"id":216514,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-03-18 01:54:00","like_diff":2,"likes":2,"dislikes":0,"content":"上课有趣，认真，生活态度乐观，对待学生耐心"},{"id":224502,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-11-21 08:48:42","like_diff":2,"likes":2,"dislikes":0,"content":"矿✌🏻是神🤠🤠🤠🤠🤠🤠"},{"id":7723,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-09-15 10:52:03","like_diff":1,"likes":3,"dislikes":2,"content":"棒棒哒"},{"id":7976,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-09-16 10:26:58","like_diff":1,"likes":5,"dislikes":4,"content":"啊好好好好好好好好好好"},{"id":8489,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-09-22 00:51:07","like_diff":1,"likes":3,"dislikes":2,"content":"感觉老师超级幽默，而且讲课蛮细致的"},{"id":14801,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-09 09:55:14","like_diff":1,"likes":5,"dislikes":4,"content":"终于选上他的课啦！"},{"id":15342,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-14 03:19:34","like_diff":1,"likes":4,"dislikes":3,"content":"好老师，讲课负责"},{"id":16216,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-17 13:43:14","like_diff":1,"likes":10,"dislikes":9,"content":"给了十分，但是建议底子比较好的理科生选矿爷的课，因为个人觉得上课节奏有点不适合我这样基础差的文科生……比起课堂网上矿爷讲课的视频更细致一些"},{"id":17650,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-20 14:37:31","like_diff":1,"likes":2,"dislikes":1,"content":"认真负责"},{"id":23809,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-04-17 13:28:56","like_diff":1,"likes":4,"dislikes":3,"content":"\\^O^/(*^ω^*)^ω^(^_^)^ω^"},{"id":24163,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-04-28 02:54:14","like_diff":1,"likes":5,"dislikes":4,"content":"终于选上了，不遗憾了\n\n"},{"id":24204,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-04-28 09:10:56","like_diff":1,"likes":12,"dislikes":11,"content":"荣誉课的试卷比普通的简单了不止一星半点 对不起字母H啊"},{"id":25212,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-05-08 10:38:30","like_diff":1,"likes":4,"dislikes":3,"content":"矿爷威武！"},{"id":28155,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-06-28 08:10:33","like_diff":1,"likes":4,"dislikes":3,"content":"其实矿爷不一定适合所有人，但是他很认真"},{"id":28695,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-06-28 12:28:40","like_diff":1,"likes":4,"dislikes":3,"content":"很好的老师，关心学生"},{"id":29665,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-06-30 07:05:57","like_diff":1,"likes":5,"dislikes":4,"content":"从文科生角度来说 我觉得矿爷讲的很仔细也很认真 而且也很关心学生 给分也还不错"},{"id":36057,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-11-10 11:04:55","like_diff":1,"likes":3,"dislikes":2,"content":"很有趣，又讲的很清楚"},{"id":37677,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-11-20 05:25:36","like_diff":1,"likes":2,"dislikes":1,"content":"很好的老师"},{"id":38009,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-11-23 04:49:12","like_diff":1,"likes":3,"dislikes":2,"content":"进度较慢，讲的比较清楚，经常说娱乐圈"},{"id":38219,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-19 00:29:11","like_diff":1,"likes":4,"dislikes":3,"content":"很爱矿爷 但是没学好 自己的问题吧 下学期再努力 虽然下学期换老师了?"},{"id":49235,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-03-30 08:02:15","like_diff":1,"likes":4,"dislikes":3,"content":"好老师一生平安"},{"id":50143,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-04-30 08:14:38","like_diff":1,"likes":4,"dislikes":3,"content":"矿爷很好，上课很认真很努力地想要解释清楚，不过还是不适合我吧，最后一次上矿爷的课了，谢谢矿爷~"},{"id":59355,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-09-21 03:37:16","like_diff":1,"likes":10,"dislikes":9,"content":"就像骑自行车上坡的感觉，缓慢、无力，还是向往高中的淦哥，那速度简直起飞。客观地说一句，大家还是把位子让给文科生吧。"},{"id":59442,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-09-21 11:00:18","like_diff":1,"likes":2,"dislikes":1,"content":"我觉得OK"},{"id":68858,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-01-24 03:45:35","like_diff":1,"likes":2,"dislikes":1,"content":"上课好，给分好，人也超好，超赞，带我学完整个微积分，在这里表示衷心的感谢！"},{"id":68875,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-01-24 04:32:17","like_diff":1,"likes":3,"dislikes":2,"content":"谢矿爷"},{"id":68904,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-01-24 05:40:59","like_diff":1,"likes":5,"dislikes":4,"content":"老师超好，而且平时分给满。老师平时讲的比较细而且最后有蛮多时间来复习。作业量可能会多，但是这样你至少期末不会挂。"},{"id":74892,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-03-06 09:26:55","like_diff":1,"likes":2,"dislikes":1,"content":"em m"},{"id":81542,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-07-05 10:38:54","like_diff":1,"likes":3,"dislikes":2,"content":"讲得超级清楚"},{"id":84432,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-07-13 00:02:12","like_diff":1,"likes":3,"dislikes":2,"content":"苏老师的课就是挺中规中矩的那种类型，带好笔记本，听懂每一道例题，不懂的话可以课后看微博直播视频。我觉得要拿高分还是需要刷题刷题刷题，题刷的多了自然就会了，可惜这个道理我没在高中悟出来。"},{"id":88515,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-10-31 15:02:57","like_diff":1,"likes":2,"dislikes":1,"content":"讲课细致入微，课后有直播与慕课，感觉学微积分一点也不费劲了。大爱矿爷！"},{"id":90901,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-11-27 07:41:56","like_diff":1,"likes":3,"dislikes":2,"content":"谢谢老师"},{"id":92044,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-12-25 15:27:21","like_diff":1,"likes":1,"dislikes":0,"content":"老师超级棒！"},{"id":98447,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-23 12:52:34","like_diff":1,"likes":3,"dislikes":2,"content":"感谢矿爷和助教小姐姐?"},{"id":104161,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-03-13 07:41:24","like_diff":1,"likes":6,"dislikes":5,"content":"感觉很棒，很适合自己吧"},{"id":111726,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-02 16:19:40","like_diff":1,"likes":3,"dislikes":2,"content":"继续给矿爷十分吧！期末考只能说还是自己的问题考前太紧张没发挥好，还是自己水平不够心又太高吧。不过好在有期中考和助教给的神仙平时分，非常感谢陪我两个学期微积分的矿爷和助教xjj！！"},{"id":112364,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-04 02:55:45","like_diff":1,"likes":5,"dislikes":4,"content":"这期末考…是微积分还是数分？这么多证明题，格林公式还不能用？"},{"id":113703,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-07 04:35:03","like_diff":1,"likes":2,"dislikes":1,"content":"唉╯﹏╰噩梦微积分，积你太美"},{"id":117755,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-09-30 08:05:41","like_diff":1,"likes":3,"dislikes":2,"content":"我太爱矿爷了"},{"id":120363,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-12-01 03:49:09","like_diff":1,"likes":2,"dislikes":1,"content":"hhh"},{"id":126219,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-09-20 03:25:48","like_diff":1,"likes":4,"dislikes":3,"content":"我是个新生，听老师的网课，太好了，他为啥不上课，啊啊啊啊"},{"id":130032,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-01-15 07:52:20","like_diff":1,"likes":2,"dislikes":1,"content":"yyds"},{"id":138552,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-07-09 17:42:56","like_diff":1,"likes":10,"dislikes":9,"content":"老师人很好，感觉上课没有传说中那么好吧（可能只有我一个这么觉得？）。。。"},{"id":152727,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-04-19 03:07:05","like_diff":1,"likes":3,"dislikes":2,"content":"老师很好，讲课很细，时不时会用些同学考研的经历鼓励大家。微积分学不好是我菜"},{"id":161411,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-11-06 14:38:42","like_diff":1,"likes":2,"dislikes":1,"content":"真的很好，会很认真的给同学回答问题"},{"id":180771,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-09-26 04:41:56","like_diff":1,"likes":2,"dislikes":1,"content":"真的好"},{"id":185669,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-01-03 11:47:56","like_diff":1,"likes":3,"dislikes":2,"content":"矿爷yyds"},{"id":187773,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-01-17 11:09:57","like_diff":1,"likes":5,"dislikes":4,"content":"真的很棒，课上讲的习题很具有代表性，再次点赞"},{"id":196242,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-07-02 13:10:54","like_diff":1,"likes":10,"dislikes":9,"content":"期中给分很好，但期末很求是。个人不太能接受苏老师的讲课风格"},{"id":209686,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-06 14:12:03","like_diff":1,"likes":3,"dislikes":2,"content":"矿爷我爱你"},{"id":211425,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-11 11:14:48","like_diff":1,"likes":2,"dislikes":1,"content":"虽然翘了但是老师真的很好啊给分也很好"},{"id":213108,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-16 04:10:45","like_diff":1,"likes":2,"dislikes":1,"content":"微I H\n\n高速冲浪的sdk，稍微带点抽象，人很好，讲课挺清晰的，直接看手写版的课件也能看懂，很详细。\n\n助教沈姐姐很好！！最后还捞了我一把，真的好好，感动！！！"},{"id":214964,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-02-19 13:11:49","like_diff":1,"likes":1,"dislikes":0,"content":"好好好好"},{"id":215336,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-02-25 08:13:49","like_diff":1,"likes":1,"dislikes":0,"content":"我是矿爷的微乙赛博学生，伟大，无需多言"},{"id":222752,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-08-17 12:31:05","like_diff":1,"likes":2,"dislikes":1,"content":"矿爷上课经常讲段子，但是讲正课时容易让人昏昏欲睡。但是现在的助教老师挺好，非常认真负责，比较捞"},{"id":5908,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-07-10 01:53:35","like_diff":0,"likes":5,"dislikes":5,"content":"真诚的老师"},{"id":7165,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-09-09 10:38:00","like_diff":0,"likes":4,"dislikes":4,"content":"很幽默"},{"id":12534,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-12-23 12:12:27","like_diff":0,"likes":4,"dislikes":4,"content":"好好好"},{"id":14564,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-07 15:45:58","like_diff":0,"likes":3,"dislikes":3,"content":"好老师。"},{"id":18540,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-22 03:20:03","like_diff":0,"likes":4,"dislikes":4,"content":"讲的很细致。"},{"id":20850,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-02-02 07:18:53","like_diff":0,"likes":3,"dislikes":3,"content":"讲的很细致，老师的精神特别让人感动。"},{"id":22168,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-03-03 00:44:46","like_diff":0,"likes":6,"dislikes":6,"content":"没有传说中那么好，可能不适合我"},{"id":26860,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-06-21 10:57:26","like_diff":0,"likes":3,"dislikes":3,"content":"..."},{"id":28278,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-06-28 08:25:24","like_diff":0,"likes":3,"dislikes":3,"content":"讲课很幽默，思路清晰，很快就能接受"},{"id":31194,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-07-03 11:07:32","like_diff":0,"likes":4,"dislikes":4,"content":"老师再好也拯救不了我的微积分。。。"},{"id":35455,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-11-10 07:18:00","like_diff":0,"likes":2,"dislikes":2,"content":"讲课细致有趣"},{"id":45123,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-19 04:07:52","like_diff":0,"likes":2,"dislikes":2,"content":"很好的老师\n\n"},{"id":48917,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-03-16 07:49:26","like_diff":0,"likes":3,"dislikes":3,"content":"好好好"},{"id":49103,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-03-26 13:32:08","like_diff":0,"likes":1,"dislikes":1,"content":"很棒棒"},{"id":60083,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-10-10 02:25:29","like_diff":0,"likes":7,"dislikes":7,"content":"没劲！"},{"id":63829,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-12-16 10:42:00","like_diff":0,"likes":1,"dislikes":1,"content":"很好！"},{"id":67528,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-01-21 12:24:02","like_diff":0,"likes":2,"dislikes":2,"content":"爽歪歪"},{"id":78172,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-05-09 23:49:21","like_diff":0,"likes":1,"dislikes":1,"content":"似乎微二(H)调分调得不是很顺利啊，比卢老师班低很多，而且还有很多卡绩。虽然我们班比卢老师班级差很多，但我想厉害的也还是有的吧！"},{"id":80360,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-06-25 12:27:25","like_diff":0,"likes":2,"dislikes":2,"content":"好呀好呀"},{"id":83863,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-07-11 10:47:43","like_diff":0,"likes":3,"dislikes":3,"content":"给分不太好"},{"id":91394,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-12-08 02:48:22","like_diff":0,"likes":2,"dislikes":2,"content":"很好w"},{"id":94191,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-15 13:41:28","like_diff":0,"likes":2,"dislikes":2,"content":"矿爷的课简单易懂"},{"id":98402,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-23 12:04:38","like_diff":0,"likes":1,"dislikes":1,"content":"矿爷太棒了"},{"id":102573,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-02-09 12:36:33","like_diff":0,"likes":3,"dislikes":3,"content":"。。。"},{"id":109971,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-06-20 16:56:21","like_diff":0,"likes":4,"dislikes":4,"content":"好好好"},{"id":110755,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-04 02:30:21","like_diff":0,"likes":2,"dislikes":2,"content":"正好被捞了起来 谢谢矿爷和小姐姐"},{"id":111711,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-02 15:31:40","like_diff":0,"likes":3,"dislikes":3,"content":"矿爷是负责的老师，但这次平时分没给满诶。期末绩点爆炸了?"},{"id":113021,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-05 17:50:41","like_diff":0,"likes":1,"dislikes":1,"content":"小测分算的是mooc所以没有给满，上学期卢兴江是给满的555，不过老师还是很有趣"},{"id":117292,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-09-22 12:14:07","like_diff":0,"likes":2,"dislikes":2,"content":"挺好的老师"},{"id":117774,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-10-01 07:57:50","like_diff":0,"likes":3,"dislikes":3,"content":"虽说被过誉但真的还是很喜欢矿爷，真的很认真负责。祝矿爷身体早日恢复"},{"id":117967,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-10-17 06:04:40","like_diff":0,"likes":1,"dislikes":1,"content":"棒极了"},{"id":118792,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-11-06 02:57:43","like_diff":0,"likes":1,"dislikes":1,"content":"严格，幽默"},{"id":120856,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-01-17 23:38:56","like_diff":0,"likes":1,"dislikes":1,"content":"真的非常感谢矿爷！！"},{"id":125244,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-09-04 11:05:16","like_diff":0,"likes":2,"dislikes":2,"content":"大学里的第一位数学老师，上了老师一年的课，学到的东西不止于数学，虽然矿爷期末不调分，但还是超级超级喜欢矿爷！"},{"id":125864,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-09-15 04:02:42","like_diff":0,"likes":5,"dislikes":5,"content":"矿爷的课不是短短几行评论说的清的，只能说你如果没听过他的课枉来zju。至于给分，只能说你只要努力分数一定好"},{"id":128957,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-12-27 12:07:44","like_diff":0,"likes":4,"dislikes":4,"content":"文科生不太学得会微积分"},{"id":146265,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-01-06 05:27:03","like_diff":0,"likes":4,"dislikes":4,"content":"老师，捞捞孩子吧，大二了啊，真的不想退院"},{"id":155584,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-06-14 12:49:46","like_diff":0,"likes":1,"dislikes":1,"content":"永远的神"},{"id":155936,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-06-16 15:27:13","like_diff":0,"likes":2,"dislikes":2,"content":"幽默风趣～"},{"id":160893,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-10-18 14:43:39","like_diff":0,"likes":0,"dislikes":0,"content":"可以夸夸捏"},{"id":161994,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-11-16 00:57:01","like_diff":0,"likes":2,"dislikes":2,"content":"矿爷yyds"},{"id":163064,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-12-07 04:51:04","like_diff":0,"likes":1,"dislikes":1,"content":"矿！！！！！！！！！！！！！！！！！！！！"},{"id":166581,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-01-13 01:52:07","like_diff":0,"likes":1,"dislikes":1,"content":"很爱很爱！"},{"id":172247,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-04-23 16:01:19","like_diff":0,"likes":2,"dislikes":2,"content":"非常好"},{"id":187120,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-01-14 14:45:09","like_diff":0,"likes":3,"dislikes":3,"content":"谢矿爷救命之恩！"},{"id":193378,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-06-08 03:28:09","like_diff":0,"likes":2,"dislikes":2,"content":"老师超级好，矿爷简直我的神"},{"id":194583,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-06-24 12:32:50","like_diff":0,"likes":4,"dislikes":4,"content":"一开始害怕助教太狠甚至想要退了滴定，最后还是上了。其实最后分还是不错的，比我微甲1还高。助教可能没有其他人那么捞但是这学期客观来讲给分最起码也算正常了，可能平时有时候难说话一点，但你只要按规矩来她不会乱扣你的分（至少这学期是这样的）。矿爷讲的很慢很细，虽然简单的地方有些催眠，但是对于这种比较基础的考试很对口。总的来说是一次不错的体验。"},{"id":199013,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-09-14 03:13:27","like_diff":0,"likes":2,"dislikes":2,"content":"喜欢，很爽，讲得挺好"},{"id":209873,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-07 09:44:02","like_diff":0,"likes":1,"dislikes":1,"content":"微积分1H 出分94 感觉老师上课讲得确实很细但是似乎有一些慢（当然慢也不是绝对的，毕竟参照量是lxj ，这可能真的太快了）前半段课程听得很认真后半段听得比较划水 另外助教sjw是神 伟大无需多言"},{"id":213264,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-16 13:45:20","like_diff":0,"likes":3,"dislikes":3,"content":"特别好的老师。微积分甲一的期末有两小题没做出来，没想到最后还是满绩了"},{"id":218852,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-05-08 12:12:12","like_diff":0,"likes":1,"dislikes":1,"content":"中规中矩"},{"id":226114,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2026-01-09 03:21:12","like_diff":0,"likes":0,"dislikes":0,"content":"浙大唯一真神，数学真神之一"},{"id":5662,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-07-09 04:43:27","like_diff":-1,"likes":13,"dislikes":14,"content":"讲课虽好，给分呵呵。"},{"id":9603,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-11-02 15:08:55","like_diff":-1,"likes":4,"dislikes":5,"content":"清楚仔细"},{"id":15673,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-16 05:42:51","like_diff":-1,"likes":1,"dislikes":2,"content":"。。。"},{"id":17654,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-20 14:48:36","like_diff":-1,"likes":2,"dislikes":3,"content":"老师比我还了解八卦，有趣。很风趣很活泼，是我自己上课没怎么听所以勉强及格了"},{"id":21900,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-03-01 13:16:29","like_diff":-1,"likes":2,"dislikes":3,"content":"一听还想听"},{"id":26231,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-06-16 10:17:25","like_diff":-1,"likes":4,"dislikes":5,"content":"一般般，"},{"id":26967,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-06-22 02:52:18","like_diff":-1,"likes":2,"dislikes":3,"content":"顶矿爷"},{"id":28013,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-06-28 07:59:07","like_diff":-1,"likes":3,"dislikes":4,"content":"对不起老师，其实上课都没听"},{"id":28098,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-06-28 08:06:31","like_diff":-1,"likes":2,"dislikes":3,"content":"66666"},{"id":38721,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-18 13:58:25","like_diff":-1,"likes":1,"dislikes":2,"content":"哈哈哈"},{"id":44860,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-01-18 11:51:57","like_diff":-1,"likes":4,"dislikes":5,"content":"上课很仔细，讲课的时候生动形象有许多栗子，课前会放歌。"},{"id":56848,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-07-05 01:05:13","like_diff":-1,"likes":5,"dislikes":6,"content":"真的感谢老师救了一把，没有挂科，老师很好很认真，感谢"},{"id":58950,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-09-19 00:45:22","like_diff":-1,"likes":5,"dislikes":6,"content":"苏吹，德吹，矿吹"},{"id":60107,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-10-10 11:08:40","like_diff":-1,"likes":1,"dislikes":2,"content":"非常好"},{"id":60236,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-10-15 06:20:27","like_diff":-1,"likes":10,"dislikes":11,"content":"过誉的老师，不解释"},{"id":71765,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-01-29 02:51:43","like_diff":-1,"likes":2,"dislikes":3,"content":"老师很好讲的很细致\n\n"},{"id":75913,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-03-21 13:38:17","like_diff":-1,"likes":2,"dislikes":3,"content":"非常棒的老师"},{"id":80393,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-06-26 04:28:33","like_diff":-1,"likes":1,"dislikes":2,"content":"矿爷超可爱"},{"id":87029,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-09-20 04:04:54","like_diff":-1,"likes":1,"dislikes":2,"content":"唠嗑时间"},{"id":91346,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-12-06 06:35:01","like_diff":-1,"likes":2,"dislikes":3,"content":"我微分要上4.2!!!矿爷罩我!期末后回来还愿!!"},{"id":92637,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-03 08:16:00","like_diff":-1,"likes":1,"dislikes":2,"content":"矿爷棒棒！"},{"id":101893,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-29 13:20:48","like_diff":-1,"likes":2,"dislikes":3,"content":"非常吼"},{"id":111575,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-02 04:12:01","like_diff":-1,"likes":2,"dislikes":3,"content":"期末考的分有点低，不过助教平时分什么的都给满了，给分还不错"},{"id":112430,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-04 06:34:49","like_diff":-1,"likes":0,"dislikes":1,"content":"mooc对复习有帮助但是有点儿麻烦"},{"id":115832,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-08-20 16:49:57","like_diff":-1,"likes":1,"dislikes":2,"content":"太好了\n\n"},{"id":125243,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-09-04 09:49:04","like_diff":-1,"likes":1,"dislikes":2,"content":"谢矿爷捞我之恩"},{"id":125274,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-09-05 07:55:14","like_diff":-1,"likes":5,"dislikes":6,"content":"几乎不点名~线下偶尔会小测点名。超爱矿爷，可可爱爱讲得东西也条理清晰，强推www"},{"id":129573,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-01-07 14:10:53","like_diff":-1,"likes":2,"dislikes":3,"content":"讲课很细很清楚"},{"id":151130,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-02-23 09:26:34","like_diff":-1,"likes":3,"dislikes":4,"content":"矿爷yyds"},{"id":156956,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-06-21 12:15:45","like_diff":-1,"likes":1,"dislikes":2,"content":"矿爷，额滴神~~"},{"id":169802,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-02-28 02:52:11","like_diff":-1,"likes":1,"dislikes":2,"content":"感觉很好"},{"id":185482,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-12-30 09:41:37","like_diff":-1,"likes":3,"dislikes":4,"content":"太棒了"},{"id":8335,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-09-18 12:31:37","like_diff":-2,"likes":3,"dislikes":5,"content":"讲的慢"},{"id":24323,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-04-29 11:29:22","like_diff":-2,"likes":1,"dislikes":3,"content":"题好多"},{"id":28725,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-06-28 13:15:59","like_diff":-2,"likes":6,"dislikes":8,"content":"因为老师有名很荣幸选上他的课，但是总感觉老师在推销他的书，买了两本书，一本还是新的一个都没碰。"},{"id":55180,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-07-01 02:56:37","like_diff":-2,"likes":13,"dislikes":15,"content":"不过是名不副实的老师"},{"id":68860,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-01-24 03:50:13","like_diff":-2,"likes":1,"dislikes":3,"content":"浓浓师生情，舍不得矿爷！"},{"id":79408,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-06-04 02:41:51","like_diff":-2,"likes":7,"dislikes":9,"content":"说实话，教材编的不好"},{"id":89796,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-11-21 00:59:47","like_diff":-2,"likes":0,"dislikes":2,"content":"棒棒的"},{"id":94829,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-18 09:24:25","like_diff":-2,"likes":0,"dislikes":2,"content":"为什么这个没人评论？"},{"id":108607,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-05-29 14:38:51","like_diff":-2,"likes":1,"dislikes":3,"content":"? ? ?"},{"id":127556,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2020-11-24 10:29:46","like_diff":-2,"likes":1,"dislikes":3,"content":"很好的"},{"id":163709,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-12-16 03:39:51","like_diff":-2,"likes":1,"dislikes":3,"content":"矿爷yyds"},{"id":187622,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-01-17 01:27:30","like_diff":-2,"likes":7,"dislikes":9,"content":"怎么评分只有10分，不然给100分"},{"id":52481,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-06-20 11:20:35","like_diff":-3,"likes":5,"dislikes":8,"content":"很棒  有很多补充内容\n\n"},{"id":58375,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-08-30 05:32:04","like_diff":-3,"likes":1,"dislikes":4,"content":"。。。"},{"id":70184,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-01-26 08:04:12","like_diff":-3,"likes":1,"dislikes":4,"content":"上课讲的很细，但真的容易犯困 不过如果认真听的话，都是能听懂的 老师上课不点名 但如果你没有拿走批好的作业 他会当做你没有来扣平时分的...."},{"id":102915,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-02-25 03:20:46","like_diff":-3,"likes":1,"dislikes":4,"content":"给分太狠了"},{"id":115163,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-16 12:53:29","like_diff":-3,"likes":3,"dislikes":6,"content":"全按课本讲，完全不想听，还是cjh好"},{"id":160817,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-10-14 01:56:44","like_diff":-3,"likes":0,"dislikes":3,"content":"超级好"},{"id":84699,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-07-13 14:45:37","like_diff":-4,"likes":8,"dislikes":12,"content":"非常棒，我比微1还高，吹爆！轻松上4"},{"id":109162,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-05 17:15:22","like_diff":-4,"likes":11,"dislikes":15,"content":"老师海底捞我"},{"id":195181,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-06-27 05:40:45","like_diff":-4,"likes":5,"dislikes":9,"content":"老师好，但是助教。。。"},{"id":15552,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-15 09:51:32","like_diff":-5,"likes":1,"dislikes":6,"content":"hhh"},{"id":146786,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-01-07 12:27:27","like_diff":-5,"likes":7,"dislikes":12,"content":"老师挺和善，助教哥哥也超级好，拿到了第一个满绩，👍"},{"id":194339,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-06-23 09:06:48","like_diff":-5,"likes":2,"dislikes":7,"content":"给分好求是"},{"id":13943,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-02 16:42:07","like_diff":-6,"likes":1,"dislikes":7,"content":"，，，，，，，1"},{"id":115396,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-21 04:32:22","like_diff":-6,"likes":11,"dislikes":17,"content":"很多人说他好，但是个人认为真的过誉了……上课全按课本，不冷不热干巴巴的段子占了课堂一半时间，并且总是有些自以为是（或者自恋？）作业好多，给分还行……如果你是慕名而来，那么真的会失望的，建议去选李将云，陈锦辉和薛儒英"},{"id":13712,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-12-30 11:26:44","like_diff":-7,"likes":3,"dislikes":10,"content":"哈哈哈，我没上过他的课"},{"id":161091,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-10-26 10:47:01","like_diff":-7,"likes":3,"dislikes":10,"content":"作业留的太多了，根本写不完。讲课讲的很好，但是他出的教辅过程太晦涩，用麻烦的方法，有很多没用的步骤，为了追求美观写天书"},{"id":207862,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-12-24 14:20:40","like_diff":-7,"likes":6,"dislikes":13,"content":"矿爷10分，避雷代汶利助教"},{"id":72868,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-01-31 08:24:25","like_diff":-8,"likes":2,"dislikes":10,"content":"矿爷平时没有专门的点名，一般点名和小测都是一起来的，小测题不会为难人，都是基础题。给分真的超级棒！像我这种觉得要挂科的渣渣都能上4，听矿爷的话，多刷题，就不会挂。"},{"id":130734,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-01-24 11:56:40","like_diff":-8,"likes":7,"dislikes":15,"content":"没有卢兴江老师讲的好，全都是基础题根本不能应对期末考试"},{"id":158887,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-07-03 04:33:02","like_diff":-8,"likes":1,"dislikes":9,"content":"我真的爱死矿爷和助教gg了，估分3.6出分4.2...真的好能捞哇，我很怀疑有些自己估扣6的题都只扣了两分"},{"id":18252,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-23 02:29:00","like_diff":-9,"likes":8,"dislikes":17,"content":"收获人生第一个满绩，矿爷我爱你～"},{"id":109336,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-06-13 06:48:36","like_diff":-9,"likes":10,"dislikes":19,"content":"矿爷讲的真的一般……"},{"id":22404,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-03-04 10:36:52","like_diff":-10,"likes":10,"dislikes":20,"content":"和高中的老师一个档次"},{"id":68882,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-01-24 05:01:32","like_diff":-10,"likes":5,"dislikes":15,"content":"矿爷是真的好老师，平时分都给满啊哈哈，虽然我一开始没有认真听课，落下很多，不过经过冬学期的努力还是拿到了4.5，真的感谢您的陪伴，矿爷"},{"id":209714,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-07 00:16:46","like_diff":-10,"likes":5,"dislikes":15,"content":"虽然感觉讲的很有条理而且最后出分也还可以，但是避雷助教所以下个学期就先不选了👍"},{"id":7731,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-09-15 11:09:43","like_diff":-11,"likes":1,"dislikes":12,"content":"还行吧"},{"id":15527,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2016-01-15 06:08:06","like_diff":-11,"likes":3,"dislikes":14,"content":"还行吧"},{"id":98506,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-23 13:55:34","like_diff":-12,"likes":8,"dislikes":20,"content":"人很好，就是作为理科生觉得他讲的有点慢，不太有激情，学不学的好全看个人吧，平时分都给满了，最后4.5很开心了"},{"id":143700,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-12-02 03:45:26","like_diff":-12,"likes":5,"dislikes":17,"content":"过誉了。。。"},{"id":151832,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-03-17 03:26:56","like_diff":-12,"likes":5,"dislikes":17,"content":"事情很多，无语"},{"id":194238,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-06-23 00:46:01","like_diff":-12,"likes":6,"dislikes":18,"content":"给分不错，讲得一般"},{"id":109384,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-07-02 05:39:46","like_diff":-14,"likes":8,"dislikes":22,"content":"挺好的，给分挺好"},{"id":11485,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-12-02 11:26:46","like_diff":-15,"likes":2,"dislikes":17,"content":"呵呵，我没上过"},{"id":105334,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-04-10 03:52:29","like_diff":-15,"likes":9,"dislikes":24,"content":"刷ikun怎么了，忽略不就好了？恕我直言前面同学多管闲事感觉才有问题！"},{"id":108544,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-05-28 05:02:26","like_diff":-15,"likes":7,"dislikes":22,"content":"为什么不是蔡徐坤来教我微积分"},{"id":210699,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2025-01-10 00:48:07","like_diff":-16,"likes":4,"dislikes":20,"content":"你们认为2027年新疆西藏作为最后两个省份会开始第一届新高考吗？认为会请赞我，认为不会请踩我"},{"id":10205,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-11-17 11:14:06","like_diff":-18,"likes":21,"dislikes":39,"content":"言过其实，学术水平太低，像中学老师"},{"id":33072,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2017-04-06 06:38:05","like_diff":-18,"likes":36,"dislikes":54,"content":"真的不是什么好老师 完全不知道为什么吹的那么神 完全不是在讲数学 只是拿一些东西做噱头 逗学生开心 哗众取宠 如果浙大的学生们能多一些评判能力 完全不会把这样的老师称为好老师"},{"id":117382,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-09-23 15:36:35","like_diff":-18,"likes":5,"dislikes":23,"content":"真的是名过其实，讲课讲不清楚，讲的是真的快，作业也是真的多，唉～?"},{"id":168954,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2023-02-27 05:34:10","like_diff":-19,"likes":10,"dislikes":29,"content":"罕见的不催眠的微积分课（）"},{"id":71615,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-01-28 17:02:22","like_diff":-22,"likes":3,"dislikes":25,"content":"轻轻松松4.8，赞！"},{"id":98409,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-23 12:20:25","like_diff":-23,"likes":3,"dislikes":26,"content":"矿爷很可爱！！但是绩杀啊?"},{"id":98393,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-23 11:50:01","like_diff":-24,"likes":3,"dislikes":27,"content":"讲的还行，但绩杀。觉得我们考太高生生往低里调分。感觉白学了。"},{"id":121526,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-12-13 04:06:04","like_diff":-27,"likes":11,"dislikes":38,"content":"大一上是矿爷的课，算是目前为止到浙大最幸运的一件事了。\n\n在我看来，浙大讲课像矿爷这样细致生动的老师其实很多，但是博学，敬业，给同学温暖与关怀……同时有这些品质的老师，矿爷是我在浙大见到的第一个。好的老师，传授的不仅仅是知识。\n\n害，下学期微积分是卢兴江。失望，沮丧"},{"id":131235,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2021-01-26 17:38:32","like_diff":-27,"likes":8,"dislikes":35,"content":"过誉了"},{"id":195506,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2024-06-28 12:01:36","like_diff":-28,"likes":6,"dislikes":34,"content":"讲课慢，思路差"},{"id":12499,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2015-12-23 11:41:30","like_diff":-30,"likes":11,"dislikes":41,"content":"差差差"},{"id":98530,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-23 14:31:52","like_diff":-36,"likes":10,"dislikes":46,"content":"刚刚出微积分成绩，表示只要上课认真去听是不会听不懂的，然后助教也hin棒，然后真的可以拯救我们这种数学中下游的学生，一个算式会一个个数值往里带慢慢算出来，很清晰。投影仪讲课也很值得其他老师借鉴，苏老师真的是很讲究教学方法，很接地气，坐第一排睡觉会点醒你，他的目光时常定格在第三排靠走廊正对着他的位置，别问为什么，因为这是我的专座哈哈。考前复习了两天，题目没刷过，只是复习了所有知识点和题型，平时作业认真完成，然后就受宠若惊地4.5本来以为会2点几的，大爱矿爷，我会好好学微积分的！！！"},{"id":105166,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-04-27 13:48:47","like_diff":-46,"likes":8,"dislikes":54,"content":"满?太简单了"},{"id":66013,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2018-07-10 13:31:38","like_diff":-50,"likes":12,"dislikes":62,"content":"说实话，微积分不就是给文科生之类的或者数学要求比较低的专业吗，想挑战难度去学数学分析啊"},{"id":149052,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2022-01-14 08:19:28","like_diff":-53,"likes":6,"dislikes":59,"content":"一年前上的课，现在想起来补个评分。就个微积分，事情是真他丫的多！"},{"id":98619,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-01-23 16:01:08","like_diff":-54,"likes":5,"dislikes":59,"content":"4.8"},{"id":105333,"teacher_id":1811,"teacher_name":"苏德矿","post_time":"2019-04-20 08:27:40","like_diff":-69,"likes":10,"dislikes":79,"content":"那个刷ikun的同学是不是有问题，查老师用来黑人的吗？不要脸敢黑kunkun！我们几千万粉丝不是盖的！"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

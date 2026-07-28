@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>张钢 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="张钢教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="张钢,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">张钢</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.85</div>
+                    <div class="rating-participants">98人参与评分</div>
+                    <div class="attendance-info">37.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">中外管理思想史</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.04</span>
+                            <span class="students">选课: 322人</span>
+                            <span class="std-dev">标准差: 0.53</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">管理哲学导论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.17</span>
+                            <span class="students">选课: 64人</span>
+                            <span class="std-dev">标准差: 0.51</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (80 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":61880,"teacher_id":117,"teacher_name":"张钢","post_time":"2017-11-21 10:52:50","like_diff":30,"likes":38,"dislikes":8,"content":"如一些评论中所说的，评分机制确实不太完善。在讨论课上有些人为了刷绩点总是一节课想答两次而且关键是发言好无深度，强迫着别人听他垃圾一样的发言真的恶心。感觉作为打分制度并不合理一门通核课，恶性竞争及并不讨喜的小组合作真的很烦人。一直担心被正态的一门课。"},{"id":36331,"teacher_id":117,"teacher_name":"张钢","post_time":"2017-01-19 14:00:48","like_diff":29,"likes":51,"dislikes":22,"content":"工科背景，哲学思辨，历史底蕴，管理范本——这成就了吾师张男神。每一节课的醍醐灌顶，每一节课的娓娓道来，每一节课的掌声雷动……张老师的课堂已不再是课堂，而更像是历史的回眸和思想的探讨，我只希望这样一位无论是为人、治学、授课都堪称楷模的老师，可以被更多的人知晓！\n\nPS：考核机制还需完善~希望老师也能运用泰勒的科学管理思想，把那些“磨洋工”的同学揪出来！这样我就不会付出了超多努力也只有B+了"},{"id":71949,"teacher_id":117,"teacher_name":"张钢","post_time":"2018-01-29 06:29:42","like_diff":23,"likes":26,"dislikes":3,"content":"只想说给分真的好低。。。"},{"id":72028,"teacher_id":117,"teacher_name":"张钢","post_time":"2018-01-29 08:34:49","like_diff":17,"likes":20,"dislikes":3,"content":"理论课讲得很好\n\n但讨论课恶竞有点严重，很多人都在换着法子讲同样的内容，只为了那个发言名额。这一点不太好。\n\n最后考试4道大题目，建议平时理论课好好听，把老师讲的要点记下来，期末考试会有几道题会考到上课讲的知识。"},{"id":44846,"teacher_id":117,"teacher_name":"张钢","post_time":"2017-01-18 11:22:18","like_diff":16,"likes":26,"dislikes":10,"content":"给分好低 真的很努力很努力地上课 参与讨论课 论文也准备地很卖命 能花的心思都花了 期末考也拼命准备拼命多写一点 可是结果呢 结果呢！！！"},{"id":2051,"teacher_id":117,"teacher_name":"张钢","post_time":"2015-03-30 09:36:46","like_diff":12,"likes":31,"dislikes":19,"content":"口才很好，上他的课也可以收获很多东西，但是给分较严格"},{"id":45026,"teacher_id":117,"teacher_name":"张钢","post_time":"2017-01-19 00:24:40","like_diff":12,"likes":23,"dislikes":11,"content":"感觉是我大二以来，唯一一个上课全程无困点的老师。老师讲课内容丰富有趣，完全没有无聊得想发呆的时候。上这门课，不仅真的有确实地学到中外管理思想的知识，而且还学到了思维方法，内容很多干货。并且老师事情特别少，除了讨论课，只有一个小组期中展示和期末小组论文，大概平均每人2000字就行。最后给分嘛，不好说，反正给了我A?强烈推荐！"},{"id":87273,"teacher_id":117,"teacher_name":"张钢","post_time":"2018-09-26 11:35:57","like_diff":12,"likes":14,"dislikes":2,"content":"讨论课恶竞超级严重！！！很多人为了发言完全答非所问，我这种理科生坐着像个智障，理论课很赞但是老师会走来走去，很难水。及其严格的点到制度。不过估计通核都这样"},{"id":170718,"teacher_id":117,"teacher_name":"张钢","post_time":"2023-03-08 11:36:49","like_diff":9,"likes":10,"dislikes":1,"content":"总体来说，在通识核心类别里面，这门课的事情算少的，一次小组论文，一次pre，一次读书报告。上课确实很无聊，老师语速比较慢，容易犯困。建议事后认真记笔记"},{"id":127481,"teacher_id":117,"teacher_name":"张钢","post_time":"2020-11-23 11:44:29","like_diff":8,"likes":11,"dislikes":3,"content":"来自人文类的同学表示，啥东西都能塞到管理里面，很杂，感觉学了也没啥用，比较水。"},{"id":72163,"teacher_id":117,"teacher_name":"张钢","post_time":"2019-07-06 23:16:26","like_diff":7,"likes":9,"dislikes":2,"content":"理论课很赞，但是讨论课不是那么有干货不过也就是讨论课的原因吧，给分不太好"},{"id":98230,"teacher_id":117,"teacher_name":"张钢","post_time":"2019-01-23 08:27:00","like_diff":7,"likes":9,"dislikes":2,"content":"真的是体验下来恶竟有点严重，大多数人简直为了发言而发言。作为理工科的简直煎熬，给分有点狠，老实说老师很好，很有魅力，但还是认为理工科请慎选……"},{"id":99073,"teacher_id":117,"teacher_name":"张钢","post_time":"2019-01-24 08:28:38","like_diff":7,"likes":7,"dislikes":0,"content":"老师真的很好，给分真的很差。想水或者在意绩点的，建议绕道。"},{"id":150882,"teacher_id":117,"teacher_name":"张钢","post_time":"2022-02-20 14:30:05","like_diff":6,"likes":10,"dislikes":4,"content":"说意识形态输出机器那个，你懂什么叫意识形态？学了个词张口就来是吧？"},{"id":41402,"teacher_id":117,"teacher_name":"张钢","post_time":"2017-01-11 09:47:11","like_diff":5,"likes":13,"dislikes":8,"content":"听完张老师的课后，将很多以前学习的零碎知识串联起来，把晦涩难懂的概念生动讲出内涵，发现它们内部的联系后让人茅塞顿开，我从思维层面学习到了很多。另外，感觉老师是个狂热热爱王阳明和物理学的人"},{"id":59053,"teacher_id":117,"teacher_name":"张钢","post_time":"2017-09-19 08:21:17","like_diff":5,"likes":6,"dislikes":1,"content":"……有时难受"},{"id":98218,"teacher_id":117,"teacher_name":"张钢","post_time":"2019-01-23 08:04:25","like_diff":5,"likes":7,"dislikes":2,"content":"事情巨多，给分很差，真的对这方面有兴趣或者本专业推荐选，不然……绩点会难看。"},{"id":98247,"teacher_id":117,"teacher_name":"张钢","post_time":"2019-01-23 08:43:13","like_diff":5,"likes":5,"dislikes":0,"content":"给分很差，这个讨论班都很低..."},{"id":98329,"teacher_id":117,"teacher_name":"张钢","post_time":"2019-01-23 10:28:55","like_diff":5,"likes":8,"dislikes":3,"content":"给分极差 认真做笔记 认真搞大作业 每节讨论课都至少发言两次 考试很努力地答了。结果绩点极低。投入远大于回报。不在意绩点可以尽管来"},{"id":209361,"teacher_id":117,"teacher_name":"张钢","post_time":"2025-01-05 15:08:57","like_diff":5,"likes":6,"dislikes":1,"content":"控制就是学习👏"},{"id":38103,"teacher_id":117,"teacher_name":"张钢","post_time":"2016-11-24 08:00:16","like_diff":4,"likes":10,"dislikes":6,"content":"老师很风趣，才华横溢，总之我上他的课很少走神。能学到很多知识！只是自己知识面太窄，讨论课上很少发言，就不知道最后分数如何了^O^"},{"id":73313,"teacher_id":117,"teacher_name":"张钢","post_time":"2018-02-01 10:02:56","like_diff":4,"likes":5,"dislikes":1,"content":"其实老师讲的已经超出管理思想的范围了，涉及中西方，古今大师的思想解读，对于学习哲学，社会学，法学等等人文社科领域的同学应该很有帮助的，理论课真的非常棒，让我真正感受到大学老师的风采，必须赞"},{"id":98283,"teacher_id":117,"teacher_name":"张钢","post_time":"2019-01-23 09:15:54","like_diff":4,"likes":5,"dislikes":1,"content":"给你安排一群猪队友就等着被拉绩点吧\n\n我就呵呵"},{"id":101073,"teacher_id":117,"teacher_name":"张钢","post_time":"2019-01-27 12:14:56","like_diff":4,"likes":8,"dislikes":4,"content":"如果认真听课，回去总结，你会发现老师真的一般，尽管老师给我了4.5，但是请老师上课多讲点实在内容，不用老是说些只是看着有用的话"},{"id":141793,"teacher_id":117,"teacher_name":"张钢","post_time":"2021-11-22 16:39:58","like_diff":4,"likes":6,"dislikes":2,"content":"老师很博学，对于经典，名著信手拈来。\n\n不过个人感觉管理思想史课程还可以继续深挖，或者说知识性的点还需要学生更多的自发学习。感觉很多时候小组的思考虽然有逻辑性，但是缺少足够的佐证，以及对于相应学科的术语也不甚了解就直接使用，很少有人能有意识的去问“你所指的xxx概念的内涵和外延”来明确讨论的框架，再进行演绎和归纳\n\n个人感觉可以用一本相应的教材把所有的基本概念体系化一下，作为工具书参考；然后每个小组读2-3本原著，最好是有思想上的承袭关系的；辅以一两本解读性的专著来归纳这种关系。"},{"id":166563,"teacher_id":117,"teacher_name":"张钢","post_time":"2023-01-13 00:03:32","like_diff":4,"likes":5,"dislikes":1,"content":"讨论课比较无趣，中外管理思想史对我来说很难，个人是工科生，对文科思想比较弱的不是很推荐。不过很有收获，老师让我从不同的方面获得了更多的认识\n\n讨论课没怎么发言的我最终拿到了比较好的绩点，我觉得最主要的是，期末考基本考上课写过的观点，然后上课要记笔记，或者事后听回放也行"},{"id":188318,"teacher_id":117,"teacher_name":"张钢","post_time":"2024-01-18 15:30:16","like_diff":4,"likes":4,"dislikes":0,"content":"一位好的老师对学生的影响绝不仅仅是在学业上。张老师各个方面的知识都非常广博，上课时经常旁征博引，引经据典。对中外管理思想的深入浅出的解读真的很具有启发性。上了张老师的课也让我对自己未来的目标更加明晰。每周一理论课的讲解我感觉还是挺有趣的，尤其是讲解中国古代管理思想部分的时候，冬学期讲西方管理思想的时候因为缺少对苏格拉底柏拉图等等思想家的理解可能听起来的时候会有点困难，但还是很有收获的。讨论课感觉有一点不好就是按照发言次数计分，有时候其实有大量的同质化发言，意义不大，小组作业的话感觉小组成员真的很重要，小组合作也很重要。最后，真的感谢张老师！！！"},{"id":59656,"teacher_id":117,"teacher_name":"张钢","post_time":"2017-09-25 11:39:06","like_diff":3,"likes":6,"dislikes":3,"content":"两节课我就想打10分了，好老师，有内容，有思想，课上的非常棒"},{"id":148906,"teacher_id":117,"teacher_name":"张钢","post_time":"2022-01-14 02:33:00","like_diff":3,"likes":3,"dislikes":0,"content":"文科同学非常推荐，理科同学慎选\n\n老师的课分理论课和讨论课，理论课老师会总结前一节讨论课的内容，然后再讲下一节课的理论，如果是真心想学管理的话是可以学到很多东西的，讨论课有人说恶竞严重，我倒是没感觉到，因为大家的发言都很有深度。我是理工科的，全程听不懂摆烂，被同组大佬带飞，最后给分也是比较符合预期的。"},{"id":211021,"teacher_id":117,"teacher_name":"张钢","post_time":"2025-01-10 10:48:15","like_diff":3,"likes":5,"dislikes":2,"content":"近日重读包刚升老师的《儒法道：早期中国的政治想象》，其中有一段话：“中国古代政治理论对当代中国来说仍然是一项重要的思想资源，但它们不应该成为一种思想的图腾。”陡然间想起了2021年秋冬选修的张老师的《中外管理思想史》课程，感触良多。\n\n\n\n这门课概览了中外思想——在我看来尤其是政治思想（可能因为自己是公管专业而不是管理学院的学生），从儒家、（齐、秦）法家、道家到柏拉图、马基雅维利和孟德斯鸠，张钢老师的课程是从文本出发，但落到现实问题中的。阅读经典后，助教姐姐总是引导我们总是用其文本（text）来思考一个具体情景（context），回答一个现实的问题。尽管只是一门通识课，却相当成功地让旧的思想在与新问题的激荡中散发回响。\n\n\n\n时隔四年，其实课程上讨论的内容也大多不记得了，但一方面认识了许多颇具思想的朋友，另一方面也时常提醒我不断砥砺自新。回头想想几年前的许多观点，不管是关于哲学的、政治的还是经济的，都有许多阙漏，但讨论（甚至争辩）本身就是一种启迪，给予了我多元化的视角。选这门课时，其实只是为了修够通识核心课程的学分；但上完一整个学期，确实觉得受益匪浅，物超所值。\n\n\n\n希望有更多的同学能通过这门课探寻到自己的和世界的价值~"},{"id":12713,"teacher_id":117,"teacher_name":"张钢","post_time":"2015-12-24 02:22:53","like_diff":2,"likes":11,"dislikes":9,"content":"听故事一样的，这门课听完明白了中外思想差异的渊源，很有收获！！！"},{"id":41425,"teacher_id":117,"teacher_name":"张钢","post_time":"2017-01-11 13:21:01","like_diff":2,"likes":9,"dislikes":7,"content":"我只说一点\n\n老师每次下课的时候全班雷鸣般的掌声\n\n每次下课都是\n\n这一点很少有老师做到吧"},{"id":52181,"teacher_id":117,"teacher_name":"张钢","post_time":"2017-06-15 13:52:22","like_diff":2,"likes":6,"dislikes":4,"content":"老师本身讲得非常好，思想很有深度，也的确可以学到很多内容，是大师。但讨论课的评分机制感觉有待完善吧，我觉得讨论课就应该让每个人都有发言的机会，而不是一直让那么几个所谓发言积极的人在那边说，我觉得这样做并不多少公平，反正我觉得讨论课的氛围与讨论机制不是很好。但老师的理论课讲得真心好，这个要点赞！"},{"id":87758,"teacher_id":117,"teacher_name":"张钢","post_time":"2018-10-11 15:24:37","like_diff":2,"likes":3,"dislikes":1,"content":"男神呀"},{"id":106455,"teacher_id":117,"teacher_name":"张钢","post_time":"2019-04-27 14:02:01","like_diff":2,"likes":5,"dislikes":3,"content":"大学第一个遇到的批发思维的好老师，我敢说我后面敢报想报upa有一半原因是老师的课激发了我对于思维锻炼的欲望。感谢老师，不过给分可能是很严。建议想有收获的人来，不过认真做还是能做的比较好的。真的花了挺多时间在这门课上的，最后意外4.5真的爱了爱了"},{"id":132201,"teacher_id":117,"teacher_name":"张钢","post_time":"2021-01-31 02:32:42","like_diff":2,"likes":4,"dislikes":2,"content":"读书报告和论文真的很烦。事情算少吧。但是真的只能感觉老师讲的好，但是我就是不能理解其中的逻辑，什么都能搭边。讨论课一学期发言不超过5次，大家做个参考吧，最后B。讨论课上课体验极差。"},{"id":140541,"teacher_id":117,"teacher_name":"张钢","post_time":"2021-09-13 13:18:53","like_diff":2,"likes":4,"dislikes":2,"content":"评分机制炸裂\n\n发言就加分毫无营养"},{"id":154605,"teacher_id":117,"teacher_name":"张钢","post_time":"2022-06-02 11:26:32","like_diff":2,"likes":2,"dislikes":0,"content":"我男神！！！！！！！！！超级儒雅的一位老师，好好听讲，好好做笔记，分不会低的"},{"id":163314,"teacher_id":117,"teacher_name":"张钢","post_time":"2022-12-12 12:32:00","like_diff":2,"likes":3,"dislikes":1,"content":"很难说，听了又像没听"},{"id":207747,"teacher_id":117,"teacher_name":"张钢","post_time":"2024-12-24 06:26:57","like_diff":2,"likes":2,"dislikes":0,"content":"老师的人文素养很高，看问题鞭辟入里，虽然没有大量的阅读积累可能会跟不上老师，但是能听懂一两个关键的见解，这门课就不白学了"},{"id":9837,"teacher_id":117,"teacher_name":"张钢","post_time":"2015-11-10 17:16:32","like_diff":1,"likes":8,"dislikes":7,"content":"感觉能学到很多东西，值得去听一听！！"},{"id":35811,"teacher_id":117,"teacher_name":"张钢","post_time":"2016-11-10 08:16:12","like_diff":1,"likes":4,"dislikes":3,"content":"老师好帅"},{"id":41531,"teacher_id":117,"teacher_name":"张钢","post_time":"2017-01-12 06:51:24","like_diff":1,"likes":5,"dislikes":4,"content":"666"},{"id":76810,"teacher_id":117,"teacher_name":"张钢","post_time":"2018-04-24 00:02:25","like_diff":1,"likes":1,"dislikes":0,"content":"享受，很希望老师能多开几种课"},{"id":99465,"teacher_id":117,"teacher_name":"张钢","post_time":"2019-01-25 00:24:14","like_diff":1,"likes":4,"dislikes":3,"content":"看评论后发现大家对这门课好像都挺认真的，我也是认真对待大作业+每节课积极发言+考试正反面写满，最后是A。所以如果说大家平时都挺认真的话，那时候期末考虽然只占30%是不是也很关键？毕竟那四道题虽然开卷但光靠照抄显然不行，所以感觉问题可能在期末考吧？"},{"id":151318,"teacher_id":117,"teacher_name":"张钢","post_time":"2022-02-28 10:49:41","like_diff":1,"likes":2,"dislikes":1,"content":"真的能学到很多东西\n\n虽然我是理工科的 但是依然很喜欢上张老师的课"},{"id":168099,"teacher_id":117,"teacher_name":"张钢","post_time":"2023-01-27 12:18:04","like_diff":1,"likes":1,"dislikes":0,"content":"很儒雅的老师，讲述观点的语言逻辑非常值得学习，其实观点中也有很多值得学习的地方~讨论课讨论的问题远远没有老师的理论课精彩\n\n考核方式好像一直没有变过，上课记得记笔记"},{"id":187282,"teacher_id":117,"teacher_name":"张钢","post_time":"2024-01-15 11:41:06","like_diff":1,"likes":2,"dislikes":1,"content":"给分好，上课轻松"},{"id":187637,"teacher_id":117,"teacher_name":"张钢","post_time":"2024-01-17 02:36:15","like_diff":1,"likes":1,"dislikes":0,"content":"老师对管理知识和人生观有独特见解的，而且助教wl人也特别好！！别被均绩吓到了，感觉还是很有收获的"},{"id":214212,"teacher_id":117,"teacher_name":"张钢","post_time":"2025-01-28 14:21:02","like_diff":1,"likes":1,"dislikes":0,"content":"老师对管理有自己的一套理解，很深刻也很科学，并不像某些只会输出自己见解的垃圾老师那样。\n\n考前看了之前所有上课的智云，加之小组很给力（也感谢助教qw老师！）喜提满绩。\n\n推荐大家选这门课，只要上课好好听会有收获的"},{"id":35197,"teacher_id":117,"teacher_name":"张钢","post_time":"2016-11-04 13:07:36","like_diff":0,"likes":3,"dislikes":3,"content":"神奇，非常神奇"},{"id":39505,"teacher_id":117,"teacher_name":"张钢","post_time":"2016-12-23 09:47:31","like_diff":0,"likes":3,"dislikes":3,"content":"很有深度"},{"id":41233,"teacher_id":117,"teacher_name":"张钢","post_time":"2017-01-10 07:03:49","like_diff":0,"likes":5,"dislikes":5,"content":"认真听的话会发现老师讲的东西很有意思，也讲的很好，讨论课如果愿意积极参与会有很大收获。很不错的课"},{"id":44899,"teacher_id":117,"teacher_name":"张钢","post_time":"2017-01-18 12:54:55","like_diff":0,"likes":5,"dislikes":5,"content":"不多的好老师"},{"id":60089,"teacher_id":117,"teacher_name":"张钢","post_time":"2017-10-10 06:02:23","like_diff":0,"likes":3,"dislikes":3,"content":"感觉老师讲课很有意思，一节课颠覆我对高中语文老师的认识。上课收获很多，点名方式也很特别。。。"},{"id":64337,"teacher_id":117,"teacher_name":"张钢","post_time":"2017-12-22 13:39:06","like_diff":0,"likes":3,"dislikes":3,"content":"振聋发聩"},{"id":65803,"teacher_id":117,"teacher_name":"张钢","post_time":"2018-01-09 07:54:17","like_diff":0,"likes":3,"dislikes":3,"content":"超赞呀"},{"id":79736,"teacher_id":117,"teacher_name":"张钢","post_time":"2018-06-13 06:53:22","like_diff":0,"likes":1,"dislikes":1,"content":"虽然给分一般，但是老师讲课真的超级棒！最后考试的内容大多是课上讲过的，开卷只要认真听了做了笔记就没问题的，但是评分好像更看重发言和小组论"},{"id":98250,"teacher_id":117,"teacher_name":"张钢","post_time":"2019-01-23 08:44:38","like_diff":0,"likes":4,"dislikes":4,"content":"别问，问就是张老师是真男神，我要做一只舔狗? rua！"},{"id":147256,"teacher_id":117,"teacher_name":"张钢","post_time":"2022-01-09 09:54:16","like_diff":0,"likes":0,"dislikes":0,"content":"！！！"},{"id":149689,"teacher_id":117,"teacher_name":"张钢","post_time":"2022-01-16 11:14:46","like_diff":0,"likes":1,"dislikes":1,"content":"真的很喜欢张老师\n\n感觉上他的课，接受了一次新的思想启蒙。\n\n超级建议身边的朋友都来听一下老师的课。\n\n感觉很多东西都串起来了。非常神奇。\n\n感恩！"},{"id":153906,"teacher_id":117,"teacher_name":"张钢","post_time":"2022-05-16 12:58:05","like_diff":0,"likes":1,"dislikes":1,"content":"一气呵成，逻辑缜密，听张钢老师一门课就值回大学学费了。"},{"id":161142,"teacher_id":117,"teacher_name":"张钢","post_time":"2022-10-29 03:26:25","like_diff":0,"likes":1,"dislikes":1,"content":"真的很无聊"},{"id":171533,"teacher_id":117,"teacher_name":"张钢","post_time":"2023-03-27 15:49:01","like_diff":0,"likes":0,"dislikes":0,"content":"不错不错"},{"id":187183,"teacher_id":117,"teacher_name":"张钢","post_time":"2024-01-15 03:41:36","like_diff":0,"likes":0,"dislikes":0,"content":"从人生和管理的角度很有启发。助教wl也特别好，整个讨论班上的气氛总体比较上进"},{"id":210581,"teacher_id":117,"teacher_name":"张钢","post_time":"2025-01-09 11:36:11","like_diff":0,"likes":4,"dislikes":4,"content":"【管理哲学导论】今年第一年开课，课程讲座、讨论性质比较强，基本上是老师的一套系统化世界观和方法论的输出。上课无PPT，完全对谈。作业1个管理经典阅读小组作业，发言分，签到分，闭卷期末考试（2道大题，检验是否掌握课上输出的观点）。内容本身不好评价，比较微妙，毕竟不是可证伪的科学而是哲学。给分还不错。\n\n\n\n另外纠正下热门评论，老师没有工科背景，是浙大社会学哲学系毕业的。"},{"id":212428,"teacher_id":117,"teacher_name":"张钢","post_time":"2025-01-14 03:52:33","like_diff":0,"likes":1,"dislikes":1,"content":"很博学的老师 课讲的很有深度 听管院的课很怕听到传销课 但是中外管理思想这门课完全不会 (⁎⁍̴̛ᴗ⁍̴̛⁎)私心满分给我们的美女助教陶姐姐 特别特别好的"},{"id":224309,"teacher_id":117,"teacher_name":"张钢","post_time":"2025-11-16 04:30:29","like_diff":0,"likes":0,"dislikes":0,"content":"感觉老师讲课特别有吸引力，会和同学有很多眼神交流，输出的观点也很好很深刻，还有助教姐姐也超级温柔的"},{"id":47965,"teacher_id":117,"teacher_name":"张钢","post_time":"2017-02-27 15:02:32","like_diff":-1,"likes":6,"dislikes":7,"content":"老师的课超棒的！最喜欢下课和老师交谈的时光了，上课逻辑缜密，十分强调我们的逻辑思维能力，我觉得绩点也要看你的逻辑能力强不强，平时讨论课时思维碰撞激烈，期末考好好答题(只有四道题而且我觉得不用复习就看你的思考能力了)，就可以拿高分！平时没有作业！只有一样大作业！超爱张老师的课，可惜只开了这么节课TVT"},{"id":26857,"teacher_id":117,"teacher_name":"张钢","post_time":"2016-11-16 08:45:58","like_diff":-2,"likes":8,"dislikes":10,"content":"真的学到了很多，，怎么没有11分？？？"},{"id":34884,"teacher_id":117,"teacher_name":"张钢","post_time":"2017-09-16 15:28:33","like_diff":-2,"likes":8,"dislikes":10,"content":"这学期上的课，还没开始呢，但是先来评分了，我只说一句话，没有11分吗？？？"},{"id":161346,"teacher_id":117,"teacher_name":"张钢","post_time":"2022-11-04 09:32:01","like_diff":-2,"likes":4,"dislikes":6,"content":"老师很爹权感觉，这里是大学啊喂"},{"id":132184,"teacher_id":117,"teacher_name":"张钢","post_time":"2021-01-31 01:11:29","like_diff":-4,"likes":1,"dislikes":5,"content":"。。。"},{"id":148969,"teacher_id":117,"teacher_name":"张钢","post_time":"2022-01-14 04:55:53","like_diff":-4,"likes":1,"dislikes":5,"content":"评分机制不完善，老师偏爱文科的同学，讲课逻辑不清，有基础和没基础的同学差距很大且在这种情况下不可逆转花了好多时间，喜提3.3，均绩保底，谢谢张老师啦"},{"id":37166,"teacher_id":117,"teacher_name":"张钢","post_time":"2016-11-17 16:03:56","like_diff":-5,"likes":5,"dislikes":10,"content":"无聊啊\n\n"},{"id":33407,"teacher_id":117,"teacher_name":"张钢","post_time":"2016-09-19 06:47:39","like_diff":-6,"likes":3,"dislikes":9,"content":"困。。。有趣"},{"id":41244,"teacher_id":117,"teacher_name":"张钢","post_time":"2017-01-10 07:37:57","like_diff":-8,"likes":4,"dislikes":12,"content":"最好通核？"},{"id":47363,"teacher_id":117,"teacher_name":"张钢","post_time":"2017-01-25 12:37:09","like_diff":-8,"likes":13,"dislikes":21,"content":"把我的gpa拉低0.2的课 垃圾"},{"id":71926,"teacher_id":117,"teacher_name":"张钢","post_time":"2018-01-29 05:57:45","like_diff":-11,"likes":5,"dislikes":16,"content":"总觉得一味贬低中国大学生的老师不好\n\n个人看法\n\n国情不同何必崇洋媚外"},{"id":148889,"teacher_id":117,"teacher_name":"张钢","post_time":"2022-01-14 01:42:00","like_diff":-17,"likes":7,"dislikes":24,"content":"b事多，给分烂，意识形态输出机器😅"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

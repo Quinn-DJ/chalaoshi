@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>杨芊 - 医学院 - 浙大教评</title>
+    <meta name="description" content="杨芊教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="杨芊,医学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">杨芊</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">医学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.03</div>
+                    <div class="rating-participants">75人参与评分</div>
+                    <div class="attendance-info">15.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (7 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">传染病学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.83</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.61</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">健康教育</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.87</span>
+                            <span class="students">选课: 387人</span>
+                            <span class="std-dev">标准差: 0.87</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">医学心理学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.48</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.92</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">卫生事业管理</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.17</span>
+                            <span class="students">选课: 408人</span>
+                            <span class="std-dev">标准差: 0.32</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">幸福心理学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.97</span>
+                            <span class="students">选课: 416人</span>
+                            <span class="std-dev">标准差: 0.66</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会医学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.59</span>
+                            <span class="students">选课: 126人</span>
+                            <span class="std-dev">标准差: 0.76</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会医学(乙)</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.83</span>
+                            <span class="students">选课: 268人</span>
+                            <span class="std-dev">标准差: 0.71</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (59 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":35275,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2016-11-07 12:56:57","like_diff":30,"likes":53,"dislikes":23,"content":"超级棒超级棒的老师和课程！我在浙大上过最好的课。老师人超nice，年轻长得美，气质好，说话温柔，专业水平高，ppt好看，讲课生动，理论与实例完美结合。课堂上的内容真的会给人很多启发，应用于生活以后带给自己非常积极乐观的情绪。希望有幸选到杨老师的课的你们，认真听讲，不要辜负了她。"},{"id":35284,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2016-11-07 13:12:21","like_diff":20,"likes":32,"dislikes":12,"content":"第一节课，所有男同学没有低头的。每个人都带着一双渴求的眼睛。强推！选不选的上就看你的了。"},{"id":150246,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2022-01-21 01:34:24","like_diff":15,"likes":21,"dislikes":6,"content":"幸福心理学，事少给分也少"},{"id":13505,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2015-12-28 15:05:31","like_diff":14,"likes":31,"dislikes":17,"content":"听得最认真的一节管理你的健康！"},{"id":39742,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-01-04 05:05:24","like_diff":14,"likes":22,"dislikes":8,"content":"什么都好，除了选不上"},{"id":75792,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2018-03-18 09:58:27","like_diff":14,"likes":17,"dislikes":3,"content":"控制欲太强"},{"id":80327,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2018-06-25 06:59:58","like_diff":14,"likes":16,"dislikes":2,"content":"课程要求太多，心理学像传销"},{"id":80329,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2018-06-25 07:02:01","like_diff":14,"likes":19,"dislikes":5,"content":"emmmm，也就这样吧，上课照着ppt念，有时候还挺有趣，大部分时候一言难尽。没有朋友说的那么好，btw点名是肯定点的"},{"id":34125,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2016-10-24 12:28:44","like_diff":13,"likes":26,"dislikes":13,"content":"长相美美的，声音好好的，身材棒棒的！"},{"id":117978,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2019-10-17 10:28:32","like_diff":11,"likes":13,"dislikes":2,"content":"emmm可能比较适合外向开朗的同学吧，像我这种比较拘谨&不善言辞的，感觉团辅课有一定的交流压力。老师人挺好的，也看得出教学的用心，但是感觉有点语死早，坐在旁边的时候简直感觉是话题终结者……"},{"id":63212,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-11-30 06:04:49","like_diff":9,"likes":15,"dislikes":6,"content":"我是来讲恐怖故事的。即使每节课都认真上，积极参加团辅活动，还是可能会被正态的。考试一定要考好。"},{"id":192292,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2024-05-14 06:16:16","like_diff":9,"likes":9,"dislikes":0,"content":"锐平健康教育：依托答辩\n\n大二和大四一起上，发言分占20分，一次发言3分，每节上限6分，课后还要评出所谓“思想者”，真的绷不住了。\n\n面对同学们对评分体系的建议，老师表示：谢谢关注，但是该怎么打分就怎么打分。\n\n每次课堂上大家争先恐后地抢话筒，答出来的多是没有什么技术含量的问题，助教拿着话筒满教室跑，课堂上的理论部分老师也没有讲的很好。\n\n还有课后小测，要求闭卷，直接考察两节课的理论细节。我觉得哈，上完课就开测真的能人能记得住嘛？\n\n今天换了老师，一个班100多人提问到的30个人不到，不够新老师讲的确实比yq老师好一点。\n\n真的很后悔没有退课...老师们有时真的很幽默(❁´◡`❁)"},{"id":132910,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2021-02-05 00:33:34","like_diff":8,"likes":10,"dislikes":2,"content":"就那样"},{"id":35277,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2016-11-24 03:41:54","like_diff":7,"likes":10,"dislikes":3,"content":"哦哦哦"},{"id":35279,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2016-11-07 13:05:53","like_diff":7,"likes":17,"dislikes":10,"content":"首先杨老师漂亮善良和蔼可亲！！！\n\n这门课真的希望每个人都能听听，贴近生活贴近个人。老师精心设计的课程安排，很多你在生活中真的能应用到的积极力量，很多让你从心底感到敬佩的同学，听了这些，你真的能有更好的生活。\n\n安利这门课，安利杨老师！\n\n怎么才能在大学里更好地生活？来上积极心理学吧！【敲黑板】"},{"id":192335,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2024-05-15 14:36:26","like_diff":7,"likes":7,"dislikes":0,"content":"我不知道一门专业课程为什么要求这么多互动，不参与互动还有扣分处理，6，因为这门课老师和课程教学都很烂吗？◑.◑"},{"id":195034,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2024-06-26 12:44:06","like_diff":7,"likes":8,"dislikes":1,"content":"这位老师看着很美，做事很恶心。不知道她设置健康教育这门课的原因是不是纯纯想给学生增加负担，用自己的心理学本科知识衡量一位医学生是否能够合理的进行健康教育。开卷考题目全部来自于上课提问以及夹带私货的自己论文内容。最后，她很茶言茶语，明明自己掌握这门课的生杀大权，还要说都是xx老师订的如何如何。对于学生合理诉求也置之不理。整门课都很恶心，吃了一个短学期的💩。"},{"id":63228,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-12-01 06:21:46","like_diff":6,"likes":9,"dislikes":3,"content":"。。。。。。"},{"id":35281,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2016-11-07 13:06:35","like_diff":4,"likes":9,"dislikes":5,"content":"上完课心情会变好(*^ω^*)"},{"id":61825,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-11-21 06:29:54","like_diff":4,"likes":8,"dislikes":4,"content":"老师人超好(✪▽✪)，团辅助教也超好，助教小姐姐好漂亮(｡･ω･｡)ﾉ♡，匿了匿了"},{"id":77542,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2018-05-06 11:17:43","like_diff":4,"likes":7,"dislikes":3,"content":"感觉老师讲课还行吧 建议加快下语速 不然有点生硬 可能对积极心理学并不是特别感兴趣 但团辅课很有趣啦 最后的表演什么也很好玩 给分还行吧 虽然感觉不算高 J类课不强求了"},{"id":194396,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2024-06-23 15:26:41","like_diff":4,"likes":5,"dislikes":1,"content":"健康教育，一坨狗屎，发言分占期末总评20分，不发言真就一分没有\n\n课后还要投票评思想者，不投票倒扣平时分\n\n上课一点时间讲理论模型，剩下时间全都是同学发言抢发言分，真正有用的知识几乎没有，对专业知识理解和学习没有任何帮助\n\n课是两个老师上的，期末考是只考杨芊老师部分的，喝喝\n\n一坨狗屎，浪费我时间"},{"id":145110,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2021-12-27 12:24:16","like_diff":3,"likes":12,"dislikes":9,"content":"首先，幸福心理学作为通识课，事少不水能学到东西，非常值得！课程内容充实丰富，每节课的ppt上老师都列举了很多的论文作为例证，看得出来非常用心了。课程内容也非常实用有启发，这门课真的切实提高了我的幸福感。很感谢老师！\n\n每周的讨论课实际上是团辅课，不需要展示，七个人一起组成一个小组，一起讨论，一起分享，收获了很多。周四的晚上，我常常是不开心地来，开心地走。很开心能选上这门课，能和我的小伙伴一起度过一学期，他们都是非常美好的人呀！\n\n表白杨芊老师！温柔优雅，实力诠释了什么是腹有诗书气自华。最后一节理论课，全班一起念：“为天地立心，为生民立命，为往圣继绝学，为万世开太平。”泪目了。作为一个大三的老人，很久没看到这句话了。这学期之初，我深陷对未来的迷茫。杨芊老师的经历和追求，让我看到了人生的另一种选择，也让我对自己的未来渐渐明晰。杨芊老师是在我的生活中最接近人生楷模的人。\n\n感谢，感恩，感动。"},{"id":63469,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-12-04 16:14:01","like_diff":2,"likes":5,"dislikes":3,"content":"上理论课还是有点干，介绍了一些很新颖的观念，团辅课一级棒，老师和助教们都好好看，给分也很好，貌似只看最后考试成绩，谢谢老师的付出"},{"id":77195,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2018-05-03 13:58:51","like_diff":2,"likes":7,"dislikes":5,"content":"老师挺好的，就是今年这个班有个吴同学简直是个奇葩"},{"id":177689,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2023-07-04 09:14:00","like_diff":2,"likes":2,"dislikes":0,"content":"一般吧，给分不好，事儿多，但在通核里算还行....."},{"id":178842,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2023-07-25 07:02:55","like_diff":2,"likes":2,"dislikes":0,"content":"6分，中规中矩"},{"id":77412,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2018-05-05 12:21:43","like_diff":-1,"likes":4,"dislikes":5,"content":"老师说是最后一学期开课了 有点可惜 很好玩呀"},{"id":120319,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2019-11-28 08:12:19","like_diff":-1,"likes":6,"dislikes":7,"content":"对芊老师第一印象就是 很美 很有气质 很有自己主见 思考逻辑丰富的一位女士 更可以说是女士的典范 有种小女神feel 第一堂课就被芊老师吸引了 全程不滑手机 班上男生更是目瞪口呆 主动发问回答问题！\n\n优点：最喜欢的毫无疑问是课堂的团辅课 真的很好玩 也学到很多事物 更了解自己和身边朋友 其次团辅助教姐姐很美很nice 太喜欢了！每周四的两节课总觉得过得特快 很舍不得\n\n缺点：理论课就相当比较乏闷 芊老师讲得挺好 也给了我们很多思考互动环节 但觉得课堂ppt可以再有趣些 然后分数比例方面就有些不满 因为测验开卷试比重太高了 对于大一生有些吃力 但最后成绩也不负我想象 觉得挺好 满意\n\n我个人自己的看法：选上这门课的你们 切记要主动点回答问题 因为10%就是回答问题的次数 所以一定要把握机会 不要怕羞 否则绩点也很你羞羞 然后上每堂课后 记得做复习 老师随时就会给隋堂测验 而且题目陷阱挺多 要多加留意！大致上是这样 虽然有好坏 但总体来来说我是满意和学到很多东西 所以分数方面就当作是个经验吧 哈哈哈哈\n\n最后最后 一定要把握机会和芊老师沟通 尤其是她被派你的团辅组别 老师会分享自己的经验想法 真的很吸引！"},{"id":158124,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2022-06-27 05:42:19","like_diff":-1,"likes":2,"dislikes":3,"content":"课还行，给分不好"},{"id":35285,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2016-11-24 08:05:52","like_diff":-2,"likes":6,"dislikes":8,"content":"好老师哦"},{"id":35280,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2016-11-07 13:06:13","like_diff":-3,"likes":5,"dislikes":8,"content":"上课很专业，人还不错也挺漂亮的。"},{"id":35282,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2016-11-07 13:09:45","like_diff":-3,"likes":5,"dislikes":8,"content":"老师讲课讲的真好看真漂亮"},{"id":50707,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-05-04 11:15:42","like_diff":-3,"likes":6,"dislikes":9,"content":"老师很温柔 讲课生动 但说句实在话 我觉得这门课最精髓的就是团辅 （因为知识都是期末复习的时候学的） 认真学 期末认真归纳ppt资料 团辅认真参与 分绝对不低\n\n表白老师 很愉快的课 认识了很多新朋友 难忘"},{"id":50758,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-05-05 02:17:04","like_diff":-3,"likes":6,"dislikes":9,"content":"课程内容不无聊，团辅活动真的很有趣，能认识很多朋友。期末考试是开卷，也不难，给分高。嗨呀，这个老师真棒！"},{"id":70534,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2018-01-27 00:57:39","like_diff":-3,"likes":3,"dislikes":6,"content":"j类课里的清流。讨论课以团辅形式进行，不会有恶竟～"},{"id":78123,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2018-05-09 11:59:02","like_diff":-3,"likes":4,"dislikes":7,"content":"非常棒的j类课，最后绩点虽然并不是很高，但是学习体验真的极佳，团辅课上课体验我给满分~"},{"id":35283,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2016-11-07 13:12:03","like_diff":-4,"likes":3,"dislikes":7,"content":"活泼多于严肃，一门看起来是学术性的课堂，充满着趣味。理论与实践结合的恰当好处，给人印象深刻，上课轻松有趣。最关键的是老师人美课好给分高，还有什么不满足的呢，作为一门在大类课专业课之外的沟通与领导类，既是必修学分，又是一种放松，还能学到很多与你身边息息相关的理论知识。学弟学妹们赶紧去选吧～～～\n\n"},{"id":35662,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2016-11-10 07:40:25","like_diff":-4,"likes":3,"dislikes":7,"content":"漂亮的老师果然讲课也不错。很负责的老师，课堂内容也有趣。安利～"},{"id":35680,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2016-11-10 07:44:15","like_diff":-4,"likes":3,"dislikes":7,"content":"很好的"},{"id":35920,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2016-11-10 08:53:14","like_diff":-4,"likes":3,"dislikes":7,"content":"很好的老师\n\n"},{"id":38070,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2016-11-24 02:18:24","like_diff":-4,"likes":0,"dislikes":4,"content":"棒哦！"},{"id":50699,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-05-04 10:58:56","like_diff":-4,"likes":6,"dislikes":10,"content":"真女神！！\n\n真女神！！\n\n真女神！！\n\n人好颜高，授课认真。室友推荐，亲测女神。女神带我们小组团辅，近距离接触女神，很激动！！"},{"id":50704,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-05-04 11:10:54","like_diff":-4,"likes":4,"dislikes":8,"content":"人美声甜气质佳"},{"id":51851,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-06-12 11:13:19","like_diff":-4,"likes":2,"dislikes":6,"content":"超级棒 人美气质佳"},{"id":58916,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-09-18 12:14:09","like_diff":-4,"likes":3,"dislikes":7,"content":"八辈子的福气"},{"id":59079,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-09-19 10:51:07","like_diff":-4,"likes":3,"dislikes":7,"content":"女神，上课满满的干货"},{"id":61241,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-12-22 04:32:07","like_diff":-4,"likes":3,"dislikes":7,"content":"棒棒棒！开心选上课！"},{"id":35297,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2016-11-08 00:08:26","like_diff":-5,"likes":2,"dislikes":7,"content":"超棒的课程"},{"id":42702,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-01-15 03:04:16","like_diff":-5,"likes":4,"dislikes":9,"content":"绝对是好老师！"},{"id":47946,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-03-01 09:10:57","like_diff":-5,"likes":0,"dislikes":5,"content":"～～～"},{"id":50701,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-05-04 11:02:01","like_diff":-5,"likes":5,"dislikes":10,"content":"老师女神！积极心理学还是很多干货的，与小组同学好好交流和分享，收获满满的！"},{"id":50703,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-05-04 11:06:46","like_diff":-5,"likes":4,"dislikes":9,"content":"见过最漂亮的老师！讲课给分也很好！J类课遇到杨老师超幸运！"},{"id":50706,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-05-04 11:14:43","like_diff":-5,"likes":4,"dislikes":9,"content":"老师很美，老师课讲得很好，学术能力很强，ppt很棒，团辅课受益匪浅，非常棒的课程，给个人心理带来很大的提升。学习方法的话，不建议做笔记，可以录音下来，课后ppt上传后，再对照着打印下来的ppt补充笔记。课程没有恶竞，小组展示需要齐心协力，考验的就是“积极”与否。"},{"id":50731,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-05-04 15:33:05","like_diff":-5,"likes":4,"dislikes":9,"content":"老师温柔美丽\n\n上课超好。给分也极赞"},{"id":118756,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2019-10-31 11:55:18","like_diff":-5,"likes":3,"dislikes":8,"content":"杨老师真的长相美，气质佳，说话舒服，团辅课交互比较多，但是气氛不会尬，挺舒服的。如果有和老师沟通的机会，我愿意花一整天！"},{"id":154930,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2022-06-07 03:09:10","like_diff":-6,"likes":1,"dislikes":7,"content":"挺好的老师"},{"id":58361,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-08-29 15:17:22","like_diff":-8,"likes":2,"dislikes":10,"content":"超温柔超好"},{"id":63224,"teacher_id":2105,"teacher_name":"杨芊","post_time":"2017-11-29 10:06:13","like_diff":-9,"likes":6,"dislikes":15,"content":"大学以来第一个满绩啊！！拯救了我难看的绩点！！感谢女神老师！！！！"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

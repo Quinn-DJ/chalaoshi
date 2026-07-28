@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>边平凤 - 化学系 - 浙大教评</title>
+    <meta name="description" content="边平凤教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="边平凤,化学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">边平凤</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">化学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.07</div>
+                    <div class="rating-participants">164人参与评分</div>
+                    <div class="attendance-info">15.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">普通化学实验（乙）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.04</span>
+                            <span class="students">选课: 384人</span>
+                            <span class="std-dev">标准差: 0.55</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">普通化学实验（甲）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.29</span>
+                            <span class="students">选课: 237人</span>
+                            <span class="std-dev">标准差: 0.35</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">普通化学（乙）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.70</span>
+                            <span class="students">选课: 489人</span>
+                            <span class="std-dev">标准差: 0.86</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (145 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":4936,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2015-07-01 07:19:26","like_diff":54,"likes":78,"dislikes":24,"content":"人好，教的好，给分好，强烈推荐。借楼上一句话:不满绩是你的错。"},{"id":144,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2015-03-14 16:08:48","like_diff":24,"likes":48,"dislikes":24,"content":"不满绩是你的错"},{"id":134992,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2021-04-26 06:11:21","like_diff":20,"likes":25,"dislikes":5,"content":"房助教极不负责，作业分是乱登记的吧？有同感的赞我"},{"id":107290,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-05-03 05:00:03","like_diff":17,"likes":18,"dislikes":1,"content":"七八两章高中选修没学过结构的话上课体会到了学渣的感受"},{"id":134479,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2021-03-30 01:50:57","like_diff":12,"likes":13,"dislikes":1,"content":"助教恶心人"},{"id":107253,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-06-25 09:21:02","like_diff":11,"likes":17,"dislikes":6,"content":"普化3.9，普化实验4.2，我自己没把太多心思花在上面啰。但是匿名表白实验助教李慧鑫小姐姐！人美心善给分超好！！！"},{"id":30448,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-12-26 08:50:55","like_diff":9,"likes":19,"dislikes":10,"content":"老师超级可爱，两个麻花辫哈哈哈哈，教的也好"},{"id":45049,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2017-01-19 01:47:23","like_diff":9,"likes":13,"dislikes":4,"content":"边老师人超好，记得考试的时候坐我前面的同学咳嗽很厉害，边老师给他药，并叮嘱他要注意身体。上课讲的蛮好，只要认真听了，会有很大的帮助的。啊，顺便说一句，边老师还是摄影爱好者呢，貌似是我们学校摄影协会的会员~"},{"id":2201,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2015-04-08 03:46:15","like_diff":8,"likes":18,"dislikes":10,"content":"老师很好和同学很新近"},{"id":45061,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2017-01-19 02:03:22","like_diff":8,"likes":13,"dislikes":5,"content":"边老师人很好，也很可爱，上课也讲的很清楚（就是有时候语速快了像打仗2333），不过给分只能说还行，没有楼上说满不了是你的错那么夸张，anyway，努力一定有收获，满不满又有什么影响呢"},{"id":125468,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2020-09-09 23:02:03","like_diff":8,"likes":11,"dislikes":3,"content":"慎选啊"},{"id":125800,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2020-09-14 10:46:16","like_diff":8,"likes":17,"dislikes":9,"content":"给1分是因为真的没有0这个选项，普化乙不怕死就选她好了。上课体验差到极致，要求每节课交笔记，结果上课一堆废话还不让记课件有的内容，还搞什么匿名笔记互评，一堆人莫名其妙给你扣分，简直是助长鹅颈势力小能手。一切学不好的学生都是因为自己没努力，跟她讲的差真是没有半毛钱关系呢。总而言之一句话，因为她开始厌恶化学。真不懂这种老师怎么会有这样的评分。"},{"id":106415,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-04-30 11:34:33","like_diff":7,"likes":8,"dislikes":1,"content":"出分慢到想骂人，就不能学学分化？？"},{"id":106460,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-04-27 14:42:01","like_diff":7,"likes":12,"dislikes":5,"content":"出分是真的慢\n\n"},{"id":6360,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2015-07-13 08:09:34","like_diff":6,"likes":14,"dislikes":8,"content":"人超好！只要你每节课都去一定可以抓住课本重点的，虽然差一分满鸡但一点都不遗憾，因为没有特别多的刷题只是跟着老师一点点学的所以感觉很好！真的很好的老师！强推！"},{"id":110204,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-06-24 12:16:47","like_diff":6,"likes":7,"dislikes":1,"content":"助教小姐姐怎么这么漂亮啊，是心动的感觉，认准李鑫慧小姐姐，人美心善有才华"},{"id":120913,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2020-01-18 17:27:06","like_diff":6,"likes":10,"dislikes":4,"content":"实验中有什么现象不对劲问她她都答不上来，讲的不好还很自私，最后考试的时候肚子疼想去洗手间愣是不让我去，后来实在忍不了最后三道题没看就交卷了"},{"id":160573,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-09-27 08:26:57","like_diff":6,"likes":6,"dislikes":0,"content":"讲课太快了"},{"id":160809,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-10-13 07:30:24","like_diff":6,"likes":6,"dislikes":0,"content":"不是，为什么分这么高啊。"},{"id":195715,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2024-06-29 17:34:15","like_diff":6,"likes":7,"dislikes":1,"content":"上的普化实验（乙）\n\n既然你给我打分这么小气，那我也小气点给你打分。她上课的优缺点如下：\n\n优点：上课讲得详细（但是个人感觉没有必要这么详细）\n\n缺点：1.考试前说我们可以线上答疑，但是钉钉问问题已读不回怎么个事\n\n2.实验的思考题一般是要求全写，还会额外加几道题目（你知不知道抗坏血酸滴定的pH突跃有多难算啊）\n\n3.给分差，出分慢"},{"id":9044,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2015-10-11 08:21:38","like_diff":5,"likes":9,"dislikes":4,"content":"老师讲得很好，但你一定要注意，老师讲得也很快，所以一定要预习后听！强烈建议要好好预习，预习多一点！"},{"id":11502,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2015-12-03 02:24:57","like_diff":5,"likes":8,"dislikes":3,"content":"很有意思，上课很有条理清晰，给个赞！很喜欢！"},{"id":107271,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-05-03 01:18:33","like_diff":5,"likes":7,"dislikes":2,"content":"给分很好，老师很和蔼，总提醒大家交作业，不要因为缺作业导致成绩不好，要上无机及分析化学的同学一定要选她，连我是个留学生也能及格，真的太感谢她了。"},{"id":142802,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2021-11-16 08:38:39","like_diff":5,"likes":9,"dislikes":4,"content":"上课说得好听，记笔记可认真了，实际上考的差她也不会捞，只会调平时成绩，绩点出来就无语至极"},{"id":173131,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2023-05-14 05:47:56","like_diff":5,"likes":5,"dislikes":0,"content":"（普化乙出分来评论）不知道是不是因为这学期学校开始强调过程化管理，边老师也“尤其”重视的缘故：春学期一共八周十六节课，十五次点名（数字/雷达），唯一一次不点名是因为清明节放假（真的很感动- -）；然后四次线上小测（至于线上有多少水分就不必多言吧，没考到90分我真的被自己笨哭）（最后一次小测甚至在夏一周，期末考也排在五一长假之后，这也多少导致期末考不太理想吧），只能说真的排太多了吧。\n\n老师上课讲的蛮好的，能跟着老师课件的思路走，课后作业尽量独立思考完成+订正 学会这门课肯定没问题的。\n\n但是老师讲课基本跟前几个学期这门课差差不多（从智云来看连举例都一模一样）；然后课后私聊基本都是已读不回（因为我错过了一次小测，当天就去找她了一直得不得答复；还有就是小测题目出错了找她报错，她当晚已读不回，第二天我问她另外一个问题了她回了个“知道了”，把我整的不知道了……）；考完试后在群里发个“失望+流汗黄豆”，出分后“期末自己可以算出，不用再问我+流汗黄豆”多少让人感到很不适叭……不过如果在课间或者课后找她问问题她还是会很耐心解答的。\n\n以上为上了一个春学期课的一家之言，仅作参考。还是希望老师把课堂与课程带的越来越好吧！"},{"id":111401,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-07-01 06:35:24","like_diff":4,"likes":6,"dislikes":2,"content":"碗碗星小姐姐长得好看不说，还才华洋溢温柔可爱，完全就是女神嘛！重点是炒鸡认真、字又好看、给分又好，只能是仙女下凡了^_^边边老师的两角辫也很可爱，实验课是我整个学期最喜欢的课！"},{"id":166004,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2023-01-10 16:59:25","like_diff":4,"likes":5,"dislikes":1,"content":"认真完成作业，实验报告分很高，给分比自我感觉低好些，不知道是哪的问题。出分也不算慢，助教xjj挺好的，但得这个分还是好难受啊。"},{"id":172361,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2023-04-25 11:13:12","like_diff":4,"likes":4,"dislikes":0,"content":"小测很多，八周的课四次小测加期末考，真的吐了，老师认真负责，但是课程这安排太不合理了！！"},{"id":185851,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2024-01-05 02:19:26","like_diff":4,"likes":4,"dislikes":0,"content":"很好的助教，很好的老师，很难忘的大学第一节实验课"},{"id":5460,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2015-07-07 16:18:06","like_diff":3,"likes":9,"dislikes":6,"content":"人很好，课也很好，还在群里热心解答"},{"id":12419,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2015-12-23 08:35:50","like_diff":3,"likes":5,"dislikes":2,"content":"很赞的老师，挺好笑的，只要你上课听的，一般都能懂"},{"id":13559,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2015-12-29 07:38:30","like_diff":3,"likes":5,"dislikes":2,"content":"老师讲课很细致，也很亲近，而且心态特别年轻。"},{"id":20467,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-01-27 16:42:48","like_diff":3,"likes":5,"dislikes":2,"content":"老师人不错，讲课也认真。然而我期末考炸了导致分数不好看。大化G给分不错的！"},{"id":26235,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-06-16 10:32:11","like_diff":3,"likes":6,"dislikes":3,"content":"好老师 好老师"},{"id":74001,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-02-04 04:47:50","like_diff":3,"likes":4,"dislikes":1,"content":"边边是个不错的老师，很有耐心，也很鼓励大家在群里交流。喜欢这种学习的氛围，爱上了无机。"},{"id":88539,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-11-01 04:04:26","like_diff":3,"likes":4,"dislikes":1,"content":"慎选啊"},{"id":107258,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-05-02 19:46:22","like_diff":3,"likes":4,"dislikes":1,"content":"卡绩了难受"},{"id":126759,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2020-10-19 03:20:27","like_diff":3,"likes":4,"dislikes":1,"content":"。。老师没毛病，这学期的助教我吐了"},{"id":135476,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2021-05-11 07:02:07","like_diff":3,"likes":3,"dislikes":0,"content":"普化乙，实际上要花很多功夫的课，作业量挺大，上课随机小测、点名，高中学过结构的同学可能好很多"},{"id":152680,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-04-18 08:21:07","like_diff":3,"likes":3,"dislikes":0,"content":"讲课有点快啊……"},{"id":152681,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-04-18 08:21:10","like_diff":3,"likes":3,"dislikes":0,"content":"讲课有点快啊……"},{"id":2134,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2015-04-02 08:37:33","like_diff":2,"likes":8,"dislikes":6,"content":"不错的老师"},{"id":20372,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-01-27 07:45:29","like_diff":2,"likes":5,"dislikes":3,"content":"不满级你的错"},{"id":21045,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-02-13 09:29:28","like_diff":2,"likes":4,"dislikes":2,"content":"…………"},{"id":24838,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-05-04 03:08:16","like_diff":2,"likes":17,"dislikes":15,"content":"说真的对于一个期末补天党，三天两头的小测和动不动上课叫人回答问题觉得有点烦。讲得很好完全不否认，就是你必须听她的，没法自己看书。然而这课占座又十分可怕，后排完全无力…"},{"id":29916,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-06-30 13:42:41","like_diff":2,"likes":4,"dislikes":2,"content":"人很好，给分高，拿到一个出乎意料的分数，很开心~"},{"id":45031,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2017-01-19 00:34:19","like_diff":2,"likes":3,"dislikes":1,"content":"真的。没有满绩是我们的错。平时题目刷得不够。能取得这样的成绩全仰仗老师\n\n"},{"id":60551,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2017-10-24 03:01:34","like_diff":2,"likes":6,"dislikes":4,"content":"我觉得老师对不起这个分数啊…"},{"id":74827,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-03-06 05:00:54","like_diff":2,"likes":4,"dislikes":2,"content":"平时分给的不是特别高\n\n但是考试成绩给分公平\n\n讲的好有点快\n\n认真负责耐心\n\n好老师"},{"id":101405,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-01-28 06:57:51","like_diff":2,"likes":3,"dislikes":1,"content":"为边边吹爆小橘灯!!!这给分也太好了，人还这么温柔，还会在群里答疑互动"},{"id":107284,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-05-03 03:54:06","like_diff":2,"likes":4,"dislikes":2,"content":"助教功课分不认真记录，作业前一天不发，考试前一天还要我们到教学楼去领，而且作业分每次不认真记录，搞得很多人的作业分记录不完整，而且去那边也没有意义，浪费我的复习时间而已。老师也没有很好，总是让我们自己预习，听她上课不如自己读课本，没差别，而且自己教不完还要拖堂。"},{"id":110143,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-06-24 01:04:25","like_diff":2,"likes":2,"dislikes":0,"content":"刚刚出完普化实验（乙）的成绩，出来答一波。老师和助教小姐姐都炒鸡好，很和蔼，做实验之前讲解也很细致。最后来看的话只要实验报告都交全了，大家相差不会很多。主要还是看理论考试。理论考试准备的时候一定把所有做过的实验的原理、操作步骤、仪器、数据处理方法和思考题仔仔细细过一遍。然后对于一些重点的数据处理，比如碘时钟，自己再算一下。最后如果有时间的话可以总结一下各种实验方法。感觉并不需要去回顾很多普化的内容，只要把实验里的东西搞透，上4还是不难的。"},{"id":122286,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2020-02-22 08:10:40","like_diff":2,"likes":2,"dislikes":0,"content":"普化实验，还可以，但是上课有一些根本没必要的严谨，很无聊"},{"id":135475,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2021-05-11 05:35:19","like_diff":2,"likes":6,"dislikes":4,"content":"不捞人 作业都交了 考前还说类似逼人去答疑 说不答疑就不捞人 线上问了问题还是没捞 助教非常不负责任 态度真的很恶劣"},{"id":152031,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-03-23 13:29:10","like_diff":2,"likes":3,"dislikes":1,"content":"b事多"},{"id":161165,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-10-30 11:59:40","like_diff":2,"likes":3,"dislikes":1,"content":"讲课无聊，只会念PPT"},{"id":161200,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-10-31 14:39:42","like_diff":2,"likes":3,"dislikes":1,"content":"什么傻逼助教，闭着眼评分，老师讲课太快，基本靠自学"},{"id":165289,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-12-31 04:24:29","like_diff":2,"likes":4,"dislikes":2,"content":"普化喜提目前大学最低绩点\n\n老师一般吧，无感。"},{"id":185215,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2023-12-27 06:01:48","like_diff":2,"likes":2,"dislikes":0,"content":"好老师，超有趣"},{"id":3181,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2015-05-19 08:37:25","like_diff":1,"likes":5,"dislikes":4,"content":"很轻松"},{"id":20605,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-01-29 02:32:49","like_diff":1,"likes":2,"dislikes":1,"content":"老师真的很负责，每天QQ答疑，而且很可爱很和蔼，只要认真学，做作业，很容易就满了"},{"id":27300,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-06-24 14:34:46","like_diff":1,"likes":2,"dislikes":1,"content":"讲课很认真，对学生也很负责，平易近人"},{"id":45100,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2017-01-19 03:33:10","like_diff":1,"likes":1,"dislikes":0,"content":"棒极了，很负责，给分好！"},{"id":45159,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2017-01-19 05:17:42","like_diff":1,"likes":2,"dislikes":1,"content":"不满确实我的错\n\n"},{"id":65807,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-01-09 08:38:03","like_diff":1,"likes":1,"dislikes":0,"content":"讲的很快"},{"id":73434,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-02-01 14:36:18","like_diff":1,"likes":2,"dislikes":1,"content":"必须给十分，好老師，沒学好很对不起老師，老師很不錯，她很鼓励大家去问她問题，超萌的老師"},{"id":78401,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-05-11 09:50:25","like_diff":1,"likes":4,"dislikes":3,"content":"一个挺好的高中老师，我只能这么说\n\n如果你很习惯高中的教学方式可以好好学，如果你更喜欢大学，别选"},{"id":89802,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-11-21 01:28:32","like_diff":1,"likes":1,"dislikes":0,"content":"教的很好"},{"id":90459,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-11-23 14:29:42","like_diff":1,"likes":1,"dislikes":0,"content":"讲得很细，很负责"},{"id":90564,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-11-24 05:54:35","like_diff":1,"likes":3,"dislikes":2,"content":"老师炒鸡负责，，，虽然在下不才\n\n"},{"id":101347,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-01-28 05:07:33","like_diff":1,"likes":7,"dislikes":6,"content":"出分慢给分差"},{"id":101462,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-01-28 09:00:52","like_diff":1,"likes":2,"dislikes":1,"content":"感觉给分方式真的不好，老师人是好的，但是给分方式真的不好，你选了就明白了。不是指分析化学。"},{"id":107259,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-05-02 20:42:12","like_diff":1,"likes":2,"dislikes":1,"content":"虽然处分很慢，但是老师真的是一个好老师，很注重和学生交流，喜欢她的课堂，希望以后上她课的同学也会有好的体验，不要急，成绩会有惊喜。"},{"id":120082,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-11-17 10:51:27","like_diff":1,"likes":2,"dislikes":1,"content":"上课挺好的 也负责 但是出成绩龟龟龟速 奇慢无比"},{"id":122514,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2020-04-16 16:42:56","like_diff":1,"likes":2,"dislikes":1,"content":"课堂笔记互评看得尴尬癌都犯了 批改我的同学人都非常nice谢谢你们\\^O^/"},{"id":128453,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2020-12-23 09:21:42","like_diff":1,"likes":1,"dislikes":0,"content":"很好的老师，注意预习，预习，预习（说三遍）"},{"id":161168,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-10-30 13:41:06","like_diff":1,"likes":2,"dislikes":1,"content":"避雷，别的不说"},{"id":161232,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-11-01 10:43:08","like_diff":1,"likes":1,"dislikes":0,"content":"普化甲作业多，实验报告要抄思考题，有一课二十多道题，也要全抄，离谱"},{"id":161883,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-11-15 00:00:32","like_diff":1,"likes":2,"dislikes":1,"content":"老师人很好，分也比想象中的高"},{"id":162026,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-11-16 06:10:19","like_diff":1,"likes":2,"dislikes":1,"content":"人很好，给分超棒，磕头磕头"},{"id":163484,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-12-14 12:34:02","like_diff":1,"likes":1,"dislikes":0,"content":"老师上课讲得特别认真，但是对高中不选化学的同学不太友好，上课速度太快啦。也可能是我还不够努力，不影响我喜欢老师哈哈"},{"id":163711,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-12-16 03:54:48","like_diff":1,"likes":3,"dislikes":2,"content":"我上的普化乙，边老师真的很好，她会很希望大家学好，然后一开始就会劝大家认真，就很负责。我是没学过高中化学的，化学很菜，一开始完全听不懂，照着边老师说的，上课前预习，上课听讲，课后做作业，也没做过额外的练习或听过其他课什么的，能过我真的超开心（高中一直没怎么及格过化学），很感谢老师。老师基本上每节课都要点名，作业量不大，每章一次小测，期末会调分。平时鼓励大家向她提问，虽然我怂没敢去哈哈哈，我看下课大家围过去她都很乐意解答，群里也都会回复的。好老师，想学好你就来。只要认真学绩点肯定不会低的，我身边很多人都是4.5往上的。"},{"id":185796,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2024-01-04 12:31:22","like_diff":1,"likes":2,"dislikes":1,"content":"普化甲实验特别水，助教人超好"},{"id":188405,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2024-01-19 02:28:16","like_diff":1,"likes":1,"dislikes":0,"content":"普化实验甲，老师非常好，上课会把实验内容以及注意事项再全部过一遍，非常有耐心很细致，助教姐姐人也超好！！！我吹爆好嘛，10分！！！"},{"id":193634,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2024-06-14 07:16:13","like_diff":1,"likes":2,"dislikes":1,"content":"啥比一个"},{"id":217062,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2025-04-01 05:39:57","like_diff":1,"likes":1,"dislikes":0,"content":"感觉评分过高了，老师人挺好的但是上课有点讲不到重点的感觉"},{"id":25819,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-06-09 11:01:04","like_diff":0,"likes":5,"dislikes":5,"content":"想睡觉"},{"id":28684,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-06-28 12:19:43","like_diff":0,"likes":1,"dislikes":1,"content":"关心学生，上课叫同学上去写题这个私以为有点浪费时间。"},{"id":29920,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-06-30 13:47:27","like_diff":0,"likes":1,"dislikes":1,"content":"老师成绩负责 讲课很细致 有一种回到高中的感觉 重点是 人很可爱！！！"},{"id":31243,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-07-03 12:38:36","like_diff":0,"likes":1,"dislikes":1,"content":"非常可爱又非常负责认真的老师"},{"id":31725,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-07-04 15:33:46","like_diff":0,"likes":0,"dislikes":0,"content":"超好啦 差一分满绩我的错\n\n"},{"id":33895,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-09-22 11:09:29","like_diff":0,"likes":0,"dislikes":0,"content":"好老师一生推！"},{"id":39487,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-12-23 05:51:29","like_diff":0,"likes":0,"dislikes":0,"content":"老师特别好，特别耐心地解答问题，很平易近人"},{"id":44987,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2017-01-18 17:39:24","like_diff":0,"likes":1,"dislikes":1,"content":"老师真的真的很负责任 期末没考好对不起老师…小测是挺烦de"},{"id":45020,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2017-01-19 00:04:40","like_diff":0,"likes":0,"dislikes":0,"content":"老师很好，很有趣，最后给分让我惊喜，太谢谢老师了"},{"id":72673,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-11-19 06:53:04","like_diff":0,"likes":1,"dislikes":1,"content":"老师人很好，借前面的话，不满是我的错(˵¯͒⌢͗¯͒˵)"},{"id":72698,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-01-31 02:13:54","like_diff":0,"likes":2,"dislikes":2,"content":"老师其实是个很好的人，但是上课比较无聊，而且有的时候回答问题要想很久。人不错。"},{"id":79801,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-06-14 01:11:37","like_diff":0,"likes":2,"dislikes":2,"content":"语速快，有时候听不清，课挺好，但我听起来很难受，"},{"id":88685,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-11-12 09:42:02","like_diff":0,"likes":1,"dislikes":1,"content":"真的是一个好老师啊！"},{"id":89001,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-11-13 14:43:21","like_diff":0,"likes":0,"dislikes":0,"content":"老师很可爱呀\n\n"},{"id":89308,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-11-18 09:09:40","like_diff":0,"likes":0,"dislikes":0,"content":"老师很可爱，讲课讲的也很细很认真。经常会在群里给同学们答疑，很好的老师～"},{"id":89437,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-11-19 06:52:32","like_diff":0,"likes":0,"dislikes":0,"content":"爽快啊"},{"id":89858,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-11-21 04:56:39","like_diff":0,"likes":0,"dislikes":0,"content":"好老师！不满绩是我的错"},{"id":89940,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-11-21 10:42:31","like_diff":0,"likes":2,"dislikes":2,"content":"反正我满绩了，给分超好的，讲得很清晰，答疑很负责认真，经常答疑到下午一点"},{"id":101456,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-01-28 08:39:14","like_diff":0,"likes":3,"dislikes":3,"content":"不喜欢 对学生有偏见"},{"id":103379,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-02-27 23:38:18","like_diff":0,"likes":1,"dislikes":1,"content":"笑起来好像我的一个同学"},{"id":107277,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-05-03 02:30:45","like_diff":0,"likes":1,"dislikes":1,"content":"边边是个很可爱的老师～上课很耐心讲得很细致，平时会提醒没有交作业的同学。虽然出分慢了点但是给分还是不错滴～是个可爱认真负责的好老师！"},{"id":107562,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-05-06 15:01:58","like_diff":0,"likes":1,"dislikes":1,"content":"老师有水平是真的，和蔼也是真的。\n\n但是个人感觉她上课废话有点多，听了觉得浪费时间，不听又不知不觉过去了。还有，她和我高中语文老师一样，有临近考试心急症，最后几次课作业显著增加，还多上了两节课。\n\n补充一下，出分慢也是事实。\n\n总体8分吧"},{"id":153507,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-05-03 01:03:18","like_diff":0,"likes":1,"dislikes":1,"content":"爱了爱了"},{"id":160871,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-10-29 13:15:44","like_diff":0,"likes":1,"dislikes":1,"content":"马勒戈壁"},{"id":161024,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-10-24 06:48:15","like_diff":0,"likes":1,"dislikes":1,"content":"老师人很可爱也很伤心，会经常巡视纠错！之前看到我在用goodnotes 记录数据纠正了我的行为习惯，但是向我询问应用的软件和使用方法！除此之外表白助教小姐姐，超级耐心超级上心超级温柔！"},{"id":161486,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-11-07 13:44:07","like_diff":0,"likes":1,"dislikes":1,"content":"不愿意搞平时分恶意竞争的慎选"},{"id":161905,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-11-15 02:15:09","like_diff":0,"likes":0,"dislikes":0,"content":"给分很好，不过三位助教有一位好像给分偏低"},{"id":161907,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-11-15 02:20:46","like_diff":0,"likes":0,"dislikes":0,"content":"😅😅😅"},{"id":162273,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-11-19 01:30:20","like_diff":0,"likes":1,"dislikes":1,"content":"老师很可爱，对同学们也比较负责。上课速度确实有点快，提前预习肯定是要的。作业认真完成+开卷小测尽量少错+期末考前好好复习，拿高绩点不难的。（就是最后出分真的好慢啊啊啊）"},{"id":163746,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-12-16 04:55:18","like_diff":0,"likes":2,"dislikes":2,"content":"不满绩是你的错"},{"id":188864,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2024-01-20 10:16:19","like_diff":0,"likes":0,"dislikes":0,"content":"老师人很好，上课讲的很细致，答疑也很热情，助教人也超级好，非常棒的实验课"},{"id":190722,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2024-03-16 01:53:27","like_diff":0,"likes":0,"dislikes":0,"content":"优点：超级好，细致，学的到很多\n\n缺点：有点想睡觉"},{"id":197729,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2024-08-05 10:19:18","like_diff":0,"likes":0,"dislikes":0,"content":"老师讲课很细致，实验前会讲许多东西，花费的时间比较长（不过很容易犯困）。如果实验动手能力差的话下一堂课需要赶着才能不迟到（没错就是我）。助教老师很好，很负责，实验中有问题也会耐心解答。实验报告给分感觉一般，规规矩矩吧。老师人真的很好，看得出来是希望我们能够学到东西的。"},{"id":208266,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2024-12-26 12:17:57","like_diff":0,"likes":0,"dislikes":0,"content":"普化实验甲，边老师讲课非常细致，助教yngg我吹爆，超级认真负责！"},{"id":209079,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2025-01-04 11:30:28","like_diff":0,"likes":0,"dislikes":0,"content":"普化实验甲。老师做实验之前会细致过一遍实验内容，做实验的时候也会在旁边转，纠正操作问题。然后就是助教yn非常非常好，实验报告改的很认真，有问题会及时跟你说，钉钉上问问题也会耐心回答。"},{"id":212570,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2025-01-14 08:13:39","like_diff":0,"likes":1,"dislikes":1,"content":"老师真的很温柔，有问题会细心解答，甚至还会亲手帮忙调整装置，理论考之后还会耐心安慰，超级好的老师！还有助教yngg我也吹爆！问问题都会超级耐心地回答，改实验报告也非常认真，钉钉上也会非常及时地答疑解惑。"},{"id":212598,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2025-01-14 09:02:51","like_diff":0,"likes":0,"dislikes":0,"content":"好老师，好助教，高中没有实验底子，在普化甲真的学到了很多"},{"id":221746,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2025-06-26 01:24:03","like_diff":0,"likes":0,"dislikes":0,"content":"感觉评分过高了"},{"id":221935,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2025-06-27 13:23:35","like_diff":0,"likes":0,"dislikes":0,"content":"普化实验 感觉还不错"},{"id":4533,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2015-06-24 07:43:10","like_diff":-1,"likes":2,"dislikes":3,"content":"教的好\n\n"},{"id":16070,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-01-17 06:33:02","like_diff":-1,"likes":1,"dislikes":2,"content":"很棒的，喜欢边边≥﹏≤"},{"id":19023,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-01-23 05:11:50","like_diff":-1,"likes":0,"dislikes":1,"content":"老师很和蔼"},{"id":20382,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-01-27 09:11:55","like_diff":-1,"likes":0,"dislikes":1,"content":"很好的老师  不满绩是你的错"},{"id":110160,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-06-24 03:45:52","like_diff":-1,"likes":2,"dislikes":3,"content":"普化期末考试没考好，打不出的比会的多。最后成绩一般，但比预期好，给分很善良。下次一定会努力学化学的！"},{"id":134985,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2021-04-26 01:28:05","like_diff":-1,"likes":1,"dislikes":2,"content":"呵呵呵"},{"id":161993,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-11-16 00:53:55","like_diff":-1,"likes":1,"dislikes":2,"content":"上课讲的有点太快了……讲到有些知识点的时候，直接一句“同学们中学的时候学过”就带过了，但不是每个同学高中都有选化学的啊。最后只能靠看着ppt自学……\n\n总而言之，建议别选。"},{"id":165338,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2023-01-01 14:19:05","like_diff":-1,"likes":3,"dislikes":4,"content":"老师真的很好，对学生很负责，她说这门课主要是为了大家掌握化学知识，对掌握的要求并不高，不卷，但也绝不是水课，本人上课偶尔（经常）开小差，但是考前认真准备了几天，拿了满绩，老师真的很好，期末出分慢都是在捞人，真的爱惨了!"},{"id":14459,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2016-01-07 07:08:32","like_diff":-2,"likes":1,"dislikes":3,"content":"很好的老师！"},{"id":68610,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-01-23 13:00:31","like_diff":-2,"likes":1,"dislikes":3,"content":"老师人很好～    求期末考试60以上"},{"id":107314,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-05-03 12:26:57","like_diff":-2,"likes":1,"dislikes":3,"content":"老师的人炒鸡好，又认真又负责，可惜因为从前的习气没有好好听没能满绩，现在真的很后悔(⋟﹏⋞)"},{"id":116791,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2019-09-16 02:01:52","like_diff":-2,"likes":0,"dislikes":2,"content":"好 特别可爱的老师"},{"id":135536,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2021-05-13 01:28:57","like_diff":-3,"likes":1,"dislikes":4,"content":"考前逼答疑就离谱"},{"id":161902,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2022-11-15 06:13:22","like_diff":-3,"likes":0,"dislikes":3,"content":"老师还算中规中矩，大部分人应该能接受，也肯定有人喷。普化乙内容比较多，上课倒不是很快，但有些地方会讲的比较少。下课问问题老师会比较认真地回答，平时可以私戳，但本人没问过无法评价。本学期作业占了评分的百分之二十，不知道其他时候怎么样，但平时分占比还是比较多。本人上课有时候会打瞌睡，但正常学下来还是要自学多看书。比较依赖老师建议不要选，能自学选什么老师都无所谓了。"},{"id":83825,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-07-11 09:07:34","like_diff":-4,"likes":7,"dislikes":11,"content":"垃圾绩杀 慎选"},{"id":126829,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2020-10-22 09:12:32","like_diff":-5,"likes":2,"dislikes":7,"content":"老师好可爱，讲的又慢又好"},{"id":129236,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2021-01-02 05:08:09","like_diff":-8,"likes":1,"dislikes":9,"content":"老师上课超级棒，认真负责又很亲切，努力学的话满绩不是问题，两个麻花辫真是太可爱啦"},{"id":83138,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-07-09 22:55:55","like_diff":-12,"likes":2,"dislikes":14,"content":"老师讲的还是挺好的，而且要求还是比较严格，想翘课或不交作业的同学平时分就别想拿满了。不过无分最终还是看考试，不知道会不会调分，反正我没调，期末就差一分就满了然而并没有被安排一下?"},{"id":90480,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2018-11-23 15:35:20","like_diff":-14,"likes":1,"dislikes":15,"content":"边边人很好呀～借前面人的话不满是你的错，反正我满了～"},{"id":127245,"teacher_id":1535,"teacher_name":"边平凤","post_time":"2020-11-17 03:22:33","like_diff":-25,"likes":0,"dislikes":25,"content":"考前学了两天就能90+"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

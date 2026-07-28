@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>马迎辉 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="马迎辉教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="马迎辉,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">马迎辉</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.22</div>
+                    <div class="rating-participants">65人参与评分</div>
+                    <div class="attendance-info">27.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (6 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">哲学问题</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.29</span>
+                            <span class="students">选课: 31人</span>
+                            <span class="std-dev">标准差: 0.49</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">现象学导论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.58</span>
+                            <span class="students">选课: 126人</span>
+                            <span class="std-dev">标准差: 0.46</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会实践</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.94</span>
+                            <span class="students">选课: 16人</span>
+                            <span class="std-dev">标准差: 0.10</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会调查</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 5.00</span>
+                            <span class="students">选课: 16人</span>
+                            <span class="std-dev">标准差: 0.00</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">美国哲学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.64</span>
+                            <span class="students">选课: 41人</span>
+                            <span class="std-dev">标准差: 0.39</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">近现代西方哲学原著选读</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.41</span>
+                            <span class="students">选课: 287人</span>
+                            <span class="std-dev">标准差: 0.49</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (48 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":128452,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2020-12-23 09:18:13","like_diff":24,"likes":28,"dislikes":4,"content":"老师上课很不错"},{"id":133279,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-02-23 11:31:09","like_diff":14,"likes":16,"dislikes":2,"content":"客观来讲，马老师的哲学问题课，在课程内容上有一定难度， 但是在期末考试上考的都是讲过的而且相对较容易的内容，上课抓住老师的节奏，明确主题后认真复习背诵，拿到好绩点还是有可能的。\n\n马老师水平很高，风趣幽默，反正我这一哲学小白，第一次听说世界上现象学还有“噔噔噔噔”的讲法。\n\n我觉得学有所获。认真学，会是一场思想的盛宴。\n\n给马老师打call！！！"},{"id":130794,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-01-24 14:59:12","like_diff":13,"likes":24,"dislikes":11,"content":"上的马老师的哲学问题。没有哲学基础的同学能换还是换预置课表吧，确实讲的不太能听懂。我不否认马老师的水平，和他幽默风趣。可惜我光记住他的笑话了，内容真的是完全听不懂。到现在我觉得什么也没学到，而且对哲学产生厌恶情绪。\n\n老师上课不用ppt板书也没什么条理，上课内容也缺少体系，经常是老师想到哪里讲到哪。而且用的大部分都是哲学专业术语，过了就是过了。认真听一节课下来我脑壳都疼，或许是我太菜了吧🌿每次上哲学问题课我都感觉很煎熬。\n\n对不起给老师打了很低的分\n\n可是对于我来说确实什么都没有学到，非常伤心。也许是我个人的原因吧。现在期末了，人很焦虑，论文🈚️头绪，复习也是全靠背和自学。\n\n期末评分方式是展示+论文+期末考试"},{"id":128429,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2020-12-23 02:23:48","like_diff":11,"likes":15,"dislikes":4,"content":"完全听不懂"},{"id":132982,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-02-05 18:01:08","like_diff":10,"likes":12,"dislikes":2,"content":"1.讲的的确很深\n\n2.人很幽默风趣\n\n3.期末考试考的都是讲过的东西，结合教材其实可以做\n\n4.说老师给分不好的建议先想想真的认真听课了吗，划重点，听课"},{"id":133033,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-02-06 17:21:25","like_diff":10,"likes":12,"dislikes":2,"content":"原著课，老师很有想法也很有幽默感，认真听可以学到很多，给分其实不错的，论文要用心写"},{"id":129492,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-01-06 08:06:19","like_diff":9,"likes":12,"dislikes":3,"content":"讲的很跳脱，但感觉开启了新世界的大门"},{"id":133910,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-03-09 10:50:52","like_diff":8,"likes":8,"dislikes":0,"content":"老师的课确实很有挑战性，很开拓眼界，干货十足，确实把我以往的一些固有的思考坚基打破了很多，我觉得是我大学以来第一门对我有思想冲击的课，挺值得的。但较其他平行班而言确实难度大，任务较多，分数可能就没这么好看了;不过老师现在也是打算改变自己大类课的风格，还在群里和我们说了抱歉，人真的很好，而且很平和幽默！"},{"id":130195,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-01-19 01:41:37","like_diff":7,"likes":9,"dislikes":2,"content":"作为大类课的哲学问题似乎有点太深了，老师人还是很好的"},{"id":163247,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2022-12-11 02:14:52","like_diff":7,"likes":7,"dislikes":0,"content":"说老师哲学问题难的，怕是没上过老师的现象学（哭）\n\n不过老师人真的很好，并且给分超级好。因为某学院的傻逼培养方案，可能会有同学不得不选现象学凑学分，但是老师和助教都体谅很多同学之前没接触过现象学并且不太适应现象学的思维模式，会在写课程论文的时候给很多帮助和干货建议的。并且老师对成绩什么的看的很开，给分也非常好的"},{"id":129091,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-01-06 07:12:50","like_diff":5,"likes":8,"dislikes":3,"content":"大类讲的太深了"},{"id":129495,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-01-06 08:46:52","like_diff":5,"likes":7,"dislikes":2,"content":"老师讲得有一定难度，认真听讲 尝试思考 会有收获。没有深度或许就失去了哲学课的乐趣。"},{"id":168251,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2023-02-06 14:49:34","like_diff":5,"likes":5,"dislikes":0,"content":"作为班主任和专业基础课任课老师，马迎辉老师可以说是无可挑剔的（一是老师的人品好，二是老师做过多年班主任，并且好像还是认证的心理咨询师，非常善于和学生沟通）\n\n作为现象学导论任课老师…我只能说我是实在不喜欢现象学了（对事不对人，可能即使是倪梁康来教我依然不喜欢现象学吧）"},{"id":185310,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2023-12-27 20:04:43","like_diff":5,"likes":5,"dislikes":0,"content":"特别好老师，从不写查老师评价，今天特地给小马哥写一个：\n\n老师讲课很有魅力，思维发散，风格活泼。虽然老师是研究现象学的，不免涉及到很多哲学术语，他还是试图以最浅白切近的方式给学生解释，即使内容有一定深度也不会无聊。相反，在课堂上和老师一起思考，试图跟上他的思维是一件很有意思的事！而且马老师很可爱，很会讲笑话，经常说着说着自己就笑了，课堂氛围也非常好。"},{"id":132866,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-02-04 08:41:16","like_diff":4,"likes":5,"dislikes":1,"content":"老师人很有意思\n\n但是上课讲的过于意识流 很有深度 对于入门选手感觉太深奥了听不太懂😭\n\n给分好像相对其他老师偏低一些"},{"id":133899,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-03-09 08:02:19","like_diff":3,"likes":3,"dislikes":0,"content":"老师人很好。但是课讲的很难。对哲学小白太不友好了哭。"},{"id":147964,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2022-01-11 08:22:36","like_diff":3,"likes":4,"dislikes":1,"content":"啊啊啊啊啊啊啊啊爱死他啦！！事情少，讲课很有逻辑，前后知识都是一步步深入的（但我发现这一点的时候是在考前智云补天的时候）还想听他的哲学课！！很有趣很可爱一老师！！给分也好好，呜呜呜，受宠若惊！！"},{"id":129334,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-01-04 08:45:18","like_diff":2,"likes":6,"dislikes":4,"content":"老师人很随和且真诚。会告诉我们要寻求“和前人平等对话，并追求发出自己的声音”。大类课讲得挺有难度的，但听着有头脑风暴的感觉，很快乐！"},{"id":130208,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-01-19 04:28:27","like_diff":2,"likes":4,"dislikes":2,"content":"老师上课讲的很有深度，会带领我们思考，讲课幽默风趣"},{"id":130210,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-01-19 04:29:46","like_diff":2,"likes":4,"dislikes":2,"content":"老师好帅我好爱"},{"id":133900,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-03-09 08:04:42","like_diff":2,"likes":2,"dislikes":0,"content":"很幽默，很有学识的老师\n\n讲的东西确实难，好好努力会有收获的"},{"id":133901,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-03-09 08:05:32","like_diff":2,"likes":2,"dislikes":0,"content":"马老师人很好！很有趣！很有水平！\n\n其实我觉得老师也没有过分地在意分数，评价方式也很公道。\n\n虽然作为大类课确实会听的有点云里雾里，但是总体上问题不大QAQ"},{"id":144869,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-12-25 09:40:36","like_diff":2,"likes":4,"dislikes":2,"content":"小马哥！我的男神！🤩"},{"id":144870,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-12-25 09:41:06","like_diff":2,"likes":4,"dislikes":2,"content":"小马哥，我的小马哥\n\n論小馬哥為什麼是神\n\n省略5000字"},{"id":146602,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2022-01-07 04:58:26","like_diff":2,"likes":2,"dislikes":0,"content":"好老师。"},{"id":150098,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2022-01-19 04:33:01","like_diff":2,"likes":2,"dislikes":0,"content":"好老师啊，上课能学到很多，给分好"},{"id":164438,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2022-12-21 03:53:40","like_diff":2,"likes":2,"dislikes":0,"content":"好喜欢马老师！！！！！干货很多！"},{"id":174806,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2023-06-18 08:57:17","like_diff":2,"likes":4,"dislikes":2,"content":"选了老师的美国哲学，结果是另一位老师代课，所以这个是给哪位老师打的分，他备考很认真，不点名，期末闭卷考还划了很小的范围，总之很关心学生体量学生，给分也尽量往高了给，让我们一起说:谢谢王玮老师"},{"id":190944,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2024-03-25 06:12:51","like_diff":2,"likes":10,"dislikes":8,"content":"真不难，怀疑是有些人智商有问题"},{"id":202427,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2024-11-12 14:45:14","like_diff":2,"likes":2,"dislikes":0,"content":"我真的听不懂啊"},{"id":132859,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-02-04 08:00:57","like_diff":1,"likes":3,"dislikes":2,"content":"老师可能蛮有思想的，但我真的是有点无语。我真的很好在复习，虽然平时听不太懂。感觉真的也付出不少，但我室友都4+很轻松，甚至有的朋友蛮轻松的就4.8。我们这个努力之后3分多，一个哲学问题给我差出一分多真的有点迷。而且实话实说，我也真不一定没隔壁班的付出的多。建议可以的话换一个老师吧，分有点难看。"},{"id":133338,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-02-26 02:56:45","like_diff":1,"likes":2,"dislikes":1,"content":"很有哲学深度，但作为大类课真的太难了点，听懂的时候觉得老师说的很有道理，听不懂的时候脑壳疼"},{"id":133853,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-03-08 07:40:45","like_diff":1,"likes":1,"dislikes":0,"content":"很风趣~分还可以"},{"id":133860,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-03-08 10:31:38","like_diff":1,"likes":1,"dislikes":0,"content":"讲课输出内容很实"},{"id":133928,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-10-14 10:56:31","like_diff":1,"likes":1,"dislikes":0,"content":"老师很好！"},{"id":136968,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-06-29 03:42:41","like_diff":1,"likes":2,"dislikes":1,"content":"给马老师打10分，给哲学问题这门课打8分：上课能感觉到老师水平很高，讲得也很幽默，秋冬学期下来虽然很多都记不住，但是真的能感觉到自己的哲学素养在这个过程中提升，还是很喜欢老师的。但是考试不太难就是上课比较难懂吧，觉得自己实在学不到家，很多东西还要努努力。最后希望老师能有一点教案哈哈哈，这样我们有点头绪。（很多老师要求的原著都没看orz，其实也是自己不想学，怪不得课程）"},{"id":145072,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-12-27 09:00:03","like_diff":1,"likes":1,"dislikes":0,"content":"同志们冲 马老师很不错"},{"id":185722,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2024-01-04 01:36:00","like_diff":1,"likes":1,"dislikes":0,"content":"太可爱咧！经常自己讲着讲着就自己爆笑。给我提供了冬学期很多的笑料。思路非常清晰，努力跟上老师的思维可以学到很多。"},{"id":187380,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2024-01-15 19:08:47","like_diff":1,"likes":1,"dislikes":0,"content":"好！很帅的老师，很哲学，学术好像也不错？"},{"id":214809,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2025-02-18 04:33:07","like_diff":1,"likes":1,"dislikes":0,"content":"非常好的老师，讲的内容很丰富也发人深省，尤其是老师阅读和理解文本的角度和思路很有借鉴意义，外专业表示收获很大"},{"id":132998,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-02-06 04:53:31","like_diff":0,"likes":2,"dislikes":2,"content":"老师讲课有趣但没条理，讲的也很深，考试也挺难，总之困难"},{"id":145077,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-12-27 09:03:50","like_diff":0,"likes":0,"dislikes":0,"content":"好老師"},{"id":151093,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2022-02-23 03:12:58","like_diff":0,"likes":0,"dislikes":0,"content":"哲学问题课，老师很好很有趣，给分也不错，干货很多。总之值得选，特别是对哲学感兴趣的同学～"},{"id":152095,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2022-03-25 15:15:10","like_diff":0,"likes":1,"dislikes":1,"content":"很负责任的班主任"},{"id":133076,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-02-07 13:12:18","like_diff":-4,"likes":9,"dislikes":13,"content":"感觉上课确实很有难度，但是还是有收获的\n\n最后考试在复习的过程中学到了很多\n\n考试复习对着笔记和书本整理了很久，理解加背\n\n说老师给分不好的你们真的有你们所说的那么努力吗？\n\n最后4.8，我觉得是值的\n\n老师很棒！"},{"id":131400,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-01-28 07:06:00","like_diff":-28,"likes":6,"dislikes":34,"content":"垃圾。"},{"id":133105,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-02-08 08:40:00","like_diff":-30,"likes":5,"dislikes":35,"content":"真•垃圾玩意儿"},{"id":128622,"teacher_id":7937,"teacher_name":"马迎辉","post_time":"2021-01-11 09:12:13","like_diff":-33,"likes":8,"dislikes":41,"content":"垃圾。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

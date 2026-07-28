@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>张广海 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="张广海教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="张广海,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">张广海</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.57</div>
+                    <div class="rating-participants">156人参与评分</div>
+                    <div class="attendance-info">39.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (6 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">中国现代文学经典选读</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.00</span>
+                            <span class="students">选课: 101人</span>
+                            <span class="std-dev">标准差: 0.75</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">中国现当代文学史Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.83</span>
+                            <span class="students">选课: 140人</span>
+                            <span class="std-dev">标准差: 0.79</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">中国现当代文学史Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.01</span>
+                            <span class="students">选课: 177人</span>
+                            <span class="std-dev">标准差: 0.95</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">现代文学思潮研究</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.41</span>
+                            <span class="students">选课: 488人</span>
+                            <span class="std-dev">标准差: 0.48</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会实践</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.83</span>
+                            <span class="students">选课: 26人</span>
+                            <span class="std-dev">标准差: 0.19</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会调查</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.75</span>
+                            <span class="students">选课: 26人</span>
+                            <span class="std-dev">标准差: 0.32</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (119 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":44826,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-01-18 10:05:04","like_diff":97,"likes":109,"dislikes":12,"content":"无论最后老师给了我多少分，我给老师的都是满分。"},{"id":46957,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-01-23 05:31:18","like_diff":49,"likes":58,"dislikes":9,"content":"非常认真的年轻老师，符合我印象中大学文科老师应有的一切条件。"},{"id":67538,"teacher_id":3569,"teacher_name":"张广海","post_time":"2018-01-21 13:03:31","like_diff":46,"likes":53,"dislikes":7,"content":"张老师上课极为认真细致没有任何水分，知识含量极高，对待学术问题严谨，向学生展现了对待学术该有的态度，还训练我们解读作品、考据史实、校勘文字，并且课堂多见老师性情，颇有趣味；张老师非常能换位考虑学生的情况，作业和考试一点也不为难人，可以说是在充分考虑了学生的课业压力的同时，做到了最好的课程安排和讲授。个人看来这几乎是完美的教师和学者形象。张老师的课，只要自己态度到位认真听了，是绝对不会有被老师刁难的感觉的，收获会非常大。满分！"},{"id":50685,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-05-04 09:02:28","like_diff":42,"likes":47,"dislikes":5,"content":"我见过的最辛苦的老师( ´﹀` )"},{"id":149461,"teacher_id":3569,"teacher_name":"张广海","post_time":"2022-01-15 11:56:41","like_diff":35,"likes":37,"dislikes":2,"content":"他让我确信，我成为了中文系的学生。"},{"id":123469,"teacher_id":3569,"teacher_name":"张广海","post_time":"2020-06-09 05:13:54","like_diff":34,"likes":48,"dislikes":14,"content":"广海老师超好的。\n\n不要信那个满嘴脏话胡言乱语的人，绝对是论文抄袭或者长期翘课没拿到高分，或者只是因为老师没给他满绩所以恶意中伤。恶劣的谎言，令人作呕，哕！"},{"id":105920,"teacher_id":3569,"teacher_name":"张广海","post_time":"2019-04-23 06:09:35","like_diff":32,"likes":44,"dislikes":12,"content":"太感谢也太爱这门课了\n\n非中文专业，原本只是想选一门有兴趣的课调剂一下我硬核课满满的本学期，没想到这门课是另一种形式的硬核，一个短学期二百多万字的阅读材料，绝好\n\n后来觉得整个春学期，只有在这门课上我才有真正的快乐嘻嘻嘻嘻我爱文学\n\n然后表白老师，最后给分真的好满足了，看着群里大佬们的神仙文章日常瑟瑟发抖\n\n最后表白一下17级汉语言文学专业全体，在课程群里可能只是窥见了你们一小部分的状态，感觉真的是有趣又有爱的集体呀～祝你们永远相爱哈哈哈哈哈"},{"id":149464,"teacher_id":3569,"teacher_name":"张广海","post_time":"2022-01-15 11:58:57","like_diff":25,"likes":28,"dislikes":3,"content":"会在课程群里非常非常积极地和同学交流，是我来浙以后碰到的和同学沟通最密切的老师。为人亲和友善，没有一点架子。课程的设计和讲授都非常非常出色！真的很喜欢老师~有这样的老师，是我浙之幸！"},{"id":46983,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-01-23 08:04:45","like_diff":24,"likes":29,"dislikes":5,"content":"严谨，有趣，真诚，公允"},{"id":24755,"teacher_id":3569,"teacher_name":"张广海","post_time":"2016-05-03 11:19:19","like_diff":20,"likes":29,"dislikes":9,"content":"讲课+学生展示。不点名，做展示那节课到了就好了。老师很认真，就是展示部分规则稍作修改可能学生学到更多。论文认真写，给分不错。——现代文学思潮研究。"},{"id":25077,"teacher_id":3569,"teacher_name":"张广海","post_time":"2016-05-05 07:20:57","like_diff":19,"likes":25,"dislikes":6,"content":"老师很负责任 超有学识"},{"id":41275,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-01-10 11:04:31","like_diff":19,"likes":24,"dislikes":5,"content":"很好很好的老师。人很可爱，上课会卖萌，会给你讲现代文学史的各种八卦，对学生的论文提问超级耐心回复"},{"id":30177,"teacher_id":3569,"teacher_name":"张广海","post_time":"2016-07-01 04:46:19","like_diff":18,"likes":26,"dislikes":8,"content":"我要澄清，不是对留学生不友好，你试着展示连续听5、6个留学生都讲新文化运动，而且照课本读它的意义什么的。听众表示无奈痛苦，老师是无辜的"},{"id":26204,"teacher_id":3569,"teacher_name":"张广海","post_time":"2016-06-16 08:38:38","like_diff":15,"likes":21,"dislikes":6,"content":"老师非常认真负责，真心希望同学能学到东西的那种。做展示会认真给你讲解可以深入挖掘的地方，还会提供参考资料给你。如果认真上的，给分相当好！"},{"id":124986,"teacher_id":3569,"teacher_name":"张广海","post_time":"2020-07-31 03:48:44","like_diff":15,"likes":26,"dislikes":11,"content":"楼下那个诅咒老师的，希望所有恶毒的话都应验在你自己身上。（广海老师真的很好很负责！）"},{"id":24769,"teacher_id":3569,"teacher_name":"张广海","post_time":"2016-05-03 12:56:20","like_diff":14,"likes":22,"dislikes":8,"content":"张老师认真，严谨，在课堂上，在帮助同学上肯下大功夫，是真正负责任，有原则的老师。"},{"id":123486,"teacher_id":3569,"teacher_name":"张广海","post_time":"2020-06-09 06:43:34","like_diff":14,"likes":28,"dislikes":14,"content":"楼下骂老师的，这么好的老师都骂，你也配当浙大学子？"},{"id":195187,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-06-27 05:55:08","like_diff":14,"likes":15,"dislikes":1,"content":"呵呵哒。听了一学期的课，考前又狠狠复习了一周，最后绩点是我大学以来最低的绩点。给分巨烂巨烂，平时分大家也卷啊卷，期末考试给分也很吝啬。。。"},{"id":196750,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-07-05 03:12:41","like_diff":14,"likes":15,"dislikes":1,"content":"阅读任务好重，上课也认真听了，期末也狠狠复习了，最后成绩惨不忍睹。"},{"id":24989,"teacher_id":3569,"teacher_name":"张广海","post_time":"2016-05-04 16:23:08","like_diff":13,"likes":19,"dislikes":6,"content":"很好的老师！治学严谨、要求较高、乐于交流、很有情怀，回邮件很快～"},{"id":25182,"teacher_id":3569,"teacher_name":"张广海","post_time":"2016-05-07 08:13:48","like_diff":12,"likes":19,"dislikes":7,"content":"非常非常负责任且有原则的老师，会为学生的论文做指导。讲课也很好，但可能不会特别生动，但收获很大。论文认真写分还不错，但东拼西凑的论文在老师手下是绝对不能过关的～"},{"id":195172,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-06-27 04:27:26","like_diff":12,"likes":13,"dislikes":1,"content":"课讲的真的很好，老师真的很有水平，但是这个学期给分真的很烂，刷新我最低绩点。。。。。不是水课，外专业慎重选"},{"id":145021,"teacher_id":3569,"teacher_name":"张广海","post_time":"2021-12-26 14:29:24","like_diff":11,"likes":13,"dislikes":2,"content":"还没考试，外专业也不知道他出卷多魔鬼，但是不妨碍想给他生猴子（狗头）\n\n太有趣了好爱，而且会在钉钉群和同学们认真讨论，真的很热爱他的事业吧"},{"id":217351,"teacher_id":3569,"teacher_name":"张广海","post_time":"2025-04-09 02:51:40","like_diff":11,"likes":11,"dislikes":0,"content":"课上得好，文献做得好，论文和专著也扎实，确实是文学院最好的老师之一"},{"id":47100,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-01-23 22:19:11","like_diff":10,"likes":15,"dislikes":5,"content":"张老师真的是一位非常认真负责的好老师！对待学生平易温和，课前课后会有很充实的材料提供给我们阅读。一学期下来感觉没怎么认真听老师的课，挺对不起老师的。"},{"id":123470,"teacher_id":3569,"teacher_name":"张广海","post_time":"2020-06-09 05:16:49","like_diff":10,"likes":26,"dislikes":16,"content":"张老师人超级好，对学生也很负责，上老师的课真的会有大学讲堂感。恶意刷差评的人内心得有多可怜？"},{"id":175858,"teacher_id":3569,"teacher_name":"张广海","post_time":"2023-06-27 03:35:17","like_diff":10,"likes":13,"dislikes":3,"content":"广海真君子也。"},{"id":187239,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-01-15 12:34:48","like_diff":10,"likes":15,"dislikes":5,"content":"通识挂人，快逃！！"},{"id":47035,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-01-23 10:16:48","like_diff":9,"likes":14,"dislikes":5,"content":"真诚的老师，广博的学识。"},{"id":105915,"teacher_id":3569,"teacher_name":"张广海","post_time":"2019-04-23 04:19:58","like_diff":9,"likes":17,"dislikes":8,"content":"老师真的超可爱超负责的。花了一个假期整理了课程要读的书目的PDF，因为之前讲理论这次讲作家作品论所以重新辛辛苦苦备课，上课各种作家的八卦哈哈哈哈（老师还特意强调都是有事实依据的），展示是外专业和汉语言分开分组的，感觉还是蛮公平的，上课可能会点名问一下读书感受什么的，不会很难，看过的不用紧张说说自己想法就好了。给老师比心"},{"id":107231,"teacher_id":3569,"teacher_name":"张广海","post_time":"2019-05-02 12:57:30","like_diff":9,"likes":23,"dislikes":14,"content":"广海有多好呢？就是你能想象到的中文系的老师应有的样子。学院派老师，认真，负责，幽默。"},{"id":123466,"teacher_id":3569,"teacher_name":"张广海","post_time":"2020-06-09 05:09:49","like_diff":9,"likes":22,"dislikes":13,"content":"老师就是好咋滴"},{"id":130896,"teacher_id":3569,"teacher_name":"张广海","post_time":"2021-01-25 07:32:41","like_diff":9,"likes":13,"dislikes":4,"content":"怎么这么多给广海低分\n\n广海在我心里值十分"},{"id":134223,"teacher_id":3569,"teacher_name":"张广海","post_time":"2021-03-19 16:12:22","like_diff":9,"likes":11,"dislikes":2,"content":"张老师的课堂内容特别充实，也非常有趣。作为一名外系学生，通过老师的课对现代文学有了进一步的了解，对文学也有了不一样的认识。"},{"id":145496,"teacher_id":3569,"teacher_name":"张广海","post_time":"2021-12-30 03:47:27","like_diff":9,"likes":11,"dislikes":2,"content":"我就是喜欢张老师上的课，很有意思，很细致，很有激情，上课从来不会犯困。我觉得成绩都是自己努力得来的，是水平的一种体现，与做人无关。老师同学都如此。总之表白张老师！"},{"id":169914,"teacher_id":3569,"teacher_name":"张广海","post_time":"2023-02-28 11:10:32","like_diff":9,"likes":10,"dislikes":1,"content":"张老师是我在浙大最喜欢的老师，他让我对文学有了极大的兴趣，在课堂上从不说一句废话，他说的句句都能一针见血，真的对老师讲解知识能力表示心服口服，极为重要的是张老师对我们每个人的表现都会给予积极的肯定，那样诚恳的认可会让我充满动力，同时老师的给分是相当滴公平公正，真的好骄傲自己遇到过这样好的老师！感谢张老师！真的极力推荐！！！！！！"},{"id":47081,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-01-23 15:18:18","like_diff":8,"likes":13,"dislikes":5,"content":"广海老师炒鸡好啊啊啊啊啊啊啊！"},{"id":81441,"teacher_id":3569,"teacher_name":"张广海","post_time":"2018-07-05 05:51:40","like_diff":8,"likes":13,"dislikes":5,"content":"老师真的超级好！问老师论文的意见 特别特别有耐心，回复邮件超快。好想考老师的研究生"},{"id":148268,"teacher_id":3569,"teacher_name":"张广海","post_time":"2022-01-12 04:13:51","like_diff":8,"likes":11,"dislikes":3,"content":"深刻的思想 谦和的为人 标准的口音 天使的给分 广海yyds！"},{"id":153186,"teacher_id":3569,"teacher_name":"张广海","post_time":"2022-04-26 12:47:43","like_diff":8,"likes":10,"dislikes":2,"content":"怎么会有这么完美的老师啊🥺"},{"id":195102,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-06-26 22:13:47","like_diff":8,"likes":19,"dislikes":11,"content":"上过现当代文学史，不否认老师确实很认真。但是上课内容混乱毫无逻辑、体系关系。上课讲的也大多是一些杂七杂八的八卦等等，完全不认为有任何知识性可言（或许这就是汉语言文学吧...）每周的任务量是很重的，每周平均发下来三四百页pdf的阅读资料以为学生都不干别的事就天天上你这一门课了呢😅\n\n还有各种各样的卷发言，上课卷完下课还要在群里卷。考试的内容是繁重的，考试的成绩是令人崩溃的。。。\n\n只能说不是真心爱好文学的话，快跑吧！"},{"id":197613,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-07-22 03:29:58","like_diff":8,"likes":11,"dislikes":3,"content":"广海老师学识广博，治学功夫非常扎实。中国现代文学史没有想象中这么劝退，只要认真阅读和听课就能够获得一个中肯的分数。张老师的给分不烂，只是非常求是。"},{"id":50677,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-05-04 07:31:32","like_diff":7,"likes":11,"dislikes":4,"content":"老师严谨认真，对学生提出的问题总是认真回答，也很有想法。论文只要写出自己的想法，认真写，是不会差的。"},{"id":66429,"teacher_id":3569,"teacher_name":"张广海","post_time":"2018-01-16 09:13:21","like_diff":7,"likes":11,"dislikes":4,"content":"老师超级好，负责任，上课也很好，对学生态度也超nice"},{"id":88414,"teacher_id":3569,"teacher_name":"张广海","post_time":"2018-10-30 10:58:33","like_diff":7,"likes":11,"dislikes":4,"content":"温度温情并重的好老师"},{"id":94746,"teacher_id":3569,"teacher_name":"张广海","post_time":"2019-01-18 04:59:49","like_diff":7,"likes":12,"dislikes":5,"content":"刚考完，不管老师给我多少分，我永远给他满分!"},{"id":97255,"teacher_id":3569,"teacher_name":"张广海","post_time":"2019-01-22 07:30:11","like_diff":7,"likes":13,"dislikes":6,"content":"老师讲课很有章法，会给我们很多课下的阅读材料，最后给分棒棒哒！！！超级优秀超级负责的老师，好想考他的研究生，但竞争太激烈了！"},{"id":117703,"teacher_id":3569,"teacher_name":"张广海","post_time":"2019-09-29 08:43:28","like_diff":7,"likes":24,"dislikes":17,"content":"广海老师讲课思路十分明确、内容丰富。此前在现代文学史课程的学习期间，读了很多老师推荐的书，这对我思想观念的转变产生了很大的影响。老师在课下也很热心、温和，给我提供了不少帮助，真的感激不尽。希望自己不辜负老师的期望，将来能够接近现代文学的研究。"},{"id":134371,"teacher_id":3569,"teacher_name":"张广海","post_time":"2021-03-25 05:25:50","like_diff":7,"likes":9,"dislikes":2,"content":"讲的很细致，老师也很好"},{"id":155898,"teacher_id":3569,"teacher_name":"张广海","post_time":"2022-06-16 13:18:20","like_diff":7,"likes":9,"dislikes":2,"content":"理想中的大学老师就是这样的吧！"},{"id":196131,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-07-01 21:51:41","like_diff":7,"likes":9,"dislikes":2,"content":"现当代文学史，老师人有意思，但是期末不划考试范围，考的很杂，给分烂，uu们慎重"},{"id":211442,"teacher_id":3569,"teacher_name":"张广海","post_time":"2025-01-11 12:03:20","like_diff":7,"likes":8,"dislikes":1,"content":"我心目中高等学府的老师就是这样的：博学，亲切，有趣，谦敏"},{"id":72891,"teacher_id":3569,"teacher_name":"张广海","post_time":"2018-01-31 09:24:38","like_diff":6,"likes":9,"dislikes":3,"content":"虽然最后分不高，但老师真的很认真负责，课上给的材料很全，会用各种野史给上课内容添色，很有趣。如果抛开学业压力好好学，一定会收获很多！"},{"id":148463,"teacher_id":3569,"teacher_name":"张广海","post_time":"2022-01-12 14:31:52","like_diff":6,"likes":7,"dislikes":1,"content":"讲课很棒！很有学养"},{"id":193084,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-06-03 10:01:40","like_diff":6,"likes":10,"dislikes":4,"content":"现当代所为数不多很温和慈祥的老师，当然其他老师也很好，但是由于太具有现代性了，让人多少有点害怕。但是广海老师真的特别温和，跟你讨论问题永远是笑着的，然后也不会把自己当成权威，而是和你讨论，pre的点评也特别好。上的现当代文学思潮，老师期末交论文说这门课很多高年级，而且很多人是用这门课的论文当学年论文的，普遍写的很好，让我很害怕，因为觉得自己论文水平一般，结果出来成绩给了特别高的分，大概是因为我有一个part写了自己的一点思考，所以老师真的不会看你的水平到底有多高，而是希望你在这门课上真的学到了东西，有自己的思考。然后因为学院要求，90分以上不能超过30%，老师一直在群里跟我们说他已经尽力了。总而言之，广海老师真的很好，当然如果你要水，还是考虑一下，这并不是一些水课。"},{"id":218384,"teacher_id":3569,"teacher_name":"张广海","post_time":"2025-04-23 05:26:09","like_diff":6,"likes":6,"dislikes":0,"content":"广海老师真的是我认识的最有学者风范的老师，治学严谨，但是给分很求是，需要仔细打磨你的论文"},{"id":48800,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-03-13 07:36:01","like_diff":5,"likes":10,"dislikes":5,"content":"严于律己的老师 对学生很温柔很耐心 提的问题和发的邮件都会很详细很认真地回答 不点名 论文好好写 给分挺好的"},{"id":49953,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-04-27 13:30:34","like_diff":5,"likes":10,"dislikes":5,"content":"老师十分的可爱，课上的很有趣，一定不会后悔的(中国现当代文学创作与批评)"},{"id":50599,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-05-03 23:45:01","like_diff":5,"likes":9,"dislikes":4,"content":"是一位和学生距离很近的老师，没有代沟！认真完成论文和展示就能拿高分！上课也很有趣哦"},{"id":50601,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-05-04 00:01:37","like_diff":5,"likes":8,"dislikes":3,"content":"最喜欢的老师！非常认真负责"},{"id":59594,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-09-24 11:21:41","like_diff":5,"likes":7,"dislikes":2,"content":"老师很有风度，会引导我们从大局来看待问题，很乐于和学生交流。"},{"id":59597,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-09-24 11:39:58","like_diff":5,"likes":8,"dislikes":3,"content":"老师真的超级棒棒有自己的思想敢于批判为海哥打call"},{"id":71116,"teacher_id":3569,"teacher_name":"张广海","post_time":"2018-01-28 03:24:03","like_diff":5,"likes":10,"dislikes":5,"content":"老师不错，考试太难了…而且还占百分之七十，填空题一大堆"},{"id":128664,"teacher_id":3569,"teacher_name":"张广海","post_time":"2020-12-25 03:09:37","like_diff":5,"likes":7,"dislikes":2,"content":"好！好！好!"},{"id":217378,"teacher_id":3569,"teacher_name":"张广海","post_time":"2025-04-09 07:56:10","like_diff":5,"likes":5,"dislikes":0,"content":"治学严谨，上课认真，待人亲切，谁能不说广海好"},{"id":217801,"teacher_id":3569,"teacher_name":"张广海","post_time":"2025-04-16 14:21:48","like_diff":5,"likes":5,"dislikes":0,"content":"上大学遇见最好的老师"},{"id":25135,"teacher_id":3569,"teacher_name":"张广海","post_time":"2016-05-06 02:52:57","like_diff":4,"likes":9,"dislikes":5,"content":"很认真"},{"id":68112,"teacher_id":3569,"teacher_name":"张广海","post_time":"2018-01-22 14:58:27","like_diff":4,"likes":8,"dislikes":4,"content":"很负责很认真！"},{"id":71097,"teacher_id":3569,"teacher_name":"张广海","post_time":"2018-01-28 02:51:37","like_diff":4,"likes":8,"dislikes":4,"content":"太好了，人好课好分好"},{"id":71099,"teacher_id":3569,"teacher_name":"张广海","post_time":"2018-01-28 02:53:02","like_diff":4,"likes":8,"dislikes":4,"content":"老师真的太好了！上课很认真，给分也很好！"},{"id":81388,"teacher_id":3569,"teacher_name":"张广海","post_time":"2018-07-05 03:18:38","like_diff":4,"likes":8,"dislikes":4,"content":"有种莫名的人格魅力，想考老师的研究生。"},{"id":149695,"teacher_id":3569,"teacher_name":"张广海","post_time":"2022-01-16 12:20:08","like_diff":4,"likes":6,"dislikes":2,"content":"太喜欢广海老师了 幽默风趣又平易近人"},{"id":155972,"teacher_id":3569,"teacher_name":"张广海","post_time":"2022-06-17 02:36:00","like_diff":4,"likes":6,"dislikes":2,"content":"爱你老张"},{"id":166014,"teacher_id":3569,"teacher_name":"张广海","post_time":"2023-01-10 21:54:49","like_diff":4,"likes":6,"dislikes":2,"content":"有人文情怀还有本事的好老师啊好老师！！！"},{"id":174153,"teacher_id":3569,"teacher_name":"张广海","post_time":"2023-06-06 16:07:58","like_diff":4,"likes":5,"dislikes":1,"content":"非常非常非常好的老师，讲课内容丰富，风趣幽默善解人意，普通话非常好听，听他上课是一种享受，给分也很好～论文写的很惶恐也很差，但因为老师给了我一个不错的分数而感到自己浅薄的素养得到了一点点肯定，感谢广海！真的很喜欢。"},{"id":198005,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-08-23 08:44:04","like_diff":4,"likes":9,"dislikes":5,"content":"晚上十一点半还会回我邮件的天使老师，非常有责任心！"},{"id":210041,"teacher_id":3569,"teacher_name":"张广海","post_time":"2025-01-08 03:51:22","like_diff":4,"likes":5,"dislikes":1,"content":"浙大文学院最好的老师之一"},{"id":218348,"teacher_id":3569,"teacher_name":"张广海","post_time":"2025-04-23 01:04:52","like_diff":4,"likes":4,"dislikes":0,"content":"爱张老师，现代文学思潮研究给分太好了，伟大无需多言🥰🥰🥰"},{"id":219186,"teacher_id":3569,"teacher_name":"张广海","post_time":"2025-05-23 01:44:06","like_diff":4,"likes":5,"dislikes":1,"content":"第一次在查老师写评价，广海是我进入大学最喜欢的老师。治学严谨，为人和善，偶尔八卦。重视学生的老师是什么样子，他就是什么样子。上过两堂课，讲的特别细致。可惜自己没什么学术能力，不然真的很想和他继续学习。"},{"id":47376,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-01-25 14:44:48","like_diff":3,"likes":7,"dislikes":4,"content":"非常好，严谨认真，对学生也很好，严格但是蛮厚道的。只是……ppt的体系有点乱?不过重点该渗透的都渗透了。"},{"id":98804,"teacher_id":3569,"teacher_name":"张广海","post_time":"2019-01-24 03:01:28","like_diff":3,"likes":8,"dislikes":5,"content":"老师是最好的老师\n\n"},{"id":99463,"teacher_id":3569,"teacher_name":"张广海","post_time":"2019-01-25 00:17:53","like_diff":3,"likes":9,"dislikes":6,"content":"享受~"},{"id":105914,"teacher_id":3569,"teacher_name":"张广海","post_time":"2019-04-23 04:18:32","like_diff":3,"likes":11,"dislikes":8,"content":"人很好，很负责，很认真，也能搞笑，理想中的大学2老师"},{"id":164870,"teacher_id":3569,"teacher_name":"张广海","post_time":"2022-12-27 05:11:46","like_diff":3,"likes":5,"dislikes":2,"content":"我永远喜欢gh老师！"},{"id":195464,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-06-28 07:19:15","like_diff":3,"likes":9,"dislikes":6,"content":"老师上课特别认真仔细，知识广博，钉钉消息也是秒回特别感动，考题很细复习要背很多，汉语言基本操作，不要因为绩点贬低老师水平"},{"id":218442,"teacher_id":3569,"teacher_name":"张广海","post_time":"2025-04-23 13:36:50","like_diff":3,"likes":3,"dislikes":0,"content":"老师给分真的好！来自外专业学生的肯定！"},{"id":218668,"teacher_id":3569,"teacher_name":"张广海","post_time":"2025-04-28 12:45:44","like_diff":3,"likes":3,"dislikes":0,"content":"在文学院三年有幸上过他的课，真心觉得广海老师的课讲得真的很好很好，分也给得很好"},{"id":218786,"teacher_id":3569,"teacher_name":"张广海","post_time":"2025-05-05 10:41:17","like_diff":3,"likes":3,"dislikes":0,"content":"等我毕业的时候最喜爱的老师一定三票都投给广海"},{"id":219039,"teacher_id":3569,"teacher_name":"张广海","post_time":"2025-05-19 15:34:36","like_diff":3,"likes":3,"dislikes":0,"content":"上过广海的文学史1和现代文学思潮研究，给分还是不错的，老师人特别谦虚，可以把课程论文发给张老师，老师会很详细的指出修改意见，按照老师说的修改了，最后4.8，爱你广海🥰🥰🥰🥰🥰"},{"id":106862,"teacher_id":3569,"teacher_name":"张广海","post_time":"2019-04-30 05:26:59","like_diff":2,"likes":13,"dislikes":11,"content":"老师非常负责！而且上课有趣，有名人八卦，也有专业知识"},{"id":130437,"teacher_id":3569,"teacher_name":"张广海","post_time":"2021-01-22 10:34:28","like_diff":2,"likes":4,"dislikes":2,"content":"被卡绩了，难受\n\n老师讲得还是不错的"},{"id":163098,"teacher_id":3569,"teacher_name":"张广海","post_time":"2022-12-07 08:32:32","like_diff":2,"likes":3,"dislikes":1,"content":"很棒!"},{"id":172525,"teacher_id":3569,"teacher_name":"张广海","post_time":"2023-04-28 14:29:10","like_diff":2,"likes":4,"dislikes":2,"content":"广海老师，永远的神"},{"id":193156,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-06-04 05:25:12","like_diff":2,"likes":7,"dislikes":5,"content":"上的现当代文学史，是我最喜欢的一门专业课了！老师普通话很标准，上课娓娓道来听起来很舒服，强推！！！但是需要阅读很多的阅读材料，外专业慎选。"},{"id":148366,"teacher_id":3569,"teacher_name":"张广海","post_time":"2022-01-12 08:58:41","like_diff":1,"likes":2,"dislikes":1,"content":"不错，真不错🙂🙂🙂"},{"id":191501,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-04-24 01:47:24","like_diff":1,"likes":5,"dislikes":4,"content":"非常负责任的老师！对学生真的太好了🥺现代文学思潮跨级选课很惶恐 我以后是打算做现代文学的所以平时每周会花很多时间读课程文献 确实很辛苦很辛苦 期末论文因为时间安排的问题（写得太早了还没get到精髓）没能写得让自己满意 但还是被捞了 感恩……anyway这不是最重要的 老师讲的很多关于左翼文学的内容都是还没发表的东西 非常值得做深入研究和思考 每节课容量都很大 上课脑子飞速运转 总之这门课让我第一次初步知道了现代文学研究的一种重要路径应该是什么样的、可以怎样铺展开 所以在这个意义上我觉得大二提前修其实是赚到了～（另外 我得开始推进我的项目了 之前太忙一直搁着 对不起老师……）"},{"id":196788,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-07-05 06:55:39","like_diff":1,"likes":6,"dislikes":5,"content":"老师很好很有学识！真的很棒！"},{"id":171013,"teacher_id":3569,"teacher_name":"张广海","post_time":"2023-03-14 05:56:14","like_diff":0,"likes":2,"dislikes":2,"content":"yyds"},{"id":172529,"teacher_id":3569,"teacher_name":"张广海","post_time":"2023-04-28 16:06:27","like_diff":0,"likes":1,"dislikes":1,"content":"讲课内容有点多，讲得有点快"},{"id":195103,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-06-26 23:04:28","like_diff":0,"likes":7,"dislikes":7,"content":"虽然最后绩点不高，还是必须给老师满分"},{"id":196983,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-07-06 09:28:55","like_diff":0,"likes":8,"dislikes":8,"content":"课好 讲的精彩\n\n给分求是 期末难\n\n不觉得阅读任务真的很重 每一章的阅读都划了重点 今年的期末基本也没考重点以外的篇章 平均算下来（只读重点 注意 这是只读重点的时长）阅读时长一周四到五小时 真不觉得这任务很重 你学的可是文学啊...\n\n论文不好写 他自称会挂人 下面有人说平时分卷 我没感觉 平时分就只有签到和论文 他第一节课就明确说明了课堂发言不占比重 不知道有些人是不是卷不到地方还怪老师了\n\n不努力就别想在他的课上拿高绩点 但课真的很好\n\n所以感觉才会有这么多破防的小丑咯 挺搞笑的 自己不努力凭什么给你高绩点"},{"id":187235,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-01-15 17:38:48","like_diff":-1,"likes":7,"dislikes":8,"content":"课讲得非常好 很有学问也很幽默的老师。\n\n可惜我被卡绩了 不过可能是因为我期末确实发挥不够好吧。。。"},{"id":195220,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-06-27 09:22:28","like_diff":-1,"likes":6,"dislikes":7,"content":"老师知识渊博，温柔耐心。但是现当代文学史任务极其繁重，期末闭卷考要背的内容很多很多，我是外专业的，大概完完整整背了4天，期末题基本上都做出来了。最后分数很好，但是付出了很多时间和精力，所以跨专业还是慎选。"},{"id":187237,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-01-15 09:25:00","like_diff":-2,"likes":5,"dislikes":7,"content":"中国现代史文学经典选读：特别棒的一门课！考核是一篇3k字+论文和一次闭卷考，平时需要做一个简单的小组展示。其实只要每周稍微花一点时间跟上阅读，考试是不难的（我感觉考试只是老师想看看大家读书了没，只要体现自己真的读了就没问题）老师上课特别有意思，可以学到很多！我原先是一个很不爱读书的人，这是第一次静下心来读张爱玲、郁达夫、施蛰存、曹禺等作家的作品（考前有些没读的狂看补起来也挺快乐的），收货很大！总之特别特别好的课，只要对文学感兴趣，愿意读书就可以无脑选！（不愿意花时间读就绕道吧 是有几个因为没读书考试分太低挂科的呜呜）"},{"id":208084,"teacher_id":3569,"teacher_name":"张广海","post_time":"2024-12-25 13:34:44","like_diff":-11,"likes":7,"dislikes":18,"content":"心眼比较小，背后经常说别的老师坏话"},{"id":64414,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-12-23 10:18:41","like_diff":-16,"likes":5,"dislikes":21,"content":"心累…"},{"id":47095,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-01-23 17:32:02","like_diff":-17,"likes":3,"dislikes":20,"content":"嗯。。"},{"id":124165,"teacher_id":3569,"teacher_name":"张广海","post_time":"2020-06-26 05:58:47","like_diff":-17,"likes":13,"dislikes":30,"content":"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈我服我服牛逼"},{"id":136348,"teacher_id":3569,"teacher_name":"张广海","post_time":"2021-06-16 20:05:53","like_diff":-18,"likes":4,"dislikes":22,"content":"。。。"},{"id":25307,"teacher_id":3569,"teacher_name":"张广海","post_time":"2016-05-13 08:23:59","like_diff":-32,"likes":11,"dislikes":43,"content":"老师上课很好，但给分太差了，每次课都去，老师明明说我们的论文和展示不错，结果竟然给了不及格，老师对留学生太不友好了！"},{"id":46994,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-01-23 08:54:05","like_diff":-34,"likes":6,"dislikes":40,"content":"也就那样"},{"id":47359,"teacher_id":3569,"teacher_name":"张广海","post_time":"2017-01-25 11:50:36","like_diff":-45,"likes":4,"dislikes":49,"content":"拿到4.8开心到爆炸，猛然发现周围无数个满绩的，哎。"},{"id":124308,"teacher_id":3569,"teacher_name":"张广海","post_time":"2020-06-29 03:49:28","like_diff":-47,"likes":14,"dislikes":61,"content":"还活着呢"},{"id":124860,"teacher_id":3569,"teacher_name":"张广海","post_time":"2020-07-14 01:35:46","like_diff":-49,"likes":12,"dislikes":61,"content":"别来浙大中文系祸祸了"},{"id":123760,"teacher_id":3569,"teacher_name":"张广海","post_time":"2020-06-14 00:19:26","like_diff":-51,"likes":16,"dislikes":67,"content":"R.I.P 张广海"},{"id":127452,"teacher_id":3569,"teacher_name":"张广海","post_time":"2020-11-23 07:06:09","like_diff":-56,"likes":11,"dislikes":67,"content":"张广海大傻逼"},{"id":123294,"teacher_id":3569,"teacher_name":"张广海","post_time":"2020-05-30 15:12:26","like_diff":-60,"likes":17,"dislikes":77,"content":"sb爬"},{"id":123189,"teacher_id":3569,"teacher_name":"张广海","post_time":"2020-05-18 11:02:59","like_diff":-62,"likes":17,"dislikes":79,"content":"爬吧dd"},{"id":123328,"teacher_id":3569,"teacher_name":"张广海","post_time":"2020-06-03 08:42:32","like_diff":-76,"likes":19,"dislikes":95,"content":"怎么会有这么多人无脑吹呢？是没听过真正的好老师讲课吗？zgh也配？"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

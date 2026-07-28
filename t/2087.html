@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>章重远 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="章重远教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="章重远,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">章重远</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.92</div>
+                    <div class="rating-participants">174人参与评分</div>
+                    <div class="attendance-info">27.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">社会心理学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.89</span>
+                            <span class="students">选课: 403人</span>
+                            <span class="std-dev">标准差: 0.74</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">管理学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.11</span>
+                            <span class="students">选课: 222人</span>
+                            <span class="std-dev">标准差: 0.64</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (144 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":634,"teacher_id":2087,"teacher_name":"章重远","post_time":"2015-03-15 08:59:08","like_diff":78,"likes":105,"dislikes":27,"content":"绝对男神啊啊啊！虽然目前只是导师，但是上课很幽默博学，英英不能更纯！（听多了耳朵会怀孕啊！(☆_☆)）大概是英国留学回来的缘故，非常gentleman!"},{"id":443,"teacher_id":2087,"teacher_name":"章重远","post_time":"2015-03-15 02:30:07","like_diff":49,"likes":65,"dislikes":16,"content":"peter超棒！纯正的英国口音，绝对是浙大老师口语最高级别，也很博学很为学生着想！绩点低的只能怪自己平时不认真！"},{"id":4723,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-08-13 18:33:25","like_diff":35,"likes":39,"dislikes":4,"content":"Peter是我来浙大发现的最好的老师"},{"id":10043,"teacher_id":2087,"teacher_name":"章重远","post_time":"2015-11-14 17:30:26","like_diff":32,"likes":36,"dislikes":4,"content":"來到浙大最喜歡的老師沒有之一啊，課程非常有內容，真的可以學到很多，英文發音比我大英課的老師還標準，不過英文聽力不好的不建議選不然就浪費了這樣好的課"},{"id":1185,"teacher_id":2087,"teacher_name":"章重远","post_time":"2015-03-21 16:27:20","like_diff":30,"likes":36,"dislikes":6,"content":"男神不解释"},{"id":20930,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-02-04 09:37:31","like_diff":23,"likes":27,"dislikes":4,"content":"上课内容比较有趣，评分方式合理，期末试卷出得好能看出学习质量。给分个人认为挺公正的，什么水平就是什么分，很感激在一个不怎么公平的制度下遇到Peter。"},{"id":20662,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-06-12 03:38:14","like_diff":20,"likes":24,"dislikes":4,"content":"Peter是个认真对待这份职业 超级负责的好老师 曾经问了一个问题 结果很快收到满满的回复 口音也很赞哟 平时认认真真看完课本考试一定会有回报滴"},{"id":40874,"teacher_id":2087,"teacher_name":"章重远","post_time":"2017-01-06 04:49:02","like_diff":19,"likes":19,"dislikes":0,"content":"选择去管院有部分是因为这位老师"},{"id":93576,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-01-10 13:46:28","like_diff":19,"likes":22,"dislikes":3,"content":"还没结课，不管结果怎么样必须给老师满分。不是管院的同学，来上这门课一方面是感兴趣，一方面是被查老师大家的评分吸引了，最后完完全全的不虚此行。不吹不黑，小章老师真的，上课太好了，有时候上课走神没有好好听都会觉得很愧疚对不起老师那么认真那么好地上课。老师是真的在想法设法地寻求一种教育（至少是管理学教育）的最好方式，并且对普通同学和留学生都平等对待。老师特别可爱的一点是，说有些内向的自己其实很希望得到大家的肯定，真的是非常努力又认真的好老师，也是非常生动的课堂（只要没有语言障碍 其实老师都用很日常的例子和表达来帮助大家理解）因为小章老师想继续向管理学进发了！ 比心！！"},{"id":102010,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-01-30 03:42:54","like_diff":15,"likes":15,"dislikes":0,"content":"一门管理学涉及了非常多心理学的知识，讲的也有意思。能真正感受到，他是一个活着的人，不同于许多老师，能感觉到他真的喜欢教育、真的在乎思想。来自偏远落后地区的我大一选了全英的管理学，也许是一个挑战，但更多的是庆幸与骄傲。从小到大的很多考试会发现大多数老师考的还是比自己想的粗些浅些；但peter是少有的，考到了比我想的更细的程度的老师。不过认真学了一学期管理学，我认为有考试这样的机会来回顾这些有用的知识是很有意思的。“比起make everyone happy，我更愿意奖励hard worker”，不过他的给分其实两者都兼顾到了吧。"},{"id":168729,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-02-21 13:00:42","like_diff":15,"likes":15,"dislikes":0,"content":"“I believe rewarding hard workers is better than making everyone happy.\" -Peter"},{"id":46730,"teacher_id":2087,"teacher_name":"章重远","post_time":"2017-01-22 08:34:10","like_diff":14,"likes":14,"dislikes":0,"content":"出分前膜一发 老师被叫男神是有道理的！"},{"id":5788,"teacher_id":2087,"teacher_name":"章重远","post_time":"2017-08-29 03:56:54","like_diff":12,"likes":15,"dislikes":3,"content":"棒"},{"id":6713,"teacher_id":2087,"teacher_name":"章重远","post_time":"2015-07-19 11:15:56","like_diff":12,"likes":26,"dislikes":14,"content":"其实男神的课属于基本听不懂的状态"},{"id":46761,"teacher_id":2087,"teacher_name":"章重远","post_time":"2017-01-22 09:29:31","like_diff":11,"likes":11,"dislikes":0,"content":"真的是非常棒的老师呢。英文流利 说到不常见的词汇会用中文解释。 内容有趣 不明白为什么那么有趣的课还有人不听。 每节课有小测  期末考试不会太慌了。给分公平。 体谅学生。 来浙大遇到最棒的老师了"},{"id":67036,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-01-20 06:13:56","like_diff":11,"likes":11,"dislikes":0,"content":"一门管理学感觉上成了社会心理学应用经济学博弈论等等的大成，涉及内容很广，体验很不错"},{"id":25671,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-06-01 09:41:03","like_diff":9,"likes":10,"dislikes":1,"content":"长得帅就算了，发音还好听，发音好听就算了，课还讲的细，课讲得好都算了，他给分还超棒啊！最好的老师，没有之一！"},{"id":6687,"teacher_id":2087,"teacher_name":"章重远","post_time":"2015-07-18 17:12:20","like_diff":8,"likes":12,"dislikes":4,"content":"现在最喜欢的老师 数学系卢兴江 管理学院章重远"},{"id":38317,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-11-30 01:51:14","like_diff":8,"likes":8,"dislikes":0,"content":"绝对是理想的导师，非常可惜我不是管院的"},{"id":47521,"teacher_id":2087,"teacher_name":"章重远","post_time":"2017-01-29 04:52:53","like_diff":8,"likes":9,"dislikes":1,"content":"绝对男神！超级有思想观点很正人超级好！！！英语口音好听到爆！一开始会讲的比较慢后来会慢慢快一点！讲的内容只要上课认真听下课看ppt还是比较容易的！如果有什么疑问之类的email给他都会超级热心的解答！还会给你安利一些书籍！给分很公正！讲真浙大需要多几个这样的老师！"},{"id":101597,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-01-28 14:31:38","like_diff":7,"likes":7,"dislikes":0,"content":"听课体验很棒，有付出有回报，想水课勿选"},{"id":186933,"teacher_id":2087,"teacher_name":"章重远","post_time":"2024-01-13 15:41:01","like_diff":7,"likes":7,"dislikes":0,"content":"念作Zhang Zhongyuan，不是Zhongyuan Zhang。\n\n兼有世界视野与爱国情怀的求是学者，儒家思想浸润得透透的。"},{"id":101588,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-01-28 13:58:06","like_diff":6,"likes":7,"dislikes":1,"content":"老师真的很好！英式口音不要太撩，指导学生也很耐心。听课的话留神一些应该不会有太大的难度，难词老师也会做一下中文解释的。建议选Peter的课还是要坚持认真听呀，不管是从收获还是最终的期末考核来看都是很有帮助的。因为最后复习的时候你会发现ppt上的有些东西没有了老师的讲解确实没那么好理解...课本和ppt都很重要！考完心慌慌最后给分还不错开心^_^"},{"id":164787,"teacher_id":2087,"teacher_name":"章重远","post_time":"2022-12-26 06:48:56","like_diff":6,"likes":7,"dislikes":1,"content":"真的 一位非常非常真诚的教授 就是我心目中那种温润、真诚的知识分子形象 上课会表达自己的需要大家回应的需求 好可爱哈哈哈 永远是一种跟大家探讨的姿态，而不是高高在上的辩驳 也会在课堂上向大家传授关于做人做事的道理 “依靠内心价值来行动的人，才是一个成年人应该有的样子”"},{"id":19363,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-01-24 03:01:09","like_diff":5,"likes":8,"dislikes":3,"content":"章男神的课绝对值得听～比其他中文管理学班的有趣有用太多"},{"id":22977,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-03-15 16:51:46","like_diff":5,"likes":7,"dislikes":2,"content":"上过老师的社会心理学。很多有趣的实例。锻炼了英语，增长了知识。给分很公正。社会心理学那本教材不好啃，但是只要认真看完就有不错的分数。只可惜，基本没有人能按照要求看完，所以分数低，也没有办法。。。"},{"id":63776,"teacher_id":2087,"teacher_name":"章重远","post_time":"2017-12-14 13:31:07","like_diff":5,"likes":5,"dislikes":0,"content":"我见过的管院最好的老师不解释！！！"},{"id":122263,"teacher_id":2087,"teacher_name":"章重远","post_time":"2020-02-21 11:47:42","like_diff":5,"likes":5,"dislikes":0,"content":"授课管理学，但感觉老师哲学语言学融会贯通，观点的深刻性令人折服。非常感谢老师用心回复的邮件，非常感谢管理学课让我认识了非常nice的组员和可爱同桌！"},{"id":149158,"teacher_id":2087,"teacher_name":"章重远","post_time":"2022-01-14 14:53:16","like_diff":5,"likes":5,"dislikes":0,"content":"从上peter的课开始到结课越来越觉得能选上他的课是我的幸运"},{"id":179530,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-09-18 03:34:43","like_diff":5,"likes":6,"dislikes":1,"content":"神中神😍😍😍今天第一节课就爱上了"},{"id":11258,"teacher_id":2087,"teacher_name":"章重远","post_time":"2015-11-26 03:25:05","like_diff":4,"likes":6,"dislikes":2,"content":"啊啊啊，Peter真男神，可惜我太渣，拼写Peter这个词都要百度……"},{"id":20698,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-01-30 02:59:44","like_diff":4,"likes":5,"dislikes":1,"content":"男神！"},{"id":21680,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-02-29 15:18:09","like_diff":4,"likes":5,"dislikes":1,"content":"peter英语超级好！人风趣幽默，每周都好期待他的课！只要努力，分数很好看……啊啊啊好想再上一次！"},{"id":22173,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-03-15 12:39:47","like_diff":4,"likes":6,"dislikes":2,"content":"老师真的超级好，超有气质，上课也很有趣很有趣"},{"id":23741,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-04-14 07:40:15","like_diff":4,"likes":5,"dislikes":1,"content":"很好啊，发音很好，老师人也很好，很为同学着想，给分的话只要认真准备复习，给分都挺好的！"},{"id":33789,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-09-21 16:04:29","like_diff":4,"likes":4,"dislikes":0,"content":"会学到很多东西。考试只要自己认真准备就没有问题，强推！"},{"id":66994,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-01-19 15:42:58","like_diff":4,"likes":4,"dislikes":0,"content":"实话上课没怎么听 英语听力还是不错的 我是在期末抱佛脚时候钻研老师ppt才认识到老师真的很有思想很有趣 后悔没认真听 两次小组展示 一篇观后感 期末还是需要花功夫看看书和ppt的 但是还是想说上他的课如沐春风 还学到了不少英语单词"},{"id":99318,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-01-24 14:47:50","like_diff":4,"likes":4,"dislikes":0,"content":"一个特别有风度的老师~虽然成绩不是很好 但是自己确实差了点 老师真的很好！课堂有激情很生动 英文巨无敌好听！老师很真诚，感觉是全心全意投入教学的。总之，听过就是非常值得了！"},{"id":101583,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-01-28 13:40:18","like_diff":4,"likes":4,"dislikes":0,"content":"Peter实在是太棒辽！管理学的课一点也不枯燥，内容也丰富精彩，加入了很多深邃的思想，英式发音格外吸引，问他问题也很耐心。全外文接受起来有难度，但老师放慢了语速，其实也可以接受。感谢老师这么好的给分，也感谢老师的教导"},{"id":122254,"teacher_id":2087,"teacher_name":"章重远","post_time":"2020-02-21 08:45:08","like_diff":4,"likes":9,"dislikes":5,"content":"热评说的优点都是真的，我本人也非常喜欢peter，但是请慎选英文管理学！全英文的课本来就比起中文让人难以理解和集中注意力，而且peter的管理学是唯一一个要考试的，而且是半闭卷……抄cheating paper真的让人崩溃，而且其实并没什么用。考试内容自然也是全英文……复习起来非常头大。总而言之，不是对自己上课的注意力非常自信而且擅长英语的别选！peter在我心中值6-7分，但是9.8分实在是很有误导性，打了一分调和一下，万分抱歉。"},{"id":145530,"teacher_id":2087,"teacher_name":"章重远","post_time":"2021-12-30 07:34:23","like_diff":4,"likes":4,"dislikes":0,"content":"Peter的管理学和社心我都上过，无可置疑的好老师，是我来浙以来最喜欢的老师之一，上老师的课真是一种享受，也很为同学考虑，说是全英文其实不会很难懂，难的词或是不好理解的老师都会用中文解释，只要认真学了成绩都不会差的！大家放心选！"},{"id":149643,"teacher_id":2087,"teacher_name":"章重远","post_time":"2022-01-16 08:50:38","like_diff":4,"likes":5,"dislikes":1,"content":"别的学院来选社会心理学当国际化\n\nPeter讲的真的很好，英音听起来很舒服，语速适中，内容也比较容易懂。有的时候内容比较多了就会用中文解释，总体而言讲课给人一种很舒适的感觉\n\n课程本身算事情相对多的，两次个人pre一次小组视频一篇影评还有期末闭卷，但是其实分散下来也还好\n\n期末确实是全英文的，但是有不会的词可以举手问Peter，而且不是很难，只要把他ppt以及下面的备注好好看过就行\n\nAnyway国际化就来选Peter，很很很值得！！！"},{"id":166359,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-01-12 05:23:12","like_diff":4,"likes":4,"dislikes":0,"content":"考完后一天就出分数了，peter真的是一个非常真诚的教授，虽然考试不够时间准备而考了很一般的成绩，但是再给我一万次我还是会去上peter的课，他的课真的让我获益太多太多了。"},{"id":175397,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-06-24 13:47:20","like_diff":4,"likes":4,"dislikes":0,"content":"peter真的太好太好太好了，流泪推荐peter的社心，是真的能学到干货并以及对自身有用的知识！"},{"id":181951,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-11-06 09:35:34","like_diff":4,"likes":5,"dislikes":1,"content":"男神，上课风趣幽默，英音动听，而且很敢说，对于不合理的现状会大大方方提出自己的看法，不仅仅做到了一个学者该做的，更配得上教师这个名号！教书、育人都做到了。（Peter还会认真看查老师hhhhhhhhhhhhhh，虽然还没考试，没出绩点，但是我一定不后悔选这门课）"},{"id":20743,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-01-30 16:51:05","like_diff":3,"likes":4,"dislikes":1,"content":"很好听"},{"id":21663,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-02-29 13:19:06","like_diff":3,"likes":5,"dislikes":2,"content":"严谨负责，上课有趣，给分公正，口音纯正～绝对男神～"},{"id":22835,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-03-13 08:14:46","like_diff":3,"likes":5,"dislikes":2,"content":"超级棒"},{"id":23074,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-03-17 02:04:21","like_diff":3,"likes":4,"dislikes":1,"content":"我想问他能做我导师吗？"},{"id":35566,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-11-10 07:27:53","like_diff":3,"likes":3,"dislikes":0,"content":"老师很好，英文很棒，上课不水"},{"id":35689,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-11-10 07:45:59","like_diff":3,"likes":3,"dislikes":0,"content":"老师的课上真的能学到有用的东西。很有思想的老师。\n\n"},{"id":46753,"teacher_id":2087,"teacher_name":"章重远","post_time":"2017-01-22 09:19:56","like_diff":3,"likes":4,"dislikes":1,"content":"老师超帅！给分高！英音好听！！"},{"id":47137,"teacher_id":2087,"teacher_name":"章重远","post_time":"2017-01-24 04:12:01","like_diff":3,"likes":3,"dislikes":0,"content":"虽然最后得分并不好但是他的课就是超级无敌螺旋赞啊！"},{"id":49710,"teacher_id":2087,"teacher_name":"章重远","post_time":"2017-04-24 13:56:01","like_diff":3,"likes":3,"dislikes":0,"content":"老师教的很认真，跟分也很好。在浙大，我最喜欢的老师中之一?"},{"id":63777,"teacher_id":2087,"teacher_name":"章重远","post_time":"2017-12-14 13:31:32","like_diff":3,"likes":3,"dislikes":0,"content":"章老师 我爱您！"},{"id":63778,"teacher_id":2087,"teacher_name":"章重远","post_time":"2017-12-14 13:32:04","like_diff":3,"likes":3,"dislikes":0,"content":"章老师认真的超好！！！超nice"},{"id":97744,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-01-29 00:33:48","like_diff":3,"likes":3,"dislikes":0,"content":"有付出就有回报是真实的！！！谢谢Peter老师和温柔的助教姐姐！"},{"id":102445,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-02-02 09:05:15","like_diff":3,"likes":3,"dislikes":0,"content":"有原则，有思想，有学历，有实力，有精力，有风格，有个性。\n\n上课认真听，理解很重要，看书也很重要。\n\n如果能重来一遍，我一定好好看课本。"},{"id":122538,"teacher_id":2087,"teacher_name":"章重远","post_time":"2020-03-03 11:49:05","like_diff":3,"likes":4,"dislikes":1,"content":"老师本人很好，但是英文管理学真的别选。中文管理学：上课开开心心，任务主要是展示，没有考试。英文管理学：上课全英文讲理论，有展示但占比不大，期末与闭卷考无异且占比60%。奉劝各位大一就给自己留下一点快乐的回忆吧。"},{"id":131172,"teacher_id":2087,"teacher_name":"章重远","post_time":"2021-01-26 10:56:22","like_diff":3,"likes":3,"dislikes":0,"content":"Peter我吹一辈子！上课真的能学到东西，期末卷子虽然全英文但是碰到不会的单词可以随便叫老师！peter事情超级少，一点都不卷，非常尊重个人努力，比其他管理学好太多了，给分也超级棒。"},{"id":163704,"teacher_id":2087,"teacher_name":"章重远","post_time":"2022-12-16 03:34:01","like_diff":3,"likes":4,"dislikes":1,"content":"老师的课真的很有趣！！！线下可能更好！！！大家直接冲！！！学到了很多知识！！！"},{"id":170049,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-03-01 06:24:44","like_diff":3,"likes":3,"dislikes":0,"content":"章老师是一位真正的有着人文关怀的学者\n\n绝对的10分"},{"id":173910,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-06-04 11:29:49","like_diff":3,"likes":3,"dislikes":0,"content":"全浙大最喜欢的老师（也许没有之一），严谨的教学安排，生动亲切的授课，总是与学生平等相处的姿态，公正但绝不苛刻的打分，peter真的太棒了！！"},{"id":174723,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-06-16 07:44:23","like_diff":3,"likes":3,"dislikes":0,"content":"peter是一位富有人格魅力的男子，他的学术水平很高，待生真诚，授课有方。他的课堂就是浙大里一颗明亮的宝石，"},{"id":177986,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-07-06 03:00:39","like_diff":3,"likes":3,"dislikes":0,"content":"男神！！！社会心理学平时上课注意例子，考前好好复习一定可以得到满意的成绩！"},{"id":12470,"teacher_id":2087,"teacher_name":"章重远","post_time":"2015-12-23 10:57:48","like_diff":2,"likes":3,"dislikes":1,"content":"好好好"},{"id":49283,"teacher_id":2087,"teacher_name":"章重远","post_time":"2017-04-01 07:38:07","like_diff":2,"likes":2,"dislikes":0,"content":"男神不解释"},{"id":49462,"teacher_id":2087,"teacher_name":"章重远","post_time":"2017-04-14 09:32:18","like_diff":2,"likes":2,"dislikes":0,"content":"很好的老师，真正有独立思想和见解的老师！"},{"id":66140,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-01-12 04:44:00","like_diff":2,"likes":6,"dislikes":4,"content":"幽默，风趣，成绩凉凉，慎选"},{"id":67250,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-01-20 14:05:56","like_diff":2,"likes":3,"dislikes":1,"content":"老师我爱你！最喜欢的课满了 虽然学的时候觉得很难 但是看完了一本书觉得老师讲的真的好 真的是男神！英语口音也超纯正 人也超好 一点也不水 学会了很多"},{"id":93296,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-01-09 01:36:28","like_diff":2,"likes":4,"dislikes":2,"content":"上他的管理学真的真的是一种享受，PPT做的也很简单易懂，认真听的话真的能学到很多东西。真的真的是一个很好很好的老师!【总觉得自己不配上老师的课…?】全都给我来选!!!∠( ᐛ 」∠)_【motivation from students"},{"id":99269,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-01-24 14:07:10","like_diff":2,"likes":2,"dislikes":0,"content":"peter超好呀 上了他的管理学和社心 给分也好呀"},{"id":102905,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-02-25 02:17:16","like_diff":2,"likes":2,"dislikes":0,"content":"还想选www"},{"id":102913,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-02-25 02:56:28","like_diff":2,"likes":2,"dislikes":0,"content":"老师人好给分好"},{"id":120425,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-12-04 09:51:32","like_diff":2,"likes":2,"dislikes":0,"content":"还没上完这学期，但是在peter的课上我午休没休息好一点点犯困都会觉得愧疚"},{"id":124727,"teacher_id":2087,"teacher_name":"章重远","post_time":"2020-07-07 07:47:58","like_diff":2,"likes":2,"dislikes":0,"content":"章老师非常绅士，英音不能更棒，风趣幽默有独到见解，选他选他选他！"},{"id":127213,"teacher_id":2087,"teacher_name":"章重远","post_time":"2020-11-14 05:52:16","like_diff":2,"likes":2,"dislikes":0,"content":"直到毕业都庆幸当时选了这门课"},{"id":131171,"teacher_id":2087,"teacher_name":"章重远","post_time":"2021-01-26 10:51:27","like_diff":2,"likes":2,"dislikes":0,"content":"peter上的管理学很有趣。涉及很多心理学小知识，全英文复习起来确实头大，但是也是对自己的一种锻炼吧！Peter第一节课就说了会给努力的孩子肯定的！我上课一直水水过去，顶多考试周补天把所有课重新看了一遍，拿了4.5，感谢Peter捞王呜呜呜呜！英音真的很好听！不过有时候课上不完Peter就会用点中文了哈哈哈哈哈哈哈！人超级好！考试的时候单词看不懂还帮忙解释！Peter yyds！！！"},{"id":131174,"teacher_id":2087,"teacher_name":"章重远","post_time":"2021-01-26 11:01:06","like_diff":2,"likes":2,"dislikes":0,"content":"Peter是绝对的男神，真的没想到会得这么高的绩点，用心学真的能了解好多管理学的理论。"},{"id":144171,"teacher_id":2087,"teacher_name":"章重远","post_time":"2021-12-20 05:30:31","like_diff":2,"likes":2,"dislikes":0,"content":"相当好的老师，不要因为英语不好就怕上他的课，没有那么难听懂的！管理学马上就要结课了，很舍不得，很遗憾不能在管院学习，希望有缘再见吧……QWQ"},{"id":147819,"teacher_id":2087,"teacher_name":"章重远","post_time":"2022-01-11 02:52:25","like_diff":2,"likes":2,"dislikes":0,"content":"老师就算给我1.5我也要打10分的好课！"},{"id":149101,"teacher_id":2087,"teacher_name":"章重远","post_time":"2022-01-14 11:36:21","like_diff":2,"likes":2,"dislikes":0,"content":"大爱Peter!上管理学不仅学的是知识，还有很多价值观的熏陶。真的男神！！!很高兴大学第一个老师是Peter!"},{"id":164788,"teacher_id":2087,"teacher_name":"章重远","post_time":"2022-12-26 06:49:03","like_diff":2,"likes":3,"dislikes":1,"content":"老师真的超级超级好！从来没有一堂课能让我全神贯注那么长时间 虽然每堂课都有测验 但是再给我1万次我还会继续选peter的课！"},{"id":164789,"teacher_id":2087,"teacher_name":"章重远","post_time":"2022-12-26 06:49:47","like_diff":2,"likes":3,"dislikes":1,"content":"老师太好了吧 纯纯的英语口音，听着很舒服！教课也很有趣 强推！"},{"id":166395,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-01-12 07:07:06","like_diff":2,"likes":2,"dislikes":0,"content":"peter真的太棒了！他的课真的是享受"},{"id":166995,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-01-14 13:42:04","like_diff":2,"likes":2,"dislikes":0,"content":"我爱他认真复习ppt理解 不会的专业名词翻译成中文自己去了解了解复习复习 4.2"},{"id":175342,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-06-24 05:36:10","like_diff":2,"likes":2,"dislikes":0,"content":"社会心理学满了来还愿\n\n这学期最喜欢的一门课和最喜欢的老师，确实也学得比较认真，老师上课真的特别特别有意思，第一节课就说认认真真学的同学拿分一定不会差啦\n\n\\Peter/\\Peter/\\Peter/\\Peter/\\Peter/\\Peter/\\Peter/\\Peter/\\Peter/\\Peter/"},{"id":8513,"teacher_id":2087,"teacher_name":"章重远","post_time":"2015-09-22 03:23:07","like_diff":1,"likes":4,"dislikes":3,"content":"男神我爱你啊啊啊啊啊啊"},{"id":19424,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-01-24 07:45:16","like_diff":1,"likes":2,"dislikes":1,"content":"绝对男神！"},{"id":20004,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-01-26 01:46:06","like_diff":1,"likes":3,"dislikes":2,"content":"认真预习仔细听还是能学到很多东西，男神啊啊啊啊！！！很棒的课很棒的老师"},{"id":20641,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-01-29 09:25:16","like_diff":1,"likes":3,"dislikes":2,"content":"幽默的男神，给分公正，上课是一种享受"},{"id":20847,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-02-02 04:49:35","like_diff":1,"likes":2,"dislikes":1,"content":"虽然好多听不懂，，，但老师的口语真的很棒，也能学到很多东西，给分也很好"},{"id":22814,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-03-12 10:15:00","like_diff":1,"likes":4,"dislikes":3,"content":"很让人想念的课和老师，真心男神。"},{"id":66415,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-01-16 07:36:49","like_diff":1,"likes":3,"dislikes":2,"content":"老师是好，考试贼坑"},{"id":66985,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-01-19 14:32:30","like_diff":1,"likes":2,"dislikes":1,"content":"贼棒！！！男神没话说啊啊啊。虽然本渣渣上课听不太懂，但是觉得他是不拘泥于书本，非常有思想的老师，会有小互动，口音超赞的～桌面背景是他的女儿也是萌萌哒！最后，因为今年各种调时间&考场安排不当，老师很耐思地降低了题目难度，而且还延长了考试时间，超赞的！而且对唯一的作业影评拖ddl也会很仔细去问，而不是直接不给分，最后?点也很不错啦～大力推荐。"},{"id":66995,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-01-19 15:46:34","like_diff":1,"likes":1,"dislikes":0,"content":"一个很有思想的老师~上课很激情的，会和学生眼神交流互动，听展示很认真。事情不多。全英文我听不懂，但是老师英文超好~绩点不高是因为自己抱佛脚吧，后悔没有认真地听课。嗯算是男神级别吧"},{"id":68337,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-01-23 03:44:36","like_diff":1,"likes":2,"dislikes":1,"content":"英文不好的我真的是硬伤emmm\n\n大家要是选的话就好好听课吧。。\n\n一学期的课水过来。。\n\n期末考试累死累活复习了一个礼拜！全英文的书一个一个字看！ppt一点一点啃下来背！！认真程度简直感动哭我自己\n\n但是老师真的特别温柔！学到的也很多！英文也提高了！（都是复习的一个礼拜所赐我的）\n\n划重点！给分超级好！！拼死拼活学了一个礼拜水了一个学期的课竟然上4了！！！感动！！\n\n\n\n"},{"id":68340,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-01-23 03:55:17","like_diff":1,"likes":1,"dislikes":0,"content":"全英文，但是讲的很清楚"},{"id":68356,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-01-23 04:49:43","like_diff":1,"likes":1,"dislikes":0,"content":"Peter Zhang男神！！期末复习有点痛苦但值得！！"},{"id":92974,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-01-06 12:30:51","like_diff":1,"likes":2,"dislikes":1,"content":"人很和蔼，英语特别纯正，课堂特别有内容，不拘泥于课本，能学到很多东西。"},{"id":102775,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-02-23 02:12:59","like_diff":1,"likes":4,"dislikes":3,"content":"Peter的课听起来不是很吃力的，老师遇到他认为中国学生听不懂的地方会稍微解释一下，课程中也会和学生眼神交流和互动确保大家能明白。管理学一学期认真听课收获了很多，最后考试只来得及过了ppt，但是可能因为pre和movie review比较认真吧，最后绩点不错。考试会考一些上课提过的例子，还有一定要记清各种概念的英文全称，我好多东西知道但是看到英文就模糊了哎。"},{"id":144499,"teacher_id":2087,"teacher_name":"章重远","post_time":"2021-12-22 01:58:26","like_diff":1,"likes":1,"dislikes":0,"content":"章老师超级好，平时事情也很少，上课很有趣，一学期两个pre，一篇影评，一个期末考试，偶尔会点个名 ，反正上Peter的课超级开心～～～（听他吐槽折大的事情也超有趣）"},{"id":149059,"teacher_id":2087,"teacher_name":"章重远","post_time":"2022-01-14 09:13:35","like_diff":1,"likes":1,"dislikes":0,"content":"Peter我爱你呜呜呜"},{"id":151998,"teacher_id":2087,"teacher_name":"章重远","post_time":"2022-03-23 00:30:21","like_diff":1,"likes":1,"dislikes":0,"content":"老师非常好！英语发音我真的爱了，上课也很有趣，给分很公正，有期末考，认真听课的话分数不会差的"},{"id":159974,"teacher_id":2087,"teacher_name":"章重远","post_time":"2022-09-10 15:50:47","like_diff":1,"likes":1,"dislikes":0,"content":"不选peter的课绝对后悔"},{"id":166996,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-01-14 13:42:10","like_diff":1,"likes":1,"dislikes":0,"content":"管理学。大一上最喜欢的老师，知识渊博，幽默又有情怀，超级好听的英音，非常为学生着想。作为专业基础课，事情算不上多。上课认真听不用担心听不懂，老师到难的地方会用中文解释。他说不会亏待努力的人，结果也确实如此。"},{"id":167094,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-01-15 02:50:43","like_diff":1,"likes":2,"dislikes":1,"content":"Peter老师的发音特别好听又标准，听他的课真的很享受！为人真诚谦虚，完全没有老师的架子，上课也学到很多！！期末花两天时间过一下智云和PPT就差不多了，半开卷考试不难，就是时间有点紧可能写不完……最后4.5也算是比较求是的成绩，老师说不会亏待认真的学生~"},{"id":167790,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-01-19 05:36:46","like_diff":1,"likes":1,"dislikes":0,"content":"管理学\n\nPeter真的好好！英音真的吹爆好吧听着特别舒服 上课说是英文但听起来完全没难度Peter自己也会解释 考试的话好好准备肯定是可以的我4.5已经挺满意了（因为没有花太多时间"},{"id":180365,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-09-21 08:43:37","like_diff":1,"likes":2,"dislikes":1,"content":"好标准的伦敦腔，而且很幽默啊，太好啦"},{"id":187851,"teacher_id":2087,"teacher_name":"章重远","post_time":"2024-01-17 15:00:38","like_diff":1,"likes":1,"dislikes":0,"content":"Peter身上有兼具英伦绅士和儒家君子气质的儒雅，真的很有思想，也很为学生考虑，可以说是我的男神啦。管理学虽然是英文授课，但其实没那么demanding，给分还是很nice的"},{"id":20834,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-02-01 12:37:48","like_diff":0,"likes":1,"dislikes":1,"content":"好老师不解释"},{"id":63626,"teacher_id":2087,"teacher_name":"章重远","post_time":"2017-12-10 12:34:52","like_diff":0,"likes":0,"dislikes":0,"content":"棒，口音很好啊"},{"id":68314,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-01-23 03:13:58","like_diff":0,"likes":0,"dislikes":0,"content":"英语能力超赞，平时小测很头痛，不过学到很多锻炼了自己的能力，复习了很久给分上四啦"},{"id":68357,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-01-23 04:51:48","like_diff":0,"likes":1,"dislikes":1,"content":"英文基础不错的同学很推荐选啊 英音听的很舒服 也完全不会听不懂 上课还是很照顾学生优先的词汇量的\n\n社会心理学 划了一学期的水 最后看中文书复习的 没花太多时间也上4了"},{"id":68367,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-01-23 05:18:22","like_diff":0,"likes":0,"dislikes":0,"content":"很有人格魅力的一个老师\n\n口语很棒\n\n挂科倒是不可能，不过看你学的水不水了"},{"id":68829,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-01-26 16:27:07","like_diff":0,"likes":1,"dislikes":1,"content":"好好听课 老师不给小测 想要自己拍"},{"id":79763,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-06-13 10:48:39","like_diff":0,"likes":1,"dislikes":1,"content":"超级好的男神233"},{"id":92570,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-01-03 03:32:06","like_diff":0,"likes":1,"dislikes":1,"content":"绝妙，超级好"},{"id":102113,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-01-30 13:45:32","like_diff":0,"likes":0,"dislikes":0,"content":"真的是超级nice的老师啊～给分也很棒，社心一学期下来每一堂都有做一些简单的复习，最后拿了4.5，真的很开心啦！"},{"id":102345,"teacher_id":2087,"teacher_name":"章重远","post_time":"2019-02-01 05:17:44","like_diff":0,"likes":0,"dislikes":0,"content":"啊补充一下平时上课要认真听啊 Peter的认真备课完美英音以及最后在考试卷上的体现真的值得！"},{"id":130926,"teacher_id":2087,"teacher_name":"章重远","post_time":"2021-01-25 09:05:17","like_diff":0,"likes":0,"dislikes":0,"content":"很有意思的一门课！呜呜呜我太喜欢Peter了！社会心理学真的是很有趣的一门课，老师讲的也很好。平时有两次个人展示和一次小组展示，还有一次影评，老师说这是不想让我们水水过，“水水过的人生是没有意义的”，真的有学到很多知识，最后给分也很好！"},{"id":131152,"teacher_id":2087,"teacher_name":"章重远","post_time":"2021-01-26 08:11:59","like_diff":0,"likes":0,"dislikes":0,"content":"是计算机学院的，一不小心选了Peter的社会心理学，本英文菜鸡感到非常惭愧QAQ老师教学非常诚恳，幽默风趣又不摆架子，英语口音一流（感觉上了半个英语课），能学到很多心理学知识，最后4.2是因为期末考自己确实有些英文单词没背下来哈哈哈。非常庆幸能够选上Peter的课，宝藏老师bdbd"},{"id":140600,"teacher_id":2087,"teacher_name":"章重远","post_time":"2021-09-14 06:39:52","like_diff":0,"likes":0,"dislikes":0,"content":"peter超级好！！！"},{"id":141932,"teacher_id":2087,"teacher_name":"章重远","post_time":"2021-11-01 06:46:52","like_diff":0,"likes":0,"dislikes":0,"content":"好爱他"},{"id":150034,"teacher_id":2087,"teacher_name":"章重远","post_time":"2022-01-18 12:28:43","like_diff":0,"likes":0,"dislikes":0,"content":"课很难 老师挺好的 分一般 比较推荐 上课会有很多收获"},{"id":164724,"teacher_id":2087,"teacher_name":"章重远","post_time":"2022-12-24 08:24:33","like_diff":0,"likes":2,"dislikes":2,"content":"强推强推强推！！！"},{"id":165064,"teacher_id":2087,"teacher_name":"章重远","post_time":"2022-12-29 03:09:23","like_diff":0,"likes":1,"dislikes":1,"content":"Peter的课是非常棒的！非常精彩！有意思！不过期末补天时看着全英文的PPT还是有点痛苦呜呜呜\n\n赶在期末考之前给Peter打分！10分！！！希望最后能有棒棒的绩点~"},{"id":177255,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-07-02 12:11:12","like_diff":0,"likes":1,"dislikes":1,"content":"复习全英文ppt真的很痛苦，但是最后给分针不戳！很有魅力"},{"id":186893,"teacher_id":2087,"teacher_name":"章重远","post_time":"2024-01-13 12:30:42","like_diff":0,"likes":2,"dislikes":2,"content":"男神！\n\n很有趣的课，还可以练习英文！\n\n仔细听讲会发现管理学小技巧就在我们身边"},{"id":186912,"teacher_id":2087,"teacher_name":"章重远","post_time":"2024-01-13 13:32:13","like_diff":0,"likes":1,"dislikes":1,"content":"选上Peter的管理学绝对赚到啦！！！英音好好听！而且虽然是全英文授课，上课绝对听得懂！干货和例子很多，Peter的上课风格也很幽默轻松。绩点的话，只要好好看PPT给分就超棒！"},{"id":186915,"teacher_id":2087,"teacher_name":"章重远","post_time":"2024-01-13 13:34:35","like_diff":0,"likes":0,"dislikes":0,"content":"知道Peter会看查老师专程来评价一下～～男神！！！超级地道的英文和深入浅出的讲解，是真的可以学到东西的不是水课的管理学！给分也很棒！考前好好看看PPT，film review好好写，微雕艺术（bushi）好好创作就好啦！"},{"id":214062,"teacher_id":2087,"teacher_name":"章重远","post_time":"2025-01-23 10:30:36","like_diff":0,"likes":0,"dislikes":0,"content":"顶级老师"},{"id":11326,"teacher_id":2087,"teacher_name":"章重远","post_time":"2015-11-27 03:22:19","like_diff":-1,"likes":2,"dislikes":3,"content":"因缺斯汀"},{"id":23129,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-03-18 15:56:55","like_diff":-1,"likes":6,"dislikes":7,"content":"没有想象中那么好"},{"id":68313,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-01-23 03:12:50","like_diff":-2,"likes":1,"dislikes":3,"content":"给分贼好！"},{"id":165880,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-01-10 08:08:21","like_diff":-2,"likes":3,"dislikes":5,"content":"刚考完社会心理学，没做完题目，如果再给我一次机会肯定不选这门课了。"},{"id":47448,"teacher_id":2087,"teacher_name":"章重远","post_time":"2017-04-09 06:35:43","like_diff":-3,"likes":3,"dislikes":6,"content":"老师是好\n\n但是为什么这一年管理学出这么难，都是理解体，很多ppt上没有，设问句子那么长。因为以前太简单了吗？最后又给分一般。管理学本身是一门大家绩点都很高的课，现在卷子那么难，大家想上4都不容易，和其他班比，公平吗？"},{"id":20844,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-02-02 03:12:48","like_diff":-4,"likes":12,"dislikes":16,"content":"我真的⋯⋯只能说慎选⋯⋯英文好的也别太自信⋯⋯像我大英4.5管理学只上3⋯⋯后悔没改预置选一门中文课（除了英语特好的其他真的别选大实话大实话）"},{"id":21726,"teacher_id":2087,"teacher_name":"章重远","post_time":"2016-03-01 02:00:05","like_diff":-4,"likes":9,"dislikes":13,"content":"大家都说他发音超纯正超好听……我觉得也就还好吧。给分坑，刷分党慎选。不过总体还是好老师，不是上课水水过的那种。"},{"id":66139,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-01-21 07:25:44","like_diff":-5,"likes":8,"dislikes":13,"content":"很不好"},{"id":68323,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-01-23 03:27:38","like_diff":-5,"likes":2,"dislikes":7,"content":"不喜欢社会心理学慎选…自己对这门课一点都不感兴趣……期末全英文复习得很痛苦，自认为复习的还可以…最后成绩也不是特别理想…让人有点难受，老师很男神，但绝对比不过复习和出分的绝望"},{"id":166985,"teacher_id":2087,"teacher_name":"章重远","post_time":"2023-01-14 13:12:28","like_diff":-7,"likes":3,"dislikes":10,"content":"笑死卡绩了，真难受真难受"},{"id":67262,"teacher_id":2087,"teacher_name":"章重远","post_time":"2018-01-21 07:28:52","like_diff":-8,"likes":1,"dislikes":9,"content":"课很棒，但我作为非酋总是差一分拿不到高绩点，太生气了不想打满分"},{"id":186956,"teacher_id":2087,"teacher_name":"章重远","post_time":"2024-01-14 01:45:08","like_diff":-17,"likes":2,"dislikes":19,"content":"第一门满的课啊啊啊啊啊啊啊啊啊啊啊\n来这里感谢peter\n虽然在这门课上遇到了法国前夫哥但是\n我的分肯定比他高（"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

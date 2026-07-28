@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>张引 - 计算机科学与技术学院 - 浙大教评</title>
+    <meta name="description" content="张引教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="张引,计算机科学与技术学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">张引</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">计算机科学与技术学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">7.94</div>
+                    <div class="rating-participants">295人参与评分</div>
+                    <div class="attendance-info">12.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (5 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">C程序设计基础</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.67</span>
+                            <span class="students">选课: 373人</span>
+                            <span class="std-dev">标准差: 0.87</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">C程序设计基础及实验</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.91</span>
+                            <span class="students">选课: 398人</span>
+                            <span class="std-dev">标准差: 0.84</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">Python程序设计</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.77</span>
+                            <span class="students">选课: 485人</span>
+                            <span class="std-dev">标准差: 1.01</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">程序设计专题</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.89</span>
+                            <span class="students">选课: 403人</span>
+                            <span class="std-dev">标准差: 0.84</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">软件工程基础</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.35</span>
+                            <span class="students">选课: 134人</span>
+                            <span class="std-dev">标准差: 0.56</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (251 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":42452,"teacher_id":722,"teacher_name":"张引","post_time":"2017-01-19 10:21:09","like_diff":71,"likes":108,"dislikes":37,"content":"张老师真的好\n\n平时上课会通过随机提问来代替点名，可能有同学觉得这样压力太大，但问的问题其实都是非常基础的，并且全部都是上节课讲过了的，所以认真听讲真的不用太担心啦～\n\n上机课的话会让助教答疑，嗯，这个比较水，去不去也没有很大的关系，但是一定要认真写编程题，这些题都是很好的。\n\n张老师最让我感动的是她上课时的投入，讲的也真的特别特别特别好，完全没话说，如果搞不懂真的是自己的问题，记得有一次下课铃响后老师才反应过来，说“啊，已经下课了啊，不好意思，我一上课就停不下来了。”真的，当时我特别震撼，那堂课也是我听的最认真的一堂课，这样的老师才是我心目中的大学教授。\n\n快考试了我听说老师有点绩杀，还有点担心，但当时我就想说哪怕我挂了，我还是会给张老师高分，因为真的太好了，可是最后我发现给分还是超好的，程设也成了我第一门满绩的课。\n\n我是学计算机的，张老师是我编程路上的启蒙者，也是这门课让我明确了自己的兴趣、方向，所以我才坚持选了这个专业，我也不后悔，真的，张老师，谢谢你，好老师，强推!"},{"id":19151,"teacher_id":722,"teacher_name":"张引","post_time":"2016-01-23 11:13:38","like_diff":58,"likes":74,"dislikes":16,"content":"期末成绩出来，全班四分一上4.5，老师给分挺好的。"},{"id":14169,"teacher_id":722,"teacher_name":"张引","post_time":"2016-01-05 06:34:42","like_diff":31,"likes":38,"dislikes":7,"content":"很负责的老师，就是有时莫名其妙的严肃"},{"id":212729,"teacher_id":722,"teacher_name":"张引","post_time":"2025-01-14 15:20:48","like_diff":31,"likes":32,"dislikes":1,"content":"期末刚结束，看着张老师的最新评价还有些恍惚，两年前自己是学生的身份给老师写评价，现在已经变成助教的身份出现在评价里了......\n\n先说说老师吧，当助教的过程中感觉张老师人挺好，作业和小测难度都不高，但是点名严格执行课程组要求的10次，正课或者上级课凑够10次点名，然后点到8次就给出勤满分，期末成绩也会调整作业分加权比例尽量让同学们不卡绩，最后班上90人大概有四十多人在89分以上，按理给分还算不错，但是调整作业分算比例总还会有七八个同学卡绩，没有办法；\n\n再谈谈自己当助教感受吧，同学们大部分都学的很努力很认真也很有礼貌，眼里都是有光的哈哈哈，看到钉钉有提问的时候，比较容易的会直接手机打字回了，难一点的就等用电脑时再回，我发现回答完问题后偶尔的一句鼓励同学们可能就会很开心，我也很乐意为同学提供些情绪价值，当然也没什么好装的，也有少数同学会丢几张题目截图过来再加一句冷冰冰的“这几个题怎么做？”，哥们你但凡有个称呼，助教都愿意尽快回你消息，如果你都没有表达一些交流时的尊重，怎么能指望助教温柔耐心地回答问题加上提供情绪价值，当然问题最后都回答了，这是助教的工作，也理解有些同学刚从高中过来不太懂怎么和人交流......算是从助教的视角给后来的同学提供一点新的信息吧"},{"id":13667,"teacher_id":722,"teacher_name":"张引","post_time":"2016-01-02 06:57:12","like_diff":30,"likes":41,"dislikes":11,"content":"老师讲得确实挺细的\n\n"},{"id":2189,"teacher_id":722,"teacher_name":"张引","post_time":"2015-07-15 13:19:19","like_diff":24,"likes":45,"dislikes":21,"content":"对平时要求高，作业多，上课会点名提问，平时分和平时作业关系比较大"},{"id":45345,"teacher_id":722,"teacher_name":"张引","post_time":"2017-01-19 11:51:30","like_diff":22,"likes":33,"dislikes":11,"content":"期中菜的看不过眼，平时课堂小测都不会，竟然差点满了\n\n老师和助教辛苦了，虽然上机没有怎么向老师请教过，但总复习的时候，还是看“态度”和“功夫”。\n\n祝大家满绩，老师的认真负责绝无第二。"},{"id":60264,"teacher_id":722,"teacher_name":"张引","post_time":"2017-10-16 07:02:43","like_diff":22,"likes":35,"dislikes":13,"content":"建议没有基础而且愿意跟着老师进度走的同学选，有基础或者喜欢自己往后学的真的不要选，讲得慢而且还要问你“我上节课讲了什么”"},{"id":73226,"teacher_id":722,"teacher_name":"张引","post_time":"2018-02-01 08:02:59","like_diff":22,"likes":29,"dislikes":7,"content":"理论讲得很透彻；随机提问能指出一些重点 ；助教哥哥姐姐超级可爱，我把作业交错了也能理解 总之就是很好很好\n\n以及 收获第一门满绩啊啊啊"},{"id":48628,"teacher_id":722,"teacher_name":"张引","post_time":"2017-03-08 14:54:32","like_diff":20,"likes":34,"dislikes":14,"content":"给张老师打了满分，因为觉得目前评分对她实在太不公平。张老师上课认真负责，思路清晰且细致周到；而另一位上课思路极其混乱的老师，仅仅因为事少分数就比张老师高出近一分，实在是令我相当无语。事多事少仅是个人喜好问题，您是大佬愿意清闲，但您拿着各位老师班级的期末成绩问问想好好学C的小白选哪位？"},{"id":23401,"teacher_id":722,"teacher_name":"张引","post_time":"2016-03-29 07:40:36","like_diff":19,"likes":31,"dislikes":12,"content":"不错的老师"},{"id":32526,"teacher_id":722,"teacher_name":"张引","post_time":"2016-07-07 11:22:36","like_diff":19,"likes":32,"dislikes":13,"content":"老师很好，讲课很清楚，给分也不错，某些同学自己不认真学不好c不要怪老师"},{"id":73224,"teacher_id":722,"teacher_name":"张引","post_time":"2018-02-01 07:56:51","like_diff":19,"likes":24,"dislikes":5,"content":"老师上课讲得很细致，很慢。老师说讲的慢是为了照顾那些零基础的同学，真的让我感动。只能怪自己不努力。"},{"id":84695,"teacher_id":722,"teacher_name":"张引","post_time":"2018-07-13 14:38:13","like_diff":18,"likes":18,"dislikes":0,"content":"我大一c程实验题没有做出来，挂了。大二重修在张老师的带领下4.5，真的非常感谢，学到了很多。"},{"id":73292,"teacher_id":722,"teacher_name":"张引","post_time":"2018-02-01 09:32:51","like_diff":17,"likes":21,"dislikes":4,"content":"老师比较严肃，讲的比较细，挺适合零基础小白（比如我hhhh）。助教哥哥姐姐都特别温柔人特别好。给分也很好，期中感觉特别特别差，上机全对，期末感觉不错，最后满绩～感恩！"},{"id":202537,"teacher_id":722,"teacher_name":"张引","post_time":"2024-11-13 04:04:22","like_diff":17,"likes":17,"dislikes":0,"content":"Python\n\n助教艾哥是我蝶"},{"id":21608,"teacher_id":722,"teacher_name":"张引","post_time":"2016-02-29 10:28:04","like_diff":16,"likes":25,"dislikes":9,"content":"很实在，好评"},{"id":30865,"teacher_id":722,"teacher_name":"张引","post_time":"2016-07-02 16:41:35","like_diff":16,"likes":20,"dislikes":4,"content":"挺认真的老师。总感觉相处久了能和学生打成一片。"},{"id":45653,"teacher_id":722,"teacher_name":"张引","post_time":"2017-01-20 07:44:23","like_diff":16,"likes":23,"dislikes":7,"content":"老师人超级好，上课很负责，不明白为同班什么分这么低，和我一起上这门课的三个同学其中包括我有三个都满绩，谢谢老师。"},{"id":152537,"teacher_id":722,"teacher_name":"张引","post_time":"2022-04-14 07:19:14","like_diff":15,"likes":21,"dislikes":6,"content":"老师是好老师，课是垃圾课，很多作业项目往往跨步过大，走路都还没学会就让学生跑，这谁吃得消啊"},{"id":26562,"teacher_id":722,"teacher_name":"张引","post_time":"2016-06-20 06:19:53","like_diff":14,"likes":17,"dislikes":3,"content":"挺好的老师"},{"id":69457,"teacher_id":722,"teacher_name":"张引","post_time":"2018-01-24 17:28:11","like_diff":14,"likes":18,"dislikes":4,"content":"老师顶认真顶负责。最最最重要的是，助教小姐姐要不要这么可爱，简直敲喜欢，，，我可以表白吗(｡•́︿•̀｡)"},{"id":136415,"teacher_id":722,"teacher_name":"张引","post_time":"2021-06-17 16:19:07","like_diff":14,"likes":19,"dislikes":5,"content":"上课讲不清楚，一句话可以嗯嗯啊啊好几遍，中间掺杂一堆语气词，钉钉已读不回，还让助教每次上机课点名，不建议选😅"},{"id":24376,"teacher_id":722,"teacher_name":"张引","post_time":"2016-04-30 03:56:04","like_diff":13,"likes":16,"dislikes":3,"content":"蛮细致的\n\n"},{"id":46564,"teacher_id":722,"teacher_name":"张引","post_time":"2017-01-22 02:58:07","like_diff":13,"likes":23,"dislikes":10,"content":"提问代替点名，总是怕答不出而自觉的去复习。老师的认真让我很感动，不论是上课、答疑还是考试前对我们千叮咛万嘱咐，都特别认真负责。上机题是别的班的一半，上机课就能做完。助教小哥哥小姐姐也很负责，作业系统有问题，提交的作业在老师端看不到，期末发现了也会允许补交。  给分也不错，真心不明白为什么评分会这么低！\n\n"},{"id":170583,"teacher_id":722,"teacher_name":"张引","post_time":"2023-03-07 02:50:16","like_diff":13,"likes":19,"dislikes":6,"content":"上她的C大程，真的是很难受，讲课效率慢，信息熵很低，喜欢罗列一些没有必要细致讲的东西，比如字符串二级指针翻来覆去的讲，上课效率远低于自学，只是说能讲清楚，给不会的同学一个托底。"},{"id":174339,"teacher_id":722,"teacher_name":"张引","post_time":"2023-06-10 01:11:33","like_diff":13,"likes":18,"dislikes":5,"content":"我愿称你为新时代之塞翁"},{"id":181193,"teacher_id":722,"teacher_name":"张引","post_time":"2023-10-11 07:50:59","like_diff":13,"likes":14,"dislikes":1,"content":"上课还要突然纸上写代码是几个意思。。。（还这么水的题）"},{"id":22963,"teacher_id":722,"teacher_name":"张引","post_time":"2016-03-15 07:25:23","like_diff":12,"likes":16,"dislikes":4,"content":"讲得细\n\n"},{"id":48890,"teacher_id":722,"teacher_name":"张引","post_time":"2017-03-16 00:24:46","like_diff":12,"likes":15,"dislikes":3,"content":"良心好老师"},{"id":60157,"teacher_id":722,"teacher_name":"张引","post_time":"2017-10-12 01:37:32","like_diff":12,"likes":15,"dislikes":3,"content":"基础程设，很负责的老师。可以很严肃可以很滑稽甚至会玩梗。讲课思路很清晰，拿到这样的分我觉得不公平。不点名但是会提问，问题不难，基本上都是上节课用过的知识。作业我觉得不多，课堂练习45分钟就能写完。助教超级棒，你要看到你举手，会直接到你这里来解答问题，不会因为半路有人举手就就近讲题，邻班那个助教，举一次手，一路上给三四个人解答问题之后才到你旁边。总之强烈推荐选张引！！！"},{"id":84544,"teacher_id":722,"teacher_name":"张引","post_time":"2018-07-13 06:31:55","like_diff":12,"likes":13,"dislikes":1,"content":"老师算是很负责了，助教人也很好"},{"id":125265,"teacher_id":722,"teacher_name":"张引","post_time":"2020-09-05 04:47:29","like_diff":12,"likes":15,"dislikes":3,"content":"大程讲课很差，每次课上都可以墨迹30分钟，一页完全无用的ppt能够讲10分钟，重复‘啊’这个字一节课超过100次，思路非常不清晰，重点不突出，基本一节课下来学不到什么不如自己看书"},{"id":22876,"teacher_id":722,"teacher_name":"张引","post_time":"2016-03-14 03:33:44","like_diff":11,"likes":13,"dislikes":2,"content":"老师讲课虽然严肃，但是真的很细致"},{"id":45743,"teacher_id":722,"teacher_name":"张引","post_time":"2017-01-20 04:11:09","like_diff":11,"likes":16,"dislikes":5,"content":"个人觉得很好 平时提问没会 期中考试很垃圾 几乎倒数 上机题做出三道 期末感觉还好些 绩点4，5     觉得给分很好 其实只要认真听课没问题   上机课签到 真的是很负责 编程一定要自己编  多练 老师很幽默 很暖心 对学生很好 就算零基础也没关系 我也是零基础 多加练习就好了 认真 态度端正也会拿到不错的成绩"},{"id":73203,"teacher_id":722,"teacher_name":"张引","post_time":"2018-02-01 07:13:35","like_diff":11,"likes":11,"dislikes":0,"content":"老师超好，就是有一种莫名的严肃哈哈哈哈。老师调分的时候很给力。"},{"id":73233,"teacher_id":722,"teacher_name":"张引","post_time":"2018-02-01 08:20:31","like_diff":11,"likes":15,"dislikes":4,"content":"很棒 负责任 给分很好"},{"id":76300,"teacher_id":722,"teacher_name":"张引","post_time":"2018-04-02 07:39:09","like_diff":11,"likes":38,"dislikes":27,"content":"请不要报她的大程，选了会后悔死。"},{"id":101880,"teacher_id":722,"teacher_name":"张引","post_time":"2019-01-29 11:21:59","like_diff":11,"likes":14,"dislikes":3,"content":"C程期末考爆炸，本来以为要凉，结果绩点不低，谢谢老师呜呜呜"},{"id":3852,"teacher_id":722,"teacher_name":"张引","post_time":"2015-06-17 06:25:03","like_diff":10,"likes":21,"dislikes":11,"content":"有点无聊"},{"id":84680,"teacher_id":722,"teacher_name":"张引","post_time":"2018-07-13 13:32:14","like_diff":10,"likes":11,"dislikes":1,"content":"C程平时分居然给满了，开心！"},{"id":101890,"teacher_id":722,"teacher_name":"张引","post_time":"2019-01-29 12:48:50","like_diff":10,"likes":11,"dislikes":1,"content":"老师上课会以随堂练习的方式点名，非常认真负责，上课内容讲的也很好，本来以为要挂了，感谢老师！"},{"id":154408,"teacher_id":722,"teacher_name":"张引","post_time":"2022-06-01 04:13:38","like_diff":10,"likes":20,"dislikes":10,"content":"答辩太喜欢怼人了。比较辣鸡。"},{"id":164517,"teacher_id":722,"teacher_name":"张引","post_time":"2022-12-21 11:47:11","like_diff":10,"likes":14,"dislikes":4,"content":"22-23秋冬学期总共点名超过2次（机房点过名）小测次数四次，4次小测难度梯度较大，上课有随机抽测（突然布置然后要求全员上交），随机抽测难度较大（po错了2次）目前在等期末考和绩点\n\nc小本身难度和课时不匹配，老师讲课一般，c小终究是靠pta作业和自学捏（ps不要被某些同学装逼吓到了，想了解同学真实水平可以看同学学号并判断名字，有些同学平时作业满分小测扣一半我真不好说😅）\n\n总结：wjjyyds！（图穷匕见）"},{"id":175151,"teacher_id":722,"teacher_name":"张引","post_time":"2023-06-22 02:58:57","like_diff":10,"likes":17,"dislikes":7,"content":"纯sb"},{"id":32400,"teacher_id":722,"teacher_name":"张引","post_time":"2016-07-06 13:25:35","like_diff":9,"likes":15,"dislikes":6,"content":"觉得老师是严中有爱，相处久了很亲切。"},{"id":57025,"teacher_id":722,"teacher_name":"张引","post_time":"2017-07-05 08:24:26","like_diff":9,"likes":11,"dislikes":2,"content":"认真听真的收获很多，讲的很细，很认真，大爱，我这小白最后满绩，谢谢老师\n\n"},{"id":73197,"teacher_id":722,"teacher_name":"张引","post_time":"2018-02-01 06:49:03","like_diff":9,"likes":11,"dislikes":2,"content":"老师人很好 两位助教也超棒超负责！\n\n讲课略慢 适合没有什么基础的同学\n\n没有编程基础上着也很轻松 作业其实并不算多 给分很好"},{"id":76298,"teacher_id":722,"teacher_name":"张引","post_time":"2018-04-02 07:30:21","like_diff":9,"likes":25,"dislikes":16,"content":"上课测验纸写代码，讲课不清，好好的课被讲的和高中一样的感觉。为什么没有0分？"},{"id":167445,"teacher_id":722,"teacher_name":"张引","post_time":"2023-01-16 09:49:17","like_diff":9,"likes":10,"dislikes":1,"content":"4分给助教，趣味性几乎没有，讲的和测试的难度是脱节的（可能所有老师都有这样的问题），给分求是。。。"},{"id":19157,"teacher_id":722,"teacher_name":"张引","post_time":"2016-01-23 11:22:14","like_diff":8,"likes":14,"dislikes":6,"content":"其实挺好的，注重细节，讲的挺细的 上课莫名严肃 考完试就开始逗比\n\n给分不错，对平时要求很高，我老不去好像被扣了很多分，最后还是4.5"},{"id":73206,"teacher_id":722,"teacher_name":"张引","post_time":"2018-02-01 07:20:14","like_diff":8,"likes":10,"dislikes":2,"content":"老师讲课很清晰，给分也很棒，简直太棒了\n\n"},{"id":73208,"teacher_id":722,"teacher_name":"张引","post_time":"2018-02-01 07:23:29","like_diff":8,"likes":12,"dislikes":4,"content":"好像高中老师，很负责，给分好，但一定要自己认真学！我是程设基础"},{"id":78209,"teacher_id":722,"teacher_name":"张引","post_time":"2018-05-10 04:05:52","like_diff":8,"likes":13,"dislikes":5,"content":"很好的"},{"id":101887,"teacher_id":722,"teacher_name":"张引","post_time":"2019-01-29 12:45:33","like_diff":8,"likes":11,"dislikes":3,"content":"说老师事多？我两个舍友平时轻松，考试凉凉。认真学习，老师很负责任的，讲得也很仔细，平时上课有时候会上三节，自愿留下听讲，期末考还在麦斯威答疑，练习量也足够，学c程别想偷懒。"},{"id":136557,"teacher_id":722,"teacher_name":"张引","post_time":"2021-06-23 03:38:09","like_diff":8,"likes":11,"dislikes":3,"content":"老师可以，助教拉，10分，互评机制纯属扯淡"},{"id":146278,"teacher_id":722,"teacher_name":"张引","post_time":"2022-01-06 06:27:10","like_diff":8,"likes":21,"dislikes":13,"content":"绝对的好老师！\n\n在张老师的课堂体会到了高中的感觉！\n\n讲课速度循序渐进，\n\n一开始比较慢让你理解，后面就渐渐回到正常速度啦，特别推荐零基础小白~\n\n我是之前有一点点C程基础的，所以听起来也很舒服，\n\n我们这学期不知道是不是因为疫情封校的原因，\n\n张老师把期中考试改在了期末考试前两周分两次考，\n\n让我们能提前适应期末考试的流程和环境，\n\n真的很不错，\n\n最后理论考试93嘻嘻嘻！\n\nC大程又补选上张老师的课，再续前缘！\n\n选她选她！"},{"id":2493,"teacher_id":722,"teacher_name":"张引","post_time":"2015-05-04 13:16:02","like_diff":7,"likes":24,"dislikes":17,"content":"专题研讨课说多了都是泪"},{"id":45321,"teacher_id":722,"teacher_name":"张引","post_time":"2017-01-19 10:19:54","like_diff":7,"likes":13,"dislikes":6,"content":"上机作业比别的班少一半，张引老师好厉害的\u0014 谢谢老师和助教哥哥姐姐！"},{"id":73217,"teacher_id":722,"teacher_name":"张引","post_time":"2018-02-01 07:34:55","like_diff":7,"likes":10,"dislikes":3,"content":"太棒啦老师挺严厉但是人很好。第一门满基嘻嘻"},{"id":85091,"teacher_id":722,"teacher_name":"张引","post_time":"2018-07-15 09:33:06","like_diff":7,"likes":8,"dislikes":1,"content":"虽然经常小测，不过其实是当签到用。实验爆炸，最后绩点出乎意料，感谢老师和助教小哥哥~"},{"id":117395,"teacher_id":722,"teacher_name":"张引","post_time":"2019-09-24 02:10:10","like_diff":7,"likes":8,"dislikes":1,"content":"老师带病也自己讲课，讲学认真负责，能多讲点就愿意多讲点。严肃而活泼。"},{"id":130644,"teacher_id":722,"teacher_name":"张引","post_time":"2021-01-24 05:25:13","like_diff":7,"likes":11,"dislikes":4,"content":"yysy，张引讲得挺细的，适合我这种没基础的去听，平时作业难度也适中，去找老师问问题也很耐心。还有助教hyx真的良心助教，会整理作业中的易错题、小测解析等等，期末也给出了具体复习方法。最后我理论95，编程满分。确实适合零基础的去选的。"},{"id":149048,"teacher_id":722,"teacher_name":"张引","post_time":"2022-01-14 08:14:59","like_diff":7,"likes":14,"dislikes":7,"content":"卡绩！"},{"id":192142,"teacher_id":722,"teacher_name":"张引","post_time":"2024-05-10 02:56:57","like_diff":7,"likes":9,"dislikes":2,"content":"其实还行，除了课堂有些催眠。对于新手很友好的，给分也算善了吧。"},{"id":205285,"teacher_id":722,"teacher_name":"张引","post_time":"2024-12-04 01:29:47","like_diff":7,"likes":7,"dislikes":0,"content":"又是一堂让人昏昏欲睡的课"},{"id":211479,"teacher_id":722,"teacher_name":"张引","post_time":"2025-01-11 15:01:59","like_diff":7,"likes":9,"dislikes":2,"content":"讲得很细，但一点不捞，成功被卡绩，慎选"},{"id":54811,"teacher_id":722,"teacher_name":"张引","post_time":"2017-06-30 08:59:44","like_diff":6,"likes":10,"dislikes":4,"content":"老师很负责的，讲课也很清楚，只是上课会希望和学生有互动，我觉得是很好的老师，如果同学能主动一些应该会同意我的看法"},{"id":75092,"teacher_id":722,"teacher_name":"张引","post_time":"2018-04-11 02:13:37","like_diff":6,"likes":13,"dislikes":7,"content":"来浙后遇到的上课最有热情的老师"},{"id":76299,"teacher_id":722,"teacher_name":"张引","post_time":"2018-04-02 07:46:59","like_diff":6,"likes":37,"dislikes":31,"content":"上课讲得大家昏昏欲睡 上不下去了就直接小测徒手写代码？？？动不动就提问她刚才讲了什么……拜托这是大学了能不要用高中的方法教书！！！1分拿走不谢哦(麻烦各位顶我上前排)"},{"id":158138,"teacher_id":722,"teacher_name":"张引","post_time":"2022-06-27 06:34:41","like_diff":6,"likes":12,"dislikes":6,"content":"给分真的好！！！"},{"id":168024,"teacher_id":722,"teacher_name":"张引","post_time":"2023-01-23 02:59:48","like_diff":6,"likes":6,"dislikes":0,"content":"作业相对来说会难一点，但确实适合钻研，适合提升能力"},{"id":174367,"teacher_id":722,"teacher_name":"张引","post_time":"2023-06-11 02:54:44","like_diff":6,"likes":9,"dislikes":3,"content":"无语，大程都截止两天了还要求全体同学按照她新提出的新标准重新修改作业，还有烦人的PPT还有现场展示，我怎么没听说其他的老师有这么烦"},{"id":196561,"teacher_id":722,"teacher_name":"张引","post_time":"2024-07-04 05:34:56","like_diff":6,"likes":8,"dislikes":2,"content":"讲课细致，适合社科学生；给分求是，务必好好学习。"},{"id":207103,"teacher_id":722,"teacher_name":"张引","post_time":"2024-12-19 08:52:02","like_diff":6,"likes":8,"dislikes":2,"content":"Python\n\n想给azx助教哥哥一百分，人帅心善，能理解学生的困难，会主动减轻作业量和难度，有任何问题找他都可以解决。\n\nZy老师也是好老师，适合人文社科同学选，讲的很细致。不过酷爱点名，几乎每节课都点，而且喜欢在两堂课课中点（lz因为下课睡觉曾经错过了一次点名）但是对学生也很友好，好好学都没问题，推荐！"},{"id":42443,"teacher_id":722,"teacher_name":"张引","post_time":"2017-01-14 08:31:26","like_diff":5,"likes":8,"dislikes":3,"content":"老师考完试说的话好暖心，保佑有个好绩点吧"},{"id":47547,"teacher_id":722,"teacher_name":"张引","post_time":"2017-01-30 08:48:40","like_diff":5,"likes":8,"dislikes":3,"content":"讲得很深，上课有各种各样的方法。反正就是不能水啦。。。"},{"id":65164,"teacher_id":722,"teacher_name":"张引","post_time":"2017-12-29 17:06:41","like_diff":5,"likes":7,"dislikes":2,"content":"老师和助教都很可爱"},{"id":116883,"teacher_id":722,"teacher_name":"张引","post_time":"2019-09-17 03:36:34","like_diff":5,"likes":9,"dislikes":4,"content":"能不拖堂吗？？？"},{"id":122823,"teacher_id":722,"teacher_name":"张引","post_time":"2020-04-11 04:07:19","like_diff":5,"likes":5,"dislikes":0,"content":"老师还算不错，不过缺点也十分明显，作业量有些惊人，她是将一个长学期的课压缩在前半个学期完成的，导致在前半个学期任务量会很吓人，不过要是有心理准备这样安排那倒还好"},{"id":131706,"teacher_id":722,"teacher_name":"张引","post_time":"2021-02-02 14:18:49","like_diff":5,"likes":9,"dislikes":4,"content":"在张老师这里拿下了人生第一个满绩"},{"id":167220,"teacher_id":722,"teacher_name":"张引","post_time":"2023-01-15 06:21:33","like_diff":5,"likes":13,"dislikes":8,"content":"这么认真学了3.3？？？呵呵"},{"id":171974,"teacher_id":722,"teacher_name":"张引","post_time":"2023-04-23 10:16:03","like_diff":5,"likes":8,"dislikes":3,"content":"讲课是讲得真差，一句话不懂要“啊”多少次"},{"id":188962,"teacher_id":722,"teacher_name":"张引","post_time":"2024-01-21 01:13:22","like_diff":5,"likes":7,"dislikes":2,"content":"c程序设计基础及实验推荐。\n\n个人是计算机小白，之前看了评论有些劝退，但实际上下来体验还是不错的。\n\n讲课比较细致，对重要内容会强调。有时候节奏比较慢，但是是为了把问题讲清楚，室友选的cjh老师也如此，可能是c程老师共有的习惯。\n\n作业量不大且合理，契合考试不乱出作业题，这点很舒适。再加上自己的实操，发现并利用CSDN等网站解决问题，还是能比较好地掌握课程要求的内容的。\n\n最后，老师给分也是相当不错的，感谢zy老师！"},{"id":189068,"teacher_id":722,"teacher_name":"张引","post_time":"2024-01-21 14:53:45","like_diff":5,"likes":7,"dislikes":2,"content":"上的老师的c程序设计基础及实验。\n\n本人暑假时学习了一点点c语言，大概水平是了解了一下数组及之前的知识，基本上算作是计算机小白。本学期预置百题斩老师被劝退，当时只有张老师的班有较多余量，我就换到了张老师的班。由于老师的评价褒贬不一，所以我一直很担心老师的给分和教学水平。老师上课速度很慢，建议小白来选，可以跟着老师的节奏加深对知识点的理解。但是相应地课程可能会比较无聊，很多时候会比较催眠。不建议大佬来选张老师的课，因为张老师讲的很基础，而且酷爱点名，秋冬学期15周上课和上机课一共雷达点名8次，随堂小测（相当于点名）5次，想划水的可以避雷。老师的作业量比较小，大部分时候基本上是4道编程加上半个小时左右可以完成的理论题，比较熟练的话可以利用上机课的时间全部完成。老师的4次上机课小测契合作业和上课进度，不像有些老师乱出题，很多题甚至是作业题的原题，题量也比较合理，难度也不大。并且感觉到张老师是比较关心学生的，实验考和理论考之前的那节课都嘱咐了我们很多，我有一次因为流感请假了，老师说了不少话来关心我。本学期实验考安排得有些晚，所以实验考之后的内容上的比较匆忙，我期末的时候因此误以为实验考之后除了指针都不是考试重点，结果期末遭到爆杀，卷面分估计只有六十多分。不过我实验考满分，平时分大概扣了两三分，加上老师的捞捞，幸运获得89分。建议以后的同学汲取教训，利用CSDN等平台强化自己的能力（理论题也不要轻视），把这门课学扎实。总之，zy老师对小白来说还是很不错的，但最好不要划水。10分感谢老师。"},{"id":200379,"teacher_id":722,"teacher_name":"张引","post_time":"2024-10-16 11:44:33","like_diff":5,"likes":5,"dislikes":0,"content":"zy老师的课对新手小白还是非常非常友好的，之前零基础跟着老师学，认真听是真的能学会东西的，总体感觉很不错！！好评"},{"id":205026,"teacher_id":722,"teacher_name":"张引","post_time":"2024-11-30 01:10:11","like_diff":5,"likes":9,"dislikes":4,"content":"不说讲课水平 但是作业相对真的少 编程题每周平均3-5道\n\n可能是每周作业都要硬凑成100分的缘故（）"},{"id":207933,"teacher_id":722,"teacher_name":"张引","post_time":"2024-12-25 03:56:28","like_diff":5,"likes":7,"dislikes":2,"content":"azx我们喜欢你"},{"id":14322,"teacher_id":722,"teacher_name":"张引","post_time":"2016-01-06 08:14:56","like_diff":4,"likes":9,"dislikes":5,"content":"讲课细，还要随堂上交手写程序。作业不算特别多。研讨课用意是好的，虽然实行起来确实有点坑…其实coding还是靠自己。"},{"id":40217,"teacher_id":722,"teacher_name":"张引","post_time":"2016-12-30 05:59:40","like_diff":4,"likes":7,"dislikes":3,"content":"上机课都要签到，上课时不时写一个测验，老师很认真\n\n"},{"id":76437,"teacher_id":722,"teacher_name":"张引","post_time":"2018-04-09 07:42:05","like_diff":4,"likes":7,"dislikes":3,"content":"与膀胱战斗"},{"id":113162,"teacher_id":722,"teacher_name":"张引","post_time":"2019-07-06 00:51:26","like_diff":4,"likes":7,"dislikes":3,"content":"Python：老师上课讲的很细致，PPT的内容也会比书上多，所以复习的时候优先看PPT。平时PTA的题目认真做，一定要有自己的思考，即使不会在看了dl的答案之后也要梳理一遍思路，我想说做到这样其实Python是不难的。最后一定要吹爆侯助教，不仅平时在PPT里给我们划重点，上机课的时候有不会助教一定会讲，平时群里边提问也会认真回答，期末还给我们整理PTA里易错题和所有题目的答案，给我们建议复习的顺序，遇到过的最最好的助教了！"},{"id":113485,"teacher_id":722,"teacher_name":"张引","post_time":"2019-07-06 18:17:38","like_diff":4,"likes":6,"dislikes":2,"content":"大程做得不出彩，看到大佬的作品以为自己完了，但是结果竟然挺好的，谢谢老师！助教小哥哥也很棒很耐心！"},{"id":123974,"teacher_id":722,"teacher_name":"张引","post_time":"2020-06-18 10:47:48","like_diff":4,"likes":6,"dislikes":2,"content":"10分吧，C大程.老师还是很负责的，本来一两个小时可以搞定的展示愿意抽出整整一天的时间为我们指出不足，虽然确实挑剔，但是也给我们修改再次提交的机会了呀.而且估计老师也知道互评不怎么靠谱，所以只占了5分.从这些地方可以看出老师并没有想在分数上为难我们，只是要求高了一些而已，但这作为一名老师也是一件无可厚非的事吧.总之，如果你是计算机专业或者真的想提升自己代码水平的话，张老师还是很值得选的."},{"id":126214,"teacher_id":722,"teacher_name":"张引","post_time":"2020-09-20 00:42:11","like_diff":4,"likes":6,"dislikes":2,"content":"大程平时分给分极差，慎选"},{"id":139507,"teacher_id":722,"teacher_name":"张引","post_time":"2021-07-16 16:27:54","like_diff":4,"likes":7,"dislikes":3,"content":"只能说，给分真的挺好的……助教人也很好嗷！"},{"id":155320,"teacher_id":722,"teacher_name":"张引","post_time":"2022-06-10 18:18:06","like_diff":4,"likes":10,"dislikes":6,"content":"C大程讲课讲的很清楚，但是讲的也比较慢，而且上课经常有随堂测验。平时作业倒是留的不多也不少。就是这个大作业事真的多，要互评，要答辩，答辩完了还要再修改报告……总是事就是很多。而且感觉老师好像并没有把大作业的题目搞明白……总之做她的大作业只需要模仿现有的成熟的软件，模仿的越像越好！千万不要选那种乱七八糟的选题，容易最后被怼死！"},{"id":167224,"teacher_id":722,"teacher_name":"张引","post_time":"2023-01-15 07:49:13","like_diff":4,"likes":9,"dislikes":5,"content":"老师很认真负责，讲的比较细致，但是相应的事很多很严格。经常上课忽然拿出白纸小测，上机课有点名，平时分构成复杂（po应该掉了不少平时分）。出分很慢，应该还是捞过一点点的（po在一档的最低分），虽然算不上给分好，毕竟平时分扣得很多。助教lxf也是很认真负责的助教。总之体验一般，主要怪自己菜吧。"},{"id":167243,"teacher_id":722,"teacher_name":"张引","post_time":"2023-01-15 07:51:53","like_diff":4,"likes":8,"dislikes":4,"content":"老师讲的是不错，但上课事很多，而且是真的不会捞"},{"id":179129,"teacher_id":722,"teacher_name":"张引","post_time":"2023-08-28 08:18:05","like_diff":4,"likes":6,"dislikes":2,"content":"上的C大程，感觉课程安排不是太合理。着太多笔墨在二级指针了，在这一部分信息熵极低，结果其它部分就讲的比较草率，一笔带过。作业量相对较小，至于大程序基本靠自学，也没啥可说的。\n\n总体一般，至少比C小的脚哥好不少。"},{"id":194881,"teacher_id":722,"teacher_name":"张引","post_time":"2024-06-25 23:38:53","like_diff":4,"likes":7,"dislikes":3,"content":"（python）老师特别特别喜欢点名，上课数字、雷达、学在浙大五分钟小测（网卡的时候怪紧张的）、上机课雷达，总共加起来感觉有十二三次。她上课不太用话筒，然后我自己对程序不太感冒，听课很催眠。但老师应该是捞了的，出分比最快的老师慢了五天，感觉是所有老师里很晚的，我感觉比自己预期的要好。"},{"id":199779,"teacher_id":722,"teacher_name":"张引","post_time":"2024-09-29 15:47:48","like_diff":4,"likes":4,"dislikes":0,"content":"老师可以不出调试题嘛(可怜巴巴)"},{"id":211316,"teacher_id":722,"teacher_name":"张引","post_time":"2025-01-11 07:43:24","like_diff":4,"likes":4,"dislikes":0,"content":"愛點名但會撈 期末估分只有40左右 作業全靠gpt\n\n小測也挺拉的 總評還有70\n\n想擺爛可以選 但記得點名"},{"id":212746,"teacher_id":722,"teacher_name":"张引","post_time":"2025-01-15 00:02:31","like_diff":4,"likes":6,"dislikes":2,"content":"人文的学生误入python，纯摆烂式学习，小测和期末都是六十分出头，期中实验考也是补考通过，期末考完以为死定了最后被捞上了70+🥰感谢张老师 顺便表白azx助教 很温柔的学长🥺"},{"id":222125,"teacher_id":722,"teacher_name":"张引","post_time":"2025-06-30 07:26:34","like_diff":4,"likes":5,"dislikes":1,"content":"出分了 感觉被捞得太狠了 100分\n老师很可以的 大家放心选\n优点：小测简单（监考不严）平时分好 课堂上知识讲解细致\n缺点：经常点名，作业量大"},{"id":23812,"teacher_id":722,"teacher_name":"张引","post_time":"2016-04-17 22:48:18","like_diff":3,"likes":12,"dislikes":9,"content":"程设专题作业多，一般是其他老师的两倍，各种血溅电脑桌"},{"id":54212,"teacher_id":722,"teacher_name":"张引","post_time":"2017-06-28 16:50:18","like_diff":3,"likes":5,"dislikes":2,"content":"赞\\(≧▽≦)/\n\n"},{"id":56735,"teacher_id":722,"teacher_name":"张引","post_time":"2017-07-10 15:32:54","like_diff":3,"likes":6,"dislikes":3,"content":"平时分水水过，再认真也没什么用，主要还是看期末。"},{"id":76483,"teacher_id":722,"teacher_name":"张引","post_time":"2018-04-11 01:20:22","like_diff":3,"likes":5,"dislikes":2,"content":"讲的挺好的，但是基本每节上课都点名，小测，上机课也必须要去...课程冲突的话可能非常不友好，中间要跑出来一次专门签个到再溜"},{"id":113160,"teacher_id":722,"teacher_name":"张引","post_time":"2019-07-06 00:50:02","like_diff":3,"likes":4,"dislikes":1,"content":"怒打十分 老师和助教小哥哥人都超级好 认真负责 选了绝对不后悔！！"},{"id":113512,"teacher_id":722,"teacher_name":"张引","post_time":"2019-07-06 21:48:52","like_diff":3,"likes":4,"dislikes":1,"content":"大程：很有耐心的老师，很负责任，上课会有签到，有时上机也有签到，她的理论课会换到春学期上完，然后夏学期自己做大程。想拿高分就按表格里的要求一条一条做完大程+好好复习考试内容。期末考试占50%，至少我们这一次好几位大佬也只有80+，但是还是有人能上90的hhh"},{"id":113847,"teacher_id":722,"teacher_name":"张引","post_time":"2019-07-07 18:01:02","like_diff":3,"likes":4,"dislikes":1,"content":"谢谢老师！老师有点严格，上课比较细致也很认真，但是会有点无聊，不过还是很可爱(๑• . •๑)最后期末考理论凉凉，以为自己要挂了，结果没有，真的谢谢老师！文科生学c真得痛苦，但是老师至少没有让我讨厌c?"},{"id":132614,"teacher_id":722,"teacher_name":"张引","post_time":"2021-02-03 00:37:56","like_diff":3,"likes":4,"dislikes":1,"content":"老师上课认真，助教人好，给分不错，唯一的缺点是教学水平还有提升空间，但这依旧不影响我给10分"},{"id":133692,"teacher_id":722,"teacher_name":"张引","post_time":"2021-03-04 01:48:25","like_diff":3,"likes":4,"dislikes":1,"content":"选着就偷着乐吧"},{"id":136433,"teacher_id":722,"teacher_name":"张引","post_time":"2021-06-18 02:25:27","like_diff":3,"likes":7,"dislikes":4,"content":"烂"},{"id":156093,"teacher_id":722,"teacher_name":"张引","post_time":"2022-06-17 13:32:18","like_diff":3,"likes":15,"dislikes":12,"content":"答辩什么鬼，没有耐心就不要来，不听同学讲，自以为是就开始疯狂怼人"},{"id":167266,"teacher_id":722,"teacher_name":"张引","post_time":"2023-01-15 09:43:49","like_diff":3,"likes":4,"dislikes":1,"content":"推荐很强的选，不太捞"},{"id":169611,"teacher_id":722,"teacher_name":"张引","post_time":"2023-02-27 06:17:12","like_diff":3,"likes":8,"dislikes":5,"content":"给分一般，讲课也一般"},{"id":176831,"teacher_id":722,"teacher_name":"张引","post_time":"2023-06-30 09:58:26","like_diff":3,"likes":4,"dislikes":1,"content":"软工基的话...注意平时讨论。分数的正太会用讨论的正太来做，有些离谱（老师助教不会告诉你讨论是需要卷的，千万别以为讨论就是签到，交了就给分。我们组因为这个最后总评扣了4分）。大程和报告倒是正常就好，不用特地卷效益不高。1分送给课程组"},{"id":180051,"teacher_id":722,"teacher_name":"张引","post_time":"2023-09-20 07:56:00","like_diff":3,"likes":6,"dislikes":3,"content":"拖堂？不确定，再看看"},{"id":205031,"teacher_id":722,"teacher_name":"张引","post_time":"2024-11-30 03:57:47","like_diff":3,"likes":4,"dislikes":1,"content":"好老师，讲的很细，强调重点"},{"id":206767,"teacher_id":722,"teacher_name":"张引","post_time":"2024-12-17 12:33:34","like_diff":3,"likes":4,"dislikes":1,"content":"8分吧。10分打给作业少，-2…她真的好爱点名😇一学期下来没点名的课不太有😇😇😇老师人不错。"},{"id":209704,"teacher_id":722,"teacher_name":"张引","post_time":"2025-01-06 17:14:43","like_diff":3,"likes":6,"dislikes":3,"content":"考前半夜复习Python才知道，PTA上好多作业题题干都被改了，原来对的现在都变成错的，好多次作业都比原来少个几分，服了啊😭但是azx助教哥哥很好😍"},{"id":214175,"teacher_id":722,"teacher_name":"张引","post_time":"2025-01-27 01:55:41","like_diff":3,"likes":4,"dislikes":1,"content":"老师讲得很细，不过可能不适合“应试”？给分求是，可能卡绩，人还是很好的。"},{"id":9276,"teacher_id":722,"teacher_name":"张引","post_time":"2015-10-20 01:09:22","like_diff":2,"likes":16,"dislikes":14,"content":"要干手写程序这种鬼事，还要上交\n\n上课无聊"},{"id":48138,"teacher_id":722,"teacher_name":"张引","post_time":"2017-03-01 00:58:44","like_diff":2,"likes":6,"dislikes":4,"content":"上学期程设基础.......嗯，第一节课才知道老师是女的。每节课会点名，叫起来讲讲上节课学了什么。知识点讲的很细致，很负责的老师，助教也非常好玩。唯一的缺点是告诉我其他老师讲课也都不错的，实在排不开课表选其他老师没问题的......虽然专题只上了一节课，可那是什么玩意儿......"},{"id":56795,"teacher_id":722,"teacher_name":"张引","post_time":"2017-07-04 15:43:59","like_diff":2,"likes":6,"dislikes":4,"content":"老师比较严厉，但给分还是可以的"},{"id":58185,"teacher_id":722,"teacher_name":"张引","post_time":"2017-08-16 14:47:26","like_diff":2,"likes":7,"dislikes":5,"content":"有点无聊"},{"id":60518,"teacher_id":722,"teacher_name":"张引","post_time":"2017-10-23 06:25:08","like_diff":2,"likes":8,"dislikes":6,"content":"适合小白，讲得很慢很细。\n\n课前提问代替点名，但有些问题我感觉真是无语……会写代码不就行了，为什么要背出一些概念性的东西。\n\n手写代码也很无聊。\n\n总之就是无聊，慢，细，小白的话强推，有基础的就别来了。"},{"id":77486,"teacher_id":722,"teacher_name":"张引","post_time":"2018-05-06 03:48:29","like_diff":2,"likes":11,"dislikes":9,"content":"大程事情是真的多，感觉讨论课完全没有存在的意义"},{"id":77809,"teacher_id":722,"teacher_name":"张引","post_time":"2018-05-08 02:24:49","like_diff":2,"likes":8,"dislikes":6,"content":"作业好多"},{"id":87126,"teacher_id":722,"teacher_name":"张引","post_time":"2018-09-21 00:15:17","like_diff":2,"likes":6,"dislikes":4,"content":"反正大程别选就对，预置的退了补选隔壁陈建海吧."},{"id":123909,"teacher_id":722,"teacher_name":"张引","post_time":"2020-06-16 06:53:52","like_diff":2,"likes":6,"dislikes":4,"content":"软工基，展示的时候只会挑刺，问一些无关紧要的问题和非常显然的问题，毫无答辩提问的技术性可言；上课内容就是对着英文ppt念中文课本。总之毫无任何优点可言，建议尽量避免。"},{"id":125343,"teacher_id":722,"teacher_name":"张引","post_time":"2020-09-07 06:29:42","like_diff":2,"likes":3,"dislikes":1,"content":"软工基感觉有毒，但可能是课程本身的原因，虽然最后分数大家都比较高，但和老师关系不大，都是自己大程和考试肝出来的\n\n隔壁似乎也没好到哪里去"},{"id":132891,"teacher_id":722,"teacher_name":"张引","post_time":"2021-02-04 12:52:16","like_diff":2,"likes":5,"dislikes":3,"content":"感谢老师，满绩了"},{"id":135813,"teacher_id":722,"teacher_name":"张引","post_time":"2021-05-27 05:17:22","like_diff":2,"likes":2,"dislikes":0,"content":"能逃快逃，能选上其他老师尽量其他老师。。。。"},{"id":136408,"teacher_id":722,"teacher_name":"张引","post_time":"2021-06-17 15:08:15","like_diff":2,"likes":5,"dislikes":3,"content":"讲课讲得太复杂 不清晰 没有重点\n\n和程序无关的事儿太多 为学生着想的意识不足"},{"id":149616,"teacher_id":722,"teacher_name":"张引","post_time":"2022-01-16 08:17:54","like_diff":2,"likes":15,"dislikes":13,"content":"卡绩，不捞，不调分，相信我，想拿高分的同学快跑！！！"},{"id":158225,"teacher_id":722,"teacher_name":"张引","post_time":"2022-06-27 14:31:08","like_diff":2,"likes":7,"dislikes":5,"content":"老师讲的太慢了，我觉得对任何稍微自己花了时间学c的同学都太慢了，不觉得这是浙大的第二个c课程应有的课程速度。这导致上课经常处于听还是不听的纠结中。另外，大程作业要求过于粗略，甚至会引起误解，大程作业的给分不如其它老师清晰合理。"},{"id":163993,"teacher_id":722,"teacher_name":"张引","post_time":"2022-12-17 06:37:26","like_diff":2,"likes":2,"dislikes":0,"content":"好老师 认真学 成绩不会差"},{"id":188681,"teacher_id":722,"teacher_name":"张引","post_time":"2024-01-19 14:10:50","like_diff":2,"likes":4,"dislikes":2,"content":"C小没有课堂上的实践展示，缺少直观体验"},{"id":195924,"teacher_id":722,"teacher_name":"张引","post_time":"2024-07-01 01:23:55","like_diff":2,"likes":3,"dislikes":1,"content":"这学期的软工基给分还是非常好的，感觉和助教有很大关系"},{"id":209299,"teacher_id":722,"teacher_name":"张引","post_time":"2025-01-05 10:58:45","like_diff":2,"likes":2,"dislikes":0,"content":"我觉得老师挺不错的，很耐心，年龄比较大了，人很和蔼，也算是通情达理的"},{"id":211190,"teacher_id":722,"teacher_name":"张引","post_time":"2025-01-11 03:53:02","like_diff":2,"likes":7,"dislikes":5,"content":"感觉今年老师平时分给的挺高的"},{"id":212115,"teacher_id":722,"teacher_name":"张引","post_time":"2025-01-13 09:28:15","like_diff":2,"likes":4,"dislikes":2,"content":"给c尖qjj猪脚满分☺️助教gg很忙，但是平时回复问题超级超级认真，回答得很专业，我一看就懂，而且超级超级有耐心😘！！！助教gg好厉害ヾ(Ő∀Ő๑)ﾉ"},{"id":212383,"teacher_id":722,"teacher_name":"张引","post_time":"2025-01-14 02:42:52","like_diff":2,"likes":3,"dislikes":1,"content":"被卡了www😭😭😭😭"},{"id":212736,"teacher_id":722,"teacher_name":"张引","post_time":"2025-01-14 15:57:26","like_diff":2,"likes":3,"dislikes":1,"content":"老师还是挺负责认真的"},{"id":214532,"teacher_id":722,"teacher_name":"张引","post_time":"2025-02-11 11:30:01","like_diff":2,"likes":2,"dislikes":0,"content":"表白助教老师，人超级好"},{"id":51235,"teacher_id":722,"teacher_name":"张引","post_time":"2017-05-25 01:52:39","like_diff":1,"likes":4,"dislikes":3,"content":"专题课……不说了自己感受吧"},{"id":73214,"teacher_id":722,"teacher_name":"张引","post_time":"2018-02-01 07:28:58","like_diff":1,"likes":1,"dislikes":0,"content":"作业按时完成考前看看书就行"},{"id":80417,"teacher_id":722,"teacher_name":"张引","post_time":"2018-06-26 09:05:38","like_diff":1,"likes":6,"dislikes":5,"content":"软工基让全体软工学子天天北街看日出…"},{"id":82055,"teacher_id":722,"teacher_name":"张引","post_time":"2018-07-07 03:19:51","like_diff":1,"likes":15,"dislikes":14,"content":"很多同学都觉得张老师作业多、点名多、态度不好……其实我觉得，这些问题都是因为张老师从来没有把学生放在合适的位置上。可能她认为自己的学生都想着怎么去蒙混过关，怎么去偷懒，所以她需要“严加看管”，可以说他对学生是没有丝毫信任的。我不知道大家怎么看，但是我个人觉得我无法在接受这样的不尊重，因此我只能给1分。"},{"id":102670,"teacher_id":722,"teacher_name":"张引","post_time":"2019-03-31 15:52:49","like_diff":1,"likes":5,"dislikes":4,"content":"好老师，讲的很详细，c小程满绩"},{"id":113354,"teacher_id":722,"teacher_name":"张引","post_time":"2019-07-06 09:37:14","like_diff":1,"likes":3,"dislikes":2,"content":"吹爆，Python满绩，真要感谢老师和助教的付出"},{"id":114691,"teacher_id":722,"teacher_name":"张引","post_time":"2019-07-11 04:06:18","like_diff":1,"likes":4,"dislikes":3,"content":"hyx助教超棒的啊"},{"id":119299,"teacher_id":722,"teacher_name":"张引","post_time":"2019-11-12 03:31:52","like_diff":1,"likes":6,"dislikes":5,"content":"拖堂厉害"},{"id":134722,"teacher_id":722,"teacher_name":"张引","post_time":"2021-04-12 06:38:18","like_diff":1,"likes":4,"dislikes":3,"content":"编程的启蒙老师"},{"id":142302,"teacher_id":722,"teacher_name":"张引","post_time":"2021-11-10 03:36:48","like_diff":1,"likes":5,"dislikes":4,"content":"老师讲课讲得真的很细致，有种高中老师的感觉，上课可以讲到很多平时容易写代码容易出问题的点，上课进度不快，作业不多但是很精，很喜欢张引老师的课"},{"id":155613,"teacher_id":722,"teacher_name":"张引","post_time":"2022-06-14 15:40:01","like_diff":1,"likes":12,"dislikes":11,"content":"很烂。可以从老师的电脑看出老师没有什么编程水平。"},{"id":156445,"teacher_id":722,"teacher_name":"张引","post_time":"2022-06-19 17:45:16","like_diff":1,"likes":7,"dislikes":6,"content":"比较严格，但很认真，是位好老师"},{"id":168827,"teacher_id":722,"teacher_name":"张引","post_time":"2023-02-22 14:13:09","like_diff":1,"likes":5,"dislikes":4,"content":"真的不咋滴，本来以为上课讲的慢就是个好老师，其实讲得根本不细致、不清楚，而且老师推责任给学生都上过十大，因为讨厌老师都讨厌这门课了"},{"id":177459,"teacher_id":722,"teacher_name":"张引","post_time":"2023-07-03 10:31:18","like_diff":1,"likes":2,"dislikes":1,"content":"呃呃了"},{"id":184465,"teacher_id":722,"teacher_name":"张引","post_time":"2023-12-20 07:33:46","like_diff":1,"likes":5,"dislikes":4,"content":"还可以，并没有那些评论说的不好"},{"id":199508,"teacher_id":722,"teacher_name":"张引","post_time":"2024-09-25 00:06:06","like_diff":1,"likes":2,"dislikes":1,"content":"很细致"},{"id":205401,"teacher_id":722,"teacher_name":"张引","post_time":"2024-12-05 16:59:57","like_diff":1,"likes":6,"dislikes":5,"content":"她的C大程千万别选，可能因为我们班是最后一届，作业随心所欲。简单的题目说往年做的多，所以直接去掉，只能选难的，最后给分也非常差。追求分高或者事少的同学千万别选，只能说基础差，不要求高分的可以选，讲课还是很细致的。"},{"id":214841,"teacher_id":722,"teacher_name":"张引","post_time":"2025-02-18 07:48:06","like_diff":1,"likes":1,"dislikes":0,"content":"表白助教qjj，很不错的学长"},{"id":222203,"teacher_id":722,"teacher_name":"张引","post_time":"2025-07-01 08:22:53","like_diff":1,"likes":1,"dislikes":0,"content":"老师讲得不错，但是我基础不行最后还是靠同学补的课"},{"id":7517,"teacher_id":722,"teacher_name":"张引","post_time":"2015-09-15 01:35:44","like_diff":0,"likes":3,"dislikes":3,"content":"还好"},{"id":23815,"teacher_id":722,"teacher_name":"张引","post_time":"2016-04-18 02:35:31","like_diff":0,"likes":8,"dislikes":8,"content":"作业其他老师3倍多，每周要写500行代码，给分坑，上课不清楚"},{"id":25912,"teacher_id":722,"teacher_name":"张引","post_time":"2016-06-14 08:46:59","like_diff":0,"likes":2,"dislikes":2,"content":"讲得挺好的，就是有点严肃"},{"id":46690,"teacher_id":722,"teacher_name":"张引","post_time":"2017-01-22 07:18:51","like_diff":0,"likes":9,"dislikes":9,"content":"人生第一个满绩 不给10分说不过去 不过当然 老师的课前提问超恐怖 还会经常凶一下 不过老师的作业特别少（比别班少一半 （可能有人不知道 她是四大名补（逃"},{"id":73651,"teacher_id":722,"teacher_name":"张引","post_time":"2018-02-02 09:25:13","like_diff":0,"likes":6,"dislikes":6,"content":"老师上课会随机点人提问，而且上的速度有点慢，但还是大爱张引老师"},{"id":79039,"teacher_id":722,"teacher_name":"张引","post_time":"2018-05-21 10:02:04","like_diff":0,"likes":7,"dislikes":7,"content":"肺腑之言：大程想活命别选她。除非你愿意在你室友刷剧的时候写project，在你室友不上课的时候上课。"},{"id":109866,"teacher_id":722,"teacher_name":"张引","post_time":"2019-06-20 02:09:05","like_diff":0,"likes":3,"dislikes":3,"content":"软工基佛了 真是佛了 无法解释\n\n软工基别来"},{"id":113822,"teacher_id":722,"teacher_name":"张引","post_time":"2019-07-07 17:14:18","like_diff":0,"likes":3,"dislikes":3,"content":"期末分不高，但最后绩点还可以，老师应该是调分了。老师很认真负责~"},{"id":116586,"teacher_id":722,"teacher_name":"张引","post_time":"2019-09-12 02:24:45","like_diff":0,"likes":3,"dislikes":3,"content":"我觉得讲的特别有调理啊，甚至比很多高分老师还清楚，大程这学期只有第一节课点了两次名，以后都没有点过名了，反正还是认真这种教学很系统清晰的老师更合适自己吧"},{"id":124697,"teacher_id":722,"teacher_name":"张引","post_time":"2020-07-06 12:37:40","like_diff":0,"likes":2,"dislikes":2,"content":"软工基很迷很迷，建议避开"},{"id":164847,"teacher_id":722,"teacher_name":"张引","post_time":"2022-12-27 01:33:39","like_diff":0,"likes":2,"dislikes":2,"content":"老师上课还行。"},{"id":167347,"teacher_id":722,"teacher_name":"张引","post_time":"2023-01-15 14:44:04","like_diff":0,"likes":4,"dislikes":4,"content":"老师讲课很认真，水平和能力非常好\n\n就是给分确实求是"},{"id":185212,"teacher_id":722,"teacher_name":"张引","post_time":"2023-12-27 05:53:46","like_diff":0,"likes":4,"dislikes":4,"content":"老师讲课很有耐心，很仔细，对小白友好。"},{"id":199445,"teacher_id":722,"teacher_name":"张引","post_time":"2024-09-24 01:24:15","like_diff":0,"likes":2,"dislikes":2,"content":"上的程序设计专题收尾班，老师讲的很仔细以至于不得不拖堂，对重修的学生来说很棒。给分还行，但是程序课程千万不能摆烂"},{"id":199570,"teacher_id":722,"teacher_name":"张引","post_time":"2024-09-25 13:17:35","like_diff":0,"likes":3,"dislikes":3,"content":"会拖堂(눈_눈)"},{"id":201772,"teacher_id":722,"teacher_name":"张引","post_time":"2024-11-06 05:59:24","like_diff":0,"likes":3,"dislikes":3,"content":"zy老师巨好！上课很有逻辑，当时的助教老师也很负责，给分也特别好"},{"id":208082,"teacher_id":722,"teacher_name":"张引","post_time":"2024-12-25 13:25:27","like_diff":0,"likes":4,"dislikes":4,"content":"老师真的很认真负责，很可爱。"},{"id":211256,"teacher_id":722,"teacher_name":"张引","post_time":"2025-01-11 05:33:19","like_diff":0,"likes":7,"dislikes":7,"content":"c程被卡了😨"},{"id":211296,"teacher_id":722,"teacher_name":"张引","post_time":"2025-01-11 07:00:33","like_diff":0,"likes":3,"dislikes":3,"content":"老师超级好 助教也超级好"},{"id":212368,"teacher_id":722,"teacher_name":"张引","post_time":"2025-01-14 02:18:51","like_diff":0,"likes":8,"dislikes":8,"content":"老师是很好的，讲的都很细很认真。azx助教很难评，疑似对女生比男生上心很多，反正问问题都感觉他很不耐烦，爱理不理的。"},{"id":212377,"teacher_id":722,"teacher_name":"张引","post_time":"2025-01-14 02:29:42","like_diff":0,"likes":4,"dislikes":4,"content":"u1s1，zy老师的课确实一般，早八的课极度催眠，还酷爱点名。\n\n但是但是，azx助教哥哥简直是我的神!!!\n\n回答问题温柔耐心，我最后也是被捞上了4.5！！"},{"id":212924,"teacher_id":722,"teacher_name":"张引","post_time":"2025-01-15 09:16:44","like_diff":0,"likes":2,"dislikes":2,"content":"C程序这门课本身难读就比较大，而且好多同学之前可能未曾接触过，这门课考核是相当多的，有平时小测，实验考，理论考，老师讲课也是比较仔细地，并且会指出很多容易犯错的地方，是一个非常不错的老师"},{"id":214625,"teacher_id":722,"teacher_name":"张引","post_time":"2025-02-15 06:52:07","like_diff":0,"likes":1,"dislikes":1,"content":"好老师，讲得很细，小测和作业难度合理，给分也不错，会帮我们复习高频考点和易错点，适合想要拿高绩点但零基础的同学"},{"id":216842,"teacher_id":722,"teacher_name":"张引","post_time":"2025-03-26 13:46:04","like_diff":0,"likes":1,"dislikes":1,"content":"出题太恶心"},{"id":217331,"teacher_id":722,"teacher_name":"张引","post_time":"2025-04-08 14:32:00","like_diff":0,"likes":0,"dislikes":0,"content":"助教学长真的很好，老师很细致"},{"id":217558,"teacher_id":722,"teacher_name":"张引","post_time":"2025-04-13 06:47:25","like_diff":0,"likes":0,"dislikes":0,"content":"qjj助教真的超好www~每次问完问题都会给你发个大拇指hhhhhh~"},{"id":218984,"teacher_id":722,"teacher_name":"张引","post_time":"2025-05-16 09:11:34","like_diff":0,"likes":0,"dislikes":0,"content":"test"},{"id":219099,"teacher_id":722,"teacher_name":"张引","post_time":"2025-05-21 11:06:49","like_diff":0,"likes":1,"dislikes":1,"content":"其他的不说了，下面都讲的很清楚了，就是不知道是助教的问题还是老师的问题，这学期出现两次题目在发布后再加题目而且没有发通知，都是在我做完pintia后，导致作业分数莫名少了一部分。。。真的很无语。"},{"id":222148,"teacher_id":722,"teacher_name":"张引","post_time":"2025-06-30 12:06:34","like_diff":0,"likes":0,"dislikes":0,"content":"教的好，手把手教学的感觉，适合小白。助教艾学长也很好，最后给分也不错"},{"id":223431,"teacher_id":722,"teacher_name":"张引","post_time":"2025-09-23 12:00:28","like_diff":0,"likes":0,"dislikes":0,"content":"软工基拿了一个满，我觉得很赞。顺带说一下今年软工基的情况，王新宇班级有一个大组，张引班级有两个大组，感觉两个老师给分没差多少。一个大组有五个小组，自由组队最好提前组队。王新宇班级五个小组全部正常完成了，张引班级A大组五个小组全部正常完成了，张引班级B大组五个小组有一个小组完全摆烂彻底失联，有一个小组拼尽全力没有做完……\n\n务必提前组队！否则最后剩下没队伍的人组到一起自然就全是摆烂王和啥也不会的蠢人。\n\n不要缺勤！课上老师要求到的人手写签名，缺勤会扣分的。而课上还有讨论，缺勤还会缺讨论的分。\n\n每节课课前有小测！但是小测的时候老师不做监管，所以可以事先要到题库，到时候一边看题一边复制下来Ctrl+F直接搜题。\n\n课上的东西不用怎么听！没啥用……小测也不是上课的东西，做大程更是没有上课的东西，又没有期末考试……"},{"id":225675,"teacher_id":722,"teacher_name":"张引","post_time":"2025-12-27 08:32:35","like_diff":0,"likes":0,"dislikes":0,"content":"挺负责的"},{"id":225739,"teacher_id":722,"teacher_name":"张引","post_time":"2025-12-29 07:51:26","like_diff":0,"likes":0,"dislikes":0,"content":"实验考过了，感谢老师和助教的帮助"},{"id":226301,"teacher_id":722,"teacher_name":"张引","post_time":"2026-01-10 23:32:15","like_diff":0,"likes":0,"dislikes":0,"content":"挺负责的"},{"id":6542,"teacher_id":722,"teacher_name":"张引","post_time":"2015-07-15 03:15:15","like_diff":-1,"likes":5,"dislikes":6,"content":"讲得比较细，所以有点慢"},{"id":13905,"teacher_id":722,"teacher_name":"张引","post_time":"2016-01-02 07:01:12","like_diff":-1,"likes":4,"dislikes":5,"content":"上课老点名提问题"},{"id":73196,"teacher_id":722,"teacher_name":"张引","post_time":"2018-02-01 06:48:41","like_diff":-1,"likes":2,"dislikes":3,"content":"上机全对，理论考感觉也还可以，最后94卡绩，心痛……怪自己吧"},{"id":101900,"teacher_id":722,"teacher_name":"张引","post_time":"2019-01-29 14:49:35","like_diff":-1,"likes":5,"dislikes":6,"content":"小测代替点名不是很友好"},{"id":125302,"teacher_id":722,"teacher_name":"张引","post_time":"2020-09-06 03:01:40","like_diff":-1,"likes":3,"dislikes":4,"content":"老师很好，是我垃圾，推荐选"},{"id":131812,"teacher_id":722,"teacher_name":"张引","post_time":"2021-01-29 04:09:37","like_diff":-1,"likes":2,"dislikes":3,"content":"软工基讲课真心一般，而且特别能拖堂，事情也很多，答辩的时候对学生态度超级恶劣各种怼人，但是意外的给分挺好，感觉张老师班的软工基给分明显比隔壁王新宇班好很多，同等条件下建议选张老师。"},{"id":146505,"teacher_id":722,"teacher_name":"张引","post_time":"2022-01-06 17:47:22","like_diff":-1,"likes":3,"dislikes":4,"content":"请老师捞捞我吧"},{"id":149040,"teacher_id":722,"teacher_name":"张引","post_time":"2022-01-14 07:53:34","like_diff":-1,"likes":11,"dislikes":12,"content":"给分还可以，会调分"},{"id":154884,"teacher_id":722,"teacher_name":"张引","post_time":"2022-06-06 12:42:30","like_diff":-1,"likes":8,"dislikes":9,"content":"软工基这课就纯nt。。。\n\n答辩疯狂怼人..."},{"id":166291,"teacher_id":722,"teacher_name":"张引","post_time":"2023-01-11 17:29:42","like_diff":-1,"likes":7,"dislikes":8,"content":"期末考挂了，但老师是好老师，重修我依旧选你！"},{"id":189325,"teacher_id":722,"teacher_name":"张引","post_time":"2024-01-23 08:46:30","like_diff":-1,"likes":2,"dislikes":3,"content":"好老师，有高中课堂的感觉"},{"id":211452,"teacher_id":722,"teacher_name":"张引","post_time":"2025-01-11 13:03:35","like_diff":-1,"likes":2,"dislikes":3,"content":"上的C尖，老师讲的比较细致，挺适合跟着她思路学的。点名比较多，基本每次都有。作业量正常，小测是理论题＋编程，我觉得有一点难，不是很容易拿满（后两次的编程题压力还挺大的）。但最后给分挺好的，我觉得可以选。"},{"id":51246,"teacher_id":722,"teacher_name":"张引","post_time":"2017-05-25 09:51:21","like_diff":-2,"likes":3,"dislikes":5,"content":"严格  对学习知识很有帮助"},{"id":77766,"teacher_id":722,"teacher_name":"张引","post_time":"2018-05-07 15:17:13","like_diff":-2,"likes":6,"dislikes":8,"content":"脾气暴躁"},{"id":103740,"teacher_id":722,"teacher_name":"张引","post_time":"2019-03-05 01:52:18","like_diff":-2,"likes":6,"dislikes":8,"content":"大程，魔鬼。(눈_눈)"},{"id":139213,"teacher_id":722,"teacher_name":"张引","post_time":"2021-07-13 09:10:00","like_diff":-2,"likes":2,"dislikes":4,"content":"求老师捞"},{"id":139508,"teacher_id":722,"teacher_name":"张引","post_time":"2021-07-16 16:42:42","like_diff":-2,"likes":3,"dislikes":5,"content":"张老师给分真的特别好呀！！！"},{"id":154886,"teacher_id":722,"teacher_name":"张引","post_time":"2022-06-06 12:51:46","like_diff":-2,"likes":3,"dislikes":5,"content":"一分打给软工基这门课"},{"id":160813,"teacher_id":722,"teacher_name":"张引","post_time":"2022-10-13 12:10:30","like_diff":-2,"likes":1,"dislikes":3,"content":"不错的老师！"},{"id":25543,"teacher_id":722,"teacher_name":"张引","post_time":"2016-05-25 03:15:52","like_diff":-3,"likes":4,"dislikes":7,"content":"软件工程课简直是翔，像根本没有见过项目的"},{"id":30347,"teacher_id":722,"teacher_name":"张引","post_time":"2016-07-01 10:43:14","like_diff":-3,"likes":8,"dislikes":11,"content":"讲课差作业多，给分坑，1分不能再多\n\n"},{"id":79279,"teacher_id":722,"teacher_name":"张引","post_time":"2018-05-30 02:33:52","like_diff":-3,"likes":6,"dislikes":9,"content":"上课动不动纸拿出来小测，真的受不了"},{"id":123940,"teacher_id":722,"teacher_name":"张引","post_time":"2020-06-23 08:12:07","like_diff":-3,"likes":1,"dislikes":4,"content":"ㅤㅤㅤㅤ"},{"id":136409,"teacher_id":722,"teacher_name":"张引","post_time":"2021-06-17 15:11:45","like_diff":-3,"likes":2,"dislikes":5,"content":"太贱啦，上课不知道在讲什么东西，无语"},{"id":166479,"teacher_id":722,"teacher_name":"张引","post_time":"2023-01-12 10:49:43","like_diff":-3,"likes":1,"dislikes":4,"content":"认真负责"},{"id":169485,"teacher_id":722,"teacher_name":"张引","post_time":"2023-02-26 11:30:57","like_diff":-3,"likes":2,"dislikes":5,"content":"老师你快回我啊啊啊啊啊啊啊啊啊啊!!!!!!!!!!孩子想上学啊啊啊啊啊啊啊啊!!!!!!!!!!!!!!"},{"id":14170,"teacher_id":722,"teacher_name":"张引","post_time":"2016-01-05 06:35:45","like_diff":-4,"likes":1,"dislikes":5,"content":"上课其实还不错，就是研讨课比较坑…"},{"id":79605,"teacher_id":722,"teacher_name":"张引","post_time":"2018-06-14 12:08:32","like_diff":-4,"likes":5,"dislikes":9,"content":"作业能不能布置得走心点?就不能和上的内容配套吗？"},{"id":84462,"teacher_id":722,"teacher_name":"张引","post_time":"2018-07-13 02:25:13","like_diff":-4,"likes":5,"dislikes":9,"content":"不懂有啥好感谢的。别人老师尽量给高你却拼命卡绩。给的分数和作业量哪成正比?\n\n完全不知道展示课的意义何在。"},{"id":136853,"teacher_id":722,"teacher_name":"张引","post_time":"2021-06-26 02:34:44","like_diff":-4,"likes":0,"dislikes":4,"content":"我是上学期上的，现在想起来回来评个分。老师人很好，但是讲课不太到位，总感觉没有讲很多重要的东西，需要自己看书，但c小程，自己看看也无妨。不过还是希望老师上课能多讲一些重难点，和编程实践的操作，以及不要忘了很多同学是完全0基础的。助教哥哥很负责，如果肯主动一点去请教的话会学到很多。然后就是，十分感谢期末捞我，硬是把平时分捞满了。"},{"id":171322,"teacher_id":722,"teacher_name":"张引","post_time":"2023-03-21 15:05:56","like_diff":-4,"likes":12,"dislikes":16,"content":"刚开始上C大程， 感觉讲的很不错的，知识点讲的很清楚，很细致，一遍就能听懂，非常好，私聊问问题也很有耐心回答，感觉是很好的老师，毕竟计院预置的老师，不会差的"},{"id":4701,"teacher_id":722,"teacher_name":"张引","post_time":"2015-06-26 09:38:11","like_diff":-5,"likes":15,"dislikes":20,"content":"简直屎\n\n"},{"id":48562,"teacher_id":722,"teacher_name":"张引","post_time":"2017-03-07 08:15:02","like_diff":-5,"likes":8,"dislikes":13,"content":"同学们回答问题声音比较小，老师没听见反而责怪同学，说同学态度消极；突然冒出来莫名其妙的随堂练习，还没有理解老师说什么就开始收答卷；下课警告同学:“你们要是再这样我就不讲了，你们自己上去讲去。”难以理解老师的用心。"},{"id":76871,"teacher_id":722,"teacher_name":"张引","post_time":"2018-04-25 03:37:14","like_diff":-5,"likes":7,"dislikes":12,"content":"我吐槽一下小测，每节课都有是什么鬼。每个人的学习方法不一样，我不太做得到整节课都专心听讲，课后也往往做不到及时复习、预习，但我保证阶段性会去复习一下。最终的效果不会差于持续做到以上几项的。所以节节课小测很烦人啊！！"},{"id":84749,"teacher_id":722,"teacher_name":"张引","post_time":"2018-07-13 18:42:46","like_diff":-5,"likes":1,"dislikes":6,"content":"软工基给分不错 可能是组长加分的原因 堂堂课小测十分可怕 验收怼人超凶被吓哭 软工基刷夜不是闹着玩的 报告什么的超有趣的呵呵"},{"id":101553,"teacher_id":722,"teacher_name":"张引","post_time":"2019-01-28 12:06:27","like_diff":-5,"likes":5,"dislikes":10,"content":"c大程前方避雷！警惕警惕！\n\nc大程=比别的班多一个最麻烦的project+四个project都要展测+霸占学生时间补几节展示课+没学生听就小测+喜欢卡绩"},{"id":199635,"teacher_id":722,"teacher_name":"张引","post_time":"2024-09-26 12:37:40","like_diff":-5,"likes":7,"dislikes":12,"content":"出你个锤子的题，自己题上面的函数全是错，还让学生去做？"},{"id":84519,"teacher_id":722,"teacher_name":"张引","post_time":"2018-07-13 04:49:40","like_diff":-6,"likes":7,"dislikes":13,"content":"每节课都有小测，给分还垃圾，喜欢卡绩，呵呵"},{"id":108056,"teacher_id":722,"teacher_name":"张引","post_time":"2019-05-14 02:25:07","like_diff":-6,"likes":3,"dislikes":9,"content":"想拿高分就别选，"},{"id":152755,"teacher_id":722,"teacher_name":"张引","post_time":"2022-04-19 08:33:53","like_diff":-6,"likes":5,"dislikes":11,"content":"每节课点名，呵呵呵"},{"id":26799,"teacher_id":722,"teacher_name":"张引","post_time":"2016-06-21 06:37:27","like_diff":-7,"likes":9,"dislikes":16,"content":"一节课就上一下午，善于浪费学生的时间，垃圾老师"},{"id":79278,"teacher_id":722,"teacher_name":"张引","post_time":"2018-05-30 02:28:28","like_diff":-7,"likes":3,"dislikes":10,"content":"自导自演，还要逼着我们参与进来？时代在改变，教学方式能否改进？！！"},{"id":155069,"teacher_id":722,"teacher_name":"张引","post_time":"2022-06-08 04:47:26","like_diff":-7,"likes":4,"dislikes":11,"content":"懂得都懂"},{"id":149088,"teacher_id":722,"teacher_name":"张引","post_time":"2022-01-14 11:08:45","like_diff":-10,"likes":5,"dislikes":15,"content":"老师给分很好，两次小测都很烂，靠期末翻身拿了满绩。就是讲课刚开始速度会比较慢导致后面的难点讲得很快。"},{"id":212541,"teacher_id":722,"teacher_name":"张引","post_time":"2025-01-14 07:14:59","like_diff":-10,"likes":7,"dislikes":17,"content":"省流：上课烂，给分低，别选\n\n具体分析：\n\n1 上课讲了跟没讲一样，催眠，不如自学\n\n2 实验考两道都做出来了，期末理论考感觉良好，最后出分被卡绩82/3.6，看来这个老师平时分给得也不咋地"},{"id":113935,"teacher_id":722,"teacher_name":"张引","post_time":"2019-07-08 01:29:14","like_diff":-11,"likes":3,"dislikes":14,"content":"我和我大作业同组的差了3分，明明课有去小测也考了，就期末差了两分，不明白怎么绩点差了0.3？"},{"id":145996,"teacher_id":722,"teacher_name":"张引","post_time":"2022-01-05 02:41:25","like_diff":-11,"likes":3,"dislikes":14,"content":"马上要考试了，特地来给老师10分，没什么别的意思，对吧"},{"id":167256,"teacher_id":722,"teacher_name":"张引","post_time":"2023-01-15 08:54:32","like_diff":-11,"likes":9,"dislikes":20,"content":"老师应该是捞了的，毕竟出分比较慢而且成绩也挺好看（拿了满绩，朋友零基础的绩点也非常不错）\n\n这种硬课其实是希望老师越认真负责，作业越高质量越好的，老师上课讲的内容还是很贴合考试内容的，虽然有两次突击课上小测试，但是应该是算作点名，作业量不是很大，基础好的同学完全可以上机课的时间就能完成，作业中的题目是有点快于教学进度的，但是题目的质量还是非常高的。\n\n总结：张老师课上的还是不错的，但是老师平时比较严格，捞的程度可能不大，想要好成绩还是要踏踏实实完成作业（csdn这东西还是少抄，我和朋友就没有抄过），我几乎没有自学，所以跟紧老师应该是可以拿到不错的成绩的。"},{"id":79098,"teacher_id":722,"teacher_name":"张引","post_time":"2018-05-23 01:20:39","like_diff":-15,"likes":1,"dislikes":16,"content":"C程小测又做错了，平时分怕是快被扣光了吧"},{"id":76570,"teacher_id":722,"teacher_name":"张引","post_time":"2018-07-13 12:57:33","like_diff":-16,"likes":6,"dislikes":22,"content":"不知道是不是因为这学期只有一个班，老师没有调分，给分非常非常低…非常难受了"},{"id":158106,"teacher_id":722,"teacher_name":"张引","post_time":"2022-06-28 10:57:49","like_diff":-16,"likes":14,"dislikes":30,"content":"师德师风出现了一定问题…\n\n给出了分数并答应了最后的分数比例，并承诺会按照分数比例进行计算。\n\n结果我时候去查分发现这人出尔反尔拒不承认，开始拿一堆别的事情搪塞，和助教一起应付我。（助教不看消息，我一找老师立马已读，笑得）\n\n要是据理力争的话我绝不会输，但既然已经知道人品存在问题，那么就会担心报复性扣分，遂放弃。\n\n为人师表，告诫我们“不负责任的评分会受到反噬”，自己却不能对自己的言行承诺负责。真是可悲！"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

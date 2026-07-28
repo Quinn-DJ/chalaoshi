@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>周戈 - 经济学院 - 浙大教评</title>
+    <meta name="description" content="周戈教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="周戈,经济学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">周戈</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">经济学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.75</div>
+                    <div class="rating-participants">86人参与评分</div>
+                    <div class="attendance-info">37.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">中级宏观经济学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.65</span>
+                            <span class="students">选课: 130人</span>
+                            <span class="std-dev">标准差: 1.06</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">国际金融学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.07</span>
+                            <span class="students">选课: 80人</span>
+                            <span class="std-dev">标准差: 0.80</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">金融学理论前沿</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.98</span>
+                            <span class="students">选课: 88人</span>
+                            <span class="std-dev">标准差: 0.81</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (74 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":150901,"teacher_id":87,"teacher_name":"周戈","post_time":"2022-02-21 02:41:57","like_diff":32,"likes":34,"dislikes":2,"content":"周戈是查老师上第二个让我觉得请了水军的老师"},{"id":48502,"teacher_id":87,"teacher_name":"周戈","post_time":"2017-03-06 06:47:56","like_diff":31,"likes":36,"dislikes":5,"content":"优点：善于思考经济学含义，有时候会有课外拓展，鼓励学生亲自动手算，长得帅；\n\n缺点：声音太小，常常给人一种这句话说完就没下一句的感觉；上课节奏拖沓，气氛极其沉闷，一个厂商最优化行为讲了两节课，还总问我们快不快……都要睡着了好嘛……\n\n综合评价：优雅的老师，课还算讲的明白，但个人觉得实在谈不上多好，仅就我上过课的老师来说，要论上课质量，还属汪淼军老师、叶航老师，朱柏铭老师，等等。"},{"id":16506,"teacher_id":87,"teacher_name":"周戈","post_time":"2019-01-29 04:00:04","like_diff":21,"likes":30,"dislikes":9,"content":"希望有一天他的教学水平能跟上他的颜值。半成品花瓶啊。作业比较烦，不点名，声音小，教学内容顺序和书本不一样！！！复习看ppt无用。祝安！"},{"id":51761,"teacher_id":87,"teacher_name":"周戈","post_time":"2017-06-09 06:57:30","like_diff":14,"likes":15,"dislikes":1,"content":"虽然老师很认真但我还是建议中宏去听何老师讲，真的"},{"id":57712,"teacher_id":87,"teacher_name":"周戈","post_time":"2017-07-12 23:10:17","like_diff":14,"likes":15,"dislikes":1,"content":"请大家注意，周戈已经不是满绩男神了"},{"id":174911,"teacher_id":87,"teacher_name":"周戈","post_time":"2023-06-19 14:59:45","like_diff":14,"likes":16,"dislikes":2,"content":"今年毕业的老人，不知道周老师发生什么事了。毕业吃饭整个人乱糟糟，头发简直鸟巢，也发福了不少，眼里也没光了。回想大一时候周老师很意气风发的，希望老师能振作起来吧，唉。"},{"id":49391,"teacher_id":87,"teacher_name":"周戈","post_time":"2017-04-10 04:16:01","like_diff":13,"likes":13,"dislikes":0,"content":"中宏。可以看出准备比较认真，但是讲的实在是太太太太拖沓重复了，包括给你五分钟求导，感受一下。而且上课缺乏激情，声音比较轻，很想睡觉。"},{"id":57313,"teacher_id":87,"teacher_name":"周戈","post_time":"2017-07-06 14:21:49","like_diff":9,"likes":10,"dislikes":1,"content":"讲课一般 人的性格不错 长得也很帅 但是老师我这么认真你给我这点分你是在侮辱我吗？？？"},{"id":9459,"teacher_id":87,"teacher_name":"周戈","post_time":"2015-10-28 04:56:29","like_diff":8,"likes":20,"dislikes":12,"content":"男神，简直要暗恋他了(≧σ≦)"},{"id":57301,"teacher_id":87,"teacher_name":"周戈","post_time":"2017-07-06 13:41:46","like_diff":8,"likes":9,"dislikes":1,"content":"中宏讲得不好，给分又差。"},{"id":81395,"teacher_id":87,"teacher_name":"周戈","post_time":"2018-07-11 15:00:01","like_diff":8,"likes":10,"dislikes":2,"content":"虽然听不懂讲课，但是还是满绩男神"},{"id":102508,"teacher_id":87,"teacher_name":"周戈","post_time":"2019-02-04 02:26:42","like_diff":7,"likes":7,"dislikes":0,"content":"基础较差和自学能力不强的同学不要选了，交叉班的既然没办法换那就加油努力吧，适合大佬"},{"id":9202,"teacher_id":87,"teacher_name":"周戈","post_time":"2015-10-16 12:04:37","like_diff":6,"likes":12,"dislikes":6,"content":"温柔杀手"},{"id":18367,"teacher_id":87,"teacher_name":"周戈","post_time":"2016-01-21 13:33:12","like_diff":5,"likes":12,"dislikes":7,"content":"美，知识渊博，满绩天使！"},{"id":52366,"teacher_id":87,"teacher_name":"周戈","post_time":"2017-06-19 06:18:45","like_diff":5,"likes":7,"dislikes":2,"content":"建议学霸可以选。老师讲的很认真也很厉害，但是真的不如何张勇…"},{"id":73317,"teacher_id":87,"teacher_name":"周戈","post_time":"2018-02-01 10:15:22","like_diff":5,"likes":6,"dislikes":1,"content":"老师是好人(ToT)"},{"id":81711,"teacher_id":87,"teacher_name":"周戈","post_time":"2018-07-06 02:55:28","like_diff":5,"likes":5,"dislikes":0,"content":"刚开始觉得老师讲得不怎么样，但是到后来回过去看的时候发现老师其实讲的很好啊……而且每次都很耐心很温柔的样子 真的帅"},{"id":83952,"teacher_id":87,"teacher_name":"周戈","post_time":"2018-07-11 15:19:49","like_diff":5,"likes":6,"dislikes":1,"content":"周老师也太棒了吧，超级有学识，经济直觉也非常好。关键是一点都没有老师的架子，回答问题的时候真的超级和蔼呀。考试前去老师办公室问题目，见到周老师坐在一件很小的办公室里面，座位只比教师前后桌宽一点，真的非常心疼了，真的非常希望学院能给老师们提供更好的办公环境，对得起老师们在讲台前的辛苦付出"},{"id":151561,"teacher_id":87,"teacher_name":"周戈","post_time":"2022-06-27 04:02:14","like_diff":5,"likes":7,"dislikes":2,"content":"【国际金融学】虽然老师上课不行，但给分是真的高啊，谢谢周哥哥🥰🥰🥰🥰🥰"},{"id":15065,"teacher_id":87,"teacher_name":"周戈","post_time":"2016-01-12 00:54:52","like_diff":4,"likes":8,"dislikes":4,"content":"老师人可帅了，讲话也很温柔（hhh花痴脸）"},{"id":18432,"teacher_id":87,"teacher_name":"周戈","post_time":"2016-01-21 15:21:54","like_diff":4,"likes":11,"dislikes":7,"content":"上课使用的体系和叶航的宏经课本不一样，但是讲的很清楚，而且在重数理推导的同时也很讲究“经济学的intuition”，最后居然能拿99分也是醉了……"},{"id":57770,"teacher_id":87,"teacher_name":"周戈","post_time":"2017-07-14 15:42:36","like_diff":4,"likes":5,"dislikes":1,"content":"中宏给分不好，讲的没激情听不下去，自己看书吧。"},{"id":78629,"teacher_id":87,"teacher_name":"周戈","post_time":"2018-07-11 21:55:04","like_diff":4,"likes":6,"dislikes":2,"content":"给分真的很好吗？为什么我好低啊，感觉答得不错啊"},{"id":82677,"teacher_id":87,"teacher_name":"周戈","post_time":"2018-07-09 02:46:05","like_diff":4,"likes":5,"dislikes":1,"content":"不得不说，周哥哥善良又年轻"},{"id":83947,"teacher_id":87,"teacher_name":"周戈","post_time":"2018-07-11 15:12:39","like_diff":4,"likes":4,"dislikes":0,"content":"中宏给9分（除去上了很多不考的东西）  国金给6分   给分给10分"},{"id":114180,"teacher_id":87,"teacher_name":"周戈","post_time":"2019-07-09 03:14:25","like_diff":4,"likes":4,"dislikes":0,"content":"他到底会不会上课。。。给分也完全不好"},{"id":139270,"teacher_id":87,"teacher_name":"周戈","post_time":"2021-07-14 03:13:20","like_diff":3,"likes":8,"dislikes":5,"content":"坑比，中宏大作业project谁会用matlab编程？一个学期考试内容明明只到交际代叠模型结果半期就讲完了剩下半个学期在讲一些根本不用的东西。上课没意思，能过全靠隔壁班何老师的智云课堂教会了我，深入浅出，生动形象，我最后悔的事就是选了zg班，太痛苦了，建议周老师现实主义一点，不要过于理想化，不要太看得起我们。"},{"id":222094,"teacher_id":87,"teacher_name":"周戈","post_time":"2025-06-29 16:46:43","like_diff":3,"likes":3,"dislikes":0,"content":"中宏给分神中神。\n\n后面选的同学注意一下，从25春夏开始project从必做变成选做了，因此基本上只要做了平时分就可以满分\n\n平时不点名，不过会有一些随堂练习需要当堂上交，课后作业大约3次\n\n期末批卷也很松，听不懂他课的可以去听hzy老师，讲的确实深入浅出"},{"id":18386,"teacher_id":87,"teacher_name":"周戈","post_time":"2016-01-21 14:09:22","like_diff":2,"likes":4,"dislikes":2,"content":"上课无聊，声音小，讲课顺序永远找不到，作业多，最后给分还好。"},{"id":18403,"teacher_id":87,"teacher_name":"周戈","post_time":"2016-01-21 14:23:55","like_diff":2,"likes":6,"dislikes":4,"content":"周戈老师的课其实挺好的，会给你补充有用的知识。可能不会按照书上的东西来讲，但是上课的内容都能帮助理解书上的内容。"},{"id":83965,"teacher_id":87,"teacher_name":"周戈","post_time":"2018-07-11 15:25:48","like_diff":2,"likes":2,"dislikes":0,"content":"老师人太好了！其实如果不是为了应付考试我还真挺希望多听老师的讲课……"},{"id":83967,"teacher_id":87,"teacher_name":"周戈","post_time":"2018-07-11 15:28:45","like_diff":2,"likes":2,"dislikes":0,"content":"长得帅"},{"id":83984,"teacher_id":87,"teacher_name":"周戈","post_time":"2018-07-11 16:01:49","like_diff":2,"likes":2,"dislikes":0,"content":"给分是真的很好了"},{"id":84170,"teacher_id":87,"teacher_name":"周戈","post_time":"2018-07-12 07:19:23","like_diff":2,"likes":2,"dislikes":0,"content":"上课准备得很认真 但是比较适合高水平的同学 emmm 我上课基本被迫梦游了"},{"id":97779,"teacher_id":87,"teacher_name":"周戈","post_time":"2019-01-22 15:56:23","like_diff":2,"likes":3,"dislikes":1,"content":"求你好好学学做PPT"},{"id":155435,"teacher_id":87,"teacher_name":"周戈","post_time":"2022-06-19 14:15:58","like_diff":2,"likes":2,"dislikes":0,"content":"求老师捞一捞我(๑ó﹏ò๑)"},{"id":171930,"teacher_id":87,"teacher_name":"周戈","post_time":"2023-04-13 01:35:07","like_diff":2,"likes":2,"dislikes":0,"content":"讲的太拉了"},{"id":221097,"teacher_id":87,"teacher_name":"周戈","post_time":"2025-06-21 08:31:20","like_diff":2,"likes":3,"dislikes":1,"content":"冲着给分好来选的，结果讲的又烂上课声音又小还绩杀，只能说快跑吧。。"},{"id":221124,"teacher_id":87,"teacher_name":"周戈","post_time":"2025-06-21 10:58:16","like_diff":2,"likes":3,"dislikes":1,"content":"国际金融学\n\n讲得烂给分差，不点名但是偷偷记人，别被查老师均绩骗了"},{"id":11817,"teacher_id":87,"teacher_name":"周戈","post_time":"2015-12-16 05:53:03","like_diff":1,"likes":11,"dislikes":10,"content":"坑老师，建议不是经济专业的学生不要选他的课，上过他的宏经，整天在补充好多经济专业的东西，听得云里雾里的，平时屁事还多。。。"},{"id":17656,"teacher_id":87,"teacher_name":"周戈","post_time":"2016-01-20 14:51:10","like_diff":1,"likes":4,"dislikes":3,"content":"讲课跟进时代，很能引导思路，注重平时的思维锻炼，很棒啊！"},{"id":57363,"teacher_id":87,"teacher_name":"周戈","post_time":"2017-07-07 03:58:46","like_diff":1,"likes":2,"dislikes":1,"content":"老师人很nice！"},{"id":84913,"teacher_id":87,"teacher_name":"周戈","post_time":"2018-07-14 10:39:31","like_diff":1,"likes":1,"dislikes":0,"content":"前几节课还在垂死挣扎的我，终于在某一节课开始放弃了认真听讲。春学期上完就把何樟勇老师两个学期的课程内容上完了。于是我翘了一个夏学期的中宏课，后半程全靠自学，最后绩点给的很让我感动。告诉学弟学妹们，以及来上个性课程的同学，周哥哥的中宏可能要单独出卷了。所以选上他的课，建议问清楚，毕竟绩点也很重要。"},{"id":99255,"teacher_id":87,"teacher_name":"周戈","post_time":"2019-01-24 13:41:35","like_diff":1,"likes":1,"dislikes":0,"content":"老师很厉害的，也很温柔，但还是要挂科怎么破"},{"id":114111,"teacher_id":87,"teacher_name":"周戈","post_time":"2019-07-08 23:59:25","like_diff":1,"likes":1,"dislikes":0,"content":"。。。"},{"id":114255,"teacher_id":87,"teacher_name":"周戈","post_time":"2019-07-09 11:01:21","like_diff":1,"likes":1,"dislikes":0,"content":"温柔杀手"},{"id":224907,"teacher_id":87,"teacher_name":"周戈","post_time":"2025-12-11 14:22:32","like_diff":1,"likes":1,"dislikes":0,"content":"老师人真的很好，很文雅，然后对学生其实很关心的。\n\n客观上老师讲课声音会比较小，老师更适合讲小班课，有些相对前沿或者比较难的地方对数学的补充不够，中宏我甚至觉得可以八节课补数学和MATLAB，然后讲一些RBC和凯恩斯的模型。但是就其内容本身而言是没有问题的。感觉这一块老师可以学学邬sir。\n\n跟hzy比起来简直一个天一个地，隔壁那个讲的就是为了对付这个课过的，真的这样学完想做宏观的学完也没了。\n\n最后是给分神中神，真的没话说。"},{"id":18377,"teacher_id":87,"teacher_name":"周戈","post_time":"2016-01-21 13:52:52","like_diff":0,"likes":4,"dislikes":4,"content":"男神男神～"},{"id":18489,"teacher_id":87,"teacher_name":"周戈","post_time":"2016-01-21 23:22:31","like_diff":0,"likes":2,"dislikes":2,"content":"周老师很帅！"},{"id":83941,"teacher_id":87,"teacher_name":"周戈","post_time":"2018-07-11 15:02:24","like_diff":0,"likes":0,"dislikes":0,"content":"谢不挂之恩"},{"id":92072,"teacher_id":87,"teacher_name":"周戈","post_time":"2018-12-26 00:56:13","like_diff":0,"likes":0,"dislikes":0,"content":"男神发福了？"},{"id":173002,"teacher_id":87,"teacher_name":"周戈","post_time":"2023-05-11 05:18:19","like_diff":0,"likes":2,"dislikes":2,"content":"期末大作业要用matlab......我除了要忍受您稀烂的ppt和自说自话的上课水平还要自学编程是吧？估计学术水平挺高的但是教学水平就是马里亚纳海沟，学到期中好多人退课 求求您学学怎么上课吧"},{"id":178148,"teacher_id":87,"teacher_name":"周戈","post_time":"2023-07-07 07:38:56","like_diff":0,"likes":2,"dislikes":2,"content":"国金，作为一个从刚接触专业相关内容起就不擅长汇率相关内容的人而言，上课体验痛苦无比。国金内容深入又是英语，虽然每节课后都进行复盘，但每每一个星期过去，又感觉忘的差不多（and这学期因为各种节假日的关系少了好几节课，导致后面的内容压缩得令人发指🥶）。快期末了发现考试安排出神入化，不提前复习压根来不及，能挺过整个复习过程我真佩服我自己。\n\n给学弟学妹推荐这本书的中译版（图书馆能借到），可以和英文配着看，但上课的时候别让老师看到，因为他会push大家看英文版hhhh（主要是为了期末考试中那个大型阅读理解）。\n\n学这个课最大的感悟就是有问题一定一定要弄懂，及时弄懂并做好相关笔记，不然后面真的不知道当初干了什么😫。"},{"id":221643,"teacher_id":87,"teacher_name":"周戈","post_time":"2025-06-25 04:57:53","like_diff":0,"likes":2,"dislikes":2,"content":"老师上课声音较小，需要坐前排才能获得较好的听课体验。老师可能还是满绩男神"},{"id":18476,"teacher_id":87,"teacher_name":"周戈","post_time":"2016-01-21 17:07:20","like_diff":-1,"likes":1,"dislikes":2,"content":"嗯。。嗯"},{"id":57364,"teacher_id":87,"teacher_name":"周戈","post_time":"2017-07-07 04:02:05","like_diff":-1,"likes":1,"dislikes":2,"content":"感谢男神中宏重修不杀之恩！"},{"id":80650,"teacher_id":87,"teacher_name":"周戈","post_time":"2018-06-29 02:08:40","like_diff":-1,"likes":2,"dislikes":3,"content":"别上他的中宏\n\n别上他的中宏\n\n别上他的中宏"},{"id":83940,"teacher_id":87,"teacher_name":"周戈","post_time":"2018-07-11 14:58:00","like_diff":-1,"likes":1,"dislikes":2,"content":"讲课清楚，给分也好"},{"id":197173,"teacher_id":87,"teacher_name":"周戈","post_time":"2024-07-08 13:47:28","like_diff":-2,"likes":0,"dislikes":2,"content":"虽然大作业难度高但是老师不会为难你，有问题真的不管多迟都是秒回，人真的很好，给分也超超超超捞"},{"id":12395,"teacher_id":87,"teacher_name":"周戈","post_time":"2015-12-23 07:28:18","like_diff":-3,"likes":3,"dislikes":6,"content":"最喜欢的老师"},{"id":18373,"teacher_id":87,"teacher_name":"周戈","post_time":"2016-01-21 13:42:34","like_diff":-3,"likes":1,"dislikes":4,"content":"良心的"},{"id":19077,"teacher_id":87,"teacher_name":"周戈","post_time":"2016-01-23 08:12:28","like_diff":-3,"likes":2,"dislikes":5,"content":"周哥哥大长腿欧巴，讲话声音太温柔容易睡过去…但是上课补充很多内容，思路也超级清晰，宏经很有收获！重点是给分还好～"},{"id":29699,"teacher_id":87,"teacher_name":"周戈","post_time":"2016-06-30 08:06:16","like_diff":-3,"likes":1,"dislikes":4,"content":"前排强势表白男神"},{"id":57304,"teacher_id":87,"teacher_name":"周戈","post_time":"2017-07-06 13:55:00","like_diff":-3,"likes":3,"dislikes":6,"content":"给分感人 老师讲课可以再自信大声一些"},{"id":93652,"teacher_id":87,"teacher_name":"周戈","post_time":"2019-01-11 06:30:34","like_diff":-3,"likes":1,"dislikes":4,"content":"看见我的差分方程没，看见我的动力系统没，它们真的都是看起来复杂解起来很简单的。\n\n玩笑归玩笑 很好的老师。 学有余力怒推荐中宏。"},{"id":76173,"teacher_id":87,"teacher_name":"周戈","post_time":"2018-03-28 08:34:59","like_diff":-4,"likes":1,"dislikes":5,"content":"因为是男神，所以课超级棒"},{"id":86748,"teacher_id":87,"teacher_name":"周戈","post_time":"2018-09-18 09:31:04","like_diff":-4,"likes":0,"dislikes":4,"content":"满了 背书就好了"},{"id":158185,"teacher_id":87,"teacher_name":"周戈","post_time":"2022-06-27 11:02:21","like_diff":-4,"likes":3,"dislikes":7,"content":"我见过的唯一一位教学，作业，给分完全分裂的老师。\n\n教学完全听不懂，作业（project）完全不会做，给分好好好好好。\n\n不点名，真心建议大家选他的课，然后听hzy老师的智云，大作业copy。"},{"id":197659,"teacher_id":87,"teacher_name":"周戈","post_time":"2024-07-25 05:28:37","like_diff":-4,"likes":0,"dislikes":4,"content":"真的好老师"},{"id":57505,"teacher_id":87,"teacher_name":"周戈","post_time":"2017-07-09 03:19:02","like_diff":-6,"likes":1,"dislikes":7,"content":"一学期下来感觉没学到啥时候但回过头发现周男神的经济学直觉培养是潜移默化的了  中宏给分很好了"},{"id":174340,"teacher_id":87,"teacher_name":"周戈","post_time":"2023-07-08 10:19:59","like_diff":-8,"likes":3,"dislikes":11,"content":"满啦！周戈老师是一个学术水平很高的人，讲课水平其实我觉得也不错哈哈，但可能很多同学都接受不来。以下留几点tips给未来会选修中宏以及上周老师课的同学。\n\nTips：1.周老师应该是会捞人的，反正连着几年大家都感觉老师给分是很不错的，所以上周戈老师课的同学不用担心给分会比其他老师差。2.周老师班级和其他班级中宏最大的区别就是上课内容教其他班较快，大概八到十周时间就会讲完hzy班十六周的内容。但我个人觉得其实主要是hzy老师上课速度太慢了，本人是两个班课程都混听的，所以还是比较能感受到差异的。如果你能够上课认真听讲或者智云会看录播，那周老师的讲课速度你应该是完全能够接受的。我认为周戈老师的讲课质量很高，不要被英文的ppt和老师偶尔冒出的英文词汇吓到，因为老师的ppt、讲课的逻辑性都比那本中级宏观经济学好太多了，所以大家也不用担心课是否上的不够好。至于周老师多上的部分实际上都是原来内容的拓展，比如RBC模型、货币引入等等，和新古典等基本上无多大区别，重要的是能让我们更多的理解经济学意义（可能就是周老师想让我们培养的经济直觉吧hh）。3.我认为最折磨人的应该是那个大作业了，这里具体内容我就不阐释了，大概需要自己学习Latex排版、MATLAB编程等等，但是实际上据反应来看这方面老师不会难为你，应该是做了并且能体现出你确实了解了花了时间，该给的分都会给的。4.以上三点就是周老师可能会劝退或者吸引同学的地方，同学可以根据需要自行考虑。"},{"id":122338,"teacher_id":87,"teacher_name":"周戈","post_time":"2020-02-24 11:19:45","like_diff":-9,"likes":0,"dislikes":9,"content":"中宏选周哥哥的没错！我爱背PPT！"},{"id":115961,"teacher_id":87,"teacher_name":"周戈","post_time":"2019-08-27 05:57:51","like_diff":-12,"likes":1,"dislikes":13,"content":"从不点名，听他讲课是享受（虽然一开始听不懂，但全凭周哥的颜认真听了课，然后越听越有趣）男神认真上课讲知识的时候简直不要太迷人！满脑子知识的人啊啊啊啊！而且每次他看到大家有一点疑惑的样子会多讲一遍，是很好的老师。"},{"id":18459,"teacher_id":87,"teacher_name":"周戈","post_time":"2016-01-21 16:11:11","like_diff":-21,"likes":2,"dislikes":23,"content":"男神！平时的经济学直觉锻炼让你最后考试周看一下午宏经课本就能上考场！给分也不错，最后97。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

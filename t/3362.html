@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>伍赛 - 计算机科学与技术学院 - 浙大教评</title>
+    <meta name="description" content="伍赛教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="伍赛,计算机科学与技术学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">伍赛</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">计算机科学与技术学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.69</div>
+                    <div class="rating-participants">37人参与评分</div>
+                    <div class="attendance-info">12.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">操作系统</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.01</span>
+                            <span class="students">选课: 323人</span>
+                            <span class="std-dev">标准差: 0.93</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">计算机科学思想史</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.35</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.32</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (32 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":143672,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2021-12-01 08:13:18","like_diff":13,"likes":13,"dislikes":0,"content":"其实感觉讲得还行"},{"id":148799,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2022-01-13 14:37:13","like_diff":13,"likes":14,"dislikes":1,"content":"伍老师不该这么低分，上课讲的其实很不错，至少是我这一学听下来讲得最舒服的老师了，讲的确实快，所以最后能留下很多时间复习和讲习题，分虽然还没出，但大头的40分实验都是助教给的，小测老师说了也只是点名，应该没什么给分好不好的，至少我按比例算下来50分裡只扣了不到1分，适合面向考试的人选，最后给的复习资料很足"},{"id":149872,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2022-01-17 11:37:22","like_diff":8,"likes":8,"dislikes":0,"content":"感觉老师上课挺温文尔雅的，助教人也都很好"},{"id":91177,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2018-12-02 15:54:55","like_diff":7,"likes":12,"dislikes":5,"content":"除了长得还行 没有任何优点。实验要求奇葩 可以抄代码不让调库 活久见真是服气。讲课讲的云里雾里"},{"id":149859,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2022-01-17 10:10:12","like_diff":7,"likes":7,"dislikes":0,"content":"其实感觉还行，讲的特别快，但是考试关键的内容也都讲到了。平时分看助教，这一届助教都挺好的"},{"id":189449,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2024-01-24 09:26:31","like_diff":7,"likes":8,"dislikes":1,"content":"1.给分很好，助教说只要肯做bonus就能够满平时分，但是bonus的截止日期在所有考试结束之后，因此不用担心没有时间。（但是如果不做bonus的话报告和作业事实上是会扣分的，所以别掉以轻心）。只要你肯努力，这50分你是可以拿到的\n\n2.期末考一定要做jjm班的作业和小测题，亲测有用。（至于王道，在我看来今年OS的考试并没有和王道深度绑定，如果不会大题的话可以看看真题）\n\n3.老师的讲课非常清晰，唯一缺点是有点快，今年提早4周就结束了所有的课程进入了复习阶段\n\n4.我们班是教改班，实验文档清晰，一步步教你慢慢实现操作系统，而且结合了软件和硬件，验收的时候也会问相关的问题，非常建议熟练掌握并且深刻理解，对学习非常有帮助（不止是这么课，会对riscv整个体系都有非常深的理解）。今年的助教们也非常认真负责，人也非常好。\n\n总而言之，选上的同学就偷着乐吧"},{"id":98258,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2019-01-23 08:47:30","like_diff":5,"likes":7,"dislikes":2,"content":"讲的差，给分也差"},{"id":184368,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2023-12-18 09:02:13","like_diff":5,"likes":5,"dislikes":0,"content":"OS\n\n今年三次小测当点名，没有提前通知。\n\n助教是sm和lky\n\n验收还行"},{"id":150687,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2022-02-12 16:35:37","like_diff":3,"likes":3,"dislikes":0,"content":"讲的挺好的，而且老师讲完内容会带着复习。平时分看助教，期末靠自己。伍老师值得一个更高的分"},{"id":166068,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2023-01-11 04:28:47","like_diff":3,"likes":3,"dislikes":0,"content":"老师人帅讲课好，很有条理也会带着复习。非常推荐"},{"id":168063,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2023-01-25 04:39:22","like_diff":3,"likes":3,"dislikes":0,"content":"人帅讲课好，重要考点会讲的很详细（但上课节奏比较催眠），最后几次课会复习，实验跟别的班不一样但助教人特别特别好，给分不错，推荐。"},{"id":189015,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2024-01-21 08:47:56","like_diff":3,"likes":3,"dislikes":0,"content":"赛哥牛逼！！！\n\n助教牛逼！！！\n\nOS 满了，来磕一个！！！"},{"id":211907,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2025-01-13 01:36:39","like_diff":3,"likes":3,"dislikes":0,"content":"给分的神！！"},{"id":212117,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2025-01-13 08:04:47","like_diff":3,"likes":3,"dislikes":0,"content":"给分太好了，感动中国😭😭😭"},{"id":34367,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2016-10-08 02:15:42","like_diff":2,"likes":5,"dislikes":3,"content":"讲的也TMD太快了吧，话讲的不是很清楚，没有觉得任何比其他老师强的地方，貌似给分也比较差"},{"id":188314,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2024-01-18 15:22:19","like_diff":2,"likes":2,"dislikes":0,"content":"ws讲课很清晰，可能有点偏快？但是助教真的很好，给分也很好！！！男神！！！"},{"id":210246,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2025-01-08 14:12:03","like_diff":2,"likes":2,"dislikes":0,"content":"平时分给的真的好，三次小测不提前通知（但是只要看到助教来就知道是小测了，可以消息互通）实验相较于别的班的版本低了很多，框架也清晰，但是会查重，两个助教人都很好，感觉懂的也很多，验收的时候会拷打细节（实验的框架就是他们自己改的所以他们自己清楚）但扣分不多，还会在实验报告的批改里指出你哪里实现的不足，bonus做了就能满，总体还是非常不错的，希望期末考试能有个好成绩吧！"},{"id":212124,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2025-01-13 08:26:56","like_diff":2,"likes":2,"dislikes":0,"content":"掌管OS给分的神！！！出分后直接解散钉钉群，深藏功与名，神仙老师爱了爱了"},{"id":51538,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2017-09-18 09:00:56","like_diff":1,"likes":2,"dislikes":1,"content":"泄题小天使。。。然而我翘课了"},{"id":73880,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2018-02-03 09:50:28","like_diff":1,"likes":4,"dislikes":3,"content":"讲得快给分差，实验也很赶，慎选"},{"id":105758,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2019-04-20 05:10:08","like_diff":1,"likes":2,"dislikes":1,"content":"讲课不像讲课，像在做talk(微笑"},{"id":214425,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2025-02-02 14:54:11","like_diff":1,"likes":2,"dislikes":1,"content":"出分后补一下：\n\n关于点名：点名和小测事实上是一样的，小测交了就算，不用刻意追求分数，建议当成一个练习查漏补缺\n\n关于上课：是真的有点催眠。。有点语调平淡，慢条斯理？但是该讲的也会讲到，要是睡了也可以看王道视频，其实差不多我感觉\n\n关于实验：和其他班的大抵只有最后一个bonus不一样，会在学期末进行肉眼查重，就是记忆里看着特别像的会问你怎么回事。这边建议不要直接复制粘贴（至少改改变量名，删删注释吧。。）\n\n关于考试：考试特别基础，更多的是考你对概念的理解，祖传A4有用但不是万能的，和王道的拟合度一般般，大概会有那么10-20分是王道的考研历年真题。今年最后一个大题还考到了实验的东西，还是得认真做一下的\n\n\n\n可放心冲\n\n——zszm"},{"id":40091,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2016-12-29 06:38:41","like_diff":0,"likes":1,"dislikes":1,"content":"吓死我了这么低"},{"id":52940,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2017-06-23 17:21:47","like_diff":0,"likes":0,"dislikes":0,"content":"最后减分差评。\n\n颜值还可以。"},{"id":54377,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2017-06-29 08:24:43","like_diff":0,"likes":0,"dislikes":0,"content":"1111"},{"id":74177,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2018-02-06 04:39:36","like_diff":0,"likes":1,"dislikes":1,"content":"美滋滋"},{"id":166052,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2023-01-11 03:12:23","like_diff":0,"likes":1,"dislikes":1,"content":"基本可以认为不点名，用三次小测当点名，小测不计分，而且会提前通知。人帅，讲课还过得去，不过老师本人是做数据库和分布式系统的，有时候会掺杂一些私货，也还算有趣。这学期助教gg也很负责，只要实验都认真做完，\n\n期末刷一刷往年卷，分数也很不错。"},{"id":168115,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2023-01-28 15:14:06","like_diff":0,"likes":0,"dislikes":0,"content":"111"},{"id":210662,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2025-01-09 14:59:32","like_diff":0,"likes":0,"dislikes":0,"content":"出分前评一下，老师人很好，讲课能听进去，期末考试求捞求捞求捞求捞求捞求捞求捞求捞orz"},{"id":212697,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2025-01-14 13:33:53","like_diff":0,"likes":0,"dislikes":0,"content":"老师给分不错，最后平时分掉了一分也满了\n\n\n\n但是老师不看钉钉，能不能读一下我的钉钉啊，都这么久了还未读啊（恼）"},{"id":46718,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2017-01-22 08:17:09","like_diff":-2,"likes":3,"dislikes":5,"content":"讲得还行，关键会讲习题。助教人都很好，给分良心啊！！！"},{"id":98771,"teacher_id":3362,"teacher_name":"伍赛","post_time":"2019-01-29 09:04:30","like_diff":-5,"likes":2,"dislikes":7,"content":"给分差，讲的差，对学生也不好。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

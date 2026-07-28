@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陶然 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="陶然教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="陶然,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">陶然</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.74</div>
+                    <div class="rating-participants">154人参与评分</div>
+                    <div class="attendance-info">15.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (7 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">中国文学名作精讲（H）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.37</span>
+                            <span class="students">选课: 153人</span>
+                            <span class="std-dev">标准差: 0.36</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">中文学术前沿专题讨论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.52</span>
+                            <span class="students">选课: 64人</span>
+                            <span class="std-dev">标准差: 0.31</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">传染病学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.96</span>
+                            <span class="students">选课: 249人</span>
+                            <span class="std-dev">标准差: 0.61</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">唐宋词研究</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.17</span>
+                            <span class="students">选课: 388人</span>
+                            <span class="std-dev">标准差: 0.47</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大学写作——创意写作</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.32</span>
+                            <span class="students">选课: 333人</span>
+                            <span class="std-dev">标准差: 0.36</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">宋词经典研读</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.07</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.70</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会实践</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.72</span>
+                            <span class="students">选课: 8人</span>
+                            <span class="std-dev">标准差: 0.14</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (115 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":61220,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-12-22 06:11:14","like_diff":222,"likes":242,"dislikes":20,"content":"想起春天每周三晚上从紫金港到西溪，去时满脑子大雾无机微积分，回来不过春、江、花、月、夜。"},{"id":1377,"teacher_id":1025,"teacher_name":"陶然","post_time":"2015-03-22 01:21:03","like_diff":132,"likes":170,"dislikes":38,"content":"男神老师，风度翩翩，温文尔雅。上课娓娓道来，虽说是面瘫式授课，但是偶尔的幽默恰到好处。听男神的课，可以让人一直认真的坐着，只是在听课。"},{"id":36980,"teacher_id":1025,"teacher_name":"陶然","post_time":"2016-11-17 02:21:27","like_diff":34,"likes":41,"dislikes":7,"content":"点进来没有看到10分我不服！大学时代最喜欢的老师没有之一，为了男神打算争取留校任教"},{"id":3192,"teacher_id":1025,"teacher_name":"陶然","post_time":"2015-05-20 00:15:42","like_diff":27,"likes":35,"dislikes":8,"content":"男神\n\n"},{"id":56636,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-07-04 06:19:19","like_diff":27,"likes":44,"dislikes":17,"content":"这里的评论怎么都没有说课程内容的啊???下学期通核宋词经典 求问具体情况 先打个10分"},{"id":182194,"teacher_id":1025,"teacher_name":"陶然","post_time":"2023-11-12 08:22:38","like_diff":23,"likes":24,"dislikes":1,"content":"一百多人的课只有四个人到，陶老师也不生气，认认真真把课带完了，不得不说还是有点胸怀在心里的"},{"id":108175,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-05-16 04:20:58","like_diff":20,"likes":21,"dislikes":1,"content":"抛开其他一切因素来看 这门课着实值得一听 陶然老师学识渊博 信手拈来\n\n但是这门课作为通识课实在是太硬核了 如果不是对宋词真的有很强烈的兴趣的话 \n\n建议就别选了吧 我一个中文系的学生已经在一群工科生中感到自卑"},{"id":11895,"teacher_id":1025,"teacher_name":"陶然","post_time":"2015-12-20 16:36:18","like_diff":18,"likes":22,"dislikes":4,"content":"老师声音好好听"},{"id":83857,"teacher_id":1025,"teacher_name":"陶然","post_time":"2018-07-11 10:26:44","like_diff":17,"likes":26,"dislikes":9,"content":"这个学期上老师的课真的学到了很多！但是最后的给分真的很不好！\n\n有四次小作业，每次都特别认真地完成了。而且害怕自己做不好，还专门问过老师，老师当时的回答是比较忙，没有时间看。\n\n有问题的时候没有好好指出问题出在哪里，给分的时候却……\n\n得分高的同学，知道的有一些根本就没去过几次课，而且最后作业也是摘抄的，但还是得到特别好的分数。\n\n本来知道自己成绩不好，心里已经很郁闷了，知道别人成绩以后，自己心情更不好了。希望老师在下个学期可以注意这方面的问题。\n\n毕竟很多的同学，为了好好完成作业在图书馆连着熬了好几周！"},{"id":8997,"teacher_id":1025,"teacher_name":"陶然","post_time":"2015-10-08 10:49:40","like_diff":16,"likes":21,"dislikes":5,"content":"一坐下来就一直说，一点不会累的感觉！虽然没有ppt但是讲课很有条理。"},{"id":176859,"teacher_id":1025,"teacher_name":"陶然","post_time":"2023-06-30 12:04:07","like_diff":15,"likes":16,"dislikes":1,"content":"老师儒雅知识渊博，助教姐姐人美心善，我们班我们组都不太卷，但助教姐姐也改了个好分！\n\nsrm助教非常好！很有经验，时间控制也很好。\n\n然后按照这门课的要求是宋词的部分大家自己看mooc，老师理论课更多地是讲一些拓展内容。\n\n有没有基础感觉都可以选，这门课很值得推荐！当然要注意的是，任务量确实挺大！"},{"id":17431,"teacher_id":1025,"teacher_name":"陶然","post_time":"2016-01-20 07:55:59","like_diff":13,"likes":19,"dislikes":6,"content":"葵葵老师的老公，两个人超有夫妻相"},{"id":51764,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-06-09 07:57:56","like_diff":13,"likes":13,"dislikes":0,"content":"真的是我的男神，他的每一句话，每一个神采真的是大家风范，文人至今，先生而已。"},{"id":58196,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-08-20 03:56:37","like_diff":12,"likes":14,"dislikes":2,"content":"大学两年最喜欢的课了！老师很有学者风范，上课的时候喜欢面无表情的抖机灵。助教小姐姐小小只可萌了，声音软软的，虽然也惯常面无表情不过是萌点啦。能学到很多东西的通核课！考试也挺良心，带本词集，记住助教画的重点就好啦！"},{"id":112257,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-07-04 00:24:24","like_diff":11,"likes":14,"dislikes":3,"content":"强烈建议非中文系且无古典文献基础的同学慎选唐宋词经典。四次作业，一次课堂随机测试，都非常硬核。表示每次都认真做了每次课都到了最后成绩也很不理想。非常希望体验陶然的风格，且有充分时间提升自己古典文学能力的同学再选吧。"},{"id":153163,"teacher_id":1025,"teacher_name":"陶然","post_time":"2022-04-26 10:22:57","like_diff":11,"likes":13,"dislikes":2,"content":"我是陶老师的狗!"},{"id":49446,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-04-13 03:38:54","like_diff":9,"likes":9,"dislikes":0,"content":"滔滔不绝笑谈今古"},{"id":83860,"teacher_id":1025,"teacher_name":"陶然","post_time":"2018-07-11 10:44:37","like_diff":8,"likes":8,"dislikes":0,"content":"作为一门三分的通核课讨论课事情多可以理解，助教小哥有点严格，一个学期四次展示的量有点大，到后面兴趣一点一点地减弱……可能是我个人的原因。有些人上老师讲的课或是同学自己的讨论课，都没有听一直水手机，emmmmm。虽然这门课让我在某些时刻感到很讨厌，甚至当时觉得助教有偏见，但是最后冷静下来，助教小哥对我们的评价，比其他那些普通的通识收获的多很多，后来想想，助教有义务告诉我们这些不管是知识上的还是人生上的道理吗，没有，但他还是告诉了我们。他其实什么都懂。谢谢这门课和老师与助教，使我变得更强，尽管我不爱发言没有展示，但是我对这个结果是满意的。"},{"id":156910,"teacher_id":1025,"teacher_name":"陶然","post_time":"2022-06-21 10:23:38","like_diff":8,"likes":8,"dislikes":0,"content":"刚开始选宋词，单单是因为课程评分高并且既是通核还是古代什么的；中途发现对于我这种理工科没有宋词积累和内涵的学生来说有些吃力，所以讨论课是真的一句话憋不出，整个学期只心理斗争着水了一次发言，全是凭着陶老师那独有的文人风骨和气质、幽默的语言和对学生的关心所打动，坚持去每一次线下课；末尾，似乎是取消了五级制，现在并不像以前那样评论里说的给分一般，可以说给分很好。力挺这门通核课，也力挺陶然老师和助教姐姐！"},{"id":63745,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-12-14 02:15:47","like_diff":7,"likes":7,"dislikes":0,"content":"真正的大师\n\n简短的交流甚至是第一句话就能让你感受到他的水平\n\n平易近人 温文尔雅 \n\n希望中文系能多一些这样的老师\n\n"},{"id":105547,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-04-16 12:23:19","like_diff":7,"likes":9,"dislikes":2,"content":"与君一醉一陶然"},{"id":106945,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-04-30 10:43:05","like_diff":7,"likes":9,"dislikes":2,"content":"复联4剧透可还行 ?"},{"id":109198,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-07-04 00:08:17","like_diff":7,"likes":9,"dislikes":2,"content":"啊啊啊表白张婧小姐姐的爱了爱了"},{"id":112186,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-07-05 04:35:29","like_diff":7,"likes":7,"dislikes":0,"content":"老师蛮有水平，虽然我分不高"},{"id":176889,"teacher_id":1025,"teacher_name":"陶然","post_time":"2023-06-30 14:30:07","like_diff":7,"likes":7,"dislikes":0,"content":"温文尔雅，坐在那儿就有一股文质彬彬的味道"},{"id":22185,"teacher_id":1025,"teacher_name":"陶然","post_time":"2016-03-03 01:55:35","like_diff":6,"likes":10,"dislikes":4,"content":"讲课很有吸引力"},{"id":50470,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-05-03 05:34:12","like_diff":6,"likes":6,"dislikes":0,"content":"男神！文史哲不分家，各方面的修养都特别好！"},{"id":76472,"teacher_id":1025,"teacher_name":"陶然","post_time":"2018-04-10 11:14:01","like_diff":6,"likes":7,"dislikes":1,"content":"一节课感觉就像是在听一集百家讲坛，完全脱稿，旁征博引，这文化涵养是得有多深！"},{"id":83995,"teacher_id":1025,"teacher_name":"陶然","post_time":"2018-07-11 16:16:45","like_diff":6,"likes":7,"dislikes":1,"content":"老师的课不是单纯地赏析宋词，而是带你研读入门，至于讨论课肯定要积极发言，因为感觉区分度会比较大，考试则一定要看ppt。这样下来成绩肯定不会差。\n\n以上只是功利地分析，如果能认真学下来，你真的可以感受到宋词的美。助教小姐姐的讨论课也组织的很好，真正对宋词感兴趣的同学选了不会后悔的。很开心当时能选上这门课。"},{"id":137895,"teacher_id":1025,"teacher_name":"陶然","post_time":"2021-07-06 13:26:26","like_diff":6,"likes":6,"dislikes":0,"content":"忽然发现一学期这么长的时间已经过去了，每周二晚上的晚课，每周四截止的慕课，每周五东六小教室的讨论课，都成为了最美好的回忆"},{"id":112134,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-07-03 17:22:57","like_diff":5,"likes":10,"dislikes":5,"content":"简直绩杀。我除了上课不发言有两次忘记mooc之外其他都好好完成了。结果才2.4。我去。不爱发言的慎选。不，别选。\n\n"},{"id":157324,"teacher_id":1025,"teacher_name":"陶然","post_time":"2022-06-23 03:34:14","like_diff":5,"likes":5,"dislikes":0,"content":"陶老师，我的男神！"},{"id":38208,"teacher_id":1025,"teacher_name":"陶然","post_time":"2018-03-22 11:45:46","like_diff":4,"likes":7,"dislikes":3,"content":"老师很温柔讲得很好，认真听能学到很多。认真准备给分就不会差"},{"id":43456,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-01-16 09:48:51","like_diff":4,"likes":5,"dislikes":1,"content":"老师很儒雅很男神！很愉快的上课经历，身心放松。顺便表白助教姐姐，温柔和善，喜欢～"},{"id":43461,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-01-16 09:53:55","like_diff":4,"likes":5,"dislikes":1,"content":"男神！真的！太帅了，风度翩翩！助教姐姐也超级好！"},{"id":48374,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-06-13 11:25:04","like_diff":4,"likes":5,"dislikes":1,"content":"温润如玉"},{"id":48775,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-03-12 23:52:55","like_diff":4,"likes":5,"dislikes":1,"content":"一代儒风～"},{"id":109983,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-07-03 17:14:29","like_diff":4,"likes":8,"dislikes":4,"content":"老师挺好的，破事贼多，四次展示，期末硬核，作业巨多，给分也不好，没兴趣的还是慎选。"},{"id":112210,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-07-03 23:03:32","like_diff":4,"likes":5,"dislikes":1,"content":"不太听课周二课，因为对宋词兴趣仅限于欣赏，研究类的听不下去。\n\n通核是不是事情都比较多，给后面人一个参考，三四次展示，如果想拿高分，每次上课发言，每次课后写思考题，日常慕课选择题与四五百字小论文，还写了两次词。期末考试虽然开卷，但也不知道该带啥。而且宋词易出大佬，因为他们是真的有兴趣。\n\n陶然老师还是不错的，风趣幽默，很儒雅。\n\n给分不清楚具体怎么样，我的一般般。"},{"id":112250,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-07-04 00:11:18","like_diff":4,"likes":5,"dislikes":1,"content":"老师讲的挺好的，但是给分不好。唐宋词研究这门课，不点名，四次作业，最后一节课交。虽然不点名，我也是节节到。上课内容很充实，真的。但是课后我也很努力去完成作业了。第一份作业是找一部词集的版本源流，老师推荐资料是饶宗颐的《词集考》。由于我并没有对哪一位词人非常热爱，所以看了好几篇，才挑选的。打字，还设置成了繁体。最后还另外搜索了，词集在近代的版本刊行情况。自己觉得很用心了。对每次作业都是。结果不好，不仅被卡绩了，还连均绩都没到○|￣|_可能是由于作业可以小组合作，两个人总比我一个强吧......对了，因为小组合作，所以老师说会有一些人分数一样，所以临时加了场课堂小测。所以，不要翘课!"},{"id":112469,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-07-04 09:56:27","like_diff":4,"likes":4,"dislikes":0,"content":"很喜欢陶然老师。虽然宋词的确事情很多，也占用了我很多时间，但努力终有所得，学到了很多宋词的知识。当然，功利地来讲，发言很重要，如果大家选了这个课，讨论课还是多多发言吧。"},{"id":165163,"teacher_id":1025,"teacher_name":"陶然","post_time":"2022-12-29 13:04:43","like_diff":4,"likes":4,"dislikes":0,"content":"一句话：健康比作业重要\n\n10000000分"},{"id":16072,"teacher_id":1025,"teacher_name":"陶然","post_time":"2016-01-17 06:35:08","like_diff":3,"likes":6,"dislikes":3,"content":"男神！！"},{"id":40448,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-06-07 08:24:17","like_diff":3,"likes":24,"dislikes":21,"content":"楼上说能背诗经的，背诗经怎么了？难道全背下来就能证明文学素养很好么？很多理科生照样拿平常的时间背宋词背唐诗当然也有诗经，你怎么就知道他们在胡扯了？我一个医学生首先就不服，要不咱们来比划比划？"},{"id":44187,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-01-17 11:44:21","like_diff":3,"likes":5,"dislikes":2,"content":"陶然老师学识很渊博，也很幽默，比较年轻，比较有气质，推荐理工科对人文感兴趣的同学去听他的课，总有收获。"},{"id":83812,"teacher_id":1025,"teacher_name":"陶然","post_time":"2018-07-11 08:53:43","like_diff":3,"likes":5,"dislikes":2,"content":"老师挺好的，知识很渊博，不看ppt也可以娓娓道来。但是宋词讨论课事情是真多，给分也是真差，最后被正态，2.8，啥也不说。上课不喜欢发言展示比较垃圾也不至于这么低啊。文学素养较高的选还是有优势的，对文学零素养的理科生极不友好。"},{"id":112171,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-07-03 18:39:36","like_diff":3,"likes":3,"dislikes":0,"content":"讲课内容很好，但是语气平板，略为无聊。老师人特别好，但是作业吧恶竞严重，给分也偏低（也许助教也参与了？），不知道按啥给分的……"},{"id":129666,"teacher_id":1025,"teacher_name":"陶然","post_time":"2021-01-10 12:14:10","like_diff":3,"likes":3,"dislikes":0,"content":"任务挺多，绩点也不高。还是适合有文学涵养的同学上吧。"},{"id":151907,"teacher_id":1025,"teacher_name":"陶然","post_time":"2022-03-20 09:46:41","like_diff":3,"likes":5,"dislikes":2,"content":"老师很好，见微知著，娓娓道来，但课很卷，讨论课都是一群大卷王表演，慎选，不是卷王没时间的话不如选个别的"},{"id":161315,"teacher_id":1025,"teacher_name":"陶然","post_time":"2022-11-04 05:19:37","like_diff":3,"likes":3,"dislikes":0,"content":"陶老师授课认真严谨，在讲解宋词时融入了非常丰富的历史文化知识。老师教会我们在进行文学评论时必须以他证和自证为依据，不可人云亦云、搬用结论。我想这对我们以后的学习是很重要的。"},{"id":167949,"teacher_id":1025,"teacher_name":"陶然","post_time":"2023-01-20 15:19:45","like_diff":3,"likes":3,"dislikes":0,"content":"文学名作精讲。陶老师上课比较侧重唐宋的重大政治历史事件和诗人的身世，作品本身反而有一点被边缘化（？）风格挺特别的，总之“读”的部分全靠同学自己课后完成，老师负责铺垫和提示、启发。陶老师有儒者风度，平易近人，大概是很多人心中的男神吧哈哈。\n\n看到前面有吐槽老师抽烟的，emm其实中文系不止陶老师抽烟，我感觉还挺正常的？"},{"id":174113,"teacher_id":1025,"teacher_name":"陶然","post_time":"2023-06-06 09:57:18","like_diff":3,"likes":9,"dislikes":6,"content":"老师好帅呜呜，男神男神！第一次觉得抽烟很帅，有一种文人的雅痞感？老师人很好，水平也很高，但是，创意写作这门课就是一坨💩吧，期末要交四首诗词就像小学生做微积分，至少对我来说是这样的。。。给老师本人打10分，但是老师能不能不要教这门课了呜呜X﹏X"},{"id":174266,"teacher_id":1025,"teacher_name":"陶然","post_time":"2023-06-08 12:28:06","like_diff":3,"likes":10,"dislikes":7,"content":"陶然老师超级好，真的是温润儒雅，但是但是，在没出分之前客观地喷一下讨论课，助教cyx就是依托答辩，第一节课就开始鼓励恶竞，说什么你们多发言那我肯定能记住，这样期末肯定给分好一点，然后然后，最离谱的一点是，她从第一节课到最后一节课都没有时间观念，每次一开始拖拖拖，说一堆废话，然后到快下课的时候，剩下的组展示不完了，就让人家压缩时间随便讲，或者拖堂，真的讨论课体验很不好很不好，而且很卷很卷，也没有学到什么"},{"id":187635,"teacher_id":1025,"teacher_name":"陶然","post_time":"2024-01-17 02:30:22","like_diff":3,"likes":3,"dislikes":0,"content":"男神\n\n会爱上他的"},{"id":10629,"teacher_id":1025,"teacher_name":"陶然","post_time":"2015-11-21 02:59:55","like_diff":2,"likes":5,"dislikes":3,"content":"老师讲课还好"},{"id":36577,"teacher_id":1025,"teacher_name":"陶然","post_time":"2016-11-15 03:16:50","like_diff":2,"likes":5,"dislikes":3,"content":"男神(⁎⁍̴̛ᴗ⁍̴̛⁎)"},{"id":37895,"teacher_id":1025,"teacher_name":"陶然","post_time":"2016-11-22 00:41:32","like_diff":2,"likes":4,"dislikes":2,"content":"大爱陶然然"},{"id":46450,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-01-21 14:57:51","like_diff":2,"likes":3,"dislikes":1,"content":"很男神的老师！"},{"id":51875,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-06-13 05:29:41","like_diff":2,"likes":2,"dislikes":0,"content":"真男神"},{"id":67948,"teacher_id":1025,"teacher_name":"陶然","post_time":"2018-01-22 11:06:00","like_diff":2,"likes":2,"dislikes":0,"content":"听男神的课真的是一种享受，真正感受到了大学课堂的魅力，他就坐在那里，将一切娓娓道来，旁征博引，大家风范～"},{"id":84239,"teacher_id":1025,"teacher_name":"陶然","post_time":"2018-07-12 10:21:34","like_diff":2,"likes":3,"dislikes":1,"content":"一学期下来，发现大家去听课都是挺水的，大部分在写别的作业。但是讨论课上，展示的小组都是认认真真准备的，大家都超级优秀，助教也超级可爱。感觉还是不错哒"},{"id":85795,"teacher_id":1025,"teacher_name":"陶然","post_time":"2018-08-10 12:20:25","like_diff":2,"likes":3,"dislikes":1,"content":"据说期末考试为我们争取可以带手机，老师真的很可爱了(๑• . •๑)"},{"id":105745,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-04-19 14:57:32","like_diff":2,"likes":5,"dislikes":3,"content":"。。。。。。。。。。。。。。。。这课太硬核了，还每周做mooc测验作业，建议理科生就算了吧。。。"},{"id":110984,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-07-03 23:53:23","like_diff":2,"likes":3,"dislikes":1,"content":"老师很好哦，温文尔雅，但是对宋词兴趣不大的同学慎选，事情挺多的，而且期末考试很硬核，第一题标平上去入，我基本没标，3.9?满足了……"},{"id":112431,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-07-04 06:35:47","like_diff":2,"likes":2,"dislikes":0,"content":"很喜欢宋词也很喜欢陶然老师，三次展示也有认真去做，但是大概是自己水平也不高，同组也没有大佬，所以效果还是不理想。两次填词也是真的填不来。期末题不怎么会写，讨论课发言一次。2.4。对古诗词没什么造诣的还是别选了"},{"id":134630,"teacher_id":1025,"teacher_name":"陶然","post_time":"2021-04-06 11:45:28","like_diff":2,"likes":2,"dislikes":0,"content":"男神！"},{"id":139631,"teacher_id":1025,"teacher_name":"陶然","post_time":"2021-07-18 13:44:23","like_diff":2,"likes":4,"dislikes":2,"content":"男神！讲课真的很好听，几张PPT娓娓道来，不知不觉就下课了。作为一门通核事情确实比较多，但慢慢坚持下来也很有收获"},{"id":156946,"teacher_id":1025,"teacher_name":"陶然","post_time":"2022-06-21 11:40:37","like_diff":2,"likes":2,"dislikes":0,"content":"满分！没什么可以挑剔的，老师很博学很儒雅，而且也很潮流，了解很多网络上的梗，助教老师人也超好超级负责，给分很好，现在五级制取消了，大爱陶然老师！"},{"id":165300,"teacher_id":1025,"teacher_name":"陶然","post_time":"2022-12-31 08:38:59","like_diff":2,"likes":2,"dislikes":0,"content":"线下课感受老师的博学与儒雅，线上课感受老师的博学、儒雅与对学生的关爱!"},{"id":166245,"teacher_id":1025,"teacher_name":"陶然","post_time":"2023-01-11 14:07:35","like_diff":2,"likes":4,"dislikes":2,"content":"工科生慎选。选课前确实我也是有一腔热爱在的，觉得欣赏宋词的意味，体悟一些内在文化还是很有意思的。开课后发现课程更多的是在学习一些与词相关的历史、了解词人的背景故事、深入一些词派和对宋词有大贡献的词人，和我之前设想的不太一样。但是很多认真听讲的课友们都深深折服于陶然老师的个人魅力，讲课也比较有意思。我积累的比较少（其实只有课内涉及的某些诗词和一点点延伸）且社恐，所以在讨论课上的发言完全没有。展示的锅真的很多，大概两三周就会有一次有时会更频繁。因为嘴笨所以做了将近一个学期PPT呜呜呜。但是助教老师真的很好，很体谅同学并且会认真地对同学的发言做点评。大一新生对绩点还没有一个全面的认识所以这里先不谈了，但是我个人是满意的。\n\n理工科生也有基础很强的同学，讨论课上就是看大佬们发挥自己的才艺我在一边瑟瑟发抖。对于真的很想深入宋词的同学来说这门课还是很值得一冲的，不过像我一样很可能脑子一热选了，后来大概率会后悔的还是慎重，毕竟确实课上着上着是真的人越来越少的（大一新生见识了）。\n\n也许上宋词的课真的很像以前上语文课，心里一百个想逃快逃，但是真正去听，会收获很多意外惊喜，这些惊喜可能是在课堂上课友分享的一首宋词，也有可能是某个没课的晚上走在路上脑子里蹦出来的一句诗词。总结：课不错，老师不错，看你自己适不适合。"},{"id":176900,"teacher_id":1025,"teacher_name":"陶然","post_time":"2023-06-30 15:27:47","like_diff":2,"likes":2,"dislikes":0,"content":"陶老师给分真的很好。mooc作业忘做了，结果最后出来绩点还不错"},{"id":182308,"teacher_id":1025,"teacher_name":"陶然","post_time":"2023-11-14 11:01:27","like_diff":2,"likes":2,"dislikes":0,"content":"老师讲课很好"},{"id":39013,"teacher_id":1025,"teacher_name":"陶然","post_time":"2016-12-20 13:00:53","like_diff":1,"likes":2,"dislikes":1,"content":"即便是通识，还是很认真很认真地听每节课，不忍心低一下头。"},{"id":44114,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-01-17 09:40:41","like_diff":1,"likes":1,"dislikes":0,"content":"男神，上课棒棒哒 给分不错，我的助教有点严。"},{"id":47781,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-02-24 13:26:35","like_diff":1,"likes":1,"dislikes":0,"content":"超级男神的老师！给分很好！"},{"id":50916,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-05-08 15:10:46","like_diff":1,"likes":1,"dislikes":0,"content":"儒雅风流"},{"id":52207,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-06-16 02:58:32","like_diff":1,"likes":5,"dislikes":4,"content":"老师的课真的挺不错啊，很有意思～就是助教小哥哥略有些严格，而且宋词这门通核真心事多啊……"},{"id":55881,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-07-02 14:12:26","like_diff":1,"likes":1,"dislikes":0,"content":"(づ ●─● )づ"},{"id":56588,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-07-04 04:52:46","like_diff":1,"likes":1,"dislikes":0,"content":"陶老师真的是男神，一身学者风范，人文气息厚重。老师上课非常认真，有深度，有思考，有内涵。助教小姐姐非常好，对我们都很好，给分也超级棒啦~\\(≧▽≦)/~"},{"id":64922,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-12-28 03:16:59","like_diff":1,"likes":1,"dislikes":0,"content":"非常好"},{"id":66639,"teacher_id":1025,"teacher_name":"陶然","post_time":"2018-12-26 16:01:31","like_diff":1,"likes":2,"dislikes":1,"content":"风度翩翩，儒雅男神"},{"id":68533,"teacher_id":1025,"teacher_name":"陶然","post_time":"2018-01-23 10:18:27","like_diff":1,"likes":1,"dislikes":0,"content":"老师真的是男神！超赞的！给分也超级好，比较看重新想法哒"},{"id":83807,"teacher_id":1025,"teacher_name":"陶然","post_time":"2018-07-11 08:49:42","like_diff":1,"likes":2,"dislikes":1,"content":"品一曲宋词，味一段往事。醉美宋词温柔。"},{"id":109987,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-06-21 03:00:00","like_diff":1,"likes":2,"dislikes":1,"content":"唐宋词研究-课程作业较多，但确实有收获。不管老师给我这个菜鸡几分，我给老师的都是十分！"},{"id":124634,"teacher_id":1025,"teacher_name":"陶然","post_time":"2020-07-04 12:20:47","like_diff":1,"likes":3,"dislikes":2,"content":"给分的确不太行，每节课都发言，小组作业我是最积极的那个，最后小组比赛我为我们组争得了大部分的分数，最后绩点3.8。好吧，表现都埋没在小组中了？"},{"id":124635,"teacher_id":1025,"teacher_name":"陶然","post_time":"2020-07-04 12:42:05","like_diff":1,"likes":3,"dislikes":2,"content":"陶然老师男神！老师我也是漫威粉！平易近人的国学大师，紧跟潮流，当之无愧的男神！虽然平时讨论课事情多，但只要平时努力，成绩不会差的，付出和回报是成正比的！"},{"id":156889,"teacher_id":1025,"teacher_name":"陶然","post_time":"2022-06-21 09:33:30","like_diff":1,"likes":2,"dislikes":1,"content":"给分很好"},{"id":157130,"teacher_id":1025,"teacher_name":"陶然","post_time":"2022-06-22 03:45:57","like_diff":1,"likes":2,"dislikes":1,"content":"陶然老师讲课特别好，很自然很流畅，让人如沐春风，可能是因为这个学期取消了正态，给分也很好。唯一美中不足的就是讨论课挺累的有点卷，其实一直不太理解，感觉讨论课分享重在内容，但是就是有人卷形式，不过可能也是因为形式创新确实容易拿分吧。但组员都很好，加上老师很好，宋词的体验还是很不错的～"},{"id":164568,"teacher_id":1025,"teacher_name":"陶然","post_time":"2022-12-22 02:38:27","like_diff":1,"likes":2,"dislikes":1,"content":"事情确实很多 但有兴趣的话还是体验很不错的\n\n怕出分以后不能公正地打分 先在这里给陶老师打十分"},{"id":166680,"teacher_id":1025,"teacher_name":"陶然","post_time":"2023-01-13 08:15:23","like_diff":1,"likes":1,"dislikes":0,"content":"说实话陶老师的课要认真听的话收获很多，虽然事情是真的多，有讨论课的小组展示，大概有两次作词的作业，每周还有慕课的作业，但是如果付出的话分数很不错，如果喜欢宋词可以选。"},{"id":169787,"teacher_id":1025,"teacher_name":"陶然","post_time":"2023-02-28 02:05:13","like_diff":1,"likes":3,"dislikes":2,"content":"学富五车"},{"id":179725,"teacher_id":1025,"teacher_name":"陶然","post_time":"2023-09-19 13:44:55","like_diff":1,"likes":1,"dislikes":0,"content":"侃侃而谈，娓娓道来，文人气质，温和如玉，第一天上课就把我折服了。选到就是赚到"},{"id":200938,"teacher_id":1025,"teacher_name":"陶然","post_time":"2024-10-25 05:04:46","like_diff":1,"likes":1,"dislikes":0,"content":"唐宋词研究，快结课了来评价一下这门课和陶老师。\n\n首先这门课可以说是选修课中最适合小白入门古代文学研究的，对词学的介绍、版本调查、校勘笺注等等内容对了解古代文学研究都很有帮助。对大四同学来说事情确实多了点，但无疑是很有帮助的课，所以对古代文学感兴趣的同学可以考虑早点选。\n\n其次陶老师的知识面和视野也非常开阔，从上课的讲述中能感觉到他对文学研究的包容和热爱，不会过分强调考证等偏向实证主义的研究方式，这和我的理念不谋而合。\n\n最后陶老师上课也还是有意思的，不会让人感觉枯燥。"},{"id":80060,"teacher_id":1025,"teacher_name":"陶然","post_time":"2018-06-19 10:32:35","like_diff":0,"likes":3,"dislikes":3,"content":"感觉上课略水啊?"},{"id":82304,"teacher_id":1025,"teacher_name":"陶然","post_time":"2018-07-07 23:27:53","like_diff":0,"likes":2,"dislikes":2,"content":"老师人挺好的，但上课让人提不起兴趣，怪无聊"},{"id":83791,"teacher_id":1025,"teacher_name":"陶然","post_time":"2018-07-11 08:37:11","like_diff":0,"likes":2,"dislikes":2,"content":"老师可以，\n\n宋词被正态\n\n破事有点多\n\n追求绩点高的爱表现的没事喜欢上课发言的可以选\n\n反正宋词成了大一绩点最低的一门课"},{"id":92386,"teacher_id":1025,"teacher_name":"陶然","post_time":"2018-12-28 07:37:59","like_diff":0,"likes":1,"dislikes":1,"content":"准备去听"},{"id":111852,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-07-03 01:12:29","like_diff":0,"likes":1,"dislikes":1,"content":"事情挺多，不知道给分怎么样，退不退院就看老师给分高不高了。"},{"id":160138,"teacher_id":1025,"teacher_name":"陶然","post_time":"2022-09-13 23:11:49","like_diff":0,"likes":0,"dislikes":0,"content":"兢兢业业！"},{"id":180652,"teacher_id":1025,"teacher_name":"陶然","post_time":"2023-09-24 07:40:07","like_diff":0,"likes":1,"dislikes":1,"content":"很好的老师"},{"id":186711,"teacher_id":1025,"teacher_name":"陶然","post_time":"2024-01-12 14:57:39","like_diff":0,"likes":0,"dislikes":0,"content":"【宋词经典研读】老师讲的很好。但是讨论课事情很多，三周至少一次小组pre，每周都有mooc视频，讨论，测试（课本上有答案！！！），期末前要求自己填词并pre，期末开卷。文学素养不好，或者对宋词兴趣不是很浓，慎选。喜欢的尽管冲。"},{"id":195340,"teacher_id":1025,"teacher_name":"陶然","post_time":"2024-06-27 22:43:15","like_diff":0,"likes":1,"dislikes":1,"content":"老师身上真的有一种文人风骨。我记得五一前教室没几个人都不会生气说要点名。而且宋词这门课真的不需要太多文学素养，虽然事情有点多，但是给分真的超级好，只要你认真完成。"},{"id":195892,"teacher_id":1025,"teacher_name":"陶然","post_time":"2024-06-30 14:33:46","like_diff":0,"likes":0,"dislikes":0,"content":"事情有点多，但是花的时间没有想象中那么多。只要把东西都做完，给的分都会很好"},{"id":218814,"teacher_id":1025,"teacher_name":"陶然","post_time":"2025-05-06 13:53:06","like_diff":0,"likes":0,"dislikes":0,"content":"确实不错"},{"id":221611,"teacher_id":1025,"teacher_name":"陶然","post_time":"2025-06-25 02:25:00","like_diff":0,"likes":0,"dislikes":0,"content":"上了宋词经典研读的课，感觉挺好的，推荐"},{"id":221695,"teacher_id":1025,"teacher_name":"陶然","post_time":"2025-06-25 09:26:51","like_diff":0,"likes":0,"dislikes":0,"content":"宋词经典研读，老师从不点名，讲课行云流水，儒雅中带着风趣，实在是太吸引人了！上课认真听认真做笔记，讨论课好好干活（不要给小组拖后腿哦！），准备好自己的笔记和唐宋词通论、唐宋词格律，那么期末考前是不用复习的。"},{"id":225097,"teacher_id":1025,"teacher_name":"陶然","post_time":"2025-12-19 03:29:45","like_diff":0,"likes":0,"dislikes":0,"content":"大学写作，给分好，上课有条理有深度，有一种文人的潇洒气息。"},{"id":147290,"teacher_id":1025,"teacher_name":"陶然","post_time":"2022-01-09 12:16:38","like_diff":-1,"likes":2,"dislikes":3,"content":"真正的大师！"},{"id":109575,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-06-20 12:30:17","like_diff":-3,"likes":5,"dislikes":8,"content":"不上宋词课，我可能永远不会知道，我竟然也可以是一个上课抢着发言的人。\n\n上其他课我大概永远不想发言，因为我没什么好说的。非要发言的话我可能只会尬，然后用几句毫无含金量的话搪塞过去。因为我没有国际视野和创新思维。\n\n但是在宋词课我有很多话想说，并且我不觉得我的发言是在浪费时间或者敷衍。我会觉得大家都很优秀，而我也很优秀。"},{"id":43448,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-01-16 09:44:00","like_diff":-7,"likes":1,"dislikes":8,"content":"。。。"},{"id":64785,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-12-27 06:32:18","like_diff":-7,"likes":1,"dislikes":8,"content":"。。。。。。"},{"id":37073,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-04-11 16:48:59","like_diff":-8,"likes":11,"dislikes":19,"content":"。。。"},{"id":109944,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-06-20 11:59:45","like_diff":-8,"likes":4,"dislikes":12,"content":"垃圾垃圾"},{"id":112336,"teacher_id":1025,"teacher_name":"陶然","post_time":"2019-07-04 02:05:02","like_diff":-9,"likes":6,"dislikes":15,"content":"我觉得给分挺好的啊。说老师给分不好的同学肯定是讨论课不积极，这不能怪老师啊。而且通核这类课本来就是要发言才能分数好看一些，大家又不是不知道。"},{"id":48256,"teacher_id":1025,"teacher_name":"陶然","post_time":"2017-03-01 13:19:01","like_diff":-37,"likes":8,"dislikes":45,"content":"你们说的很帅是real帅吗？我这种看脸选课的感觉好几次被评论所坑了::>_<::"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

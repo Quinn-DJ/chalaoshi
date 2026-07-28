@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陆展 - 化学系 - 浙大教评</title>
+    <meta name="description" content="陆展教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="陆展,化学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">陆展</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">化学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.88</div>
+                    <div class="rating-participants">127人参与评分</div>
+                    <div class="attendance-info">39.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (7 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">卓越化学计划科研实训</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.65</span>
+                            <span class="students">选课: 2人</span>
+                            <span class="std-dev">标准差: 0.21</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">有机化学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.76</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.98</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">有机化学Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.86</span>
+                            <span class="students">选课: 66人</span>
+                            <span class="std-dev">标准差: 0.87</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">有机化学Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.26</span>
+                            <span class="students">选课: 66人</span>
+                            <span class="std-dev">标准差: 1.01</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">有机化学Ⅲ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.73</span>
+                            <span class="students">选课: 31人</span>
+                            <span class="std-dev">标准差: 1.00</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">金属有机化学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.62</span>
+                            <span class="students">选课: 173人</span>
+                            <span class="std-dev">标准差: 0.93</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">高等有机化学-金属有机</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.80</span>
+                            <span class="students">选课: 53人</span>
+                            <span class="std-dev">标准差: 0.90</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (111 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":34684,"teacher_id":3659,"teacher_name":"陆展","post_time":"2016-10-18 06:52:35","like_diff":37,"likes":46,"dislikes":9,"content":"感觉老师已经很负责.. 但我还是听不懂"},{"id":35779,"teacher_id":3659,"teacher_name":"陆展","post_time":"2016-11-10 08:07:32","like_diff":24,"likes":27,"dislikes":3,"content":"老师很可爱人很好 学不好是我自己的问题〒▽〒还是要多看书吧"},{"id":34539,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 09:17:39","like_diff":21,"likes":26,"dislikes":5,"content":"老师很可爱，上课会讲有趣的比喻（故事？），会随机抽同学去黑板上做题顺带点名"},{"id":41478,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 02:41:33","like_diff":17,"likes":22,"dislikes":5,"content":"上课讲的太棒了，也很仔细。有一次陆老师出差，找了一个差点当上人大代表的丁老师代课，我才知道陆老师是一位这么好的老师。有机其实很有趣的，平时要打好基础，课前预习很重要，不要错过这位好老师。"},{"id":40662,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-05 00:05:07","like_diff":15,"likes":19,"dislikes":4,"content":"老师人真的好，和蔼，从不点名，或者说点到没到也没关系，但真的听不懂，编有机书的是个脑残，东西杂"},{"id":34485,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-13 09:41:58","like_diff":13,"likes":18,"dislikes":5,"content":"我只想说，你们都忽略了两位男神助教，还有我们万能的有机群。。。"},{"id":41541,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 07:04:58","like_diff":13,"likes":16,"dislikes":3,"content":"老师真的很好，听不懂怪我自己，最开始的课，总是会水手机，导致后来很多基础知识都不是很清楚，后来就..想听都不太懂。后悔<(ToT)>一定要好好听课，预习很重要，课后看也是要有的，毕竟老师在最后半节课节奏快的飞起(｡ì _ í｡)表示前面听懂了后面也难以接受这种速度...表示期末再补天也是挺难的(#ﾟДﾟ)可能是我渣(ノ=Д=)ノ┻━┻"},{"id":36614,"teacher_id":3659,"teacher_name":"陆展","post_time":"2016-11-15 05:36:10","like_diff":12,"likes":15,"dislikes":3,"content":"很负责，会很努力地让同学听懂！"},{"id":146917,"teacher_id":3659,"teacher_name":"陆展","post_time":"2022-01-09 13:10:20","like_diff":11,"likes":12,"dislikes":1,"content":"光速出分"},{"id":34308,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-05 02:50:16","like_diff":8,"likes":13,"dislikes":5,"content":"老师很好很友善，听不懂是我自己的问题。预习很重要"},{"id":39245,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-13 15:47:11","like_diff":8,"likes":11,"dislikes":3,"content":"老师挺好的，讲得很有调理，也挺关心学生的。就是大概是理科生有时候说话有点卡哈哈。怪我自己没有好好听课，谆谆教诲未牢记于心，期末再怎么泡自习室也无济于事。大一上，算是给自己一个教训。不畏将来，不念过去，大家共勉。"},{"id":150796,"teacher_id":3659,"teacher_name":"陆展","post_time":"2022-02-18 15:56:57","like_diff":8,"likes":10,"dislikes":2,"content":"一节课上50多页完全是正常操作，难的部分感觉讲不清楚只能交给学生自己来解决。老师人很好，也有可能是化学这门课原来就讲不清楚吧。如果你是对老师依赖性很强的学生最好别选他。然后不管选没选一定要预习不然会死的很惨5555 今年分高是因为今年给分给的很松所以一堆人来感谢捞人的，所以不是很客观哦。最后祝你好运～"},{"id":41553,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-13 09:57:47","like_diff":7,"likes":10,"dislikes":3,"content":"真的超级超级超级爱陆老师    他就是我男神！！！！爱他一辈子！！！！！！"},{"id":69112,"teacher_id":3659,"teacher_name":"陆展","post_time":"2018-01-24 08:38:21","like_diff":7,"likes":8,"dislikes":1,"content":"98分...烷基钯玩好了"},{"id":120768,"teacher_id":3659,"teacher_name":"陆展","post_time":"2020-01-16 21:52:01","like_diff":7,"likes":9,"dislikes":2,"content":"讲真的我大陆展老师还需要别人夸吗？上过课的明眼人自然知道讲的可以。只是吐槽一下编有机的教材的时候可不可以再多考虑一下学生，实在不理解有机教材的逻辑性和连贯性在哪"},{"id":150180,"teacher_id":3659,"teacher_name":"陆展","post_time":"2022-01-20 02:02:46","like_diff":7,"likes":9,"dislikes":2,"content":"陆宝陆宝陆宝！捞捞捞捞啊捞"},{"id":43639,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-16 16:24:03","like_diff":6,"likes":7,"dislikes":1,"content":"楼上那么多大佬都说老师讲课好，其实老师讲课好不好我还真不清楚，因为听不懂了以后就逃了好多课，但是捏～我们的有机群真得很有爱哦，表白有机助教大大～最后，我想说虽然我没挂科，但如果你选上了他的课，一定要预习，作业认真做，考前刷点题就没问题，千万别和我似的。"},{"id":131787,"teacher_id":3659,"teacher_name":"陆展","post_time":"2021-01-29 02:53:42","like_diff":6,"likes":8,"dislikes":2,"content":"陆宝，妈妈爱你"},{"id":141919,"teacher_id":3659,"teacher_name":"陆展","post_time":"2021-11-01 01:21:12","like_diff":6,"likes":7,"dislikes":1,"content":"陆老师上课：同学们今天我们是要开飞机还是开火箭？\n\n很棒的老师，就是课时太少导致老师不得不在课上自由飞翔。"},{"id":35171,"teacher_id":3659,"teacher_name":"陆展","post_time":"2016-11-03 12:33:56","like_diff":5,"likes":10,"dislikes":5,"content":"负责是挺负责，教学水平是硬伤，原来是教研究生的吧。不过也不能全怪他，编有机化学教材的那个老师太恶心了。"},{"id":49043,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-03-22 09:10:51","like_diff":5,"likes":5,"dislikes":0,"content":"老师的红色卫衣很好看"},{"id":190160,"teacher_id":3659,"teacher_name":"陆展","post_time":"2024-02-24 06:40:00","like_diff":5,"likes":5,"dislikes":0,"content":"听不懂"},{"id":35736,"teacher_id":3659,"teacher_name":"陆展","post_time":"2016-11-10 07:56:45","like_diff":4,"likes":7,"dislikes":3,"content":"老师很有趣"},{"id":40256,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-17 00:06:59","like_diff":4,"likes":6,"dislikes":2,"content":"很棒的老师 上课不会念课本念ppt而是真正的教人理解 平时作业都认真独立完成把不懂的弄懂考试一定没问题啦"},{"id":41479,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 02:47:08","like_diff":4,"likes":5,"dislikes":1,"content":"老师真的很好，考的差完全是自己的问题，特别棒"},{"id":41640,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 09:34:35","like_diff":4,"likes":6,"dislikes":2,"content":"深刻记得老师把自由基比作咖啡……"},{"id":148178,"teacher_id":3659,"teacher_name":"陆展","post_time":"2022-01-11 19:55:13","like_diff":4,"likes":5,"dislikes":1,"content":"太好了"},{"id":199534,"teacher_id":3659,"teacher_name":"陆展","post_time":"2024-09-25 04:25:09","like_diff":4,"likes":5,"dislikes":1,"content":"虽然老师很好但是听不懂……"},{"id":209202,"teacher_id":3659,"teacher_name":"陆展","post_time":"2025-01-05 04:25:27","like_diff":4,"likes":4,"dislikes":0,"content":"天呐，这学期跟着陆老师学有机，老师也太好了，上课思路清晰，给分也非常慷慨，赞美陆老师"},{"id":209763,"teacher_id":3659,"teacher_name":"陆展","post_time":"2025-01-07 03:58:00","like_diff":4,"likes":4,"dislikes":0,"content":"有机化学课\n\n老师讲的非常好，节奏很合适（可能是因为我自己理解力比较差，fcl老师过来代过课，我个人觉得傅老师节奏我有点跟不上），会很在意同学们有没有跟上、理解，可以看得出来是对本科生教学很上心的一个老师，而不是为了完成任务而进行上课。鼓励大家加他微信问问题（虽然我没有加，我一般有问题都问助教，助教都会回答）\n\n上课每节课前都随机二维码点名，具体点名怎么计算平时分不清楚，除此之外上课偶尔也会点同学名字回答问题，没到好像会记录。小测一共四次，三次简单的学在浙大上自测题，一次很难的纸质小测，取两次最高分算入平时成绩（注意小测的时候会传名单签名，老师说会严查小测提交和签到名单人数差异，但是也不清楚具体会怎么计算到平时分里）\n\n最后给分，陆老师的给分是挺慷慨的，我自己和几个认识的朋友都反映给分不错，推荐想要高分，并且想好好学下来的同学选陆老师的课\n\n最后可以给出一点我的学习建议和评分参考，我学有机化学就是跟着陆老师的课听，然后课后自己看一遍书，整理反应和理解机理，不过期中之后节奏有点乱，最后一两章没好好看书，考前才复习的。作业量和难度都挺大的，我大部分其实也是抄，，，小测和期中考都复习学在浙大上面的自测题就可以了（尤其是小测，线上小测基本就是原题，哪怕你不会做，背下来题目也能过），期末考前看PPT和书本复习，同时刷历年卷，会发现历年卷其实后面大题是有规律可循的，很多反应都是重复考（不过选择题就比较吃理解，要平时积累）最后我的分数是两次最高的小测好像一次98，一次96；期中考88分；期末考老师说不会公布，但我问了，他说我成绩不错，结合自己感觉应该有90以上，总评96分。\n\n是大学目前为止遇到的最喜欢的老师，私心强烈推荐！（如果会在意在后排水课的时候被老师一直cue那还是慎选哈哈哈，老师会时常提到前后排同学的，有几次摸鱼被cue都非常心虚）"},{"id":211299,"teacher_id":3659,"teacher_name":"陆展","post_time":"2025-01-11 07:12:08","like_diff":4,"likes":4,"dislikes":0,"content":"有机化学\n\n人好给分好。每节课必点名，而且时不时抽取幸运观众上台做题，也会经常cue后排同学（在后排划水的时候总有种被push的不安感（），想平时摸鱼的uu谨慎）。讲课的话也比较细致，速度适中，而且经常会附上一些相关题目练习。三次线上小测，题目都是从平时布置的自测题里面挑的，难度不是很大。还有一次纸质小测，难度比较大，会涉及完成反应、写出机理、合成题，而且有不少坑，当然最后这个纸质小测一般不会计入成绩，不用很担心。期中考试是线上机考，题目也很类似自测题。最后期末考试建议多刷刷老师给的历年卷，考试题目还是和历年卷里比较相似的。最后从成绩能感觉到老师还是很能捞的，而且人也很和善，十分，推荐！"},{"id":40668,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-15 10:59:05","like_diff":3,"likes":6,"dislikes":3,"content":"怪我自己没学好"},{"id":43273,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-16 05:10:00","like_diff":3,"likes":5,"dislikes":2,"content":"老师上课很有趣 给分也很好 学弟学妹从第一节课起就要好好学 这样后面复习不会太累"},{"id":111389,"teacher_id":3659,"teacher_name":"陆展","post_time":"2019-07-01 05:54:24","like_diff":3,"likes":4,"dislikes":1,"content":"金属有机很硬核，老师上课会用心去备课，会让你用课上的基础知识去理解一些前沿的工作。总体体验很好，课下负担不重，但课上一定要认真听，要不然可能会错过zhanzhan的奇妙比喻(误)"},{"id":140969,"teacher_id":3659,"teacher_name":"陆展","post_time":"2021-09-18 14:30:52","like_diff":3,"likes":5,"dislikes":2,"content":"简单的要讲好久，难的就一句话带过，不会忘记来一句：我相信你们的自学能力"},{"id":147640,"teacher_id":3659,"teacher_name":"陆展","post_time":"2022-01-10 10:48:57","like_diff":3,"likes":4,"dislikes":1,"content":"感谢老师和助教捞我上4，这学期没有怎么认真学，感觉有机可能只是刚入门，但是老师讲的真的很好，也非常负责。"},{"id":148365,"teacher_id":3659,"teacher_name":"陆展","post_time":"2022-01-12 08:55:10","like_diff":3,"likes":7,"dislikes":4,"content":"老师超级好，真的超级好！长得很帅（尤其是那张评价老师网上的那张照片），然后讲的还是比较快的…我大部分还是自己课后预习，不过和我自己没有课前看过一遍有关系，总之就是很需要课前看一遍书先大概的，这样应该会跟得上一点。然后给分的话真的是出乎意料的好！我从没想过自己能满绩！！！"},{"id":33575,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 02:47:47","like_diff":2,"likes":4,"dislikes":2,"content":"老师很负责，还会点一点课外的只是，跟着老师一定有收获"},{"id":34318,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 07:51:47","like_diff":2,"likes":5,"dislikes":3,"content":"老师很棒\n\n我太渣"},{"id":41554,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 07:40:55","like_diff":2,"likes":3,"dislikes":1,"content":"老师是个好老师，只是我听不懂orz果然考试前一天学习效率最高?"},{"id":41605,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 08:50:54","like_diff":2,"likes":3,"dislikes":1,"content":"上课很好玩，虽然有机还是一如既往的让我想睡觉，但老师真的好棒，现在还记得黄鸣龙反应，嘿嘿，上午考到了。上课有质量，当年还有别的班的同学翘自己老师的课来听呢！"},{"id":43230,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-16 04:20:03","like_diff":2,"likes":4,"dislikes":2,"content":"可爱了我的展。。。"},{"id":43534,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-16 13:36:11","like_diff":2,"likes":4,"dislikes":2,"content":"老师讲得很细致，表白老师！"},{"id":44636,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-18 05:08:21","like_diff":2,"likes":3,"dislikes":1,"content":"老师很棒讲课很温柔。虽然我经常会不知不觉睡着。而且不点名只会叫人上去写题目。知道很多人没来也不点名，就说天气太冷了让我们记得起来这些话。真的好喜欢他"},{"id":68607,"teacher_id":3659,"teacher_name":"陆展","post_time":"2018-01-23 12:53:09","like_diff":2,"likes":3,"dislikes":1,"content":"人生没遇到过这样一位伟大的教师"},{"id":100948,"teacher_id":3659,"teacher_name":"陆展","post_time":"2019-01-27 07:45:54","like_diff":2,"likes":2,"dislikes":0,"content":"老师给分是真的好，也非常负责！！！就是讲课有点抽象"},{"id":115671,"teacher_id":3659,"teacher_name":"陆展","post_time":"2019-08-17 12:24:43","like_diff":2,"likes":4,"dislikes":2,"content":"听着，陆男神已经是优青啦"},{"id":147644,"teacher_id":3659,"teacher_name":"陆展","post_time":"2022-01-10 10:54:55","like_diff":2,"likes":3,"dislikes":1,"content":"老师上课讲得好好 给分也好"},{"id":147657,"teacher_id":3659,"teacher_name":"陆展","post_time":"2022-01-10 11:08:03","like_diff":2,"likes":3,"dislikes":1,"content":"老师幽默又负责，课讲的真的很好，可惜我太菜...不过期末真的海底捞！我爱展宝！"},{"id":147672,"teacher_id":3659,"teacher_name":"陆展","post_time":"2022-01-10 11:55:02","like_diff":2,"likes":3,"dislikes":1,"content":"老师人很好很可爱大爱，课也上的很好！老师和助教都是海底大捞法师!!谢谢谢谢！我爱展展！！"},{"id":147673,"teacher_id":3659,"teacher_name":"陆展","post_time":"2022-01-10 11:58:14","like_diff":2,"likes":4,"dislikes":2,"content":"感谢老师给的满绩"},{"id":209049,"teacher_id":3659,"teacher_name":"陆展","post_time":"2025-01-04 09:45:00","like_diff":2,"likes":2,"dislikes":0,"content":"上课水平很高，金属有机来的"},{"id":209305,"teacher_id":3659,"teacher_name":"陆展","post_time":"2025-01-05 11:19:17","like_diff":2,"likes":2,"dislikes":0,"content":"这学期每节课都点名，但是真的真的很捞啊！一晚上速成的很满意了"},{"id":209583,"teacher_id":3659,"teacher_name":"陆展","post_time":"2025-01-06 09:43:48","like_diff":2,"likes":2,"dislikes":0,"content":"展子哥教的确实好！"},{"id":210027,"teacher_id":3659,"teacher_name":"陆展","post_time":"2025-01-08 02:59:58","like_diff":2,"likes":2,"dislikes":0,"content":"陆展老师上的好好，就是我自己菜菜的，没基础的孩子一定要多花点时间"},{"id":214335,"teacher_id":3659,"teacher_name":"陆展","post_time":"2025-02-01 10:26:00","like_diff":2,"likes":2,"dislikes":0,"content":"展子哥是一个能把教学和科研都兼顾的很好的古典派大佬，当之无愧的配得上金质丽奖教金"},{"id":34473,"teacher_id":3659,"teacher_name":"陆展","post_time":"2016-10-11 11:08:39","like_diff":1,"likes":6,"dislikes":5,"content":"挺有趣的，但有点水，知识点说的不是很详细，自学了效果才行，但给了我们很多科学的启发。"},{"id":41563,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 07:49:00","like_diff":1,"likes":4,"dislikes":3,"content":"老师很棒 有节课让丁代表代课才知道什么事差距  很舍不得陆老师啊啊啊啊啊"},{"id":41565,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 07:52:57","like_diff":1,"likes":1,"dislikes":0,"content":"课堂比较轻松啊但是一定要自己努力！老师很负责的，很愿意回答问题有点像高中的老师。"},{"id":41579,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-18 06:56:09","like_diff":1,"likes":3,"dislikes":2,"content":"很棒，特别好。上课特别风趣。"},{"id":41591,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 08:28:25","like_diff":1,"likes":1,"dislikes":0,"content":"特别好的老师！课后会耐心答疑 不点名 各种暖心 超赞"},{"id":41594,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 08:33:47","like_diff":1,"likes":1,"dislikes":0,"content":"老师上课很细心，感觉学不好有机都对不起老师…"},{"id":41608,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 08:54:23","like_diff":1,"likes":3,"dislikes":2,"content":"老师气质从容，节奏明快，有机还是。。多看书多做题，要先背再理解，，刚开始看不懂没关系的"},{"id":41624,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 09:16:00","like_diff":1,"likes":2,"dislikes":1,"content":"超级棒的老师，很可爱，室友是让隔壁丁代表班的，经过对比陆老师实在是超级棒的老师"},{"id":41625,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 09:16:44","like_diff":1,"likes":3,"dislikes":2,"content":"陆老板，很负责，讲课速度是快的，但这就是有机。给学有机的朋友们一句忠告！一定！要！预习！"},{"id":41673,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 10:36:46","like_diff":1,"likes":3,"dislikes":2,"content":"考完有机老师祝我考试顺利，我要好好琢磨一下这句话....万一挂了，下学期还选他的课，呸呸呸，说什么不知道，下面的同学好好听课啊，补天真的很痛苦。要是你预置了他的课，真的很好啊"},{"id":41684,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 10:54:26","like_diff":1,"likes":2,"dislikes":1,"content":"感觉老师比较耐心，讲话也有意思。。。。虽然我听不懂"},{"id":41781,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 14:35:38","like_diff":1,"likes":2,"dislikes":1,"content":"陆老师真的很好啊！他以前好像没教过本科生，都是带研究生，对我们特别温柔。感觉还讲了很多比知识更重要的东西！\n\n"},{"id":41802,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 16:14:37","like_diff":1,"likes":2,"dislikes":1,"content":"老师很棒，上课很有意思。然而我没有好好学有机，真是太惭愧了。"},{"id":42359,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-14 05:21:24","like_diff":1,"likes":2,"dislikes":1,"content":"大家成绩都没出就一个个来打分也是够强hhh 班里气氛超级好，我记得刚选上课的时候老师在系统里是0.0分的，现在飙升233其实有机主要靠自学，但是老师上课讲的如果听的话效果会很好。老师很耐心，助教也很棒棒，我不管我挂不挂，反正你们是最胖der！"},{"id":42471,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-14 09:16:18","like_diff":1,"likes":2,"dislikes":1,"content":"老师人很好，水平也高，就是我平时不认真。/::-| 尴尬"},{"id":42690,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-15 02:41:47","like_diff":1,"likes":2,"dislikes":1,"content":"老师超级负责…超级认真…学不好都是我垃圾…"},{"id":42817,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-15 08:25:44","like_diff":1,"likes":2,"dislikes":1,"content":"老师人真的很好很负责。。学不好是我的原因，觉得很对不起老师。。。希望老师工作顺利，感谢老师，后悔不好好学"},{"id":42948,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-15 13:06:48","like_diff":1,"likes":2,"dislikes":1,"content":"很耐心地回答同学们的问题，超给力的"},{"id":43040,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-15 15:16:32","like_diff":1,"likes":2,"dislikes":1,"content":"老师超好"},{"id":46013,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-20 11:48:43","like_diff":1,"likes":2,"dislikes":1,"content":"没感觉"},{"id":47762,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-02-24 02:26:30","like_diff":1,"likes":1,"dislikes":0,"content":"大陆展  好好听课别睡觉就行"},{"id":48791,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-03-13 06:11:06","like_diff":1,"likes":1,"dislikes":0,"content":"喜欢呀"},{"id":48860,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-03-15 03:39:36","like_diff":1,"likes":1,"dislikes":0,"content":"好有趣"},{"id":58666,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-09-13 09:16:24","like_diff":1,"likes":1,"dislikes":0,"content":"好好好"},{"id":69005,"teacher_id":3659,"teacher_name":"陆展","post_time":"2018-01-24 07:39:15","like_diff":1,"likes":2,"dislikes":1,"content":"陆老板真是把学生当作亲生的孩子在教啊，耐心细心，生怕我们听不懂，感谢他"},{"id":69606,"teacher_id":3659,"teacher_name":"陆展","post_time":"2018-01-25 05:18:48","like_diff":1,"likes":3,"dislikes":2,"content":"考前吓唬我们平均分大概60，然而试卷绝大部分都是书本的内容，还有一些课堂练习，只要认真看书基本不会有多大问题，给分良心，寝室三个4.8，很棒的老师"},{"id":90944,"teacher_id":3659,"teacher_name":"陆展","post_time":"2018-11-28 01:35:57","like_diff":1,"likes":2,"dislikes":1,"content":"讲的真的很清楚了"},{"id":141920,"teacher_id":3659,"teacher_name":"陆展","post_time":"2021-11-01 01:21:11","like_diff":1,"likes":2,"dislikes":1,"content":"陆老师上课：同学们今天我们是要开飞机还是开火箭？\n\n很棒的老师，就是课时太少导致老师不得不在课上自由飞翔。"},{"id":144614,"teacher_id":3659,"teacher_name":"陆展","post_time":"2021-12-22 16:57:27","like_diff":1,"likes":2,"dislikes":1,"content":"陆老师yyds  \n\n你值得拥有！"},{"id":147699,"teacher_id":3659,"teacher_name":"陆展","post_time":"2022-01-10 13:34:02","like_diff":1,"likes":2,"dislikes":1,"content":"老师海底捞"},{"id":188815,"teacher_id":3659,"teacher_name":"陆展","post_time":"2024-01-20 05:11:12","like_diff":1,"likes":3,"dislikes":2,"content":"超级好的老师！只要好好预习复习一定能拿高绩点！"},{"id":200539,"teacher_id":3659,"teacher_name":"陆展","post_time":"2024-10-18 10:45:10","like_diff":1,"likes":3,"dislikes":2,"content":"金属有机化学\n\n先不谈考试，因为没考试也没法谈考试\n\n展子哥绝对属于化学系里教学水平很强的老师\n\n上课内容详细，重点突出，旁征博引，而且有非常多的课堂练习环节帮助巩固知识\n\n但是他和金属有机也有缺点：课程非常难（挂科率约20%，是化学专业挂科率最高的专业选修课，为此他连着几节课一直在劝退，直到过了退课时间，22级化学总共至少有12人在开课之后退课）讲课过快难以跟上，点人上黑板做题或者判断对错相当频繁（有时是按座次点，有时是按名次点，另外这门课不太推荐非化学专业的同学选来水课，上课强度还是非常大的，有一次他专门点外专业同学的名字，结果前两个都没来）"},{"id":207829,"teacher_id":3659,"teacher_name":"陆展","post_time":"2024-12-24 12:04:24","like_diff":1,"likes":1,"dislikes":0,"content":"金属有机，课程很难，但是他想方设法的强调重点，想方设法的在除了pre以外基本没有作业的情况下出课堂练习，真的是生怕你挂科。另外有机化学想教好除了上压力也没有太好的方法，如果换其他老师想教好有机，估计除了当个压力怪以外别无他法"},{"id":208878,"teacher_id":3659,"teacher_name":"陆展","post_time":"2025-01-03 03:21:39","like_diff":1,"likes":1,"dislikes":0,"content":"老陆上课不错不错!"},{"id":209064,"teacher_id":3659,"teacher_name":"陆展","post_time":"2025-01-04 10:31:09","like_diff":1,"likes":3,"dislikes":2,"content":"满分满分 超级捞的男神一枚 讲课ppt思路很简洁清晰，平时认真听及时复习不会有问题的 我期中考考的特别差 但最后还是上四了"},{"id":209221,"teacher_id":3659,"teacher_name":"陆展","post_time":"2025-01-06 10:40:15","like_diff":1,"likes":3,"dislikes":2,"content":"展子哥好，值得10分"},{"id":214870,"teacher_id":3659,"teacher_name":"陆展","post_time":"2025-02-18 13:38:14","like_diff":1,"likes":2,"dislikes":1,"content":"强推！！！笨人非化学系，大二上硬着头皮选了陆老师的金属有机化学，课特别难，我的分也很低，但真的非常感激老师对我这个外专业学生的包容与耐心指导！师恩无以报答，给老师默写个四大基元反应吧（）🥺"},{"id":35124,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 08:54:19","like_diff":0,"likes":5,"dislikes":5,"content":"老师真的挺好的，也在尽力用最生动有趣的方法解释，就是有机这门课要记的太多了，有点累"},{"id":99543,"teacher_id":3659,"teacher_name":"陆展","post_time":"2019-01-25 02:30:54","like_diff":0,"likes":1,"dislikes":1,"content":"老师讲的真的很清楚了，只是我没认真听，所以考试很没底，但是老师给分真的仁慈，感动！另外告诫学弟学妹们有机一定要个人努力，只靠老师是带不动的，考前抱佛脚的话真的要看人品的(不推荐)"},{"id":111479,"teacher_id":3659,"teacher_name":"陆展","post_time":"2019-07-01 17:58:24","like_diff":0,"likes":1,"dislikes":1,"content":"陆老师人真的超级好 讲得也很清楚 上课很有热情 也很认真负责 但是我太菜 真的听不懂记不住?"},{"id":112996,"teacher_id":3659,"teacher_name":"陆展","post_time":"2019-07-05 17:20:28","like_diff":0,"likes":2,"dislikes":2,"content":"讲课深入浅出，关心学生感受，水平极高，给分很好。"},{"id":120749,"teacher_id":3659,"teacher_name":"陆展","post_time":"2020-01-16 09:12:31","like_diff":0,"likes":2,"dislikes":2,"content":"老师讲课特别特别好！期末也会很用心地审成绩！最后绩点出来比预期好了太多！"},{"id":140698,"teacher_id":3659,"teacher_name":"陆展","post_time":"2021-09-15 07:01:42","like_diff":0,"likes":2,"dislikes":2,"content":"难是真的难，老师好是真的好"},{"id":154714,"teacher_id":3659,"teacher_name":"陆展","post_time":"2022-06-04 06:00:51","like_diff":0,"likes":2,"dislikes":2,"content":"展爷yyds"},{"id":186578,"teacher_id":3659,"teacher_name":"陆展","post_time":"2024-01-12 02:25:33","like_diff":0,"likes":2,"dislikes":2,"content":"捞人好老师"},{"id":186651,"teacher_id":3659,"teacher_name":"陆展","post_time":"2024-01-12 10:43:49","like_diff":0,"likes":2,"dislikes":2,"content":"我爱陆宝！只要课前预习就可以获得很好的听课体验!"},{"id":193599,"teacher_id":3659,"teacher_name":"陆展","post_time":"2024-06-13 11:51:18","like_diff":0,"likes":3,"dislikes":3,"content":"挺好的呀"},{"id":210404,"teacher_id":3659,"teacher_name":"陆展","post_time":"2025-01-09 05:58:26","like_diff":0,"likes":0,"dislikes":0,"content":"呜呼！展哥！"},{"id":109695,"teacher_id":3659,"teacher_name":"陆展","post_time":"2019-06-18 12:25:51","like_diff":-1,"likes":0,"dislikes":1,"content":"跟隔壁某专业课形成了鲜明的对比（？）"},{"id":41571,"teacher_id":3659,"teacher_name":"陆展","post_time":"2017-01-12 08:07:35","like_diff":-2,"likes":0,"dislikes":2,"content":"。。。"},{"id":100283,"teacher_id":3659,"teacher_name":"陆展","post_time":"2019-01-26 02:01:25","like_diff":-2,"likes":0,"dislikes":2,"content":"今年的给分有点点伤心π_π被卡绩了。这学期陆老师很忙，不过助教超负责对我们超好的，助教自己出了小测批改讲解，最后一天还答疑到10点。"},{"id":99537,"teacher_id":3659,"teacher_name":"陆展","post_time":"2019-01-25 02:25:35","like_diff":-3,"likes":1,"dislikes":4,"content":"优秀的老师?"},{"id":34117,"teacher_id":3659,"teacher_name":"陆展","post_time":"2016-09-27 06:18:46","like_diff":-6,"likes":1,"dislikes":7,"content":"水水水"},{"id":205263,"teacher_id":3659,"teacher_name":"陆展","post_time":"2024-12-03 12:04:23","like_diff":-8,"likes":6,"dislikes":14,"content":"构式老师构式主教"},{"id":200348,"teacher_id":3659,"teacher_name":"陆展","post_time":"2024-10-16 06:58:55","like_diff":-13,"likes":4,"dislikes":17,"content":"就是勾石"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

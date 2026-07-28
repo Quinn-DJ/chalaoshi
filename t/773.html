@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>米红 - 公共管理学院 - 浙大教评</title>
+    <meta name="description" content="米红教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="米红,公共管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">米红</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">公共管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">1.60</div>
+                    <div class="rating-participants">122人参与评分</div>
+                    <div class="attendance-info">33.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (1 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">人口学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.11</span>
+                            <span class="students">选课: 53人</span>
+                            <span class="std-dev">标准差: 0.53</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (104 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":25860,"teacher_id":773,"teacher_name":"米红","post_time":"2016-06-12 11:42:23","like_diff":87,"likes":106,"dislikes":19,"content":"建议退课"},{"id":58935,"teacher_id":773,"teacher_name":"米红","post_time":"2017-09-18 14:12:56","like_diff":50,"likes":52,"dislikes":2,"content":"垃圾课程，故意吹自己多牛逼，天天事多的一比，还拽英语，考试难度爆炸，也是醉了"},{"id":26102,"teacher_id":773,"teacher_name":"米红","post_time":"2016-06-15 16:47:49","like_diff":48,"likes":61,"dislikes":13,"content":"国家领导人顾问\n\n帮过杭州首富的忙\n\n说着说着就开始追忆往昔"},{"id":25887,"teacher_id":773,"teacher_name":"米红","post_time":"2016-06-13 11:23:19","like_diff":44,"likes":64,"dislikes":20,"content":"公共危机管理强烈不推荐，70%的课时都是学生在展示，内容要是跟他所想的不太一样不用解释你已经完了"},{"id":80005,"teacher_id":773,"teacher_name":"米红","post_time":"2018-06-19 03:25:26","like_diff":42,"likes":44,"dislikes":2,"content":"“你们都谦虚一点，我可是大教授，参加最高水平会议的，给你们上课你们要感恩”（微笑?️）不能好好上课就别教了好吗我们不配听大教授上课，也不需要大教授牺牲自己施舍时间给我们上课"},{"id":79531,"teacher_id":773,"teacher_name":"米红","post_time":"2018-06-22 15:32:04","like_diff":40,"likes":43,"dislikes":3,"content":"傻逼老师，毁人青春。没欠课也要补，神经。"},{"id":79596,"teacher_id":773,"teacher_name":"米红","post_time":"2018-06-11 05:04:45","like_diff":40,"likes":43,"dislikes":3,"content":"特别爱装逼，批评毫不客气，给分像是施舍，不来上课周末补课，没有0分吗！"},{"id":75,"teacher_id":773,"teacher_name":"米红","post_time":"2015-03-14 15:40:23","like_diff":39,"likes":47,"dislikes":8,"content":"国际知名教授国务院特聘有识之士教你人到中年如何调整心态平稳度过中年危机"},{"id":79532,"teacher_id":773,"teacher_name":"米红","post_time":"2018-06-11 04:00:24","like_diff":36,"likes":38,"dislikes":2,"content":"你们没有查到我21年前发表的文章，失去了很好的一次拍马屁机会。......这身材是拍猪油屁吧"},{"id":31510,"teacher_id":773,"teacher_name":"米红","post_time":"2016-07-04 04:27:10","like_diff":35,"likes":39,"dislikes":4,"content":"点名 事多 整天展示 零价值 零收获 期末作业 莫名其妙 送本破书 烂的要死 你不退课 白受折磨"},{"id":22761,"teacher_id":773,"teacher_name":"米红","post_time":"2016-03-11 00:45:34","like_diff":32,"likes":43,"dislikes":11,"content":"上了一节课，学生走了一半。。。确实是硬课\n\n"},{"id":61624,"teacher_id":773,"teacher_name":"米红","post_time":"2017-11-19 09:41:37","like_diff":31,"likes":32,"dislikes":1,"content":"选他的课感觉就是跟自己过不去，口语差，还要讲英文，每次都装逼，著名教授。。。(没听说过)"},{"id":79997,"teacher_id":773,"teacher_name":"米红","post_time":"2018-06-19 02:40:50","like_diff":30,"likes":31,"dislikes":1,"content":"可不敢多说\n\n“我是著名人口学家，我能不懂吗？”"},{"id":79996,"teacher_id":773,"teacher_name":"米红","post_time":"2018-06-19 02:37:24","like_diff":28,"likes":29,"dislikes":1,"content":"吃屎一样的体验，耽误他拿诺奖了"},{"id":126848,"teacher_id":773,"teacher_name":"米红","post_time":"2020-10-23 16:20:46","like_diff":28,"likes":29,"dislikes":1,"content":"垃圾老师，上课除了吹嘘自己曾经为总书记做顾问，给雄安新区提意见别人都是错的都听他的，没啥实质内容。课堂准备极不认真，就知道卖弄一些跟学术无关的东西。可能这就是著名人口学家，大教授吧。"},{"id":106735,"teacher_id":773,"teacher_name":"米红","post_time":"2019-04-29 07:10:10","like_diff":26,"likes":27,"dislikes":1,"content":"吃?一样的体验……不懂得一点都不懂得尊重学生的隐私，下课的时候非得当着全班同学的面，质问一个请假的同学得了什么病……表现得多么关心学生一样...连最起码地尊重学生隐私都不懂吗？？？ 生怕全班其他同学不知道那位同学得的什么病吗？？？有病的人怕是另有其人吧！"},{"id":27070,"teacher_id":773,"teacher_name":"米红","post_time":"2016-06-22 15:04:49","like_diff":23,"likes":26,"dislikes":3,"content":"没交什么东西，基本都是展示，送你一本他写的书，然而那书烂的不行"},{"id":126737,"teacher_id":773,"teacher_name":"米红","post_time":"2020-10-16 15:23:46","like_diff":23,"likes":23,"dislikes":0,"content":"垃圾教授，上课什么也学不到，就会吹牛 让学生感恩，恶心吐了"},{"id":31455,"teacher_id":773,"teacher_name":"米红","post_time":"2016-07-04 02:39:46","like_diff":22,"likes":26,"dislikes":4,"content":"展示观点和老师想的不一样的下场就是死的很惨，给分很差，基本不上课，英语不好就不要选这个了，感觉最坑爹的一门通识"},{"id":28438,"teacher_id":773,"teacher_name":"米红","post_time":"2016-06-28 08:59:42","like_diff":21,"likes":27,"dislikes":6,"content":"每节课要点名，内容很无聊，第三节课开始基本都是展示，没有实质性收获，期末作业还要用到程设，考试难度飞起，直逼专业课，老师不怎么赞同别人的观点【公共危机管理】"},{"id":80018,"teacher_id":773,"teacher_name":"米红","post_time":"2018-06-19 04:19:08","like_diff":21,"likes":21,"dislikes":0,"content":"“打国际飞机给你们上课，要感恩！”“我是著名人口学家我能不懂？”“我这篇文章也是国内里程碑式文章”，好了，大教授听不起！真是不断刷新我对教授的认知啊"},{"id":82045,"teacher_id":773,"teacher_name":"米红","post_time":"2018-07-07 02:39:41","like_diff":21,"likes":21,"dislikes":0,"content":"上完他的课你会发现，社保系其他所有老师都太优秀了。"},{"id":107513,"teacher_id":773,"teacher_name":"米红","post_time":"2019-05-06 06:06:44","like_diff":21,"likes":21,"dislikes":0,"content":"建议退课\n\n这种老师真的是浙江大学教授里面的败类\n\n上课只会瞎逼逼自己有多牛逼，只会瞎逼逼自己的恩师有多牛逼"},{"id":79564,"teacher_id":773,"teacher_name":"米红","post_time":"2018-06-09 12:00:43","like_diff":20,"likes":20,"dislikes":0,"content":"不知道在干什么，贼蠢"},{"id":21665,"teacher_id":773,"teacher_name":"米红","post_time":"2016-02-29 13:23:37","like_diff":19,"likes":29,"dislikes":10,"content":"\"我这门课是门硬课”“期末考试肯定会难的”米老师在公共危机管理课上如是说。感觉如果真的认真做会学到很多。别看是门人文社科类的课，老师数学系出身，文科生慎选。"},{"id":113998,"teacher_id":773,"teacher_name":"米红","post_time":"2019-07-08 07:23:55","like_diff":19,"likes":19,"dislikes":0,"content":"辣鸡老师，无力吐槽"},{"id":65622,"teacher_id":773,"teacher_name":"米红","post_time":"2018-01-07 13:49:42","like_diff":18,"likes":18,"dislikes":0,"content":"垃圾老师，毁我青春"},{"id":79253,"teacher_id":773,"teacher_name":"米红","post_time":"2018-05-29 02:35:04","like_diff":18,"likes":19,"dislikes":1,"content":"2分，不能更多了，不如代课小哥哥教的干货。整天都在吹牛吹嘘自己，不能更烦。"},{"id":108840,"teacher_id":773,"teacher_name":"米红","post_time":"2019-06-03 06:18:54","like_diff":17,"likes":17,"dislikes":0,"content":"垃圾老师毁我青春！"},{"id":60456,"teacher_id":773,"teacher_name":"米红","post_time":"2017-10-29 06:17:29","like_diff":16,"likes":17,"dislikes":1,"content":"建议退课\n\n"},{"id":66593,"teacher_id":773,"teacher_name":"米红","post_time":"2018-01-17 12:01:45","like_diff":16,"likes":17,"dislikes":1,"content":"请踩我下去屑屑。给一个对这门课的客观评价，供想选这门课的人参考。考试暂且不说了，评价里很多人说了。按顺序讲一下要完成的内容：1、退课。2、留下来的人恭喜你因为各种理由留下来了。接下去准备：ppt展示（重点你们的ppt，一不要堆砌，二可以用一些黑科技；做的内容要有逻辑，基本应该有的是四点五阶段，模型，数据，分析，对我国。我们做一下知网搬运工又何妨）；生命表（excel代码：1-2*a/（b+c/if（d=0，0.1，d））；第二次数据计算0.1变成上一个d），生命表分析（书上有），要加分把0岁死亡人数估计出来；论文（就懒到不能按照毕设格式改吗），内容同展示。3、学到了什么？以后转专业可能还有一个去路。"},{"id":79588,"teacher_id":773,"teacher_name":"米红","post_time":"2018-06-11 02:47:18","like_diff":16,"likes":17,"dislikes":1,"content":"迷……平时不好好讲课，讲不完了要周末补课…其实还是没讲什么东西………"},{"id":80023,"teacher_id":773,"teacher_name":"米红","post_time":"2018-06-19 04:54:13","like_diff":16,"likes":16,"dislikes":0,"content":"太自大，上课完全吹逼，没有内容。"},{"id":60733,"teacher_id":773,"teacher_name":"米红","post_time":"2017-10-29 01:20:15","like_diff":15,"likes":15,"dislikes":0,"content":"打国际飞机上课的大教授"},{"id":59675,"teacher_id":773,"teacher_name":"米红","post_time":"2017-09-26 00:29:50","like_diff":14,"likes":14,"dislikes":0,"content":"一半段子一半天书。"},{"id":65626,"teacher_id":773,"teacher_name":"米红","post_time":"2018-01-07 14:56:22","like_diff":14,"likes":15,"dislikes":1,"content":"听老师的课是啥感觉？要回答这个问题，有点难，因为你会发现这种感觉操蛋的无法形容，孩子，退了吧！"},{"id":135761,"teacher_id":773,"teacher_name":"米红","post_time":"2021-05-24 04:30:06","like_diff":14,"likes":14,"dislikes":0,"content":"为什么查老师不能打0分。。。"},{"id":23397,"teacher_id":773,"teacher_name":"米红","post_time":"2017-09-12 15:18:39","like_diff":12,"likes":14,"dislikes":2,"content":"哎，我也不说什么了，双语教学，全英展示。。"},{"id":61301,"teacher_id":773,"teacher_name":"米红","post_time":"2017-11-14 03:47:55","like_diff":12,"likes":12,"dislikes":0,"content":"小心大教授报复你们。不，是报复他自己。"},{"id":72909,"teacher_id":773,"teacher_name":"米红","post_time":"2018-01-31 10:07:16","like_diff":12,"likes":12,"dislikes":0,"content":"作业挺多，包括英文展示、生命表（这个真得挺麻烦的）、论文。说真的，老师是真的没有教给我们什么东西。。。。米老师一点都不谦虚。他的课，真的好尴尬。"},{"id":108842,"teacher_id":773,"teacher_name":"米红","post_time":"2019-06-03 06:46:37","like_diff":12,"likes":12,"dislikes":0,"content":"课程展示的观点要是和老师不一样就会给低分\n\n傻逼老师的观点和普遍观点不一样\n\n建议退课"},{"id":72840,"teacher_id":773,"teacher_name":"米红","post_time":"2018-01-31 07:34:04","like_diff":11,"likes":12,"dislikes":1,"content":"一门通识，老师从不讲课，全英展示，有论文有作业有考试，考试内容从没讲过，你敢想？？哦，对，还他妈绩杀，退不退课你们自己看着办吧！！！"},{"id":81423,"teacher_id":773,"teacher_name":"米红","post_time":"2018-07-05 04:57:46","like_diff":11,"likes":11,"dislikes":0,"content":"惊天地，泣鬼神，真垃圾，假包赔"},{"id":113959,"teacher_id":773,"teacher_name":"米红","post_time":"2019-07-08 03:07:56","like_diff":11,"likes":11,"dislikes":0,"content":"查老师的均绩偏高了吧……风险统计模型这个课 啥也学不到 不过幸好是最后一届了"},{"id":80020,"teacher_id":773,"teacher_name":"米红","post_time":"2018-06-19 04:33:45","like_diff":10,"likes":11,"dislikes":1,"content":"其他老师的课都应该被珍惜"},{"id":80024,"teacher_id":773,"teacher_name":"米红","post_time":"2018-06-19 04:58:23","like_diff":10,"likes":10,"dislikes":0,"content":"吔屎了"},{"id":81422,"teacher_id":773,"teacher_name":"米红","post_time":"2018-07-05 05:06:28","like_diff":10,"likes":10,"dislikes":0,"content":"建议去退了"},{"id":31019,"teacher_id":773,"teacher_name":"米红","post_time":"2016-07-03 06:20:37","like_diff":9,"likes":9,"dislikes":0,"content":"基本都是展示"},{"id":58918,"teacher_id":773,"teacher_name":"米红","post_time":"2017-09-18 12:25:07","like_diff":9,"likes":9,"dislikes":0,"content":"退课退课果断退课"},{"id":61222,"teacher_id":773,"teacher_name":"米红","post_time":"2017-11-12 13:28:43","like_diff":9,"likes":9,"dislikes":0,"content":"讲的不多，留的倒是不少"},{"id":72036,"teacher_id":773,"teacher_name":"米红","post_time":"2018-01-29 08:44:29","like_diff":9,"likes":9,"dislikes":0,"content":"令人窒息的一门课…"},{"id":72826,"teacher_id":773,"teacher_name":"米红","post_time":"2018-01-31 06:47:01","like_diff":9,"likes":9,"dislikes":0,"content":"给分一般，没有学到东西"},{"id":82063,"teacher_id":773,"teacher_name":"米红","post_time":"2018-07-07 04:12:08","like_diff":9,"likes":9,"dislikes":0,"content":"没有教什么实际的东西。希望老师能稍微谦虚一点。。。。"},{"id":139653,"teacher_id":773,"teacher_name":"米红","post_time":"2021-07-19 11:03:53","like_diff":9,"likes":9,"dislikes":0,"content":"吐了…..."},{"id":63887,"teacher_id":773,"teacher_name":"米红","post_time":"2017-12-18 14:37:46","like_diff":8,"likes":8,"dislikes":0,"content":"作业多，而且还要求展示用英文。\n\n慎选！慎选！慎选！"},{"id":63265,"teacher_id":773,"teacher_name":"米红","post_time":"2017-11-30 01:56:14","like_diff":7,"likes":9,"dislikes":2,"content":"为什么没有0分？辛辛苦苦做展示，口语绝对不差，考试写了三千多字而且绝对踩到给分点，结果被正态？报警了！"},{"id":80000,"teacher_id":773,"teacher_name":"米红","post_time":"2018-06-19 02:49:04","like_diff":7,"likes":7,"dislikes":0,"content":"棒棒哒，但我给1分"},{"id":89831,"teacher_id":773,"teacher_name":"米红","post_time":"2018-11-21 03:04:19","like_diff":7,"likes":7,"dislikes":0,"content":"贼蠢的"},{"id":156431,"teacher_id":773,"teacher_name":"米红","post_time":"2022-06-19 15:13:01","like_diff":7,"likes":7,"dislikes":0,"content":"我是2007级的，简单说就是常常吹嘘，以证明自己有荣耀光环。学不到实质的东西，感谢助教小姐姐。"},{"id":80033,"teacher_id":773,"teacher_name":"米红","post_time":"2018-06-19 05:58:28","like_diff":6,"likes":7,"dislikes":1,"content":"我谦卑地敬重一种红，那就是\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n纯粹的红——切·格瓦拉"},{"id":80048,"teacher_id":773,"teacher_name":"米红","post_time":"2018-06-19 07:43:27","like_diff":6,"likes":6,"dislikes":0,"content":"贼难受"},{"id":151555,"teacher_id":773,"teacher_name":"米红","post_time":"2022-03-07 12:09:21","like_diff":6,"likes":7,"dislikes":1,"content":"莫名其妙"},{"id":173609,"teacher_id":773,"teacher_name":"米红","post_time":"2023-06-08 14:21:49","like_diff":6,"likes":6,"dislikes":0,"content":"终于被学院停课了。。。。"},{"id":63283,"teacher_id":773,"teacher_name":"米红","post_time":"2017-11-30 04:00:17","like_diff":5,"likes":6,"dislikes":1,"content":"大一就不要选了"},{"id":166401,"teacher_id":773,"teacher_name":"米红","post_time":"2023-01-12 07:18:54","like_diff":5,"likes":5,"dislikes":0,"content":"一分都嫌多。。。垃圾课垃圾老师，纯纯浪费时间浪费青春，每次上课都是折磨。。。"},{"id":62940,"teacher_id":773,"teacher_name":"米红","post_time":"2017-11-27 11:44:32","like_diff":4,"likes":5,"dislikes":1,"content":"建议不要大一选\n\n"},{"id":63277,"teacher_id":773,"teacher_name":"米红","post_time":"2017-11-30 08:58:56","like_diff":4,"likes":5,"dislikes":1,"content":"退了吧   骚年  如果你想被坑 那就选课"},{"id":80001,"teacher_id":773,"teacher_name":"米红","post_time":"2018-06-19 02:50:01","like_diff":4,"likes":4,"dislikes":0,"content":"ToT"},{"id":153948,"teacher_id":773,"teacher_name":"米红","post_time":"2022-05-17 15:48:05","like_diff":4,"likes":4,"dislikes":0,"content":"浙大之耻，"},{"id":172469,"teacher_id":773,"teacher_name":"米红","post_time":"2023-04-27 10:18:41","like_diff":4,"likes":4,"dislikes":0,"content":"有可能换个人来上人口学吗？"},{"id":194465,"teacher_id":773,"teacher_name":"米红","post_time":"2024-06-24 05:10:51","like_diff":4,"likes":4,"dislikes":0,"content":"从何文炯那边过来，围观一下哈哈哈😅"},{"id":63190,"teacher_id":773,"teacher_name":"米红","post_time":"2017-11-29 16:14:10","like_diff":3,"likes":4,"dislikes":1,"content":"听不懂"},{"id":142455,"teacher_id":773,"teacher_name":"米红","post_time":"2021-11-11 14:55:48","like_diff":3,"likes":3,"dislikes":0,"content":"拉了哦"},{"id":173014,"teacher_id":773,"teacher_name":"米红","post_time":"2023-05-14 04:10:06","like_diff":3,"likes":3,"dislikes":0,"content":"久仰大名，真的很烂 中文都说不清楚"},{"id":62938,"teacher_id":773,"teacher_name":"米红","post_time":"2017-11-27 11:41:41","like_diff":2,"likes":2,"dislikes":0,"content":"看起来很难"},{"id":189993,"teacher_id":773,"teacher_name":"米红","post_time":"2024-02-07 04:16:20","like_diff":1,"likes":1,"dislikes":0,"content":"退课吧"},{"id":60531,"teacher_id":773,"teacher_name":"米红","post_time":"2017-10-23 10:43:46","like_diff":0,"likes":1,"dislikes":1,"content":"。。。。"},{"id":60732,"teacher_id":773,"teacher_name":"米红","post_time":"2017-10-29 01:18:44","like_diff":0,"likes":4,"dislikes":4,"content":"大教授"},{"id":173249,"teacher_id":773,"teacher_name":"米红","post_time":"2023-05-16 15:51:24","like_diff":0,"likes":0,"dislikes":0,"content":"继续逼近1"},{"id":173251,"teacher_id":773,"teacher_name":"米红","post_time":"2023-05-17 02:56:40","like_diff":0,"likes":0,"dislikes":0,"content":"mh可以原地暴毙吗"},{"id":173277,"teacher_id":773,"teacher_name":"米红","post_time":"2023-05-18 07:40:39","like_diff":0,"likes":0,"dislikes":0,"content":"呃哈哈哈哈哈哈哈"},{"id":173379,"teacher_id":773,"teacher_name":"米红","post_time":"2023-05-27 10:51:12","like_diff":0,"likes":0,"dislikes":0,"content":"谢谢老师让我懂得什么是上课上出心理阴影！ \n\n还能跑还能退就赶紧吧 求你们了 🙂"},{"id":173610,"teacher_id":773,"teacher_name":"米红","post_time":"2023-05-30 05:56:32","like_diff":0,"likes":0,"dislikes":0,"content":"没有0分我是不认可的"},{"id":174046,"teacher_id":773,"teacher_name":"米红","post_time":"2023-06-06 02:36:58","like_diff":0,"likes":0,"dislikes":0,"content":"打1分，那是因为这个系统没有0分！（气愤）"},{"id":191196,"teacher_id":773,"teacher_name":"米红","post_time":"2024-04-11 10:52:22","like_diff":0,"likes":0,"dislikes":0,"content":"别选，跑路"},{"id":223035,"teacher_id":773,"teacher_name":"米红","post_time":"2025-09-10 22:56:36","like_diff":0,"likes":0,"dislikes":0,"content":"可怕极了"},{"id":62945,"teacher_id":773,"teacher_name":"米红","post_time":"2017-11-27 12:04:30","like_diff":-5,"likes":5,"dislikes":10,"content":"老师很好，我不配"},{"id":31547,"teacher_id":773,"teacher_name":"米红","post_time":"2016-07-04 06:03:25","like_diff":-9,"likes":4,"dislikes":13,"content":"其实挺水的，给分不行啊"},{"id":21649,"teacher_id":773,"teacher_name":"米红","post_time":"2016-02-29 11:59:06","like_diff":-11,"likes":7,"dislikes":18,"content":"爱吹点牛皮，好像很流弊，但是人还不错"},{"id":64136,"teacher_id":773,"teacher_name":"米红","post_time":"2017-12-21 05:16:37","like_diff":-11,"likes":2,"dislikes":13,"content":"课程结束后我只求不挂，结果绩点比我想象中高"},{"id":153629,"teacher_id":773,"teacher_name":"米红","post_time":"2022-05-06 12:41:15","like_diff":-11,"likes":0,"dislikes":11,"content":"老师挺可爱的"},{"id":60538,"teacher_id":773,"teacher_name":"米红","post_time":"2017-10-23 13:39:34","like_diff":-12,"likes":4,"dislikes":16,"content":"挺好的老师啊"},{"id":63284,"teacher_id":773,"teacher_name":"米红","post_time":"2018-01-02 13:46:44","like_diff":-15,"likes":7,"dislikes":22,"content":"不知道为什么评分低。。。认真完成每一项任务上4是没问题的。而且米老师除了有点爱吹牛之外，人挺不错。"},{"id":59653,"teacher_id":773,"teacher_name":"米红","post_time":"2017-11-30 02:18:55","like_diff":-16,"likes":9,"dislikes":25,"content":"很好差点满\n\n大水课"},{"id":130891,"teacher_id":773,"teacher_name":"米红","post_time":"2021-01-25 06:28:31","like_diff":-16,"likes":1,"dislikes":17,"content":"老师有点可爱 笑声很魔性"},{"id":151825,"teacher_id":773,"teacher_name":"米红","post_time":"2022-03-17 02:16:08","like_diff":-18,"likes":1,"dislikes":19,"content":"其实老师人虽然比较爱吹牛，但是笑声挺可爱哈哈啊哈"},{"id":70376,"teacher_id":773,"teacher_name":"米红","post_time":"2018-01-26 14:14:16","like_diff":-20,"likes":4,"dislikes":24,"content":"笑声很有感染力。。尽管老师爱吹牛事情也比较多很烦讲的也不算太到位，但人无完人嘛? 。。我觉得还行"},{"id":130890,"teacher_id":773,"teacher_name":"米红","post_time":"2021-01-25 06:27:47","like_diff":-21,"likes":2,"dislikes":23,"content":"老师很棒！"},{"id":483,"teacher_id":773,"teacher_name":"米红","post_time":"2015-03-15 03:08:45","like_diff":-22,"likes":20,"dislikes":42,"content":"风趣幽默，虽然爱吹吹小牛，不过很可爱。学术上很厉害的，很关心学生。"},{"id":137906,"teacher_id":773,"teacher_name":"米红","post_time":"2021-07-06 14:02:57","like_diff":-27,"likes":1,"dislikes":28,"content":"永远忘不了米红老师课上爽朗的笑声！值10分！"},{"id":134690,"teacher_id":773,"teacher_name":"米红","post_time":"2021-04-09 14:46:45","like_diff":-28,"likes":0,"dislikes":28,"content":"19年在红米老师的课堂上的课，永远不会忘记红米老师可爱的笑容~"},{"id":61192,"teacher_id":773,"teacher_name":"米红","post_time":"2017-11-10 12:21:54","like_diff":-30,"likes":5,"dislikes":35,"content":"上过米老师的公危课，非常喜欢他啊，直爽真性情，“著名话剧演员”，还给我们讲上大学偷懒被他老爸抓哈哈，出国开会给我们带巧克力棒棒哒，虽然英语不好但引导大家英语尬聊哈哈。补课大家都愿意上，不明白为什么分这么低。大家做展示也都收获很多，米老师打call!!"},{"id":24088,"teacher_id":773,"teacher_name":"米红","post_time":"2016-04-26 23:51:41","like_diff":-32,"likes":7,"dislikes":39,"content":"作业仅仅是做一张表格，很水的，考试开卷"},{"id":61657,"teacher_id":773,"teacher_name":"米红","post_time":"2018-01-17 12:41:37","like_diff":-37,"likes":10,"dislikes":47,"content":"不得不说，米红老师的课是一些懦弱的学生上不起的。米红老师上课虽然是全英文展示，但这也是一种提升；而且米红老师非常有幽默感，经常跟我们开玩笑，还对我们特别好，给我们带小礼物。总之，上米红老师的课，绝对是正确的。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

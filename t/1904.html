@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吴昊姝 - 药学院 - 浙大教评</title>
+    <meta name="description" content="吴昊姝教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="吴昊姝,药学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">吴昊姝</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">药学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">3.70</div>
+                    <div class="rating-participants">131人参与评分</div>
+                    <div class="attendance-info">24.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (5 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">药学实习</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.18</span>
+                            <span class="students">选课: 203人</span>
+                            <span class="std-dev">标准差: 0.46</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">药学社会实践</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.19</span>
+                            <span class="students">选课: 237人</span>
+                            <span class="std-dev">标准差: 0.55</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">药物与健康</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.98</span>
+                            <span class="students">选课: 315人</span>
+                            <span class="std-dev">标准差: 0.67</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">药物研发综合实验</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.66</span>
+                            <span class="students">选课: 420人</span>
+                            <span class="std-dev">标准差: 0.33</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">药物科学研究实训</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.55</span>
+                            <span class="students">选课: 422人</span>
+                            <span class="std-dev">标准差: 0.30</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (112 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":134261,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2021-03-21 18:32:34","like_diff":54,"likes":63,"dislikes":9,"content":"不把学生当人看就直说，别大三下弄一门没啥卵用的课瞎占我们时间。\n\n一方面，我们大三下不是只有这门课，还有几门要考试的课；另一方面，打算要考研的你把这段黄金时间给压榨了，美其名曰想多要本系学生，但是考研复习时间就这么点你以为能考上？\n\n别的学校药学大三下为了考研层层开绿灯，在你手下为了有更多免费劳动力干活逼学生做一堆没用的实验，本科期间嘛 真没必要搞这么复杂的东西。"},{"id":37675,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-11-20 06:20:02","like_diff":45,"likes":69,"dislikes":24,"content":"呵呵呵。绩杀。大家小心。这是我进大一最有兴趣自己想学的课，自己的医学基础感觉也比很多大一医学生好，上课最积极的是我，最后给这样的分数，呵呵生无可恋了。"},{"id":37560,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-11-19 12:31:01","like_diff":31,"likes":43,"dislikes":12,"content":"上课很麻烦啊，然后给分我又呵呵了"},{"id":136069,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2021-06-10 15:35:23","like_diff":27,"likes":28,"dislikes":1,"content":"就特别鼓励内卷，我实在卷不动"},{"id":145361,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2022-01-14 08:16:41","like_diff":27,"likes":31,"dislikes":4,"content":"“药物与健康”，一门通识课，破事贼TMD多，线上测试周周有，从不提醒，8次，我有6次都不知道有。最后期末考试，线上考一次，讨论课考一次，考试周考一次。12个PPT让你自己去看，MD，通识课花的时间比大英微积分线代还多。\n\n---------------------------------------药物与健康荣获3.3绩点，爱死老师了，呵呵"},{"id":152816,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2022-04-20 06:17:10","like_diff":27,"likes":29,"dislikes":2,"content":"第一次这么讨厌一个老师😅😅😅贼鼓励内卷，对除医药学专业的同学都很不友好，事情贼多，最后考试给分也很迷。本人自诩为一个卷王，基本每次讨论都有发言最后喜提3.8谢谢您吴昊姝 您睡得着吗反正我睡不着🙏"},{"id":153826,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2022-05-12 08:33:12","like_diff":25,"likes":26,"dislikes":1,"content":"怎么不能打0分啊？这种老师也配存在于这个世界上吗？鼓励内卷鼓励恶竞，P事一堆，展示看演讲艺术，平时分看通讯稿，无语住了，恶心"},{"id":175077,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2023-06-21 12:05:06","like_diff":23,"likes":23,"dislikes":0,"content":"药训体验极差，天天就是在浪费时间，给分标准很迷惑，小组展示呵呵；任何事情都跟平时分扯上关系，动不动就是谁来做这个我给他加分，拿加分吊着学生；课又臭又长，事情还巨多，为什么这种课是必修啊"},{"id":125064,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2020-08-25 02:34:35","like_diff":22,"likes":25,"dislikes":3,"content":"吴老师为人很和善，关心学生，但是通讯稿不限数量，心得不限字数给人以鼓励恶竞的感觉。最后药训的作业互评也是很迷，二十多个小组的主题综述一天之内给予评分，每组5000+，这确实有点困难。而且学生评分的标准也是未知。"},{"id":170350,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2023-03-03 04:18:22","like_diff":22,"likes":22,"dislikes":0,"content":"真的不咋地，纯纯鹅颈，说话说的也不清楚还喜欢在群里到处call人，大无语到了属于是，药训体验极差，不知道怎么度过的\n\n就是说熬过去就好了吧大概\n\n希望大家都有良好的心态和极致的体验"},{"id":176434,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2023-06-29 01:59:04","like_diff":21,"likes":21,"dislikes":0,"content":"药综这烂课凭什么没有出现在教务网评价系统里啊？怕被喷烂是吧。\n\n辛辛苦苦一学期，最后分数还不如实验室都不怎么去的人，不如实验都没做完的组。\n\n实验报告初稿的部分问题不在汇报的时候讲出来，怎么的要留着写终稿打分的评语吗？\n\n虚拟实验系统稀巴烂，浪费时间精力，评价标准和撰写规范也不事先说明"},{"id":193354,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2024-06-07 02:47:09","like_diff":21,"likes":22,"dislikes":1,"content":"药综逆大天，钉钉常撤回，事多爱变卦，难听懂人话"},{"id":78398,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2018-05-11 09:32:47","like_diff":20,"likes":22,"dislikes":2,"content":"这个老师得分低不是没有原因的\n\n事情多给分烂……怪不得药物与健康只有二十几个人选\n\n这个老师还在申请通核\n\n简直是噩梦……"},{"id":176427,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2023-06-29 01:53:29","like_diff":20,"likes":23,"dislikes":3,"content":"药综给爷死，药训给爷死·····都是whs的垃圾课"},{"id":58696,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2017-09-15 04:07:52","like_diff":17,"likes":19,"dislikes":2,"content":"药物与健康分数全班前10 绩点3.9"},{"id":59090,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2017-09-19 11:29:30","like_diff":17,"likes":17,"dislikes":0,"content":"上课事巨多，药物与健康作为一门通识是不是太过了。我觉得这种课应该是老师灌输给我们知识，而不是让什么都不懂的我们直接去探究这么专业的专业知识，感觉效果不是很好。对药物很了解的人可以上，人文社科和不上化学生物课的工科理科生还是算了吧，真的累，评分也很奇葩。"},{"id":37754,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-11-21 00:50:25","like_diff":16,"likes":24,"dislikes":8,"content":"付出最多的课结果就这分数 看别人水课满绩 这课阅读报告 小组展示 期末开卷考 结果还是期末分数占90% 不知道自己辛辛苦苦准备为了什么 绝对不要选这课 药物与健康 估计均绩3.3?"},{"id":148599,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2022-01-13 02:59:28","like_diff":16,"likes":16,"dislikes":0,"content":"要不是下限只有1 真想给她打个-∞ 真就无语了 妄为人师 学校怎么想的 把这个设置为通核"},{"id":26067,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-06-29 06:44:11","like_diff":15,"likes":22,"dislikes":7,"content":"这老师不行。不建议选她的课。不是人品渣，是教学组织能力不行，具体的，不可描述，谁经历过谁知道。"},{"id":152570,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2022-04-15 00:53:04","like_diff":15,"likes":16,"dislikes":1,"content":"药训课也点名👍"},{"id":37588,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-11-19 14:27:55","like_diff":14,"likes":23,"dislikes":9,"content":"怎么说呢？我是非常认真的对待这门课的，每次都好好听，考前还把讲义看熟了，然而并没有什么卵用，我只有3.6，感觉很失望，别人水课都比我的分高，是我太笨了么。"},{"id":103518,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2019-03-01 00:58:29","like_diff":14,"likes":16,"dislikes":2,"content":"微软雅黑，你值得拥有"},{"id":146841,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2022-01-07 15:07:43","like_diff":14,"likes":16,"dislikes":2,"content":"极致内卷，鼓励内卷\n\n耗费时间接近线性代数\n\n考试很有难度，题量巨大，很多材料上不好找；还有巨量药名\n\n讨论课就硬卷呗......周周发言，16周发言16次的卷王也不是没有\n\n还有MOOC，上面又是测试又是发言，还有啥互评，事情很杂\n\n老师上课还是比较认真的，如果不介意内卷还是可以学到一些东西的"},{"id":59083,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2017-09-19 11:04:06","like_diff":13,"likes":15,"dislikes":2,"content":"垃圾老师毁我青春"},{"id":62588,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2017-11-26 05:09:58","like_diff":13,"likes":15,"dislikes":2,"content":"恩，当组长累死累活的，考试和是否认真上课毫无关系，绩点3.9呵呵"},{"id":74388,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2018-02-17 01:13:07","like_diff":13,"likes":13,"dislikes":0,"content":"非常的差劲。。一定不要选。"},{"id":120313,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2019-11-28 05:43:42","like_diff":13,"likes":14,"dislikes":1,"content":"隔三差五点名，要求我们帮她的研究填问卷，还随堂小测，mooc上作业一大堆还必须每个视频都要看，11次个人分享，2次小组展示 绩杀"},{"id":104827,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2019-03-28 10:23:56","like_diff":12,"likes":12,"dislikes":0,"content":"讨论课的主题实在太尴尬了，几乎全程冷场"},{"id":173646,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2023-06-18 15:00:01","like_diff":12,"likes":13,"dislikes":1,"content":"药训依托答辩，组长跟死了一样什么也不干，这个课就是在浪费时间耗着，屁用没有搞假大空"},{"id":132936,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2021-02-05 07:25:02","like_diff":10,"likes":11,"dislikes":1,"content":"药物与健康 事情多 给分迷 不建议选"},{"id":193460,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2024-06-11 07:01:18","like_diff":10,"likes":10,"dislikes":0,"content":"药训课：一开始还装的挺好的让我疑惑为啥查老师分这么低，直到后边多交流了几次才发现这人一说话不过脑子一点情商都没，要不是还没出成绩我都想阴阳她了。。；二鼓吹恶性竞争连点名统计人数和摄影这种事都要在表格里抢着报名说与平时分挂钩；三有正当理由都不给补签签到，课上把女同学急哭了才松口企图“下课沟通”，也不知道这位同学和其他没签上的同学最后怎么样了；四说话毫无诚信可言，为了抢到想去的地点要蹲守在群里填表格，还会自己忘记这件事让同学白等。并且极其耽误时间，有次等了一个多小时才报上名。总之是啥都没学到的一节课，不知道这种课除了耽误学生时间之外还有什么其他用处。\n\n会时不时点名，特别歹毒"},{"id":195469,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2024-06-28 07:36:28","like_diff":10,"likes":10,"dislikes":0,"content":"非常难评，让人禁不住怀疑药训开设的意义。先不讲期末按照评分排序再赋分的合理性，仅平时分一项就槽点遍布，最突出的当属将上课事项无限细分，以鹅颈要挟课程人员的操作。再者，药训作为一门先导性课程，让学科基础不同的学生提出乃至现场回答专业问题实在是苛求。最后，药训场所的安排以及课题的选择都十分混乱，我想任何人都很难想象2024年居然还有在120人的大教室内进行抢答的场面。总之，在这门课程中你能学到的知识是非常有限的，，"},{"id":197017,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2024-07-27 19:23:09","like_diff":10,"likes":10,"dislikes":0,"content":"药综这个课评价指标一大堆，本身做这些设计性实验还挺感兴趣的，结果要求那么多烦都烦死，辛辛苦苦做的实验被老师们这里批一下那里批一下。就比如实验记录非要涂改非要签个名，每个试剂怎么配的都要写，我就问了哪个研究生会这么写实验记录？这不还没事找事？涂改了签个名就能证明没有造假？还有报告格式特别严格，要写一堆没用的东西，很费时间。开始查阅文献做实验还对这个课挺感兴趣的，越到后面越觉得烦…给分这里扣一点那里扣一点，实验方案明明说按要求做了就满分，结果呢还是莫名其妙要扣一点，展示哪有人听，都乱打，有的一看就很烂的组分可能比别的组还高。报告怎么改都能给你提出问题，烦死了"},{"id":214756,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2025-02-17 11:54:00","like_diff":10,"likes":10,"dislikes":0,"content":"依稀记得大一药训我从不迟到、积极发言，遇到死人组员只能自己啃完综述写调研报告，天真以为努力就有回报，最后喜提3.3。\n\n用了两年时间终于走出阴霾，大三又开始上药综，第一天上学她就能整出这么多幺蛾子，已经对这个学期绝望了😰"},{"id":58763,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2017-09-16 18:31:21","like_diff":9,"likes":9,"dislikes":0,"content":"理科生一开始冲着药物的兴趣选的。药物与健康每次课由不同的老师上，一开始还蛮期待的。然后上了课发现自己真是naive。吴老师上课条理还是比较清晰的，不过也奈何不了内容无聊。犹记得其中有一次讲…怎么看药物说明书…讲到突触觉得可能“有点难了”。老师一直说最后的考试很简单，可能那是建立在把每份ppt都打出来的基础上吧，微笑（最后考试记忆性的内容比较多）。emmmmm最后3.6飘过，就说这么多吧。"},{"id":62630,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2017-11-26 08:36:52","like_diff":9,"likes":9,"dislikes":0,"content":"事多，分低"},{"id":121104,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2020-01-19 15:19:36","like_diff":9,"likes":10,"dislikes":1,"content":"事情贼多，给分很严格，平时也是板着一张脸，抽查点名课前课后不一定，绩杀"},{"id":165352,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2023-01-02 08:35:30","like_diff":9,"likes":11,"dislikes":2,"content":"依托答辩"},{"id":191424,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2024-04-21 15:55:44","like_diff":9,"likes":9,"dislikes":0,"content":"药学院五星传奇教师"},{"id":67756,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2018-01-22 06:41:18","like_diff":8,"likes":8,"dislikes":0,"content":"很差。。会卡分"},{"id":163377,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2023-01-14 11:53:14","like_diff":8,"likes":17,"dislikes":9,"content":"吴老师人很好，但鼓励竞争，事情挺多，但认真做就没事。多发言多搞PPT，考试前看看讲义，最后喜提4.8"},{"id":166668,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2023-01-13 07:59:12","like_diff":8,"likes":10,"dislikes":2,"content":"药物与健康，事情太多，小测多作业多展示多，还有很多网课要听。知识内容对于不选生物化学的文科生很不友好。最后期末考试题量很大，答不完。给分也烂"},{"id":37590,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-11-19 15:40:21","like_diff":7,"likes":11,"dislikes":4,"content":"同时考核根本不是平时50%，呵呵"},{"id":41813,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2017-01-13 01:02:04","like_diff":7,"likes":10,"dislikes":3,"content":"课的内容很无聊，不停的灌输知识但是记得进去的没有多少，每次都想好好听最后都不知道在听什么，期末考还认真看了讲义，讲义还那么厚什么用都没"},{"id":115646,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2019-08-14 11:19:54","like_diff":7,"likes":7,"dislikes":0,"content":"给分迷，小组中划水的反而给高分"},{"id":148600,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2022-01-13 03:02:20","like_diff":7,"likes":9,"dislikes":2,"content":"鼓励内卷，不发言直接只有2.8"},{"id":165028,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2022-12-28 12:27:30","like_diff":7,"likes":13,"dislikes":6,"content":"老师人挺好的，很有情怀，药物与健康这门课要是真的投入会学到很多东西，只是作为一门选修课，事比较多，但是是通核，所以想学东西的同学大可以选，助教老师人也很好，zfgg是会从我们本科生角度去思考的博士生，看到前面的评分很低是因为绩纱，所以我就在绩点出来前评价吧，免得自己成为随意宣泄情绪的分奴"},{"id":36420,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-12-20 04:46:03","like_diff":6,"likes":12,"dislikes":6,"content":"因为追求正态所以把平时分抹掉，可是我只能微笑面对?"},{"id":62261,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2017-11-27 09:49:34","like_diff":6,"likes":8,"dislikes":2,"content":"突然袭来的点名"},{"id":63445,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2017-12-04 08:02:09","like_diff":6,"likes":7,"dislikes":1,"content":"呃。。。要求多，考试难啊，绩点我就不多说了，唉～"},{"id":161189,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2022-10-31 12:53:00","like_diff":6,"likes":8,"dislikes":2,"content":"有计谋的这个老师，tnnd跟我玩阴的是吧，上节课说不点名下节课就点"},{"id":35957,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-11-10 09:09:49","like_diff":5,"likes":8,"dislikes":3,"content":"虽然不点名，但人多教室小，基本上坐满，所以有谁不来就很明显。有小组展示同学提问的，如果班里同学。。。温和一点还好，就怕跟我们班似的，有些同学特别叼，问的问题很刁钻。"},{"id":37695,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-11-20 08:48:22","like_diff":5,"likes":10,"dislikes":5,"content":"药物与健康，讲课一般，但态度还行。平常可水，结果就是期末考碰运气，期末考巨坑。我认真看过的还不如其他人撞运气的。幸好平常分还可以，但也挽救不了总分。我还想上4的，结果3.6呵呵了"},{"id":37766,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-12-07 08:31:32","like_diff":5,"likes":9,"dislikes":4,"content":"呵呵呵"},{"id":126533,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2020-10-02 03:55:28","like_diff":5,"likes":6,"dislikes":1,"content":"这是啥垃圾老师，我们那么努力的写东西最后告诉我们所有人都有的作业分数给一样，然后专门奖励恶竞选手？"},{"id":151416,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2022-03-03 01:58:26","like_diff":5,"likes":6,"dislikes":1,"content":"绩杀。。"},{"id":163376,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2022-12-14 07:27:13","like_diff":5,"likes":6,"dislikes":1,"content":"呃呃额"},{"id":173614,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2023-05-30 07:42:09","like_diff":5,"likes":5,"dislikes":0,"content":"恶竞之王666"},{"id":197257,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2024-07-10 03:12:11","like_diff":5,"likes":5,"dislikes":0,"content":"药综md破事一堆，越到期末事情越多，一堆琐事钉钉上能烦死你，看起来给分很细结果就是乱给的，我们组有一个人啥都没干（一点都没干），然后我们组给whz反映（老师说知道），结果呢？他分数还和我们差不多？？？？到底有没有听啊？那我们其他人累死累活的意义是？md还有那个小组互评，小组之间分是乱打的，听是不听的，就靠脸熟不熟打分？？？一看就很差的组分数甚至会很高？老师甚至不矫正一下？真的是无语了，md越想越气"},{"id":198784,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2024-09-11 15:33:09","like_diff":5,"likes":9,"dislikes":4,"content":"打了9分，看了一圈大家的评论，确实吴昊姝很鹅颈，我也深有感触，她的课上要干很多事情才能拿高分。但根据我与她交流的经历来说，吴昊姝还是挺好说话的，被人挂朵朵上热门了只是与同学商议删除帖子，没做什么过分的事，女同学迟到没有签上到哭了也愿意给她补签。她鼓励鹅颈确实让人讨厌，但是说她人品的种种问题只能说是有点无中生有了，也不应该给她这么低的评分。(虽然她鹅颈确实有点太过了，我也深受其害QAQ)（叠甲，仅个人观点，勿喷Ｘ＿Ｘ）"},{"id":37581,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-11-19 14:00:14","like_diff":4,"likes":8,"dislikes":4,"content":"上课无聊，给分超级低。要是文科生混绩点，最后不要选这门课"},{"id":37759,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-11-21 01:26:05","like_diff":4,"likes":6,"dislikes":2,"content":"没有很大兴趣的同学还是别选了"},{"id":49275,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2017-04-01 05:51:47","like_diff":4,"likes":5,"dislikes":1,"content":"。。。。"},{"id":62607,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2017-11-26 07:03:53","like_diff":4,"likes":6,"dislikes":2,"content":"也真是可以，绩杀绩杀，千万别选，课程是可以，给分咋那么随机那么恶心"},{"id":154822,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2022-06-06 02:01:12","like_diff":4,"likes":6,"dislikes":2,"content":"纯纯nt"},{"id":155256,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2022-06-10 01:36:39","like_diff":4,"likes":5,"dislikes":1,"content":"纯纯nt"},{"id":216198,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2025-03-12 08:40:50","like_diff":4,"likes":4,"dislikes":0,"content":"药综是真的累人啊，看似是六节课，实际上一周七天都得给这课花心思留时间"},{"id":218854,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2025-05-08 13:28:31","like_diff":4,"likes":4,"dislikes":0,"content":"组员一个学期就来做过一次实验，药综呵呵了，为了自己发论文晋升弄出一堆课堂形式"},{"id":221730,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2025-06-25 15:10:36","like_diff":4,"likes":4,"dislikes":0,"content":"一己之力拉低药学院的教学和科研水平，可以说是什么都不会，上她课的人有福了，喜提浪费一大堆时间。自己没有水平还要一直pua别人，大概是为失败的人生找慰藉吧"},{"id":159287,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2022-07-10 17:51:11","like_diff":3,"likes":4,"dislikes":1,"content":"。。。"},{"id":193022,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2024-06-02 14:15:14","like_diff":3,"likes":3,"dislikes":0,"content":"一言难尽。。。"},{"id":193897,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2024-06-20 13:05:37","like_diff":3,"likes":3,"dislikes":0,"content":"化学er前来围观药院phl"},{"id":216397,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2025-03-15 11:25:34","like_diff":3,"likes":3,"dislikes":0,"content":"药综让人好累。。。"},{"id":10589,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2015-11-20 09:22:43","like_diff":2,"likes":4,"dislikes":2,"content":"。。。"},{"id":55284,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2017-07-01 08:08:02","like_diff":2,"likes":3,"dislikes":1,"content":"为什么还没有出成绩。。。"},{"id":174432,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2023-06-12 06:30:53","like_diff":2,"likes":3,"dislikes":1,"content":"鹅颈。"},{"id":185284,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2023-12-27 13:57:04","like_diff":2,"likes":5,"dislikes":3,"content":"我觉得老师讲的真的很用心而且很拓宽知识面，教学方法也很先进，能了解到很多新的东西；但是也因此《药物与健康》作为一门通识课事情不算少，是要花心思和时间的，"},{"id":36248,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-11-11 08:35:16","like_diff":1,"likes":1,"dislikes":0,"content":"，，，，"},{"id":37582,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-11-19 14:04:25","like_diff":1,"likes":9,"dislikes":8,"content":"上的药物与健康，这课说实话内容挺无聊的，对我一个文科生来说实在没什么吸引力。觉得老师人不错的，很用心完善课程，但是讲的东西有点无聊。事情比较少，不点名，一次小组展示加开卷考，题量蛮多的。最后均绩不高，3.6这样吧。"},{"id":104248,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2019-03-15 00:10:24","like_diff":0,"likes":1,"dislikes":1,"content":"助教马会松我松哥真是太可爱了！！又漂亮又可爱！！"},{"id":189032,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2024-01-21 10:08:37","like_diff":0,"likes":3,"dislikes":3,"content":"课的内容还挺实用，但是非药学的同学可能还是会有点不合适（期末考就算是开卷也很难翻书，考得很细，上课不听期末抱佛脚也写得有点汗流浃背），总之，需要好好听，争取有个好助教。我爱助教小姐姐！"},{"id":213975,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2025-01-22 08:46:48","like_diff":0,"likes":1,"dislikes":1,"content":"通核药物与健康，破事一堆，给分，不要想给分了。\n\n这课有一堆评价项目，我简单说说。大课可以不去但是得做她线上发的题，这个算考勤，不一定在哪节课的什么时候就发出来了（相比翘课更建议上教室自习）。还有mooc上面六个单元（应该是六个）的单元测试，写两篇作文，期末测试和讨论题（一个单元至少一个）。讨论课更是神中之神，要完成保底四次的个人展示，两次小组展示，与另外一组进行一次辩论，主持一次自由辩论，期末还有一次考试。加上期末有一次开卷的期末考试，本次考试一共有三次期末考试。当你花费了很多精力完成了大部分项目的时候，偶尔有一点失误的时候，吴老师会善意的提醒你，当你低三下四的请她能不能调整一下的时候，他会告诉这个项目是系统直出的，她也没办法。并且会告诉你以后可不能再有这样的错误，然后心安理得的给你很低的分数。\n\n如果没有这门课认证方面的修读要求，选其他的课吧，你会多很多快乐的。"},{"id":62767,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2017-11-27 02:19:27","like_diff":-1,"likes":4,"dislikes":5,"content":"不是通识，谢谢"},{"id":176440,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2023-06-29 02:18:32","like_diff":-1,"likes":2,"dislikes":3,"content":"一定要当小组长啊"},{"id":10953,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2015-11-23 12:25:59","like_diff":-2,"likes":4,"dislikes":6,"content":"哎呀上课水水考试死死但其实老师还是很好"},{"id":166651,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2023-01-13 07:18:58","like_diff":-2,"likes":6,"dislikes":8,"content":"吴昊姝老师为人善良有耐心，虽然事情比较多，但是用心做了应该没问题"},{"id":189728,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2024-01-27 15:51:08","like_diff":-2,"likes":5,"dislikes":7,"content":"药物与健康。老师和助教上课很认真，教学方法很先进，确实能学到有用的知识，认真学、积极发言也能拿到不错的绩点。但是对于觉得主修课业比较紧和追求绩点的同学，可能不太推荐了。"},{"id":13692,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2015-12-30 10:57:20","like_diff":-4,"likes":8,"dislikes":12,"content":"药物与健康老师，上课很用心。不过有些无聊，水不水看心态。。平时有个小组展示。。。给分听说还行，反正我应该被正态了，伤心，不说话(⊙x⊙;)"},{"id":29025,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-06-29 06:44:49","like_diff":-4,"likes":2,"dislikes":6,"content":"一般，有点想睡觉。。。治疗学展示不水！"},{"id":37564,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-11-19 13:09:01","like_diff":-4,"likes":5,"dislikes":9,"content":"一定要当小组长"},{"id":81038,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2018-07-03 11:49:50","like_diff":-4,"likes":7,"dislikes":11,"content":"阿吴真的很严格"},{"id":14787,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-01-09 06:37:11","like_diff":-6,"likes":5,"dislikes":11,"content":"给分还行，可水"},{"id":109265,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2019-06-12 12:08:43","like_diff":-6,"likes":4,"dislikes":10,"content":"老师人真的很好，上课比较水，讨论课还是看班级氛围吧"},{"id":189386,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2024-01-23 15:20:59","like_diff":-7,"likes":3,"dislikes":10,"content":"药物与健康 作为通识课事情还是有点偏多 期末考试不好好准备时间会有点紧 不过平时表现好一点分还是可以的 最后喜提4.8"},{"id":190042,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2024-02-14 19:11:15","like_diff":-7,"likes":1,"dislikes":8,"content":"药健很捞！"},{"id":132955,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2021-02-05 11:31:39","like_diff":-8,"likes":6,"dislikes":14,"content":"药物与健康，医学生，最后4.5\n\n感觉老师还是蛮友好的，相对来说秋冬学期总共2次小组展示不算多，但是个人展示会比较频繁…然后理论课可能要和老师互动，回答的问题也不会很难\n\n我平时还算比较积极，不是组长，然后听课也有挺多收获的。"},{"id":189192,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2024-01-22 09:48:33","like_diff":-8,"likes":4,"dislikes":12,"content":"药物与健康课比较推荐"},{"id":36151,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-11-10 15:15:03","like_diff":-9,"likes":3,"dislikes":12,"content":"药物与健康的老师，感觉老师上课挺用心的，有小组展示"},{"id":132941,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2021-02-05 08:44:11","like_diff":-9,"likes":3,"dislikes":12,"content":"认真学会有收获的"},{"id":84618,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2018-07-14 12:18:59","like_diff":-11,"likes":3,"dislikes":14,"content":"很负责的一个老师"},{"id":189174,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2024-01-22 08:40:38","like_diff":-11,"likes":4,"dislikes":15,"content":"爱死吴老师和助教姐姐 被狠狠捞了 药物与健康期末考扣了七分多 最后还有92"},{"id":148589,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2022-01-13 02:35:38","like_diff":-12,"likes":2,"dislikes":14,"content":"药物与健康喜提3.8.....但有一说一这玩意真的巨花时间，各种各样的考试，小测，还有卷王在你旁边卷，但老师上课还是很用心的，能学到东西"},{"id":22161,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-03-02 23:59:40","like_diff":-13,"likes":1,"dislikes":14,"content":"棒极了！"},{"id":114926,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2019-07-12 21:55:44","like_diff":-15,"likes":4,"dislikes":19,"content":"药物与健康算是比较轻松的通核了吧，小组展示就两次。线上的视频和测试水水就好了。考试量略大前面客观题得做快点，但开卷都能找得到。讨论课内容算是比较实用，对于不喜欢历史没什么文采的理科生来说已经非常友好了~"},{"id":22130,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-03-02 12:22:30","like_diff":-16,"likes":2,"dislikes":18,"content":"挺好的 给分不错 挺水"},{"id":114654,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2019-07-11 02:51:37","like_diff":-16,"likes":1,"dislikes":17,"content":"老师的通核课药物与健康很好啊，内容都很有用，即使是文科生也不会有太大的问题，助教都很好。你会收获很多关于健康的知识，还有一群小伙伴。"},{"id":25086,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-05-05 08:07:11","like_diff":-18,"likes":1,"dislikes":19,"content":"老师上的很用心，好好听会有收获"},{"id":38117,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-11-24 13:44:31","like_diff":-19,"likes":1,"dislikes":20,"content":"感觉还好，给分还可以"},{"id":25097,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-05-05 08:44:08","like_diff":-21,"likes":3,"dislikes":24,"content":"上她的药物与健康，单就课而言要看个人兴趣，对于我这个文科生为了k类的学分上得有点懵。但有些健康知识还是很实用的。期末是开卷考试，有点难。但老师给分很好！老师人也很好，回讲查找资料的方式，也很用心地收集课程意见不断改进！"},{"id":102000,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2019-01-30 03:18:01","like_diff":-22,"likes":5,"dislikes":27,"content":"文科生选这个课，一开始很慌，小组展示也做得不是很好……但老师很用心，大部分内容还是能听懂的，最后开卷考好好准备好好考，得了4.8，感谢老师❤️！"},{"id":62796,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2017-11-27 03:54:05","like_diff":-35,"likes":2,"dislikes":37,"content":"没听过，轻松4.2"},{"id":27075,"teacher_id":1904,"teacher_name":"吴昊姝","post_time":"2016-06-22 16:44:02","like_diff":-54,"likes":8,"dislikes":62,"content":"老师人很好 认真听能学到挺多 考试开卷简单 一学期貌似没有点名 听说给分很低 反正我4.8?"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

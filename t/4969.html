@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金进 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="金进教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="金进,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">金进</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">6.85</div>
+                    <div class="rating-participants">149人参与评分</div>
+                    <div class="attendance-info">29.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (8 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">中国现当代文学史Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.54</span>
+                            <span class="students">选课: 103人</span>
+                            <span class="std-dev">标准差: 0.32</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">中国现当代文学史Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.71</span>
+                            <span class="students">选课: 9人</span>
+                            <span class="std-dev">标准差: 0.34</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">华文文学与文化</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.48</span>
+                            <span class="students">选课: 350人</span>
+                            <span class="std-dev">标准差: 0.35</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大学写作——创意写作</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.31</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.41</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">毕业实习</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.86</span>
+                            <span class="students">选课: 25人</span>
+                            <span class="std-dev">标准差: 0.12</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会实践</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.96</span>
+                            <span class="students">选课: 26人</span>
+                            <span class="std-dev">标准差: 0.11</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会调查</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.98</span>
+                            <span class="students">选课: 27人</span>
+                            <span class="std-dev">标准差: 0.10</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">都市文化与华语文学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.36</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.50</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (128 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":153379,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-04-29 00:06:12","like_diff":69,"likes":91,"dislikes":22,"content":"华文文学与文化。作为一门专业课，无论老师给分多好，我都只能打零分。课上充满了各种没营养的歌舞视频和莫名其妙三观不正的观点，几乎没有任何文学知识的补充或者文学史的架构。\n\n我真的说的很克制了，其实课上我一直在心里骂娘。"},{"id":153322,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-05-09 01:53:19","like_diff":55,"likes":63,"dislikes":8,"content":"底下的好评是水军吗…上课很多话真是匪夷所思，也没有什么实质性内容\n\nps.也不是一个负责的老师"},{"id":151341,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-03-01 01:30:58","like_diff":46,"likes":52,"dislikes":6,"content":"中国现当代文学史Ⅰ，听了三次课，干货听到的不多，吹了很多逼，讲了很多八卦……"},{"id":154146,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-05-24 14:34:38","like_diff":38,"likes":43,"dislikes":5,"content":"小组pre一次次打断同学真的好吗……让同学用台湾女生的腔调读一下原文？"},{"id":155362,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-06-11 14:22:51","like_diff":35,"likes":40,"dislikes":5,"content":"希望老师多讲课少画饼，早日回归复旦吧。"},{"id":154757,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-06-04 14:57:31","like_diff":32,"likes":37,"dislikes":5,"content":"真的不负责任，上课也不知道在上啥，前半学期放视频，后半学期同学展示，老师是真的轻松……"},{"id":154745,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-06-04 12:45:44","like_diff":28,"likes":33,"dislikes":5,"content":"如果不改变的话他只适合教通识课"},{"id":153404,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-04-29 05:55:44","like_diff":22,"likes":32,"dislikes":10,"content":"朵朵搜“西一306 金进” ，帖子内容和底下评论句句属实。"},{"id":154911,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-06-07 00:45:46","like_diff":22,"likes":26,"dislikes":4,"content":"yue了"},{"id":164188,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-12-19 03:16:34","like_diff":20,"likes":23,"dislikes":3,"content":"还没交作业，先来说两句。\n\n给分好不好要再看，但我真的不喜欢这个老师。上课就是放视频+小组展示，他的讲解也就是一些极其浅显的表面内容，但他对txl的鄙夷、对工科生和文科生的固有印象、对男生和女生的偏见，倒是都给我留下了很深印象。可能他成就很高（他自己把自己说的很厉害），但至少在我眼里看不到。\n\n上课时视频超级吵，说要签到，去了就别想着自习了，简直就是精神污染。\n\n事情也是真的多，小组展示+5000字论文，连续超过二十字和网上一样就是抄袭，我现在写的时候痛苦极了。😭"},{"id":134401,"teacher_id":4969,"teacher_name":"金进","post_time":"2021-03-26 12:33:33","like_diff":16,"likes":29,"dislikes":13,"content":"只能用呵呵和无语形容"},{"id":113787,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-07-07 12:52:24","like_diff":15,"likes":29,"dislikes":14,"content":"老师会推荐很多经典的书，期末上交一篇论文，不要抄袭，抄袭扣掉20分。对理工科学生很友好，没有歧视，绩点极高，最后4.8飘过。没有正态！"},{"id":159498,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-07-26 12:34:27","like_diff":15,"likes":19,"dislikes":4,"content":"怎么会有这么高的分…纯纯浪费时间"},{"id":204630,"teacher_id":4969,"teacher_name":"金进","post_time":"2024-12-13 11:10:33","like_diff":15,"likes":18,"dislikes":3,"content":"老师喜欢画大饼，上课水分比较多，但为人还是不错的"},{"id":166045,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-01-11 02:49:04","like_diff":14,"likes":17,"dislikes":3,"content":"没出分先来浅浅评价一波，都市与华语文学课是真的水，事情是真的多，尤其是最后的期中考试，nmd考试周突然说要考，我现在就是看那个期中考试的短片看得无比尴尬过来评价的，要不是因为这门课是美育，我真的速退。满分十分的话，这门课我的推荐程度是5分，真的有点一般了，由于我不是汉语言专业的同学，我就不从老师的专业性和授课内容上作更多的评价了，但是即使我认真听了课，说实在的作为外专业的我感觉没有什么收获，可能最大的收获（？）就是看了几部老电影还挺有韵味的（唉\n\n补充一点关于这个最后的短片的评价，真的看不下去，处处透漏着愚蠢的三观和无厘头，非常不适，有一点不知所云。。。"},{"id":172316,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-05-05 16:11:55","like_diff":14,"likes":17,"dislikes":3,"content":"傻逼。。。"},{"id":127158,"teacher_id":4969,"teacher_name":"金进","post_time":"2020-11-11 07:44:47","like_diff":12,"likes":16,"dislikes":4,"content":"大家上课前一定要温习一下方言，不会方言就不要暴露自己的家乡，特别是福建、山西、广东、湖北等地区（狗头）"},{"id":160473,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-09-23 11:45:05","like_diff":12,"likes":14,"dislikes":2,"content":"学不到任何东西，还会被他无语的观点恶心好久"},{"id":164528,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-12-21 12:43:20","like_diff":12,"likes":20,"dislikes":8,"content":"大家好，我是个算命的，我告诉大家这个人日子已经不多了。这个人因为给学生灌输太多不良内容，折了很多寿。"},{"id":177865,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-07-05 06:38:22","like_diff":12,"likes":16,"dislikes":4,"content":"半瓶子晃荡的老师，非常会画饼，上课完全学不到什么，只能听到他对自己职业能力的炫耀，建议快逃。如果学弟学妹们迫不得已要上他的现当代文学史，务必注意不要信他关于成绩和考试的画饼，他给分真没有他说的那么好。。。踏踏实实学好自己的"},{"id":79392,"teacher_id":4969,"teacher_name":"金进","post_time":"2018-06-03 07:03:52","like_diff":11,"likes":42,"dislikes":31,"content":"老师教课太逗了，上课推荐很多的影视和文学作品。经典台词：看了这些作品，终身不悔！"},{"id":144421,"teacher_id":4969,"teacher_name":"金进","post_time":"2021-12-21 12:06:08","like_diff":11,"likes":13,"dislikes":2,"content":"没什么好说的"},{"id":182083,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-11-09 16:15:05","like_diff":11,"likes":16,"dislikes":5,"content":"彼阳的晚意，初升的东西"},{"id":174866,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-06-19 06:24:49","like_diff":10,"likes":13,"dislikes":3,"content":"评论把我吓到了 但是实际去上课感觉真挺好的"},{"id":163964,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-12-21 12:47:04","like_diff":9,"likes":14,"dislikes":5,"content":"其他的不说，给分也确实可以，但是之前有人说他的随口一句话所透露的价值观能让你恶心个半天的确是真的。"},{"id":164436,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-12-21 03:27:34","like_diff":9,"likes":9,"dislikes":0,"content":"他不希望自己课学生太多，第一节课会吓唬你让你退选。偶尔点几次名，老师反同众所周知，不过论文写同志文学没有问题，不会因为这个扣你分（毕竟他要装一下）。而且pre会让你用原著作语气说话，还会问下面同学有没有这个地方的人，让他们读。尴尬。不过给分超好的，我们秋季课很快乐很水，听说冬季课同学好像有点惨了。"},{"id":174333,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-06-09 15:33:23","like_diff":9,"likes":10,"dislikes":1,"content":"为什么没有0星😅😅😅\n\n上课毫无营养，自以为是的中年普信男，耍学生如猴。\n\n文学院的金进\n\n外语学院的琴。\n\n 避大雷"},{"id":204633,"teacher_id":4969,"teacher_name":"金进","post_time":"2024-11-27 06:42:20","like_diff":9,"likes":11,"dislikes":2,"content":"金老师真的很有意思，还会鼓励学生写小说，发给他他真的会认真看认真评价！很轻松的上课氛围，出差回来还会给我们带礼物，超级好的老师！！"},{"id":177916,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-07-05 11:25:00","like_diff":8,"likes":9,"dislikes":1,"content":"讲课没有实质内容，从没上过这么水的专业课，不如列一个书单让大家自己读。品味比较...独特，，还老喜欢说要带我们去新马交流什么的，，貌似就只是画大饼，对学生也不大真诚。"},{"id":198279,"teacher_id":4969,"teacher_name":"金进","post_time":"2024-09-06 05:22:41","like_diff":8,"likes":12,"dislikes":4,"content":"打差评的真的有点过了……老师没什么问题"},{"id":177572,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-07-03 18:17:12","like_diff":7,"likes":9,"dislikes":2,"content":"华文文学与文化 作为中文系的一门专业课 并且是难得的关于海外华文文学的课 我真的对老师上课的质量无力吐槽…他的课程设置就是前四周放视频+后四周集中展示、催交论文 每次去上早八在那里听令人头痛的视频音乐真的令人恼火 请问这是中文系的课该有的样子吗？？ “你们的论文要体现我上课讲的内容” 请问你讲什么了呢？？？就算八周时间短 那别的老师怎么上的很有质量呢？我真的无力恭维老师的上课水平 要是想得到点有用的知识还是劝同学们自己看点作品得了 老师可能联络海外作家的能力很强吧 但是作为上课的学生 我只能给低分 真的差 快逃吧！（给分也非常一般 在中文系里都能算差的"},{"id":195367,"teacher_id":4969,"teacher_name":"金进","post_time":"2024-06-28 01:18:59","like_diff":7,"likes":13,"dislikes":6,"content":"可惜没有0分档…中年迂腐自恋老男人/文人，一股子爹味。作为大学写作课，至少也要提供一些写作的技巧吧？再不济进行一些名著导读和鉴赏吧？嘿！您猜怎么着？上课就是放各种视频，口出狂言，满嘴胡话。小组pre四人一组40分钟我真是无法理解，这辈子没见过这么长的pre时间，而且主题大多数是和书籍的影视创作相关，与著作本身几乎无关。这辈子遇到最抽象的老师之一，这种人也能给学生上课我也是真无语。下面请欣赏他本学期大学写作课上的一些离谱发言：\n\n\n\n“大家知道这个演员是谁嘛？怎么都不知道吗？唉，算了没事，我们慢慢来，这门课就是给大家感受我们文学的审美”\n\n\n\n“沈从文为了心爱的女子写出《绝代佳人》这样的顶级剧本，在座的男同胞们，如果有一天你们为了心爱的女人能写出这样的剧本，那我觉得你是爱惨了她”\n\n\n\n“你姓杜，你和杜丽娘什么关系”\n\n\n\n“你会唱昆曲吗？能不能给大家唱一下这一段”“（挨个点名）有没有人毛遂自荐一下？会唱昆曲的？给大家唱一段这个”\n\n\n\n“你们这个人都不认识啊（某古早演员），高中都在干什么呢？”\n\n\n\n“这个演员你们不认识没关系，但她老公你们一定要知道”\n\n\n\n“（在讲特洛伊木马，金苹果给三女神，他专门说明点男生回答，如果是你你会把苹果给谁）我觉得把最美的女子搞到手本身就是一件很智慧的事情”"},{"id":218232,"teacher_id":4969,"teacher_name":"金进","post_time":"2025-04-22 06:45:14","like_diff":7,"likes":9,"dislikes":2,"content":"上大学以来上的最生理性不适的课。华文文学。老师不知道在装什么感觉就是在显摆自己出过国 去过港台 周游东南亚 听过国外演唱会 生活在墙外 特别懂同 特别懂女性 特别不一样特别洋。。说三句话来一句“这个不该说的”“啊这个说法有点政治不正确”“这个有点敏感”“但我不是同啊”……实际上就是为了显得自己懂很多是吧，我就纳闷了哪有那么多不能说的东西，即便是学校要求或者是涉及到敏感问题，大大方方讲出来不就好了吗？从文学本位的角度出发客观分析不就行了么？没听到有意思的东西，整节课就是说：这个推荐大家看一下 那个推荐女生看一下，以及放视频。觉得学生都是恋爱脑 小清新 小粉红 小学生 文艺b 墙人对吧。。上课体验受不了一点。但怎么说呢，在课程群里看上去倒挺负责，可能也确实想帮助学生答疑解惑？每次看到他大段的公告感觉是不是自己误解他了，但一上课确实想吐。呵呵想笑。"},{"id":159162,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-07-07 07:50:49","like_diff":6,"likes":7,"dislikes":1,"content":"华文文学与文化，为什么还不出分啊，就剩这一门了，6.9结课，7.7还没出分，这也太慢了。。。"},{"id":161758,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-11-12 10:46:13","like_diff":6,"likes":7,"dislikes":1,"content":"（都市文化与华语文学）第一课次已完结，目前总体感受不佳，具体原因如下:\n\n1.开场表明成绩只有三档，具有明显的“一刀切”式学阀做派；\n\n2.课程任务较为繁琐，缺乏缓冲机制；\n\n3.课程内容多为视频欣赏与简单点评，缺乏实质性、学术性成分。\n\n另一方面，支持你选择这门课程的理由有：\n\n1.新通识选修课程成绩对综合评定影响不大；\n\n2.课程内容趣味性、可分享性强；\n\n3.课堂氛围轻松，课上与课下不存在深度绑定关系。\n\n持续观望中……"},{"id":214961,"teacher_id":4969,"teacher_name":"金进","post_time":"2025-02-19 12:20:40","like_diff":6,"likes":12,"dislikes":6,"content":"作为金老师24年文学史2的学生来说，查老师的评分绝对是低的。首先要澄清的是金老师绝对没有歧视同性恋的倾向，甚至在我有关同志题材的论文上指导颇多，有许多犀利的见解。其次关于“上课水”，我的体验是与其说金老师上课“水”，不如说是金老师在课程进度上有自己的把握，该是重点的绝对不会略过。金老师对一些问题回答得较为简短，但并不代表金老师没有水平，他并不是那种一下子把答案全都给你的老师，而是鼓励引导你自己去发现，并对你予以指导改正。金老师上课很和蔼，考核也不难，全班高分不是吹的，总评均在4.2以上。金进老师是让我第一次认识到查老师分数并不准确的老师，同时也是一名学术严格、人格尊严、教风和蔼，男而不登的老师。希望后来预置了金老师课程的学弟学妹们看到查老师分数不要觉得慌乱，金老师的文学史课堂能让人在说笑中掌握主要脉络，在作业中锻炼学术能力。金老师出差回来会给我们带小零食，和我们分享他在韩国的趣闻趣事，带我们去他主持的会议见世面。金老师是一位真正亦师亦友的学者。"},{"id":218331,"teacher_id":4969,"teacher_name":"金进","post_time":"2025-04-22 16:05:00","like_diff":6,"likes":6,"dislikes":0,"content":"开课前我不相信课能上得这么水，上了两节课之后信了。但我院实在是没什么选修课，只能将就着上了，在我院读书首先要学的不就是将就么"},{"id":222538,"teacher_id":4969,"teacher_name":"金进","post_time":"2025-07-11 10:14:07","like_diff":6,"likes":7,"dislikes":1,"content":"华文文学，老师很偏心，只给认识的人打高分。。。这个课也无聊，天天就是展示，还有放电影。。"},{"id":159678,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-08-23 06:02:38","like_diff":5,"likes":7,"dislikes":2,"content":"快逃快逃"},{"id":159984,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-09-11 02:13:25","like_diff":5,"likes":6,"dislikes":1,"content":"求您快出分啊，这都要开学了！"},{"id":164190,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-12-19 04:18:14","like_diff":5,"likes":5,"dislikes":0,"content":"给分真的不怎么样 观点也很奇怪 想说run"},{"id":170454,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-03-05 06:12:32","like_diff":5,"likes":5,"dislikes":0,"content":"这门课上下来感觉其实没有什么收获，唯一的就是写5k字观后感看的那部电影（我是战争叙事）还挺感动的。金老师给分确实还可以，要求是不要抄袭，对文学素养什么的好像没有太高的要求。"},{"id":186080,"teacher_id":4969,"teacher_name":"金进","post_time":"2024-01-08 08:13:28","like_diff":5,"likes":9,"dislikes":4,"content":"价值观爆炸。。。带的学生也考试作弊。。。。。。真是开了眼了。。老母猪戴胸罩你左一套右一套的。。什么玩意儿都是。。抓紧退休吧。"},{"id":124846,"teacher_id":4969,"teacher_name":"金进","post_time":"2020-07-13 04:01:21","like_diff":4,"likes":8,"dislikes":4,"content":"给分很低"},{"id":164578,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-12-22 03:25:10","like_diff":4,"likes":5,"dislikes":1,"content":"不知道为什么绩点奇低。。。。。喜提那个学期最低绩点。。。。根本不知道老师的评分标准是什么"},{"id":164750,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-12-25 07:02:10","like_diff":4,"likes":6,"dislikes":2,"content":"绩点奇低。。。我还忍者羞耻心上去读内容。。。每次群里提问也没落下。。。为什么绩点这么低（3.3）"},{"id":170857,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-03-10 13:42:39","like_diff":4,"likes":5,"dislikes":1,"content":"上他的课学不到什么东西，付出的时间和知识的回报不成正比，感受不到责任心，建议快逃"},{"id":191450,"teacher_id":4969,"teacher_name":"金进","post_time":"2024-04-22 14:56:01","like_diff":4,"likes":8,"dislikes":4,"content":"说实话，感觉老师的课讲的很一般，喜欢上课画大饼，而且经常有一些很奇怪的观点😖"},{"id":204797,"teacher_id":4969,"teacher_name":"金进","post_time":"2024-11-28 02:46:37","like_diff":4,"likes":7,"dislikes":3,"content":"人很好的"},{"id":212099,"teacher_id":4969,"teacher_name":"金进","post_time":"2025-01-13 07:30:40","like_diff":4,"likes":6,"dislikes":2,"content":"老师人是真的很好很好\n\n第一次感受到和老师交朋友的感觉\n\n平时微信消息都是秒回，有事情拜托他也是尽心尽力\n\n\n\n然而上课很水，这点无可否认"},{"id":160415,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-09-27 03:01:22","like_diff":3,"likes":6,"dislikes":3,"content":"给分很好，事情和别的专业课比起来不多，主要强调原创性。"},{"id":164094,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-12-18 03:17:52","like_diff":3,"likes":4,"dislikes":1,"content":"我的意见是，给分算不上很好（本人被卡绩了，而且喜提最低通识分数，本学期均绩直掉0.2），上课确实大水漫灌（前半部分放视频，后半部分同学做pre，你很难得到什么知识性的收获），在一些话题上表现可疑（“txl是和艾滋病有必然关系的吗？”我真得觉得作为一个受过高等教育的人，说出这种话真得让人不太舒服……当然也可能是因为我敏感）\n\n当然也可以认为是我不满意绩点在发牢骚，但以上几个基本问题句句属实。"},{"id":173289,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-05-18 01:27:02","like_diff":3,"likes":4,"dislikes":1,"content":"上课没有一点内容…..华文文学与文化充满了没有营养的视频和奇怪的观点输出，哪怕按着课程的ppt大纲讲一下何必这样好吧？不但浪费自己的时间也浪费我们的时间，不止一次上这种早八觉得不如在寝室睡觉。简直是一坨狗屎。"},{"id":173943,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-06-05 04:37:47","like_diff":3,"likes":3,"dislikes":0,"content":"地域歧视滚"},{"id":175334,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-06-24 03:57:19","like_diff":3,"likes":3,"dislikes":0,"content":"为什么没有0分..."},{"id":177764,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-07-04 16:49:03","like_diff":3,"likes":5,"dislikes":2,"content":"上课体验差，老师不讲东西，要求莫名其妙，给我的分数也差。喜提本学期最低分。当然最后一条关于给分的也可能是我比较主观，但是前两条完全客观"},{"id":220954,"teacher_id":4969,"teacher_name":"金进","post_time":"2025-06-20 12:46:08","like_diff":3,"likes":3,"dislikes":0,"content":"华文文学，水课，传签到表点名，20分钟展示，4000字论文。\n\n不太喜欢这个老师，上课的时候经常放视频，展示的时候经常打断同学发言，感觉对课程不负责任同时有些没礼貌，而且部分思想十分陈腐。"},{"id":222410,"teacher_id":4969,"teacher_name":"金进","post_time":"2025-07-06 06:37:29","like_diff":3,"likes":3,"dislikes":0,"content":"本人一向有所有课程出分完后一次性给这学期所有老师评一遍分的习惯，金老师今年不仅拖延我这个习惯至今、还打破之，因为时至现在，这门课结课堪堪一月将近，金老师仍然没有出分，无奈只能先来给老师们打分了。\n\n先说我的结论：华文文学，很水很无聊的课。听不到太多和“文学”有关的东西。听不到很多能让你觉得有营养的东西。平时考核是一份书面作业、一次小组报告，后半程的课基本以小组汇报为主。说到这里应该就知道这门课是什么情况了。而且金老师不仅喜欢在展示前就建微信群让小组进行修改，还喜欢在展示的时候打断正在pre的同学进行意见指导。我想问如果前期已经在老师的授意下进行了修改，为什么还要在展示的时候打断同学呢。\n\n因为分还没出，无法评价这门课到底“好不好”。如果你和笔者一样，抱着想听有意思的有价值的文学内容的想法来上这门课的话，敬请避开之。"},{"id":162645,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-12-01 11:12:25","like_diff":2,"likes":3,"dislikes":1,"content":"历史知识，地理常识错误一大堆，一堆歪理。如果有当罕见的机会，他绝对是第一个上的。"},{"id":163444,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-12-14 10:19:19","like_diff":2,"likes":2,"dislikes":0,"content":"华语文学课，一般，上课学不到东西的，小组作业30分钟pre，前期压力为0，后期pre+论文压力挺大的，老师人一般，不定期点名，给分贼慢，所以也不清楚分数咋样，但有预感分数会比较差"},{"id":164099,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-12-20 06:16:08","like_diff":2,"likes":4,"dislikes":2,"content":"都市文化与华语文学\n\n出分是真慢，课也是真的很水，完全不听也没任何事，给分确实很好。\n\n整学期有小组展示+5000字论文，感觉不算太多，平时也没有什么事。\n\n总的来说，如果不是抱着学习的心态来听课，想水一门通识课完全可以选。"},{"id":164769,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-12-26 02:00:26","like_diff":2,"likes":3,"dislikes":1,"content":"hhh"},{"id":166903,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-01-15 03:35:45","like_diff":2,"likes":2,"dislikes":0,"content":"给分玄幻且真的很差 讲的内容奇奇怪怪"},{"id":170191,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-03-02 02:46:50","like_diff":2,"likes":2,"dislikes":0,"content":"事多\n\n出分慢 \n\n查重变态 \n\n给分很玄幻"},{"id":181637,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-10-25 03:36:09","like_diff":2,"likes":2,"dislikes":0,"content":"如果不想看到文学通识课是电影电视剧大乱炖的话那就赶紧逃！"},{"id":205137,"teacher_id":4969,"teacher_name":"金进","post_time":"2024-12-02 05:30:41","like_diff":2,"likes":5,"dislikes":3,"content":"人品好"},{"id":206249,"teacher_id":4969,"teacher_name":"金进","post_time":"2024-12-13 11:11:13","like_diff":2,"likes":5,"dislikes":3,"content":"老师会玩一些很抽象的梗，人品真的很好，人真的很好"},{"id":128528,"teacher_id":4969,"teacher_name":"金进","post_time":"2020-12-23 14:32:44","like_diff":1,"likes":5,"dislikes":4,"content":"老师给分真的很好了，只要课堂展示和论文都认认真真弄。鄙人作为工科生，觉得自己的论文写的不够深，但是觉得弄的还是挺认真的，反正最后高分飘过。"},{"id":164778,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-12-26 04:57:47","like_diff":1,"likes":2,"dislikes":1,"content":"被击杀了wwww"},{"id":185561,"teacher_id":4969,"teacher_name":"金进","post_time":"2024-01-02 07:13:13","like_diff":1,"likes":5,"dislikes":4,"content":"上课的确是有一点水，但说实话给分不差，我觉得还算是一个放松的课，老师人应该还是不错"},{"id":187079,"teacher_id":4969,"teacher_name":"金进","post_time":"2024-01-14 11:23:08","like_diff":1,"likes":7,"dislikes":6,"content":"带的学生考试作弊。。。。。。这文学院养的一群**，学院就是被你们这些**搞垮，建议把你们这些行政用500磅的大铁链捆起来判刑500年，去监狱里面练习如何工作"},{"id":164071,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-12-17 17:04:14","like_diff":0,"likes":1,"dislikes":1,"content":"还可以的，出分有点慢"},{"id":170182,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-03-02 01:48:01","like_diff":0,"likes":2,"dislikes":2,"content":"课水展示变态作业难但是给分好"},{"id":184177,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-12-12 02:24:59","like_diff":0,"likes":8,"dislikes":8,"content":"八节晚课短学期，百人聚于北教一。\n\n形式丰富内容浅，小说电影短视频。\n\n观念思想本各异，排斥吸收自辨明。\n\n半段展示写感受，积极合作不抄袭。\n\n或曰水课无收获，资料深读颇有益。\n\n海归博导侃侃谈，点名集中无push。\n\n若问给分自作例，满绩之下无人敌。\n\n        ————评都市文化与华语文学"},{"id":205349,"teacher_id":4969,"teacher_name":"金进","post_time":"2024-12-04 17:35:43","like_diff":0,"likes":1,"dislikes":1,"content":"没什么好说的"},{"id":124848,"teacher_id":4969,"teacher_name":"金进","post_time":"2020-07-13 08:13:24","like_diff":-1,"likes":5,"dislikes":6,"content":"给分很低"},{"id":139731,"teacher_id":4969,"teacher_name":"金进","post_time":"2021-07-22 03:39:07","like_diff":-1,"likes":4,"dislikes":5,"content":"给分还行，算不上多好。"},{"id":151003,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-02-22 01:15:31","like_diff":-1,"likes":8,"dislikes":9,"content":"上的老师的都市文化与华语文学的课，出分是真的满，但是给分是真的nice！"},{"id":170192,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-03-02 02:49:06","like_diff":-1,"likes":8,"dislikes":9,"content":"都市文化与华语文学干货确实有限，不过我觉得也不能怪老师，毕竟近代华语文学也就这样更何况还要限定在都市内化内，老师讲的其实也可以了。\n\n看其他评论说老师有各种不太好的言论，我觉得课上老师说的话已经非常谨慎克制了，我专业里更奇葩的老师多了去了，多一些包容也就一笑而过了。\n\n最后给分我身边人问下来都还不错，老师的要求就只有不抄袭，对文学素养什么的都很宽容，最后5000字大论文还可以写成随笔形式，我是工科牲，没啥文学素养，就像写日记一样想到哪儿就写到哪儿，最后分数也不错。再有其他就是大论文会查重，查到重分数就会比较惨烈。"},{"id":176487,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-06-29 05:47:10","like_diff":-1,"likes":2,"dislikes":3,"content":"上课感觉人还蛮好 也画了很多饼 感觉也蛮关心学生的 满热心一老师 类型比较独特 参与编剧之类的\n\n现在 我看着我的绩点 我之前还以为至少89 \n\n现在 我怀疑我文章里的观点是不是冒犯到他了 还不如直接抄 反正也是这个成绩 我竟然真信了\n\n所以评分标准到底是什么？？？？？？？？？？？？认真写没抄啊！！！！！！！！！！！！！！！"},{"id":184157,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-12-11 11:48:59","like_diff":-1,"likes":3,"dislikes":4,"content":"坐标都市文化与华语文学，作为通识+美育性价比已经很高了\n\n上课轻松、考核不难、给分好，可冲"},{"id":116960,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-09-17 23:26:45","like_diff":-2,"likes":15,"dislikes":17,"content":"一位“好嘞好嘞”的老师，风趣幽默，学识渊博。不过可能是因为通识课中文系的学生不多，他在问到很多作品的时候找不到共鸣hhhh马上又自己笑起来，然后说没事没事我们以后再讲。推荐了很多“终生不悔”的作品，然后说这样你们层次一下子就上来了！太棒啦！其实最重要的是，他认为上课听听开心就好了，不用刻意记笔记。很多知识都是看电影、看文学作品的过程中潜移默化传达的。选金老师终生不悔～"},{"id":162217,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-11-18 01:58:54","like_diff":-2,"likes":0,"dislikes":2,"content":"出分慢，给分好"},{"id":116373,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-09-09 23:59:07","like_diff":-3,"likes":7,"dislikes":10,"content":"超赞的老师，上课会给你扯很多很有意思的东西，经常讲着讲着自己笑了...说是所有人都能90分以上只要不缺席，希望如此?"},{"id":118829,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-11-06 16:01:59","like_diff":-3,"likes":13,"dislikes":16,"content":"金老师真真是个好老师，对学生从来都是那么和蔼，而且还很可爱，喜欢开玩笑讲笑话，“终身不悔”真的是印象深刻！还推荐了好多值得一看的作品，如果有机会一定还会选金老师的课！赞！没啥好说的了?"},{"id":176937,"teacher_id":4969,"teacher_name":"金进","post_time":"2023-06-30 22:37:27","like_diff":-3,"likes":1,"dislikes":4,"content":"老师给分还是挺不错滴www\n\n但是有一些些观点有点难以理解（）"},{"id":113611,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-07-07 01:13:19","like_diff":-4,"likes":11,"dislikes":15,"content":"超级好的老师！非中文的朋友也要来听（不存在偏见的"},{"id":151016,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-02-22 03:17:52","like_diff":-4,"likes":8,"dislikes":12,"content":"金进博士超级好！都市文化这门课很有意思，一个小组展示一篇论文，做的都是一个作品所以任务也不算多。虽然冬学期的课春天开学了才出分，但是给分很好，快冲！"},{"id":99400,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-01-24 16:40:24","like_diff":-5,"likes":9,"dislikes":14,"content":"口头禅：好嘞好嘞。很搞笑乐天的老师，视野很大，很有收获"},{"id":116690,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-09-13 09:30:06","like_diff":-5,"likes":14,"dislikes":19,"content":"社会调查低分要求他给个理由不停地打太极说自己忘记了。2.5学分的课，让我死也得死得清楚一点吧？"},{"id":160077,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-09-13 04:17:34","like_diff":-5,"likes":0,"dislikes":5,"content":"老师快出分吧，他真的，我哭死"},{"id":161898,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-11-15 01:49:56","like_diff":-5,"likes":0,"dislikes":5,"content":"可以的，"},{"id":191581,"teacher_id":4969,"teacher_name":"金进","post_time":"2024-04-25 09:52:56","like_diff":-5,"likes":4,"dislikes":9,"content":"我觉得老师很好，上课很好玩"},{"id":113633,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-07-07 01:32:51","like_diff":-6,"likes":11,"dislikes":17,"content":"极大程度地拓宽了眼界，看到了不一样的 属于世界的中国现当代文学。集结幽默，细心，负责，有趣的课堂，让你忍不住去阅读欣赏那些“终生不悔”作品的课后。最后给分也满满师生情，墙裂推荐!"},{"id":115779,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-08-20 08:25:52","like_diff":-6,"likes":4,"dislikes":10,"content":"超赞！"},{"id":185790,"teacher_id":4969,"teacher_name":"金进","post_time":"2024-01-04 11:44:34","like_diff":-6,"likes":2,"dislikes":8,"content":"给分挺好"},{"id":113558,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-07-06 23:59:40","like_diff":-7,"likes":9,"dislikes":16,"content":"幽默又潮流，听他的华文文学课是一种享受！中文系的学生不要错过啊啊啊！"},{"id":121248,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-12-25 13:51:07","like_diff":-7,"likes":4,"dislikes":11,"content":"赞！终身不悔，给分超好满绩了嘻嘻嘻"},{"id":118975,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-11-09 00:23:13","like_diff":-8,"likes":1,"dislikes":9,"content":"棒呆瓜"},{"id":119182,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-11-11 04:59:45","like_diff":-8,"likes":1,"dislikes":9,"content":"终身不悔"},{"id":121416,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-12-16 08:55:20","like_diff":-8,"likes":2,"dislikes":10,"content":"害 老师真的太强了 我真的好爱金老师 课上会给我们讲很多有趣的东西 很幽默风趣 对每个学生都很公平 有什么问题微信咨询他 他都会很认真地回复 很高兴遇上了这么一位老师 真的真的终生不悔 选他！"},{"id":121309,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-12-23 02:21:32","like_diff":-9,"likes":0,"dislikes":9,"content":"很可爱的老师，事情少，给分好。就期末一篇论文、一次小组展示，甚至论文还有字数上限，有效遏制鹅颈，爱了爱了。"},{"id":126767,"teacher_id":4969,"teacher_name":"金进","post_time":"2020-10-19 12:07:39","like_diff":-9,"likes":10,"dislikes":19,"content":"终身不悔！！！\n\n大家快选快选，收获张爱玲情感小故事还有各种有趣的作家文人小八卦。老师课堂超级有趣给放片，事情也不多。老师是影视公司编剧超厉害的！\n\n希望通识课能变成秋冬，这样下次张嘉佳会来给大家做分享噢（老师承诺的）"},{"id":128485,"teacher_id":4969,"teacher_name":"金进","post_time":"2020-12-23 10:58:38","like_diff":-9,"likes":3,"dislikes":12,"content":"上得最开心的通识课！"},{"id":144845,"teacher_id":4969,"teacher_name":"金进","post_time":"2021-12-25 06:18:41","like_diff":-10,"likes":1,"dislikes":11,"content":"很好的老师，\n\n只有最后几次展示课会点名，\n\n事情很少"},{"id":150509,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-01-28 02:03:35","like_diff":-10,"likes":5,"dislikes":15,"content":"老师是真的好老师，大学写作真是门烂课"},{"id":151011,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-02-22 02:45:18","like_diff":-10,"likes":4,"dislikes":14,"content":"内容还有意思的，当然结果看自己"},{"id":118601,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-10-29 07:20:55","like_diff":-11,"likes":0,"dislikes":11,"content":"着实精彩"},{"id":120296,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-11-27 15:36:48","like_diff":-11,"likes":1,"dislikes":12,"content":"终身不悔！！"},{"id":120469,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-12-09 04:49:56","like_diff":-11,"likes":1,"dislikes":12,"content":"终身不悔"},{"id":162353,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-11-20 14:56:03","like_diff":-11,"likes":1,"dislikes":12,"content":"老师很好，很有思想的课"},{"id":120513,"teacher_id":4969,"teacher_name":"金进","post_time":"2020-01-12 01:14:56","like_diff":-12,"likes":1,"dislikes":13,"content":"终身不悔"},{"id":122650,"teacher_id":4969,"teacher_name":"金进","post_time":"2020-03-12 01:15:45","like_diff":-12,"likes":5,"dislikes":17,"content":"老师太太太太太棒了！！上课超有趣，每节课给放经典影视作品。半学期只要做一次展示和一篇读书报告！事情真的很少了！我认认真真做的课堂展示和论文就给了5.0！！！值得一选"},{"id":123515,"teacher_id":4969,"teacher_name":"金进","post_time":"2020-06-09 09:28:07","like_diff":-12,"likes":0,"dislikes":12,"content":"幽默风趣，内容丰富。上他的课终身不悔"},{"id":123539,"teacher_id":4969,"teacher_name":"金进","post_time":"2020-06-09 13:45:49","like_diff":-12,"likes":2,"dislikes":14,"content":"终身不悔！"},{"id":123788,"teacher_id":4969,"teacher_name":"金进","post_time":"2020-06-14 06:52:24","like_diff":-12,"likes":0,"dislikes":12,"content":"终生不悔"},{"id":124585,"teacher_id":4969,"teacher_name":"金进","post_time":"2020-07-03 08:32:43","like_diff":-12,"likes":2,"dislikes":14,"content":"这样的老师应该可以给10分吧。zsbh！"},{"id":144663,"teacher_id":4969,"teacher_name":"金进","post_time":"2021-12-23 04:25:48","like_diff":-12,"likes":0,"dislikes":12,"content":"都市文化与华语文学这门课可以了解到更多文学的经典和背后的传承关系。有趣还分高"},{"id":118640,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-10-30 02:34:25","like_diff":-13,"likes":1,"dislikes":14,"content":"终生不悔～很好的老师，谈笑风生啊"},{"id":128554,"teacher_id":4969,"teacher_name":"金进","post_time":"2020-12-24 00:51:57","like_diff":-13,"likes":2,"dislikes":15,"content":"终身不悔！"},{"id":150516,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-01-28 08:19:40","like_diff":-13,"likes":3,"dislikes":16,"content":"出分很慢，给分很好，上课优秀"},{"id":104840,"teacher_id":4969,"teacher_name":"金进","post_time":"2019-03-28 14:51:35","like_diff":-14,"likes":0,"dislikes":14,"content":"超级可爱！课也很有趣"},{"id":138112,"teacher_id":4969,"teacher_name":"金进","post_time":"2021-07-07 11:02:36","like_diff":-15,"likes":4,"dislikes":19,"content":"金老师真的非常可爱。『终生不悔。』很多内容让人感触至深以至于潸然泪下。"},{"id":153762,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-05-10 09:34:59","like_diff":-15,"likes":6,"dislikes":21,"content":"终生不悔。"},{"id":123842,"teacher_id":4969,"teacher_name":"金进","post_time":"2020-06-15 02:07:30","like_diff":-16,"likes":0,"dislikes":16,"content":"老师真的超级nice，平时也很水，最后老师给了5.0真的超棒了"},{"id":142160,"teacher_id":4969,"teacher_name":"金进","post_time":"2021-11-08 03:20:55","like_diff":-18,"likes":1,"dislikes":19,"content":"贼有意思的老师，终身不悔！"},{"id":145187,"teacher_id":4969,"teacher_name":"金进","post_time":"2021-12-28 06:09:27","like_diff":-19,"likes":5,"dislikes":24,"content":"上金老师的课:终身不悔"},{"id":151904,"teacher_id":4969,"teacher_name":"金进","post_time":"2022-03-20 07:36:25","like_diff":-23,"likes":2,"dislikes":25,"content":"真好啊"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

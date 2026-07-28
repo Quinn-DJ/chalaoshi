@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>张谷 - 法学院 - 浙大教评</title>
+    <meta name="description" content="张谷教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="张谷,法学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">张谷</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">法学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.83</div>
+                    <div class="rating-participants">152人参与评分</div>
+                    <div class="attendance-info">15.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (4 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">债法原理</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.93</span>
+                            <span class="students">选课: 224人</span>
+                            <span class="std-dev">标准差: 0.66</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">合同法</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.19</span>
+                            <span class="students">选课: 228人</span>
+                            <span class="std-dev">标准差: 1.17</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">民事案例研习</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.01</span>
+                            <span class="students">选课: 67人</span>
+                            <span class="std-dev">标准差: 0.58</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">票据法</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.01</span>
+                            <span class="students">选课: 24人</span>
+                            <span class="std-dev">标准差: 0.45</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (124 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":1940,"teacher_id":1745,"teacher_name":"张谷","post_time":"2015-03-26 13:32:08","like_diff":195,"likes":203,"dislikes":8,"content":"大师级的人物，浙大的瑰宝！中国法学界的瑰宝！"},{"id":13257,"teacher_id":1745,"teacher_name":"张谷","post_time":"2015-12-25 18:55:25","like_diff":117,"likes":121,"dislikes":4,"content":"不能为上课而上谷神的课。于“天马行空”中，我窥见了一位学者的学术功底，观得了一介先生的放荡不羁，寻到了我愿踏上的脚下之路。此番际遇，人生哪得几回逢！？"},{"id":22733,"teacher_id":1745,"teacher_name":"张谷","post_time":"2016-03-10 08:00:26","like_diff":94,"likes":98,"dislikes":4,"content":"学术翘楚，法学瑰宝。\n\n民国遗风，当代脊梁。\n\n潜心问道，严谨治学。\n\n十年一日，乐在其中。\n\n潇洒随性，淡泊名利。\n\n身处江湖，心在天涯。\n\n有师如此，吾之幸也。\n\n望其项背，窥其一斑。\n\n虽未及也，又有何妨。\n\n漫漫长路，孜孜以求。\n\n学海无涯，已愿平生。\n\n吾爱吾师，先生安好。\n\n                  ------BY YHJ"},{"id":49551,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-04-18 09:23:02","like_diff":94,"likes":99,"dislikes":5,"content":"法学院要是都是这种老师，浙大法学院早就是世界级了"},{"id":52559,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-06-21 05:31:17","like_diff":77,"likes":79,"dislikes":2,"content":"抛开所有的赞誉，我觉得张谷老师是一个单纯之人，烟火气息很浓但是该纯粹的地方比谁都纯粹。如果把朱庆育比作大侠，那么谷神应该就是一个呤游诗人，感情丰沛，随性执拗。\n\n学术水平高也许能赢得赞誉与财富，但是干净纯粹才能获得真心尊重。一学期课下来，我对张谷老师的学术水平表示叹服，但真正折服我的还是老师的纯粹。"},{"id":61,"teacher_id":1745,"teacher_name":"张谷","post_time":"2015-03-14 15:34:43","like_diff":55,"likes":114,"dislikes":59,"content":"我不否认谷神自身很牛逼。但是上他的课太特么天马行空了啊。总是想到哪讲到哪。"},{"id":5774,"teacher_id":1745,"teacher_name":"张谷","post_time":"2015-07-09 09:56:11","like_diff":50,"likes":53,"dislikes":3,"content":"爱胡子，爱谷神"},{"id":171555,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-03-28 13:22:24","like_diff":47,"likes":51,"dislikes":4,"content":"前面有同学说谷神的民案和债法给分好了很多，我仍然要提醒来者：谷神的给分是你参不透的。如果你选了谷神的课，请做好被大绩杀的准备，不要存在侥幸心理，当然也有可能喜提高分（比如今年民案给的就很高）。作为本科选了3门谷神课的人，谷神的给分规律大概是：1.谷神几乎不捞人，哪怕挂了一半的人，卷面分是多少就是多少；2.谷神出卷难度时高时低，如果他出卷内容力求创新、灵活，那绩杀是大概率。他有几年债总、合同法给分很不错，就是他考试内容都是上课讲过的，但我们这届的合同法和上课讲的几乎无关，上课讲了8节保理合同，考试没有出现任何保理内容，基本回溯到了债法原理、甚至民总的内容，最后给分是史诗级的差，我身边好几个同学都因为他的合同法不得不放弃保研而准备考研或者出国。\n\n\n\n今天突然来写这些话，是因为昨晚上非常莫名其妙地（也非常玄幻）居然梦到谷神对我说，“小X，民法学的不错噢，继续努力！”不怕大家笑话，我之前其实也做过类似的梦，上一次出现在这样梦境里的是对我很严厉、但对我也非常关心的高中班主任。我时常想，这会不会是一场关于民法的梦，梦醒了，我能再好好学一次民法，不会再考出一个1.5的合同法。"},{"id":175387,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-06-24 12:16:54","like_diff":44,"likes":44,"dislikes":0,"content":"吾师张谷"},{"id":899,"teacher_id":1745,"teacher_name":"张谷","post_time":"2015-10-04 00:32:36","like_diff":41,"likes":43,"dislikes":2,"content":"谷神很赞很有深度，虽然两门课都没出分但不后悔选(๑• . •๑)"},{"id":130423,"teacher_id":1745,"teacher_name":"张谷","post_time":"2021-01-22 08:50:52","like_diff":37,"likes":39,"dislikes":2,"content":"考完债法来评，“详人所略，略人所详”吧，张谷老师上课并非所传闻的没有逻辑和体系，也绝非随意扯淡天马行空，他举的例子（他们家的猫猫、他剪头发的故事、他的核桃等等）都是为了来例证他之前所说的某个观点，或者是引出他下面要讲的内容，所以上他的课一定要时刻集中注意力，认真做笔记。老师的考试其实并不难，就像他最后一节课说的那样，不想把我们考倒，所有的知识点都是上课一模一样讲过的，包括案例分析也是，而且今年还是开卷考。考得好不好，给分好不好暂且不论，个人很喜欢张谷老师，包括风度，包括学识。谷神谷神，yyds！"},{"id":52967,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-06-24 08:12:01","like_diff":34,"likes":34,"dislikes":0,"content":"虽然有很多人都说谷神讲课天马行空，但是其实谷神每次在课前往黑板上写的条条框框都是内容的框架和要点。谷神自己评价自己是枝枝蔓蔓，其实不然，谷神是在以一些有趣的能让人记住事情或是案例带来深入的思考。不止大侠有体系之美，谷神也有！谨记谷神说过的：现在中国的民法是改革开放三十年来民法教育的成果，而三十年后中国法律的样子就是看你们现在民法教育的成果。"},{"id":48225,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-03-01 10:04:48","like_diff":30,"likes":30,"dislikes":0,"content":"老师简直太风度翩翩了，“民法以人的自由的现实化的最大限度为归属。”，听得我泪流满面?"},{"id":116751,"teacher_id":1745,"teacher_name":"张谷","post_time":"2019-09-15 04:18:49","like_diff":30,"likes":34,"dislikes":4,"content":"多年过后，我的儿子告诉我，爸爸，你的合同法出分啦！"},{"id":172552,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-04-29 13:57:21","like_diff":28,"likes":28,"dislikes":0,"content":"从民总一路上谷神的课到大三，不得不说有些内容还是需要强调一下，谷神给分的水平大概是，最高分小于等于隔壁班级平均分；所以但凡有点想保研/至少不排除保研可能性，选课时还是尽量慎重考虑为上。课程内容质量前面的评论已经很多了，但很特别的是，谷神的课总是很莫名其妙的印象深刻（发现自己以及课友对他的各种小故事回忆异常清晰）。anyway，还是更建议旁听"},{"id":169870,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-02-28 07:20:10","like_diff":27,"likes":28,"dislikes":1,"content":"谷神，我今年都大三了，每次想起民总和合同法的绩点，我还是会不自觉地叹气。\n\n所以我想告知法学院的学弟学妹，如果想追求高绩点，一定不要选谷神，一定不要选谷神，一定不要选谷神。如果你不信邪，我祝你好运。如果你决定不追求绩点，我很推荐你去感受真正的法学课堂。并且希望你决定了，就不要在大三考虑前途的时候像我一样为自己的绩点焦虑和后悔了。我不是说谷神不好，只是想告诉学弟学妹他给分会比隔壁班低10分甚至更多，因为当时真的没人告诉我。"},{"id":185838,"teacher_id":1745,"teacher_name":"张谷","post_time":"2024-01-04 19:54:13","like_diff":25,"likes":25,"dislikes":0,"content":"许久未见老师发朋友圈了（笑），想他。"},{"id":194188,"teacher_id":1745,"teacher_name":"张谷","post_time":"2024-06-22 11:37:24","like_diff":25,"likes":26,"dislikes":1,"content":"民法大神，名不虚传。传统民法的功底深不见底，上课风格风趣幽默，但所有发散的例子又都能在恰到好处之时收回来，作为论据精确的证明论点。由于过于喜欢张老师的课，连带着上个学年的课都一并听了，并且听课往往配以一盅小酒，虽东施效颦，但真的过瘾！\n\n民法下的考试今天考完（因为民法上在张老师那里拿了90，导致对自己的真实能力失去了准确的预判），说下感受：因为自己是非全，只能在智云听张老师讲课，从未见过4K清晰的偶像。今天张老师亲临监考，仿佛天神下凡，外表的帅气潇洒飘逸加之距离张老师直线距离仅4.5618米，让我的心跳整场考试维持在110以上，然而最后一大题40分，真的没讲过，完全是考验基本功（which I have little)。15:20考场外电闪雷鸣大雨倾盆，放佛我内心对自己无能的狂吼。本人一生经历大小考试几百场，唯独张老师今天这场，无一人提前交卷。想必大家和我状态相近？又或是觉得提前交卷是对谷神的亵渎？\n\n总而言之，民法下哪怕挂了也是我自己的问题，对谷神的爱和崇敬常青。我看谷神多妩媚，谷神看我未必然。此乃神与人位阶不同，实属正常。\n\n最后感谢浙大，感谢法学院，光为能够成为谷神的亲学生，就不辜负这三年。"},{"id":140928,"teacher_id":1745,"teacher_name":"张谷","post_time":"2022-01-13 05:16:22","like_diff":24,"likes":24,"dislikes":0,"content":"民总时隔2个月终于出分了（狗头）\n\n谷神给分还是比较严格的，我们这届民总均分大概在65-70之间楼，98个人挂了18个，想水课的慎选，想听智慧的尽管来。"},{"id":171597,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-03-29 18:09:58","like_diff":24,"likes":25,"dislikes":1,"content":"谷神真的是在民法学界造诣很深的大人物，从先生授课时滴水不漏的复杂又顺畅的逻辑推理与论证，就足见先生的学术功底之深。且学者最为难得的是能学能讲，谷神的语言表达真的是法学院里的佼佼者，大方又自信的语气，抑扬顿挫的语调和节奏，每节课都相当精彩，相当出彩。"},{"id":499,"teacher_id":1745,"teacher_name":"张谷","post_time":"2015-03-15 03:32:19","like_diff":23,"likes":25,"dislikes":2,"content":"三十二个赞！"},{"id":160131,"teacher_id":1745,"teacher_name":"张谷","post_time":"2022-09-13 14:55:24","like_diff":23,"likes":24,"dislikes":1,"content":"他是浙大的瑰宝，但是1.5，1.8或许是很多水平不高的同学选他的课必须付出的代价。\n\n合同法出了分到吸一口凉气，大二一切努力全都白费。"},{"id":121865,"teacher_id":1745,"teacher_name":"张谷","post_time":"2020-01-23 01:13:07","like_diff":21,"likes":21,"dislikes":0,"content":"谷神的课让我真正有了一种在上大学课程的感觉，很多人说谷神的课太天马行空，但是其实每节课上课前老师都会写这节课的提纲，另外虽然谷神时常会扯开话题一些，但是事后仔细听录音就会发现这些扯开去的东西往往是帮助我们理解的。谷神对于民法的很多东西都有自己的理解，鞭辟入里，发人深省，听谷神的课是一种幸运，希望以后还能再有这样的机会。"},{"id":133189,"teacher_id":1745,"teacher_name":"张谷","post_time":"2021-02-15 14:16:24","like_diff":18,"likes":22,"dislikes":4,"content":"1.22早上考的债法，到今天2.15晚上都没有出分……不过这也好，完全不考虑成绩地斗胆评价一下谷神。\n\n老师只亲自上了14节课，12.14之前讲了那么久，其实都只是罗歇尔德斯债总第一节的内容——看起来讲的很慢，但其实对债总的主要内容都已有所涉猎。\n\n老师讲课内容并不深，往往是从基本概念出发进行推导或者参照德民的规定。因此在“术”的层面，老师就讲了那点，相比于债法的博大精深，几乎没有收获；但在我看来，老师在“道”的层面言传身教的明辨基本概念、考察比较法源流、结合民商事交易实践等等，要比终日碌碌于知识点的记诵重要得多。\n\n另外，老师的人生和治学态度也让我高山仰止。“吃着螃蟹，喝着小酒就坐化了”的生活，我虽不爱吃螃蟹，又如何不羡慕！“除了生死之事，没什么大不了”的仙风道骨，我又要修炼几世才能参透！\n\n附上考试内容：区别有限责任和过失责任中的“责任”；合伙企业对某人的债务与某人对某合伙人的债务能抵销吗？“欠新还旧”放款义务和还款义务能抵销吗？如何判决被告缺席、不行使526条先履行抗辩权（实为法院依职权审查的权利不发生的抗辩）的案件？赠与合同附负担还是单务合同吗、谁能请求履行负担、不履行如何撤销？"},{"id":160179,"teacher_id":1745,"teacher_name":"张谷","post_time":"2022-09-14 08:02:25","like_diff":18,"likes":25,"dislikes":7,"content":"给了我的第一个一分来拉一下。\n\n昨晚出分以后整个人都是懵的，考完自以为还可以，看着60出头的成绩只有苦笑。\n\n不否认谷神的能力、也不能说谷神给我这个求是的分数完全是谷神的问题。\n\n只是假如有从头再来的机会我会果断选择隔壁陆帅，成绩不是唯一的评判标准，但对于做不切实际的出国梦乃至保研梦的人而言，两个悬殊的成绩、付出了不一定有收获的成绩，我只能功利地选另一个。"},{"id":176122,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-06-28 01:16:24","like_diff":18,"likes":19,"dislikes":1,"content":"非常棒啊"},{"id":2504,"teacher_id":1745,"teacher_name":"张谷","post_time":"2015-05-04 13:18:41","like_diff":17,"likes":29,"dislikes":12,"content":"不出成绩的债法"},{"id":24393,"teacher_id":1745,"teacher_name":"张谷","post_time":"2016-04-30 08:50:45","like_diff":17,"likes":18,"dislikes":1,"content":"震惊了，这次卷子改得又快给分又高，不禁使我怀疑人生"},{"id":134229,"teacher_id":1745,"teacher_name":"张谷","post_time":"2021-03-20 03:54:40","like_diff":16,"likes":16,"dislikes":0,"content":"教授的教授"},{"id":161101,"teacher_id":1745,"teacher_name":"张谷","post_time":"2022-10-27 03:02:23","like_diff":16,"likes":17,"dislikes":1,"content":"我是一个法学菜狗，但是当时看自己被分到了张谷老师的债法，也听说了张谷老师的课是适合高水平的人去上的，但是我这么菜的人也不在乎绩点啥的，即便还怕挂科，但还是闻名而来。上了老师的债法课虽然依旧改变不了我现阶段是个菜狗的的事实，但是他是唯一一个让我走出了高中那种学习模式的大学教授，真的让我感受到了大学课堂的魅力。我眼里的大学课堂就是可能老师讲的不是循规蹈矩的、不是严格按照屁屁踢的，而是在老师在课堂的引领之下愿意在课下探索出一些东西、在平等的交流中得到自己想要的自己想知道的东西同时又不忘了最基本的课程知识的过程。我当然不能说几点不重要，追求几点的同学都是功力等等这样的话，因为无论怎样，绩点对于大学生而言的确是很重要的，但是在浙大学法错过张谷老师的课程也是挺遗憾的，像我这样的菜狗都有所感想，我想那么多比我棒的同学应该更是受益匪浅的，所以如果可以，建议大家即便没有选课也可以在智云课堂上感受感受张谷老师的课堂~~真的是一种奇妙的感觉~~（虽然但是，菜狗我好害怕挂科，但我会尽力的！）"},{"id":5747,"teacher_id":1745,"teacher_name":"张谷","post_time":"2015-07-09 08:30:57","like_diff":15,"likes":15,"dislikes":0,"content":"男神老师"},{"id":20777,"teacher_id":1745,"teacher_name":"张谷","post_time":"2016-01-31 10:29:14","like_diff":15,"likes":15,"dislikes":0,"content":"终于见到了大学教授的风骨 不过等成绩等断魂"},{"id":21498,"teacher_id":1745,"teacher_name":"张谷","post_time":"2016-02-29 05:07:08","like_diff":15,"likes":15,"dislikes":0,"content":"老师本身非常棒，博闻强识，逻辑严密。打心底里敬慕谷神。债法是我这学期学到东西最多的课，刚开学的时候会觉得听不懂，快期末的时候一节都舍不得错过。还没出分，不过这真的是门分低都愿意上不觉得亏的课。"},{"id":24098,"teacher_id":1745,"teacher_name":"张谷","post_time":"2016-04-27 03:40:23","like_diff":15,"likes":17,"dislikes":2,"content":"满分老师！长得帅穿的帅举止帅讲课帅给分帅！"},{"id":174750,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-06-16 16:38:54","like_diff":15,"likes":15,"dislikes":0,"content":"非常棒"},{"id":179269,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-09-06 03:03:35","like_diff":14,"likes":14,"dislikes":0,"content":"极好的学者"},{"id":20917,"teacher_id":1745,"teacher_name":"张谷","post_time":"2016-02-18 16:25:16","like_diff":13,"likes":14,"dislikes":1,"content":"很有深度，虽然迟迟不出分，但谷神的给分代表着你的真实水平~"},{"id":128636,"teacher_id":1745,"teacher_name":"张谷","post_time":"2021-01-24 14:34:02","like_diff":13,"likes":13,"dislikes":0,"content":"谷神，yyds！"},{"id":216051,"teacher_id":1745,"teacher_name":"张谷","post_time":"2025-03-10 03:05:41","like_diff":13,"likes":15,"dislikes":2,"content":"一想到这样的老师要退休了就忍不住要流泪TT\n\n老师的知识、气度山一样巍峨而平静，永远学不完。上学期职业选择很迷茫，有段时间焦虑到要看医生；找了谷神的office time，那一个半小时仿佛迷航的船找到唯一的灯塔，走出1号楼的时间我甚至以为自己已经来到了另一个世界。敬佩、感激、触动，我感觉怎么也说不尽。"},{"id":171311,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-03-21 10:31:05","like_diff":12,"likes":16,"dislikes":4,"content":"民案出分了，大学四年的民法课程也画上了句号，虽然民总、债总、合同法都躲过了谷神的绩杀，但最终还是决定民案来上谷神的课（大家放心，谷神民案的给分会比前三门民法给分好）。可以说，有志学习民法的同学，如果在本科阶段没有上过完整的谷神的一门课将是你终身的遗憾，谷神对于债与责任、处分行为、债务承担与债权让与的介绍等等，会让你对于一些制度有更为深刻的理解，甚至是说直接打通你的“任督二脉”。民法的学习不是一朝一夕的事情，但当你沉下心来去探索民法的世界，你会发现很多惠及你一生的东西。"},{"id":170378,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-03-03 09:07:00","like_diff":11,"likes":11,"dislikes":0,"content":"可能是由于疫情线上上课的原因，张谷老师这次考试的知识点上课都有所涉及，只要好好听课，成绩并不会差。推荐阅读《德国债法总论》里面可以学习到很多关于债法的知识，考试的许多内容也源于其中。谷神是一个好的学者、老师，不同于课本，他讲述的内容都是经过自己思考、琢磨，从很多案件、法条中总结出来的，真正能够解决问题的。10分！！！"},{"id":179301,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-09-08 10:04:30","like_diff":11,"likes":12,"dislikes":1,"content":"好好好！"},{"id":181972,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-11-07 03:46:44","like_diff":11,"likes":11,"dislikes":0,"content":"谷子唱歌可以，有没有懂的"},{"id":202070,"teacher_id":1745,"teacher_name":"张谷","post_time":"2024-11-09 03:13:05","like_diff":11,"likes":14,"dislikes":3,"content":"张老师是民商法所唯一真正的学者，但是也被各种排挤...等张老师退休了，民商法就彻底沦为世俗之地了"},{"id":22908,"teacher_id":1745,"teacher_name":"张谷","post_time":"2016-03-14 13:24:15","like_diff":10,"likes":10,"dislikes":0,"content":"吾师张谷"},{"id":160156,"teacher_id":1745,"teacher_name":"张谷","post_time":"2022-09-14 02:46:01","like_diff":10,"likes":10,"dislikes":0,"content":"谷神的合同法终于出分，谢谢谷神不挂，刚好及格。民总，债法，合同法，还有明天的民案，痛苦与快乐并存"},{"id":191184,"teacher_id":1745,"teacher_name":"张谷","post_time":"2024-04-11 02:51:59","like_diff":10,"likes":11,"dislikes":1,"content":"回应前面说不发朋友圈的，据说是谷神pyq被封了（笑）"},{"id":194190,"teacher_id":1745,"teacher_name":"张谷","post_time":"2024-06-22 12:03:00","like_diff":10,"likes":11,"dislikes":1,"content":"已老实"},{"id":11648,"teacher_id":1745,"teacher_name":"张谷","post_time":"2015-12-09 08:14:48","like_diff":9,"likes":13,"dislikes":4,"content":"真的真的真的不知道在讲什么 但是还是很喜欢这个老师"},{"id":121774,"teacher_id":1745,"teacher_name":"张谷","post_time":"2020-01-21 23:54:34","like_diff":9,"likes":23,"dislikes":14,"content":"很棒，但是给分很猛，我另外一个人老师的物权法97分，5.0的绩点，张谷老师的债权法就给我68分，2.4的绩点，张谷老师一个人就把我的均绩点拉掉了0.05"},{"id":170074,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-03-01 09:15:15","like_diff":9,"likes":9,"dislikes":0,"content":"普通的我不配选的课罢。\n\n——致合同法"},{"id":192020,"teacher_id":1745,"teacher_name":"张谷","post_time":"2024-05-08 00:50:59","like_diff":9,"likes":9,"dislikes":0,"content":"非常好"},{"id":198374,"teacher_id":1745,"teacher_name":"张谷","post_time":"2024-09-08 08:22:18","like_diff":9,"likes":10,"dislikes":1,"content":"上完谷神春夏合同法来评价一下：光华瑰宝名不虚传。听谷神讲课确实很享受，而且对学生答疑实际上非常有耐心。回想我问的弱智问题自己都觉得不好意思，但是谷神都认真解答了。不知道谷神什么时候能仔细展开讲讲民法典十一个问题（还是几个问题来着？欢迎同学指正）"},{"id":200275,"teacher_id":1745,"teacher_name":"张谷","post_time":"2024-10-15 09:16:54","like_diff":9,"likes":11,"dislikes":2,"content":"加了谷神wx，谷发视频号分享日常的文字特别动人"},{"id":201761,"teacher_id":1745,"teacher_name":"张谷","post_time":"2024-11-06 03:56:20","like_diff":9,"likes":13,"dislikes":4,"content":"感觉是法学院众多老师中最接近“正常人”标准的老师。那么问题来了，是什么让高校里的老师都那么逆天，不是压榨学生就是搞xsr，要么就是爹味十足，要么就是看上去像50w，导致原本应该只是“正常”甚至有点癫（给分的时候）的张谷显得特别清流。"},{"id":208720,"teacher_id":1745,"teacher_name":"张谷","post_time":"2024-12-31 19:07:24","like_diff":9,"likes":10,"dislikes":1,"content":"张老师极其极其极其注重基础。同学们可以进行自测，对一些基础概念，如意思表示、法律行为、法人、负担与给付，能否不看书准确无误地回忆。如果做到基础扎实，加上上课认真听讲，考个八十绝对是绰绰有余。以楼下21年真题为例，除了涉及抵销溯及力的问题较难，其他问题的知识点都是民法里相当基础的，甚至只学过民法总论者即可作答并取得相当的分数。这些并不是什么偏难怪的知识。张老师出题只会从上课+基础知识里出题，很少考有争议的问题。\n\n张老师还有四年就退休了，留给同学们听课的时间很少了，一定要好好珍惜。"},{"id":135273,"teacher_id":1745,"teacher_name":"张谷","post_time":"2021-05-07 09:50:33","like_diff":8,"likes":9,"dislikes":1,"content":"1.22早上考的债法，5.7早上出分了[狗头]"},{"id":178912,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-07-31 00:19:56","like_diff":8,"likes":8,"dislikes":0,"content":"很好的"},{"id":198632,"teacher_id":1745,"teacher_name":"张谷","post_time":"2024-09-10 09:42:59","like_diff":8,"likes":8,"dislikes":0,"content":"法学院上过的最有学者风范和内涵的老师，其本人魅力甚至超越了绩点本身，谷神的合同法考试基本上是课上内容，开卷考，仔细听不仅收获满满，而且成绩也很捞，考完本来特别特别不安，没想到居然没挂，虽然我很菜，但特别感谢谷神的鼓励！！"},{"id":222223,"teacher_id":1745,"teacher_name":"张谷","post_time":"2025-07-01 09:23:13","like_diff":8,"likes":8,"dislikes":0,"content":"大二下的时候修读谷神的合同法，当时只是觉得云里雾里，但是遇上了心软的谷，侥幸逃过，没有挂科；\n\n现在大三，再翻谷神的笔记突然大受触动，不自觉打开查老师想再留下一些记录；\n\n观爷总说“谷神是一块肥沃的土地”，越听越有，是的，没错，真的是这样。谷神一学期短短的几堂课留下来的笔记，就给这个时候还沉溺于细碎知识点的我一记当头棒喝，突然对民法的体系思维有了全新的理解（虽然以我的智商总是学不会民法）。笔记里也记了谷神上课偶尔的幽默“警惕这个概念，名字都没定下来，妾身不明啊！”“合理选择你就能看出中国人的圆融，德国人的死性”。这些突然的幽默都让在苦海挣扎的我笑出声来。\n\n打开查老师看到最新评论有一条说谷神快要退休了，突然感觉眼泪上涌；在光华法学院读书有诸多辛苦（谷神挂科惨烈的传说也曾是其中压力之一），但是在进入法学世界的头两年能得到谷神的教导，足以抵销。不仅仅是法学思维的创立，也是为人立世之榜样。希望我在多年以后也能说：“虽然晚上十点买菜打一折，但是我只能八点去买，因为我急着回家看书。”珍惜谷神教课的日子！"},{"id":6399,"teacher_id":1745,"teacher_name":"张谷","post_time":"2015-07-13 14:56:09","like_diff":7,"likes":7,"dislikes":0,"content":"最爱谷神~"},{"id":6470,"teacher_id":1745,"teacher_name":"张谷","post_time":"2015-07-14 07:44:05","like_diff":7,"likes":7,"dislikes":0,"content":"又累又轻松"},{"id":9285,"teacher_id":1745,"teacher_name":"张谷","post_time":"2015-10-20 04:18:33","like_diff":7,"likes":7,"dislikes":0,"content":"醍醐灌顶"},{"id":10983,"teacher_id":1745,"teacher_name":"张谷","post_time":"2015-11-23 15:03:28","like_diff":7,"likes":7,"dislikes":0,"content":"仰望星空"},{"id":24168,"teacher_id":1745,"teacher_name":"张谷","post_time":"2016-04-28 03:44:17","like_diff":7,"likes":7,"dislikes":0,"content":"谷神给分从良了~~看到成绩给分太良心~~~"},{"id":54564,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-06-29 15:35:16","like_diff":7,"likes":10,"dislikes":3,"content":"谷神是我进浙大以来遇见的最棒的老师了，没有之一。虽然上课内容会有些乱，而且有些难懂，对于刚接触民法的人来说听起来有些累。但是谷神的课就是有一种魅力，让你会一直听下去，听进去。回去认真梳理就会明白谷神的民法思想，真的很赞成老师的看法。我是谷神的迷妹一只，不管成绩如何，老师都超级棒~\\(≧▽≦)/~"},{"id":64598,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-12-25 12:22:19","like_diff":7,"likes":11,"dislikes":4,"content":"老师课讲得挺有趣，但是体系性没有朱大侠好，会觉得有些散乱，自己整理的话还是会比较困难。成绩出得是真的慢啊，整整四个月之后才出成绩，非常煎熬。"},{"id":133435,"teacher_id":1745,"teacher_name":"张谷","post_time":"2021-02-28 14:41:01","like_diff":7,"likes":7,"dislikes":0,"content":"太棒了！"},{"id":199494,"teacher_id":1745,"teacher_name":"张谷","post_time":"2024-09-24 13:22:18","like_diff":7,"likes":8,"dislikes":1,"content":"学年总排名出了，虽然一般般的，但张谷的合同法拿了93，冲淡了总成绩的悲伤。爱张谷"},{"id":9615,"teacher_id":1745,"teacher_name":"张谷","post_time":"2015-11-03 02:43:51","like_diff":6,"likes":8,"dislikes":2,"content":"听不懂"},{"id":12469,"teacher_id":1745,"teacher_name":"张谷","post_time":"2015-12-23 10:57:14","like_diff":6,"likes":6,"dislikes":0,"content":"逼格满满"},{"id":169095,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-02-24 09:21:26","like_diff":6,"likes":6,"dislikes":0,"content":"很好！"},{"id":198383,"teacher_id":1745,"teacher_name":"张谷","post_time":"2024-09-08 11:13:00","like_diff":6,"likes":6,"dislikes":0,"content":"高山仰止，是在浙大所有法学老师里面最让人心生敬畏心生敬佩的存在，不仅是学术上的点拨，许多话细品很久才会发现精妙所在，此生得师长如此，实在是幸运！"},{"id":199553,"teacher_id":1745,"teacher_name":"张谷","post_time":"2024-09-25 08:55:20","like_diff":6,"likes":7,"dislikes":1,"content":"有助于民法高屋建瓴的了解，并且深刻了解每一个制度背后的原理。"},{"id":211833,"teacher_id":1745,"teacher_name":"张谷","post_time":"2025-01-12 17:08:05","like_diff":6,"likes":6,"dislikes":0,"content":"刚听的时候觉得很散很乱。回过头来看笔记，才发现当时觉得谷神在乱讲的东西是法学体系里真正值得注意的。不愧于老师的老师之名\n\n但是谷神有时候会讲串（因为他上很多课且没有文字大纲），而且又不调分。有概率在考试时候面临他自以为讲过但是没讲过，而且出的很难的题。这些题还有可能来自谷神自己的知识体系，根本在其他书上找不到。这时候就是谷神的天级时刻，就算学的很认真也会被绩杀到六七十分\n\n而且这时质问他，他还会嘴硬：“上课我讲过的”或者“找两本可靠的书看吧”。莫名觉得有点可爱😂"},{"id":1833,"teacher_id":1745,"teacher_name":"张谷","post_time":"2015-03-26 01:27:13","like_diff":5,"likes":7,"dislikes":2,"content":"绝对好老师"},{"id":10962,"teacher_id":1745,"teacher_name":"张谷","post_time":"2015-11-23 13:26:07","like_diff":5,"likes":5,"dislikes":0,"content":"大谷神独树一帜！"},{"id":47394,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-01-26 02:48:32","like_diff":5,"likes":6,"dislikes":1,"content":"帅得一塌糊涂"},{"id":51097,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-05-17 02:10:29","like_diff":5,"likes":5,"dislikes":0,"content":"博闻强识，很容易引申开来，老师的个人经历很丰富，上课能听到很丰富的案例！"},{"id":58610,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-09-09 06:16:58","like_diff":5,"likes":6,"dislikes":1,"content":"超级超级棒！纯粹的风骨，大师的沉淀！"},{"id":140869,"teacher_id":1745,"teacher_name":"张谷","post_time":"2021-09-17 03:50:03","like_diff":5,"likes":6,"dislikes":1,"content":"我是真滴努力了\n\n我是真滴听不懂"},{"id":148604,"teacher_id":1745,"teacher_name":"张谷","post_time":"2022-01-13 03:14:53","like_diff":5,"likes":7,"dislikes":2,"content":"我觉得老师的教学方法可能不太适合本科生，但也有可能是我太菜了😭"},{"id":167103,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-01-23 21:02:56","like_diff":5,"likes":5,"dislikes":0,"content":"好！！！"},{"id":190784,"teacher_id":1745,"teacher_name":"张谷","post_time":"2024-03-19 06:06:35","like_diff":5,"likes":5,"dislikes":0,"content":"侃侃而谈时有一种文人风范，你很难不被他的气质所吸引。其实给分是蛮公道的。"},{"id":197526,"teacher_id":1745,"teacher_name":"张谷","post_time":"2024-07-18 03:35:51","like_diff":5,"likes":6,"dislikes":1,"content":"浙大法学的瑰宝，中国法学界的瑰宝\n\n认真学就有收获，谷神的几门课都拿满了"},{"id":197653,"teacher_id":1745,"teacher_name":"张谷","post_time":"2024-07-24 08:45:38","like_diff":5,"likes":5,"dislikes":0,"content":"民商法所唯一真神，无需多言。"},{"id":52010,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-06-14 06:44:06","like_diff":4,"likes":4,"dislikes":0,"content":"棒！棒！棒！"},{"id":55658,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-07-02 06:13:41","like_diff":4,"likes":4,"dislikes":0,"content":"师者\n\n传道授业解惑者也"},{"id":115464,"teacher_id":1745,"teacher_name":"张谷","post_time":"2019-07-25 15:47:16","like_diff":4,"likes":5,"dislikes":1,"content":"请问19年春夏学期合同法出分了吗"},{"id":146599,"teacher_id":1745,"teacher_name":"张谷","post_time":"2022-01-13 05:21:21","like_diff":4,"likes":4,"dislikes":0,"content":"大胡子好帅！"},{"id":160925,"teacher_id":1745,"teacher_name":"张谷","post_time":"2022-10-20 00:29:16","like_diff":4,"likes":5,"dislikes":1,"content":"民国学者风范！"},{"id":223368,"teacher_id":1745,"teacher_name":"张谷","post_time":"2025-09-21 14:29:11","like_diff":4,"likes":4,"dislikes":0,"content":"真正的大师，才华横溢，干净纯粹，仙风道骨"},{"id":5793,"teacher_id":1745,"teacher_name":"张谷","post_time":"2015-07-09 11:28:45","like_diff":3,"likes":4,"dislikes":1,"content":"毕竟谷神"},{"id":20355,"teacher_id":1745,"teacher_name":"张谷","post_time":"2016-01-27 06:11:07","like_diff":3,"likes":4,"dislikes":1,"content":"谷神男神！"},{"id":32674,"teacher_id":1745,"teacher_name":"张谷","post_time":"2016-07-09 06:55:32","like_diff":3,"likes":4,"dislikes":1,"content":"出成绩了，作为非法律专业，平时上课又听得半懂不懂的学生，真的非常非常担心挂科，没想到谷神给分居然高!(考试题目本身确实很有水平，谷神出题水平和讲课水平保持一致"},{"id":53883,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-06-28 02:57:31","like_diff":3,"likes":3,"dislikes":0,"content":"大神，真的大神"},{"id":61041,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-11-07 10:26:33","like_diff":3,"likes":3,"dislikes":0,"content":"此生有此师，足以。"},{"id":134898,"teacher_id":1745,"teacher_name":"张谷","post_time":"2021-04-21 12:36:21","like_diff":3,"likes":19,"dislikes":16,"content":"一堆人在那说出分慢给分差，浙大只教会了你们这些东西吗？"},{"id":139398,"teacher_id":1745,"teacher_name":"张谷","post_time":"2021-07-15 11:45:16","like_diff":3,"likes":4,"dislikes":1,"content":"好老师，很棒"},{"id":159069,"teacher_id":1745,"teacher_name":"张谷","post_time":"2022-07-05 13:12:25","like_diff":3,"likes":6,"dislikes":3,"content":"8节课就讲保理？"},{"id":15331,"teacher_id":1745,"teacher_name":"张谷","post_time":"2016-01-14 01:58:28","like_diff":2,"likes":3,"dislikes":1,"content":"发自内心敬佩的老师"},{"id":25774,"teacher_id":1745,"teacher_name":"张谷","post_time":"2016-06-08 01:16:05","like_diff":2,"likes":3,"dislikes":1,"content":"谷神说下一学期不给加课时就不上了，开玩笑似的说的话，不过下学期的确不开债法了。"},{"id":59449,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-09-21 11:58:19","like_diff":2,"likes":2,"dislikes":0,"content":"爱谷神"},{"id":61079,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-11-08 06:27:44","like_diff":2,"likes":8,"dislikes":6,"content":"前人之言不可信……给分的话看看数据里的绩点吧 如果是追求绩点来的就不要选了"},{"id":70465,"teacher_id":1745,"teacher_name":"张谷","post_time":"2018-01-26 16:05:32","like_diff":2,"likes":15,"dislikes":13,"content":"谷神给分居然比大侠还差?上课确有惊艳之处，但总是在讲重复的内容和例子？？体系性真的比大侠逊色，总之我是占队……"},{"id":115164,"teacher_id":1745,"teacher_name":"张谷","post_time":"2019-07-16 15:47:48","like_diff":2,"likes":16,"dislikes":14,"content":"考教不配套，仅此而已。"},{"id":140731,"teacher_id":1745,"teacher_name":"张谷","post_time":"2021-09-15 12:21:10","like_diff":2,"likes":2,"dislikes":0,"content":"好啊"},{"id":197703,"teacher_id":1745,"teacher_name":"张谷","post_time":"2024-08-01 02:42:05","like_diff":2,"likes":2,"dislikes":0,"content":"真的好！"},{"id":55566,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-07-02 02:27:37","like_diff":1,"likes":2,"dislikes":1,"content":"入校两年却未能上谷师的课，略感难过"},{"id":62557,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-11-26 02:41:23","like_diff":1,"likes":1,"dislikes":0,"content":"畅游在知识的海洋。"},{"id":65388,"teacher_id":1745,"teacher_name":"张谷","post_time":"2018-01-03 14:26:21","like_diff":1,"likes":9,"dislikes":8,"content":"没有PPT啊 然后出分很慢"},{"id":225887,"teacher_id":1745,"teacher_name":"张谷","post_time":"2026-01-03 14:50:09","like_diff":1,"likes":1,"dislikes":0,"content":"听谷神的课，何其有幸哉！是让我喜欢上、想研究民商法的引路老师www"},{"id":226098,"teacher_id":1745,"teacher_name":"张谷","post_time":"2026-01-08 13:08:13","like_diff":1,"likes":1,"dislikes":0,"content":"上谷神的课简直如沐春风"},{"id":60473,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-10-22 05:19:04","like_diff":0,"likes":5,"dislikes":5,"content":"所以不出分是什么意思？"},{"id":61042,"teacher_id":1745,"teacher_name":"张谷","post_time":"2017-11-07 10:37:09","like_diff":0,"likes":1,"dislikes":1,"content":"挺好的，有难度。"},{"id":85494,"teacher_id":1745,"teacher_name":"张谷","post_time":"2018-07-18 13:13:55","like_diff":0,"likes":2,"dislikes":2,"content":"看看合同法什么时候出分"},{"id":107817,"teacher_id":1745,"teacher_name":"张谷","post_time":"2019-05-10 03:48:26","like_diff":-1,"likes":4,"dislikes":5,"content":"在？借我2000？"},{"id":17438,"teacher_id":1745,"teacher_name":"张谷","post_time":"2016-01-20 08:01:06","like_diff":-2,"likes":4,"dislikes":6,"content":"讲的超级好！但是作为非法学"},{"id":117554,"teacher_id":1745,"teacher_name":"张谷","post_time":"2019-09-26 02:06:43","like_diff":-6,"likes":5,"dislikes":11,"content":"地摊...."},{"id":122621,"teacher_id":1745,"teacher_name":"张谷","post_time":"2020-03-09 04:37:15","like_diff":-8,"likes":13,"dislikes":21,"content":"一般般"},{"id":140730,"teacher_id":1745,"teacher_name":"张谷","post_time":"2021-09-15 12:12:42","like_diff":-8,"likes":15,"dislikes":23,"content":"水平高我承认，但是，但是，但是讲课做一下ppt很难吗，讲的有逻辑一些很难吗，板书工整一点很难吗，哎"},{"id":172241,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-04-23 11:07:04","like_diff":-32,"likes":6,"dislikes":38,"content":"将南方学生上课不积极归结为小富即安实属不妥，将北方学生学习用功归结为家境不好更属谬论。张座移身地方高校，早应熟知地方高校学生的秉性，奈何总提遥在北京的夕生旧友，北京人命娇贵，旧事重提难免借古讽今，借京讽浙，涨他人志气，灭自己威风…"},{"id":172240,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-04-23 11:07:02","like_diff":-33,"likes":6,"dislikes":39,"content":"将南方学生上课不积极归结为小富即安实属不妥，将北方学生学习用功归结为家境不好更属谬论。张座移身地方高校，早应熟知地方高校学生的秉性，奈何总提遥在北京的夕生旧友，北京人命娇贵，旧事重提难免借古讽今，借京讽浙，涨他人志气，灭自己威风…"},{"id":172239,"teacher_id":1745,"teacher_name":"张谷","post_time":"2023-04-23 11:14:31","like_diff":-44,"likes":6,"dislikes":50,"content":"将南方学生上课不积极归结为小富即安实属不妥，将北方学生学习用功归结为家境不好更属谬论。张座移身地方高校，早应熟知地方高校学生的秉性，奈何总提遥在北京的夕生旧友，北京人命娇贵，旧事重提难免借古讽今，借京讽浙，涨他人志气，灭自己威风…"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>常瑞 - 计算机科学与技术学院 - 浙大教评</title>
+    <meta name="description" content="常瑞教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="常瑞,计算机科学与技术学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">常瑞</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">计算机科学与技术学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.67</div>
+                    <div class="rating-participants">67人参与评分</div>
+                    <div class="attendance-info">29.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (6 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">网络空间安全导论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.36</span>
+                            <span class="students">选课: 203人</span>
+                            <span class="std-dev">标准差: 0.46</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">计算机体系结构</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.34</span>
+                            <span class="students">选课: 240人</span>
+                            <span class="std-dev">标准差: 0.70</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">计算机系统 Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.14</span>
+                            <span class="students">选课: 56人</span>
+                            <span class="std-dev">标准差: 0.70</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">计算机系统Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.46</span>
+                            <span class="students">选课: 36人</span>
+                            <span class="std-dev">标准差: 0.74</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">计算机系统Ⅲ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.21</span>
+                            <span class="students">选课: 154人</span>
+                            <span class="std-dev">标准差: 0.83</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">课程综合实践Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.56</span>
+                            <span class="students">选课: 125人</span>
+                            <span class="std-dev">标准差: 0.88</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (53 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":158201,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2022-06-27 12:35:45","like_diff":15,"likes":18,"dislikes":3,"content":"给常老师和所有为计算机系统这门课作出贡献的老师和助教们10分好评！"},{"id":221018,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2025-06-21 01:01:03","like_diff":13,"likes":13,"dislikes":0,"content":"cr 是我的妈妈😭 我的好妈妈😭"},{"id":132979,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2021-02-05 17:08:35","like_diff":8,"likes":17,"dislikes":9,"content":"常老师人非常的好！会非常考虑学生的感受（比如顺延DDL之类的hhhh）助教是我遇到过最最负责任的助教！先吹一波～\n\n1.上课学的很多内容是拓展知识，考试之前需要自学很多东西\n\n2.作业少但是相对来讲比较难\n\n3.实验相对其他班要求更高一些，但是如果实在困难助教会手把手教哦hhhh\n\n4.给分还不错吧～\n\n5.上课有小测\n\n最后再吹一波hsr助教gg！yyds！"},{"id":139589,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2021-07-17 17:20:16","like_diff":7,"likes":7,"dislikes":0,"content":"网安导给分狂好 甚至感觉得到了自己不配的分数"},{"id":125051,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2020-08-21 00:26:58","like_diff":6,"likes":7,"dislikes":1,"content":"课讲得很好啊，老师人很nice，备课内容很丰富，还有重点知识点的小视频，选到超幸运的，虽然是疫情期间上课，仍收获满满～实验选错队友，不过老师及时调整了，棒棒，给分也很赞的ヽ(^0^)ﾉ"},{"id":128306,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2020-12-17 08:59:19","like_diff":6,"likes":6,"dislikes":0,"content":"上课信息量有点大，有一些来蹭课的，老师经常分不清学生是不是自己班上的，问了我好几次。。。上课还挺有趣的，实验进度有点快，不过还好。作业布置得不多，不过都不太好做的样子。。。课上有小测。"},{"id":208792,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2025-01-02 04:00:03","like_diff":5,"likes":5,"dislikes":0,"content":"cr老师讲课很清楚，但是体系考试问题很大，每个班授课内容有差别，一个老师讲的不能覆盖全部内容。另外，一定要看历年卷！！！"},{"id":126861,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2020-10-25 09:50:21","like_diff":4,"likes":9,"dislikes":5,"content":"极其混乱，尤其是作业实验布置。布置好的任务在学在浙大上仍然改动，并且不统一通知改了。。。"},{"id":142333,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2021-11-10 08:49:05","like_diff":4,"likes":4,"dislikes":0,"content":"吹一波，常老师人非常好啊，讲课逻辑清晰，课件也很清爽，不像有些满屏乱糟糟的，体系给分很赞，上课不点名，TA水平都很高，实验要求会高一些，作业不多但是有难度，吹爆～"},{"id":147986,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2022-01-11 09:05:38","like_diff":4,"likes":4,"dislikes":0,"content":"平时分60%：两次平时作业12%；五次实验36%，前三次实验可能有点难，最后两次实验非常简单；其他Presentation+小测之类的12%。助教和老师非常好，平时分应该都给得很高。\n\n期末40%：最后会划重点，给分好得不知道怎么形容（按照最后结果来看）。\n\n其他：上课体验很好；老师人很有耐心；助教验收体验也非常好。\n\n综上，绝对值得选。"},{"id":139592,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2021-07-18 00:59:33","like_diff":3,"likes":3,"dislikes":0,"content":"爆吹一波网安导！！！！"},{"id":146071,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2022-01-05 11:04:30","like_diff":3,"likes":3,"dislikes":0,"content":"老师思路清楚，超级温柔、体贴学生，还有吹爆助教，yyds！"},{"id":146166,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2022-01-05 15:16:51","like_diff":3,"likes":3,"dislikes":0,"content":"常瑞老师非常温柔，给分非常好。平时作业不多，由于老师的体系比其他老师做教改早一届，所以平时的实验会有1-2次和其他班同学不一样，但是不一样的这几次实验不算很难，期末老师也会给划重点。"},{"id":164945,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2023-01-03 15:54:52","like_diff":3,"likes":3,"dislikes":0,"content":"常老师对学生很关心\n\n上课也十分nice\n\n面对考试的内容都会讲\n\n也会补充自己觉得必要的\n\n还会自己邀请芯片设计师给我们开讲座\n\n助教人也很好 真的很温柔\n\n虽然还没考试 但是我先给老师打个10分\n\n也希望期末能顺利！\n\n（btw查老师均绩比实际低了太多"},{"id":166537,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2023-01-12 16:24:03","like_diff":3,"likes":3,"dislikes":0,"content":"常瑞老师人很好，至今还记得她让我们带早餐到课堂上吃别饿着"},{"id":186764,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2024-01-13 05:07:03","like_diff":3,"likes":3,"dislikes":0,"content":"23 秋冬体系结构。\n\n老师很好，据她所说讲课十多年从不点名（今年最后一节课有一次不计分的签到）\n\n讲的很丝滑，课程内容如数家珍，而且可以看出来，常老师是真的在教“体系结构”，而不是“体系结构课程”。很多时候大篇幅都是在讲背后的思想，表面的算法、例子涉及较少，这也导致最后考试的时候有相当的部分是老师没怎么讲，或者一笔带过的内容。今年特殊原因考前也没有面向考试的复习课。"},{"id":187606,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2024-01-16 19:35:32","like_diff":3,"likes":3,"dislikes":0,"content":"体系\n\n感谢老师捞我，感觉这个课实验报告要好好写，大部分老师报告还是会扣一些的（不过今年wxh实验基本全是满的还似乎不用验收，很轻松，真好啊）\n\n以及尽量去上cr的课，老师真挺好的我感觉，是真想让你学到一点体系到底是什么的，以及我觉得我也占了总去上课的便宜，平时分就有种被捞的感觉。\n\n另外cr的pre感觉也要好好做的，不难，用心讲清楚自己选的题就好。\n\n最后的期末可能需要面向其他老师的东西复习一下，毕竟个人感觉cr老师后半学期讲的可能确实不是那么面向考试，但是最后一次复习课提到的内容也都是很重要的。\n\n再次感谢cr老师！鞠躬！！"},{"id":211016,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2025-01-10 10:42:38","like_diff":3,"likes":3,"dislikes":0,"content":"crjj好温柔！系统2不点名，期末卷子自己改，狠狠地捞了"},{"id":139590,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2021-07-17 22:40:40","like_diff":2,"likes":2,"dislikes":0,"content":"超好的老师！"},{"id":143969,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2021-12-14 15:30:51","like_diff":2,"likes":2,"dislikes":0,"content":"吹一波~上课很多欢声笑语，讲课娓娓道来，人又很随和，老师人很好的，注意上课会小测，体系吹爆常老师！"},{"id":147619,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2022-01-10 10:15:17","like_diff":2,"likes":2,"dislikes":0,"content":"去年就教改过了，相比其他班安排的更合理一些。\n\n老师期末会划重点，标注的习题一定要做，说不重要的部分是真的不重要！"},{"id":158746,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2022-07-01 23:33:28","like_diff":2,"likes":2,"dislikes":0,"content":"常瑞姐姐，我滴超人，网安导给分能满则满，选她的作业做就对了"},{"id":168338,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2023-03-01 11:40:50","like_diff":2,"likes":2,"dislikes":0,"content":"常老师班的验收去年就做好了\n\n但是因为课程组要下学期再统一改卷\n\n现在也没有出分\n\n嘿嘿，但是小板子真香\n\n------------------------------\n\n出分了\n\n师生情！！！"},{"id":169049,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2023-02-24 06:35:45","like_diff":2,"likes":2,"dislikes":0,"content":"cr老师人非常好\n\n是真的很想让我们了解体系结构\n\n班级的实验总体也整体合理一些\n\n但是知识点确实今年很杂\n\n不能说都教到了\n\n具体只能看出分了 唉"},{"id":211071,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2025-01-10 13:06:29","like_diff":2,"likes":4,"dislikes":2,"content":"为啥要欺骗学生考试范围"},{"id":221091,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2025-06-21 08:18:22","like_diff":2,"likes":2,"dislikes":0,"content":"上的是体系结构\n\n给分很好，cr老师就是我的神！！！\n\n\n\n老师很和蔼温柔，讲课也很认真"},{"id":132335,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2021-02-01 00:24:54","like_diff":1,"likes":2,"dislikes":1,"content":"体系结构给分太香了"},{"id":159414,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2022-07-18 03:41:37","like_diff":1,"likes":2,"dislikes":1,"content":"课程综合实践一，不点名，内容难度不小但是作业给分好而且水。没有考试，推荐来选"},{"id":159899,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2022-09-08 12:31:55","like_diff":1,"likes":1,"dislikes":0,"content":"好老师呀，感觉给分很好人也很棒，总体十分喜欢的"},{"id":166303,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2023-01-12 00:10:33","like_diff":1,"likes":1,"dislikes":0,"content":"瑞姐人很好\n\n等待出分前给她打10分"},{"id":168577,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2023-03-01 11:54:20","like_diff":1,"likes":2,"dislikes":1,"content":"常老师人很不错！但是可惜的是，本学期的体系结构真的学的云里雾里，不是说这门课程有多难，而是很多老师之间讲课的内容都甚至没有统一（严重怀疑课题组之间所谓的统一就是说要考哪个大模块），以至于期末考试的内容可以说和上课学的相关度不超过0.6，也就是意味着如果你没有自己单独去听其他老师的课的情况下，如果你没有把书中要考的章节背的滚瓜烂熟，那么当你看考卷的时候，你就会发现选择35题中有超过15题你都没见过（而且见过的也不一定做对）。\n\n\n\n真的希望体系结构这门课好好统一一下讲课标准，并按照考纲严格授课。\n\n-------------------------\n\n出分了，感觉给分很好了！"},{"id":208786,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2025-01-02 02:40:07","like_diff":1,"likes":4,"dislikes":3,"content":"体系结构避雷。。。。\n\n常老师讲得确实不错，逻辑很清晰很深入同时通俗易懂，但是体系结构的教学内容和其他教学班差别实在是太大了，甚至同个内容同个算法的名字都不一样，导致期末考考到很多没讲过或者是讲得不一样的东西。。。虽然老师的讲课思路很流畅，但是好歹还是得考虑一下学生要期末考，和其他班级同步教学内容吧。。。"},{"id":208926,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2025-01-03 12:06:00","like_diff":1,"likes":1,"dislikes":0,"content":"早八考完第二天晚上就出分了。战斗，爽"},{"id":211793,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2025-01-12 12:36:01","like_diff":1,"likes":1,"dislikes":0,"content":"好老师，哈哈哦好好"},{"id":220681,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2025-06-19 08:06:06","like_diff":1,"likes":1,"dislikes":0,"content":"就评老师平时的负责和今天考试时耐心解答同学对题目的疑惑，我先给个10分"},{"id":221243,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2025-06-22 07:23:22","like_diff":1,"likes":1,"dislikes":0,"content":"老师特别耐心特别好！！！"},{"id":170127,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2023-03-01 12:19:16","like_diff":0,"likes":0,"dislikes":0,"content":"【体系结构】最后一次复习课和给分都是浓浓的师生情，吹爆！！！十分建议选cr老师的体系，体验绝对好"},{"id":170468,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2023-03-05 09:29:55","like_diff":0,"likes":1,"dislikes":1,"content":"不点名\n\n讲课很清楚\n\n(体系结构难的部分网上都有)\n\n跟着老师的ppt复习可以覆盖80-90%的题目\n\n但是必须一个地方都不放过！\n\n22年期末的教训，看了所有的ppt细节才能去考\n\n但是ppt全看完就不用复习别的了"},{"id":170673,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2023-03-08 02:42:01","like_diff":0,"likes":0,"dislikes":0,"content":"太好了"},{"id":186991,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2024-01-14 04:46:49","like_diff":0,"likes":0,"dislikes":0,"content":"23秋冬体系结构，给个9分 扣一分是因为一个小时不到讲的东西考了30分导致爆炸（）\n\n23体系班的不用担心，我们班据了解是没有人因为期末太低给斩杀了的，平时分不摆烂就不会挂\n\n首先说下实验，一共5+1个\n\n第一个实验就是流水线+forwarding，流水线框架给你了你只需要加上forwarding\n\n第二个实验是流水线中断异常处理\n\n第三个实验是给你一个完整的流水线，你在里面加上分支预测\n\n第四个实验室是实现一个二路组相联缓存，不过第一路以及其他都好了直接copy就行（注意copy后记得改编号，我没改编号导致debug爆炸最后重写）\n\n第五个实验记分板乱序，照着流程图抄就行\n\n第六个是托马斯路算bonus\n\n\n\n一共两次作业，都很简单\n\n然后有一次组队展示。基本认真做下去平时分只会丢两三分，做bonus就满了\n\n\n\n说下考试，为什么是9分呢。。最后第五章部分考的一小时不到速通（期末这部分考了30分两道大题，爆），不考的花大部分篇幅再讲，面向绩点的建议快润（）面向知识的确实不错的选择\n\n\n\n而且体系这门课重点也不多，速通不挂是完全可以的（五个小时足够了，记分板+托马斯路看看，然后把第五章看看就够了，前面都是计组学过的，少部分没学的占比也不大）"},{"id":187231,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2024-01-15 08:20:44","like_diff":0,"likes":1,"dislikes":1,"content":"老师还是不错的 不签到 但是最后一次纸质签到了 再过去也不给补...最后一次课大家都在复习或者赶ddl 前面讲课的去了不管用 最后一节复习课签到 讲课说不上特别好不过也不错 平时分绩杀 bonus几乎最后才放出来 难度又很大 自己写的代码量很多 至少要调个几天 各科最后一周的复习和bonus自己选... 另外其中有一个助教验收和给分都不咋地 给七分纯纯是给老师人好的面子了 自己慎重吧 除了平时分 另外考试题出的是真抽象 怎么期末os 计网那么多课就体系这课出题这么恶心人呢 给我气的语无伦次了 无语"},{"id":189544,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2024-01-25 10:32:14","like_diff":0,"likes":0,"dislikes":0,"content":"rt，bonus在最后放出来而且是tomasolu这种比较硬的确实难顶\n\n今年期末考也是真的难顶\n\n老师是很好的老师，会有单独的小板子可以带走，人也很好\n\n但是今年冬15点了一次名orz，会给到的同学加一点分\n\n给分中规中矩，不过隔壁cwz回答问题就算bonus给孩子羡慕坏了"},{"id":189601,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2024-01-25 15:17:53","like_diff":0,"likes":0,"dislikes":0,"content":"体系\n\n常老师可以说是很会捞了，注意平时实验一定要好好做，平时分不要给扣太多，最后复习的时候建议重点复习一些和计组没有交集的东西"},{"id":207662,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2024-12-23 14:29:29","like_diff":0,"likes":0,"dislikes":0,"content":"CTF101，好老师，好助教"},{"id":208845,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2025-01-02 12:37:55","like_diff":0,"likes":0,"dislikes":0,"content":"体系课程本身有一定的问题，但是个人觉得常老师把讲到的地方都说得算比较清晰了，总体感受和之前有学长/学姐在评论区说的一样，老师是好老师，希望教给我们很多东西，但是我自己水平不够好，连应付考试都很困难。虽有考试不涉及的部分，还是觉得喜欢常老师讲课的风格ღ( ´･ᴗ･` )，还是觉得收获满满。"},{"id":208998,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2025-01-04 06:50:34","like_diff":0,"likes":1,"dislikes":1,"content":"2024-2025 学年秋冬，课程不点名，一共有 5 + 1 实验（一个 bonus），三次 homework，一次组队展示。感觉如果每次内容都完成的话，即使不做 bonus，平时分也接近满分。常瑞老师讲课还是很清楚的，最后给分也好。不过确实存在授课内容有差别的问题。一定要做历年卷，抄 sheeting paper 的时候也可以参考一下学长学姐的笔记（抄了 cache 相关的内容救我大命）"},{"id":212734,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2025-01-14 15:43:27","like_diff":0,"likes":0,"dislikes":0,"content":"体系结构好老师cr！！！\n\n给分感觉还挺好的，自己本身硬件课学的不好所以考试也没有考好，最后出分感觉还是比较符合自己水平+老师助教捞捞的\n\n上课体验来说，常瑞老师确实是希望能教会学生一些知识，不同于直接对着ppt讲课的老师，非常赞\n\n至于24-25秋冬期末考的考卷方面，因为我那几题本来也不会，所以对我来说没什么影响☝️🥸"},{"id":221614,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2025-06-25 02:38:43","like_diff":0,"likes":0,"dislikes":0,"content":"非常耐心\n\n一定要看考前的PPT\n\n我是cwz班的，剽窃了她的复习PPT\n\n所有重要考点全部罗列在里面\n\n比如：cache technology一章的选择题\n\n我当时还纳闷，为什么用这么多篇幅来把\n\n缩短命中时间、降低miss rate全部列出来\n\n事实就是考试考了3道选择题\n\n你说难吧 知道的人肯定觉得不难\n\n你说不难吧 里面有几个技术像我这种其他班的人\n\n听都没听过\n\n索性我抄进去了\n\n只要比对比对就行了\n\n\n\n不过感觉大学的课吧\n\n包括这门课\n\n其实没有到非常严谨，老师考察也主要是看你到底懂不懂\n\n因为纯粹的背书没有意思\n\n但是我认为像我们这次考试\n\n除了动态调度，带分支：平时接触比较少\n\n其他的题完全就是模板啊\n\n考前好好听出题老师的复习课\n\n大题都能猜到\n\n选择题面比较广，平常还是要好好学\n\n但真心不难"},{"id":170109,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2023-03-01 11:36:38","like_diff":-1,"likes":0,"dislikes":1,"content":"讲课好，给分浓浓师生情"},{"id":170122,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2023-03-01 11:59:33","like_diff":-1,"likes":0,"dislikes":1,"content":"浓浓师生情QWQ复习PPT立大功"},{"id":161247,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2022-11-02 07:21:04","like_diff":-2,"likes":6,"dislikes":8,"content":"实践一详见https://www.cc98.org/topic/5393510\n\n很中肯。"},{"id":208924,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2025-01-03 11:57:51","like_diff":-2,"likes":1,"dislikes":3,"content":"出分了，cr还是挺捞的\n\n\n\n但是如果复习的话，尽量以jxh的ppt为准吧，不然没考到的地方会很多。Cache和乱序执行这一块可以听常瑞的加深理解"},{"id":158915,"teacher_id":7459,"teacher_name":"常瑞","post_time":"2022-07-03 08:50:13","like_diff":-6,"likes":12,"dislikes":18,"content":"课程综合实践一\n\n完全听不懂上课在讲些什么东西"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聂原 - 法学院 - 浙大教评</title>
+    <meta name="description" content="聂原教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="聂原,法学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">聂原</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">法学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">5.25</div>
+                    <div class="rating-participants">117人参与评分</div>
+                    <div class="attendance-info">24.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (1 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">外国法律史</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.52</span>
+                            <span class="students">选课: 42人</span>
+                            <span class="std-dev">标准差: 0.72</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (100 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":62911,"teacher_id":1334,"teacher_name":"聂原","post_time":"2017-11-27 10:33:23","like_diff":29,"likes":54,"dislikes":25,"content":"孽缘啊"},{"id":134411,"teacher_id":1334,"teacher_name":"聂原","post_time":"2021-03-27 08:00:26","like_diff":17,"likes":17,"dislikes":0,"content":"1.偏激，看似允许讨论，但是一定要你接受她的观点，只要你不同意她的说法，不满全部写在脸上\n\n2.没水平，20年了还是讲师，论文就三篇，就算数量不能说明学术水平，但这三篇根本平平无奇，还有一篇第一作者还是夏老师，上课就念十多年前写的论文，不信的同学可以去下载下来看看那篇自然法的论文\n\n3.学不到东西，建议自己看书\n\n4.会有小作业，探讨什么是人性，人的本质，人的本能，几十年不变，最后大作业要求一直不公布，称自己也不知道，需要思考\n\n总结:建议退选，浪费时间"},{"id":62881,"teacher_id":1334,"teacher_name":"聂原","post_time":"2017-11-27 08:39:45","like_diff":16,"likes":35,"dislikes":19,"content":"“请老师的课是种什么体验？”\n\n“气的连手机都玩不下去orz”微笑:）"},{"id":128193,"teacher_id":1334,"teacher_name":"聂原","post_time":"2020-12-12 03:00:49","like_diff":16,"likes":17,"dislikes":1,"content":"很喜欢之前的同学说的，空有热情是不够的，会更显得知识储备的匮乏。对外国法制史及思想有了解的同学，真心不建议选聂原老师的课。你的水平已经很高了，这门课基本上就是些二手材料。\n\n\n\n另外，聂原老师上课有说到，因为疫情期间和某个同学发生争执，导致她的课被停了。班上的女生为此愤愤不平。那名同学的名字也被聂原老师说了出来，略带人身攻击性质地说，这种名字一看，就与dang如何如何。我当时没有意识到，这是她说话风格。\n\n\n\n我在课间提问，“我认为不是天赋人权，而是社会契约赋予权利”。她会问名字，然后在课间用非常愤青的方式攻击。这种攻击要延续到上课时间，展示给所有同学看（我恐惧这种事后跟别的同学谈论，伺机报复的老师，所以当发现她态度不对劲时我一言不发。即便是我一言不发，她也不会停嘴）。最后的收尾，是拉拢所有的同学，“大家都听懂了，就你没听懂”。\n\n\n\n说实话，这次被攻击后。我对她的话，以及她的人品能串在一起了。（我的名字很特殊，跟植物关系特别深，以后如果各位上课听到我的名字，请高抬贵手。我真的没有和她争执）\n\n\n\n优雅有余，质量不足。"},{"id":66855,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-01-19 07:40:16","like_diff":14,"likes":25,"dislikes":11,"content":"其实老师… 还是挺可爱的… 虽然我也说不清萌点在哪里…"},{"id":88906,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-11-12 04:08:20","like_diff":14,"likes":23,"dislikes":9,"content":"老师很可爱，喜欢"},{"id":89065,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-11-15 04:43:06","like_diff":14,"likes":31,"dislikes":17,"content":"老师是一个有想法的人，无奈现实残酷。她所做的一些批判也是有理有据，提到文ge，提到古代法制各种弊端，虽然有一些个人情感色彩，但是大部分时间里还是可以说是客观的。不知道往年为什么学生风评很差，我认为是个好老师。"},{"id":87617,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-10-08 11:42:16","like_diff":11,"likes":22,"dislikes":11,"content":"老师讲课很认真，虽然只是一门只开一次的通识课（西方法律文化史），却很用心的找了很多资料，第二次课补选了很多人，老师愿意主动补课（不点名），三观也很正，讲课的过程中事实和自己的感慨分的很清楚，虽然有批评中国的部分，但都是有理由的！（虽然感觉对西方有一点理想主义了，把美好的想象加在西方上，当成了理想的法制的地方的样子）"},{"id":104771,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-03-27 11:57:35","like_diff":11,"likes":33,"dislikes":22,"content":"刚刚看她翻了翻备课本，停顿了一下然后叹了叹气，继续讲……真的被触动了( •̥́ ˍ •̀ू )老师是真的想为科学法制普及做一些努力，也许的确能力有限、趣味性不够，但是你看她的word课件，真的很用心在准备，很卖力地在讲课。对我们也很宽容很很温柔，尽量让我们放松……就是特别同情她(๑•́ωก̀๑)球球大家把我顶上去让大家看到，真心希望大家能多多配合她(╥ω╥`)"},{"id":104778,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-04-25 11:10:30","like_diff":11,"likes":21,"dislikes":10,"content":"从上课来看水平十分迷醉。作为一个思想史学者似乎只限于一些二手文献的见地，只有观点缺乏论证，十分怀疑是否有真的进入过文本。给分也很一般。唯一可称道的只有热情，但空有激情反倒更显储备的贫乏。\n\n。。。还有人给我点灭的，我想说对于大学老师而言并非能传达某种激情就是合格的，仅从上课对于西塞罗的只言片语而言就值得怀疑其古典哲学的基础，这是一个哲学系本科生就可以看出来的。当然，言人人殊，或许各位有不同的看法，或许有人认为老师只需要有激情就好了，各取所需耳。"},{"id":89842,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-11-21 03:54:10","like_diff":10,"likes":21,"dislikes":11,"content":"上的是西方法律文化史，老师思想虽然西化但还是有许多不一样的干货的，平时上课不点名没作业，期末作业三个题目每个1000字课后完成，我平时不怎么听，期末论文好好准备下绩点也有4.5，感觉没有楼上说的那么不堪，如果对法律有点兴趣又缺学分不妨选下"},{"id":70253,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-01-26 09:53:21","like_diff":9,"likes":20,"dislikes":11,"content":"就纳闷大家为什么对老师这么有意见，她是很感性的老师，有自己的理想，一个老师当然对研究领域比较了解，介绍的多，再发现本国的不足，这也无可厚非吧，连老师放歌也值得批判吗"},{"id":100587,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-01-26 11:04:14","like_diff":8,"likes":14,"dislikes":6,"content":"很好的一个老师，不明白为什么评分不高。认真听她的课，就会感觉老师非常有爱。课程内容量虽然比较大，但考试的时候不会刻意刁难人，更多的还是考书上有的以及课堂上反复提醒的基本概念。平时有展示，展示可以深也可以泛甚至可以卖萌，老师尊重每一个学生的表现，总之她是个好老师。希望同学们放心选她的课。"},{"id":65556,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-01-06 03:16:52","like_diff":7,"likes":13,"dislikes":6,"content":"有自己坚持的东西"},{"id":86591,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-09-17 11:09:52","like_diff":7,"likes":13,"dislikes":6,"content":"今天听了下，是个好老师吧…纯理科生，感觉老师还挺有思想，要求也不苛刻…"},{"id":86744,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-09-18 08:54:42","like_diff":7,"likes":9,"dislikes":2,"content":"挺好的，和我中学一个喜欢的老师风格很像"},{"id":106204,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-04-25 13:44:54","like_diff":7,"likes":10,"dislikes":3,"content":"最低的通识分了，不懂是为什么。节节课到，最后的三篇小论文都有查资料认真写，平时没什么考核点，最后给分也太差了吧。。。"},{"id":130969,"teacher_id":1334,"teacher_name":"聂原","post_time":"2021-01-25 12:23:21","like_diff":7,"likes":8,"dislikes":1,"content":"只能给聂老师打6分，我觉得老师是很有情怀的，但是授课能力实在有所欠缺，磕磕绊绊太不连贯了。按理来说这门课开了这么多年，给不同的班讲的同样的东西，内容也是重复的，应该非常熟练了才对。"},{"id":134810,"teacher_id":1334,"teacher_name":"聂原","post_time":"2021-04-16 02:07:23","like_diff":7,"likes":8,"dislikes":1,"content":"水平也太差了吧…讲话磕磕绊绊 理论功底不扎实 还喜欢课间放歌（放过我的耳朵吧）"},{"id":181942,"teacher_id":1334,"teacher_name":"聂原","post_time":"2023-11-06 05:37:28","like_diff":7,"likes":7,"dislikes":0,"content":"别把自己对生活不满的情绪都宣泄在学生的身上"},{"id":60928,"teacher_id":1334,"teacher_name":"聂原","post_time":"2017-11-03 03:22:44","like_diff":6,"likes":20,"dislikes":14,"content":"这个老师不知为何，痴迷于西方的思想，政治体制，以及宗教。一个基督教可以讲三节课，上课的时候一般都是在讲述西方法律的优越以及宗教对道德的约束，当然在同时也会以一副怜悯的样子来说我国及国民多么悲哀。假如心态好的同学，这节课是一个看书背单词的好时间，假如是心态不太好，稍微比较愤青的同学，个人建议还是不要选了。总而言之，这不是我想上的外国法制史课。"},{"id":128226,"teacher_id":1334,"teacher_name":"聂原","post_time":"2020-12-14 08:24:12","like_diff":5,"likes":7,"dislikes":2,"content":"冬学期选的西方法律思想史，不知道以前是怎么样，但是现在是每周都有思考题的作业，而且作业形式不要求，字数不规定，有些人直接把发言稿写成了标准论文格式，这是在鼓励恶竞吗？而且每周一篇论文的任务，的确太重了，奉劝后来的选课同学仔细考虑。讨论课十分尴尬，尴尬到脚趾抠地。其次，老师可能有些偏执的倾向，极其愤青，会因为投影的幕布大发雷霆，来回翻扯幕布，最后搞得很皱，然后在被幕布遮住的黑板上写字。写给空气看吗？真的难以理解，作为老师在讲台上肆意地发泄廉价且不值得的愤怒，这种愤怒真是令人觉得荒唐和奇葩。而且课程已过一个月，仍未公布考核方式和给分标准，请问是想干什么？"},{"id":132032,"teacher_id":1334,"teacher_name":"聂原","post_time":"2021-01-30 03:38:09","like_diff":5,"likes":5,"dislikes":0,"content":"对课程的期待和授课有差距…每堂课别名名人名言介绍会和重复两遍智云课堂记录大会，笔记记完后觉得并没有很大价值。做了两次讨论题作业，期末是一篇论文，课程负担还是可以的，给分也可以…对课程期待高慎选吧"},{"id":181816,"teacher_id":1334,"teacher_name":"聂原","post_time":"2023-11-01 14:19:47","like_diff":5,"likes":5,"dislikes":0,"content":"情绪稳定是一种美好的品德"},{"id":181944,"teacher_id":1334,"teacher_name":"聂原","post_time":"2023-11-06 05:56:01","like_diff":5,"likes":5,"dislikes":0,"content":"我只能说选这门课的赶紧跑跑跑，动辄对学生发火情绪极其不稳定，上课同样的内容颠来倒去说不清楚，离谱程度堪比因为左脚踏进办公室被开掉🌹"},{"id":205653,"teacher_id":1334,"teacher_name":"聂原","post_time":"2024-12-11 00:54:34","like_diff":5,"likes":5,"dislikes":0,"content":"老师的知识点很零散且不成体系，但是并不难看出主要来源是各种鸡汤文和短视频；老师的常识有些欠缺，比如不知道宋襄公，分不清马丁路德和马丁路德金；老师的情绪容易无端激动，有时候突然就歇斯底里，然后愤然表示自己太累了无法继续讲课；老师的语流磕磕巴巴，一句话没有讲完就跳到另一句的情况大约占40%。\n\n总之对于老师的水平和光华法学院的匹配度问题，本人表示不解。但是看了老师的职称仍然是讲师后释然了。\n\nP S：老师对自己辛勤工作了20年的光华法学院极端鄙夷，认为不过是个职业技术学院。那本人姑且推测：老师将我们当作职高生，故而才讲的那么稀巴烂。\n\n总之：给聂老师打5分，对其他被打5分的老师，是不公平、不公正、不公允的。"},{"id":5111,"teacher_id":1334,"teacher_name":"聂原","post_time":"2015-07-04 07:24:01","like_diff":4,"likes":21,"dislikes":17,"content":"给分低，上课无聊，女愤青。"},{"id":60418,"teacher_id":1334,"teacher_name":"聂原","post_time":"2017-10-19 11:57:00","like_diff":4,"likes":25,"dislikes":21,"content":"好好一门外国法制史、上成这样也是醉了……上课的人那么少不反省还觉得学生越来越浮躁觉得外国法制史没有用了……课堂画风一言难尽…"},{"id":61960,"teacher_id":1334,"teacher_name":"聂原","post_time":"2017-11-22 02:46:50","like_diff":4,"likes":11,"dislikes":7,"content":"唉上课上座率不高什么原因自己心里没有数么，把中国贬得一文不值，上课毫无趣味，这么注重出勤率也要提升自己吧？感觉再这样下去都没有人选课了"},{"id":89665,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-11-20 07:25:39","like_diff":4,"likes":9,"dislikes":5,"content":"老师上课挺有意思的，是个人喜欢的类型"},{"id":90870,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-11-27 02:00:42","like_diff":4,"likes":11,"dislikes":7,"content":"上课看得出备课比较充分。那些说愤青的，人家至少作为一个老师敢在课堂上说出来，而不像思修那些只会唱赞歌的郭沫若式老师"},{"id":106333,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-04-26 11:41:45","like_diff":4,"likes":7,"dislikes":3,"content":"西方法律思想史。讲的主要是西方古代雅典、罗马。一般不点名。不考试，论文定成绩。我的论文就82分。意思是有一半人论文比我的好？那上来咱们比划比划（笑）！。无ppt，因此不存在梳理复习。觉得有些残念，给我ppt啊！没ppt听一遍就忘。女老师会脸红、害羞。我其实挺萌这点的，哈哈哈。"},{"id":134568,"teacher_id":1334,"teacher_name":"聂原","post_time":"2021-04-02 03:31:16","like_diff":4,"likes":4,"dislikes":0,"content":"课间放歌震耳欲聋，吵死\n\n这种每个人都有不同喜好的东西被强行灌输就很不爽 影响心情"},{"id":63712,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-01-24 04:18:12","like_diff":3,"likes":10,"dislikes":7,"content":"讲得差，自己思维有问题，鼓吹西方。给分还不好，大绩杀"},{"id":106147,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-04-25 08:48:36","like_diff":3,"likes":6,"dislikes":3,"content":"老师人感觉挺好的，就是给分有点差，论文认真写的每次都去最后3.6，查老师上的均分都差的很远。可能是自己写论文水平不够吧。(不过其他课论文认真写都挺高的)"},{"id":106210,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-04-25 14:35:36","like_diff":3,"likes":7,"dislikes":4,"content":"给分低的不能再低了，每节课都去，认真写论文 呵呵哒"},{"id":106232,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-04-26 01:18:42","like_diff":3,"likes":5,"dislikes":2,"content":"语无伦次\n\n"},{"id":117258,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-09-21 13:31:17","like_diff":3,"likes":5,"dislikes":2,"content":"我觉得老师的课框架结构挺合理的，也有很多知识点。客观的说，如果你有求知欲，并对思想有兴趣，应该会喜欢这门课的；但是如果不是，可能会觉得有点无聊，老师总不可能在几堂课内改变一个人的喜好吧。"},{"id":123166,"teacher_id":1334,"teacher_name":"聂原","post_time":"2020-05-14 11:54:28","like_diff":3,"likes":4,"dislikes":1,"content":"一言难尽。。。。又卡绩了，给个5分吧"},{"id":134844,"teacher_id":1334,"teacher_name":"聂原","post_time":"2021-04-18 13:46:21","like_diff":3,"likes":4,"dislikes":1,"content":"每次用交作业形式签到，讲课像传jiao似的，还不许人反驳，真是够了"},{"id":135599,"teacher_id":1334,"teacher_name":"聂原","post_time":"2021-05-16 12:30:53","like_diff":3,"likes":3,"dislikes":0,"content":"真的孽缘啊\n\n期末4000字的论文写的真是痛苦啊"},{"id":145713,"teacher_id":1334,"teacher_name":"聂原","post_time":"2021-12-31 12:20:15","like_diff":3,"likes":4,"dislikes":1,"content":"不点名是真的，学不到东西也是真的。"},{"id":159141,"teacher_id":1334,"teacher_name":"聂原","post_time":"2022-07-06 16:19:27","like_diff":3,"likes":6,"dislikes":3,"content":"建议老师不要点名，不要来事，不要有作业，平时睁一只眼闭一只眼，不要考试，随便交个作业就结课，成绩呢当然最好个个满绩，这样学生开心，老师省心，大家都舒心。现在的学生已经不像学生了，又何必对老师这么多的要求呢"},{"id":181945,"teacher_id":1334,"teacher_name":"聂原","post_time":"2023-11-06 06:38:08","like_diff":3,"likes":3,"dislikes":0,"content":"非常差"},{"id":182009,"teacher_id":1334,"teacher_name":"聂原","post_time":"2023-11-08 03:17:28","like_diff":3,"likes":3,"dislikes":0,"content":"学术观念不同 也没必要诋毁学院其他老师吧…"},{"id":61175,"teacher_id":1334,"teacher_name":"聂原","post_time":"2017-11-10 02:58:23","like_diff":2,"likes":10,"dislikes":8,"content":"不能让老师把思想带偏了"},{"id":62997,"teacher_id":1334,"teacher_name":"聂原","post_time":"2017-11-28 00:57:56","like_diff":2,"likes":6,"dislikes":4,"content":"体验大概就是被老师退了课吧:)"},{"id":68184,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-01-22 16:53:42","like_diff":2,"likes":20,"dislikes":18,"content":"emmmm……不知道怎么评价。老师确实水平有限，思想可能有的时候也比较偏激。但不知道为什么，课越到后面反感度越低。想想自己一开始的反感也主要来自己大家的评论，先入为主的反感确实会觉得一个人的一言一行都显得那么不堪。比起一些水平有限又作事又多的老师，聂老师至少是在人品上是完全没有什么大问题的。人无完人，或许大家可以给老师多一点的宽容吧……"},{"id":68917,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-01-24 08:16:58","like_diff":2,"likes":9,"dislikes":7,"content":"听很多人说她绩杀，可能吧，上课无聊"},{"id":80008,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-06-19 03:40:54","like_diff":2,"likes":5,"dislikes":3,"content":"认真记笔记，展示积极一些，给分不会差。考试老师给划重点，背背就好。"},{"id":86484,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-09-17 00:52:06","like_diff":2,"likes":6,"dislikes":4,"content":"好老师，还可以"},{"id":89761,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-11-20 15:50:46","like_diff":2,"likes":5,"dislikes":3,"content":"没有原则的绩杀"},{"id":90283,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-11-23 03:09:18","like_diff":2,"likes":5,"dislikes":3,"content":"老师人很好，有自己的想法，期末论文按老师思路走就好了。"},{"id":105802,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-04-21 01:04:43","like_diff":2,"likes":4,"dislikes":2,"content":"不管上课内容怎么样，但是动不动就说学生抄袭论文的老师我觉得很不尊重人"},{"id":105804,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-04-21 01:58:00","like_diff":2,"likes":6,"dislikes":4,"content":"讲课垃圾，学术垃圾，还要点名"},{"id":116237,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-09-06 12:29:50","like_diff":2,"likes":5,"dislikes":3,"content":"讲得差，给分低，幺蛾子贼多"},{"id":116924,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-09-17 10:20:23","like_diff":2,"likes":5,"dislikes":3,"content":"希望大家珍惜聂老师这样少有的好老师..."},{"id":120175,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-11-18 03:00:18","like_diff":2,"likes":2,"dislikes":0,"content":"好滴很"},{"id":128108,"teacher_id":1334,"teacher_name":"聂原","post_time":"2020-12-07 12:42:34","like_diff":2,"likes":2,"dislikes":0,"content":"授课启发性不强，水平不如古希腊罗马哲学通核的助教。"},{"id":181800,"teacher_id":1334,"teacher_name":"聂原","post_time":"2023-11-01 05:01:51","like_diff":2,"likes":3,"dislikes":1,"content":"这个老师真的很理想主义…令人作呕的那种。\n\n\n\n另外是一个非常敏感的女愤青…慎选"},{"id":59502,"teacher_id":1334,"teacher_name":"聂原","post_time":"2017-09-22 02:35:16","like_diff":1,"likes":14,"dislikes":13,"content":"打1分，是因为没有0。"},{"id":68870,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-01-24 04:13:23","like_diff":1,"likes":8,"dislikes":7,"content":"本来觉得老师挺可爱的，一看给分……emmmm……有点想给她打骚扰电话"},{"id":91846,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-12-23 00:44:13","like_diff":1,"likes":5,"dislikes":4,"content":"孽缘啊"},{"id":101470,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-01-28 09:08:52","like_diff":1,"likes":3,"dislikes":2,"content":"画了重点，也全部背的滚瓜烂熟，考试全都写出来了，平时写论文，展示都尽心尽力，这点分？还说自己一直给分很高，不知道是凭什么给的分？"},{"id":102990,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-02-25 08:35:48","like_diff":1,"likes":3,"dislikes":2,"content":"呵呵哒"},{"id":117362,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-09-23 10:34:41","like_diff":1,"likes":2,"dislikes":1,"content":"老师讲的很不错，认真听总有收获"},{"id":117435,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-09-24 09:02:19","like_diff":1,"likes":2,"dislikes":1,"content":"我觉得老师的想法是真的很有深度，对毛爷爷的评价我觉得她很好，很清醒"},{"id":117512,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-09-25 08:11:12","like_diff":1,"likes":2,"dislikes":1,"content":"思想境界不同，评分不一，不能一概而论，本人觉得老师讲的不错。"},{"id":118232,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-10-23 10:50:43","like_diff":1,"likes":1,"dislikes":0,"content":"语无伦次"},{"id":119582,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-11-14 02:24:13","like_diff":1,"likes":1,"dislikes":0,"content":"是一个很认真老师"},{"id":119611,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-11-14 06:28:52","like_diff":1,"likes":1,"dislikes":0,"content":"可贵的理想主义情怀"},{"id":119635,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-11-14 11:08:57","like_diff":1,"likes":2,"dislikes":1,"content":"虽然我给了10分，表示一下对老师的尊敬。但给分真的很烂，第一次通识下4。。。。"},{"id":119636,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-11-14 11:10:39","like_diff":1,"likes":1,"dislikes":0,"content":"很可爱的老师 在一片实务中还能有理想情怀很可贵 很感谢聂老师"},{"id":121241,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-12-26 02:14:44","like_diff":1,"likes":1,"dislikes":0,"content":"聂原老师上课和讨论问题都很认真啊，有人发言她会明显地很开心，很认真地了解你的观点，你卡壳了就会给你解围，真的很好，讲的哲学家的观点，引用得都很到位，我觉得能够有收获，不懂为什么骂得那么过分。。。。"},{"id":190250,"teacher_id":1334,"teacher_name":"聂原","post_time":"2024-02-26 12:48:05","like_diff":1,"likes":3,"dislikes":2,"content":"能不选就不选，女愤青浪费大家时间，变相点名，给分极差"},{"id":200022,"teacher_id":1334,"teacher_name":"聂原","post_time":"2024-10-11 07:49:03","like_diff":1,"likes":1,"dislikes":0,"content":"老师声音大的我内脏都在颤抖，上课无疑是对骨膜的摧残"},{"id":201132,"teacher_id":1334,"teacher_name":"聂原","post_time":"2024-10-29 07:21:56","like_diff":1,"likes":1,"dislikes":0,"content":"旧社会的孽缘"},{"id":201133,"teacher_id":1334,"teacher_name":"聂原","post_time":"2024-10-29 07:24:19","like_diff":1,"likes":1,"dislikes":0,"content":"上课太吵"},{"id":68170,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-01-22 16:07:04","like_diff":0,"likes":4,"dislikes":4,"content":"但听无妨"},{"id":68974,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-01-04 12:51:06","like_diff":0,"likes":4,"dislikes":4,"content":"老师讲课感觉其实还好，趣味性不够，学到的东西少，听听罢了。课堂形式可以增加，辩论什么的比展示更有意思。至于绩点，建议外专业的学生不要选了当个性课程，拉低均绩又对专业绩点没用，有点后悔为什么没听老师的去退课，毕竟这是一门法学专业课，大概有他的尊严在吧。"},{"id":104920,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-03-31 07:02:19","like_diff":0,"likes":2,"dislikes":2,"content":"老师讲课还是很用情的。"},{"id":117175,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-09-20 04:01:03","like_diff":0,"likes":2,"dislikes":2,"content":"老师人超好呀麻烦老师帮我校车票的忙，老师从来没接触过这事，还是费时费力帮我询问最后还发了邮件给我回复，人真的很好。上课也是尽力想传授给同学知识，虽然内容可能对理工科同学还是有些枯燥（主要大家可能也在课上忙别的事？）"},{"id":118393,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-10-26 08:59:56","like_diff":0,"likes":0,"dislikes":0,"content":"很好呀"},{"id":119650,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-11-14 13:27:15","like_diff":0,"likes":0,"dislikes":0,"content":"老师的课需要认真体会，不能仅看评价就先入为主"},{"id":123172,"teacher_id":1334,"teacher_name":"聂原","post_time":"2020-05-15 04:08:34","like_diff":0,"likes":0,"dislikes":0,"content":"年龄的鸿沟难免有些观点不容，但也没按着人让接受，还是能学到些东西的"},{"id":123235,"teacher_id":1334,"teacher_name":"聂原","post_time":"2020-05-23 01:50:10","like_diff":0,"likes":0,"dislikes":0,"content":"无语，暂且不说老师的观点怎样，我是真的不知道老师给分准则是怎么一回事"},{"id":128313,"teacher_id":1334,"teacher_name":"聂原","post_time":"2020-12-18 03:07:27","like_diff":0,"likes":1,"dislikes":1,"content":"老师说，中国的教育缺乏对生命的关怀，缺乏对动物和底层的同理心，深有同感。这才是我期待的研究生课程"},{"id":64943,"teacher_id":1334,"teacher_name":"聂原","post_time":"2017-12-28 04:09:01","like_diff":-1,"likes":1,"dislikes":2,"content":""},{"id":106149,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-04-25 09:03:42","like_diff":-1,"likes":6,"dislikes":7,"content":"我觉得老师确实是一个很有情怀的老师，也比较温柔负责，但是老师最后只给了我80分啊QAQ，所以我给老师扣一分打个9分吧，要是79我还能自我安慰一下我是被正态了，80分说明老师觉得我的论文写的是真的垃圾啊5555"},{"id":106537,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-04-28 04:56:09","like_diff":-1,"likes":2,"dislikes":3,"content":"应该挺好的"},{"id":119640,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-11-14 11:35:15","like_diff":-1,"likes":0,"dislikes":1,"content":"查老师的分不能信啊…老师人真的很好，也是很尽力给大家高分了，认真听有收获，可以记笔记来防止自己走神"},{"id":120238,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-11-25 04:37:08","like_diff":-1,"likes":1,"dislikes":2,"content":"是一名非常好的老师，她有自己对法律的信仰，上课属于随和包容、氛围轻松型，期末论文好好写，给分会很满意，推荐~"},{"id":178772,"teacher_id":1334,"teacher_name":"聂原","post_time":"2023-07-22 07:17:32","like_diff":-1,"likes":1,"dislikes":2,"content":"哪里都有乌七八糟的评论，留点口德吧"},{"id":168828,"teacher_id":1334,"teacher_name":"聂原","post_time":"2023-02-22 14:19:40","like_diff":-3,"likes":2,"dislikes":5,"content":"老师人很好。"},{"id":58863,"teacher_id":1334,"teacher_name":"聂原","post_time":"2017-09-18 06:10:07","like_diff":-8,"likes":7,"dislikes":15,"content":"好好好"},{"id":132145,"teacher_id":1334,"teacher_name":"聂原","post_time":"2021-01-30 13:16:18","like_diff":-9,"likes":1,"dislikes":10,"content":"老师人很好，很善良，就是西法史的内容有点枯燥，老师讲课确实不是很好，所以上课听着有点不舒服；但是没有楼上说的这么夸张吧。老师会因为椅子有声音而站着讲课，来的人少签完到了也不为难学生，给的分也还行。给8分吧"},{"id":106264,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-04-26 03:55:30","like_diff":-10,"likes":2,"dislikes":12,"content":"给分挺好的"},{"id":4535,"teacher_id":1334,"teacher_name":"聂原","post_time":"2015-06-24 07:53:05","like_diff":-11,"likes":7,"dislikes":18,"content":"好生动"},{"id":89811,"teacher_id":1334,"teacher_name":"聂原","post_time":"2018-11-21 01:57:54","like_diff":-12,"likes":3,"dislikes":15,"content":"也不考试 就期末要搞个论文 最后一天熬夜搞的 一出分傻眼了 从没见过那么低！真..孽缘了"},{"id":65819,"teacher_id":1334,"teacher_name":"聂原","post_time":"2019-01-04 04:33:40","like_diff":-13,"likes":9,"dislikes":22,"content":"下课还放歌 睡个觉都没法睡 真的傻o"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

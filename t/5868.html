@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吴一华 - 医学院 - 浙大教评</title>
+    <meta name="description" content="吴一华教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="吴一华,医学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">吴一华</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">医学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.54</div>
+                    <div class="rating-participants">48人参与评分</div>
+                    <div class="attendance-info">28.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (5 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">临床毒理学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.13</span>
+                            <span class="students">选课: 8人</span>
+                            <span class="std-dev">标准差: 0.90</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">健康与免疫</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.72</span>
+                            <span class="students">选课: 262人</span>
+                            <span class="std-dev">标准差: 0.81</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">卫生毒理学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.48</span>
+                            <span class="students">选课: 224人</span>
+                            <span class="std-dev">标准差: 0.85</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">微生物与人类健康</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.44</span>
+                            <span class="students">选课: 27人</span>
+                            <span class="std-dev">标准差: 0.26</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">饮食与人类</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.23</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.60</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (43 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":151072,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2022-02-22 16:17:48","like_diff":17,"likes":18,"dislikes":1,"content":"老师可爱的很，小仓鼠一样永远一脸和善，嘿嘿嘿好想捏捏脸，饮食与人类很轻松很开心！"},{"id":125113,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2020-08-31 17:03:11","like_diff":13,"likes":14,"dislikes":1,"content":""},{"id":136309,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2021-07-05 07:55:44","like_diff":11,"likes":11,"dislikes":0,"content":"饮食与人类！！喜欢美食的话会挺有趣的，最后给分也不错！"},{"id":137642,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2021-07-05 12:29:31","like_diff":9,"likes":9,"dislikes":0,"content":"老师性格很好，也很热爱这门课。"},{"id":143335,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2021-11-23 13:23:56","like_diff":9,"likes":9,"dislikes":0,"content":"这是我选的最喜欢的通识之一了。上课很有趣，可以学知识和文化。给分又好。老师人也很好。"},{"id":161384,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2022-11-05 13:59:33","like_diff":9,"likes":9,"dislikes":0,"content":"《饮食与人类》这门课是由吴一华和夏大静两位老师上的，吴老师参与课程的70%。这门课是我见到的短学期很好的通识课之一，吴老师上课风趣幽默，人很好，课件精心制作，PPT里面视频很多而且有的视频本色出演。\n\n  这门课有1-2次小组展示，想水的话可以做一些资料搜集工作，还有一次开卷测试，占50分，开卷测试基本都是主观题，建议打印PPT，不建议手抄内容，本人当年就是手抄，又累覆盖知识点也不全。\n\n  这门课认真听的话可以拓展你对饮食的认识以及增加你看问题的视角，很有意思。\n\n  很多时候选这种通识课不要把绩点看得太重，相信自己认真来结果不会差。祝《饮食与人类》越办越好!"},{"id":162022,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2022-11-24 16:21:39","like_diff":5,"likes":7,"dislikes":2,"content":"老师很可爱是真的！像小松鼠也是真的！侧脸绝帅（目前见到最帅的，bushi）！声音很温和，让人听了很舒服！感觉性格脾气也挺好的！上的是饮食与人类的通识课，只点过一次名（因为“对这门课程的魅力有充分自信”），做一个大的一个小的小组展示，期末时开卷考抄ppt，平时不用花功夫在这门课上。作为一个医科的老师在人文社科方面学识这么广博我是没想到的，上课给人一种侃侃而谈的感觉。感觉整个课程的创意是挺好的，但是内部的设计还可以再优化，不得不说我就听了第一节导论课，到后面就略觉无味做自己的事情去了。不过想水课的同学还是很推荐选的！"},{"id":182203,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2023-11-12 13:19:33","like_diff":5,"likes":6,"dislikes":1,"content":"饮食与人类，一个学期下来就点一次名，老师真的特别善良特别好，作业就一次小展示和一次大展示，大展示非常有趣！！！最后开卷考也很友善，总之建议冲！！！最后大展示结束后老师发了一大段话，直接泪目，真诚永远是必杀技！"},{"id":156374,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2022-06-19 09:18:28","like_diff":4,"likes":4,"dislikes":0,"content":"老师很可爱！上课很有激情很有活力，给分也很好！开卷考试+一次展示，只是时间不太好排课"},{"id":161085,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2022-10-26 06:45:51","like_diff":4,"likes":4,"dislikes":0,"content":"😍😍😍吴老师好可爱，虽然是医学院但是人文素养真的很高！！！像一个小松鼠"},{"id":161428,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2022-11-07 01:55:54","like_diff":4,"likes":4,"dislikes":0,"content":"非常棒，周六考完饮食与人类了，全是主观题，任意发挥，只要复习过PPT基本都会"},{"id":124546,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2020-07-02 18:02:16","like_diff":3,"likes":5,"dislikes":2,"content":""},{"id":130932,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2021-01-25 09:17:58","like_diff":3,"likes":6,"dislikes":3,"content":"秋学期上的饮食与人类，内容很有意思，这么好的一门通识课居然选的人不多！最后考试是开卷的，虽然全是主观题，但只要把PPT看过一遍应该都能答出来"},{"id":137633,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2021-07-05 11:24:16","like_diff":3,"likes":4,"dislikes":1,"content":"给分很好！上课内容看起来很好吃！馋了！"},{"id":202082,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2024-11-09 05:40:41","like_diff":3,"likes":3,"dislikes":0,"content":"饮食与人类\n\n上课基本不点名，只有一次下雨天点了名。\n\n考核形式:小展示+大展示+考试\n\n我最后的pre感觉做的不是很好，超时而且读ppt。但是最后应该是考试答得不错(充分发挥文科生的优势)绩点4.5\n\n吴一华!!你是我的神!\n\n上课的时候可以感受到老师的学术热情。文科生也完全听得懂，会结合很多的名著。老师的语文功底真的让我自愧不如了，《红楼梦》信手拈来。对不起老师，我真的没有读过红楼梦!!!所以我真的不知道砒霜中毒是什么症状。"},{"id":202243,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2024-11-11 03:44:26","like_diff":3,"likes":3,"dislikes":0,"content":"课其实很好，就是不知道为什么给分这么低"},{"id":177960,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2023-07-06 00:05:56","like_diff":2,"likes":8,"dislikes":6,"content":"辛辛苦苦打印了资料并且开卷写得很认真最后只有3。平时的事情巨多但是都完成了为什么只有3？"},{"id":158330,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2022-06-28 11:03:52","like_diff":1,"likes":1,"dislikes":0,"content":"好好好"},{"id":158335,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2022-06-28 11:55:42","like_diff":1,"likes":1,"dislikes":0,"content":"【饮食与人类】老师上课非常好！教学经验丰富，而且很有气质与涵养！课程也非常有趣生动！能了解很多关于饮食背后的故事"},{"id":160168,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2022-09-14 06:08:53","like_diff":1,"likes":1,"dislikes":0,"content":"老师好棒"},{"id":161675,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2022-11-10 08:50:05","like_diff":1,"likes":2,"dislikes":1,"content":"可爱！懂得多！给分还不知道。。。。。"},{"id":161873,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2022-11-14 15:51:06","like_diff":1,"likes":3,"dislikes":2,"content":"啊啊啊看见饮食与人类就选好吗！课上能学到很多东西，事少，给分好，考试开卷，资料带够就行。老师超可爱，像小仓鼠，脾气超好，交卷的时候对每个学生都笑了诶～真的很荣幸能够选上这门课"},{"id":162012,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2022-11-16 03:38:47","like_diff":1,"likes":2,"dislikes":1,"content":"饮食与人类非常有趣的课，老师很好很博学，平时事也不多，一次展示，一次开卷考试都是主观题很多都在ppt上，考试前一定要好好准备，看看ppt，最好把主要文字打印出来（当然也不建议太浪费纸地打印），本人最后没有好好准备考试，绩点就低了（血的教训）"},{"id":162418,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2022-11-22 03:47:37","like_diff":1,"likes":3,"dislikes":2,"content":"事少给分高，期末开卷考，男神不解释"},{"id":177674,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2023-07-04 07:37:30","like_diff":1,"likes":4,"dislikes":3,"content":"夏学期第一门满绩，开心，感谢超可爱的吴老师♥︎♡"},{"id":182951,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2023-11-21 08:00:20","like_diff":1,"likes":1,"dislikes":0,"content":"神，讲课好有趣"},{"id":195795,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2024-06-30 03:16:19","like_diff":1,"likes":4,"dislikes":3,"content":"饮食与人类，给分很迷，正态影响很大，慎选"},{"id":197405,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2024-07-13 04:34:00","like_diff":1,"likes":6,"dislikes":5,"content":"给分烂的一笔，真tm无语了，喜提大学最低绩点。一门通识课恶心人有意思吗"},{"id":224271,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2025-11-14 08:57:44","like_diff":1,"likes":1,"dislikes":0,"content":"老师人很好，给分高。简直是世界级好老师，非常推荐选这门课。"},{"id":224281,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2025-11-14 14:06:25","like_diff":1,"likes":1,"dislikes":0,"content":"大学的第一个满绩，谢谢老师🥹\n\n课程很有趣，老师讲的也很好。一开始想把这门课当水课听，但第一堂课就被老师吸引住了！老师也很可爱，总是笑眯眯的！助教姐姐也很漂亮！\n\n同时还知道了很多有用的知识，比如小鼠怎么吃可以活得更久。自己有养小仓鼠，掌握正确喂食方法，可以让小鼠活得更久。还有就是菜系，因为是湖南人平时很重口，上完菜系那堂课后开始慢慢欣赏口味清淡的菜系，感觉自己口味更开放、包容啦。"},{"id":164210,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2022-12-19 08:11:10","like_diff":0,"likes":1,"dislikes":1,"content":"给分好"},{"id":170024,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2023-03-01 04:23:29","like_diff":0,"likes":1,"dislikes":1,"content":"喜欢！"},{"id":173507,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2023-05-26 15:58:04","like_diff":0,"likes":1,"dislikes":1,"content":"值得推荐，有趣的课程"},{"id":182970,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2023-11-21 08:58:34","like_diff":0,"likes":0,"dislikes":0,"content":"很好的老师，幽默风趣又有科学家风度"},{"id":202117,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2024-11-09 14:52:05","like_diff":0,"likes":0,"dislikes":0,"content":"挺好的老师"},{"id":202738,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2024-11-14 05:38:12","like_diff":0,"likes":1,"dislikes":1,"content":"饮食与人类是真的好课！有意思事情还少。最后考试就是抄一抄ppt，给分也好"},{"id":205710,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2024-12-11 11:28:18","like_diff":0,"likes":0,"dislikes":0,"content":"【健康与免疫】上课很水。\n\n严格正态，给分奇怪"},{"id":205950,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2024-12-13 01:56:02","like_diff":0,"likes":0,"dislikes":0,"content":"讲课很不错，有深有浅~"},{"id":207628,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2024-12-23 11:02:22","like_diff":0,"likes":1,"dislikes":1,"content":"老师很好，很儒雅，饮食与人类这门课也能学到很多知识，但可能被正态了，给分不好，助教的说辞对每个同学都一样"},{"id":211084,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2025-01-10 14:12:29","like_diff":0,"likes":1,"dislikes":1,"content":"老师很好，所以打了十分，感觉老师对课堂很认真、很热情。\n\n匹配到的小组成员很恶心，建议后续选课又想要高绩点的同学自己当组长。"},{"id":224721,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2025-11-28 13:09:44","like_diff":0,"likes":0,"dislikes":0,"content":"给分真的超级好啊啊 饮食与人类上课也上得很开心！助教小姐姐也超级美超级好"},{"id":225185,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2025-12-19 13:34:58","like_diff":0,"likes":0,"dislikes":0,"content":"老师超级好，小组展示有两次，一大一小，我感觉我们小组也没有做的非常出彩。期末考开卷考，都在课件里，结合自己的一点想法，写了满满的交了，最后满绩。课堂也很有趣，听不听都无所谓，考前看看课件即可"},{"id":225884,"teacher_id":5868,"teacher_name":"吴一华","post_time":"2026-01-03 14:27:28","like_diff":0,"likes":0,"dislikes":0,"content":"老师很幽默，ppt制作会放很多好玩的小视频，健康与免疫课程上也很体贴其他专业的同学，尽量在降低课程难度，很好的老师"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

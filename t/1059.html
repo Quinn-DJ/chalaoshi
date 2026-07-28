@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王福俤 - 医学院 - 浙大教评</title>
+    <meta name="description" content="王福俤教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="王福俤,医学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">王福俤</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">医学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">3.76</div>
+                    <div class="rating-participants">89人参与评分</div>
+                    <div class="attendance-info">19.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">临床营养学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.72</span>
+                            <span class="students">选课: 57人</span>
+                            <span class="std-dev">标准差: 0.68</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">营养与食品卫生学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.97</span>
+                            <span class="students">选课: 227人</span>
+                            <span class="std-dev">标准差: 0.61</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">解码长寿</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.01</span>
+                            <span class="students">选课: 216人</span>
+                            <span class="std-dev">标准差: 0.64</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (72 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":104643,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-03-26 01:10:54","like_diff":46,"likes":71,"dislikes":25,"content":"读研千万千万别选这个老师，完全不尊重学生人格，会在组会上公开羞辱学生，还会随意骂人脏话，要求所有人都要仰视他，发文章会把自己老婆挂共同通讯作者，还会记仇，气量很小，因为某些事被撤过公卫的院长，私德太差，曾有博士生出现过严重的心理问题，进入他的课题组就是压抑生活的开始。。。不把学生当人看"},{"id":92612,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-01-03 06:24:54","like_diff":38,"likes":43,"dislikes":5,"content":"去你的诗歌计入总分，开学时说好的打分规范在你眼里算什么呢?这个老师简直了"},{"id":91352,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2018-12-06 07:36:43","like_diff":34,"likes":37,"dislikes":3,"content":"专业吹逼"},{"id":103714,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-03-04 12:08:21","like_diff":31,"likes":32,"dislikes":1,"content":"为什么没有0分"},{"id":133867,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2021-03-08 12:02:56","like_diff":27,"likes":30,"dislikes":3,"content":"怎么评论区一半人都在说王老师的不好，我就奇了怪了，另一半人是没有键盘吗？"},{"id":97282,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-01-22 07:46:56","like_diff":26,"likes":27,"dislikes":1,"content":"吹一堆没有意义的牛逼……"},{"id":104978,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-04-01 13:49:53","like_diff":24,"likes":24,"dislikes":0,"content":"上课就下载一个人卫的ppt也不好好讲划水大标题，然后花一个钟头重点介绍自己一条一条念自己怎么怎么牛逼。假装谦虚说你们不要看不起我。对不起，您这个做法只会让更多的同学看不起您。"},{"id":104810,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-03-28 05:23:28","like_diff":23,"likes":23,"dislikes":0,"content":"脏话张口就来，上课毫无意义。"},{"id":91791,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-01-22 11:06:55","like_diff":22,"likes":30,"dislikes":8,"content":"喜欢赵老师和夏老师，上课有很多干货，作业也很少，虽然王老师上课一言难尽，但是还是很喜欢这门通识课啦，另外，期末给分真的好好(^^)"},{"id":93211,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-01-08 06:38:19","like_diff":19,"likes":20,"dislikes":1,"content":"??‍♂️两个女老师真的很好，很认真很负责的在讲课，认真听的话会学到很多东西的。但是王老师的话，我就hehehe了，感觉全程在装逼，基本没有学到什么东西。总之这门通识课是不错的，感兴趣可以选一下，事情少不用考试。但是凭良心讲王老师不应该有这么高的分数。"},{"id":104807,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-03-28 03:53:32","like_diff":19,"likes":20,"dislikes":1,"content":"一言难尽，mdzz"},{"id":92610,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-01-03 06:13:33","like_diff":17,"likes":18,"dislikes":1,"content":"助教给10分 至于老师我可以说不值这么高分吗……"},{"id":92623,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-01-03 06:53:39","like_diff":16,"likes":17,"dislikes":1,"content":"我只想说，助教们真是上课既幽默有有用，老师么。。。一言难尽，自从他来了以后我就不知道自己每天在学什么了，还要自己朗诵诗歌并且把诗歌计入平时分？！打扰了"},{"id":97423,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-01-22 08:49:08","like_diff":14,"likes":15,"dislikes":1,"content":"不考试，绩杀\n\n尽在那里瞎比比自己在哈弗的事了\n\n还逼每个同学写诗\n\n上课每个人念了自己的诗三遍\n\n不尊重努力学习的同学\n\n上课超级尴尬\n\n喜欢点人回答尴尬的问题"},{"id":93910,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-01-14 08:32:26","like_diff":12,"likes":14,"dislikes":2,"content":"助教讲的很多干货，也比较有意思，but这个老师全程吹牛，然后附庸风雅，让我们写诗？？？我服了。。。"},{"id":122766,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2020-04-01 12:30:23","like_diff":12,"likes":12,"dislikes":0,"content":"呵呵呵呵不予置评。一个老师，上课就知道不停吹无意义的牛逼，强迫学生不停给他点赞，说什么上个班给我点了十几万赞，还要求自己做推文发他的公众号，等等等等一言难尽，根本不讲有用的东西，每节课就不停吹牛逼，真的醉了"},{"id":54686,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2017-06-30 04:20:45","like_diff":11,"likes":11,"dislikes":0,"content":"两个美女助教人都很好，上课也挺好，至于王老师的话“主要是让你们感受一下科学家的气场”2333"},{"id":110085,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-06-22 10:43:20","like_diff":11,"likes":11,"dislikes":0,"content":"我一个不是医学或生物专业的都觉得这个人不应该在浙大"},{"id":124764,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2020-07-08 11:34:35","like_diff":10,"likes":11,"dislikes":1,"content":"把这个老师的名字输到百度搜索里，自动联想有惊喜。"},{"id":152582,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2022-04-15 06:02:31","like_diff":7,"likes":8,"dislikes":1,"content":"第一次的查老师评分给这个sb老师，真真无语，为什么没有0分？？选了一门医学院开的通识课偏偏就遇到这么恶心的老师，想吐！！\n\n1上课空洞无物，几乎没有什么实际内容。不仅学无所获，还精神折磨！呕呕呕！！！\n\n2.明明有PPT可以提前准备好内容，结果却变成了现场提问同学，让同学现场百度，搜索资料，再讲给大家？那要你何用？？每次他上的课都会没有东西可讲，只能吹牛，胡说八道来拖延时间 \n\n3.不停地吹嘘自己履历有多么厉害，不停地推荐自己团队的微信公众号，不停地放自己和名人的合影，频率之高让人没有钦佩，只有恶心 \n\n4.个人作业布置像是在开玩笑，为了拖延时间让同学们一个一个展示自己的作业，结果现场评分是他喊等级，同学们喊好，看哪个等级同学喊的声音最大就是哪个等级？？我们不是小学生，上课不是在玩游戏！非常的不负责任，非常无语！！！\n\n解码长寿这门通识课上一共来过4个老师，就只有这个sb来的课时数最多，凭借一己之力拉低整个课程观感度，恶心！！"},{"id":22578,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2016-03-08 06:24:34","like_diff":6,"likes":14,"dislikes":8,"content":"才开始上一周，我就感觉是好通识课，没考试，没作业，认真就好，学到很多东西，提高生活质量。"},{"id":110777,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-06-28 08:15:19","like_diff":6,"likes":6,"dislikes":0,"content":"10分给助教，至于老师……给人的印象就是炫耀自己的成果然后吹捧自己，故意提问一些不怎么能回答上来的东西还特别爱提问，场面一度十分尴尬……"},{"id":170971,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2023-03-13 12:47:24","like_diff":6,"likes":8,"dislikes":2,"content":"无语至极，感觉很自大，一开始就疯狂炫自己，真正的学术大牛从不会这样自我吹嘘，还强迫学生回答问题，讨厌至极"},{"id":190762,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2024-03-18 06:22:33","like_diff":6,"likes":6,"dislikes":0,"content":"特别傻逼的老师傻逼傻逼傻逼傻逼傻逼死全家"},{"id":41759,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-07-12 03:57:00","like_diff":5,"likes":6,"dislikes":1,"content":"打分很乱。\n\n"},{"id":93221,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-01-08 07:14:54","like_diff":5,"likes":7,"dislikes":2,"content":"助教吹爆，教授本人emmmm是不是太能尴尬互动了，还好教授上课时间不长，还是挺开心能选上这门课的"},{"id":106845,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-05-13 16:52:19","like_diff":5,"likes":5,"dislikes":0,"content":"呵呵呵呵，这种人也能当老师吗"},{"id":115084,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-07-15 08:35:27","like_diff":5,"likes":5,"dislikes":0,"content":"想踹他一脚"},{"id":139975,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2021-08-22 16:32:57","like_diff":5,"likes":5,"dislikes":0,"content":"据说这个老师以前和实验室的女博士乱搞关系，还pua自己组的硕博造成严重的健康和心理问题，最好远离这种垃圾导师。"},{"id":144636,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2021-12-23 03:07:44","like_diff":5,"likes":5,"dislikes":0,"content":"没学到什么东西"},{"id":93253,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-01-08 12:09:56","like_diff":4,"likes":4,"dislikes":0,"content":"。。。"},{"id":94058,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-01-15 05:17:58","like_diff":4,"likes":5,"dislikes":1,"content":"还行吧，写诗是真的很尬"},{"id":114851,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-07-12 03:51:17","like_diff":4,"likes":4,"dislikes":0,"content":"查的很"},{"id":123005,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2020-04-29 10:45:41","like_diff":4,"likes":4,"dislikes":0,"content":"“老师请问可以上传一下ppt吗” “怎么，你看不清吗？”  好呢。"},{"id":133522,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2021-03-01 15:31:23","like_diff":4,"likes":5,"dislikes":1,"content":"用学术成就掩饰自己口头表达能力和共情能力上的自卑罢了"},{"id":134601,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2021-04-16 18:59:04","like_diff":4,"likes":6,"dislikes":2,"content":"只会吹牛，太差了，对教学及其不负责任"},{"id":32535,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2016-07-07 12:17:17","like_diff":3,"likes":3,"dislikes":0,"content":"老师只会在第一节课出现"},{"id":39109,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2016-12-21 07:58:47","like_diff":3,"likes":4,"dislikes":1,"content":"。。。。。"},{"id":41420,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2017-01-11 12:35:11","like_diff":3,"likes":3,"dislikes":0,"content":"从头到尾没见过老师，都是美女助教在上课"},{"id":54723,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2017-06-30 05:47:52","like_diff":3,"likes":3,"dislikes":0,"content":"给分不好 是"},{"id":76993,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2018-04-27 13:05:12","like_diff":3,"likes":5,"dislikes":2,"content":"留作业是真的难搞，要求一浪接一浪，以自己的要求为准，希望像楼上说的，老师别再出现了，助教还是很ok的"},{"id":80972,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2018-07-03 05:46:14","like_diff":3,"likes":4,"dislikes":1,"content":"给分真的一般"},{"id":93235,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-01-08 07:56:11","like_diff":3,"likes":5,"dislikes":2,"content":"充分展现自己\n\n"},{"id":108920,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-06-04 07:25:52","like_diff":3,"likes":3,"dislikes":0,"content":"也不知道在干嘛 也不敢问 莫名其妙 佛了"},{"id":125003,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2020-08-06 12:10:17","like_diff":3,"likes":3,"dislikes":0,"content":"把这个老师的名字输到搜狗搜索里，自动联想有惊喜。"},{"id":134606,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2021-04-05 05:52:47","like_diff":3,"likes":3,"dislikes":0,"content":"很差的老师，整堂课只会吹嘘自己加说大话，没有认真上课。"},{"id":154162,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2022-05-25 02:42:43","like_diff":3,"likes":3,"dislikes":0,"content":"不要不要不要拿解码，要你解读论文，文科生解读医学论文真的想s"},{"id":154177,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2022-05-25 06:26:11","like_diff":3,"likes":3,"dislikes":0,"content":"有病简直 全勤 还回答问题 个人展示也是A+ 小组展示也不错 最后 3.3 发邮件也不回 上课除了自己吹自己还能干嘛 快跑"},{"id":110642,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-06-28 01:04:47","like_diff":2,"likes":3,"dislikes":1,"content":"乌鸡鲅鱼"},{"id":161969,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2022-11-15 13:25:29","like_diff":2,"likes":2,"dislikes":0,"content":"😅真能吹"},{"id":164722,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2022-12-24 06:55:32","like_diff":2,"likes":3,"dislikes":1,"content":"纯nt"},{"id":199270,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2024-09-20 07:33:41","like_diff":2,"likes":2,"dislikes":0,"content":"超级无敌恶心，上课的时候还有点人样，对待自己实验室的博士和硕士简直不让人看，狗都不如，只会push+pua，无底线地压榨学生和羞辱学生，千万别来读博读研，快跑"},{"id":108328,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-05-21 07:07:13","like_diff":1,"likes":1,"dislikes":0,"content":"好无语啊"},{"id":109565,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-06-17 04:30:35","like_diff":1,"likes":1,"dislikes":0,"content":"呵呵呵"},{"id":153289,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2022-04-27 14:19:07","like_diff":1,"likes":2,"dislikes":1,"content":"如果房间里有一把手枪，两颗子弹..."},{"id":23568,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2016-04-06 12:22:55","like_diff":0,"likes":3,"dislikes":3,"content":"助教上课，美女哈哈哈"},{"id":82839,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2018-07-09 08:02:57","like_diff":0,"likes":1,"dislikes":1,"content":"给分一般吧，还行"},{"id":97323,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-01-22 08:08:33","like_diff":0,"likes":9,"dislikes":9,"content":"两位助教小姐姐很不错!很用心!每节课都有很多干货( ﾟ∀ ﾟ)\n\n王福俤老师是一个很有趣的老师...不过他上的课主要是关于他自己的科研故事，课后和老师探讨会有很多启发!希望王老师能够揭开Slc39a14的全部奥秘(´-ω-`)\n\n写诗这件事嘛...我反正不反对。毕竟，“诗歌，美，浪漫，爱情 这些才是我们活着的意义”"},{"id":97493,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-01-22 09:23:13","like_diff":0,"likes":1,"dislikes":1,"content":"夏老师和赵老师真心不错，王老师就是有点爱炫耀…期末老师给分大善良了，竟然卷面会有100分的存在? ?"},{"id":125886,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2020-09-15 09:57:00","like_diff":0,"likes":4,"dislikes":4,"content":"nmsl，讲你妈的，普通话都不会，当你妈的老师"},{"id":207988,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2024-12-25 06:53:27","like_diff":0,"likes":0,"dislikes":0,"content":"其他不知道 上他的通识课感觉还可以\n\n确实比较喜欢show off 他和他学生的成果"},{"id":215827,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2025-03-06 02:13:57","like_diff":0,"likes":0,"dislikes":0,"content":"nc一个"},{"id":59189,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2018-01-19 08:12:40","like_diff":-2,"likes":5,"dislikes":7,"content":"老师人很好 但是和成绩相关的东西什么都不懂也不管 居然还可以微信留言加分也是很神奇的 营养健康课能学到东西 也很轻松 给分一般吧点名和小测全到只有3.9 不知道展示和微文有什么问题"},{"id":41689,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2017-06-15 05:06:01","like_diff":-8,"likes":3,"dislikes":11,"content":"老师讲得很好，给分也不错"},{"id":91355,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2018-12-06 07:54:54","like_diff":-8,"likes":1,"dislikes":9,"content":"觉得老师的课特别好玩鸭 挺幽默的 有点高中生物知识也都能听得懂 满分满分?"},{"id":48753,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2017-03-11 14:50:24","like_diff":-9,"likes":0,"dislikes":9,"content":"老师很好"},{"id":39111,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2017-01-11 04:06:23","like_diff":-12,"likes":6,"dislikes":18,"content":"虽然不点名，但是有小测，没有卷子考试，喜欢这门通识，助教老师很漂亮，而且只要不旷课，真的比较容易拿高绩点，我表示看到成绩很开心，哈哈哈\n\n"},{"id":97284,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-01-22 07:50:13","like_diff":-12,"likes":3,"dislikes":15,"content":"个人觉得老师上的课充分体现了艺术二字，可以感受到浓浓的科学和艺术的氛围，开阔了眼界，了解到了一些科研的知识，对于眼界的提升可能比知识本身更为重要吧。老师非常幽默，让我们写诗也是一次难得的体验啊，总之老师的课真的非常有意思哦⊙∀⊙！"},{"id":84850,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2018-07-14 05:08:19","like_diff":-13,"likes":0,"dislikes":13,"content":"事少，给分也很好，老师很博学，满绩小天使哈哈哈哈"},{"id":108324,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-05-21 06:19:16","like_diff":-13,"likes":1,"dislikes":14,"content":"好玩，可爱的老师"},{"id":100497,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-01-26 08:04:30","like_diff":-16,"likes":3,"dislikes":19,"content":"喜欢王老师，风趣幽默"},{"id":54700,"teacher_id":1059,"teacher_name":"王福俤","post_time":"2019-04-01 13:19:56","like_diff":-20,"likes":5,"dislikes":25,"content":"满绩小天使哈哈哈  上课很有趣    事情还少   平时有几次小测  上课好好听就可以了   老师都很有趣   么么"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

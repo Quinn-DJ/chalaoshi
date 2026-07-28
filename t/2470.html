@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>费金华 - 化学系 - 浙大教评</title>
+    <meta name="description" content="费金华教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="费金华,化学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">费金华</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">化学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">6.92</div>
+                    <div class="rating-participants">77人参与评分</div>
+                    <div class="attendance-info">20.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">化学与人类文明</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.67</span>
+                            <span class="students">选课: 27人</span>
+                            <span class="std-dev">标准差: 0.84</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大学化学实验（P）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.77</span>
+                            <span class="students">选课: 76人</span>
+                            <span class="std-dev">标准差: 0.63</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">普通化学实验（乙）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.98</span>
+                            <span class="students">选课: 127人</span>
+                            <span class="std-dev">标准差: 0.58</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (68 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":762,"teacher_id":2470,"teacher_name":"费金华","post_time":"2015-03-16 12:20:32","like_diff":38,"likes":50,"dislikes":12,"content":"实验之前的原理和设备使用讲的很透彻清楚，能学到很多东西，老师人也好。建议:听原理时尽量找个东西靠着。"},{"id":20092,"teacher_id":2470,"teacher_name":"费金华","post_time":"2016-01-26 05:25:25","like_diff":10,"likes":16,"dislikes":6,"content":"感觉很用心在学，但是最后给的绩点真的不敢恭维\n\n"},{"id":70569,"teacher_id":2470,"teacher_name":"费金华","post_time":"2018-01-27 08:32:00","like_diff":9,"likes":10,"dislikes":1,"content":"化学与人类文明很有趣 学到了很多 高中学化学的同学强烈推荐"},{"id":88844,"teacher_id":2470,"teacher_name":"费金华","post_time":"2018-11-09 23:44:44","like_diff":9,"likes":9,"dislikes":0,"content":"真正的好老师，楼上绩点低的请考虑自己的问题！他喜欢你按自己的思路写报告，而不是抄书！他会为你的实验报告专门去找助教修改！"},{"id":18260,"teacher_id":2470,"teacher_name":"费金华","post_time":"2016-01-21 10:40:16","like_diff":8,"likes":10,"dislikes":2,"content":"很棒的老师啊，能学到很多东西"},{"id":18551,"teacher_id":2470,"teacher_name":"费金华","post_time":"2016-01-22 04:00:24","like_diff":8,"likes":10,"dislikes":2,"content":"让学生自主实验，不要怕做错，学会吸取经验，培养学术型的好老师。"},{"id":67478,"teacher_id":2470,"teacher_name":"费金华","post_time":"2018-01-21 09:52:47","like_diff":8,"likes":8,"dislikes":0,"content":"我上的实验课，实验操作很迷的时候，老师总是会过来细心地教！\n\n总体感觉还是学到了很多的。"},{"id":92540,"teacher_id":2470,"teacher_name":"费金华","post_time":"2019-01-02 09:37:38","like_diff":8,"likes":8,"dislikes":0,"content":"老师人超级超级超级好，上实验特别有趣可爱，经常走到旁边指导错误！我的滴定管不通，老师亲自给我捅，帮我做实验~助教人也都超好超好，强烈安利！"},{"id":64857,"teacher_id":2470,"teacher_name":"费金华","post_time":"2017-12-27 12:35:30","like_diff":7,"likes":8,"dislikes":1,"content":"老师会点名 而且基本上每节课都点\n\n我是支持老师点名的 选了这门课不来不仅仅是对老师的不尊重  更是对来了的同学的不尊重 你们不来而不扣分最后被正态的是其他同学  对其他同学是不公平的\n\n"},{"id":2177,"teacher_id":2470,"teacher_name":"费金华","post_time":"2015-04-05 06:35:48","like_diff":6,"likes":22,"dislikes":16,"content":"通识给分超低 千万别选"},{"id":21582,"teacher_id":2470,"teacher_name":"费金华","post_time":"2016-02-29 08:47:23","like_diff":6,"likes":8,"dislikes":2,"content":"通识无聊至极"},{"id":65228,"teacher_id":2470,"teacher_name":"费金华","post_time":"2018-01-01 16:18:38","like_diff":6,"likes":6,"dislikes":0,"content":"只想针对这门课说说，一门1.5分的课，占用时间真的太多，说实话，我基础化学实验和化学实验甲同时修的，特么半天的化甲在课下的时间比一天的基化还多，我%#!?%#*$&!!!"},{"id":70882,"teacher_id":2470,"teacher_name":"费金华","post_time":"2018-01-27 16:35:38","like_diff":6,"likes":7,"dislikes":1,"content":"老师特别的可爱呀～人特别好的～然后作为一个文科生 化学课听的还是云里雾里的…不过放心 最后开卷考，题目都是课件书本里有的 只要考前认真准备过 没问题的～给分好哦～4.5已经很满意啦"},{"id":118264,"teacher_id":2470,"teacher_name":"费金华","post_time":"2019-10-24 05:08:05","like_diff":5,"likes":6,"dislikes":1,"content":"绩点跟这个脑残玩意有仇，而且脑子僵化死板不会变通，实验报告该写的都写了嫌位置不对也扣分，评论里没有0分我才打一分。"},{"id":189160,"teacher_id":2470,"teacher_name":"费金华","post_time":"2024-01-22 08:08:08","like_diff":5,"likes":5,"dislikes":0,"content":"上的是老师的大学化学实验（P）\n\n老师人很好，上课对实验原理和步骤讲得非常详细（反正比我的物化老师讲得好多了），实验过程也是保姆式教学，演示直到你完全会了为止。实验报告的话要求手写，会比别的班多用一些时间。听说给分很求是，但是这门课好像规定了平均分是85分吧，最后每个班内部都是调平的，给分应该也不会特别差。我的建议是可以冲。"},{"id":17268,"teacher_id":2470,"teacher_name":"费金华","post_time":"2016-01-20 03:11:30","like_diff":4,"likes":5,"dislikes":1,"content":"看得出来是有思想的老师"},{"id":99577,"teacher_id":2470,"teacher_name":"费金华","post_time":"2019-01-25 03:38:44","like_diff":4,"likes":4,"dislikes":0,"content":"给分一般 人挺好的"},{"id":20105,"teacher_id":2470,"teacher_name":"费金华","post_time":"2016-01-26 06:10:19","like_diff":3,"likes":9,"dislikes":6,"content":"通识别选，千万别选"},{"id":20257,"teacher_id":2470,"teacher_name":"费金华","post_time":"2016-01-26 16:20:02","like_diff":3,"likes":10,"dislikes":7,"content":"他的化学与人类文明千万别选，怎么死的都不知道"},{"id":25237,"teacher_id":2470,"teacher_name":"费金华","post_time":"2016-05-09 00:05:15","like_diff":3,"likes":6,"dislikes":3,"content":"通识真心有点坑，点名加论文就算了，问题是教材不说啊，第一节课说这套教材有两版，而他自己喜欢第一版，结果大家都去买了第一版，特么考试考的是第二版。感觉他很适合做研究，但不适合来上通识诶"},{"id":39984,"teacher_id":2470,"teacher_name":"费金华","post_time":"2017-01-16 06:14:06","like_diff":3,"likes":4,"dislikes":1,"content":"哈哈哈哈"},{"id":43352,"teacher_id":2470,"teacher_name":"费金华","post_time":"2017-01-16 07:32:38","like_diff":3,"likes":4,"dislikes":1,"content":"老师很负责"},{"id":43476,"teacher_id":2470,"teacher_name":"费金华","post_time":"2017-01-16 10:20:26","like_diff":3,"likes":4,"dislikes":1,"content":"超好的老师啊为啥评分这么低啊！老师很和蔼啊指导学生做实验也很棒！不用怕出错，会讲怎样能做好实验怎样能写一份好的实验报告！很可爱很喜欢的一个老师！！"},{"id":43482,"teacher_id":2470,"teacher_name":"费金华","post_time":"2017-01-16 10:35:39","like_diff":3,"likes":4,"dislikes":1,"content":"真正在听的分数不会差\n\n给分厚道\n\n有干货的老师\n\n"},{"id":65204,"teacher_id":2470,"teacher_name":"费金华","post_time":"2017-12-31 03:19:58","like_diff":3,"likes":4,"dislikes":1,"content":"感觉这里面好多水军，我感觉他上课特别无聊，而且错别字特别多"},{"id":70577,"teacher_id":2470,"teacher_name":"费金华","post_time":"2018-01-27 08:51:14","like_diff":3,"likes":3,"dislikes":0,"content":"化学实验甲，每次来讲课的时候原理都讲的很透彻，给分也不错，蛮负责的老师"},{"id":71685,"teacher_id":2470,"teacher_name":"费金华","post_time":"2018-01-29 00:38:07","like_diff":3,"likes":4,"dislikes":1,"content":"老师会点名，数人头的那种，但是这对于认真上课的同学绝对是一种优势。作为文科生，平时听课有些跟不上，真的很担心最后的考试。但好在自己坚持没有退课。试卷上的内容大部分能在书上找到，简答和论述题的占比大，已经明显向文科生倾斜了。最后成绩上4了，非常感激老师。毕竟已经做好了被正态的准备……好好准备，认真听课，还不错的通识，没那么可怕哦"},{"id":74740,"teacher_id":2470,"teacher_name":"费金华","post_time":"2018-03-05 10:52:38","like_diff":3,"likes":3,"dislikes":0,"content":"给分一般，几乎每节课都点名"},{"id":148190,"teacher_id":2470,"teacher_name":"费金华","post_time":"2022-01-12 00:20:53","like_diff":3,"likes":5,"dislikes":2,"content":"作为一门通识课很难把其当成专业课来讲我承认，期末确实只需要带书，涉及物理化学生物的内容，我自认为做的不错（高中选的理化生），平时作业也在认真写，论文3000也交了，最后结果不咋地给分真的不好，可能只有老师认识的才给高分吧，通识课不建议选了"},{"id":148325,"teacher_id":2470,"teacher_name":"费金华","post_time":"2022-01-12 06:50:42","like_diff":3,"likes":3,"dislikes":0,"content":"我上的是费金华老师的《化学与人类文明》课，在此将本课相关信息列出，供后来同学参考，希望能有一定帮助：（注：这些只是2021秋冬学期的情况，可能之后会有变化）\n\n1.老师比较在意上课是否缺勤，有时候会点名\n\n2.老师上课的时候会在讲台和前排走来走去，而且有时会随机点名提问，有点类似高中授课方式\n\n3.会布置小的思考题作业，大概每节课两道，不一定每节都有。思考题大部分与上课内容相关，有些需要认真听讲，有些需要上网查一些资料，但还是推荐认真听讲。另外从网上随便抄一些资料对付不过去的，抄再多也没用，本人一次c-作业为证（\n\n4.上课记笔记不用特别详细，记一些老师讲了但是PPT上没有的知识点，因为在临近期末的时候老师会把课堂内容整理成PDF文档，多数比较详细，但是部分只是纲要，课堂上他拓展或者深讲的具体信息需要你自己的笔记补充\n\n5.课本上课几乎用不到，但是考试会用到，还是买吧\n\n6.考试开卷，分为小问答题、选择题和大简答题。小问答题和选择题主要是课本知识和生化物基础知识，翻书和知识基础基本能解决。大简答题三选二，有很多跟费老师布置过的作业以及上课讲过的问题有很深关联。但考试不让带你平时的作业本，大家做作业的时候认真就好。另外，考之前跟别的老师教的同学互通一下有无，考试卷是几个老师合出的，多了解一下别的班画的重点，对考试有帮助\n\n7.老师可能会布置“期中小论文”，3000字以上，期末考试之前交，算入平时成绩\n\n8.平时成绩占30%，包括作业，课程论文，课堂和其他\n\n8.老师人还是不错的，很和蔼，很好玩，但是绩点可能不太尽人意，确实存在不缺勤也交作业也交论文但是绩点3.几的情况\n\n以上。"},{"id":181560,"teacher_id":2470,"teacher_name":"费金华","post_time":"2023-10-23 01:25:44","like_diff":3,"likes":4,"dislikes":1,"content":"大化p，我的评价是避雷。老师人还不错，但事情真的很多。实验报告隔壁可以电子版，但是老师要求全手写，数据处理方式也要求的更加复杂，预习测试分数计入总分但是开放太晚，总之慎选，比较各个班分数最后都会调平，没必要选事多的老师。"},{"id":13004,"teacher_id":2470,"teacher_name":"费金华","post_time":"2015-12-24 13:18:44","like_diff":2,"likes":3,"dislikes":1,"content":"上的实验。 感觉老师说话很燃阿"},{"id":15537,"teacher_id":2470,"teacher_name":"费金华","post_time":"2016-01-15 07:47:02","like_diff":2,"likes":4,"dislikes":2,"content":"上的他的化学实验，原理讲的很透彻，赞。"},{"id":19413,"teacher_id":2470,"teacher_name":"费金华","post_time":"2016-01-24 06:25:51","like_diff":2,"likes":3,"dislikes":1,"content":"挺好的，感觉老师很好"},{"id":43307,"teacher_id":2470,"teacher_name":"费金华","post_time":"2017-01-16 06:18:42","like_diff":2,"likes":5,"dislikes":3,"content":"通识死得莫名其妙...拉低绩点"},{"id":43537,"teacher_id":2470,"teacher_name":"费金华","post_time":"2017-01-16 13:37:36","like_diff":2,"likes":4,"dislikes":2,"content":"老师人很好，但是给分真的太低了太低了……下了3…………真的不想说什么了太坑了"},{"id":73751,"teacher_id":2470,"teacher_name":"费金华","post_time":"2018-02-03 05:06:07","like_diff":2,"likes":4,"dislikes":2,"content":"老师人超级好"},{"id":95351,"teacher_id":2470,"teacher_name":"费金华","post_time":"2019-01-19 08:50:18","like_diff":2,"likes":3,"dislikes":1,"content":"上的是老师的普化实验。老师很心细，会走来走去纠正你的错误，帮你弄仪器。实验操作前会认真地讲实验原理，废话很少，但可惜我没好好记啊，理论考很多都是老师讲过的但是书上没提的，好好听课很重要！"},{"id":98694,"teacher_id":2470,"teacher_name":"费金华","post_time":"2019-01-23 23:19:24","like_diff":2,"likes":6,"dislikes":4,"content":"化学与人类文明觉得给分不好的右边直觉点"},{"id":103389,"teacher_id":2470,"teacher_name":"费金华","post_time":"2019-02-28 01:20:39","like_diff":2,"likes":3,"dislikes":1,"content":"开心快乐喜欢他！！！"},{"id":148191,"teacher_id":2470,"teacher_name":"费金华","post_time":"2022-01-12 01:12:28","like_diff":2,"likes":3,"dislikes":1,"content":"《化学与人类文明》作为一门通识课，屁都没学到。在上课经常吹嘘自己家的情况怎么样。而且快到期末了还布置什么论文。最后有人论文没交4.2，我交了论文3.6。给分机制可谓随意，如果你想拼运气就选这个课吧🐶"},{"id":148235,"teacher_id":2470,"teacher_name":"费金华","post_time":"2022-01-12 02:27:52","like_diff":2,"likes":2,"dislikes":0,"content":"我不理解，高中选过化学，平时上课从不缺勤，论文也好好写，最后只有3.6，另一个高中全文的同学，论文都没交却能上4.2，这就是所谓的“正态分布”？呵呵，看来是他不想让我继续当个文明人了。"},{"id":157714,"teacher_id":2470,"teacher_name":"费金华","post_time":"2022-06-24 12:19:16","like_diff":2,"likes":2,"dislikes":0,"content":"今年上了费金华老师的普通化学实验（乙）这门课，觉得费老师是一个很不错的老师。（当时选化学实验课的时候还因为费老师7左右的评分而担惊受怕来着，后来完全没这样的想法了。）上课的时候如果有不会的操作老师会来教你、帮你搞，讲实验原理的时候会比较细致（找个能靠着的地方站，真的）。费老师对实验报告的要求会有点高，但是用心写的话老师会给比较好的分数的（费老师偶尔会亲自批实验报告）。还有助教小姐姐人也很好，很耐心也很温柔。"},{"id":33323,"teacher_id":2470,"teacher_name":"费金华","post_time":"2016-09-18 07:15:44","like_diff":1,"likes":2,"dislikes":1,"content":"“我们实验室那设备，就两三百万”"},{"id":43309,"teacher_id":2470,"teacher_name":"费金华","post_time":"2017-01-16 06:27:30","like_diff":1,"likes":2,"dislikes":1,"content":"水课给分超好\n\n"},{"id":43489,"teacher_id":2470,"teacher_name":"费金华","post_time":"2017-01-16 10:45:26","like_diff":1,"likes":3,"dislikes":2,"content":"垃圾通识，给分超低，上课无聊，千万别选"},{"id":50447,"teacher_id":2470,"teacher_name":"费金华","post_time":"2017-05-03 02:48:35","like_diff":1,"likes":2,"dislikes":1,"content":"通识课会死人"},{"id":145425,"teacher_id":2470,"teacher_name":"费金华","post_time":"2021-12-29 13:11:47","like_diff":1,"likes":2,"dislikes":1,"content":"实验课超级好！老师很亲切和蔼，会帮你弄装置。每次实验我的装置都有问题，他都会帮我搞好，感觉他也挺辛苦的"},{"id":145426,"teacher_id":2470,"teacher_name":"费金华","post_time":"2021-12-29 13:11:47","like_diff":1,"likes":1,"dislikes":0,"content":"实验课超级好！老师很亲切和蔼，会帮你弄装置。每次实验我的装置都有问题，他都会帮我搞好，感觉他也挺辛苦的"},{"id":145427,"teacher_id":2470,"teacher_name":"费金华","post_time":"2021-12-29 13:11:47","like_diff":1,"likes":1,"dislikes":0,"content":"实验课超级好！老师很亲切和蔼，会帮你弄装置。每次实验我的装置都有问题，他都会帮我搞好，感觉他也挺辛苦的"},{"id":148248,"teacher_id":2470,"teacher_name":"费金华","post_time":"2022-01-12 03:30:45","like_diff":1,"likes":1,"dislikes":0,"content":"真的不理解，自己也有好好学，但是还是乱给分，高中学的化学白学了呗。到底是怪老师，还是怪该死的正态分布。真的不理解，建议别选这课，真心想人死。"},{"id":179026,"teacher_id":2470,"teacher_name":"费金华","post_time":"2023-08-22 13:20:32","like_diff":1,"likes":1,"dislikes":0,"content":"老师讲得很详细，人也很和蔼。助教差评，一个学期下来实验报告没拿过一个A。"},{"id":14689,"teacher_id":2470,"teacher_name":"费金华","post_time":"2016-01-08 10:10:54","like_diff":0,"likes":3,"dislikes":3,"content":"文科生上的通识。听不懂，但人很好。"},{"id":20144,"teacher_id":2470,"teacher_name":"费金华","post_time":"2016-01-30 11:42:19","like_diff":0,"likes":3,"dislikes":3,"content":"通识别选\n\n"},{"id":20238,"teacher_id":2470,"teacher_name":"费金华","post_time":"2016-01-26 15:50:53","like_diff":0,"likes":5,"dislikes":5,"content":"通识真的很无聊"},{"id":37000,"teacher_id":2470,"teacher_name":"费金华","post_time":"2016-11-17 04:51:03","like_diff":0,"likes":2,"dislikes":2,"content":"拉低我的绩点"},{"id":43653,"teacher_id":2470,"teacher_name":"费金华","post_time":"2017-01-16 16:43:43","like_diff":0,"likes":1,"dislikes":1,"content":"上课还可以，给分真不行。"},{"id":60859,"teacher_id":2470,"teacher_name":"费金华","post_time":"2017-10-31 11:39:46","like_diff":0,"likes":1,"dislikes":1,"content":"。。。"},{"id":63982,"teacher_id":2470,"teacher_name":"费金华","post_time":"2017-12-20 11:59:46","like_diff":0,"likes":2,"dislikes":2,"content":"讲课还行"},{"id":87306,"teacher_id":2470,"teacher_name":"费金华","post_time":"2018-09-27 01:08:33","like_diff":0,"likes":1,"dislikes":1,"content":"为什么不留联系方式，也不建群。"},{"id":93406,"teacher_id":2470,"teacher_name":"费金华","post_time":"2019-01-09 12:19:27","like_diff":0,"likes":1,"dislikes":1,"content":"老师讲的很有激情。非常适合文科生来上，因为就是讲的化学与生活，有趣又简单，"},{"id":145424,"teacher_id":2470,"teacher_name":"费金华","post_time":"2021-12-29 13:11:47","like_diff":0,"likes":1,"dislikes":1,"content":"实验课超级好！老师很亲切和蔼，会帮你弄装置。每次实验我的装置都有问题，他都会帮我搞好，感觉他也挺辛苦的"},{"id":189119,"teacher_id":2470,"teacher_name":"费金华","post_time":"2024-01-22 04:09:35","like_diff":0,"likes":0,"dislikes":0,"content":"讲得很详细，给分很求是"},{"id":194348,"teacher_id":2470,"teacher_name":"费金华","post_time":"2024-06-23 10:00:50","like_diff":0,"likes":0,"dislikes":0,"content":"给分一般般"},{"id":197067,"teacher_id":2470,"teacher_name":"费金华","post_time":"2024-07-07 05:41:53","like_diff":0,"likes":0,"dislikes":0,"content":"化学实验乙\n\n首先老师确实把实验操作讲得很详细，实验中还会帮你搭装置，但他对报告的要求比较高，要做的计算更多更复杂，因此给分并不好，建议慎选。\n\n另外吐槽一下助教，我报告辛辛苦苦写四页是B，后面摆烂写两页也是B，不知道怎么评的"},{"id":127265,"teacher_id":2470,"teacher_name":"费金华","post_time":"2020-11-18 12:45:22","like_diff":-1,"likes":0,"dislikes":1,"content":"上课讲和丈母娘商量装修自己的别墅？？？"},{"id":70652,"teacher_id":2470,"teacher_name":"费金华","post_time":"2018-02-01 11:32:52","like_diff":-3,"likes":1,"dislikes":4,"content":"垃圾老师，给分不说，上课讲的，考试不考。"},{"id":141015,"teacher_id":2470,"teacher_name":"费金华","post_time":"2021-09-21 12:52:25","like_diff":-4,"likes":0,"dislikes":4,"content":"rnm垃圾老师\n\n拖课死妈\n\n实验预习报告实验报告司马要求多 cnm"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

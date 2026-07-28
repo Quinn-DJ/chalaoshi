@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邢程 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="邢程教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="邢程,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">邢程</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.79</div>
+                    <div class="rating-participants">96人参与评分</div>
+                    <div class="attendance-info">14.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (6 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">中国现当代文学史Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.96</span>
+                            <span class="students">选课: 80人</span>
+                            <span class="std-dev">标准差: 0.69</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">中国现当代文学史Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.98</span>
+                            <span class="students">选课: 354人</span>
+                            <span class="std-dev">标准差: 0.81</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">毕业实习</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.55</span>
+                            <span class="students">选课: 20人</span>
+                            <span class="std-dev">标准差: 0.61</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">现代浙籍作家研究</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.41</span>
+                            <span class="students">选课: 316人</span>
+                            <span class="std-dev">标准差: 0.45</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会实践</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.73</span>
+                            <span class="students">选课: 20人</span>
+                            <span class="std-dev">标准差: 0.42</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会调查</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 5.00</span>
+                            <span class="students">选课: 21人</span>
+                            <span class="std-dev">标准差: 0.00</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (72 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":129614,"teacher_id":8284,"teacher_name":"邢程","post_time":"2021-01-08 16:21:24","like_diff":50,"likes":62,"dislikes":12,"content":"现当代文学史2 课堂体验不错 但是这个课后阅读量让我觉得我在念博士……"},{"id":164572,"teacher_id":8284,"teacher_name":"邢程","post_time":"2022-12-25 13:23:17","like_diff":38,"likes":63,"dislikes":25,"content":"邢程老师确实是中文系老师中的一股清流。但是还是能在老师身上看到京津地区人骨子里的傲慢。\n\n虽然说现当代文学重在自己阅读，但是对于低年级本科生，完全自学是不可能大有长进的，还是需要有师傅领进门的。\n\n邢程老师的确很有才华，但是总是对想要学习勇于提问的同学冷嘲热讽，以自己“脾气不好、没有耐心”和“自己学生时代都是自学”这两个理由拒绝为学生答疑解惑。甚至有同学在课程群里寻求帮助，邢程老师也是用非常傲慢非常蔑视非常不耐烦的语气予以回复。\n\n我知道低年级本科生有时候提的问题在老师那里很幼稚，但是人不都是一步步成长起来的吗，何必冷嘲热讽？能在浙大这个理工的不能再理工的学校读人文的同学，大部分都是对文学怀有满腔热爱和激情的吧。“学高为师，身正为范”，希望每个中文系的老师即使是在为低年级本科生上课也不忘记这一点。\n\n另，这个评价只是基于前面几楼的好评太过片面，本人才在此作出另一面更加客观的评价。需要说明的是，邢程老师很有才华，课堂也很有深度，阅读量巨大，考试很难，想水课拿高绩点的人慎选。\n\n以上。\n\n补充：在文化上xc老师极度瞧不起理工独大的浙大，但是个人品行以及所作所为却很配浙大。精致的利己主义者，莫过于此了。"},{"id":171305,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-03-21 08:37:06","like_diff":32,"likes":35,"dislikes":3,"content":"邢程老师是中文系很犀利的老师，你做得好的时候她会称赞，做得不好的时候她会批评，而不是为了一团和气而漠视问题。她很幽默，这是在许多老师甚至许多学生身上都稀有的品质，我喜欢幽默风趣的人，即使她是在开我不学无术的玩笑，我觉得她讲得没错我也挺开心，我身边已经很少有人愿意指出别人的问题了（很多同侪巴不得别人像个小丑，自己独醒）。她是年轻老师，所以她会关注年轻人喜欢的东西：本雅明、勃兰兑斯、福柯、柄谷行人、詹姆逊……她给我打开新世界，而非像一些文艺所的老师一样把理论讲的像古法辩经，我从她身上感受到了学现代文学的激情。我认同邢老师的一些做法，不是因为我偏激更不是因为我屁股歪了，而是因为很多事情的确有因有缘。我希望大家反驳邢老师的理由不是“我低年级我不知道怎么了？”而是“不，老师，我知道这个东西，你多讲一点”。"},{"id":169377,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-02-25 20:05:54","like_diff":27,"likes":35,"dislikes":8,"content":"实在是无语。上面的那条评论完全不知所云。你要想反驳“说话要做到逻辑一致”的评论，你首先得逻辑一致，而我在你的评论中看到了你逻辑的混乱。邢老师很有个性，确实是浙大一众教师中的异类。然而，异类怎么了？研究文学不正是需要individuality吗。回放一事是观念上的不一致。说老师骂学生是猪的那条，麻烦别掐头去尾…注意老师说话的语境…老师说，脑子生出来是要用的，如果你的脑子每天就想下顿吃什么，这和猪有什么区别。老师说完叹了口气，说，“哎，实在是…”满满的无奈。我当时真的有被狠狠戳到…老师有时候可能是“毒舌”了一点，但同时请你想想所谓的aggressive难道不也是一种受挫的应激反应吗？也许一众儒雅温和的教授早已被抹去了棱角。请你们对老师宽容点吧。哎。老师上课说到倪焕之（也是叶圣陶本人）对教育事业的挫败感来源之一就是学生。还有骂公知的那条（这就是秉承自由包容校风的zjuer），你们这么做只会让老师不敢讲话，那么就永远躲在无知的甜蜜之中吧哈哈哈哈。清醒的人总是更加痛苦和冷峻的。这是老师的人生态度也是（我姑且称之为）美学风格吧。外国的月亮圆？老师承认发达资本主义的国家之先进发达，中国想要变得更好难道不应该睁眼看世界向先进的国家学习吗？这就等于外国的月亮圆啦？你还真以为老师是资本主义的拥趸啊，那你可就真没看到她身上的批判精神和抵抗意识，老师在课上可不止一遍两遍批判资本主义对人的异化（现代人的异化）哟。哦还有，精致的利己主义者可并不是一个什么坏词儿，人理想的生存状况不应该就是精致且利己的吗？利己妨害利他吗？邢老师上课那么认真，做足功夫备课，难道不是利他吗？她大可以像某些教授一样不备课随便复读ppt。总之，我相信邢老师不会把某些恶评放在心上。以上的评论界出自一家之言，我不敢打包票说我的评论完全贴合老师本人，但至少不会太离谱；同理，楼上的所有评论也仅仅是一家之言，大家看看就好，好坏自在人心。"},{"id":130520,"teacher_id":8284,"teacher_name":"邢程","post_time":"2021-01-23 10:25:04","like_diff":26,"likes":34,"dislikes":8,"content":"我是她永远的迷妹，老师真的是女神，女性的美丽优雅成熟睿智幽默理性都在一个人身上体现了！本来考完试我万念俱灰，她说有的人挂了我以为是我，我真的特别喜欢她，但因为自己菜从来不敢和老师多说话呜呜呜，结果成绩出人意料，但不管我多少分，她只能是十分。简直是我人生一束光，遇到她之前我从来没觉得搞学术是一件这么迷人且优雅的事情。她很鲁迅，也很张爱玲。不上她的课你遗憾终生"},{"id":168166,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-01-31 06:42:30","like_diff":22,"likes":28,"dislikes":6,"content":"很搞笑，所有骂的都补充上了一句：给分不赖/海底捞。因为给分好点就有所缓和，因为被冒犯了长篇吐槽，非常即时非常现代的反应。做出评论至少先统一一下自己说话的逻辑吧。"},{"id":130526,"teacher_id":8284,"teacher_name":"邢程","post_time":"2021-01-23 11:57:31","like_diff":21,"likes":23,"dislikes":2,"content":"很好的老师！因为这门课读了不少书，老师ppt的红色字体是重点！！！"},{"id":185947,"teacher_id":8284,"teacher_name":"邢程","post_time":"2024-01-06 09:10:36","like_diff":21,"likes":21,"dislikes":0,"content":"“填空题力求变态。祝大家玩得愉快。”（邢程，2024）"},{"id":174482,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-06-13 03:05:51","like_diff":20,"likes":22,"dislikes":2,"content":"挺好的，电锯嘴，豆腐心"},{"id":147492,"teacher_id":8284,"teacher_name":"邢程","post_time":"2022-01-10 05:31:03","like_diff":19,"likes":22,"dislikes":3,"content":"来给邢程xjj好评啦~撇开绩点之类的东西不说，老师是一个严谨的老师，会和我们强调一些学术规范，在文学史的部分的演说非常令人耳目一新，听她上课是一种极致的享受！！非常喜欢老师犀利评述的部分，这个学期在思想上、精神上的跨越很大部分都是邢姐姐带来的！！会要求我们去阅读很多书籍，但是作为中文系的学生，阅读当然是最紧要的，总而言之，如果想要获得灵魂精神升华的同学，选就对了！！！"},{"id":186879,"teacher_id":8284,"teacher_name":"邢程","post_time":"2024-01-13 10:57:38","like_diff":17,"likes":17,"dislikes":0,"content":"有人喜欢就有人不喜欢。xc老师不是那种鼓励式和引导式的老师，课堂阅读任务安排的很重（平均每周一本长篇小说的阅读量）其实挺不堪其重的。提的问题她也很少直接回答。给分其实比较主观，主要是想拿中高分数段就不是传统意义上的知识学好能达到的，要在一定程度上迎合她，所以要是跟她气场不合或者不小心踩到雷区（她的雷区非常多）的话最后的分会很痛苦...\n\n总之是个好老师，这是我的评价，但不适合所有人。\n\n希望喜欢xc老师的同学也不要踩我，让更多人看到不同的观点，这也是xc老师会赞同的，我相信她的学生是会对不同的观点有包容度的。"},{"id":183145,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-11-22 11:36:36","like_diff":16,"likes":18,"dislikes":2,"content":"评论似乎比较两极分化......我是很喜欢邢程老师的，评论里很多人说她只鼓励自学，不管我们是低年级本科生，没有耐心，但是我觉得恰恰相反。我从来没有在哪个课上看到有老师像xcjj一样告诉我们“论文”到底应该怎么写，我在去问问题的时候，老师虽然会开玩笑的反讽两句，但是之后会很耐心的给我讲我提问的问题，甚至会拓展一些东西。或许有的时候老师确实会拒绝回答你的问题，但我感觉更大的可能是因为这个问题你没有思考，因为我觉得现在真的很多大学生都还是高中生思维，不会的就问老师，并不知道自己先去找找答案，或者自己先有一个观点再去讨论，这中真的不是一个大学生应该有的学习态度，我觉得老师拒绝回答也是对于自主能力的一种培养吧。\n\n她上课也是很有意思的，可能我不是玻璃心吧，我觉得开开玩笑挺好的，虽然确实是经典“电锯嘴”，但是没涉及到原则问题也都可以接受吧。一些观点和知识的拓展也都很棒，包括会推荐我们去读一些学术的书籍，不是仅仅停留在作品表面，而是更多的让我们去了解一下作为中文人，应该“如何”去读作品。\n\n然后她的美貌更不必说，包括声音也很好听(¯﹃¯)上课真的是一种享受(*^▽^*)"},{"id":171614,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-03-30 04:40:35","like_diff":15,"likes":25,"dislikes":10,"content":"邢老师给我的感觉，虽然她不承认，可她骨子里是一个男性，"},{"id":171784,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-04-16 11:59:45","like_diff":15,"likes":15,"dislikes":0,"content":"不点名 鼓励自学 讲课有观点有用处。具体为了不剧透就不在这里说了。宝藏可冲。\n\n现当代文学史2课后阅读量多 考试集中于ppt 好好复习便可。\n\n但来看这些帖子的大部分肯定是不了解的情况下为了选课而来的吧？想对和我一样比较社恐玻璃心且学识毫无基础的人说，最开始上课的时候她的说话方式确实有时候戳人 有一节课她讲到我自己平时积累比较丰富的一块（戏剧）时用批评的语气提到我认为很好的点 我下课问她为什么这么说的时候她说我讲的东西你别全信 我下课查了资料后确认了她讲的东西确实局限了，这节课确实我自学的成果更好。于是她给我的启发就是像她上课一贯的主张一样，自己扎实学习，任何人的讲话都是ta的一种叙事 你需要扎实学习坚定判断 获得你自己的东西 不要被她展现出来的内容和形式和气场覆盖。虽然在看上去比较尖锐的她面前，这个心态需要练出来，我也正在练。\n\n老师平时挺可爱的。这让我确证了她那么说是为了让大家学习。我其实挺喜欢她。\n\n看到大家对她某些言行的评价，确实有些同学掐头去尾了（比如🐖这种话我可以作证，确实是“你们如果不思考，只想着下一顿吃什么，和🐖有什么区别”而不是把某个同学比作🐖），也有些是切实地描述，比如她自己的态度确实不喜欢智云把她录下来。我不对这些事情做评价，希望后来的同学知道，每个之前发出的评论都只是一份份叙事，不是一个个机械回放。大家打分是因为对老师本人有自己的感受，不等于课堂含金量。\n\n希望她如她所愿的生活，一个感谢她的人不知道怎么祝愿。"},{"id":179542,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-09-18 05:45:50","like_diff":15,"likes":15,"dislikes":0,"content":"我命中注定的美女老师🥵😭🤤"},{"id":184822,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-12-23 06:38:49","like_diff":14,"likes":15,"dislikes":1,"content":"收到老公"},{"id":189838,"teacher_id":8284,"teacher_name":"邢程","post_time":"2024-01-30 14:47:21","like_diff":14,"likes":16,"dislikes":2,"content":"原本真的打算没文化没出息地enjoy happiness然后摆完这四年这一生，但是姐姐让我再一次为知识的力量所震撼，意识到刻苦与勇敢这两个看似普通实则大多数人并不具有的品质的魅力。因为姐姐的影响，我也在很努力的重拾阅读的习惯，开始“用脑子”，菜菜的我也会希望向她靠近一点点。（emmm这句话在姐姐看来应该很幼稚吧）"},{"id":165715,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-01-09 11:22:18","like_diff":13,"likes":24,"dislikes":11,"content":"楼下某评论真是让人瞠目。如果你上过现代文学史课的话，那你真的没把这门课程的最精髓的内容学好——白话文运动反对的正是这种用僵化的语言给人随便贴标签的行径。至于老师公知与否，只要你多了解她一些，自然会有自己的答案。希望大家不要被误导。老师非常的“现代”，有智慧、有头脑，实乃吾辈楷模。很感谢老师在现代文学史课上一遍遍地教给我们何谓文学，何谓现代。至于美貌，就不用我夸了（当然，这是次要的！）。"},{"id":136388,"teacher_id":8284,"teacher_name":"邢程","post_time":"2021-06-17 09:12:07","like_diff":10,"likes":12,"dislikes":2,"content":"女神！知道邢程姐姐之后就去蹭了好多节她的课。她让我第一次意识到学术可能是什么样子，也让我第一次意识中文人可以有这样的气质和魅力。期待大二上邢程姐姐的课～（这次要算绩点了要认真学hhhh）"},{"id":167818,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-01-19 08:41:20","like_diff":10,"likes":10,"dislikes":0,"content":"又爱又惧"},{"id":189168,"teacher_id":8284,"teacher_name":"邢程","post_time":"2024-01-22 08:18:07","like_diff":10,"likes":11,"dislikes":1,"content":"上学期的阿翟，这学期的xcjj。感谢二位在我贫瘠的思想灵魂沙漠上播下一颗颗种子\n\n一位有深度的，脱离了低级趣味的，有独立完整自主性的青年学者，谢谢老师。是我这学期收获最大的一门课之一。当然还是最喜欢他对作品的批评！下学期还有幸选上了您的浙籍作家，虽然您严格，但值得！"},{"id":186850,"teacher_id":8284,"teacher_name":"邢程","post_time":"2024-01-13 09:01:24","like_diff":9,"likes":10,"dislikes":1,"content":"中国现代文学史二，十分，不点名。\n\n这个是我考完之后才发现的（老师会捞，我的分数差不多就是我考前背的那些该有的分数）：老师把“现代性”表述为“自由表达理性思考”，是一个在文学领域行之有效的办法，对大部分没什么哲学底子的学生来说。但“现代性”在某些语境下包含某种隐忧——“现代性”实际上是在崇拜能够被即时证明有效的东西，也即理性，科学。那些无法被即时证明有效的因素，比如经验或者人文，是容易被现代性磨灭的。（不是在反驳老师蒽）\n\n这门课从第一节课开始就会有醍醐灌顶之感：老师信手拈来的西方前沿文论，鲁迅文字，还有傲慢且广阔的学术视野，让学生无不受用。课件里提及的论著都挺好看的（我就看了本雅明和张旭东），尽管读不完的才是大多数。是一个让人痴迷的老师，是一门让学生终身受用的课。\n\n另外，本门课唯一指定必读书目无疑是《鲁迅全集》（老师无处不能讲鲁迅）而图书馆里在架的一般不全，呐喊彷徨野草朝花夕拾的单本倒是好借，推荐后来上这门课的同学有一个平板/kindle，方便阅读。"},{"id":130114,"teacher_id":8284,"teacher_name":"邢程","post_time":"2021-01-17 08:40:21","like_diff":8,"likes":11,"dislikes":3,"content":"非常能启发人，上课也很有趣，老师是研究鲁迅的，本身也很有鲁迅的气质～"},{"id":132282,"teacher_id":8284,"teacher_name":"邢程","post_time":"2021-01-31 13:19:05","like_diff":8,"likes":10,"dislikes":2,"content":"邢程老师yyds，太有格调了，因为她重新理解了鲁迅，她的课程展现了一个与教科书和刻板印象相当不同的中国现代文学视界，爱她！(下学期的浙籍作家掉了气死我了)"},{"id":148472,"teacher_id":8284,"teacher_name":"邢程","post_time":"2022-01-12 15:04:57","like_diff":7,"likes":9,"dislikes":2,"content":"真的非常喜欢邢程老师，我感觉上了一个学期的课，在对于文学的思维和态度上发生了质的变化，不愧是女神(*^▽^*)。（虽然说在对这门课投入很多的时间的条件下仍然只获得了糟糕的绩点，让我开始反思我是不是真的没有天赋。）但是邢程的课真的值得！！"},{"id":153463,"teacher_id":8284,"teacher_name":"邢程","post_time":"2022-04-30 13:56:31","like_diff":7,"likes":10,"dislikes":3,"content":"中文系应该要有这样的老师！"},{"id":154141,"teacher_id":8284,"teacher_name":"邢程","post_time":"2022-05-24 12:15:29","like_diff":7,"likes":12,"dislikes":5,"content":"邢姐姐是我永远的女神。她让我见识到女性的power，一个性感的大脑和漂亮的脸蛋结合起来简直是核武器般的存在。她课上那些有趣的观点颠覆了我对文学史以及文学的印象，猛然发现自己是多么的浅薄，只想通过阅读汲取更多的养分。她真的值得满分❤️我好爱她"},{"id":164618,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-01-20 14:16:40","like_diff":7,"likes":37,"dislikes":30,"content":"首先必须承认老师很有才华，知识渊博，课堂干货很多，推荐的书能给学生很大的收获。\n\n但是，老师态度很傲慢，很自我。大家基本上都只是低年级本科生，老师指望我们有多大能耐呢，常常挂在嘴边的是“反正你们也不懂”，我们是不懂，但是没有谁是生下来就懂的吧，不都是一步一步往上走吗，何必出口伤人呢。有时候讲着讲着讲到她的其他学生，会说一些很难听的话，没脑子、🐖之类的话，我理解这是提示我们写论文需要注意一些基本的原则，但真的很为那些被骂的同学难过，那些快毕业的学长学姐大概不知道自己会在不相干的课上被作为靶子。有时候都分不清老师是在鞭策同学努力读书还是真的蔑视学生，我相信是前者，但不得不说老师是有点刻薄了，姑且理解成是对学生的严格要求吧，就当作锻炼心理承受能力了。\n\n直到今天发生了一件让我难以接受的事情，忍不住在这里发出来。现在22年底，老师说发烧的同学可以不用听课，有同学希望老师能把钉钉会议换成直播，或者会议开录制，这样发烧的同学之后可以看回放。结果老师说“我凭什么要录制啊，我凭什么要可以回放啊，又不是在拍电视剧，又不能每回放一次给我多少片酬”“线下上课的话，发烧的同学本来也不能来上课啊”，一连说了好几个“我偏不”。发烧阳性是学生能决定的事情吗，开录制只是点一下鼠标的事情，对于发烧的同学是多大的方便和安慰。真的有人对录制的课打歪主意的话，电脑可以录屏，想防也防不住，老师的做法除了给阳性的同学带来不便之外没有什么意义。自然，不开录制也是老师的本分。只是太没有人情味了。不晓得老师为什么要和学生隔得这么远，表现得桀骜并不能显得自己很厉害，同学喜爱老师是被老师的能力和知识吸引，不是因为老师说话很拽，恐怕不止我一个人不适应这种说话方式。xc老师在浙大的一群温润儒者之间确实是异类，好不好见仁见智，至少今天这件事情我觉得寒心。\n\n这只是吐槽，选课的同学别太玻璃心，认真学好最重要\n\n补充：给分不赖"},{"id":186104,"teacher_id":8284,"teacher_name":"邢程","post_time":"2024-01-08 11:47:39","like_diff":7,"likes":7,"dislikes":0,"content":"回不知道第几楼，邢姐姐那是alpha气质🤤抱歉"},{"id":194962,"teacher_id":8284,"teacher_name":"邢程","post_time":"2024-06-26 05:26:32","like_diff":7,"likes":12,"dislikes":5,"content":"老师有一种高傲的感觉，老师上课当然是好的，但给我一种思维很发散的感觉，讲到哪是哪（逻辑性的问题），就老师表现的平时态度，私以为老师有点冷漠，这当然是个性的问题，但我觉得略微缺乏人情味，我个人不太喜欢，但肯定她的优秀，后面应该也不会再选她别的课。"},{"id":197225,"teacher_id":8284,"teacher_name":"邢程","post_time":"2024-07-09 13:11:48","like_diff":7,"likes":8,"dislikes":1,"content":"上了老师的现当代文学史和浙籍作家，有被狠狠启蒙到……发现原来文学史可以讲这么深，发现原来看似遥远的文学和个人的生活处境有着密切的联系，在听到现代性、文学与政治、体制这些东西以后感觉自己已经被邢程姐姐害死了（舔）。以及真的很喜欢老师的穿搭和气质，很多时候在课上都会盯着她发呆，感觉她站在那就透着一点冷峻犀利的味道，很鲁迅……\n\n学汉语言能遇上邢程姐姐真的很幸运，感觉打开了新世界的大门hhhh"},{"id":217349,"teacher_id":8284,"teacher_name":"邢程","post_time":"2025-04-09 02:47:31","like_diff":7,"likes":13,"dislikes":6,"content":"土逼文学院学生就该被这样的老师骂一骂"},{"id":130653,"teacher_id":8284,"teacher_name":"邢程","post_time":"2021-01-24 05:58:26","like_diff":6,"likes":8,"dislikes":2,"content":"超级爱她！"},{"id":169091,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-02-24 09:09:21","like_diff":6,"likes":10,"dislikes":4,"content":"缓考就是为了在考场上多看邢姐姐几眼🤤🤤🤤"},{"id":153464,"teacher_id":8284,"teacher_name":"邢程","post_time":"2022-04-30 13:56:46","like_diff":5,"likes":7,"dislikes":2,"content":"不听邢程姐姐的课后悔一辈子😭😭😭"},{"id":184282,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-12-15 07:08:28","like_diff":5,"likes":14,"dislikes":9,"content":"看到“拒绝回答你的问题是帮助你培养你的自学能力”一条忍不住叹了口气，拒绝就是拒绝，人有权利拒绝，这是人家自由，少点一厢情愿，大学如市场，少上点价值，你好我也好。"},{"id":187009,"teacher_id":8284,"teacher_name":"邢程","post_time":"2024-01-14 06:30:38","like_diff":5,"likes":6,"dislikes":1,"content":"老公老公我爱你"},{"id":187022,"teacher_id":8284,"teacher_name":"邢程","post_time":"2024-01-14 07:28:52","like_diff":5,"likes":8,"dislikes":3,"content":"我命中注定的老公🥵🥵🥵"},{"id":166506,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-01-12 12:46:08","like_diff":4,"likes":21,"dislikes":17,"content":"不懂为什么多了三条说老师没人情味的评论。。当你真的好好了解老师的课，了解老师的为人，就不会这么大放厥词。。"},{"id":170162,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-03-01 16:39:57","like_diff":4,"likes":8,"dislikes":4,"content":"嘿嘿🤤🤤邢姐姐\n\n嘿嘿"},{"id":186948,"teacher_id":8284,"teacher_name":"邢程","post_time":"2024-01-14 01:10:46","like_diff":4,"likes":4,"dislikes":0,"content":"讲得很好，给分也不错。\n\n好像不怎么喜欢上课，但无碍其质量，正如司命大神，“来都来了”，庄子是谁并不重要（但庄子可能接受不了）。"},{"id":217883,"teacher_id":8284,"teacher_name":"邢程","post_time":"2025-04-17 12:03:25","like_diff":4,"likes":4,"dislikes":0,"content":"我谈谈文学院学生的专业课直观感受，上课老师的功底之深与思考之辩证，实乃罕见。但是不可否认，低年级学生想要跟上老师必然要花大力气（本人如此）。现代史1没有作业，但是期中有论文，期末有考试，平常有阅读（不强制但是不读期末就完蛋了）。老师对于论文的布置非常随意，但是同学们不能随意（期中论文的布置十分波折，到期中周末了我都不知道ddl，才刚知道字数不得低于2000，最好5000，这里莫怪笔者，助教也不清楚）。上这门课切记不要带着任务目的，单纯地学习与思考才不会焦虑，陌生化去认识你已经完全理解的历史与其中人物，这很重要。笔者未能免去俗套，落笔也是希望新的同学能够更好面对这门课（获得自己满意的答案），老师就是一个很正常的学者，有自己不喜欢的，有自己喜欢的，有脾气，因为很忙所以不可能照顾到一切，就是这样。老师不是绩杀，老师不会为难，但是高绩点真的要真才实学（甚至不只是努力）"},{"id":130656,"teacher_id":8284,"teacher_name":"邢程","post_time":"2021-01-24 06:13:47","like_diff":3,"likes":5,"dislikes":2,"content":"邢程老师的课是最令我感动的一门课没有之一！老师亲切博学美丽气质！作为外专业的学生表示学到了很多！如果有机会还想再上一次老师的课！"},{"id":173851,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-06-03 15:32:10","like_diff":3,"likes":3,"dislikes":0,"content":"邢姐姐课上得超好！受益匪浅！邢姐姐的确比较有个性有锋芒，但是反正对我而言，说两句就说两句呗，在邢姐姐这学到的东西是我很难自己学到的"},{"id":188542,"teacher_id":8284,"teacher_name":"邢程","post_time":"2024-01-19 08:02:15","like_diff":3,"likes":3,"dislikes":0,"content":"Wannabe"},{"id":219000,"teacher_id":8284,"teacher_name":"邢程","post_time":"2025-05-17 15:13:42","like_diff":3,"likes":4,"dislikes":1,"content":"被xcjj骂得爽到怀疑自己有m倾向（\n\n老师的思辨能力、上课能力毋庸置疑，发散思维很强。上课绝对值了。但散发一种生人勿扰勿近的气质，高傲得鄙夷众生的感觉？。无所谓吧，文院每个老师都很有..个性，有些东西真的说不清楚。。重要的是我们自己干好自己的事，以及在经过自己思考之后从老师身上吸取有益的成分吧…"},{"id":219139,"teacher_id":8284,"teacher_name":"邢程","post_time":"2025-05-22 07:14:30","like_diff":3,"likes":3,"dislikes":0,"content":"很绝，十分！xc老师的态度、气质、品味会潜移默化影响上课的同学，会感觉刷新认知、思想飞升，但还是想提醒大家保持谦逊平和，高傲需要资本。"},{"id":220762,"teacher_id":8284,"teacher_name":"邢程","post_time":"2025-06-19 14:28:13","like_diff":3,"likes":3,"dislikes":0,"content":"arbitrary＞individuality"},{"id":221421,"teacher_id":8284,"teacher_name":"邢程","post_time":"2025-06-23 10:20:46","like_diff":3,"likes":3,"dislikes":0,"content":"老师讲课挺好的，上课也不点名，就是有点把没礼貌当个性。。。"},{"id":130537,"teacher_id":8284,"teacher_name":"邢程","post_time":"2021-01-23 13:57:03","like_diff":2,"likes":5,"dislikes":3,"content":"不多说了爱您！！！！"},{"id":131304,"teacher_id":8284,"teacher_name":"邢程","post_time":"2021-01-27 04:36:55","like_diff":2,"likes":4,"dislikes":2,"content":"女神！"},{"id":149360,"teacher_id":8284,"teacher_name":"邢程","post_time":"2022-01-15 07:16:55","like_diff":2,"likes":5,"dislikes":3,"content":"美女老师谁不爱"},{"id":154608,"teacher_id":8284,"teacher_name":"邢程","post_time":"2022-06-02 12:00:19","like_diff":2,"likes":7,"dislikes":5,"content":"xc姐姐我爱😍😍😍"},{"id":165298,"teacher_id":8284,"teacher_name":"邢程","post_time":"2022-12-31 07:45:36","like_diff":2,"likes":12,"dislikes":10,"content":"现代人"},{"id":157570,"teacher_id":8284,"teacher_name":"邢程","post_time":"2022-06-23 19:09:24","like_diff":1,"likes":28,"dislikes":27,"content":"老公！"},{"id":172695,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-05-04 12:37:38","like_diff":1,"likes":1,"dislikes":0,"content":"非常有趣，讲的也非常好"},{"id":179300,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-09-08 09:01:25","like_diff":1,"likes":1,"dislikes":0,"content":"发现自己没评分，速来补一下🥺超爱邢姐，听课是享受，说话很风趣，言辞很犀利，很有意味。虽然我因为没背书考试遭大难，但现代文学史考试笑话也真的很经典，够我笑十年了（我自己也是笑话的组成部分🤣\n\n【23年怎么突然多出来这么多奇怪的评论。关于录像那个，很多老师都不乐意被拍摄的，感觉是对知识产权的侵犯，学校强制要求是一回事，让老师主动拍那是另一回事，疫情上网课的时候有老师是上完课就删记录的】"},{"id":186811,"teacher_id":8284,"teacher_name":"邢程","post_time":"2024-01-13 06:32:18","like_diff":1,"likes":1,"dislikes":0,"content":"邢老师的好处难以三言两语作形容 很难忘的一门课"},{"id":186875,"teacher_id":8284,"teacher_name":"邢程","post_time":"2024-01-13 10:16:19","like_diff":1,"likes":2,"dislikes":1,"content":"绝了绝了绝了连我这种人都能捞起来真能捞啊啊啊啊啊啊啊爆哭了都给我选她😭😭😭"},{"id":186968,"teacher_id":8284,"teacher_name":"邢程","post_time":"2024-01-14 03:29:20","like_diff":1,"likes":12,"dislikes":11,"content":"提到的书我基本上都看了，鲁迅全集看到第六卷，看了不止一遍，在阅读上收获很大。考前很认真的复习了，把智云全看了一遍，复习到了很多细节性东西，考试的时候题目基本上都会，除了那两个经典文本默写。甚至大题都是押过的认真思考过的，也写的很多答得很全。给分真的让我无法和解，感觉全是主观性，只能说我知道我本身水平很低，原来认真听每一次课、认真复习、广泛阅读，但读书报告迎合不了老师的口味，得到很低的分数也是理所当然的么。"},{"id":217967,"teacher_id":8284,"teacher_name":"邢程","post_time":"2025-04-18 12:33:50","like_diff":1,"likes":2,"dislikes":1,"content":"其实我觉得现代大部分小说不太好看…但是为了跟上老师会把鲁迅全集认真地读下去"},{"id":133494,"teacher_id":8284,"teacher_name":"邢程","post_time":"2021-03-01 08:56:09","like_diff":0,"likes":3,"dislikes":3,"content":"女神！！"},{"id":135734,"teacher_id":8284,"teacher_name":"邢程","post_time":"2021-05-22 08:25:06","like_diff":0,"likes":2,"dislikes":2,"content":"女神女神"},{"id":153728,"teacher_id":8284,"teacher_name":"邢程","post_time":"2022-05-09 12:02:51","like_diff":0,"likes":5,"dislikes":5,"content":"满分！"},{"id":219885,"teacher_id":8284,"teacher_name":"邢程","post_time":"2025-06-10 03:09:52","like_diff":0,"likes":2,"dislikes":2,"content":"xcjj我是你的狗"},{"id":220324,"teacher_id":8284,"teacher_name":"邢程","post_time":"2025-06-17 08:57:45","like_diff":0,"likes":2,"dislikes":2,"content":"邢程姐姐我要追随你一辈子。。"},{"id":223303,"teacher_id":8284,"teacher_name":"邢程","post_time":"2025-09-18 06:56:23","like_diff":0,"likes":0,"dislikes":0,"content":"xcjj"},{"id":169364,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-02-25 14:52:41","like_diff":-3,"likes":11,"dislikes":14,"content":"上面一个同学做出了这样一个评论：其他同学所给出的评价是“非常即时非常现代的反应”并指责他们“做出评论至少先统一一下自己说话的逻辑”。不知道这位同学有没有想过：你的这番话里面其实已经承认这些同学说话的方式就有一种“现代”的“逻辑”，所以你其实已经承认他们的话语中有一个贯通的逻辑。所以我想这位同学虽然意识到了这种“现代的反应”是一种错误，但是你将这种错误归咎于逻辑的不统一，反而与自己的话语产生了冲突。我想如果这位同学的确是认可邢程老师的观点不认为她的行为方式是一种冒犯，那么你没有意识到你的话语其实就是邢程老师在课程强调的话语的一体两面性，你也没有接受到邢程老师课程的有效观点；如果你本来就是认可邢程老师的给分而不是她的观点与行为，那你这种批判也只是一种自恋的自我陶醉。这实在是一种倒错！"},{"id":172519,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-04-28 12:57:24","like_diff":-11,"likes":8,"dislikes":19,"content":"回复楼上，其实也就耍耍大陆本科生没留过学而已 人家真老外课堂课后教学服务态度没那么差，这不是个不个性的问题。"},{"id":130514,"teacher_id":8284,"teacher_name":"邢程","post_time":"2021-01-23 08:19:07","like_diff":-15,"likes":5,"dislikes":20,"content":"被卡绩了害...上的两门课都是卡绩...可能是我与现当代文学有仇吧"},{"id":166071,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-01-11 04:34:47","like_diff":-16,"likes":8,"dislikes":24,"content":"女神！！真的很喜欢 学到很多 虽然卡绩4.5小遗憾 或许是自己学识不精 再接再厉吧"},{"id":164601,"teacher_id":8284,"teacher_name":"邢程","post_time":"2023-01-14 10:21:06","like_diff":-50,"likes":18,"dislikes":68,"content":"因为赴美交流，感受了国外的世界，认为国外的月亮更圆，对于国外尤其是美日简直不吝赞美之词，暗戳戳贬损时事；瞧不起学生工作与学生会，言语间讥讽选调生与“自甘堕落之人”，请问不找工作我们怎么吃饭？\n\n她自己也知道，“梦是好的，否则学分是要紧的”；却依然对那些在群里提问的学生极尽冷嘲热讽，瞧不起他们提出来的看似幼稚的问题\n\n所做所言实为公知行径，令人愤慨！\n\n更新：我所说的或许有些过分了，还是楼下两位同学说的更加中肯一些。但是老师在教学方面的人情味不光是通过一个所谓的“期末海底捞”就能完美体现出来的，平时课堂内外的互动与网课期间对于课程“所有权”的言辞实在是让头昏脑涨的同学们心寒"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

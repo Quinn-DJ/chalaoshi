@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>郑磊 - 法学院 - 浙大教评</title>
+    <meta name="description" content="郑磊教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="郑磊,法学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">郑磊</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">法学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">2.86</div>
+                    <div class="rating-participants">239人参与评分</div>
+                    <div class="attendance-info">16.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">习近平法治思想概论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.93</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.65</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">宪法与民主</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.30</span>
+                            <span class="students">选课: 61人</span>
+                            <span class="std-dev">标准差: 0.44</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">宪法学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.95</span>
+                            <span class="students">选课: 97人</span>
+                            <span class="std-dev">标准差: 0.60</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (201 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":146385,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-06 11:48:47","like_diff":198,"likes":222,"dislikes":24,"content":"不是在评论郑老师 只是我在想 张文显老师曾经将中国法学从阶级斗争之学引向权利义务之学 后半生却致力于于成为领袖喉舌 其实也不怪他 不阿谀者如张千帆 终落得个禁书匿声的下场 这究竟是谁的悲哀？"},{"id":146381,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-06 11:36:00","like_diff":126,"likes":135,"dislikes":9,"content":"书又大又厚又臭，话又多又快又废，课又谀又谄又媚。呜呼哀哉！谁之不幸？"},{"id":143216,"teacher_id":756,"teacher_name":"郑磊","post_time":"2021-11-21 13:44:41","like_diff":116,"likes":126,"dislikes":10,"content":"郑老师，我一直有个疑问想要问您，记得上您宪法学课的时候您对xianzheng持肯定态度，但是这学期上xifagai时 他 的语录是“绝不能走西方xianzheng”的道路，您磕磕绊绊的解释让我感觉比较讽刺，也感到有些悲哀。您认为中国的宪法学者今后应该研究什么呢，什么能讲什么不能讲，中国的宪法学又将走向何方？"},{"id":140616,"teacher_id":756,"teacher_name":"郑磊","post_time":"2021-09-14 11:26:51","like_diff":98,"likes":104,"dislikes":6,"content":"郑老师讲习法课：语速极快地叨叨叨讲个不停，看似讲了很多，但其实细究就会发现大多是无效输出"},{"id":146533,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 01:22:05","like_diff":93,"likes":104,"dislikes":11,"content":"背到“绝不走西方所谓宪政、三权鼎立、司法独立”这一条破防了，上学期宪法学，各种宪政的发展，说其各有特色是一种伟大的创造，然后转眼一本思政书就把你研究的东西完全否定，感觉是把知识分子当众羞辱，说“叫爸爸”，我学的艹蛋，也觉得悲哀。\n\n\n\n然后什么体系、方法、思想创新\n\n恕我直言\n\n在遮羞布上绣花"},{"id":146472,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-16 10:38:08","like_diff":91,"likes":100,"dislikes":9,"content":"恭喜zl舔到本年度法学院第一个教授资格。在外面去公司兼职倒是做的很香嘛？\n\n名利双收，不愧是您！"},{"id":147373,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-10 01:01:15","like_diff":82,"likes":83,"dislikes":1,"content":"郑磊老师啊，你就是过于聪明了，聪明的可以 一边上着宪法与民主一边为了阿谀谄媚、抛弃所信说出“绝不走宪政”，聪明的可以 一边担任着数十家公司的独立董事拼命地、变着法地捞钱一边高呼“共同富裕”“以人民为中心”。郑老师啊，我真诚地希望您的这种聪明劲儿我们求是学子永远也不要学会，在这种大环境下，我们或许不能反对、不能质疑，但我们至少可以沉默、可以不要那么病态地、近乎变态地奴颜媚骨；我们或许不能笔直、独立地站立，但我们至少可以不跪着当舔狗！不管大环境如何，我们至少还有将枪口“抬高一厘米”的权利！郑老师啊，您如果是在要舔谁也拦不住，但是为何要将这些令人作呕的话强加于别人呢？我始终认为，如果沉默不被允许，则表达必然走向虚伪！若批评不自由，则赞美无意义！"},{"id":143932,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-11 00:53:24","like_diff":74,"likes":84,"dislikes":10,"content":"不管是大一的宪法，还是现在的习法概，都令我无比ex，重形式，骨子里透着官僚气息\n\n\n\n有点无聊，去扒了一下郑磊的独董兼职：2017年5月至今浙江亿田智能厨电股份有限公司；2017年5月至今杭州华旺新材料科技股份有限公司；2017年2月至今浙江立元通信技术股份有限公司；2018年9月至今宁波联合集团股份有限公司"},{"id":145630,"teacher_id":756,"teacher_name":"郑磊","post_time":"2021-12-31 00:23:05","like_diff":70,"likes":72,"dislikes":2,"content":"郑老师 体系化这个词在您这里变了味 您纯粹是为了体系化而体系化 什么三大要义 四大方法 把一堆政治口号杂糅在一起就是体系化？最离谱的是字数那里写着1146 美其名曰用设密码的方式体系化 现在幼儿园都不是这种上法 其他老师都是努力在把这门政治课注入更多专业色彩 只有您从头到尾都在空谈口号 真真正正把政治课上成了马屁政治课 体验真的很差 不过好在您就自说自话 沉醉在自己的世界里 没有让我们发言鹅颈 仔细想想整个学院也就您能上这课了"},{"id":143659,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-16 04:29:43","like_diff":56,"likes":59,"dislikes":3,"content":"有点好奇 为啥只有折大溯及既往了"},{"id":146668,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 07:28:32","like_diff":56,"likes":59,"dislikes":3,"content":"xfg背的无语了来吐槽两句...\n\nzl好歹还是我们浙大法的学长，对外想要跟着上头走我们肯定支持尊重，但是对内还把这车轱辘话术压在我们学生身上是真的不能理解。实事求是的讲，这课开出来不是你zl的锅，要考试也能理解，但是闭卷真的打破了能够接受的底线。这些车轱辘话，你写论文用用差不多得了，让我们闭卷考不是明摆着想要折磨我们吗？难不成你出去还要炫耀一下“我上xfg让学生闭卷考”？不至于吧？\n\n不知道zl会不会看到这些批评的话，但是如果你还留点做老师的仁慈，那请在给以后学弟学妹上这门课的时候对考核方式加以改进吧。不然你的风评真的会变得很烂。"},{"id":146078,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-05 11:19:26","like_diff":53,"likes":57,"dislikes":4,"content":"xifagai让我为数不多的期待全部变成了ex\n\n两学分的课，不限上限多多益善的论文加实践课加每节课点名签到只占百分之三十，闭卷考并且客观题占比大\n\n说话像机关枪却言之无物，把法律课上成了思政课"},{"id":146653,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-23 03:25:24","like_diff":49,"likes":52,"dislikes":3,"content":"事多分少讲课烂"},{"id":146704,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 09:27:19","like_diff":49,"likes":51,"dislikes":2,"content":"书为谁而读，研究为谁而作？为了一门课而更改既定的培养方案，规则的权威与稳定性合在？法律一向强调可预测性，“法不可知则威不可测”，现在打破原有规则增加一门课，学校教务的权威何在？况且这门课还是对我们所学的一种颠覆与强行改变。不知如何评价。"},{"id":145763,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-01 15:00:48","like_diff":48,"likes":52,"dislikes":4,"content":"又大又厚一本思政书＋70%闭卷期末考，让本就不充裕的期末复习时间雪上加霜……\n\n我背法条意义都比背这玩意大\n\n愿天堂再无习法概 \n\nPS：zl看起来真的很认真很努力很有激情在讲课了，但这个内容真的是听君一席话，如听一席话……"},{"id":112421,"teacher_id":756,"teacher_name":"郑磊","post_time":"2019-07-04 05:44:45","like_diff":44,"likes":54,"dislikes":10,"content":"选隔壁余军，真的……"},{"id":146878,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-08 01:31:05","like_diff":44,"likes":44,"dislikes":0,"content":"…………..只能说，对比之下余军才是学者和师表"},{"id":146424,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-06 14:38:53","like_diff":39,"likes":39,"dislikes":0,"content":"事情很多，很形式化，没有让我感觉到一个法学学者的风范，更像一个宣传机器。每节课都说习法概不是思政课，你信吗？"},{"id":146534,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 01:25:52","like_diff":39,"likes":41,"dislikes":2,"content":"以折磨学生为乐"},{"id":146397,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-06 12:57:09","like_diff":37,"likes":39,"dislikes":2,"content":"郑老师舔得真难看"},{"id":143742,"teacher_id":756,"teacher_name":"郑磊","post_time":"2021-12-04 02:57:43","like_diff":33,"likes":34,"dislikes":1,"content":"习法课的论文字数要求：多多益善"},{"id":146561,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 02:43:46","like_diff":33,"likes":34,"dislikes":1,"content":"能不能爬能不能爬给爷爬爬爬死死死\n\nxifagai\n\n摆烂了，完全不明白背这种东西的意义我也背不进去，做不了像您一样形式主义官僚作风的舔🐶真是抱歉😅😅😅\n\n我从灵魂深处犯恶心"},{"id":146839,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-09 07:55:44","like_diff":32,"likes":32,"dislikes":0,"content":"回复下面那个【不明白为什么不能讲西方的宪政以至于谈虎色变】\n\n郑磊自己还开过通识就叫《宪法与民主》，我还修过\n\n现在这个人这个课搞成这个样子，我只能联想到《1984》里他战胜了自己、他爱老大哥的外党党员温斯顿"},{"id":146698,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 08:26:36","like_diff":31,"likes":31,"dislikes":0,"content":"每节课必点名，每节课抽“幸运儿”查笔记，语速过快毫无重点…..只愿本科再不选上他的课"},{"id":146365,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-06 10:26:33","like_diff":29,"likes":30,"dislikes":1,"content":"习法概…😓"},{"id":146439,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-06 14:55:55","like_diff":29,"likes":29,"dislikes":0,"content":"为什么习法要闭卷🔪🔪"},{"id":146655,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 07:14:54","like_diff":29,"likes":29,"dislikes":0,"content":"能不能别舔了，你是精神分裂吗？前两天考研宪法还在民主人权宪政，xf就一直在舔，贱不贱啊？有点骨气好吗？还在闭卷"},{"id":146657,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 07:16:25","like_diff":29,"likes":31,"dislikes":2,"content":"不知道多少人对法学的兴趣就毁在这玩意的宪法课上，现在又搞出什么*法概来折磨学生，上面说什么就是什么，跪着舔好就能评教授，浙江大学真应该把他开除了。"},{"id":149523,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-15 23:20:04","like_diff":29,"likes":29,"dislikes":0,"content":"出分了，习法概，吐了"},{"id":149530,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-16 01:48:53","like_diff":29,"likes":31,"dislikes":2,"content":"贱东西给分真他妈的烂！！\n\n你能再不要犯贱了吗？越是有人骂你你越要继续犯贱吗？"},{"id":151550,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-06-29 04:53:54","like_diff":29,"likes":36,"dislikes":7,"content":"可爱的卤蛋～"},{"id":146084,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-05 11:56:39","like_diff":26,"likes":26,"dislikes":0,"content":"真的背不动了，为什么习法概要闭卷。。。"},{"id":146493,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-06 16:49:56","like_diff":26,"likes":26,"dislikes":0,"content":"法学老师上思政课上出了玄学课的水平，让人如坠五里雾中，也不失为法学院的悲哀"},{"id":147005,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-15 07:59:31","like_diff":26,"likes":26,"dislikes":0,"content":"不太理解为什么不能谈西方的宪政以至谈虎色变！"},{"id":82582,"teacher_id":756,"teacher_name":"郑磊","post_time":"2018-07-08 14:44:50","like_diff":25,"likes":26,"dislikes":1,"content":"选隔壁余军！！！！考试难题量大最重要的是闭卷给分还相对低 到了期末你就知道了（手动再见"},{"id":146641,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 06:44:38","like_diff":23,"likes":23,"dislikes":0,"content":"习法概……真的无语了"},{"id":149528,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-16 01:03:39","like_diff":23,"likes":23,"dislikes":0,"content":"垃圾老师 给分差"},{"id":149531,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-16 01:22:52","like_diff":23,"likes":23,"dislikes":0,"content":"老师不珍惜自己的羽毛，事多给分差还恶心人"},{"id":146729,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 09:35:30","like_diff":22,"likes":22,"dislikes":0,"content":"一门披着专业课皮子、粉饰太平的sb思政洗脑课习法概再加上一个让人无大语的极尽谄媚之能的领导喉舌做主讲老师。。。。。。当真绝配呢"},{"id":149522,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-15 22:38:07","like_diff":22,"likes":22,"dislikes":0,"content":"我给零分"},{"id":151254,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-02-26 05:43:18","like_diff":22,"likes":22,"dislikes":0,"content":"滚出浙大"},{"id":151731,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-14 05:10:59","like_diff":22,"likes":22,"dislikes":0,"content":"二百五一个"},{"id":146663,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 12:06:03","like_diff":21,"likes":21,"dislikes":0,"content":"不评价，这课一听就想吐，浑身不舒服"},{"id":152128,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-28 05:25:22","like_diff":21,"likes":21,"dislikes":0,"content":"秃头的二百五，嘴瓢的二百九"},{"id":146684,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 07:51:28","like_diff":20,"likes":20,"dislikes":0,"content":"大家都被xfg破防了么，但是思政课节节点名确实不行"},{"id":151299,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-02-28 05:55:33","like_diff":19,"likes":19,"dislikes":0,"content":"语速很快，话很多，但大部分是无效输出，太啰嗦了听得我头疼"},{"id":151930,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-21 05:15:28","like_diff":19,"likes":19,"dislikes":0,"content":"狗粑粑🐶🐶🐶"},{"id":151980,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-22 10:32:09","like_diff":19,"likes":19,"dislikes":0,"content":"nmsl"},{"id":146656,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 07:15:22","like_diff":18,"likes":18,"dislikes":0,"content":"习法概真的背不动了😢"},{"id":146687,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 08:03:04","like_diff":18,"likes":18,"dislikes":0,"content":"浪费宝贵生命的思政课。"},{"id":151061,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-02-22 12:30:26","like_diff":18,"likes":19,"dislikes":1,"content":"我不李姐，给我上吐了，，习法概有什么上的必要吗，上习法概对你带来了多少好处。这种风气一点也不好。"},{"id":151313,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-02-28 08:25:29","like_diff":18,"likes":19,"dislikes":1,"content":"圣上的恩泽"},{"id":151392,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-02 05:17:51","like_diff":18,"likes":18,"dislikes":0,"content":"无效输出"},{"id":152161,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-29 06:40:05","like_diff":18,"likes":18,"dislikes":0,"content":"就是个当婊子还立牌坊的主"},{"id":157573,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-06-23 19:50:28","like_diff":18,"likes":18,"dislikes":0,"content":"下面说不该发泄在老师身上的，不是他这课能有真的多b事啊😇不是他鼓励鹅颈啊🙃不是他闭卷考车轱辘话啊🙂再下面一位前辈说的很对，\"这课开出来不是他的问题，但是考核设计就是他的问题了，难不成他还能出去给别人炫耀说自己xfg闭卷？不至于吧\"(大致意思)"},{"id":146665,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 07:24:24","like_diff":17,"likes":18,"dislikes":1,"content":"傻逼秃头，傻逼舔狗"},{"id":146883,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-08 02:01:47","like_diff":17,"likes":17,"dislikes":0,"content":"现在只担心这门思政课是不是要挂了"},{"id":149923,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-17 23:37:41","like_diff":17,"likes":17,"dislikes":0,"content":"极尽官僚虚浮之势"},{"id":150911,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-02-21 04:28:14","like_diff":17,"likes":17,"dislikes":0,"content":"大无语"},{"id":151584,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-08 10:52:33","like_diff":17,"likes":17,"dislikes":0,"content":"烦人额"},{"id":151760,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-15 00:47:07","like_diff":17,"likes":17,"dislikes":0,"content":"呵呵呵"},{"id":151761,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-15 01:40:21","like_diff":17,"likes":17,"dislikes":0,"content":"呵呵。"},{"id":151790,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-15 23:25:32","like_diff":17,"likes":17,"dislikes":0,"content":"二傻子"},{"id":152105,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-27 02:17:50","like_diff":17,"likes":17,"dislikes":0,"content":"有病吧"},{"id":146501,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-06 17:31:39","like_diff":16,"likes":17,"dislikes":1,"content":"他 懂宪法吗？"},{"id":149602,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-16 07:29:26","like_diff":16,"likes":17,"dislikes":1,"content":"习法点名事多给分差，授课混乱无逻辑，建议向马克思学院开课的老师学习下。宪法课原来八分多的评分，掉到四分多…"},{"id":149659,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-16 09:34:57","like_diff":16,"likes":16,"dislikes":0,"content":"洗发盖🤪考核方式大离谱"},{"id":152044,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-24 03:10:07","like_diff":16,"likes":16,"dislikes":0,"content":"有病吧"},{"id":152115,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-27 12:14:13","like_diff":16,"likes":16,"dislikes":0,"content":"一睡就睡着 tmd烦死了"},{"id":146702,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 08:32:54","like_diff":15,"likes":16,"dislikes":1,"content":"😅😅"},{"id":151298,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-02-28 05:37:05","like_diff":15,"likes":15,"dislikes":0,"content":"垃圾人"},{"id":151780,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-15 13:02:34","like_diff":15,"likes":15,"dislikes":0,"content":"令人绝望"},{"id":151979,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-22 10:20:38","like_diff":15,"likes":15,"dislikes":0,"content":"讲课讲得我都睡着了"},{"id":152070,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-25 01:39:39","like_diff":15,"likes":15,"dislikes":0,"content":"啊哈哈哈哈上课就像做梦"},{"id":112465,"teacher_id":756,"teacher_name":"郑磊","post_time":"2019-07-04 09:21:07","like_diff":14,"likes":17,"dislikes":3,"content":"就这一门课，让我断了这辈子学法的念头。"},{"id":146707,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 08:41:01","like_diff":14,"likes":15,"dislikes":1,"content":"为了舔而不断折磨学生，课程令人作呕，逼事一件接着一件，两个字：下作！"},{"id":146974,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-08 08:51:16","like_diff":14,"likes":14,"dislikes":0,"content":"这几年最讨厌的课、最讨厌的老师，没有之一:)"},{"id":150427,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-25 04:58:58","like_diff":14,"likes":14,"dislikes":0,"content":"爬 爬 爬"},{"id":151360,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-01 11:18:10","like_diff":14,"likes":15,"dislikes":1,"content":"给爷爬"},{"id":151411,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-03 00:52:47","like_diff":14,"likes":15,"dislikes":1,"content":"差差差"},{"id":151539,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-07 05:21:15","like_diff":14,"likes":16,"dislikes":2,"content":"sb吧"},{"id":159812,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-09-01 14:25:04","like_diff":14,"likes":14,"dislikes":0,"content":"之江山上谄媚之集大成者，胡院长啊胡院长，就这种人你都敢保荐教授呀？"},{"id":124408,"teacher_id":756,"teacher_name":"郑磊","post_time":"2020-06-30 10:39:04","like_diff":13,"likes":18,"dislikes":5,"content":"慎选，选隔壁，zl语速快事多分少，喜提专业课最低绩点。而且群里鹅颈大佬挺多的，老师的作业鼓励鹅颈没有上限，这学期被作业搞得快疯了。老师水平很高，不过最后期末考核明明时间截止了，还说给0分选择题同学申诉机会，那我也可以申诉个满分呀？不如不出分前给机会申诉，给了答案再申诉又算什么？还有大作业ddl后又多给一天时间，我觉得对赶着交作业的同学也非常不公平。"},{"id":143933,"teacher_id":756,"teacher_name":"郑磊","post_time":"2021-12-13 10:29:49","like_diff":13,"likes":15,"dislikes":2,"content":"事情好多，给分不好"},{"id":146774,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 12:06:24","like_diff":13,"likes":13,"dislikes":0,"content":"要舔也没人拦着你，何必又当又立，无耻文人，恬不知耻"},{"id":146778,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 12:15:12","like_diff":13,"likes":13,"dislikes":0,"content":"刚考完习法概\n\n恶心，恶心呐"},{"id":146791,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 12:43:53","like_diff":13,"likes":13,"dislikes":0,"content":"😃🖕"},{"id":146876,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-08 01:23:39","like_diff":13,"likes":13,"dislikes":0,"content":"逃 快逃吧"},{"id":146877,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-08 01:24:35","like_diff":13,"likes":13,"dislikes":0,"content":"太无语了 学弟学妹们快逃吧！！！！"},{"id":157533,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-06-23 15:25:40","like_diff":13,"likes":15,"dislikes":2,"content":"只能说 他不配\n\n各位 有限的生命不应该用来听毫无营养又自以为是的课"},{"id":146654,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 07:13:29","like_diff":12,"likes":12,"dislikes":0,"content":"哈哈哈哈"},{"id":149736,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-16 15:14:41","like_diff":12,"likes":12,"dislikes":0,"content":"😅😅😅"},{"id":175932,"teacher_id":756,"teacher_name":"郑磊","post_time":"2023-06-27 07:34:12","like_diff":12,"likes":12,"dislikes":0,"content":"语速太快，看似说了很多，其实废话更多……"},{"id":146727,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 09:33:28","like_diff":11,"likes":11,"dislikes":0,"content":"绝绝子捏"},{"id":146985,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-08 09:44:16","like_diff":11,"likes":11,"dislikes":0,"content":"傻孩子们，快跑啊"},{"id":152172,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-29 11:16:50","like_diff":11,"likes":11,"dislikes":0,"content":"真可怕"},{"id":157738,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-06-24 14:31:04","like_diff":11,"likes":11,"dislikes":0,"content":"郑磊副院长，去年还是院长助理，这升的真快呀。嘿嘿，我的磊磊。吐了"},{"id":215982,"teacher_id":756,"teacher_name":"郑磊","post_time":"2025-03-08 17:39:23","like_diff":11,"likes":13,"dislikes":2,"content":"非法本法硕，和郑老师有很多接触，包括课程内容指导和论文写作指导等等。\n\n    我不得不承认老师有很多缺点，包括讲课有时候思路会不是那么清晰且语速不太容易跟上，有时候对于专业知识问题的解答、论文思路指导会让人云里雾里，有时候批评人也很严厉等等。\n\n    但是我也不得不说，和老师有过很密切的接触以后可以慢慢发现，老师无论如何是一个对学生很善良的人。也许你可能会得到严厉的批评，但他从来不会把怨气带到下一次的交流当中。在一众老师里，他属于相当愿意同学生进行交流指导的老师。他虽然很喜欢输出，但也不会抱有恶意，甚至于当你对他可能心存恶意时，他也不会对你抱有什么恶意。曾经打趣地和他讲他在査老师上的评价不好，老师也只是一笑而过。对于他自己带的学生，在公共场合其实一般都是愿意维护的；对于不是他自己带的学生，只要你愿意从他那多学些东西，老师是真的愿意给你机会的。老师会重视几乎每一个愿意学习的、对备案审查或者对宪法感兴趣的老师，包括但不限于拉你一起上课、一起参与讨论等等。虽然很push，但绝对有收获。\n\n    在专业知识和学术能力、学术作风上，郑老师不会挤占学生的成果，愿意带同学发文章，鼓励大家去写文章。从学术能力上看，郑老师出身名门，虽然不是最优秀，但绝对合格。我曾听过郑老师对相关讲座的主持、点评等等，也可以发现老师绝不是个庸才。他有他自己的见解观点，会得到其他老师的肯定。在指导论文的过程中也可以发现，老师在遣词造句上非常考究，这必然是有足够的文字和写作功底才能做到的。\n\n    说到xfg，其实老师在后续的开课中也尝试用更创新的授课考察方式。至于留言里说到舔或者怎么样，老师在私下里真的不是一个唯官方是从的人，作为宪法学人，他会批判，但是也懂得克制。\n\n    最后，我不是在试图为谁洗白，只是真的不忍心看到具有诸多优秀的“老师”品质的浙大教授，被赤裸裸地扔进了垃圾堆。"},{"id":124232,"teacher_id":756,"teacher_name":"郑磊","post_time":"2020-06-27 15:43:46","like_diff":10,"likes":11,"dislikes":1,"content":"这给分…和隔壁天上地下吧 只能怪自己没有好好学了"},{"id":155978,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-06-17 03:33:13","like_diff":10,"likes":10,"dislikes":0,"content":"卤蛋~"},{"id":146775,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 12:07:05","like_diff":9,"likes":9,"dislikes":0,"content":"言之无物"},{"id":154032,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-05-20 01:10:14","like_diff":9,"likes":9,"dislikes":0,"content":"呃呃、、，事好多，，好卷啊，"},{"id":159973,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-09-10 15:14:29","like_diff":9,"likes":9,"dislikes":0,"content":"生存之道 在舔舔得"},{"id":175701,"teacher_id":756,"teacher_name":"郑磊","post_time":"2023-07-09 09:48:22","like_diff":9,"likes":10,"dislikes":1,"content":"他认真地讲着他的思政课，努力地把xi法概建设好。。。。。但现实是大家真的想听吗"},{"id":133601,"teacher_id":756,"teacher_name":"郑磊","post_time":"2021-03-02 14:26:31","like_diff":8,"likes":8,"dislikes":0,"content":"改作业不认真，太拉绩点"},{"id":146780,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 12:15:23","like_diff":8,"likes":8,"dislikes":0,"content":"草尼玛 闭尼玛卷"},{"id":148353,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-12 08:16:57","like_diff":8,"likes":8,"dislikes":0,"content":"呵呵呵"},{"id":148354,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-12 08:16:57","like_diff":8,"likes":8,"dislikes":0,"content":"呵呵呵"},{"id":152259,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-31 14:57:37","like_diff":8,"likes":8,"dislikes":0,"content":"没去上过课"},{"id":152433,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-04-11 05:30:17","like_diff":8,"likes":8,"dislikes":0,"content":"……无语子"},{"id":152849,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-04-20 14:25:29","like_diff":8,"likes":9,"dislikes":1,"content":"上了这么多年学，真的没有这么无语过，"},{"id":156962,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-06-21 12:35:20","like_diff":8,"likes":8,"dislikes":0,"content":"郑磊大sb，我不想背书了！！！！！！！！1"},{"id":157070,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-06-21 22:58:13","like_diff":8,"likes":8,"dislikes":0,"content":"每次背不下去的时候都来接受一下人气评论的熏陶"},{"id":158000,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-06-26 05:22:04","like_diff":8,"likes":10,"dislikes":2,"content":"呜呜呜呜我的卤蛋我的卤蛋～你们这帮坏人！哼！你们怎么忍心说我可爱的卤蛋呢🐶～"},{"id":161670,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-11-10 07:51:31","like_diff":8,"likes":9,"dislikes":1,"content":"习法概上课确实像坐牢，因为是必修课，给后面的学弟学妹传授点建议\n\n1.习法概论文一定要按照标准的论文格式来写，不必写很多很多，我选的题目是习法概那些坚持之一，领导干部关键少数什么的\n\n2.平时会点名，还会有幸运笔记手来分享笔记\n\n3.上课可以不听，郑老师讲理论的语气确实让人听着不舒服。其他老师来了听一听也可以的，春燕老师会找人回答问题\n\n4.期末考试是闭卷，不仅仅要背目录上的内容，因为在我们这届考试里面，目录上面的小标题很多都是考试的题目，当然，老师最后其实是捞了，能感受到调分的痕迹，希望这是郑磊老师向好的一个迹象吧"},{"id":57587,"teacher_id":756,"teacher_name":"郑磊","post_time":"2017-07-10 07:42:04","like_diff":7,"likes":10,"dislikes":3,"content":"试卷题量非常大，没合理分配好时间写案例分析和论述就容易gg...."},{"id":139737,"teacher_id":756,"teacher_name":"郑磊","post_time":"2021-07-22 07:49:01","like_diff":7,"likes":7,"dislikes":0,"content":"唉 唉 唉"},{"id":146705,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 08:39:07","like_diff":7,"likes":7,"dislikes":0,"content":"。。。"},{"id":146789,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 12:37:33","like_diff":7,"likes":7,"dislikes":0,"content":"无话可说"},{"id":146810,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 13:31:34","like_diff":7,"likes":7,"dislikes":0,"content":"好讨厌一光头男的"},{"id":148246,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-12 03:24:17","like_diff":7,"likes":7,"dislikes":0,"content":"嗯。。。"},{"id":152298,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-04-02 04:48:03","like_diff":7,"likes":7,"dislikes":0,"content":"感人～"},{"id":156958,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-06-29 08:33:23","like_diff":7,"likes":7,"dislikes":0,"content":"来看看大家"},{"id":158653,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-07-01 03:40:41","like_diff":7,"likes":9,"dislikes":2,"content":"低级人"},{"id":156252,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-06-18 13:23:00","like_diff":6,"likes":6,"dislikes":0,"content":"洗发盖..懂得都懂 我想说第一个坚持的第一节背完就背不下去了。。。"},{"id":158161,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-06-27 08:30:55","like_diff":6,"likes":7,"dislikes":1,"content":"别的不说了，1分送上"},{"id":159127,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-07-08 16:14:06","like_diff":6,"likes":8,"dislikes":2,"content":"哎........."},{"id":162248,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-11-18 08:27:20","like_diff":6,"likes":7,"dislikes":1,"content":"启真人才学院2022开班仪式暨教授公开课请了这货，这讲的什么玩意，这是法学院的老师讲出来的话？要逻辑没逻辑要感性没感性，"},{"id":185375,"teacher_id":756,"teacher_name":"郑磊","post_time":"2023-12-28 12:40:38","like_diff":6,"likes":6,"dislikes":0,"content":"听他了两次课，只能说emmmm\n\n一言难尽 跑吧家人们\n\n能感受到老师十分爱名利，追热点"},{"id":146742,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 09:58:47","like_diff":5,"likes":5,"dislikes":0,"content":"快跑！！！！"},{"id":153248,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-06-22 00:43:25","like_diff":5,"likes":5,"dislikes":0,"content":"呵呵呵哈哈哈"},{"id":156001,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-06-17 05:12:24","like_diff":5,"likes":6,"dislikes":1,"content":"wdnmd"},{"id":161924,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-11-15 04:54:01","like_diff":5,"likes":5,"dislikes":0,"content":"固定座位 废话连篇 浪费时间"},{"id":163551,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-12-15 06:04:07","like_diff":5,"likes":6,"dislikes":1,"content":"请问老师在讲啥？听了一小时没听懂"},{"id":173374,"teacher_id":756,"teacher_name":"郑磊","post_time":"2023-05-22 03:47:07","like_diff":5,"likes":5,"dislikes":0,"content":"答辩～"},{"id":189489,"teacher_id":756,"teacher_name":"郑磊","post_time":"2024-01-25 02:16:19","like_diff":5,"likes":5,"dislikes":0,"content":"23春夏习法概，授课+讲座形式，有雷达或扫码签到。个人感觉这门课本来就偏向思政类，更多是准备一下期末考试。老师最后也带着整理了一下体系画了画重点，给分也挺好的。不知道为啥评价还是这么差🤷（之前差好像是因为点人查笔记）。"},{"id":57586,"teacher_id":756,"teacher_name":"郑磊","post_time":"2017-07-10 07:08:51","like_diff":4,"likes":7,"dislikes":3,"content":"给分不是特别好 但也只能怪自己没有好好学吧"},{"id":58136,"teacher_id":756,"teacher_name":"郑磊","post_time":"2017-08-05 09:56:24","like_diff":4,"likes":12,"dislikes":8,"content":"目前最低的专业课成绩……个人感觉老师上课较无聊，当然了必然是我自己有很大问题TAT强烈认同前面同学说的听好最后一节课的建议！！！"},{"id":84744,"teacher_id":756,"teacher_name":"郑磊","post_time":"2018-07-13 17:08:34","like_diff":4,"likes":5,"dislikes":1,"content":"内容是真的多，一下子塞过来怎么消化理解？老师期末答疑倒是挺勤快的。好好看书吧，让人很想水的课。别尝试裸考，16页的考卷了解一下。"},{"id":146785,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 12:27:17","like_diff":4,"likes":4,"dislikes":0,"content":"。。。"},{"id":163930,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-12-16 15:08:20","like_diff":4,"likes":5,"dislikes":1,"content":"口可口可口可"},{"id":179258,"teacher_id":756,"teacher_name":"郑磊","post_time":"2023-09-04 12:30:17","like_diff":4,"likes":4,"dislikes":0,"content":"sos"},{"id":51834,"teacher_id":756,"teacher_name":"郑磊","post_time":"2017-06-12 04:08:44","like_diff":3,"likes":6,"dislikes":3,"content":"佩服郑老师...语速超级快而且一直不用歇的 我要是一下子说那么多话说不定舌头会打结?"},{"id":114919,"teacher_id":756,"teacher_name":"郑磊","post_time":"2019-07-12 17:29:15","like_diff":3,"likes":5,"dislikes":2,"content":"老师很渊博，但不觉得给分是公正的……"},{"id":146812,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-07 13:33:46","like_diff":3,"likes":4,"dislikes":1,"content":"呵呵了"},{"id":161347,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-11-04 10:54:42","like_diff":3,"likes":3,"dislikes":0,"content":"呵呵呵"},{"id":198110,"teacher_id":756,"teacher_name":"郑磊","post_time":"2024-08-30 23:38:59","like_diff":3,"likes":4,"dislikes":1,"content":"宪法学确实是一门挺反动的科目。"},{"id":54455,"teacher_id":756,"teacher_name":"郑磊","post_time":"2017-06-29 10:29:28","like_diff":2,"likes":7,"dislikes":5,"content":"╮(￣▽￣\"\")╭\n\n宪法……\n\n老师上课就是起一个引导作用，课件太简略需要自己好好补充，因为语速太快，思维性太强很多时候打字速度是无法跟上的（笑～）\n\n经常会有听着听着戛然而止的意犹未尽的感觉，hh听老师讲课真的很爽\n\n因为年级专业的不同，群里问问题总会感觉有些胆怯吧……大佬们的思维常人是不能体会的，问问题之前好好思考下吧，太简单了老师跟同学都不屑于回答的……另外，老师的回答不会给出一个具体的答案，只是引导思考"},{"id":57831,"teacher_id":756,"teacher_name":"郑磊","post_time":"2017-07-16 05:53:53","like_diff":2,"likes":5,"dislikes":3,"content":"平常做笔记，最后一节课听好老师划的重点，期末应该是没问题的。"},{"id":113972,"teacher_id":756,"teacher_name":"郑磊","post_time":"2019-07-08 04:32:58","like_diff":2,"likes":3,"dislikes":1,"content":"不知道什么时候出分 先来拜一下? ? ?"},{"id":159164,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-07-07 08:09:42","like_diff":2,"likes":3,"dislikes":1,"content":"出分太慢了吧"},{"id":196988,"teacher_id":756,"teacher_name":"郑磊","post_time":"2024-07-06 09:34:07","like_diff":2,"likes":3,"dislikes":1,"content":"非法学专业，上的是宪法学。这学期有四个平行班，但其余班级溢出而我们班只有10个人，所以从选课的人数就能看出一定的问题。\n\n先不说上课水平如何，感觉上课态度是有一定问题的。宪法学是春夏长学期的课程，zl有两次没有来上课，而且课前和课后都没有做任何主动的说明和解释，这算重大教学事故了吧？（如果说其中一次是为了周末占用大家时间组织先法馆参观可以理解，那么另外一次是想干嘛呢？为什么不提前说明自己不来上课？浪费大家时间真的很败好感……）\n\n关于考试，闭卷考，各教学班各自出题。zl的试卷比较基础，感觉都是平时重点强调的内容，大框架上学会了应该是没问题的。考前最后一节课会带着大家极速梳理一遍知识脉络，并且会划重点，会告诉我们一些重点概念，并且大部分也都以各种考题形式呈现了。\n\n最后是关于给分，成绩由两部分构成：一篇事案分析报告占40%、闭卷期末考试占60%。zl是在某天突然出分的，分数没有达到个人预期，所以看到成绩心情还挺复杂的。尽管不知道两部分实际成绩也不好评价，但是感觉zl应该没有刻意捞人。"},{"id":198340,"teacher_id":756,"teacher_name":"郑磊","post_time":"2024-09-07 11:20:41","like_diff":2,"likes":2,"dislikes":0,"content":"从授课内容来看，郑老师的跳跃性挺大（语速蛮快），在知识整合这一块确实不尽人意。但是该教的分析框架与相关练习还算差强人意，最后成绩感觉有点绩杀，难评。"},{"id":218588,"teacher_id":756,"teacher_name":"郑磊","post_time":"2025-04-25 12:03:23","like_diff":2,"likes":2,"dislikes":0,"content":"其实我之前不知道有几个宪法学的班级，因为我们班就20多个人，我以为会有很多班。直到我后来和课友聊天，一共两位老师讲宪法学，隔壁yj 老师班上有90个人。。。无须多言"},{"id":224723,"teacher_id":756,"teacher_name":"郑磊","post_time":"2025-11-28 15:39:37","like_diff":2,"likes":2,"dislikes":0,"content":"人品、能力都是地板"},{"id":225023,"teacher_id":756,"teacher_name":"郑磊","post_time":"2025-12-18 09:30:48","like_diff":2,"likes":2,"dislikes":0,"content":"南平，呃"},{"id":2077,"teacher_id":756,"teacher_name":"郑磊","post_time":"2015-04-01 01:49:54","like_diff":1,"likes":33,"dislikes":32,"content":"讲课挺有意思的~ 长得也萌萌哒~"},{"id":21524,"teacher_id":756,"teacher_name":"郑磊","post_time":"2016-02-29 06:06:20","like_diff":1,"likes":5,"dislikes":4,"content":"教授可棒"},{"id":57610,"teacher_id":756,"teacher_name":"郑磊","post_time":"2017-07-10 15:02:27","like_diff":1,"likes":9,"dislikes":8,"content":"磊哥真的超萌的！一学期下来好记住N多经典语录hhhh “最后还不是美国那傻乎乎的哥们当选，诶他叫什么来着”"},{"id":186049,"teacher_id":756,"teacher_name":"郑磊","post_time":"2024-01-08 04:17:45","like_diff":1,"likes":2,"dislikes":1,"content":"觉得还行…讲课水平不错 人品不评价"},{"id":221603,"teacher_id":756,"teacher_name":"郑磊","post_time":"2025-06-25 02:02:33","like_diff":1,"likes":3,"dislikes":2,"content":"宪法与民主，没考勤，事算少，给分不错"},{"id":222340,"teacher_id":756,"teacher_name":"郑磊","post_time":"2025-07-04 07:38:48","like_diff":1,"likes":2,"dislikes":1,"content":"宪法学事多给分差，老师几乎不备课，靠着n年前的课件和东拉西扯应付，一大堆事情其实做了也不知道有没有加分，听说隔壁有个班只有三个人，也是很搞笑"},{"id":30961,"teacher_id":756,"teacher_name":"郑磊","post_time":"2016-07-03 04:34:49","like_diff":0,"likes":15,"dislikes":15,"content":"就是那种努力与收获不符的感觉。老师给分太苛刻。"},{"id":84423,"teacher_id":756,"teacher_name":"郑磊","post_time":"2018-07-12 22:59:32","like_diff":0,"likes":2,"dislikes":2,"content":"出分前拜一下 听说隔壁炸了"},{"id":32695,"teacher_id":756,"teacher_name":"郑磊","post_time":"2016-07-10 00:52:07","like_diff":-1,"likes":7,"dislikes":8,"content":"最最关键的一点，给分厚道，虽然自己不是很高，但就自己的学习情况来讲有这个分真的满足了"},{"id":6417,"teacher_id":756,"teacher_name":"郑磊","post_time":"2015-07-14 01:03:56","like_diff":-2,"likes":14,"dislikes":16,"content":"上课就像演讲，字字珠玑，语速很快，内容很充实，是真可以学到东西的～最重要的一点，给分相当惊喜啊！出乎意料～"},{"id":206221,"teacher_id":756,"teacher_name":"郑磊","post_time":"2024-12-13 09:13:36","like_diff":-2,"likes":0,"dislikes":2,"content":"下学期宪法学又要开课了，只想说快逃…"},{"id":7937,"teacher_id":756,"teacher_name":"郑磊","post_time":"2015-09-16 07:18:12","like_diff":-3,"likes":12,"dislikes":15,"content":"教我们思维方式而不是灌输知识，原本觉得很无聊的宪法学都能给他讲的很生动。很后悔没认真听课，下学期要开课我肯定蹭。人好给分好。"},{"id":55388,"teacher_id":756,"teacher_name":"郑磊","post_time":"2017-07-01 11:53:39","like_diff":-3,"likes":3,"dislikes":6,"content":"讲课真的好快，但是老师人很好！课也很棒！"},{"id":6252,"teacher_id":756,"teacher_name":"郑磊","post_time":"2015-07-12 10:38:21","like_diff":-4,"likes":8,"dislikes":12,"content":"好老师！！\n\n一直以为自己要挂了，没想到！！泪流满面叩谢师恩！！"},{"id":32694,"teacher_id":756,"teacher_name":"郑磊","post_time":"2016-07-09 23:23:54","like_diff":-4,"likes":4,"dislikes":8,"content":"叩谢师恩，给分出乎意料得好"},{"id":114916,"teacher_id":756,"teacher_name":"郑磊","post_time":"2019-07-12 17:14:43","like_diff":-5,"likes":3,"dislikes":8,"content":"给分好。虽然试卷题量真的大。\n\n讲课说实话还是有需要改进的地方，并不是语速快就是好的课堂。\n\n还有，楼上那位您评论得太快了吧……佩服。"},{"id":114928,"teacher_id":756,"teacher_name":"郑磊","post_time":"2019-07-12 22:40:26","like_diff":-6,"likes":5,"dislikes":11,"content":"专业知识储备丰厚，注重逻辑分析，注意框架，讲总体思维与细节分析结合，安排课程详略得当，真的是很棒的一个老师，但是上课语速确实快，并且很少是废话的，因此就算注意力高度集中也很难跟得上，需要课后努力。\n\n老师给分真的不错的，我最后两道论述题，由于前面时间没有把握好，都没写完，前面的选择题还空了好几个，后面凭着我的法感情，好吧，第六感盲选了，最后的分数可以的，毕竟平时也有努力听讲与思考，老师推荐的书籍也看了个四五本。\n\n老师的人品也很好，声音很温柔，平时也会在群里给大家分享案例，期末答疑很勤快。\n\n期末考的卷子题量大，内容丰富且有内涵，需要扎实基础与灵活思维，平时真的要扎扎实实，（我期末7.2-7.4每天都有考试，分配的复习时间也不多，我意思是有时候佛脚难抱，需要平时扎实，毕竟真的不是为了考试而学，是为了正在训练思维，奠定法基础"},{"id":114457,"teacher_id":756,"teacher_name":"郑磊","post_time":"2019-07-10 04:01:46","like_diff":-7,"likes":2,"dislikes":9,"content":"老师专业知识还是非常渊博的，宪法法条及有关案例也是如数家珍信手拈来，上课仔细听的话真的收获很大。就是说话的语速真的好快呀?有时候根本来不及记笔记。事案小作文如果给老师发邮件，都会非常耐心地指出哪里存在不足，我在老师的帮助下修改了两次。最后考试是闭卷，题量非常大。选择题其实基本都是老师上课讲过的案例，可惜都只留下了一个大概的印象?。三道简答题就全靠自己押题背的感觉了?。两道论述其中一个是老师在第一节课就讲过的题型，所以还是可以早点准备起来的。最后的两道案例分析，也不知道自己用的宪法学知识到没到点上…总之一个学期下来，收货还是满满的。\n\n最后，成绩还没出来，求郑老师手下留情！！"},{"id":147415,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-10 02:59:13","like_diff":-7,"likes":1,"dislikes":8,"content":"呜呜呜呜呜"},{"id":10971,"teacher_id":756,"teacher_name":"郑磊","post_time":"2015-11-23 14:06:59","like_diff":-8,"likes":4,"dislikes":12,"content":"入门法学的启蒙课程，案例、推荐书目非常赞"},{"id":62567,"teacher_id":756,"teacher_name":"郑磊","post_time":"2017-11-26 03:05:10","like_diff":-8,"likes":2,"dislikes":10,"content":"授人以渔而非授人以鱼，讲究体系化的思维提升，不会放弃每一位学生，真正为学生操心的好老师，很暖～讲课出口成章，幽默风趣深入浅出，能够让人投入~让人很喜欢~静静做学术"},{"id":81667,"teacher_id":756,"teacher_name":"郑磊","post_time":"2018-07-05 23:31:07","like_diff":-8,"likes":1,"dislikes":9,"content":"磊哥非常温柔"},{"id":83588,"teacher_id":756,"teacher_name":"郑磊","post_time":"2018-07-10 16:24:36","like_diff":-8,"likes":0,"dislikes":8,"content":"出分前祈福萌萌的磊哥~"},{"id":84793,"teacher_id":756,"teacher_name":"郑磊","post_time":"2018-07-14 01:42:42","like_diff":-8,"likes":0,"dislikes":8,"content":"谢老师不挂之恩"},{"id":30867,"teacher_id":756,"teacher_name":"郑磊","post_time":"2016-07-02 16:43:41","like_diff":-9,"likes":1,"dislikes":10,"content":"很好的老师。上课也不点名。感谢老师没把我宪法与民主挂掉，总感觉好虚啊。"},{"id":32700,"teacher_id":756,"teacher_name":"郑磊","post_time":"2017-12-28 03:37:32","like_diff":-9,"likes":2,"dislikes":11,"content":"跪谢师恩！"},{"id":57597,"teacher_id":756,"teacher_name":"郑磊","post_time":"2017-07-10 11:04:36","like_diff":-9,"likes":4,"dislikes":13,"content":"本来以为后面两道案例分析题会gg  没想到老师给分还不错 笔芯❤️"},{"id":140625,"teacher_id":756,"teacher_name":"郑磊","post_time":"2021-09-14 12:15:06","like_diff":-9,"likes":1,"dislikes":10,"content":"今天第一次上的课给个分"},{"id":154389,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-05-31 12:51:35","like_diff":-9,"likes":4,"dislikes":13,"content":"郑磊老师挺有意思的"},{"id":132861,"teacher_id":756,"teacher_name":"郑磊","post_time":"2021-02-04 08:16:36","like_diff":-10,"likes":0,"dislikes":10,"content":"我觉得还算是很有意思，通核考察的东西也不难，课程内容也挺有收获"},{"id":148415,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-12 11:28:35","like_diff":-10,"likes":2,"dislikes":12,"content":"宪法学还是捞我了"},{"id":159477,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-07-24 09:12:34","like_diff":-11,"likes":4,"dislikes":15,"content":"xfg和宪法太会捞了，前来谢恩！"},{"id":124233,"teacher_id":756,"teacher_name":"郑磊","post_time":"2020-06-27 16:04:36","like_diff":-12,"likes":3,"dislikes":15,"content":"外专业的同学来谢师恩了，没有受到歧视，真的很有宪法精神了，谢谢老师，上课很有激情，一学期下来学到很多。"},{"id":127110,"teacher_id":756,"teacher_name":"郑磊","post_time":"2020-11-09 02:08:49","like_diff":-13,"likes":0,"dislikes":13,"content":"讲课生动有趣"},{"id":157146,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-06-22 05:18:53","like_diff":-14,"likes":5,"dislikes":19,"content":"作为宪法学的老师，客观来说，如果听了他的课，应该会感觉到老师讲的还是不错的。老师经常讲所谓“学习方法”，这部分本人持保留态度，属于老师的个人“特色”。就有关“宪法学”的内容来说，是一位称职且有水平的老师。至于习法概这种东西本来就是带着镣铐跳舞……你们还打算怎么样……没必要，真的没必要把对课的情绪发泄到老师的头上……"},{"id":159493,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-07-26 02:24:16","like_diff":-15,"likes":2,"dislikes":17,"content":"xfg被捞了～"},{"id":147642,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-10 10:53:49","like_diff":-17,"likes":7,"dislikes":24,"content":"我的磊磊这么好，呜呜呜，呜呜，呜呜岁呜呜呜，大家好坏，喵喵喵"},{"id":30890,"teacher_id":756,"teacher_name":"郑磊","post_time":"2016-07-02 23:42:02","like_diff":-18,"likes":12,"dislikes":30,"content":"讲课讲的不错很有意思，但是绩点太低，做了两次展示，几乎每节课发言，最后闭卷也复习了一天连80都没有。。。努力与成绩不相符的时候总是寒心。"},{"id":159280,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-07-10 14:46:27","like_diff":-19,"likes":3,"dislikes":22,"content":"为什么要戾气这么重？"},{"id":114911,"teacher_id":756,"teacher_name":"郑磊","post_time":"2019-07-12 17:11:45","like_diff":-21,"likes":8,"dislikes":29,"content":"考试那天状态特别差，身体本来就恶心想吐结果题量巨大还难。考完试我就想，得3.9+就给老师打10分，结果就我那烂样居然4.2？？？我去，给分太好了，老师本人很可爱，语速脑速皆快。"},{"id":152120,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-27 14:31:02","like_diff":-30,"likes":9,"dislikes":39,"content":"非法本法硕，郑老师的宪法课，课上讲的东西比较基础，跟应试时学过的比较像，没有期待的那种深度和广度，老师语速也很快，话语细碎没有重点。但是郑老师真的是超级负责任，课下还在群里分享各种学习资料和最新宪法案例，还和同学们讨论，哪有老师肯花这么多时间在学生身上呢。最后的考试倒挺好的，提前准备好的问题，都是很前沿的立法问题和案例分析，自己去查找阅读文献的过程收货很多。\n\n看到郑老师因为一门习法概被骂成这样挺心疼的。这门课谁上都会被骂吧。"},{"id":158528,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-06-30 03:59:26","like_diff":-35,"likes":8,"dislikes":43,"content":"讲得其实挺好的，把习法概的知识点串联成了严密的体系，可能有些人受毒害太深，都不能认真听几节课就开始骂"},{"id":156439,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-06-19 16:03:20","like_diff":-36,"likes":9,"dislikes":45,"content":"这个话题真的...法学院学生的戾气不是盖的。绝！对老师群起而攻之成了政治正确，在wg吗？他有他的言论自由的权利。破口大骂大可不必。真可怕啊。新型网暴！"},{"id":151380,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-03-02 02:01:19","like_diff":-42,"likes":2,"dislikes":44,"content":"习法讲得很好啊"},{"id":150382,"teacher_id":756,"teacher_name":"郑磊","post_time":"2022-01-24 00:15:29","like_diff":-45,"likes":4,"dislikes":49,"content":"法学院应当多上思政课"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>郑玲玲 - 团委 - 浙大教评</title>
+    <meta name="description" content="郑玲玲教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="郑玲玲,团委,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">郑玲玲</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">团委</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">1.94</div>
+                    <div class="rating-participants">303人参与评分</div>
+                    <div class="attendance-info">11.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (5 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">思想道德与法治</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.45</span>
+                            <span class="students">选课: 230人</span>
+                            <span class="std-dev">标准差: 0.36</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">情绪智能管理</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.35</span>
+                            <span class="students">选课: 35人</span>
+                            <span class="std-dev">标准差: 0.31</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">职业生涯与发展规划</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.59</span>
+                            <span class="students">选课: 55人</span>
+                            <span class="std-dev">标准差: 0.19</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">职业生涯规划</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.44</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.38</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">职业生涯规划A</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.15</span>
+                            <span class="students">选课: 242人</span>
+                            <span class="std-dev">标准差: 0.60</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (253 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":636,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-03-15 09:08:20","like_diff":79,"likes":97,"dislikes":18,"content":"呵呵嗒"},{"id":152159,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2022-03-29 05:08:31","like_diff":73,"likes":80,"dislikes":7,"content":"以后我也想当大学职规女老师，只要我往讲台上一站，就总会有一群年轻男大学生向我献媚讨好。"},{"id":106090,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2019-04-25 02:21:16","like_diff":62,"likes":63,"dislikes":1,"content":"辅导员官僚主义"},{"id":2478,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-05-04 12:44:44","like_diff":56,"likes":68,"dislikes":12,"content":"我就笑笑，你们就懂了\n\n"},{"id":23250,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-03-23 03:30:36","like_diff":53,"likes":64,"dislikes":11,"content":"不知道楼上微积分是什么情况 以下针对辅导员 期待中是爱和理解的角色 由她传递出来是不许不能 净说一通七大姑八大姨说的有的没的 如果社会本就这样那我也无怨言 但曾经期盼的 现在很失望"},{"id":8159,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-09-24 00:53:28","like_diff":50,"likes":56,"dislikes":6,"content":"只能说她脑有病"},{"id":11827,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-12-16 12:42:49","like_diff":46,"likes":57,"dislikes":11,"content":"不好意思 没找到0分"},{"id":107621,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2019-05-07 23:11:35","like_diff":42,"likes":42,"dislikes":0,"content":"阿谀奉承"},{"id":123133,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2020-05-11 16:08:05","like_diff":42,"likes":44,"dislikes":2,"content":"最差的辅导员之一，为难学生"},{"id":153436,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2022-05-01 05:11:18","like_diff":42,"likes":61,"dislikes":19,"content":"同学们：\n\n1.分清【必要】【非必要】，【必要】只有【就医】，其他都【非必要】\n\n\n\n2.【必要】的，先找我审批，经同意后【！！！！！！】，再进行离校报备手续\n\n\n\n不要等同于\n\n离校报备就是“申请”\n\n\n\n哈哈，厉害极了"},{"id":21143,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-02-21 06:44:22","like_diff":38,"likes":44,"dislikes":6,"content":"为什么没有零分？做老师做辅导员做成这样也是醉了，根本没有师德，为什么浙大会有这种老师？"},{"id":145745,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2022-01-01 08:24:52","like_diff":34,"likes":34,"dislikes":0,"content":"当官就当官，别当老师。"},{"id":107809,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2019-05-10 01:38:41","like_diff":30,"likes":31,"dislikes":1,"content":"控制欲强"},{"id":104486,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2019-03-21 11:45:46","like_diff":29,"likes":29,"dislikes":0,"content":"有病，呵呵"},{"id":8293,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-09-30 08:50:54","like_diff":27,"likes":32,"dislikes":5,"content":"呵呵\n\n"},{"id":123378,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2020-06-07 14:39:29","like_diff":25,"likes":25,"dislikes":0,"content":"虚伪而强势"},{"id":10502,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-11-19 08:10:33","like_diff":24,"likes":30,"dislikes":6,"content":"爽（sheng）到（bu)飞（ru)起（si)"},{"id":8294,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-09-18 04:13:56","like_diff":22,"likes":28,"dislikes":6,"content":"呵呵哒"},{"id":154776,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2022-06-05 06:15:48","like_diff":22,"likes":25,"dislikes":3,"content":"辅导员官僚主义"},{"id":223116,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-14 14:05:07","like_diff":22,"likes":22,"dislikes":0,"content":"如果一个房间里有希特勒，马里奥和葛滢，我会让zll当他们的妈妈"},{"id":182993,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-11-21 11:19:11","like_diff":21,"likes":22,"dislikes":1,"content":"丹青为啥劲养这么群玩意，sb一个"},{"id":196764,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2024-07-05 03:53:26","like_diff":21,"likes":22,"dislikes":1,"content":"呵呵，对上谄媚，对下push，自己不知道提前说要求，就会对着你的东西挑三拣四，讲起垃圾话没完没了，领导的一条好狗，学生的一个甲方"},{"id":19806,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-01-25 09:56:37","like_diff":18,"likes":20,"dislikes":2,"content":"呵呵 正态我 有病"},{"id":53858,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2017-06-28 02:05:53","like_diff":18,"likes":20,"dislikes":2,"content":"为浙大老师的声誉感到担忧"},{"id":99175,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2019-01-24 11:09:38","like_diff":18,"likes":20,"dislikes":2,"content":"可能随便给分很爽吧 破事一堆给了3.3 谢谢您"},{"id":90462,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-11-23 14:31:21","like_diff":16,"likes":16,"dislikes":0,"content":"均积4点多是假的吧，上课无聊无收获，还有做不到的事情请老师不要信口雌黄，真的令学生很失望。"},{"id":222931,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-09 07:17:11","like_diff":15,"likes":16,"dislikes":1,"content":"昨天偷听到的\n\n\n\n“挨淋就挨淋呗，大家都在这”"},{"id":10541,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-11-19 14:31:11","like_diff":14,"likes":17,"dislikes":3,"content":"呵呵哒"},{"id":153429,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2022-04-29 12:03:00","like_diff":14,"likes":14,"dislikes":0,"content":"嗯嗯 快逃"},{"id":217663,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-04-15 02:34:36","like_diff":14,"likes":15,"dislikes":1,"content":"大一她是辅导员。\n\n我从外省来上学，能够感觉到她莫名其妙对自己有敌意。这真不是我敏感，而且她会照顾她老乡（温州）。\n\n在她手下的一年很无助也很黑暗，我自认为努力也不比别人差，但是我为她做的贡献她完全忽视，甚至当着我的面强行说 我做出来的她很满意的成果，是别人做的（她更喜欢的同学）\n\n真的特别痛苦，甚至已经上大二了她还在托人找我要我当时做出来的东西的文稿。即使我们有微信，她心里很清楚是我做的，但是她就是不会直接找我，不愿承认我的能力和付出。\n\n明明我没有和她有过任何矛盾，甚至完全不熟。\n\n学弟学妹们，她对你的讨厌可能没有理由和原因，如果你不会奉承，如果你没长在她审美点上，或者她认为你家庭不好没有人脉价值，那她就可能不喜欢你。真的跑吧。"},{"id":8316,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-09-18 08:44:33","like_diff":13,"likes":19,"dislikes":6,"content":"老是喷麦。"},{"id":180492,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-09-22 03:26:52","like_diff":13,"likes":13,"dislikes":0,"content":"屁事真多啊，怎么鼓掌都要管"},{"id":222930,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-02 14:21:01","like_diff":13,"likes":14,"dislikes":1,"content":"非常认真负责的老师，积极鼓励同学们军训时出去淋雨，积极通报校领导，对服装更是上心，在别的导员让大家好好休息洗热水澡时来寝室慰问请假同学问为什么不去晚训并给予耐心教导，实乃人民教师之典范，第一次见到这样的老师，哈哈"},{"id":136764,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2021-06-24 06:24:59","like_diff":12,"likes":15,"dislikes":3,"content":"职规课上的太水了，没有干货，PPT做的也很碎，没有条理。七节课还不如别人一次演讲给人印象深"},{"id":160894,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2022-10-18 14:44:06","like_diff":12,"likes":13,"dislikes":1,"content":"作为辅导员烦的一批，卡申请，钉钉回复起码三四个小时，布置任务从来不知道她要干嘛，自求多福吧"},{"id":164611,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2022-12-22 08:23:06","like_diff":12,"likes":14,"dislikes":2,"content":"辅导员官僚主义 真把自己当什么了"},{"id":219162,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-05-22 14:25:12","like_diff":12,"likes":12,"dislikes":0,"content":"如果你有一本mao选，所有李德胜批评过的问题在她身上都能找到典型。\n\n学术能力就算没有，给分全看个人喜好，人文关怀毫无，蒋匪遗风颇具，\n\n哪有看学生有没有人脉上利用价值的，那我们这些家里没背景，没资金，没靠山的就活该让你晾着？\n\n天天挂着一张谄媚领导的脸，对学生具体问题是不闻不问，只关心自己的指标，24级手底下有几个你的得力干将，为人处世都快和你一个样了，\n\n你真觉得自己是一个辅导员吗？\n\n你真觉得自己配吗？\n\n一些评选上你都偏心的不能再偏心了，压力完学生压力班干部，压力完班干部压力兼辅，你就不应该去买瓶矿泉水倒地上看看自己什么样吗？\n\n都长着一双眼睛一张嘴，你要不要想想为什么你的工作让学生不满意？\n\n将来一定要有辅导员淘汰制度，你这样的辅导员不配在ZJU的校园里。\n\n早点滚吧，不要再来当辅导员了"},{"id":222924,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-02 09:12:55","like_diff":12,"likes":15,"dislikes":3,"content":"郑琳琳是一个超级有管理能力的老师，她不会让学生淋到一点雨，会贴心的让学生喝到温暖的姜汤。除此以外呢，出了问题也不会想逃避责任，而是会积极寻求上级领导的关怀。通过上级领导的要求，准确落实任务的目标这种人才是我们浙大需要的。希望大家多多保护他大家有兴趣的可以去打听一下25年的军训下雨事件啊，记住啊，是在二连。这个事件可能让大家能够对正能量有一个更加清晰全面，丰富和完整的认识。"},{"id":222960,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-05 10:16:06","like_diff":12,"likes":14,"dislikes":2,"content":"居然没有0分，我们00值得两个0分。\n\n非常形式主义和莫名其妙的一个老师，每天都想着推卸责任给别人，推卸责任的对象往往是同学和她手下的兼辅、帮她干活的可怜学生。\n\n对上谄媚，对下严厉，只会假模假样的关心学生。会更喜欢男大，非常糟糕的一个老师。"},{"id":97018,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2019-01-21 14:45:49","like_diff":11,"likes":17,"dislikes":6,"content":"给分是真的好，啥事都做了最后79，我真的感谢老师"},{"id":181389,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-10-16 11:30:00","like_diff":11,"likes":11,"dislikes":0,"content":"没上过课，但作为丹青的学生只想给0分"},{"id":224884,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-12-09 12:00:37","like_diff":11,"likes":11,"dislikes":0,"content":"怎么没有零分选项？死冯玩意，布置作业是布置一堆的，布置完作业也不讲明要求的，离提交还有几天是要开始提要求了的，什么视频时长不能超过5分钟，视频都剪完了还怎么删到5分钟，他冯的你怎么不早说，是去你冯的墓前哭到现在才想起来吗？再说上课，你一个马院老师讲的话和个清朝人一样，一边批评反对玩手机娱乐一边在课上以宣扬什么精神为由放起非诚勿扰了？希望在明年看到你的评分变成1开头哈哈"},{"id":224260,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-11-14 03:46:29","like_diff":10,"likes":10,"dislikes":0,"content":"不说人品，只说教学\n\n上得是她的思想道德与法治\n\n1.完全不按书本上来讲，对知识点、教材的提及为0，她本人对知识点的了解应该也为0。期末考试闭卷考（论述题6选4，据我了解别的班基本开卷呵呵），上课还一直勉励着同学们抓牢答题框架，踩点答题，难道不荒谬吗\n\n2.上课话术一套一套，各种高考水作文的废话，营养价值为0，特别讨厌她飞快地翻ppt然后用完全没有逻辑的语言串起前后脱节的内容\n\n3.AI+的大作业很烦，别的老师都认为这个项目没有意义甚至可以不做，她把这个当成国家重点来搞，浪费时间的同时没有学习到任何新的技能\n\n4.及其幼稚的授课方式，第一节课让同学们自己，选择一个动物（有固定选项）选完之后告诉我们这些动物代表了你的人格，对选择某些动物的人有明显的贬低。小组分组时更是要求每组必须至少有三种动物且至少有一个老虎（她认为这是领导型人格的象征）\n\n其他幼稚的方式包括但不限于：用绘画的方式表现大学生可以做的改变，对上课提到的案例完全不标明来源并提供信息，涉及学校的、国家的案例张口就来\n\n总之就是倒了八辈子大霉了，再看看被她带军训的新生们的悲惨遭遇，现在看到她谄媚的涂脂抹粉的脸就恶心"},{"id":12060,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-12-24 03:09:22","like_diff":9,"likes":15,"dislikes":6,"content":"虽然上课很能说，但其实并没有什么干货⋯⋯"},{"id":224888,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-12-10 04:43:19","like_diff":9,"likes":9,"dislikes":0,"content":"郑玲玲你没有老冯"},{"id":49329,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2017-04-05 11:34:43","like_diff":8,"likes":12,"dislikes":4,"content":"不要选她的职业生涯规划！\n\n\n\n强行扯关系 普通话不标准 声音难听\n\n\n\n讲话一种看不起人的感觉"},{"id":96948,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2019-01-21 13:07:58","like_diff":8,"likes":12,"dislikes":4,"content":"跟我一个小组的同学，大家一起水课，朋友接近满绩，我不过3.5，成绩不如旷课的同学高，平时作业论文平心而论真的都非常认真，我可能卷面写的是哈萨克斯坦文吧。(手动微笑)"},{"id":139907,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2021-08-17 04:07:15","like_diff":8,"likes":9,"dislikes":1,"content":"恶心，呵呵"},{"id":181680,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-10-28 03:28:29","like_diff":8,"likes":8,"dislikes":0,"content":"我只想说在她手下干活真是遭老罪了"},{"id":181953,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-11-06 10:25:30","like_diff":8,"likes":8,"dislikes":0,"content":"纯纯脑瘫"},{"id":182038,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-11-08 15:20:04","like_diff":8,"likes":8,"dislikes":0,"content":"事儿是真多"},{"id":222907,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-03 04:54:26","like_diff":8,"likes":8,"dislikes":0,"content":"精通官僚主义，欺下媚上的成功学大师👍\n\n郑老师在今日发表重要言论 认为只要提前5分钟 同学们就不会淋到雨 成功掌握了天气学 成为天气之母并且告诫同学们注意及时参训 不然容易早夭 同时教会我们宽容待人 积极为兄弟连背锅"},{"id":222969,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-14 14:01:02","like_diff":8,"likes":8,"dislikes":0,"content":"1分是查老师的极限，不是我的真实想法"},{"id":78070,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-08-26 00:37:15","like_diff":7,"likes":9,"dislikes":2,"content":"怎么没有0分啊，真的要睡着，无聊。让你画个画，站起来说一下，然后呢？啥点评或者指点都没有，有啥提高？出分真的慢的我"},{"id":98076,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2019-01-23 05:00:26","like_diff":7,"likes":7,"dislikes":0,"content":"告辞！"},{"id":193178,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2024-06-04 08:01:10","like_diff":7,"likes":9,"dislikes":2,"content":"职规，讲真事情很多，规划书，期末考，中途还有各种作业，但给分确实可以，属于事多分高的类型，还是可以选的"},{"id":222950,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-04 09:12:42","like_diff":7,"likes":7,"dislikes":0,"content":"我们按军事化的术语来啊：\n\n\n\n美国有个部队 昨天让轻步兵在情报已经有敌方轰炸的情况下无防护无掩护徒步冲轰炸区，冲一半又让顶着轰炸原路返回，然后第二天整编时候部队主官怪有的轻步兵有情绪拖累整个部队\n\n\n\n今天跟中东诸源国的“代号拔河”战役结束后，把轻步兵带去听部队主官讲话而不是回驻地发通知。之后被突然轰炸炸散了用通讯手段解决问题但却忘了没给发通讯工具。让被打散补给线空了没有口粮补给没有通讯的轻步兵就地等待通知？\n\n\n\n通知发完后让我们自行留下，督战队会来纠察军容军风\n\n\n\n就别说大家不好了，大家给自己鼓鼓掌。\n\n\n\n一般这种情况下换哪个国家的兵要么部队主官吃黑枪了要么被纠察送上军事法庭了，咱已经是最好的兵了，主官让你干啥你就干啥\n\n\n\n当然也请部队主官给咱磕个头，要是真兵的话你早就挨枪子了\n\n\n\n当然 我说的是美国"},{"id":222970,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-11 04:37:19","like_diff":7,"likes":7,"dislikes":0,"content":"原地待命！听我指令～～～\n\n纯闹摊\n\n吃47"},{"id":222991,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-07 04:38:19","like_diff":7,"likes":7,"dislikes":0,"content":"官僚主义 难评 讲话转悠转悠讲不到点子上 出了事情就先朝下属和学生开炮"},{"id":79122,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-05-23 12:20:11","like_diff":6,"likes":7,"dislikes":1,"content":"职规课就是瞎扯皮，怎么会有这种老师"},{"id":79686,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-06-13 10:40:39","like_diff":6,"likes":9,"dislikes":3,"content":"洗地狗nmsl"},{"id":90258,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-11-23 00:59:17","like_diff":6,"likes":7,"dislikes":1,"content":"屁事太多了 每天忙些没意义的东西自我高潮"},{"id":90343,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-11-23 08:17:18","like_diff":6,"likes":7,"dislikes":1,"content":"垃圾不解释，就因为展示超时，全组被正态，扣分我们认了，但是比全班同学普遍低一个绩点是咋回事？说好的最低3.9呢？浪费了一万五千字的职规书"},{"id":96915,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2019-01-21 12:20:55","like_diff":6,"likes":10,"dislikes":4,"content":"呵呵，我每次都到，作业也认真做，翘课的人绩点居然4点多我只有3点多老师眼瞎了吧，真气人，后阶段还有另一个老师上课，她也一样，上的无聊。真是服了她们，坑人，太不公平了"},{"id":182501,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-11-16 15:16:04","like_diff":6,"likes":6,"dislikes":0,"content":"sbsbsbsbsb"},{"id":222849,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-10 08:51:24","like_diff":6,"likes":9,"dislikes":3,"content":"请吃东西，有点像人"},{"id":222925,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-05 13:58:21","like_diff":6,"likes":10,"dislikes":4,"content":"无理想信念 无道德情操 无扎实学识 无仁爱之心！！\n\n补充：没有母亲 没有脑子 没有情商 \n\n能被学生、学长组、带训副连副指一块讨厌的也没谁了 拿鸡毛当令箭 拿领导当挡箭牌 拿学生当耗材\n\n军训下雨带人出去 钉钉群里指指点点 要回去了bb赖赖 少了两个人推诿责任给带训的学姐 对着学姐火次\n\n一分是查老师的底线 不是你这个傻逼的底线\n\n每天都这么说话 你的亲妈怎么办？？？？？？？？？？"},{"id":222962,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-12 09:24:04","like_diff":6,"likes":6,"dislikes":0,"content":"啰嗦老太婆 木纳又啰嗦 强行锁定三个小时讲座 神人一个 讲话没逻辑又啰嗦"},{"id":8315,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-09-18 08:44:25","like_diff":5,"likes":14,"dislikes":9,"content":"看评分你懂的"},{"id":12059,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-12-21 15:14:10","like_diff":5,"likes":7,"dislikes":2,"content":"呵呵呵呵"},{"id":20864,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-02-02 14:25:32","like_diff":5,"likes":10,"dislikes":5,"content":"上课拿出手机，下课，电量只剩百分之1，自动关机.."},{"id":34237,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-09-29 02:40:18","like_diff":5,"likes":9,"dislikes":4,"content":"为什么没有0分"},{"id":34990,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2017-01-20 12:24:11","like_diff":5,"likes":8,"dislikes":3,"content":"相当糟糕的老师"},{"id":38160,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-12-22 07:41:33","like_diff":5,"likes":10,"dislikes":5,"content":"LOW and CHEAP and BORING"},{"id":90835,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-11-26 11:34:30","like_diff":5,"likes":6,"dislikes":1,"content":"绩杀，慎选\n\n我已经后悔莫及了"},{"id":159583,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2022-08-20 14:00:32","like_diff":5,"likes":8,"dislikes":3,"content":"呵呵呵。。。。让人无语"},{"id":179728,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-09-19 14:17:58","like_diff":5,"likes":5,"dislikes":0,"content":"pua学生，趁我们年少不懂事疯狂给她冲业绩，再给我一次机会我绝不给她干活"},{"id":201865,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2024-11-07 04:39:47","like_diff":5,"likes":5,"dislikes":0,"content":"每天都很努力地想搞懂她到底在说什么"},{"id":206256,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2024-12-13 11:51:28","like_diff":5,"likes":5,"dislikes":0,"content":"到现在才发研究性作业的要求，一看之前做的一大半都要改...都快期末了给我整这出💢💢"},{"id":222920,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-10 08:55:08","like_diff":5,"likes":5,"dislikes":0,"content":"。。。。"},{"id":222953,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-04 16:35:48","like_diff":5,"likes":5,"dislikes":0,"content":"今天有幸目睹郑辅导员因为队伍少了两个人而对参训的两名学姐发脾气😀\n\n下午因为听了某个学长的讲座，又莫名其妙自我感动上了，拉着全班，还有同样是退伍军人的副连长，给那个学长敬礼，真的是没话说了。\n\n挺喜欢男的，办事情绪化，很谄媚的样子。表达能力极差，根本不知道她要说啥。"},{"id":222997,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-08 02:42:27","like_diff":5,"likes":5,"dislikes":0,"content":"分清迫不得已和明知故犯"},{"id":223030,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-10 08:05:46","like_diff":5,"likes":5,"dislikes":0,"content":"下雨天30分集合25分发通知有毛病 自己也没有到"},{"id":223075,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-12 10:22:53","like_diff":5,"likes":5,"dislikes":0,"content":"2:20到6:20还不放人我外卖都到一小时了"},{"id":224019,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-11-04 14:00:56","like_diff":5,"likes":5,"dislikes":0,"content":"神人。上课不知道在讲什么，毫无价值。小组作业布置的也莫名其妙，还突然要求小组汇报，整的所有人连夜赶工。打一分都嫌高。"},{"id":224889,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-12-10 05:24:02","like_diff":5,"likes":5,"dislikes":0,"content":"傻逼"},{"id":224914,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-12-12 12:10:43","like_diff":5,"likes":5,"dislikes":0,"content":"为啥没有0分？？？你值得。"},{"id":224986,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-12-18 05:10:22","like_diff":5,"likes":5,"dislikes":0,"content":"神人辅导员"},{"id":12255,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-12-22 14:40:19","like_diff":4,"likes":6,"dislikes":2,"content":"…………呵呵"},{"id":12257,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-12-22 14:40:44","like_diff":4,"likes":7,"dislikes":3,"content":"呵呵哒"},{"id":13428,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-12-28 03:41:02","like_diff":4,"likes":6,"dislikes":2,"content":"呵呵哒。"},{"id":22165,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-03-03 00:40:03","like_diff":4,"likes":6,"dislikes":2,"content":"呵呵呵"},{"id":26101,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-06-15 16:47:08","like_diff":4,"likes":6,"dislikes":2,"content":"自行体会"},{"id":33075,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-09-12 02:55:49","like_diff":4,"likes":6,"dislikes":2,"content":"呵呵。。"},{"id":40208,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-12-30 03:50:40","like_diff":4,"likes":6,"dislikes":2,"content":"呵呵……自行体会"},{"id":40901,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2017-01-06 07:15:07","like_diff":4,"likes":14,"dislikes":10,"content":"思修。不明白这低分。思修课任务不是太多，上课水过就行了。老师讲得不差啊，放的视频都挺好看的。"},{"id":78908,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-05-16 12:49:53","like_diff":4,"likes":5,"dislikes":1,"content":"思修课最后的组内互评也是很6了……"},{"id":79301,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-05-30 08:50:03","like_diff":4,"likes":8,"dislikes":4,"content":"呵呵，头一次在浙大见到这种老师"},{"id":85953,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-08-26 03:18:57","like_diff":4,"likes":6,"dislikes":2,"content":"空谈误国 实干兴邦"},{"id":181516,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-10-20 07:33:49","like_diff":4,"likes":5,"dislikes":1,"content":"辅导员角度\n\n真的很难评价 下达的指令不清不楚还特别喜欢指挥 做的方向跟她的想法不一样就不行\n\n看人也不知道是怎么看的\n\n没办法 我也没得选辅导员 还得讨好着她🙄"},{"id":181619,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-10-24 11:34:14","like_diff":4,"likes":4,"dislikes":0,"content":"非常无语"},{"id":201017,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2024-10-27 03:48:58","like_diff":4,"likes":5,"dislikes":1,"content":"不解释"},{"id":216989,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-03-31 05:02:21","like_diff":4,"likes":4,"dislikes":0,"content":"只不过是个上水课的老师，请个假和高中班主任一样严😅"},{"id":217646,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-04-14 13:59:01","like_diff":4,"likes":4,"dislikes":0,"content":"如果他是你的辅导员，尽快逃，转专业也要逃，我醒悟太迟，逃不掉了。"},{"id":222936,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-03 02:37:19","like_diff":4,"likes":4,"dislikes":0,"content":"不做评价 屁话一堆 屁用没有😅 伪君子一个"},{"id":222961,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-05 10:16:12","like_diff":4,"likes":4,"dislikes":0,"content":"服了 遇到她是我错了"},{"id":222987,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-06 07:00:20","like_diff":4,"likes":5,"dislikes":1,"content":"郑玲玲（郑玲玲老师…… 09月05日 19：18\n\n@所有人 咱们7：30开拔"},{"id":222995,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-11 08:01:27","like_diff":4,"likes":4,"dislikes":0,"content":"小嘴成天叭叭些没用的，浪费时间，神经"},{"id":224679,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-11-27 02:08:22","like_diff":4,"likes":4,"dislikes":0,"content":"做个任务审核一堆事情。先挑剔这个然后又无中生有挑剔新的。还有什么叫把宠物加上去滚"},{"id":225549,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-12-25 05:40:03","like_diff":4,"likes":4,"dislikes":0,"content":"sb"},{"id":225869,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2026-01-01 13:08:37","like_diff":4,"likes":4,"dislikes":0,"content":"上课不知所云， 立反人类规矩和摆官威倒是挺有一套的. 整天在那自我感动觉得自己伟大， 学生要是真感激你怎么近两年的査老师评论一条帮你说话的都没有? 现在听到你那个尖锐的声音就想吐"},{"id":10499,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-11-19 07:58:53","like_diff":3,"likes":6,"dislikes":3,"content":"我就呵呵"},{"id":11285,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-11-26 08:53:36","like_diff":3,"likes":7,"dislikes":4,"content":"呵呵哒"},{"id":20663,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-01-29 13:40:43","like_diff":3,"likes":7,"dislikes":4,"content":"微积分自学课"},{"id":37205,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-09-21 05:17:38","like_diff":3,"likes":8,"dislikes":5,"content":"额，还好啊，最后绩点还可以"},{"id":65022,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2017-12-28 08:39:28","like_diff":3,"likes":7,"dislikes":4,"content":"跟她同上一节课的柳小毅\n\n呵呵哒"},{"id":78119,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-05-09 11:47:06","like_diff":3,"likes":4,"dislikes":1,"content":"呵呵哒"},{"id":97219,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2019-01-22 00:42:53","like_diff":3,"likes":4,"dislikes":1,"content":"思修，给分玄学，均绩还行；课上的怎么样不知道，我每节课都在写数学"},{"id":151494,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2022-03-05 03:59:53","like_diff":3,"likes":6,"dislikes":3,"content":"志愿者培训结束了还滔滔不绝，求你少说几句吧"},{"id":167582,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-01-17 12:39:52","like_diff":3,"likes":6,"dislikes":3,"content":"上了一个学期的思想道德与法治，上课和考试都比较水，有时会点名，频率也不是很高。辅导员的方面了解不多，但是在期末出分之后，由于感念思修给了我唯一一门绩点过4的课，特来尽我微薄之力捞一捞老师的评分。"},{"id":181298,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-10-13 08:44:15","like_diff":3,"likes":3,"dislikes":0,"content":"废话好多，莫名其妙就开始特别严肃的骂人"},{"id":214486,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-02-08 06:11:17","like_diff":3,"likes":3,"dislikes":0,"content":"办事差劲"},{"id":219438,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-05-27 08:46:06","like_diff":3,"likes":3,"dislikes":0,"content":"职规的事真鸡儿多"},{"id":222926,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-02 10:34:59","like_diff":3,"likes":3,"dislikes":0,"content":"《就医》"},{"id":222933,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-03 04:46:09","like_diff":3,"likes":3,"dislikes":0,"content":"Q：郑老师是温柔体贴 关心学生的好老师吗\n\nA：别逗你玲姐笑了"},{"id":222938,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-03 04:14:57","like_diff":3,"likes":3,"dislikes":0,"content":"非常糟糕，讲话没有重点，全是废话。因为自己的人生太顺了所以根本不能共情学生，不考虑学生需求。会压力班委，还经常提自己做了多少多少事，在她手底下干活非常惨，快跑！"},{"id":222966,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-05 13:35:13","like_diff":3,"likes":3,"dislikes":0,"content":"故意为难学生，无视学生身心健康"},{"id":223321,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-19 03:19:22","like_diff":3,"likes":3,"dislikes":0,"content":"上课点名"},{"id":223622,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-10-06 04:02:53","like_diff":3,"likes":3,"dislikes":0,"content":"职规付出和回报成正比吧，必须卷发言也必须小组合作很好，给分真不咋样"},{"id":224752,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-12-01 05:32:54","like_diff":3,"likes":3,"dislikes":0,"content":"郑老师诗人？"},{"id":225038,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-12-18 11:10:12","like_diff":3,"likes":3,"dislikes":0,"content":"难评不必多言"},{"id":225090,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-12-19 02:52:47","like_diff":3,"likes":3,"dislikes":0,"content":"上的思政，只能说真的没什么水平，内容浅显地让人尴尬，还硬拉着你上课回答问题，事多，真的多，纯纯浪费时间，不知道上的什么"},{"id":225414,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-12-23 07:01:01","like_diff":3,"likes":3,"dislikes":0,"content":"我没话说了，上课带好耳机要不然会生气"},{"id":225749,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-12-29 11:54:14","like_diff":3,"likes":3,"dislikes":0,"content":"嗯嗯嗯"},{"id":225753,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2026-01-08 14:46:55","like_diff":3,"likes":3,"dislikes":0,"content":"人才老师"},{"id":12061,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-12-21 15:13:46","like_diff":2,"likes":4,"dislikes":2,"content":"..."},{"id":12355,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-12-23 05:09:24","like_diff":2,"likes":4,"dislikes":2,"content":"………"},{"id":20286,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-01-27 02:46:16","like_diff":2,"likes":4,"dislikes":2,"content":"……………"},{"id":78393,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-05-11 09:10:19","like_diff":2,"likes":5,"dislikes":3,"content":"连职规大赛复赛都进了，说这个能加分是我信了她的邪，所有加分项都做了给分极差?不清楚评分标准，不在乎绩点的可以去水水。\n\n"},{"id":90576,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-11-24 07:23:48","like_diff":2,"likes":6,"dislikes":4,"content":"职规课本来就有点无聊，不怪老师，给分还可以"},{"id":153430,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2022-04-29 12:03:06","like_diff":2,"likes":3,"dislikes":1,"content":"事太多"},{"id":174525,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-06-13 15:26:58","like_diff":2,"likes":4,"dislikes":2,"content":"职规课没有什么新收获，作业还多，上得挺心累的，感觉生命被浪费了"},{"id":176881,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-06-30 14:00:33","like_diff":2,"likes":3,"dislikes":1,"content":"职规给分很好"},{"id":181620,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-10-24 11:34:22","like_diff":2,"likes":3,"dislikes":1,"content":"无语无语"},{"id":216769,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-03-24 11:23:31","like_diff":2,"likes":2,"dislikes":0,"content":"好累啊"},{"id":222850,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-10 09:20:41","like_diff":2,"likes":3,"dislikes":1,"content":"好好好"},{"id":222919,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-02 08:23:55","like_diff":2,"likes":3,"dislikes":1,"content":"呵呵哒"},{"id":222965,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-05 13:29:07","like_diff":2,"likes":2,"dislikes":0,"content":"呵呵呵"},{"id":222985,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-06 01:53:15","like_diff":2,"likes":2,"dislikes":0,"content":"呵呵，神经"},{"id":223013,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-09 04:18:03","like_diff":2,"likes":2,"dislikes":0,"content":"哈哈哈"},{"id":223015,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-09 04:45:41","like_diff":2,"likes":2,"dislikes":0,"content":"额额额"},{"id":224325,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-11-16 13:44:28","like_diff":2,"likes":3,"dislikes":1,"content":"上课没上过，就说一点别的\n\n某学院接收研究生新党员的时候，审查一个跨学院保研过来的党员档案，发现少了推优表，得请这位同学原学院的负责老师联系这位同学原来所在的学园（丹青）补。\n\n过了一个月，新学院负责的老师同学发现这位同学缺的推优表没补，一问才知道。因为这位同学原学院规模比较大，麻烦丹青补材料次数比较多，丹青负责这块的老师——也就是这位——说，以后这个学院来要求补材料的申请，一律不给办…\n\n这啥人啊…"},{"id":225088,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-12-19 02:48:02","like_diff":2,"likes":3,"dislikes":1,"content":"踩踩踩"},{"id":225130,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-12-19 05:46:18","like_diff":2,"likes":2,"dislikes":0,"content":"出生玩意儿"},{"id":225464,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2026-01-03 12:23:54","like_diff":2,"likes":2,"dislikes":0,"content":"快跑。"},{"id":226102,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2026-01-08 14:46:13","like_diff":2,"likes":2,"dislikes":0,"content":"不好，快跑"},{"id":226103,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2026-01-08 14:47:21","like_diff":2,"likes":2,"dislikes":0,"content":"哈哈哈嗯嗯嗯"},{"id":226104,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2026-01-08 14:47:35","like_diff":2,"likes":2,"dislikes":0,"content":"wdnmad"},{"id":48233,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-03-07 08:29:33","like_diff":1,"likes":2,"dislikes":1,"content":"呵呵呵"},{"id":55335,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2017-07-01 10:07:59","like_diff":1,"likes":7,"dislikes":6,"content":"其他都还好，就有几节课，呵呵，是我朝xi包子吹，真的恶心了。无脑歌功颂德开倒车之徒，怕不是开倒车的助力者？"},{"id":65021,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2017-12-28 08:38:42","like_diff":1,"likes":2,"dislikes":1,"content":"呵呵哒"},{"id":66549,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-01-17 08:32:43","like_diff":1,"likes":1,"dislikes":0,"content":"emmm"},{"id":69044,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-01-24 07:48:03","like_diff":1,"likes":2,"dislikes":1,"content":"。。。"},{"id":70919,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-01-28 00:18:47","like_diff":1,"likes":8,"dislikes":7,"content":"从她和柳小毅老师的思修来的，给分超好！"},{"id":79752,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-06-13 08:48:04","like_diff":1,"likes":3,"dislikes":2,"content":"就职规而言，是一个不会坑的老师"},{"id":80189,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-06-21 08:27:31","like_diff":1,"likes":5,"dislikes":4,"content":"老师本人不坏，可是上课真的没意思。"},{"id":97228,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2019-01-22 00:51:43","like_diff":1,"likes":5,"dislikes":4,"content":"咋说呢，思修，我第一感觉是事不少，上课相比其他老师花样也多一点，放视频呐、小组轮流发言呐之类的，我不是组长，也就是把每一个分配的任务都老老实实地完成、没缺过课、发过一次言、没上台做过展示、但是总迟到（老师不抓迟到），最后4.2，我自己是很满意了，但是同班认识的已经有好几个哭着说被正态了的、可能给分相对差一点（吧？）"},{"id":144786,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2021-12-23 15:15:49","like_diff":1,"likes":2,"dislikes":1,"content":"好好干"},{"id":167512,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-01-17 02:07:59","like_diff":1,"likes":3,"dislikes":2,"content":"职规，还是可以选的，课不太听，给分还行"},{"id":177019,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-07-01 06:14:40","like_diff":1,"likes":2,"dislikes":1,"content":"不错操"},{"id":179360,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-09-13 02:14:46","like_diff":1,"likes":1,"dislikes":0,"content":"666"},{"id":183565,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-11-27 11:38:52","like_diff":1,"likes":7,"dislikes":6,"content":"给分真的高！！！"},{"id":205827,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2024-12-12 06:51:28","like_diff":1,"likes":7,"dislikes":6,"content":"职规给分真的超棒！水了一学期还有4.5分的绩点，不知道为什么老师评分这么低？如果你通过最新评论看到了我，那我劝你真的可以选！"},{"id":218141,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-04-21 12:44:49","like_diff":1,"likes":2,"dislikes":1,"content":"😅😅😅"},{"id":222914,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-01 04:39:34","like_diff":1,"likes":1,"dislikes":0,"content":"我不做评价"},{"id":222921,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-02 08:52:05","like_diff":1,"likes":1,"dislikes":0,"content":"她是指挥官"},{"id":222923,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-02 09:05:31","like_diff":1,"likes":1,"dislikes":0,"content":"毕啥。"},{"id":222927,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-02 10:49:59","like_diff":1,"likes":1,"dislikes":0,"content":"只会打官腔，一点人文关怀都没"},{"id":222928,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-02 13:09:58","like_diff":1,"likes":1,"dislikes":0,"content":"命不久矣"},{"id":222929,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-02 14:10:40","like_diff":1,"likes":1,"dislikes":0,"content":"加油孩子们"},{"id":222937,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-03 04:03:03","like_diff":1,"likes":1,"dislikes":0,"content":"心寒，这竟然是zju的老师，前后矛盾，虚伪至极，zju有你真不幸"},{"id":222939,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-03 04:26:50","like_diff":1,"likes":1,"dislikes":0,"content":"模棱两可含糊其辞一直在打圆场不知道在说什么 不能解决问题 出了问题就马学生 没话说"},{"id":222940,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-03 04:30:47","like_diff":1,"likes":1,"dislikes":0,"content":"没话说"},{"id":222942,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-03 11:03:48","like_diff":1,"likes":1,"dislikes":0,"content":"我就笑笑"},{"id":222971,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-05 14:03:09","like_diff":1,"likes":1,"dislikes":0,"content":"官僚主义"},{"id":222974,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-05 14:08:44","like_diff":1,"likes":1,"dislikes":0,"content":"纯乐子"},{"id":222978,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-05 14:45:21","like_diff":1,"likes":1,"dislikes":0,"content":"🖕🏻🖕🏻🖕🏻"},{"id":222979,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-05 14:45:58","like_diff":1,"likes":1,"dislikes":0,"content":"服气了"},{"id":222981,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-05 15:38:52","like_diff":1,"likes":1,"dislikes":0,"content":"这种老师赶紧死绝"},{"id":223027,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-10 00:52:33","like_diff":1,"likes":1,"dislikes":0,"content":"纯神人"},{"id":223046,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-11 09:20:19","like_diff":1,"likes":2,"dislikes":1,"content":"我恨！！！！！"},{"id":223117,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-14 14:54:29","like_diff":1,"likes":1,"dislikes":0,"content":"当官的"},{"id":223263,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-17 07:06:42","like_diff":1,"likes":1,"dislikes":0,"content":"。。。"},{"id":223929,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-10-30 04:22:15","like_diff":1,"likes":1,"dislikes":0,"content":"快跑。。。。"},{"id":226246,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2026-01-10 09:30:17","like_diff":1,"likes":1,"dislikes":0,"content":"官威和功利化倾向过于明显，人品似乎不太成，讲课一坨，杂事还多，还没选的快跑，选了的考虑退课或者换一个"},{"id":175810,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-06-26 23:35:18","like_diff":0,"likes":4,"dislikes":4,"content":"职规事不多 4.8 很可以了"},{"id":222869,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-08-28 05:16:48","like_diff":0,"likes":1,"dislikes":1,"content":"一点都不好"},{"id":222973,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-05 14:08:20","like_diff":0,"likes":1,"dislikes":1,"content":"神奇的绩点"},{"id":222975,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-05 14:13:06","like_diff":0,"likes":1,"dislikes":1,"content":"诗人我吃"},{"id":222982,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-05 23:58:19","like_diff":0,"likes":0,"dislikes":0,"content":"琐事太多，管的太宽，自作主张，想轻松的同学赶紧避坑"},{"id":222990,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-06 23:31:31","like_diff":0,"likes":1,"dislikes":1,"content":"呵呵哒"},{"id":223867,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-10-26 10:30:35","like_diff":0,"likes":0,"dislikes":0,"content":"我已经说不出话了"},{"id":167588,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-01-17 13:02:50","like_diff":-1,"likes":3,"dislikes":4,"content":"辅导员不了解，所以不评价。单纯上思修课来说，没什么毛病，给分也可以，事情不多，基本都是小组内部解决。"},{"id":183430,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-11-26 04:40:14","like_diff":-1,"likes":4,"dislikes":5,"content":"职规课上完评价：老师人挺好的，给分也比较公正。而且在对职规成绩的影响上，感觉小组成员更重要一点。"},{"id":203889,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2024-11-21 23:29:17","like_diff":-1,"likes":0,"dislikes":1,"content":"出分巨慢，给分一般，事有点多，但是相对其他老师应该还好，作业可以划水（采访可以瞎编），上课可以写作业，总之在职规选这个老师还可以，但是职规这课就是事多的史课，没见过比他事多的通识课"},{"id":203956,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2024-11-22 08:31:45","like_diff":-1,"likes":2,"dislikes":3,"content":"给分还蛮好的，职规课课后作业是多一点，但课程还算蛮有趣的"},{"id":206833,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2024-12-18 00:46:26","like_diff":-1,"likes":1,"dislikes":2,"content":"职规事多但是如果遇到一个好组长还是比较轻松的。反正不管上课划水，统计到课和发言是组长统计。认真完成平时的个人作业，花了两天在ddl前认真赶出一份漂亮的生涯规划（当然有用gpt）最后4.8"},{"id":90292,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-11-23 04:02:23","like_diff":-2,"likes":5,"dislikes":7,"content":"职规课感觉还可以啊|･ω･｀)  除了很会扯淡+事情比较多（这点职规课都会有的吧），该教的都会教，给分也挺好"},{"id":167587,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-01-17 12:57:11","like_diff":-2,"likes":3,"dislikes":5,"content":"她真的我哭死，上了思修感觉真没那么差，小组给分大多都不错，钉钉群里都是谢谢老师的，误会她了"},{"id":21877,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-03-01 11:10:30","like_diff":-3,"likes":5,"dislikes":8,"content":"不说话 看评分"},{"id":45252,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2017-01-19 08:13:53","like_diff":-3,"likes":3,"dislikes":6,"content":"不至于如此低分。"},{"id":70736,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-01-27 12:47:19","like_diff":-3,"likes":7,"dislikes":10,"content":"老师给分挺好！谢谢老师！"},{"id":178163,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-07-07 10:31:25","like_diff":-3,"likes":9,"dislikes":12,"content":"这是一个被误解的好老师！职规事少给分高！"},{"id":183805,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-11-30 07:46:29","like_diff":-4,"likes":6,"dislikes":10,"content":"职规课很好 只要认真参与给分很高 事相对来说挺少的 可以冲🎉"},{"id":188574,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2024-01-19 09:37:10","like_diff":-4,"likes":2,"dislikes":6,"content":"其实老师课上的还行的"},{"id":221889,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-06-27 06:45:02","like_diff":-4,"likes":0,"dislikes":4,"content":"出分回来真香，抛开别的不谈，职规值得一上"},{"id":169459,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2023-02-26 09:09:36","like_diff":-5,"likes":1,"dislikes":6,"content":"思修给分很好，事情少，老师上课很温柔"},{"id":204133,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2024-11-24 14:15:09","like_diff":-5,"likes":2,"dislikes":7,"content":"职规课上得很好，认真听还挺有收获的，是我这么多通识课里唯一能学到一点有用东西的课程了，给分也挺好的"},{"id":40132,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-12-29 10:46:25","like_diff":-6,"likes":6,"dislikes":12,"content":"不至于吧 玲姐挺好的啊"},{"id":154617,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2022-06-02 12:46:34","like_diff":-6,"likes":0,"dislikes":6,"content":"还可以"},{"id":164744,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2022-12-25 03:08:05","like_diff":-6,"likes":2,"dislikes":8,"content":"反正上课玩手机，最后4.8，作业好好做，展示好好做，应该还是没啥问题的"},{"id":211294,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-01-11 06:57:06","like_diff":-6,"likes":1,"dislikes":7,"content":"上的思政 还不错👍"},{"id":8304,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2015-09-18 05:31:40","like_diff":-7,"likes":7,"dislikes":14,"content":"她好苦"},{"id":50023,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2017-04-28 15:24:48","like_diff":-7,"likes":2,"dislikes":9,"content":"给分还好"},{"id":153391,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2022-04-29 03:35:56","like_diff":-7,"likes":3,"dislikes":10,"content":"认真写作业，摸鱼做大作业，平时上课都来了，基本没起来发过言，最后满了。"},{"id":186853,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2024-01-13 09:03:04","like_diff":-7,"likes":3,"dislikes":10,"content":"为什么骂她的这么多？没感觉差到哪去啊"},{"id":225568,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-12-25 08:52:06","like_diff":-7,"likes":0,"dislikes":7,"content":"老师人很好！！军训给分真的很好，而且也很体谅我们，是很温暖的老师！"},{"id":65602,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-01-07 02:48:33","like_diff":-8,"likes":1,"dislikes":9,"content":"郑玲玲我不管，楼下喷柳小毅的你心里没点逼数么"},{"id":222922,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-09-02 08:54:54","like_diff":-8,"likes":4,"dislikes":12,"content":"她是一位非常好的老师，关心同学。军训在我们淋雨后，还特意为我们准备了姜汤。"},{"id":33931,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2017-01-18 11:35:56","like_diff":-9,"likes":4,"dislikes":13,"content":"老师真挺好 除了三观有点江化，给分真的很不错"},{"id":44854,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2017-01-18 11:46:32","like_diff":-10,"likes":3,"dislikes":13,"content":"绩点很棒棒"},{"id":44871,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2017-01-18 12:07:06","like_diff":-10,"likes":3,"dislikes":13,"content":"老师人很好，给分也很好"},{"id":78305,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-05-10 15:51:48","like_diff":-10,"likes":1,"dislikes":11,"content":"很不错的老师"},{"id":92356,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2018-12-28 03:36:11","like_diff":-10,"likes":2,"dislikes":12,"content":"女神啊\n\n"},{"id":97043,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2019-01-21 15:15:08","like_diff":-10,"likes":2,"dislikes":12,"content":"给分不错～"},{"id":151966,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2022-03-22 04:27:27","like_diff":-10,"likes":4,"dislikes":14,"content":"我不知道为什么有这么多差评？？至少作为职规课老师而言我觉得很好啊，老师很温柔又很耐心，给分也蛮好"},{"id":212699,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2025-01-14 13:42:37","like_diff":-10,"likes":2,"dislikes":12,"content":"好老师 至少职业规划课"},{"id":11286,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-12-20 12:35:28","like_diff":-11,"likes":12,"dislikes":23,"content":"玲姐总让我感觉幸福来玲"},{"id":33310,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-12-20 12:35:50","like_diff":-11,"likes":4,"dislikes":15,"content":"很好的老师啊，第一节课很好，真不懂你们\n\n"},{"id":36727,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2017-01-18 11:42:25","like_diff":-12,"likes":3,"dislikes":15,"content":"给分真心好！！"},{"id":99320,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2019-01-24 14:50:09","like_diff":-12,"likes":4,"dislikes":16,"content":"给分挺好的"},{"id":44950,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2017-01-18 15:06:49","like_diff":-14,"likes":3,"dislikes":17,"content":"膜！给分好"},{"id":98073,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2019-01-23 04:54:29","like_diff":-14,"likes":2,"dislikes":16,"content":"就老师而言没有说的那么差吧…老师把大家的读书报告都认真写了评语，课的内容的话…思修你期待啥呢"},{"id":154558,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2022-06-02 06:25:25","like_diff":-15,"likes":1,"dislikes":16,"content":"说实在的，感觉老师还是很好的，本来思修课就是挺多事情的课，好好做，老师是会捞人的，而且给分真的还不错的。"},{"id":96916,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2019-01-21 12:21:31","like_diff":-17,"likes":1,"dislikes":18,"content":"人温柔，给分好"},{"id":33232,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-12-20 12:36:30","like_diff":-19,"likes":5,"dislikes":24,"content":"大家不要太苛刻了，这老师不错"},{"id":40225,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-12-30 08:34:08","like_diff":-20,"likes":1,"dislikes":21,"content":"辅导员还是挺好的嘛"},{"id":27636,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-12-20 12:36:08","like_diff":-25,"likes":4,"dislikes":29,"content":"我觉得做辅导员是尽职尽责的"},{"id":20916,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-02-04 00:43:56","like_diff":-28,"likes":6,"dislikes":34,"content":"不懂为啥她的评分会这么低\n\n思修本来就是自习课啦，你还期望老师讲点什么？讲道理她布置的作业.任务也不算多啊（比宿友的思修老师少多了）\n\n被正态了就跑来这报社？"},{"id":100111,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2019-01-25 15:13:42","like_diff":-32,"likes":4,"dislikes":36,"content":"感觉并没有之前评论说的那么差，老师也是很负责的，给分也还可以。"},{"id":9731,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-12-20 12:35:57","like_diff":-45,"likes":6,"dislikes":51,"content":"玲玲女神"},{"id":96992,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2019-01-21 14:01:27","like_diff":-48,"likes":2,"dislikes":50,"content":"我爱郑女神，4.8万岁，郑玲玲万岁"},{"id":9730,"teacher_id":3031,"teacher_name":"郑玲玲","post_time":"2016-12-20 12:36:02","like_diff":-58,"likes":5,"dislikes":63,"content":"玲姐是辅导员女神"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>liuzhe - 蛤蛤学院 - 浙大教评</title>
+    <meta name="description" content="liuzhe教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="liuzhe,蛤蛤学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">liuzhe</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">蛤蛤学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.90</div>
+                    <div class="rating-participants">149人参与评分</div>
+                    <div class="attendance-info">19.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息</h3>
+                <p class="no-data">暂无课程GPA数据</p>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (122 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":14705,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 11:33:34","like_diff":137,"likes":141,"dislikes":4,"content":"你们这些人啊，不要想喜欢弄了个大新闻，期末挂科了，又把我批判一番！"},{"id":14702,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 11:17:38","like_diff":89,"likes":90,"dislikes":1,"content":"期末考蛤三篇稍微有点刁钻，但平日里一直坚持膜蛤的同学应该还是可以取得不错的成绩"},{"id":14703,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 11:18:37","like_diff":65,"likes":66,"dislikes":1,"content":"苟利国家生死以，岂因绩点避趋之？"},{"id":14710,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 11:59:20","like_diff":51,"likes":52,"dislikes":1,"content":"你们啊，我觉得你们评分界还是要靴习一个，明白我的意思吧？"},{"id":15012,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-11 13:21:14","like_diff":47,"likes":49,"dislikes":2,"content":"你们给我搞的这个页面啊，excited！"},{"id":14711,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 12:01:29","like_diff":44,"likes":45,"dislikes":1,"content":"我感觉你们公众号还要学习一个。美国的华莱士，比你们不知要高到哪里去了，我跟他谈笑风生。"},{"id":15143,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-15 13:20:30","like_diff":37,"likes":37,"dislikes":0,"content":"你们学生就是不知道自己的绩点不可预料，最后的成绩当然要靠志我奋斗，但也要考虑正态的行程"},{"id":14697,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 11:04:18","like_diff":34,"likes":35,"dislikes":1,"content":"你我续一秒蛤蛤永不老"},{"id":28779,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-09-14 05:12:03","like_diff":32,"likes":32,"dislikes":0,"content":"老师经常跟我们讲他的经历 他的经历就是到了上海 到了89年年初的时候 他觉得他也该离休了 他想他应该去当教授 于是他就给朱物华校长 张钟俊院长 给他们做了个报告 他们说欢迎你来 不过这个apply for professor啊 你要做一个报告 于是他就做了个能源与发展趋势的节能措施 这个报告经过好几百个教授一致通过 后来他又做了个报告 是关于微电子工业的发展 这个报告做了以后不久 过后 到了1989年5月31号 北京就把他调到北京去了"},{"id":14663,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 16:19:08","like_diff":30,"likes":33,"dislikes":3,"content":"老师很认真，全程板书，期末给分也很棒，遇到这样的老师我只想说 蛤蛤蛤蛤蛤蛤蛤蛤"},{"id":15826,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-16 11:11:51","like_diff":29,"likes":30,"dislikes":1,"content":"经常点华莱士的名。。。"},{"id":14856,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-10 07:53:42","like_diff":26,"likes":26,"dislikes":0,"content":"老师上课前总要批判一番\n\n“你们啊需要提高姿势水平 去西方国家 学习一个 基本法 ”\n\n"},{"id":14709,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 11:53:00","like_diff":25,"likes":26,"dislikes":1,"content":"naive"},{"id":14698,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 11:10:52","like_diff":22,"likes":24,"dislikes":2,"content":"闷声发大财才是坠吼的"},{"id":14704,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 11:19:42","like_diff":22,"likes":26,"dislikes":4,"content":"一个赛艇！"},{"id":15269,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-13 06:30:41","like_diff":22,"likes":22,"dislikes":0,"content":"给我们普及基本法，还以其去过所有西方国家的经历教我们各国语言。不喜欢我们搞大新闻。是一个不拘小节（扣鼻）的长者！"},{"id":14715,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 12:10:11","like_diff":21,"likes":22,"dislikes":1,"content":"吼啊，一颗赛艇！\n\n"},{"id":14699,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 11:15:21","like_diff":20,"likes":24,"dislikes":4,"content":"这老师开的什么课啊，报了根本不让上，差评！"},{"id":14706,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 11:39:39","like_diff":19,"likes":22,"dislikes":3,"content":"给分太差，平时那么用功最后竟然只有1.5？？蛤"},{"id":14712,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 15:18:19","like_diff":19,"likes":20,"dislikes":1,"content":"浙大蛤友"},{"id":14884,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-10 16:07:02","like_diff":19,"likes":22,"dislikes":3,"content":"stay  foolish，stay  naive"},{"id":14700,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 11:15:32","like_diff":18,"likes":19,"dislikes":1,"content":"续一秒"},{"id":51987,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-14 04:15:02","like_diff":18,"likes":18,"dislikes":0,"content":"分享几题考试原题\n\n\n\n1.长风破浪会有时，问我_____不_____。 \n\n2.一身去国六千里，我就_____告诉你。 \n\n3.渭川斜阳照墟落，哪个_____没去过。 \n\n4.百壶且试开怀抱，熟悉_____那一套。\n\n5.在天愿作比翼鸟，人生_____还太少。"},{"id":49379,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-04-09 02:40:18","like_diff":17,"likes":17,"dislikes":0,"content":"我不是教育工作者，但是我是身经百战，见得多了。查老师哪个老师我没评过？新闻的那个华莱士，比你们不知道高到哪里去了，我跟他谈笑风生。你们有一点比他们西方记者好，哪门课有挂科，你们退得比他们还要快，但是给退课的理由啊，图样，图森破，Sometimes naive."},{"id":17770,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-05-08 15:29:48","like_diff":14,"likes":14,"dislikes":0,"content":"今天高代，我来膜一下"},{"id":18310,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-21 12:20:29","like_diff":13,"likes":14,"dislikes":1,"content":"想满绩必须穿红衣，带黑框眼睛，把裤子提到脖子上\\^O^/"},{"id":17198,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-20 00:55:14","like_diff":12,"likes":13,"dislikes":1,"content":"彭定康推荐的"},{"id":18232,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-21 12:20:40","like_diff":12,"likes":12,"dislikes":0,"content":"老师让我们证明的五点共圆啊，excited！"},{"id":18565,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-22 04:35:07","like_diff":12,"likes":13,"dislikes":1,"content":"今天穿了红衣服好开心。为什么听不懂你们说的纟"},{"id":21233,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-02-27 05:58:16","like_diff":12,"likes":12,"dislikes":0,"content":"上课会给我们普及基本法，而且也作为长者交给了我们很多道理。虵是一个好老师啊。"},{"id":22469,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-03-06 13:25:04","like_diff":12,"likes":13,"dislikes":1,"content":"江能泽民，亦可赛艇"},{"id":25339,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-05-15 10:41:54","like_diff":12,"likes":13,"dislikes":1,"content":"每次上课之前都要停顿一秒，不是很懂为什么"},{"id":14713,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 12:02:55","like_diff":11,"likes":11,"dislikes":0,"content":"蛤蛤蛤"},{"id":15491,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-14 21:08:06","like_diff":11,"likes":11,"dislikes":0,"content":"你们啊too young too simple"},{"id":15509,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-15 03:00:08","like_diff":11,"likes":11,"dislikes":0,"content":"sometimes naive"},{"id":27119,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-09-22 11:14:53","like_diff":11,"likes":11,"dislikes":0,"content":"老师上课会弹夏威夷吉他，还邀请州长夫人伴唱"},{"id":28739,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-09-14 05:04:13","like_diff":11,"likes":11,"dislikes":0,"content":"你们说老师的儿子开红色法拉利，我非常气愤，你们一派胡言！"},{"id":53106,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-09-03 22:41:09","like_diff":11,"likes":11,"dislikes":0,"content":"这一天，魏国名臣郭嘉刚检视完三军，浑身疲倦的回到自己的大营，没成想因为身体过度虚弱，半路竟体力不支倒入战士们挖的壕沟之中，周围的将士们听闻声响立即赶来，只见郭嘉跌入两尺宽的壕沟中时，身子折叠，四肢着地，整个人被弯折成了椅子状，将士不敢贸然营救，只派人赶紧禀告曹操，曹操大急，问“郭嘉现在如何”只闻报道的士兵迟疑了一下，缓缓说道“沟里郭嘉身似椅”曹操一惊，沉思片刻，回头嘱咐骑兵队长：“骑营火赴必取之!”"},{"id":52008,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-30 04:08:23","like_diff":10,"likes":11,"dislikes":1,"content":"每次上课总觉得时间过得很快。\n\n老师一个学期年轻了不少。\n\n祝老师越来越年轻!"},{"id":14724,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-11 13:20:32","like_diff":9,"likes":10,"dislikes":1,"content":"你们啊不要见得风就是雨，等于。。。你也有责任吧？"},{"id":17193,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-20 00:50:25","like_diff":9,"likes":9,"dislikes":0,"content":"你问我资不资慈zju，我说资慈，我就明确告诉你这一点\n\n"},{"id":163402,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2022-12-14 08:25:28","like_diff":9,"likes":9,"dislikes":0,"content":"这个课程，学得再好，也只敢得99分，剩下的1分是老师的\n\n人呐就都不知道，自己就不可以预料。一个人的命运啊，当然要靠自我奋斗，但是也要考虑到这个历史的行程。我绝对不知道，我作为一个上海市委书记怎么把握选到北京去了。所以邓小平同志同我讲话，说中央已经决定了，你来当总书记；我说“另请高明吧”，我实在……我也不是谦虚，我一个上海市委书记怎么到北京来了呢。但是，小平同志讲“大家都已经研究决定了”。所以后来我念了两首诗，叫“苟利国家生死以，岂因祸福避趋之”。那么所以我就到了北京。到了北京我干了这么十几年我也没有什么别的， 大概三件事，一个确立了社会主义市场经济，第二个把邓小平的理论列入党章，第三个就是“三个代表”，如果说还有一点成绩，就是军队一律不得经商，这个对军队的命运很大的关系。因为我后来又干了一年零八个月的，等于说我在军队干了十五年的军委主席；还有98年抗洪也是一个很大的，但是这些都是次要的，我主要的就是三件事情，很惭愧，就做了一点微小的工作，谢谢大家。"},{"id":14716,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 12:19:48","like_diff":8,"likes":8,"dislikes":0,"content":"教我们做个大新闻\n\n"},{"id":51264,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-05-26 07:13:19","like_diff":8,"likes":8,"dislikes":0,"content":"下节课上课要大家背葛底斯堡演讲全文，请大家做好准备"},{"id":52512,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-20 16:12:12","like_diff":8,"likes":8,"dislikes":0,"content":"自从宿舍里挂了老师的画像，感觉时间越来越不够用了"},{"id":129119,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2020-12-30 07:53:24","like_diff":8,"likes":8,"dislikes":0,"content":"1926年，美国工程师尼古拉斯·特斯拉进行了人类历史上第一次时间旅行实验，成功将一克铁元素送到18年前的1908年。\n\n但特斯拉在计算相对空间关系时，仅计算了地球，太阳以及银河系的运动轨迹，而忽略了宇宙膨胀因素（特斯拉不相信这个理论）使得这一克铁元素没有出现在预计的美国中部，而是出现在了数千英里外的西伯利亚。\n\n这次穿越实验的后果是灾难性的，1908年的宇宙物质总量被凭空增加了整整一克，打破了空间连续性的平衡：\n\n一克铁元素转化为能量和空间的物理过程在一普朗克单位时间中完成，引发了剧烈爆炸，即通古斯大爆炸。\n\n而1926年的宇宙，物质总量被凭空减少了整整一克，在穿越时间点造成时空扭曲。\n\n时空震波扩散数千英里，在中国扬州地区产生自干涉，使得一名男婴出现基因突变，获得了以秒为单位的时空干扰能力。"},{"id":19971,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-25 17:11:08","like_diff":7,"likes":7,"dislikes":0,"content":"一颗赛艇"},{"id":52133,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-15 04:06:51","like_diff":7,"likes":7,"dislikes":0,"content":"每次听课都感觉时间过的非常快"},{"id":129622,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2021-01-09 05:43:05","like_diff":7,"likes":7,"dislikes":0,"content":"我说另请高明吧，我也不是谦虚，我一个咸鱼怎么就被选为课代表了呢？但是老师同我讲，“大家都决定了，你来当课代表”，后来我念了两句诗："},{"id":52030,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-14 08:49:53","like_diff":6,"likes":8,"dislikes":2,"content":"力微任重久神疲，再竭衰庸定不支。_______，______。"},{"id":52961,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-24 07:42:18","like_diff":6,"likes":6,"dislikes":0,"content":"好老师，每次上课前会给每人+1s当做点名，这么无私的老师不多了"},{"id":55588,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-07-02 03:40:09","like_diff":6,"likes":7,"dislikes":1,"content":"山不在高，有林则徐；水不在深，有江..."},{"id":141097,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2021-09-23 11:03:54","like_diff":6,"likes":6,"dislikes":0,"content":"天若有情天亦老，我为长着续一秒，你一秒，我一秒，万里长城永不倒。"},{"id":144220,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2021-12-20 14:33:05","like_diff":6,"likes":6,"dislikes":0,"content":"西方存老妪，东方有仙翁。万里相角力，千年共长生。"},{"id":14735,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 14:28:54","like_diff":5,"likes":6,"dislikes":1,"content":"上课普及基本法"},{"id":14751,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-08 16:19:05","like_diff":5,"likes":8,"dislikes":3,"content":"均绩0.1"},{"id":21951,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-03-02 01:52:09","like_diff":5,"likes":5,"dislikes":0,"content":"水能载舟亦可赛艇，老师教给我们的道理应当永世铭记。"},{"id":52138,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-15 05:17:33","like_diff":5,"likes":5,"dislikes":0,"content":"王师之整顿，禁绝商贾"},{"id":91248,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2018-12-04 07:22:24","like_diff":5,"likes":5,"dislikes":0,"content":"以下同学已经列入重点教育名单"},{"id":127829,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2020-11-28 04:30:43","like_diff":5,"likes":5,"dislikes":0,"content":"能发现这里的都是真正的蛤丝"},{"id":22805,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-03-12 06:27:15","like_diff":4,"likes":4,"dislikes":0,"content":"考试就是不知道，自己不可以预料。一个老师的命运啊，当然要看个人奋斗，但也要考虑历史的进程。\n\n"},{"id":23575,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-04-07 01:08:51","like_diff":4,"likes":5,"dislikes":1,"content":"超帅的"},{"id":26093,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-06-17 06:46:31","like_diff":4,"likes":4,"dislikes":0,"content":"中央已经钦定了，让你来当总书记"},{"id":129594,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2021-01-08 07:16:53","like_diff":4,"likes":4,"dislikes":0,"content":"cc98观光团~\n\n+1s\n\n苟利国家生死以~"},{"id":151344,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2022-03-01 01:47:35","like_diff":4,"likes":4,"dislikes":0,"content":"天若有情天亦老，我为长者+1s～"},{"id":162638,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2022-11-30 11:07:16","like_diff":4,"likes":4,"dislikes":0,"content":"2022.11.30 他走出了时间"},{"id":22432,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-03-05 09:55:22","like_diff":3,"likes":4,"dislikes":1,"content":"水可载舟亦可覆"},{"id":36552,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-12-30 05:37:55","like_diff":3,"likes":4,"dislikes":1,"content":"这个点名啊，excited【+1s】"},{"id":37806,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-11-21 06:59:57","like_diff":3,"likes":3,"dislikes":0,"content":"当时吴校长就说啦：中央已经决定啦，就由你来教这个数学！我说你还是另请高明吧。我实在也不是谦虚。\n\n老师黑框眼镜，裤腰带高，姿势水平比其他老师不知道高到哪里去了"},{"id":64604,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-12-25 12:59:45","like_diff":3,"likes":3,"dislikes":0,"content":"今天来二院视察了，excited！天气晴朗！"},{"id":87801,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2018-10-14 08:14:58","like_diff":3,"likes":3,"dislikes":0,"content":"扬州之水，可以养蛤。"},{"id":163972,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2022-12-17 04:05:14","like_diff":3,"likes":3,"dislikes":0,"content":"他改变了中国，RIP"},{"id":18074,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-01-21 07:21:22","like_diff":2,"likes":4,"dislikes":2,"content":"钦定的！"},{"id":26094,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-06-23 15:45:56","like_diff":2,"likes":3,"dislikes":1,"content":"蛤蛤蛤蛤蛤?"},{"id":27225,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-06-23 15:45:54","like_diff":2,"likes":3,"dislikes":1,"content":"蛤蛤蛤蛤"},{"id":36570,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-11-15 02:24:21","like_diff":2,"likes":3,"dislikes":1,"content":"太暴力"},{"id":39167,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-12-21 12:06:33","like_diff":2,"likes":2,"dislikes":0,"content":"稻花香里说丰年"},{"id":51980,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-14 08:46:01","like_diff":2,"likes":2,"dislikes":0,"content":"hhh"},{"id":52125,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-15 03:25:16","like_diff":2,"likes":2,"dislikes":0,"content":"excited！"},{"id":52131,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-15 03:57:24","like_diff":2,"likes":2,"dislikes":0,"content":"水能载舟，亦可赛艇"},{"id":141083,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2021-09-23 04:32:47","like_diff":2,"likes":2,"dislikes":0,"content":"🤓🤓🤓"},{"id":33390,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2016-09-19 04:40:21","like_diff":1,"likes":1,"dislikes":0,"content":"老师经常跟我们讲他的经历 他的经历就是到了上海 到了89年年初的时候 他觉得他也该离休了 他想他应该去当教授 于是他就给朱物华校长 张钟俊院长 给他们做了个报告 他们说欢迎你来 不过这个apply for professor啊 你要做一个报告 于是他就做了个能源与发展趋势的节能措施 这个报告经过好几百个教授一致通过 后来他又做了个报告 是关于微电子工业的发展 这个报告做了以后不久 过后 到了1989年5月31号 北京就把他调到北京去了"},{"id":51972,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-14 03:27:59","like_diff":1,"likes":2,"dislikes":1,"content":"好奇好"},{"id":52042,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-14 09:37:29","like_diff":1,"likes":3,"dislikes":2,"content":"蛤蛤蛤"},{"id":52079,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-14 14:53:04","like_diff":1,"likes":1,"dislikes":0,"content":"开门开门查水表了\n\n"},{"id":52128,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-15 03:52:36","like_diff":1,"likes":1,"dislikes":0,"content":"蛤…\n\n"},{"id":52132,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-15 04:00:41","like_diff":1,"likes":1,"dislikes":0,"content":"๑乛◡乛๑"},{"id":52136,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-15 05:04:36","like_diff":1,"likes":2,"dislikes":1,"content":"excited！！"},{"id":52159,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-15 08:25:01","like_diff":1,"likes":1,"dislikes":0,"content":"膜一发"},{"id":52329,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-18 13:23:44","like_diff":1,"likes":3,"dislikes":2,"content":"太暴力了!怎么有这种页面!"},{"id":52331,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-18 13:45:11","like_diff":1,"likes":1,"dislikes":0,"content":"666"},{"id":52332,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-18 13:46:55","like_diff":1,"likes":1,"dislikes":0,"content":"native"},{"id":52394,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-19 13:42:04","like_diff":1,"likes":1,"dislikes":0,"content":"当然是资辞的\n\n"},{"id":58014,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-07-23 02:12:00","like_diff":1,"likes":2,"dislikes":1,"content":"666"},{"id":58389,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-08-30 10:27:38","like_diff":1,"likes":5,"dislikes":4,"content":"你们搞的这个页面，exciting"},{"id":64603,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-12-25 12:39:27","like_diff":1,"likes":1,"dislikes":0,"content":"以下为2017年枪毙名单"},{"id":88556,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2018-11-01 10:06:17","like_diff":1,"likes":1,"dislikes":0,"content":"Excited！"},{"id":122855,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2020-04-15 03:56:04","like_diff":1,"likes":2,"dislikes":1,"content":"蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤蛤"},{"id":132367,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2021-02-01 06:32:35","like_diff":1,"likes":2,"dislikes":1,"content":"我发现了什么？！"},{"id":140011,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2021-08-23 07:59:25","like_diff":1,"likes":1,"dislikes":0,"content":"太暴力了"},{"id":153644,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2022-05-07 02:15:00","like_diff":1,"likes":1,"dislikes":0,"content":"excited!"},{"id":156135,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2022-06-18 02:02:07","like_diff":1,"likes":1,"dislikes":0,"content":"西方哪个国家他没去过 身经百战 见得多了"},{"id":168372,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2023-02-14 12:57:20","like_diff":1,"likes":1,"dislikes":0,"content":"蛤蛤学院是哪个学院？"},{"id":178927,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2023-08-01 07:39:55","like_diff":1,"likes":1,"dislikes":0,"content":"刘老师总是戴着黑框镜，裤腰带拉得很高，很少见到说话如此搞笑的老师蛤蛤蛤蛤蛤蛤蛤蛤"},{"id":52031,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-14 08:55:46","like_diff":0,"likes":1,"dislikes":1,"content":"厉害了，蛤蛤"},{"id":52036,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-15 00:57:50","like_diff":0,"likes":4,"dislikes":4,"content":"要完。。。"},{"id":52059,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-14 11:16:00","like_diff":0,"likes":2,"dislikes":2,"content":"+1s"},{"id":52363,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-19 05:53:57","like_diff":0,"likes":1,"dislikes":1,"content":"蛤蛤蛤蛤蛤蛤蛤"},{"id":52511,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-20 16:07:42","like_diff":0,"likes":0,"dislikes":0,"content":"不存在的"},{"id":54843,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2017-06-30 09:59:51","like_diff":0,"likes":0,"dislikes":0,"content":"你们自己懂的\n\n不说话的人有福了"},{"id":103555,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2019-03-01 04:05:42","like_diff":0,"likes":0,"dislikes":0,"content":"?啊 一颗赛艇"},{"id":103626,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2019-03-02 13:57:49","like_diff":0,"likes":0,"dislikes":0,"content":"蛤蛤蛤"},{"id":129115,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2020-12-30 07:38:07","like_diff":0,"likes":0,"dislikes":0,"content":"我给长者续1s"},{"id":129592,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2021-01-08 05:25:25","like_diff":0,"likes":0,"dislikes":0,"content":"么哈么哈"},{"id":129621,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2021-01-09 05:25:09","like_diff":0,"likes":0,"dislikes":0,"content":"你们给我弄的这个东西啊，excited！"},{"id":132726,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2021-02-03 11:57:03","like_diff":0,"likes":0,"dislikes":0,"content":"ovo test2"},{"id":141072,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2021-09-22 23:50:39","like_diff":0,"likes":0,"dislikes":0,"content":"苟利国"},{"id":151516,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2022-03-06 14:35:34","like_diff":0,"likes":0,"dislikes":0,"content":"暴力\n\n🐶"},{"id":156095,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2022-06-17 13:38:19","like_diff":0,"likes":0,"dislikes":0,"content":"好耶耶"},{"id":156128,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2022-06-17 16:38:51","like_diff":0,"likes":0,"dislikes":0,"content":"liuzhe"},{"id":178905,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2023-07-30 07:53:57","like_diff":0,"likes":0,"dislikes":0,"content":"DOI: 10.1126/science.288.5475.2317"},{"id":185425,"teacher_id":3429,"teacher_name":"liuzhe","post_time":"2023-12-29 07:08:00","like_diff":0,"likes":0,"dislikes":0,"content":"绝对的十分"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

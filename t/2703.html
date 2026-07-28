@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>千勇 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="千勇教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="千勇,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">千勇</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.42</div>
+                    <div class="rating-participants">73人参与评分</div>
+                    <div class="attendance-info">13.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (4 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">东亚历史与文化</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.75</span>
+                            <span class="students">选课: 151人</span>
+                            <span class="std-dev">标准差: 0.80</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">韩国史专题</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.47</span>
+                            <span class="students">选课: 42人</span>
+                            <span class="std-dev">标准差: 0.23</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">韩语Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.82</span>
+                            <span class="students">选课: 160人</span>
+                            <span class="std-dev">标准差: 0.99</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">韩语Ⅱ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.89</span>
+                            <span class="students">选课: 65人</span>
+                            <span class="std-dev">标准差: 0.96</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (59 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":16950,"teacher_id":2703,"teacher_name":"千勇","post_time":"2016-01-19 09:54:31","like_diff":11,"likes":17,"dislikes":6,"content":"挺可爱的老师 白白胖胖 声音略低沉 但很有磁性 给分不错呐"},{"id":83027,"teacher_id":2703,"teacher_name":"千勇","post_time":"2018-07-09 13:44:23","like_diff":11,"likes":12,"dislikes":1,"content":"谢谢老师 老师很可爱很奈斯的 讲课很有条理 的确是能学到东西的"},{"id":156847,"teacher_id":2703,"teacher_name":"千勇","post_time":"2022-06-21 06:43:35","like_diff":11,"likes":11,"dislikes":0,"content":"千勇老师简直太好了555身为一个三年没学过历史的纯理科生，本来以为选东亚历史与文化会学不好，最后期末把ppt打印一下翻看两遍标记一下上了4.5！简直太感动了555虽然选这门课的人很少，但是老师上课讲课还是很认真，很努力的想找同学回答问题送平时分 ˃͈꒵˂͈ 助教也超级好超级亲民hhh希望下学期有更多人选这门课！入股不亏真的！"},{"id":149917,"teacher_id":2703,"teacher_name":"千勇","post_time":"2022-01-17 18:15:13","like_diff":10,"likes":10,"dislikes":0,"content":"对东亚国家关系史感兴趣同学，还是非常推荐这门课，特别是老师讲战争史还是蛮有趣的"},{"id":64569,"teacher_id":2703,"teacher_name":"千勇","post_time":"2017-12-25 09:50:26","like_diff":9,"likes":12,"dislikes":3,"content":"老师教的很不错呀～认真复习就有不错的分数"},{"id":111301,"teacher_id":2703,"teacher_name":"千勇","post_time":"2019-07-01 01:39:54","like_diff":9,"likes":10,"dislikes":1,"content":"学的韩语1 很有意思 没怎么额外花时间 跟着老师就行..感觉期末挺简单的 出分4.8"},{"id":156052,"teacher_id":2703,"teacher_name":"千勇","post_time":"2022-06-17 08:51:45","like_diff":9,"likes":10,"dislikes":1,"content":"学韩语一定要选千老师，老师教的好，给分也好"},{"id":27898,"teacher_id":2703,"teacher_name":"千勇","post_time":"2016-06-30 10:08:35","like_diff":8,"likes":14,"dislikes":6,"content":"老师很可爱 认真复习的话分数不错～"},{"id":139439,"teacher_id":2703,"teacher_name":"千勇","post_time":"2021-07-15 13:46:55","like_diff":8,"likes":8,"dislikes":0,"content":"千勇老师超级好！上课干货多，一学期下来收获很多！跟着老师走，最后绩点不会差，给分很好！！韩语零基础，其他科目成绩中等偏下，在这门课也能拿满绩高分！！"},{"id":81558,"teacher_id":2703,"teacher_name":"千勇","post_time":"2018-07-09 07:18:24","like_diff":7,"likes":10,"dislikes":3,"content":"这个分数...我可真是暴风哭泣"},{"id":139068,"teacher_id":2703,"teacher_name":"千勇","post_time":"2021-07-12 11:03:19","like_diff":7,"likes":7,"dislikes":0,"content":"天呐出成绩了完全不敢相信，老师给分太好了吧，大英四3.6韩语零基础选手韩语一4.5，本人真的仅仅认真听老师的话背单词看ppt，还要感谢老师平时听写单词，到了期末就算没有多少复习时间，背起单词来也是很快的，总之听老师的话，成绩不会差"},{"id":157400,"teacher_id":2703,"teacher_name":"千勇","post_time":"2022-06-23 06:30:44","like_diff":7,"likes":7,"dislikes":0,"content":"东亚课老师讲课风趣，善于启发学生主动思考，给分也不错~"},{"id":55659,"teacher_id":2703,"teacher_name":"千勇","post_time":"2017-07-02 06:14:52","like_diff":6,"likes":7,"dislikes":1,"content":"想水的别来"},{"id":111273,"teacher_id":2703,"teacher_name":"千勇","post_time":"2019-06-30 23:35:52","like_diff":6,"likes":6,"dislikes":0,"content":"老师还是很有趣哒！"},{"id":139053,"teacher_id":2703,"teacher_name":"千勇","post_time":"2021-07-12 09:41:56","like_diff":6,"likes":6,"dislikes":0,"content":"老师很好！出分了来反馈一波。上课认真听干货满满，认真准备小测，考试前认真复习ppt是可以取得很不错的绩点的！！大家加油！"},{"id":155267,"teacher_id":2703,"teacher_name":"千勇","post_time":"2022-06-10 03:27:18","like_diff":6,"likes":6,"dislikes":0,"content":"超级好的老师！！很耐心，对教学有热情，也非常关注学生的想法！！一定要上一次他的课！！！"},{"id":156168,"teacher_id":2703,"teacher_name":"千勇","post_time":"2022-06-18 04:06:33","like_diff":6,"likes":6,"dislikes":0,"content":"这一学期真的收获很多！老师也真是很少见的负责任的老师！在课上可以学到很多的东西，毕竟对于一门语言来说如果没有负责任的老师是很难学到东西的～"},{"id":156760,"teacher_id":2703,"teacher_name":"千勇","post_time":"2022-06-21 02:16:40","like_diff":6,"likes":6,"dislikes":0,"content":"东亚历史与文化给分挺不错的。老师和助教人都很好。上课提问没人回答老师就拼命提示（虽然还是回答不上），有讨论课不过气氛都很轻松（助教还带我们看了两次电影不过后来被查封了），而且还能顺带学点历史知识，最后一节课老师还叫我们起来聊聊上课感想硬送平时分。总体来说性价比很高，选了不亏。"},{"id":111355,"teacher_id":2703,"teacher_name":"千勇","post_time":"2019-07-01 04:33:17","like_diff":5,"likes":5,"dislikes":0,"content":"只要认真学都能取得好成绩，并且老师很努力很细致的在教语法和单词，说话挺有意思的。学到很多。"},{"id":139587,"teacher_id":2703,"teacher_name":"千勇","post_time":"2021-07-17 16:11:35","like_diff":5,"likes":6,"dislikes":1,"content":"选这门课绝对能学到干货～"},{"id":139598,"teacher_id":2703,"teacher_name":"千勇","post_time":"2021-07-18 04:54:39","like_diff":5,"likes":5,"dislikes":0,"content":"认真负责，干货满满"},{"id":58754,"teacher_id":2703,"teacher_name":"千勇","post_time":"2017-09-16 14:12:23","like_diff":4,"likes":10,"dislikes":6,"content":"每节课之前都会花时间复习。老师上课虽然感觉不耐烦，但是该讲的知识点都不会落下，会点名起来读单词。一点儿不水。认真做笔记就好。"},{"id":111268,"teacher_id":2703,"teacher_name":"千勇","post_time":"2019-06-30 23:11:48","like_diff":4,"likes":4,"dislikes":0,"content":"多谢老师不挂之恩"},{"id":139079,"teacher_id":2703,"teacher_name":"千勇","post_time":"2021-07-12 13:12:29","like_diff":4,"likes":4,"dislikes":0,"content":"每节课都认真听，课下每周补笔记花的时间不超过一小时，期末复习一天多，最后满绩啦，感觉还是比较轻松的，比大英轻松很多～千勇老师人超级好超级可爱，很关心学生！"},{"id":150482,"teacher_id":2703,"teacher_name":"千勇","post_time":"2022-01-26 07:24:11","like_diff":4,"likes":4,"dislikes":0,"content":"最近刷韩剧感觉跟千老师学韩语还是蛮值得的，只要认真上课，老师给分也不错哦……"},{"id":175734,"teacher_id":2703,"teacher_name":"千勇","post_time":"2023-06-26 10:39:52","like_diff":4,"likes":4,"dislikes":0,"content":"【东亚历史与文化】上课数字点名，两周一次展示，上课多发言平时分会高。这门课内容比较多比较硬核，很多时候就是一问三不知。但老师很博学很有耐心，很包容，助教也非常nice，很幽默很好相处很潮。考试是开卷考，ppt都可以翻到，但内容比较多建议提前做好标记。给分也很好，即便上课都不会千老师也不会给学生太大压力。上课能让你收获另一种文化视野和胸襟。"},{"id":82820,"teacher_id":2703,"teacher_name":"千勇","post_time":"2018-07-09 07:38:24","like_diff":3,"likes":7,"dislikes":4,"content":"最后3.9 不知道算高还是算低 但比起大英好多了\n\n"},{"id":149257,"teacher_id":2703,"teacher_name":"千勇","post_time":"2022-01-15 01:35:14","like_diff":3,"likes":3,"dislikes":0,"content":"老师真的很好，很负责任，能学到一些东西"},{"id":175731,"teacher_id":2703,"teacher_name":"千勇","post_time":"2023-06-26 10:34:16","like_diff":3,"likes":3,"dislikes":0,"content":"东亚历史与文化，课程内容真的非常硬核能学到很多平时不懂的东西（虽然我平时根本不听课）。两周一次pre有点累，但小组成员给力的话就OK。老师和助教gg人都超级超级好，请假不扣平时分的。完全对历史不感兴趣，连高中历史都不记得，期末看了遍PPT尽量写多点字，绩点也很好看！课堂上喜欢发言的同学会更有优势，但我只发了两次言也没太大劣势！"},{"id":175997,"teacher_id":2703,"teacher_name":"千勇","post_time":"2023-06-27 11:18:08","like_diff":3,"likes":3,"dislikes":0,"content":"上课很拓展同学们的知识面（干货不少），与杭州当地历史文化结合很密切，课前会看小短片，很希望大家都来互动（尽管很多时候大眼瞪小眼doge），平常上课多互动互动，期末打印的PPT提前两个小时做个小目录，编个页码，论述题写满，分数很好😁😁😁😁😁"},{"id":82830,"teacher_id":2703,"teacher_name":"千勇","post_time":"2018-07-10 12:59:53","like_diff":2,"likes":9,"dislikes":7,"content":"平时很认真的学，认真记笔记，听写单词前会提前3天背单词。最后考试看了好几遍ppt，考完也觉得考的不错。最后成绩只有3，不知道为什么，可能没有给老师留下印象了吧。早知去学大英五了。不信勿喷。"},{"id":82948,"teacher_id":2703,"teacher_name":"千勇","post_time":"2018-07-09 10:48:11","like_diff":2,"likes":8,"dislikes":6,"content":"真的很迷了 以为再怎么也比修的大英好吧……已经不知道比大英四用功多少了 结果居然3.3  比水过去的大英都还低 不敢相信 全勤好好背书考前自认为准备的比数学课还多 结果却跟我觉得凉透考的贼差的科目都一个分了 慎选吧!"},{"id":111292,"teacher_id":2703,"teacher_name":"千勇","post_time":"2019-07-01 00:57:11","like_diff":2,"likes":2,"dislikes":0,"content":"一学期没怎么背过单词，平时分应该跪了，最后一个月天天背单词，最后成绩也还好。大家一定要好好背单词啊"},{"id":124604,"teacher_id":2703,"teacher_name":"千勇","post_time":"2020-07-03 13:11:05","like_diff":2,"likes":2,"dislikes":0,"content":"老师讲的挺仔细的 一定要好好背单词和复习ppt 例句很重要"},{"id":139588,"teacher_id":2703,"teacher_name":"千勇","post_time":"2021-07-17 16:26:50","like_diff":2,"likes":3,"dislikes":1,"content":"讲课有条理，细心！"},{"id":176292,"teacher_id":2703,"teacher_name":"千勇","post_time":"2023-06-28 09:13:53","like_diff":2,"likes":2,"dislikes":0,"content":"东亚课能开阔视野学到东西入股不亏，老师和助教都很好，多互动认真复习PPT内容成绩会很完美"},{"id":29896,"teacher_id":2703,"teacher_name":"千勇","post_time":"2016-06-30 13:18:02","like_diff":1,"likes":4,"dislikes":3,"content":"老师教了很多语法，所以平时就一定要认真学啊！然后就是多记一下单词，考试的时候死在不认识单词上了。"},{"id":111408,"teacher_id":2703,"teacher_name":"千勇","post_time":"2019-07-01 09:06:54","like_diff":1,"likes":1,"dislikes":0,"content":"虽然我不喜欢上课 上课除了发音和语法点之外没有怎么听了（捂脸.jpg） 但是我觉得如果课外平时有背过单词复习就不会很累 复习很重要，认真看看书，提前一个月开始认真复习，老师上课讲的语法其实不难，看书加上语法笔记就可以弄懂了 老师打分就是看试卷分和平时到课率 考试分挺重要的谢下老师给了4.8（花花.jpg）"},{"id":172141,"teacher_id":2703,"teacher_name":"千勇","post_time":"2023-04-20 10:47:17","like_diff":1,"likes":1,"dislikes":0,"content":"韩语和东亚历史与文化的助教gg都很帅（"},{"id":186660,"teacher_id":2703,"teacher_name":"千勇","post_time":"2024-01-12 11:20:50","like_diff":1,"likes":1,"dislikes":0,"content":"\\千老师/ \\韩语2/ 老师真的很好给分也很好TT因为韩语1的内容是听的智云自学的，所以其实学的不是很扎实。但是这学期无论是课上还是课下很认真的投入了很多精力后，真的觉得韩语进步了很多。语言还是需要老师这样踏实的教学方法才能真正让你去掌握的。老师给了很多直接和间接的鼓励，一开始真的不敢发言怕说错，到后来努力去发言和会话练习（学语言还是要多张口说啊！！！）真的很想学好韩语的uu快冲千勇老师！！其实期末感觉考的还是有遗憾，但是老师给的分数还是挺好的TT（虽然老师说了会有正态要求 高分不会很多 但是认真学真的能学好嘟不用担心！！"},{"id":187110,"teacher_id":2703,"teacher_name":"千勇","post_time":"2024-01-14 13:27:02","like_diff":1,"likes":1,"dislikes":0,"content":"直接上韩语2的来推荐一下千老师（韩语1部分两周极限自学，通过2慢慢补足了一些基础）。。。老师看起来可能有点严肃但其实非常温柔耐心，语法讲得也很细致。课上会鼓励和邀请同学读课文回答问题，一开始真的是尴尬得脚趾抠地，后来发现当众做错过的point学得会更扎实，做得不好老师也不会责怪，推荐大家上课的时候多多volunteer，不要拒绝老师的鼓励。还有三次会话课，助教也很耐心，都是鼓励教育，只不过我太i了所以一直觉得好尴尬（）。最后的bonus就是，老师上课会介绍一些韩国的历史人文，个人非常喜欢，去韩国旅游不会只知道首尔釜山济州岛了哈哈。几乎不在查老师上发表评价，但是千老师的课体验真的很不错所以发一条。"},{"id":22519,"teacher_id":2703,"teacher_name":"千勇","post_time":"2016-03-07 08:29:54","like_diff":0,"likes":5,"dislikes":5,"content":"讲课不耐烦的样子"},{"id":52271,"teacher_id":2703,"teacher_name":"千勇","post_time":"2017-06-17 03:44:40","like_diff":0,"likes":6,"dislikes":6,"content":"怎么看都感觉自己要挂了，先平心而论给老师打个8分，讲的很细但是韩语真的有些难，单词背了记不住……老师默认大家是每天都复习韩语的样子，因为数学课太多没什么时间看韩语，只希望来事给点猛烈的师生情"},{"id":83521,"teacher_id":2703,"teacher_name":"千勇","post_time":"2018-07-10 13:29:56","like_diff":0,"likes":2,"dislikes":2,"content":"老师还行  分数真不行"},{"id":111260,"teacher_id":2703,"teacher_name":"千勇","post_time":"2019-06-30 22:25:08","like_diff":0,"likes":1,"dislikes":1,"content":"每节课会点同学起来念单词，然后每个单元结束后都会有单词听写，会提前告知然后让大家有时间准备。虽然老师上课有时候会有点不耐烦，会恨铁不成钢，但授课真的细致。语言是期末很难速成的，单词语法都很重要，最后的分数比我预想的要好一些，老师也说过部分同学的期末考试并不像自己认为的那么好，所以这个判断也影响了老师给分好坏的印象吧。"},{"id":111350,"teacher_id":2703,"teacher_name":"千勇","post_time":"2019-07-01 04:21:45","like_diff":0,"likes":1,"dislikes":1,"content":"零基础真的可以学到东西，知识点老师讲得挺清晰的，考试也不难，给分也ok"},{"id":111410,"teacher_id":2703,"teacher_name":"千勇","post_time":"2019-07-01 09:30:40","like_diff":0,"likes":3,"dislikes":3,"content":"六年韩圈经历4.5水过，但感觉对韩语初学者会不太友好，老师默认你下课一定把单词背完的那种"},{"id":111414,"teacher_id":2703,"teacher_name":"千勇","post_time":"2019-07-01 11:03:26","like_diff":0,"likes":0,"dislikes":0,"content":"老师上课讲得挺清楚的，每节课都会点人回答问题。有几次小测，但是小测前把单词背了就没啥问题了。还会看电影！我上课也不是一直认真听，有时候还水水手机，但是单词语法搞懂最后4.2，没有之前大家说的绩杀啊，而且最后试卷应该不难，挂的是真的没有学吧"},{"id":175746,"teacher_id":2703,"teacher_name":"千勇","post_time":"2023-06-26 11:30:02","like_diff":0,"likes":0,"dislikes":0,"content":"老师知识超渊博，讲的东亚课都是学界里面很前沿的东西了，所以课听起来还是有点费劲的，仿佛什么历史专业课😂两周一次pre 事情不算少，但是如果认真做平时多和老师互动（老师超级在乎这个），期末开卷考好好准备，给分还是可以的！"},{"id":219688,"teacher_id":2703,"teacher_name":"千勇","post_time":"2025-06-04 07:36:51","like_diff":0,"likes":0,"dislikes":0,"content":"超级好，简单，快去选，不会韩语一也没关系"},{"id":224644,"teacher_id":2703,"teacher_name":"千勇","post_time":"2025-11-26 05:44:45","like_diff":0,"likes":0,"dislikes":0,"content":"好👍"},{"id":29715,"teacher_id":2703,"teacher_name":"千勇","post_time":"2016-06-30 08:24:50","like_diff":-5,"likes":10,"dislikes":15,"content":"节节课都去 竟然这么低的分？那那些翘课的是不是都挂了！？exm？"},{"id":111286,"teacher_id":2703,"teacher_name":"千勇","post_time":"2019-07-01 00:22:46","like_diff":-6,"likes":1,"dislikes":7,"content":"老师考前跟我们说期末95+总评才能90+，做试卷的时候我是崩溃的，出分了我感觉老师骗人"},{"id":157646,"teacher_id":2703,"teacher_name":"千勇","post_time":"2022-06-24 07:46:27","like_diff":-6,"likes":2,"dislikes":8,"content":"感觉给分一般，最后3.6，反正都要正态，有人分好就有人分差，讲课的话感觉能学到很多东西吧，事比较少，但最后的考试有点烦人。"},{"id":111036,"teacher_id":2703,"teacher_name":"千勇","post_time":"2019-06-30 17:27:17","like_diff":-8,"likes":1,"dislikes":9,"content":"这老师给分是真不行，我先上了韩语2，4.8，这个课4.5卡?了。。"},{"id":148550,"teacher_id":2703,"teacher_name":"千勇","post_time":"2022-01-13 00:56:31","like_diff":-8,"likes":1,"dislikes":9,"content":"东亚历史与文化，给分太差了，老师还卡绩"},{"id":108378,"teacher_id":2703,"teacher_name":"千勇","post_time":"2019-05-22 09:10:42","like_diff":-9,"likes":7,"dislikes":16,"content":"老师不错，不过有延边口音?\n\n想学标准首尔音的建议换老师?"},{"id":30734,"teacher_id":2703,"teacher_name":"千勇","post_time":"2016-07-02 10:34:18","like_diff":-16,"likes":10,"dislikes":26,"content":"老师讲课还蛮好的 但是推荐旁听 每次课都去 很认真 每礼拜复习  最后才3多一点"},{"id":111239,"teacher_id":2703,"teacher_name":"千勇","post_time":"2019-06-30 17:28:46","like_diff":-16,"likes":0,"dislikes":16,"content":"上课讲得一般，但是PPT什么的都挺有条理。一天速成的韩语，最后绩点4.5，大家自己看吧。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

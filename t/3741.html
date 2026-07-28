@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陶前 - 物理学系 - 浙大教评</title>
+    <meta name="description" content="陶前教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="陶前,物理学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">陶前</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">物理学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">3.21</div>
+                    <div class="rating-participants">100人参与评分</div>
+                    <div class="attendance-info">31.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息</h3>
+                <p class="no-data">暂无课程GPA数据</p>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (90 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":42578,"teacher_id":3741,"teacher_name":"陶前","post_time":"2017-01-14 13:20:03","like_diff":45,"likes":51,"dislikes":6,"content":"给分低……最低的几次实验都是他的"},{"id":45121,"teacher_id":3741,"teacher_name":"陶前","post_time":"2017-01-19 04:03:33","like_diff":30,"likes":33,"dislikes":3,"content":"大物实验绩杀"},{"id":44856,"teacher_id":3741,"teacher_name":"陶前","post_time":"2017-01-18 11:48:40","like_diff":26,"likes":29,"dislikes":3,"content":"大物实验给分很严"},{"id":124197,"teacher_id":3741,"teacher_name":"陶前","post_time":"2020-06-27 02:09:04","like_diff":21,"likes":24,"dislikes":3,"content":"浙江杭州，浙江杭州，最吊物理老师开课啦。浙江杭州，王八蛋物理，最吊物理老师开课啦。王八蛋王八蛋陶前老板专搞绩杀，专搞绩杀，骗走了骗走了我们的时间，带着我们的绩点逃跑啦。我们没有没有没有办法办法，拿着时间换绩点绩点。原价都是5.0 4.0的物理实验通通3.0 3.0 3.0 3.0通通通通通通3.0王八蛋陶前 陶前王八蛋，你不是你不是你不是人，我们辛辛苦苦写了大半年，你你你你不给不给绩点，你还我血汗钱。"},{"id":88419,"teacher_id":3741,"teacher_name":"陶前","post_time":"2018-10-30 13:06:39","like_diff":20,"likes":21,"dislikes":1,"content":"慎选啊！！！！\n\n虽然功率因数和普朗克的那两个实验是比较简单，老师人很温柔讲的挺好，但老师给分真的太低了！！\n\n其他老师给分（目前我遇到的），都是95+，他这个给分太迷了。。。不明不白就直接80。。。（懵逼）\n\n还是像之前一样认真做的呀。。实验数据和数据处理都是对的呀，根本就无法弥补。。。而且他改的实验报告还不知道在哪儿领。。。太难受，真是自闭了\n\n（此处非常想说脏话。。但还是克制住了。。。忍忍\n\n"},{"id":51001,"teacher_id":3741,"teacher_name":"陶前","post_time":"2017-05-11 13:17:28","like_diff":18,"likes":21,"dislikes":3,"content":"讲的倒是挺简单，也听得懂，但是他不和你说他的要求……所以你就简单的写报告，所以你这个实验就挂了……主要是因为有些东西你是查不到的……所以你无论怎么努力，他的实验也要挂"},{"id":134249,"teacher_id":3741,"teacher_name":"陶前","post_time":"2021-03-21 10:27:52","like_diff":14,"likes":15,"dislikes":1,"content":"陶老师真的超级好，讲的很简单，很和气善良的老师，不发脾气，老师乐呵呵的，也不检查预习报告随便做做拿到必要数据就好了，最重要的是实验报告是写的很简单分数也很高，基本59!强烈推荐选他的课!"},{"id":91911,"teacher_id":3741,"teacher_name":"陶前","post_time":"2018-12-25 00:47:58","like_diff":13,"likes":14,"dislikes":1,"content":"垃圾老师，选了三门他的实验，报告怎么写都是80分左右，其他实验都是95以上，是我没认真还是你故意搞绩杀？？？垃圾"},{"id":58837,"teacher_id":3741,"teacher_name":"陶前","post_time":"2018-01-21 03:34:36","like_diff":12,"likes":17,"dislikes":5,"content":"他要是不在学校教书都活不到现在"},{"id":124127,"teacher_id":3741,"teacher_name":"陶前","post_time":"2020-06-25 00:59:23","like_diff":11,"likes":13,"dislikes":2,"content":"实验两分钟，报告三小时。辛辛苦苦写出来，这个姓陶的给一波80，别人班咋瞎写都是90+，就他天天搞绩杀，给分死机吧差，畜牲，经常瞎眼，老子算了不确定度，自己瞎看不见，说老子没算。王八蛋，FW，别人实验报告扫一眼，全是90，在他的班上就是80。你他妈不知道别人的评分吗？FW，你他妈牛逼你来写，老子写三个小时的报告，你给80，别人复制粘贴的报告95，要点FACE行吧。装你妈的清高，真把自己当回事了。"},{"id":134790,"teacher_id":3741,"teacher_name":"陶前","post_time":"2021-04-15 07:11:02","like_diff":9,"likes":10,"dislikes":1,"content":"别的老师是检查操作的合理性，你倒好直接检查数据。数据不合理就要重做，非要数据让你满意。好家伙，非要人舍弃求是精神?"},{"id":108519,"teacher_id":3741,"teacher_name":"陶前","post_time":"2019-05-27 14:02:54","like_diff":8,"likes":9,"dislikes":1,"content":"给分是真的低(ﾉಥ益ಥ)"},{"id":49451,"teacher_id":3741,"teacher_name":"陶前","post_time":"2017-04-13 07:40:27","like_diff":7,"likes":9,"dislikes":2,"content":"绩杀，醉了"},{"id":126793,"teacher_id":3741,"teacher_name":"陶前","post_time":"2020-10-20 07:26:50","like_diff":7,"likes":8,"dislikes":1,"content":"八十，八十，八十，，，"},{"id":93724,"teacher_id":3741,"teacher_name":"陶前","post_time":"2019-01-12 10:32:43","like_diff":6,"likes":6,"dislikes":0,"content":"但凡这种时候，总有人拿高分来洗白，只可惜个把的高分根本掩盖不了平均分低的事实。不过话说回来，比起张寒洁、乔玉龙这种大仙级别的人，他还算不上可恶。"},{"id":126809,"teacher_id":3741,"teacher_name":"陶前","post_time":"2020-10-21 06:01:33","like_diff":6,"likes":7,"dislikes":1,"content":"给一分都嫌多，信箱里翻那么多篇就没看到过90+的，nmsl垃圾绩杀者"},{"id":80989,"teacher_id":3741,"teacher_name":"陶前","post_time":"2018-07-03 07:59:02","like_diff":5,"likes":5,"dislikes":0,"content":"当时做他的实验就只有我一个人，隔壁班也只有一个人，明明挺认真写的实验报告，别的老师都能给95左右，他就给80"},{"id":88269,"teacher_id":3741,"teacher_name":"陶前","post_time":"2018-10-25 08:11:40","like_diff":5,"likes":6,"dislikes":1,"content":"绩杀。别的大部分老师那里认认真真写报告能九十四五，到这里就七八十。可能是老师的要求很高吧。建议慎选"},{"id":93305,"teacher_id":3741,"teacher_name":"陶前","post_time":"2019-01-09 02:38:50","like_diff":5,"likes":6,"dislikes":1,"content":"给分巨差"},{"id":107338,"teacher_id":3741,"teacher_name":"陶前","post_time":"2019-05-04 04:37:35","like_diff":5,"likes":8,"dislikes":3,"content":"讲的不错，给分是真低，建议把他的实验退掉"},{"id":124191,"teacher_id":3741,"teacher_name":"陶前","post_time":"2020-06-26 23:49:52","like_diff":5,"likes":7,"dislikes":2,"content":"煞笔玩意"},{"id":183786,"teacher_id":3741,"teacher_name":"陶前","post_time":"2023-11-30 06:24:30","like_diff":5,"likes":5,"dislikes":0,"content":"说实话 其实课上印象还可以 但给分真的依托答辩 我就数据处理有一丢丢问题直接被干到八十几了"},{"id":42573,"teacher_id":3741,"teacher_name":"陶前","post_time":"2017-01-14 13:16:11","like_diff":4,"likes":11,"dislikes":7,"content":"人挺帅，也蛮负责，给分在大物实验里真的算差的。"},{"id":60526,"teacher_id":3741,"teacher_name":"陶前","post_time":"2017-10-23 07:35:31","like_diff":4,"likes":10,"dislikes":6,"content":"虽然看过评论觉得恐怖，但老师真的很耐心很温柔的在指导，没之前评论里这么吓人"},{"id":60742,"teacher_id":3741,"teacher_name":"陶前","post_time":"2017-10-29 07:30:58","like_diff":4,"likes":6,"dislikes":2,"content":"感觉楼上是卧底。且不说其余的，前两个实验都是他的，给分给的我都失去信心了！"},{"id":91441,"teacher_id":3741,"teacher_name":"陶前","post_time":"2018-12-10 10:44:54","like_diff":4,"likes":5,"dislikes":1,"content":"60体验 别的老师都90多"},{"id":142233,"teacher_id":3741,"teacher_name":"陶前","post_time":"2021-11-09 04:05:39","like_diff":4,"likes":6,"dislikes":2,"content":"原来最小二乘法和作图法都可以的意思是“我 全 都 要”呢！真是可惜了我线性相关度1的数据呢！"},{"id":171549,"teacher_id":3741,"teacher_name":"陶前","post_time":"2023-03-28 10:51:43","like_diff":4,"likes":4,"dislikes":0,"content":"老师课上明确讲了，由于测定普朗克常数图表太多，可以采用最小二乘法进行计算。批改完给分极低为什么又说没有按照画图法处理数据？哪怕是助教改的也应该及时沟通吧？"},{"id":172631,"teacher_id":3741,"teacher_name":"陶前","post_time":"2023-05-02 14:49:55","like_diff":4,"likes":4,"dislikes":0,"content":"1不确定度没写计算步骤为什么也算扣分点？\n\n2上课仪器由于温度产生误差，不给学生说话的机会，直接一句“我没看到就是没有”草草了事，感觉即使去教高中都不合格，何况是在求是为校训的大学。不是很尊重学生，不愿意听学生的任何话。\n\n“我没看到就是没有”，很难相信这句话能出自浙江大学的一位老师嘴里。"},{"id":181530,"teacher_id":3741,"teacher_name":"陶前","post_time":"2023-10-21 10:25:17","like_diff":4,"likes":4,"dislikes":0,"content":"实验绩杀！（吐血）"},{"id":181928,"teacher_id":3741,"teacher_name":"陶前","post_time":"2023-11-05 13:38:03","like_diff":4,"likes":5,"dislikes":1,"content":"别选这吊人，普朗克实验牢底坐穿"},{"id":182730,"teacher_id":3741,"teacher_name":"陶前","post_time":"2023-11-20 02:38:40","like_diff":4,"likes":4,"dislikes":0,"content":"讲课的时候说最小二乘法和作图法都可以，给分的时候逮着这点扣，太不厚道了吧，那有这样的，别的老师都会强调扣分点，你埋坑！？\n\n还有不确定度，没写计算过程扣分不好评价，虽然绪论课提了，但是别的老师貌似都不扣这个分。。。\n\n总之，选了他的普朗克常量就得做好被绩杀的准备，希望学弟学妹们注意以上两点，别被他忽悠了，预祝你们取得良好的成绩。"},{"id":52218,"teacher_id":3741,"teacher_name":"陶前","post_time":"2017-06-16 03:43:41","like_diff":3,"likes":5,"dislikes":2,"content":"绩杀，唯一一个低于70分的实验就是他的"},{"id":136957,"teacher_id":3741,"teacher_name":"陶前","post_time":"2021-06-29 02:14:28","like_diff":3,"likes":4,"dislikes":1,"content":"给分差，非常差，对数据要求特别严，而且数据处理也要求巨高。"},{"id":143537,"teacher_id":3741,"teacher_name":"陶前","post_time":"2021-11-26 05:23:23","like_diff":3,"likes":3,"dislikes":0,"content":"真是乱给分是吧？"},{"id":145964,"teacher_id":3741,"teacher_name":"陶前","post_time":"2022-01-04 15:57:29","like_diff":3,"likes":4,"dislikes":1,"content":"傻逼贱畜，脑子有问题"},{"id":171869,"teacher_id":3741,"teacher_name":"陶前","post_time":"2023-04-09 14:17:35","like_diff":3,"likes":3,"dislikes":0,"content":"感觉没什么耐心？钉钉私戳甚至没有get到我的问题，在自己发挥。实验课上讲两种处理方法都可以，然后我只用了一种方法就给我扣了很多分数。。。无语。。（大家记得要作图啊！！）"},{"id":181929,"teacher_id":3741,"teacher_name":"陶前","post_time":"2023-11-05 13:41:56","like_diff":3,"likes":3,"dislikes":0,"content":"或许不同老师对实验报告的评分标准有所不同，但是这nm给这么低？吹毛求疵？"},{"id":182769,"teacher_id":3741,"teacher_name":"陶前","post_time":"2023-11-20 07:17:48","like_diff":3,"likes":3,"dislikes":0,"content":"查预习报告写得少会打个勾标记，做普朗克常量实验时，画图或最小二乘法二选一，自己说的二选一，后来选一个反倒倒扣分，还有不确定度，不写步骤，统统80，很迷惑，好像起扣20，给分很求实，甚至有点抠搜！！！"},{"id":60806,"teacher_id":3741,"teacher_name":"陶前","post_time":"2017-10-30 13:12:30","like_diff":2,"likes":4,"dislikes":2,"content":"大绩杀"},{"id":66598,"teacher_id":3741,"teacher_name":"陶前","post_time":"2018-01-17 12:13:01","like_diff":2,"likes":4,"dislikes":2,"content":"大物实验给分很低，可以认为他是按满分90给的分。他在实验报告的管理上可能不太好，有一次他把我交上去的实验报告弄丢了，要不是我那次有实验照片和数据的备份，我就得重做了。不过最后还是重写了一份报告。\n\n这次评分我是按满分5分打的，我给了4分。"},{"id":73998,"teacher_id":3741,"teacher_name":"陶前","post_time":"2018-02-04 04:14:57","like_diff":2,"likes":3,"dislikes":1,"content":"陶前老师给分一般吧，仇志勇又严格又绩杀，真的绩杀！大家千万慎选！！！"},{"id":88375,"teacher_id":3741,"teacher_name":"陶前","post_time":"2018-10-30 01:28:37","like_diff":2,"likes":3,"dislikes":1,"content":"最差的老师，没有之一"},{"id":107746,"teacher_id":3741,"teacher_name":"陶前","post_time":"2019-05-09 02:30:36","like_diff":2,"likes":4,"dislikes":2,"content":"辣鸡，真的无语"},{"id":108074,"teacher_id":3741,"teacher_name":"陶前","post_time":"2019-05-14 05:20:47","like_diff":2,"likes":4,"dislikes":2,"content":"狗来的"},{"id":124358,"teacher_id":3741,"teacher_name":"陶前","post_time":"2020-07-01 04:14:39","like_diff":2,"likes":5,"dislikes":3,"content":"就这种傻逼也来教书？"},{"id":134834,"teacher_id":3741,"teacher_name":"陶前","post_time":"2021-04-22 06:10:14","like_diff":2,"likes":3,"dislikes":1,"content":"大众都给这分也不是没有道理"},{"id":141782,"teacher_id":3741,"teacher_name":"陶前","post_time":"2021-10-25 13:26:21","like_diff":2,"likes":3,"dislikes":1,"content":"sb."},{"id":173541,"teacher_id":3741,"teacher_name":"陶前","post_time":"2023-05-28 09:04:51","like_diff":2,"likes":3,"dislikes":1,"content":"快跑！要是你实验报告完美，也许能拿到相对正常而不高的分数，但是只要有一点点问题，比如“计算不确定度的必要步骤”那就八十见吧。开学我还不信邪想着只要我报告都按要求来怎么可能给我低分呢，现在看来我实在太天真了"},{"id":174371,"teacher_id":3741,"teacher_name":"陶前","post_time":"2023-06-11 05:17:50","like_diff":2,"likes":3,"dislikes":1,"content":"因为实验的时候犯了个智障错误被老师记住名字了，专门去座位表看了一下，然后回来翻我的报告比对名字。最后实验报告果不其然拿的最低分。我承认我犯的错误很智障，预习也不是那么认真，但我最后报告都是认真写的，不至于这样记我名字吧orz"},{"id":174747,"teacher_id":3741,"teacher_name":"陶前","post_time":"2023-06-16 14:33:51","like_diff":2,"likes":2,"dislikes":0,"content":"抄nm的不确定度公式，抄公式tm很重要？tmd劳资不抄公式不确定度算对了你给劳资扣五六分？"},{"id":185520,"teacher_id":3741,"teacher_name":"陶前","post_time":"2024-01-01 14:12:18","like_diff":2,"likes":2,"dislikes":0,"content":"讲课很好的，给分烂也是真的"},{"id":200494,"teacher_id":3741,"teacher_name":"陶前","post_time":"2024-10-17 15:48:13","like_diff":2,"likes":2,"dislikes":0,"content":"你倒是讲清楚啊"},{"id":202887,"teacher_id":3741,"teacher_name":"陶前","post_time":"2024-11-15 04:10:36","like_diff":2,"likes":3,"dislikes":1,"content":"实验报告要相当认真写 普朗克常数本人花了起码三倍时间写报告 拿下最高分96 老师批得慢也确实认真批改的 只能说要选的话还是自己衡量一下"},{"id":51610,"teacher_id":3741,"teacher_name":"陶前","post_time":"2017-06-07 13:08:53","like_diff":1,"likes":4,"dislikes":3,"content":"太严格了"},{"id":65691,"teacher_id":3741,"teacher_name":"陶前","post_time":"2018-01-08 08:48:51","like_diff":1,"likes":3,"dislikes":2,"content":"蜜汁给分，难受"},{"id":135538,"teacher_id":3741,"teacher_name":"陶前","post_time":"2021-05-13 02:25:14","like_diff":1,"likes":4,"dislikes":3,"content":"老师人很温和，实验操作和数据计算有很详细地讲述，打分也很中肯，很尽责！"},{"id":175445,"teacher_id":3741,"teacher_name":"陶前","post_time":"2023-06-25 02:48:58","like_diff":1,"likes":1,"dislikes":0,"content":"哈哈哈哈哈"},{"id":183532,"teacher_id":3741,"teacher_name":"陶前","post_time":"2023-11-27 06:48:25","like_diff":1,"likes":1,"dislikes":0,"content":"去补大物实验，这位老师不是很友善的感觉"},{"id":185684,"teacher_id":3741,"teacher_name":"陶前","post_time":"2024-01-03 13:45:47","like_diff":1,"likes":1,"dislikes":0,"content":"越想越气，回来骂一下，逆天沙比"},{"id":185699,"teacher_id":3741,"teacher_name":"陶前","post_time":"2024-01-03 15:36:17","like_diff":1,"likes":1,"dislikes":0,"content":"sbsbsb"},{"id":186890,"teacher_id":3741,"teacher_name":"陶前","post_time":"2024-01-13 12:21:52","like_diff":1,"likes":1,"dislikes":0,"content":"史。。"},{"id":205565,"teacher_id":3741,"teacher_name":"陶前","post_time":"2024-12-09 09:01:11","like_diff":1,"likes":1,"dislikes":0,"content":"给分真的烂"},{"id":208793,"teacher_id":3741,"teacher_name":"陶前","post_time":"2025-01-02 04:03:17","like_diff":1,"likes":1,"dislikes":0,"content":"大物实验两个最低分都是他给的，既然改的这么严，为什么要求不讲清楚呢？建议把你的要求打印出来给同学们传看……"},{"id":217195,"teacher_id":3741,"teacher_name":"陶前","post_time":"2025-04-03 16:55:27","like_diff":1,"likes":1,"dislikes":0,"content":"sb玩意"},{"id":152502,"teacher_id":3741,"teacher_name":"陶前","post_time":"2022-04-13 10:56:18","like_diff":0,"likes":6,"dislikes":6,"content":"陶老师给分挺好啊，讲课也不错，实验报告就规规矩矩地按他上课的要求写了，也没有多卷，最后给分也不错，也没有评论说的给分很低~"},{"id":185949,"teacher_id":3741,"teacher_name":"陶前","post_time":"2024-01-06 09:47:11","like_diff":0,"likes":1,"dislikes":1,"content":"好像总能从我的报告里抠出错误来扣分，而且扣的还不少，本学期唯二90分以下的报告就是他给的。感觉我做的还挺认真，有点寒心"},{"id":186857,"teacher_id":3741,"teacher_name":"陶前","post_time":"2024-01-13 09:20:33","like_diff":0,"likes":1,"dislikes":1,"content":"给分依托"},{"id":192589,"teacher_id":3741,"teacher_name":"陶前","post_time":"2024-05-24 09:59:06","like_diff":0,"likes":0,"dislikes":0,"content":"老师讲课很好，对待实验态度也很认真，那些包着水过去的心态来的人分数貌似都不好，但如果把上课的各种要求都做到了的话老师也会给高分，目前我唯一一次95+就是他给的"},{"id":193369,"teacher_id":3741,"teacher_name":"陶前","post_time":"2024-06-07 12:26:44","like_diff":0,"likes":0,"dislikes":0,"content":"实验讲得很好，做实验也很有耐心。但是给分非常求是，有一点错误就会扣分，还是慎重选择吧"},{"id":217487,"teacher_id":3741,"teacher_name":"陶前","post_time":"2025-04-11 06:23:46","like_diff":0,"likes":1,"dislikes":1,"content":"不知道为什么大家都在骂\n\n老师看实验报告确实是很细\n\n但是绝对没有无故扣分的情况\n\n把应该有的表格图像和分析都写上，现在做了两个都是92+"},{"id":136080,"teacher_id":3741,"teacher_name":"陶前","post_time":"2021-06-11 00:42:50","like_diff":-1,"likes":2,"dislikes":3,"content":"上的是大物丙实验，单论我做的两个他的实验，给分很好。"},{"id":107673,"teacher_id":3741,"teacher_name":"陶前","post_time":"2019-05-08 06:52:32","like_diff":-2,"likes":1,"dislikes":3,"content":"。。。。。"},{"id":178137,"teacher_id":3741,"teacher_name":"陶前","post_time":"2023-07-07 05:53:46","like_diff":-2,"likes":3,"dislikes":5,"content":"？？？看了之前的评论，怎么和我遇见的陶老师相差这么多？有一次实验课，只有我一个人选了，于是老师一对一仔细地给我讲了30多分钟的原理，很温柔，很耐心。不过我在做实验的过程中犯了比较严重的错误，被老师指出来了，最后实验分也不算低。另一次实验过程中，老师也很耐心，要求讲的挺清楚的，给分也挺正常的，只要按实验前讲的步骤来，分数不会低。感觉老师最后都记住我了，期末考试也监考的我的考场，虽然我考的很烂。。。。。。"},{"id":184667,"teacher_id":3741,"teacher_name":"陶前","post_time":"2023-12-22 06:22:14","like_diff":-2,"likes":3,"dislikes":5,"content":"我觉得陶老师是大物实验里面很认真负责的一位老师了，开始选的时候很担心会不会被实验成绩暴扣，于是一直水报告的我开始认真预习和学数据处理，然后有点担心但认真地完成了实验报告。\n\n没有这节课的话，我可能上完大物除非考试需求的内容要求，啥也没有学到。\n\n实例：陶老师是我上的这些大物实验里面唯一一位写了并认真评价了实验报告的老师。\n\n我个人认为之前的这些负面评价还是因为自身报告内容。"},{"id":76612,"teacher_id":3741,"teacher_name":"陶前","post_time":"2018-04-16 07:58:13","like_diff":-3,"likes":3,"dislikes":6,"content":"老师很好啊，给分也可以呀，人也很帅讲课也很认真啊"},{"id":91643,"teacher_id":3741,"teacher_name":"陶前","post_time":"2018-12-17 04:19:01","like_diff":-4,"likes":2,"dislikes":6,"content":"感觉老师好帅啊 又好温柔 声音还那么好听啊啊啊啊啊啊招架不住了(￣ ii ￣;) 吸溜(￣＂￣;)"},{"id":63089,"teacher_id":3741,"teacher_name":"陶前","post_time":"2017-11-28 08:31:32","like_diff":-5,"likes":3,"dislikes":8,"content":"还行吧，没有评论这么不堪，3分钟做完的交流电因数有90分，给分还算可以的"},{"id":75448,"teacher_id":3741,"teacher_name":"陶前","post_time":"2018-03-12 03:21:17","like_diff":-5,"likes":6,"dislikes":11,"content":"陶老师很棒啊，上质荷比和普朗克常数的实验他讲的让人一下子就懂了，很温和，很负责。他会对数据处理比较严格因为他觉得大学实验就需要这样的严谨性。说绩杀的没好好完成实验报告的收尾吧"},{"id":78664,"teacher_id":3741,"teacher_name":"陶前","post_time":"2018-05-14 09:18:32","like_diff":-5,"likes":3,"dislikes":8,"content":"其实老师给分也不算很差啊\n\n毕竟 做实验 and 实验报告 是真的简单啊，你本身花的时间也不多啊，这样的话打分低点也没什么事了。\n\n就拿交流电路的功率因数实验来说，做实验是真的快，老师讲完后，你自己开始做用的时间控制在10分钟以内其实蛮简单的。而实验报告也不用像其他实验那样算这算那的，数据处理起来可以说是特别简单了。\n\n我写实验报告也没花多少时间，写的蛮水的，然后给分85。"},{"id":104293,"teacher_id":3741,"teacher_name":"陶前","post_time":"2019-03-17 01:50:06","like_diff":-5,"likes":2,"dislikes":7,"content":"老师人还算是温柔的，讲解的时候也还算是详细，但是给分一般，功率因数那个实验给了我86（看评价好像我86分还算好的？？？），，可能因为我没求不确定度吧（另外这个实验一共只有三个人选，可能真的被查老师吓到了），普朗克常数的实验分还没出，出了再评"},{"id":193612,"teacher_id":3741,"teacher_name":"陶前","post_time":"2024-06-14 02:25:54","like_diff":-5,"likes":0,"dislikes":5,"content":"唯一下90的😭😭😭"},{"id":94036,"teacher_id":3741,"teacher_name":"陶前","post_time":"2019-01-15 03:22:05","like_diff":-6,"likes":3,"dislikes":9,"content":"好老师！"},{"id":77614,"teacher_id":3741,"teacher_name":"陶前","post_time":"2018-05-07 02:15:43","like_diff":-8,"likes":1,"dislikes":9,"content":"好好好"},{"id":89873,"teacher_id":3741,"teacher_name":"陶前","post_time":"2018-11-21 06:14:46","like_diff":-9,"likes":2,"dislikes":11,"content":"很认真地写了电子荷质比和普朗克常数的实验报告，还特别问了老师求不确定度的方法，让他帮忙查看了报告的内容，结果只有90，同学同样的实验，其他老师的课，报告数据处理几乎没有做，最后也获得了92分，感觉好受伤。。。"},{"id":171791,"teacher_id":3741,"teacher_name":"陶前","post_time":"2023-04-05 15:20:59","like_diff":-9,"likes":2,"dislikes":11,"content":"真想给0分，真的很好笑，一共五张图一页纸上绝对放不下的，我就没打印图直接在数据处理部分重复两次说明了斜率数据是软件拟合得到的，并且还专门列了表，说明是因为一页纸放不下五张图所以直接把拟合结果的5个斜率给出来了，结果最后还是说我没给图只给了83分，真的很秀，千万别选这个人的课。室友是隔壁老师实验的，实验报告不确定度没算老师只是说了两句，最后给了他94分，这么严重的问题人家只扣1分，我事先说明多次的斜率图放不下这种无关紧要的小问题直接给我扣掉12分。明明室友数据比我差，误差比我大，最重要的是他连不确定度是什么都不知道，但是最后分数还是比我高11分，真的心理不平衡，太智障了。本来实验都是94，95的，目前为止没低于94分过，结果因为这种根本不算问题的问题（而且还说明原因并给出替代方案了！）挑刺给了我83，真的打破我对zju老师的感官。明明很认真做的实验，处理的数据，写的报告结果就这个结果，呵呵，这门课的绩点都基本不用想到5.0了，tq我真是太谢谢你了！！！！！"},{"id":60807,"teacher_id":3741,"teacher_name":"陶前","post_time":"2017-10-30 13:51:47","like_diff":-21,"likes":2,"dislikes":23,"content":"谁说他是绩杀的？电子荷质比普朗克常数简直最高分哦"},{"id":42834,"teacher_id":3741,"teacher_name":"陶前","post_time":"2017-01-15 08:54:11","like_diff":-25,"likes":3,"dislikes":28,"content":"一个字：帅"},{"id":118187,"teacher_id":3741,"teacher_name":"陶前","post_time":"2019-10-22 10:21:15","like_diff":-26,"likes":2,"dislikes":28,"content":"老师是那种典型的儒雅男神，声音很好听，认真负责，可能给分稍微差了那么一点(个人感觉其实还行，昨晚临时赶的实验报告老师给了93分)，抛开给分，单看人品和颜值，我觉得8分还是该有"},{"id":52290,"teacher_id":3741,"teacher_name":"陶前","post_time":"2018-12-02 08:28:40","like_diff":-71,"likes":9,"dislikes":80,"content":"陶老师真的超级好，讲的很简单，很和气善良的老师，不发脾气，老师乐呵呵的，也不检查预习报告随便做做拿到必要数据就好了，最重要的是实验报告是写的很简单分数也很高，基本95!强烈推荐选他的课!"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

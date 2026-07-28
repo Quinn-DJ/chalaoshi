@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>应晶 - 城市学院 - 浙大教评</title>
+    <meta name="description" content="应晶教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="应晶,城市学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">应晶</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">城市学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.88</div>
+                    <div class="rating-participants">119人参与评分</div>
+                    <div class="attendance-info">34.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">程序设计与算法基础</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.46</span>
+                            <span class="students">选课: 149人</span>
+                            <span class="std-dev">标准差: 0.56</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">程序设计基础</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.57</span>
+                            <span class="students">选课: 202人</span>
+                            <span class="std-dev">标准差: 0.91</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (97 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":501,"teacher_id":2544,"teacher_name":"应晶","post_time":"2015-03-15 03:36:08","like_diff":42,"likes":46,"dislikes":4,"content":"老师人很好呢 回答问题很热情 给分也很赞"},{"id":14622,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-01-08 03:37:49","like_diff":32,"likes":34,"dislikes":2,"content":"真的是一个好老师，适合大一新生，会给你讲人生的道理，讲你的大学应该怎么度过，希望大家多听听他的话，他真的是为学生着想。"},{"id":2534,"teacher_id":2544,"teacher_name":"应晶","post_time":"2015-05-04 13:39:01","like_diff":29,"likes":30,"dislikes":1,"content":"应晶老师的C程非常简明易懂，许多时候会刻意避免使用术语，能够让学生理解的非常透彻，我觉得这点特别厉害。"},{"id":1387,"teacher_id":2544,"teacher_name":"应晶","post_time":"2015-03-22 01:28:03","like_diff":27,"likes":29,"dislikes":2,"content":"非常好。不点名，没有平时作业，解决学生的问题非常热情。"},{"id":154155,"teacher_id":2544,"teacher_name":"应晶","post_time":"2022-05-25 01:11:13","like_diff":19,"likes":28,"dislikes":9,"content":"老师名字好怪😅"},{"id":2434,"teacher_id":2544,"teacher_name":"应晶","post_time":"2015-05-01 06:46:55","like_diff":16,"likes":19,"dislikes":3,"content":"老师人很好，讲课也棒！"},{"id":15017,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-01-11 14:07:35","like_diff":16,"likes":17,"dislikes":1,"content":"绝对的好老师，真心为学生，喜欢O(∩_∩)O"},{"id":14958,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-01-11 09:22:13","like_diff":15,"likes":17,"dislikes":2,"content":"非常好的老师，上课耐心细致，生动有趣，很关心学生，也注重培养学生的各方面能力！赞赞赞！"},{"id":64082,"teacher_id":2544,"teacher_name":"应晶","post_time":"2017-12-21 02:16:04","like_diff":15,"likes":19,"dislikes":4,"content":"炒鸡赞\n\n课堂讲授如何盗号\n\n"},{"id":15109,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-01-12 05:48:37","like_diff":13,"likes":15,"dislikes":2,"content":"应老师真的人超级超级好 上课超级超级赞 每节课都坐前排听听得很认真！可惜这个学期上完了唉"},{"id":20070,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-01-26 04:42:53","like_diff":13,"likes":14,"dislikes":1,"content":"十分都不足以表达我对应老师的爱❤️"},{"id":14845,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-01-10 04:47:50","like_diff":12,"likes":14,"dislikes":2,"content":"好老师 不多提"},{"id":102265,"teacher_id":2544,"teacher_name":"应晶","post_time":"2019-01-31 15:41:09","like_diff":12,"likes":13,"dislikes":1,"content":"啊吹爆我应男神啊啊啊啊啊！平时讲课深入浅出，个人认为老师讲课水平完全不在翁恺老师之下。给分更是好出高度有木有！考试自己估分就七十几，上机有一题做错，大作业感觉也中规中矩，最后竟然得到4.5……总之，感谢老师三点:教授我程设知识，挽救我于退院边缘，在大一的萌新时期给我方向与动力！"},{"id":20208,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-01-26 13:58:58","like_diff":9,"likes":10,"dislikes":1,"content":"应老师真是太好啦！！！ 讲课容易懂 大作业出了点BUG也不计较 给分也很好～"},{"id":26250,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-06-16 12:00:05","like_diff":9,"likes":10,"dislikes":1,"content":"老师真的很nice～讲解问题很用心，还会以一个老学长的身份讲述大学该怎么过，而且给分也很好～"},{"id":75413,"teacher_id":2544,"teacher_name":"应晶","post_time":"2018-03-11 11:03:32","like_diff":9,"likes":11,"dislikes":2,"content":"老师很温柔，带着磁性的声音让人上课忍不住认真听。课后也会很耐心地解答我们的问题。老师也会以我们学长的身份来指点迷津。\n\n记得最清楚的就是最后一节课的时候老师在黑板上写下  1/8  ，意思就是我们大学的四年已经过去八分之一了（当时为大一上学期），想想时间真是过得很快，但很庆幸在这美好的八分之一里遇到了这么好的C程老师。"},{"id":132963,"teacher_id":2544,"teacher_name":"应晶","post_time":"2021-02-05 13:44:54","like_diff":9,"likes":13,"dislikes":4,"content":"应老师人真的超好！\n\n相信我，如果你没有编程基础，一定要选应老师的课！\n\n他上课条理非常清晰，会让同学来一起一步一步将讲课的逻辑推下去。\n\n就算是编程小白，也能够快速在应老师的课上面上手C！\n\n他从第一节课就和我们以学长学弟学妹相称（老师也是混合班毕业的）。\n\n最后一节课的1/8，真的差点把我看哭了（指大学本科已经过去了1/8）。\n\n讨论课都是亲自来上，会讲许多有用的东西。\n\n平常会有一个大作业，2~4人小组合作，用C语言写一个小程序（比如俄罗斯方块、贪吃蛇、钢琴这种），大作业可以借鉴网上的代码，但一定要有自己的思考，当然完全原创分会更高。\n\n最后期末考试的时候也会提醒我们不要打成全角的标点符号，不要多出莫名其妙的空格。\n\n尽管他第一节课就和我们说大学的成绩不重要，但他期末的给分真的好到飞起！\n\n这真的是一位好老师。"},{"id":20093,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-01-26 05:25:43","like_diff":8,"likes":9,"dislikes":1,"content":"超级好评！"},{"id":133375,"teacher_id":2544,"teacher_name":"应晶","post_time":"2021-02-26 11:24:37","like_diff":8,"likes":9,"dislikes":1,"content":"我爱应晶老师呜呜。奠定了我学习计科的基础。讲得特别细致，完全小白也能很快掌握，而且能乐在其中。讲课儒雅风趣，当时他结课时说大学已经1/8，现在我的大学已经5/8了，把老师的10分补上。能不能再回来教课啊！"},{"id":167493,"teacher_id":2544,"teacher_name":"应晶","post_time":"2023-01-16 16:11:49","like_diff":8,"likes":8,"dislikes":0,"content":"呜呜  应晶老师太棒啦  激动得连夜来写评论！！！\n\n本人C零基础，整个学期也都学的很忐忑。\n\n老师让看英文原著，可我一个学期就啃下来三章[暴风哭泣]\n\n老师让做小组作业，看到队友的各种高级操作，分给我的任务也做的一塌糊涂（最后队友把我做的全改了（此处匿名感谢[合十]\n\n不过惊喜的是，期末竟然飘过啦。\n\n应老师讲课循循善诱，课间课后去问问题也都超级耐心。记得刚开始我经常去问一些现在看来很低级的问题，但是老师还是会一点一点的解释，并且还会给我一些小问题让我回去自己编编试验。\n\n应老师讲课幽默风趣，伴随着一些他与师兄(zhgg)的小故事，以及窃取别人账号（bushi）的各种故事让我对于知识的记忆也更加深刻。\n\n应老师为人和蔼可亲，刚开始我不知道选课原理就退掉了C小，但是和应老师邮件沟通后他很爽快的就同意了我的补选，后期在钉钉上也很和蔼，从来不会已读不回[可怜]尤其线上考试以及模拟测试的时候，老师的话语都让我莫名的心暖。\n\n顺便bd缪学长（助教），PTA上的无数bug，mfgg都是一点一点帮我找的（其实我做的思路特别绕，完全不是出题人要的那种），但是每次学长都会先指出我编的问题然后才会告诉我更好的思路，而不是直接就告诉我标准答案。这一点吹爆mfgg!\n\n感谢应老师和缪学长，大家都来选吖！"},{"id":20556,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-01-28 10:07:39","like_diff":7,"likes":9,"dislikes":2,"content":"应男神 上课炒鸡棒 语气温柔 给分超好\n\n"},{"id":74600,"teacher_id":2544,"teacher_name":"应晶","post_time":"2018-03-04 13:26:23","like_diff":7,"likes":7,"dislikes":0,"content":"讲课水平见仁见智，但是人绝对好，给分也绝对赞"},{"id":130031,"teacher_id":2544,"teacher_name":"应晶","post_time":"2021-01-15 07:25:41","like_diff":7,"likes":11,"dislikes":4,"content":"为什么不能给老师打100分？应晶老师上课从来都不点名，但会叫同学回答问题，虽然提的问题对于我这种计算机小白有点难，但老师提的问题一针见血，每提一个问题都能讲清楚一个知识点，这种授课方式简直不能再爱了好吗？平常回答问题也非常耐心，不论我的问题又多么的蠢都会非常细心的讲解，还会反复询问是否清楚了。个人感觉应晶老师更像是一名人生导师，除了会给学生传授知识，还会给学生讲他的大学经历和学习经验。期末的大作业虽然有点难，但确实学到了很多，老师给分也很给力。能在大一遇到这么好的老师真是太幸运了！！！"},{"id":130449,"teacher_id":2544,"teacher_name":"应晶","post_time":"2021-01-22 12:29:06","like_diff":7,"likes":8,"dislikes":1,"content":"这学期对自己的学习很是惭愧，没有按老师的要求啃完原版书。立下flag寒假要补完。老师的谆谆教诲会让我发自内心的认可并觉得没有去看原版书是一件天理难容的事情。应晶老师不只是一位老师，更以学长的身份带领着我们走进大学，在混合班立身。老师非常鼓励上课问问题、发言，并一步一步的引导思考；用他自己的经历一点点引导着我，个人非常的喜欢。//回想自己这一学期的学习，靠着高中选考技术的老本然后不去认真对待C程，也没有主动的去学习，考试成绩也是理所应当的不够理想，非常惭愧。"},{"id":20110,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-01-26 06:28:38","like_diff":6,"likes":9,"dislikes":3,"content":"应老师超级好"},{"id":33092,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-09-12 14:07:48","like_diff":6,"likes":6,"dislikes":0,"content":"我想给应老师100分，对学生真的特别好，很乐于与学生交谈"},{"id":48056,"teacher_id":2544,"teacher_name":"应晶","post_time":"2017-02-28 07:34:07","like_diff":6,"likes":6,"dislikes":0,"content":"老师上课从来不点名，但会叫同学回答问题...\n\n但真的是超级好的老师，感觉听他的课会有一种想做码农的冲动~真男神！~\n\n还会以学长的身份讲人生道理~\n\n给分也很好！"},{"id":97147,"teacher_id":2544,"teacher_name":"应晶","post_time":"2019-01-28 17:54:37","like_diff":6,"likes":8,"dislikes":2,"content":"出分前夕……我只想问均绩是真的吗"},{"id":100759,"teacher_id":2544,"teacher_name":"应晶","post_time":"2019-01-26 17:50:59","like_diff":6,"likes":8,"dislikes":2,"content":"应老师不止说C程老师了\n\n还是人生导师\n\n听老师的课 心中多一份感动\n\n"},{"id":34274,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-09-29 12:32:04","like_diff":5,"likes":5,"dislikes":0,"content":"很好的老师啊，给分也不错\n\n"},{"id":35954,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-11-10 09:07:57","like_diff":5,"likes":6,"dislikes":1,"content":"很不错"},{"id":52250,"teacher_id":2544,"teacher_name":"应晶","post_time":"2017-06-16 11:03:50","like_diff":5,"likes":8,"dislikes":3,"content":"好得没话说，没上老师的课了有的时候都会想他"},{"id":102321,"teacher_id":2544,"teacher_name":"应晶","post_time":"2019-02-01 01:48:21","like_diff":5,"likes":7,"dislikes":2,"content":"出分啦来评论～讲课超级好～大程序有的组写了八千行，我们组改编了一半只有六百行，老师还是肯定了我们……上课也会注重让大家发言锻炼信心，分数也超好（师生情）"},{"id":191445,"teacher_id":2544,"teacher_name":"应晶","post_time":"2024-04-22 13:11:32","like_diff":5,"likes":5,"dislikes":0,"content":"有问必答，平易近人"},{"id":20122,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-01-26 07:08:01","like_diff":4,"likes":7,"dislikes":3,"content":"真的一级棒 简直享受"},{"id":33724,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-09-21 07:12:32","like_diff":4,"likes":5,"dislikes":1,"content":"很舒服，给人的感觉很亲切.非常棒的老师，强烈推荐"},{"id":34732,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-10-19 12:35:14","like_diff":4,"likes":4,"dislikes":0,"content":"讲课很清楚，避免使用术语，都能听懂"},{"id":47630,"teacher_id":2544,"teacher_name":"应晶","post_time":"2017-02-09 05:34:11","like_diff":4,"likes":5,"dislikes":1,"content":"人生导师，超赞！！"},{"id":66199,"teacher_id":2544,"teacher_name":"应晶","post_time":"2018-01-13 02:59:01","like_diff":4,"likes":4,"dislikes":0,"content":"老师真的超级好，刚开始时我还有一些听不懂，自己学了一些，但后来发现老师真的讲的很好，上机考试时我不在状态没过，重考时老师一直很耐心温柔地安慰我，给我讲道理，真的是个不可多的的好老师呀！只是大作业对小白来讲，真的挺难"},{"id":67579,"teacher_id":2544,"teacher_name":"应晶","post_time":"2018-01-21 14:53:55","like_diff":4,"likes":4,"dislikes":0,"content":"是真男神 讲课温柔细致型"},{"id":102069,"teacher_id":2544,"teacher_name":"应晶","post_time":"2019-01-30 09:18:21","like_diff":4,"likes":5,"dislikes":1,"content":"勇不出分应晶哥"},{"id":112587,"teacher_id":2544,"teacher_name":"应晶","post_time":"2019-07-04 20:01:04","like_diff":4,"likes":5,"dislikes":1,"content":"是大一刚开学上的老师的课，现在才来评论，真的是吹爆的一个老师，温柔体贴，特别的有耐心，非常适合刚入门的同学，因为可以讲的很细致易懂，让人觉得有趣，是男神！能选上的一定不要犹豫！以后还是好想上男神的课啊呜，看上去好像没啥机会了，好难过"},{"id":149918,"teacher_id":2544,"teacher_name":"应晶","post_time":"2022-01-18 03:34:28","like_diff":4,"likes":6,"dislikes":2,"content":"调分力度也太大了吧 怒赞"},{"id":20219,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-01-26 14:29:37","like_diff":3,"likes":5,"dislikes":2,"content":"讲课特别好，而且给分很棒\n\n"},{"id":25981,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-06-14 17:21:44","like_diff":3,"likes":5,"dislikes":2,"content":"非常棒"},{"id":46518,"teacher_id":2544,"teacher_name":"应晶","post_time":"2017-01-22 01:42:55","like_diff":3,"likes":4,"dislikes":1,"content":"大爱！"},{"id":46600,"teacher_id":2544,"teacher_name":"应晶","post_time":"2017-01-22 03:38:59","like_diff":3,"likes":5,"dislikes":2,"content":"应晶爸爸。上课超级细致认真到位，一旦有一人没听懂立即停下来答疑，人超级好给分也好。可惜大一下都没有他的课了。"},{"id":51542,"teacher_id":2544,"teacher_name":"应晶","post_time":"2017-06-07 03:54:18","like_diff":3,"likes":4,"dislikes":1,"content":"好好好"},{"id":72592,"teacher_id":2544,"teacher_name":"应晶","post_time":"2018-01-30 12:54:49","like_diff":3,"likes":4,"dislikes":1,"content":"老师人挺好 但是成绩还是靠自己"},{"id":74452,"teacher_id":2544,"teacher_name":"应晶","post_time":"2018-02-25 04:58:34","like_diff":3,"likes":5,"dislikes":2,"content":"应老师太好了 从此爱上c语言 讲题超认真细心 能学到很多东西 长得也很帅 人超级好超级好 完全是男神 还是人生导师 最后一节课真的听哭了就"},{"id":117645,"teacher_id":2544,"teacher_name":"应晶","post_time":"2019-09-27 12:18:04","like_diff":3,"likes":4,"dislikes":1,"content":"超好的老师哈哈哈"},{"id":125387,"teacher_id":2544,"teacher_name":"应晶","post_time":"2020-09-08 03:49:10","like_diff":3,"likes":3,"dislikes":0,"content":"老师主要长得帅，爱死了"},{"id":147839,"teacher_id":2544,"teacher_name":"应晶","post_time":"2022-01-11 03:33:35","like_diff":3,"likes":4,"dislikes":1,"content":"就是好棒"},{"id":167729,"teacher_id":2544,"teacher_name":"应晶","post_time":"2023-01-18 15:57:18","like_diff":3,"likes":3,"dislikes":0,"content":"应晶老师yyds"},{"id":189820,"teacher_id":2544,"teacher_name":"应晶","post_time":"2024-01-30 08:09:54","like_diff":3,"likes":4,"dislikes":1,"content":"10分\n\n程设\n\n（好像查老师有两个应晶？）\n\n大一上有两个男神，一个是赵晖，一个是应晶\n\n大题5题错了一道半，感觉没有考好，但最终还是被捞上4.8（92）（估计其他人分数也不会差）"},{"id":212105,"teacher_id":2544,"teacher_name":"应晶","post_time":"2025-01-13 07:39:37","like_diff":3,"likes":4,"dislikes":1,"content":"上课有一次突然点名，估计是那天班里人看起来有点少。老师上课属于交互式的，非常喜欢问答环节，对于初学者来说非常友好。由于各种机缘巧合加上菜，可能由于小组大作业写的很认真，实验考时链表没写出来但是被捞到满绩了。他真的，我哭死。"},{"id":39890,"teacher_id":2544,"teacher_name":"应晶","post_time":"2016-12-28 06:29:16","like_diff":2,"likes":4,"dislikes":2,"content":"太享受"},{"id":43078,"teacher_id":2544,"teacher_name":"应晶","post_time":"2017-01-15 15:57:24","like_diff":2,"likes":4,"dislikes":2,"content":"亲切的老师！点赞！"},{"id":48220,"teacher_id":2544,"teacher_name":"应晶","post_time":"2017-03-01 09:30:12","like_diff":2,"likes":5,"dislikes":3,"content":"最喜欢的老师！很惭愧没有按照他的要求把书啃完……"},{"id":63744,"teacher_id":2544,"teacher_name":"应晶","post_time":"2017-12-14 02:14:46","like_diff":2,"likes":4,"dislikes":2,"content":"应老师真男神，谆谆教诲，不仅讲课好，还是人生导师。非常敬业，真心为了学生的未来着想。最后一节课差点感动哭"},{"id":68809,"teacher_id":2544,"teacher_name":"应晶","post_time":"2018-01-24 02:24:43","like_diff":2,"likes":4,"dislikes":2,"content":"男神，特别有耐心"},{"id":74091,"teacher_id":2544,"teacher_name":"应晶","post_time":"2018-02-05 04:49:54","like_diff":2,"likes":3,"dislikes":1,"content":"老师超级男神了！！！！！讲课也特别清晰！"},{"id":98796,"teacher_id":2544,"teacher_name":"应晶","post_time":"2019-01-24 02:47:32","like_diff":2,"likes":2,"dislikes":0,"content":"应晶老师真的非常非常好，感谢男神带我苟了一学期程设。。"},{"id":102729,"teacher_id":2544,"teacher_name":"应晶","post_time":"2019-02-22 04:00:45","like_diff":2,"likes":4,"dislikes":2,"content":"老师的课讲得简明易懂，无基础的同学也能比较快地跟上，还一直教我们长期的学习方法，启发我们多去思考，真的是特别棒的一位老师！"},{"id":167507,"teacher_id":2544,"teacher_name":"应晶","post_time":"2023-01-17 00:37:16","like_diff":2,"likes":3,"dislikes":1,"content":"应老师非常温柔和蔼，对待同学很亲切。"},{"id":206530,"teacher_id":2544,"teacher_name":"应晶","post_time":"2024-12-16 01:53:38","like_diff":2,"likes":3,"dislikes":1,"content":"人生导师！"},{"id":207944,"teacher_id":2544,"teacher_name":"应晶","post_time":"2024-12-25 04:18:41","like_diff":2,"likes":3,"dislikes":1,"content":"男神！！上课会一步一步带我们写代码，编程小白也能跟得上！！上课会和我们分享他盗学长账号的经历哈哈哈哈"},{"id":212273,"teacher_id":2544,"teacher_name":"应晶","post_time":"2025-01-13 16:39:00","like_diff":2,"likes":3,"dislikes":1,"content":"卡绩了，但是老师真没话说，满分"},{"id":213879,"teacher_id":2544,"teacher_name":"应晶","post_time":"2025-01-21 02:42:23","like_diff":2,"likes":3,"dislikes":1,"content":"虽然卡绩了，但也一定是应老师（学长）捞我的结果\n\n没话讲，课堂非常舒服，只是我学习方法不对，最后得寒假好好补补。\n\n这十分，必须，毫不犹豫！"},{"id":40585,"teacher_id":2544,"teacher_name":"应晶","post_time":"2017-01-04 07:30:52","like_diff":1,"likes":3,"dislikes":2,"content":"不仅仅是学业上的老师，同样也是人生的导师"},{"id":50063,"teacher_id":2544,"teacher_name":"应晶","post_time":"2017-04-29 05:06:52","like_diff":1,"likes":3,"dislikes":2,"content":"最爱的老师，应男神，细致耐心人超好，给分也好"},{"id":72468,"teacher_id":2544,"teacher_name":"应晶","post_time":"2018-01-30 07:21:12","like_diff":1,"likes":4,"dislikes":3,"content":"男神，不解释"},{"id":75835,"teacher_id":2544,"teacher_name":"应晶","post_time":"2018-03-19 12:00:13","like_diff":1,"likes":1,"dislikes":0,"content":"爽！真的很好"},{"id":95924,"teacher_id":2544,"teacher_name":"应晶","post_time":"2019-01-20 08:27:53","like_diff":1,"likes":3,"dislikes":2,"content":"认真听课会很有收获"},{"id":105155,"teacher_id":2544,"teacher_name":"应晶","post_time":"2019-04-05 06:59:28","like_diff":1,"likes":4,"dislikes":3,"content":"教育学家"},{"id":147185,"teacher_id":2544,"teacher_name":"应晶","post_time":"2022-01-09 04:32:09","like_diff":1,"likes":3,"dislikes":2,"content":"应老师人生导师！人真的很好"},{"id":167799,"teacher_id":2544,"teacher_name":"应晶","post_time":"2023-01-19 06:18:12","like_diff":1,"likes":3,"dislikes":2,"content":"认真有趣"},{"id":169762,"teacher_id":2544,"teacher_name":"应晶","post_time":"2023-02-27 23:55:30","like_diff":1,"likes":2,"dislikes":1,"content":"谢谢应老师的教育。"},{"id":185186,"teacher_id":2544,"teacher_name":"应晶","post_time":"2023-12-27 03:29:56","like_diff":1,"likes":3,"dislikes":2,"content":"非常好的老师！很积极上课很循循善诱"},{"id":212354,"teacher_id":2544,"teacher_name":"应晶","post_time":"2025-01-14 02:04:29","like_diff":1,"likes":3,"dislikes":2,"content":"作为应晶老师的直系学弟，我必须说，我作为一个计科人的全部尊严都是老师给的（他真的我哭死）。可能是大作业做得比较好的原因吧，我期末编程题做的稀烂也硬是被捞到4.8了，给分巨好无比，海底捞之神。\n\n上课会随机挑同学提问问题，但他不指望你必须答出来，而是会借这个机会顺着你的思路讲解这个知识点。永远忘不了他说的那句：“今天你站起来了，我就包你彻底弄明白这个点。”上课还会经常讲起上世纪八十年代他在浙大混合班的故事，比如黑了学校终端获得无线上网权最后全组受罚的故事，很有意思。回私信也很快，助教也是。\n\n超级负责任的老师，超有风度的男神！"},{"id":33723,"teacher_id":2544,"teacher_name":"应晶","post_time":"2017-01-14 09:13:08","like_diff":0,"likes":4,"dislikes":4,"content":"超级棒！！！"},{"id":42472,"teacher_id":2544,"teacher_name":"应晶","post_time":"2017-01-14 09:17:29","like_diff":0,"likes":2,"dislikes":2,"content":"非常好的老师，上课经常与学生互动，还会讲一些人生的经验，人生导师～"},{"id":48062,"teacher_id":2544,"teacher_name":"应晶","post_time":"2017-02-28 08:22:06","like_diff":0,"likes":3,"dislikes":3,"content":"非常好，人生导师，跟吴朝晖一起写代码的大神。给分满绩的不少"},{"id":69274,"teacher_id":2544,"teacher_name":"应晶","post_time":"2018-01-24 11:48:59","like_diff":0,"likes":6,"dislikes":6,"content":"还没出分，感觉程序设计是我这学期收获最多的一门课了，大作业要认真做，考前刷几套历年的题，这样就挺不错了。希望给我满绩?"},{"id":102298,"teacher_id":2544,"teacher_name":"应晶","post_time":"2019-02-01 00:56:34","like_diff":0,"likes":3,"dislikes":3,"content":"非常好"},{"id":129337,"teacher_id":2544,"teacher_name":"应晶","post_time":"2021-01-04 10:06:56","like_diff":0,"likes":2,"dislikes":2,"content":"非常适合初学，巨细"},{"id":167484,"teacher_id":2544,"teacher_name":"应晶","post_time":"2023-01-16 15:41:27","like_diff":0,"likes":2,"dislikes":2,"content":"人生导师！"},{"id":167490,"teacher_id":2544,"teacher_name":"应晶","post_time":"2023-01-16 16:07:51","like_diff":0,"likes":3,"dislikes":3,"content":"男神！给分贼好！"},{"id":212579,"teacher_id":2544,"teacher_name":"应晶","post_time":"2025-01-14 08:36:02","like_diff":0,"likes":2,"dislikes":2,"content":"人生导师"},{"id":223511,"teacher_id":2544,"teacher_name":"应晶","post_time":"2025-09-26 10:47:00","like_diff":0,"likes":0,"dislikes":0,"content":"神！！！很有功底"},{"id":224943,"teacher_id":2544,"teacher_name":"应晶","post_time":"2025-12-16 04:35:52","like_diff":0,"likes":0,"dislikes":0,"content":"XDD"},{"id":121175,"teacher_id":2544,"teacher_name":"应晶","post_time":"2020-01-20 02:38:32","like_diff":-1,"likes":2,"dislikes":3,"content":"老师超好的，一点一点指导同学们生怕有人听不懂，最后给分更是没话说，调分力度很大。爱了爱了！"},{"id":171049,"teacher_id":2544,"teacher_name":"应晶","post_time":"2023-03-15 04:01:55","like_diff":-1,"likes":2,"dislikes":3,"content":"爱死了 男神"},{"id":73415,"teacher_id":2544,"teacher_name":"应晶","post_time":"2018-02-01 14:04:30","like_diff":-2,"likes":1,"dislikes":3,"content":"很开心"},{"id":123281,"teacher_id":2544,"teacher_name":"应晶","post_time":"2020-05-29 02:49:41","like_diff":-2,"likes":1,"dislikes":3,"content":"太爱了"},{"id":86835,"teacher_id":2544,"teacher_name":"应晶","post_time":"2018-09-19 04:08:05","like_diff":-3,"likes":1,"dislikes":4,"content":"老师幽默风趣，学识很高"},{"id":168986,"teacher_id":2544,"teacher_name":"应晶","post_time":"2023-02-24 02:36:34","like_diff":-4,"likes":0,"dislikes":4,"content":"好好好"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

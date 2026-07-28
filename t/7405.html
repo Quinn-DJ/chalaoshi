@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>罗帅 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="罗帅教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="罗帅,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">罗帅</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.11</div>
+                    <div class="rating-participants">33人参与评分</div>
+                    <div class="attendance-info">35.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">世界文明史</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.33</span>
+                            <span class="students">选课: 491人</span>
+                            <span class="std-dev">标准差: 0.50</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">海外中国学文献选读</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.41</span>
+                            <span class="students">选课: 66人</span>
+                            <span class="std-dev">标准差: 0.73</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">考古学概论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.55</span>
+                            <span class="students">选课: 86人</span>
+                            <span class="std-dev">标准差: 0.39</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (31 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":128272,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2020-12-16 01:54:47","like_diff":11,"likes":13,"dislikes":2,"content":"（世界文明史）讲课内容中规中矩，讲课方式究极无聊。本来是因为上课的人太多所以把教室安排在蒙明伟楼，但罗老师讲了三周之后线下听课人数以肉眼可见的速度下滑——不是不想听，是真的太沉闷了顶不住。虽说历史课学科性质不容易普遍调动大家的兴趣，但是听着听着就感觉即使我不想水老师的课，老师讲的东西与语气分明是在水我。希望罗老师能改进一下授课方式，现在的课真的是平平无奇且究极适合睡觉(＠￣ー￣＠)。"},{"id":129001,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2020-12-28 07:59:12","like_diff":7,"likes":8,"dislikes":1,"content":"是有点沉闷得抵不住"},{"id":205706,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2024-12-11 11:15:29","like_diff":7,"likes":7,"dislikes":0,"content":"【世界文明史】老师上的是中国史板块，感觉和历史学院其他老师还是有差距的，\n\n上课云里雾里，至今还记得在课上问有没有山西同学无人回应而小发雷霆，\n\n不过事情很少，给分很迷"},{"id":122736,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2020-03-27 04:42:34","like_diff":6,"likes":12,"dislikes":6,"content":"罗帅老师好可爱，不知道为啥前排说他胖，我觉得明明就是个萌萌的小男孩～讲课超级认真，人也特别温柔，最后一节课的时候和我们告别我还偷偷哭了，真的很喜欢老师，讲的内容是很用心准备的，就算课程安排紧张也坚持多补充内容安排了答疑课…世界文明史并没有上4.5但是是我自己的问题，老师是10分的！"},{"id":166276,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2023-01-11 15:38:12","like_diff":5,"likes":7,"dislikes":2,"content":"罗老师教的是中国史部分，人挺好的，就是上课有点让人顶不住。22年冬学期前半段时间线下上课，我无数次都快睡着了，坐第一排都挡不住睡意。后半段时间疫情改线上上课了，就直接开摆。虽然很惭愧课听得不认真，但还是感谢您！没有发言和小组讨论的中国史部分是真的好！"},{"id":122383,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2020-02-26 03:10:09","like_diff":3,"likes":7,"dislikes":4,"content":"很可爱的老师～胖胖的，讲世界文明史的中国古代史也挺有趣的"},{"id":138375,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2021-07-08 23:06:51","like_diff":3,"likes":5,"dislikes":2,"content":"上课很认真，分数有些莫名其妙地低……"},{"id":149714,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2022-01-16 14:06:24","like_diff":3,"likes":5,"dislikes":2,"content":"课程：世界文明史\n\n打分：7/10\n\n优点：老师人很好\n\n缺点：老师讲课是真的沉闷，就是说不是有意想不听，但不划水我真的撑不住了（手动狗头）；还有，他说要点名回答问题，他一次都没点过！这不是溜人吗（生气）\n\n今年世界文明史考试改成闭卷考，但是老师把题目和PPT都发出来了，所以只要无脑背诵就可以，还是可以冲一冲的。"},{"id":150899,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2022-02-21 02:20:02","like_diff":3,"likes":3,"dislikes":0,"content":"世界文明史的中国古代史，一般般，讲的挺好但是没什么亮点，不过人可爱，人好，期末范围给的很精准😻"},{"id":205865,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2024-12-12 11:17:52","like_diff":3,"likes":3,"dislikes":0,"content":"（世界文明史）其实挺同意楼下说的……相比世界史部分的老师来说，课讲的比较一般，念PPT成分偏多，上课几周之后到班人数肉眼可见的少（尤其是早八那节）。但是事确实少，原来选课的时候排了考试，但是上了一半告诉我们其实没考试，交读论文报告就行了，后来报告又从三篇缩到两篇，并且每篇1000往上＋引用5篇论文就可以了。个人感觉PPT里面最有用的是推荐阅读的专著（虽然目前一本没读）和一些提问、思考方向，有不少内容高中历史其实多多少少学过（世界史部分新内容就很多，当然也有初高中历史课本其实不怎么注重世界古代史的原因），就这点来说其实听课不如看他发的PPT效率高（个人意见）（叠甲）"},{"id":145066,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2021-12-27 10:44:30","like_diff":2,"likes":2,"dislikes":0,"content":"老师人很认真可爱"},{"id":148488,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2022-01-12 16:05:12","like_diff":2,"likes":2,"dislikes":0,"content":"老师人好!"},{"id":148503,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2022-01-12 17:07:44","like_diff":2,"likes":2,"dislikes":0,"content":"老师人很好，期末还给划范围，讲课也很细致耐心"},{"id":148557,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2022-01-13 01:14:50","like_diff":2,"likes":5,"dislikes":3,"content":"老师人超级好，我们的这次考试是闭卷，在考前把要考的东西告诉我们了，只管背就好，真的超级好，上课也很有趣，老师还很腼腆，容易害羞"},{"id":183502,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2023-11-27 02:15:49","like_diff":2,"likes":5,"dislikes":3,"content":"世界文明史没有世界没有文明只有shi。上课bi事一堆，给分随心所欲，能跑就跑吧。"},{"id":147025,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2022-01-08 12:55:42","like_diff":1,"likes":1,"dislikes":0,"content":"挺好的。"},{"id":148659,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2022-01-13 06:41:49","like_diff":1,"likes":1,"dislikes":0,"content":"挺好的。。。"},{"id":149534,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2022-01-16 01:47:48","like_diff":1,"likes":2,"dislikes":1,"content":"老实人很好，讲的东西很多，期末考试也不难"},{"id":154981,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2022-06-07 08:19:41","like_diff":1,"likes":3,"dislikes":2,"content":"老师人真的很好很可爱也很体谅学生，但是上课真的让人很容易走神（怪我呜呜），最后一两节课会划重点！记得来orz"},{"id":192852,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2024-05-31 04:05:28","like_diff":1,"likes":2,"dislikes":1,"content":"老师真的很好很好哇！！特别为我们着想，给我们最大限度减轻压力了呜呜"},{"id":208498,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2024-12-28 12:15:38","like_diff":1,"likes":1,"dislikes":0,"content":"老师上课基本上是念ppt。个人感觉上课很无聊，但老师安排的任务很少，也没有讨论和发言环节，选他的课还是很轻松愉快的。"},{"id":123471,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2020-06-09 05:18:30","like_diff":0,"likes":2,"dislikes":2,"content":"很棒哦"},{"id":129926,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2021-01-13 14:42:20","like_diff":0,"likes":1,"dislikes":1,"content":"怎么说呢"},{"id":167823,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2023-01-19 08:59:29","like_diff":0,"likes":2,"dislikes":2,"content":"老师人很好，会解答你一切问题，给分也还行，但是上课是真的无聊"},{"id":205208,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2024-12-03 02:03:33","like_diff":0,"likes":1,"dislikes":1,"content":"超级好！"},{"id":206981,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2024-12-19 02:24:27","like_diff":0,"likes":1,"dislikes":1,"content":"上课中规中矩吧，就是念ppt。但是事确实挺少的，就两篇阅读讨论1000字以上引用五篇论文，而且交的纸质版，感觉能水的空间更大了…最棒的是没有期末考试，水课更加肆无忌惮了（不\n\n基本不点名，但有次旷了早八偏偏就点名了，不是数字或者雷达，就是报名字喊到那种，教室又小根本无处可逃…还好那次没报我侥幸逃过一劫。这种朴素的点名方式真的…太难顶了"},{"id":208004,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2024-12-25 07:46:31","like_diff":0,"likes":0,"dislikes":0,"content":"罗老师人是很好的，就是讲课真的有点无聊😭\n\n一次纸质点名，事也不多。给分还不知道。"},{"id":209052,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2025-01-04 09:52:26","like_diff":0,"likes":0,"dislikes":0,"content":"世界文明史有一次早八点过名，还是抽着点的。不过就一次。事情不是很多，两篇一千字的。不过老师讲的是中国的文明史，有点无聊，有很多高中的知识。"},{"id":209416,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2025-01-06 02:30:30","like_diff":0,"likes":0,"dislikes":0,"content":"老师讲课是会有点无聊的。不过人还是不错的，感谢捞捞😭😭😭"},{"id":221117,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2025-06-21 10:28:45","like_diff":0,"likes":0,"dislikes":0,"content":"知识渊博、很温柔、人很好"},{"id":137086,"teacher_id":7405,"teacher_name":"罗帅","post_time":"2021-06-30 15:42:37","like_diff":-1,"likes":1,"dislikes":2,"content":"老师人很好。希望以后能上他的课，会端正态度更用心"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

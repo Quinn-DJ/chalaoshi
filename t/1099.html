@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鲁柏祥 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="鲁柏祥教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="鲁柏祥,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">鲁柏祥</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">3.77</div>
+                    <div class="rating-participants">459人参与评分</div>
+                    <div class="attendance-info">29.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">创业基础</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.84</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.57</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">涉农企业创业管理</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.25</span>
+                            <span class="students">选课: 92人</span>
+                            <span class="std-dev">标准差: 0.34</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">管理学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.12</span>
+                            <span class="students">选课: 46人</span>
+                            <span class="std-dev">标准差: 0.48</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (400 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":8510,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-09-22 03:04:04","like_diff":157,"likes":223,"dislikes":66,"content":"原来鲁伯伯的管理学最大的特色不是作业多的要shi而是课堂上满满的洗脑式鸡汤毫无一点干货"},{"id":8661,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-09-04 05:16:47","like_diff":116,"likes":155,"dislikes":39,"content":"作业超多，甚至会拖累微积分的学习"},{"id":18960,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-23 00:41:57","like_diff":99,"likes":128,"dislikes":29,"content":"我因为选了鲁伯伯，微积分挂了，你们感受一下"},{"id":131891,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-01-29 08:57:56","like_diff":94,"likes":98,"dislikes":4,"content":"上鲁老师的课 你可以有以下收获：\n\n1.逼逼废话的能力与打字速度的提升\n\n2.锻炼干坐近两个半小时听老师灌输价值观的忍耐能力\n\n3.让你对内卷有亲身体会\n\n4.让你刷新对浙大教授的认知（哦不对诶 好像只是讲师\n\n5.让你知道一个碳基生物到底多能吹B"},{"id":22893,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-03-14 08:48:57","like_diff":85,"likes":101,"dislikes":16,"content":"拖后腿，打乱了大一的计划，专业转不成，人生轨迹都被改变了。\n\n夸他的是被他洗脑了，相信我。"},{"id":141940,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-11-01 12:24:52","like_diff":77,"likes":83,"dislikes":6,"content":"我这学期上的是这位老师的通识课《创业基础》，上了第一节课我脑子里就想到一个词：民哲。后来我在各种论坛上发现很多同学有跟我一样的评价。1、这位老师喜欢曲解中国传统文化和科学来迎合自己的观点，在我看来真是对传统文化和科学的亵渎，这也是民哲的典型特征。2、这位老师热衷于灌输心灵鸡汤与成功学，在这门课上你学不到什么有用的东西，他只是一直告诉你想成功就要怎样怎样做，并且套上家国情怀的外壳，使他自己沉浸在一种自我感动中，就和某些低质量营销号一样。3、这位老师非常自大，认为自己的观点很厉害，实际上他的许多观点非常刺耳，而且上课常常义愤填膺地说某些粗俗词汇。\n\n我认为大学里不管是做什么的都需要一种科学精神，更何况浙大的校训包括“求是”。而我觉得这位巧舌如簧的老师身上是缺乏科学精神的。我认为这位老师更适合去社会上开那种成功学培训班。那些认为这位老师的课不是毒鸡汤的同学，我想知道你们是为利益所迫还是真心的，如果是真心的我认为你们可以去多看几本好书（垃圾成功学之类的书除外）提升一下自己的思想深度。当然，上这位老师的课也不是什么也不能学到，只是实在太少。"},{"id":982,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-03-20 03:51:05","like_diff":61,"likes":97,"dislikes":36,"content":"上课很累，不能开小差。但因为班里同学关系紧密所以能在班级里认识很多同学。作业非常多，自己考虑吧。"},{"id":560,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-03-15 04:57:35","like_diff":51,"likes":80,"dislikes":29,"content":"投入产出不成比例 慎重\n\n选其他老师管理学没这么累轻松拿分"},{"id":16767,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-19 02:40:25","like_diff":49,"likes":56,"dislikes":7,"content":"管理学 打字手速的提升 逼逼能力的飞跃 心灵层次的进化 真的是有收获的"},{"id":172347,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-04-25 08:46:28","like_diff":48,"likes":51,"dislikes":3,"content":"“我在管理学里面经常布置海量的作业。”\n\n“有同学说为了这门课作业，其他课都上不了，作业都做不了，数学挂了，最后什么都挂了。”\n\n“我说值得。”\n\n“你有这个勇气去挂数学，意味着明天你会有更大的回报。”\n\n听懂掌声👏"},{"id":7852,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-09-15 15:53:54","like_diff":46,"likes":59,"dislikes":13,"content":"想听心灵鸡汤的可以试试，但不要想听到专业课内容。"},{"id":160198,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-09-15 01:59:46","like_diff":44,"likes":47,"dislikes":3,"content":"一个让自己女儿19岁怀孕的人，不配做一个父亲。\n\n一个在自己朋友去世不过1个月后，念念叨叨地把朋友当做吹嘘的资本，心中没有一点哀悼的人，不配做一个朋友。\n\n一个瞧不起摆地摊的职业的人，不配做一个老师。\n\n或许他曾经很厉害，很有成就，但是今天站在我面前的不过是一个让我唾弃的人。\n\n或许他应该自己想想，作为一名浙大的老师，需要怎么样的修养，而不是用官僚的一套制度去框住浙大学生。"},{"id":9660,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-11-04 02:16:26","like_diff":41,"likes":64,"dislikes":23,"content":"其他科目这么拼也许会得到更多东西，虽然学到了不少但感觉很亏，带给你的远不及你的付出"},{"id":26378,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-06-17 08:42:24","like_diff":38,"likes":52,"dislikes":14,"content":"绝对不止是作业多的问题！而是故弄玄虚极没营养！不要信什么虽然累但是收获很多！他们都是自我安慰的！"},{"id":11317,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-11-27 00:37:40","like_diff":37,"likes":48,"dislikes":11,"content":"绩杀，只杀微积分，大英等等等等，就是不杀管理学"},{"id":6797,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-07-23 03:50:40","like_diff":36,"likes":68,"dislikes":32,"content":"学未必为人师，身足以为世范。"},{"id":12328,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-12-23 03:32:53","like_diff":36,"likes":44,"dislikes":8,"content":"其实我建议旁听。前面几节课的干货会多些，到后期课堂感悟根本憋不出来啊。还有他的话你能听就听，不认同就忘了，他会用作业分数逼你认同他的价值观。"},{"id":33991,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-09-24 14:23:41","like_diff":35,"likes":39,"dislikes":4,"content":"自从我室友选了他的课，我室友就再也没有和我说过话，因为他沉迷学习无法自拔。"},{"id":41123,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-01-09 09:48:58","like_diff":34,"likes":39,"dislikes":5,"content":"就是故作神秘的佛学课 然后把汉字拆来拆去 牵强地加上意义 备课很不用心 也许根本就没备课"},{"id":151325,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-02-28 12:34:01","like_diff":34,"likes":36,"dislikes":2,"content":"“全国一半的GDP都是我们鲁班创造的！”"},{"id":20727,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-30 10:10:59","like_diff":32,"likes":37,"dislikes":5,"content":"规矩非常多，让人以为是在高四。任务非常重，周二作业周四交，一万字起步价。上课与课本无关。压力非常大，每次作业和quiz打分并公布排名。给分与付出差距较大。"},{"id":58907,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-09-18 10:59:13","like_diff":31,"likes":33,"dislikes":2,"content":"微甲现代鲁伯伯，你是多么不想活了"},{"id":129026,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2020-12-29 01:59:16","like_diff":31,"likes":32,"dislikes":1,"content":"邪教，快逃"},{"id":160408,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-09-21 12:57:18","like_diff":31,"likes":31,"dislikes":0,"content":"大一新生，创业基础\n\n第一节课，请了做绿色公益的学长来讲，之后吹自己厉害，不去当董事长。\n\n第二节课，请了做农场＋陆龟养殖的学长，学长讲得有点像推销。\n\n目前感觉没什么有用的东西。\n\n老师知道得多，有理想，也是希望我们能学点（叫了好多优秀学长），但是让人觉得没意义。毕竟创业也是有点渺远的东西。\n\n星期五去退课，不想上了。"},{"id":164154,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-18 13:03:38","like_diff":31,"likes":31,"dislikes":0,"content":"让校长亲自来听听，估计以后会停开创基"},{"id":138971,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-07-12 05:00:35","like_diff":29,"likes":30,"dislikes":1,"content":"给分极差，周围的同学都被“自愿作业”给坑了，美其名曰“上课的态度决定成绩”，专业课挂学生，导致学生被迫延毕，评分细则从来不说，事后助教装糊涂推卸责任，仿佛我们受罪了一个夏学期最终成绩那么差还是自己的责任一样，很差，不配做老师，不配教育本科学生；赶紧去MBA中心骗企业家的钱吧，浙大创薪需要您鲁老师！\n\n上课各种形式主义繁文缛节，没有任何干货，全都是传销组织的技术，父女一起坑人，PUA学生，离谱！"},{"id":20796,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-31 15:28:42","like_diff":27,"likes":42,"dislikes":15,"content":"给分是比一般老师高一点点，作业却是比所有老师都多很多，总之投入产出严重不成正比，与前面很多评价重复，我这里只是强调一下。"},{"id":60813,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-01-15 08:43:06","like_diff":27,"likes":28,"dislikes":1,"content":"考试周写管理学作业，绩点怕是要凉凉??"},{"id":142873,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-11-17 04:26:55","like_diff":27,"likes":28,"dislikes":1,"content":"热力学第一第二定律的适用条件都搞不清楚还拿出来讲，逻辑混乱，理科生是真的听不下去。一边说着理论落后与现实一边拿着别人2005年写的论文来讲还好意思说是自己的观点。满口脏话，把庸俗当成幽默，上课除了吹还是吹。给1分是因为打不了0分"},{"id":145818,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-01-03 02:12:42","like_diff":27,"likes":30,"dislikes":3,"content":"1.所谓的儒释道结合的管理学，毫无理论框架，甚至前后说法相悖\n\n2.课堂上都是一堆乱七八糟、不知所云的例子的堆砌\n\n3.必提鲁班，放心了，我们班都不会去上的\n\n4.每堂课听到一半的时候我都恨不得加一句“听懂掌声”\n\n5.在枭哥都被全网封杀的情况下，没想到浙大还存在这么一尊大佛\n\n6.能把学费还我吗？我想退钱"},{"id":124922,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2020-07-21 02:08:06","like_diff":23,"likes":23,"dislikes":0,"content":"一天到晚给省内小企业小老板洗脑，天天什么莫名宗教思想，上课说对着学生说傻逼牛逼这种话，为人师表？？？？要退休了还是个讲师？？就为了讲课赚钱本职工作都不做？？？呵呵"},{"id":151330,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-02-28 14:04:04","like_diff":23,"likes":24,"dislikes":1,"content":"杨幂老师看了都得问一句老师你没事吧"},{"id":150989,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-02-21 15:40:47","like_diff":22,"likes":22,"dislikes":0,"content":"我脑海里一直在回响“听懂掌声”"},{"id":34676,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-10-18 03:22:22","like_diff":21,"likes":31,"dislikes":10,"content":"十分不推荐选他，我当时就是看到了他7点多的评分而忽视了大部分评价选的他，现在后悔死了。老师上课没有一点和管理有关的东西，就是给你灌输各种心灵鸡汤，而且这心灵鸡汤还有很多歪理，像什么你不能评价别人因为你是按自己为标准评价的之类的，但这种歪理随便就能举一个例子反驳，比如有人炒菜放了两包盐我还不能评价他的菜咸了？其次便是他作业真的非常多，4篇文章，周一下午布置，周三早上交，你不写到死压根写不完。认识交好好多人的前提是你参加他的很多活动，但如果有作业或社团活动的话，这就很勉强了。最后的忠告就是，不要选他啊！"},{"id":90827,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-11-26 10:44:02","like_diff":21,"likes":22,"dislikes":1,"content":"民科＋洗脑\n\n不要选，相信我\n\n"},{"id":150743,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-02-16 12:17:31","like_diff":20,"likes":21,"dislikes":1,"content":"创业基础：一节网课点三次名，有毛病吧！“特朗普就该来听我的课”，那么垃圾又那么自信。"},{"id":163602,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-15 13:40:24","like_diff":20,"likes":20,"dislikes":0,"content":"依托答辩"},{"id":46316,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-01-21 08:19:38","like_diff":19,"likes":22,"dislikes":3,"content":"在评论里，这届的大一感觉都被洗脑了。事情是真多，一天到晚在说我们要反思，要学会自我管理，自己上下课都要拖堂。感觉他来当老师就是来享受学生的膜拜，在我浙，心水实在的老师。"},{"id":144593,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-12-22 13:43:36","like_diff":19,"likes":21,"dislikes":2,"content":"创业基础，还要上他的网课，里面的作业互评就是个坑，鬼知道多少人为了踩别人打一分，别问，问就是我被踩了。另外，喝鸡汤多是一件美事啊，你们喝啊，nnd为什么不喝，喝呀！"},{"id":70807,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-01-27 14:14:44","like_diff":18,"likes":19,"dislikes":1,"content":"上课完全没有干货，扯着你谈佛教，批判进化论?️，灌输他的民哲思想。作业多到爆炸，看着给分很好，可是等亲身体验了作业强度之后会觉得4.2 4.5的绩点完全对不起自己的付出。而且给分好且轻松的老师也很多。总之，很后悔上了他的管理学，一生黑。"},{"id":2114,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-04-01 13:07:59","like_diff":17,"likes":47,"dislikes":30,"content":"作业虽多，但尚可接受。上完一学期课认识了很多人，现在关系还很好，仅此一点就超值。课堂上表现机会很多，能够锻炼人。自称上的不是大类课是另类课，此言得之。"},{"id":14317,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-06 07:57:03","like_diff":17,"likes":28,"dislikes":11,"content":"周二上午留作业，周四晚上交，每周要写10小时。没有这个觉悟不要选。不能忍受鸡汤和民哲的，不要选。如果下决心选了，会有收获的，但（我觉得）没有传说中的那么玄。"},{"id":153940,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-05-17 11:25:57","like_diff":17,"likes":18,"dislikes":1,"content":"创业基础:\n\n1.分析展示不讲清楚要求，而且繁文缛节得很\n\n2.上课传销色彩，不愧是浙商教父\n\n3.这学期最有收货的怕是学长的创业分享了\n\n4.热力学第一定律。我真的笑得不行\n\n5.你画了一整个星期去做这个展示，可能因为文件损坏耽搁了些时间被打低分\n\n以上。"},{"id":35636,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-11-10 07:36:48","like_diff":16,"likes":23,"dislikes":7,"content":"人生修炼之地！唯愿受苦渡己者可来！"},{"id":73219,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-02-01 07:45:26","like_diff":16,"likes":17,"dislikes":1,"content":"还是更喜欢有学术精神和学术能力的老师。"},{"id":143369,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-11-24 08:12:01","like_diff":16,"likes":16,"dislikes":0,"content":"鲁老师的课绝不是水，是一片海"},{"id":156107,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-17 14:44:23","like_diff":16,"likes":16,"dislikes":0,"content":"亲眼目睹从8的评分掉到5开头，太迅速了ac01"},{"id":14394,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-07 01:05:17","like_diff":15,"likes":25,"dislikes":10,"content":"9分的长者，7分的老师，5分的思想。对于大多数人来说，敬而远之更好一些。"},{"id":141453,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-10-09 12:38:42","like_diff":15,"likes":17,"dislikes":2,"content":"1.逼话多 老装逼 光听他废话真是服了\n\n2.屁事多，100来号人一定要坐在位置号前100.什么shab玩意。热都热死了，dnmd\n\n3.shab一个快逃"},{"id":73055,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-01-31 22:28:00","like_diff":14,"likes":14,"dislikes":0,"content":"作业真的多 看书全靠自己 上课老师是不讲教材的 只有将近半小时是留给书本的 这部分以同学讲为主 剩下的时间真的不知道在讲什么佛学还是哲学 每周作业必须上千字 优秀作业很多是上万字的 没错 每周 而且他会有要求“归纳系统批判创新” 但是又让你自己想怎么做 一点提示都没有 做不好还会被批评。 总结一下 认识一些人 但是之后的三年半估计不怎么会有太多交集 也只是认识 绩点普遍还是蛮高的 但与这累积起来的几万字和时间相比 我宁愿花更多时间在微甲线代上 然后选一门平常作业少期末一篇论文的通识课 还有大北农每次上课都会见到"},{"id":117458,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2019-10-10 02:22:25","like_diff":14,"likes":14,"dislikes":0,"content":"事多，沾沾自喜的喜剧演员"},{"id":198669,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-09-10 14:03:00","like_diff":14,"likes":14,"dislikes":0,"content":"建议大家都来选鲁老师的创基，因为我相信每个人都应该有自己的报应。"},{"id":199498,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-11-24 06:37:27","like_diff":14,"likes":16,"dislikes":2,"content":"byd出分了，我一次没签上到4.2，但是我不后悔我那次没去，纯sb这老师"},{"id":126770,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2020-10-19 14:10:49","like_diff":13,"likes":15,"dislikes":2,"content":"千万别选。只有空洞无意义的鸡汤。此老师不适合教书，适合出家当道士。作业要求玄之又玄。重申，千万别选。"},{"id":148908,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-01-14 02:36:37","like_diff":13,"likes":13,"dislikes":0,"content":"所谓的不正态是不正态给高分吧"},{"id":174040,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-06-06 01:17:10","like_diff":13,"likes":15,"dislikes":2,"content":"创业基础，如果你能忍受他讲的依托答辩还声音超大，事情比其他创新创业类课程少很多。"},{"id":33886,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-09-25 06:54:21","like_diff":12,"likes":16,"dislikes":4,"content":"作业太多。思想迂腐而粗俗"},{"id":34421,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-12-15 01:00:09","like_diff":12,"likes":18,"dislikes":6,"content":"洗脑式教育，引导个人崇拜。自以为真理，试图左右学生的价值观。其次才是神tm事多。"},{"id":47379,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-01-25 14:49:45","like_diff":12,"likes":21,"dislikes":9,"content":"怎么说呢，一学期的学习收获很多，但真正在课堂上能学到的东西很少，反而是小组展示还有看别人的分享可以看到并认识到许多优秀的人。作业是真心的多，每个星期一晚上都要刷夜。本人不是很喜欢鲁伯伯的教学方式有些观点也不敢苟同，但不否认，鲁伯伯很有自己的一套独特方法。看前面有人说管理学拖累微积分的，这学期，我的微积分成绩也很低，但是客观一点，我认为两者之间并没有什么特别多的关系，时间分配不好罢了。"},{"id":60712,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-10-27 11:28:54","like_diff":12,"likes":13,"dislikes":1,"content":"我觉得他有病吧，一天呢么多事情不嫌烦吗，来听个讲座，还盯着你，真够无聊"},{"id":90768,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2019-06-19 11:56:10","like_diff":12,"likes":12,"dislikes":0,"content":"为什么浙大会有这种垃圾老师"},{"id":151337,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-03-01 00:50:57","like_diff":12,"likes":12,"dislikes":0,"content":"传销😅"},{"id":162192,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-17 13:01:29","like_diff":12,"likes":13,"dislikes":1,"content":"一个让女儿十八岁怀孕的男人不配为父亲，一个在自己朋友死去不过一个月还在吹嘘自己那个朋友多牛，自己和那个朋友关系有多好的人不配做朋友，一个上课乱教，发表不正当言论的人不配为教师。\n\n我不清楚浙大为什么要这种人来教授，作为一名在他课上学习过的学生来说，他根本没有教过什么有价值的东西。\n\n在最后一节课，他请人来讲课，结果我一查，果然还是你，鲁柏祥，请一个传销分子来分享，我指名道姓，叫林潇。"},{"id":162657,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-03 02:10:10","like_diff":12,"likes":12,"dislikes":0,"content":"快跑，别学。听鲁柏祥说话就像听你家的🐶在教你怎么修WIFI"},{"id":3750,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-06-17 03:20:10","like_diff":11,"likes":24,"dislikes":13,"content":"选吧 大一会充实一点"},{"id":5000,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-07-02 02:41:51","like_diff":11,"likes":22,"dislikes":11,"content":"不太喜欢这个老师，说的话比较扯。也是性情中人。作业很多，但是给分很好。如果大一觉得别的课比较少可以选他的。"},{"id":18442,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-21 15:48:53","like_diff":11,"likes":18,"dislikes":7,"content":"拖微积分的后腿"},{"id":86565,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-09-17 09:01:52","like_diff":11,"likes":11,"dislikes":0,"content":"规矩太多太死板…而且我不喜欢被灌输洗脑式的思想，关键是课堂很水，如果想来学管理学方面的知识建议还是别来了（全靠自学，其实你可以买本书自己看）。真的很累，作业出奇的多。我觉得为了我的微甲和四级能过还是先退了吧…"},{"id":88225,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-10-24 11:26:31","like_diff":11,"likes":12,"dislikes":1,"content":"Emmmm还是退课了…作业巨多 上课精神紧绷 以及超级洗脑... 就算绩点高也不值得"},{"id":125775,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2020-09-14 07:45:43","like_diff":11,"likes":11,"dislikes":0,"content":"建议退课"},{"id":144960,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-12-26 05:00:26","like_diff":11,"likes":12,"dislikes":1,"content":"#笨人法事#\n\n“道可道非常道”\n\n道，可道，非常道。\n\n道可，道非，常道。\n\n道，可道非常，道。\n\n道可道，非常，道。\n\n道可道非常，道。\n\n……"},{"id":154546,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-02 05:52:52","like_diff":11,"likes":11,"dislikes":0,"content":"同学们！大家 早！上！好！"},{"id":166493,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-01-12 11:22:32","like_diff":11,"likes":12,"dislikes":1,"content":"老师也是有一些思想在的，但我就想问一问为什么秋学期班里的绩点比冬学期低这么多？这让我们秋学期班的很难受"},{"id":1686,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-03-23 08:41:10","like_diff":10,"likes":26,"dislikes":16,"content":"受益匪浅"},{"id":8523,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-09-22 05:20:34","like_diff":10,"likes":15,"dislikes":5,"content":"不仅仅是作业多，规矩特别多要求特别多"},{"id":14898,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-11 01:38:23","like_diff":10,"likes":16,"dislikes":6,"content":"空洞。"},{"id":70795,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-01-27 14:00:44","like_diff":10,"likes":12,"dislikes":2,"content":"一分不能再多了"},{"id":77150,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-05-03 03:05:45","like_diff":10,"likes":11,"dislikes":1,"content":"每周三北街刷夜了解一下 整个秋冬学期在管理学用的时间是微积分的n倍 绩点看起来高仔细一想在别的课花这样的精力可能是好多个这样的高绩点 但是学到了很多不是课本的知识 渗透进你的思想 尤其是养刁了看展示的标准 管理学以后 所有课程的展示都显得非常不走心"},{"id":129481,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-01-07 00:27:28","like_diff":10,"likes":10,"dislikes":0,"content":"快跑！！！"},{"id":129624,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-01-09 06:42:18","like_diff":10,"likes":10,"dislikes":0,"content":"快逃"},{"id":157329,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-23 03:41:12","like_diff":10,"likes":13,"dislikes":3,"content":"有病请去看病，别来讲课恶心人，给分还贼拉，滚吧，浙大为什么会有你这种老师，一门1.5的课拉了0.06的均绩，你想想"},{"id":185845,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-01-05 01:25:18","like_diff":10,"likes":11,"dislikes":1,"content":"曾经有上亿资产摆在我面前委托我打理，我说我拒绝，赚钱真的太简单了，我的任务应该是投身教育培养更多企业家，而不是只会赚钱，听懂掌声👏"},{"id":189364,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-01-23 11:55:04","like_diff":10,"likes":10,"dislikes":0,"content":"针对创业基础   上课内容“语不惊人死不休”，真正“别开生面”，打开创业的另一面。可能因为出于对当下主流的创业理论的不认可，在课上基本上只讲自己帮助“鲁班”企业家/拒绝百亿上市公司老板禅让投身教育的的光辉事迹（不作评价，仁者见仁智者见智）可以当故事或者野史听就好了。课后基本没事，无期末考试，只有一个课程论文，一般上课的2次随机点名到场，论文随便写个七八千字就可以有4.5（可能因为是退休前带的最后一个班所以手软了），个人认为性价比在各个老师中比较高"},{"id":471,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-03-15 02:58:48","like_diff":9,"likes":61,"dislikes":52,"content":"非常负责任的老师！在鲁班的经历终生难忘！不过，鲁老师的要求还是很严格的，学习起来有点苦的～"},{"id":30647,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-07-02 06:38:14","like_diff":9,"likes":13,"dislikes":4,"content":"不要选，多说无益"},{"id":66712,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-01-18 13:31:37","like_diff":9,"likes":11,"dislikes":2,"content":"不要以为作业多是跟你们开玩笑的！每节课码个几千甚至几万字！一周只要写管理学作业就不要想学别的了！微积分挂了就这么简单！"},{"id":91540,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-12-13 01:55:18","like_diff":9,"likes":12,"dislikes":3,"content":"神棍无疑，上课内容除了鸡汤就是一些似是而非的道理，这种人应该去给总裁班上课。"},{"id":147764,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-01-10 18:02:33","like_diff":9,"likes":9,"dislikes":0,"content":"传销老师，不过上课不用听就行了，给分还可以"},{"id":153273,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-04-27 09:51:55","like_diff":9,"likes":10,"dislikes":1,"content":"看到鲁大师评分还在降我就放心了。"},{"id":22899,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-03-14 11:49:03","like_diff":8,"likes":12,"dislikes":4,"content":"旁听是可以的\n\n给分是可以的\n\n影响是残酷的"},{"id":73866,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-02-03 09:28:16","like_diff":8,"likes":9,"dislikes":1,"content":"作业特别多 给分低"},{"id":148626,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-01-13 04:51:30","like_diff":8,"likes":18,"dislikes":10,"content":"很多人批评老师，我觉得这不好。虽然老师确实讲得很空，讲得很有传销那味，我上课也没听过。但是老师每节课都讲得很有激情，牺牲课间休息时间继续进行教学。我觉得还是应该给以尊重"},{"id":152224,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-03-30 19:14:40","like_diff":8,"likes":10,"dislikes":2,"content":"印吹一枚也是服了，课上至少一半的时间疯狂输出低劣价值观和世界观，有意见？有异见？不好意思，话筒在他老人家那儿呢\n\n成天吹嘘自己的鲁班（自己搞的校外企业家洗脑小圈子），课作水平堪比成功学大师，就这怎么评的上讲师的？\n\n有幸见识过MBA的学生怼他，真的有点解气，这些同学年长有社会阅历，确实不太容易忽悠了"},{"id":155238,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-09 15:24:52","like_diff":8,"likes":8,"dislikes":0,"content":"泽连斯基败在这个碳基生物手中。"},{"id":155304,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-10 12:07:01","like_diff":8,"likes":9,"dislikes":1,"content":"快跑啊！"},{"id":155323,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-11 11:23:19","like_diff":8,"likes":9,"dislikes":1,"content":"在社会上糊弄富二代和暴发户也就算了，来给浙大学生讲课属实大可不必。"},{"id":156338,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-19 06:24:51","like_diff":8,"likes":8,"dislikes":0,"content":"我的评价是：传销大师。非常之无语"},{"id":157739,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-24 14:31:08","like_diff":8,"likes":8,"dislikes":0,"content":"1分都嫌多"},{"id":159102,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-07-06 07:44:13","like_diff":8,"likes":9,"dislikes":1,"content":"讲课搞成传销，脏话连篇，师德建设有待加强"},{"id":160588,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-09-27 13:18:11","like_diff":8,"likes":9,"dislikes":1,"content":"纯纯大大大大傻杯！！！除非实在没办法\n\n死都别选鲁伯祥的课。避雷！！！"},{"id":161597,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-09 08:56:08","like_diff":8,"likes":8,"dislikes":0,"content":"快逃！！！！！！！！！！\n\nPUA大师，他的学术水平要是和他的嘴一样硬就好了"},{"id":173819,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-06-03 08:16:51","like_diff":8,"likes":9,"dislikes":1,"content":"浙江大学有这种老师我是很不能理解的\n\n大一上lbx的创业基础 我要用四年的时间来治愈自己的心灵\n\n除非你真的没有其他退路  不然别选  我认真的"},{"id":183577,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-11-27 12:12:21","like_diff":8,"likes":9,"dislikes":1,"content":"冒充浙大老师"},{"id":14629,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-08 04:25:33","like_diff":7,"likes":11,"dislikes":4,"content":"我们的老师需要学术精神"},{"id":116432,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2019-09-17 03:43:31","like_diff":7,"likes":7,"dislikes":0,"content":"教哲学的？还是毫无营养的鸡汤？？只允许正能量？？？"},{"id":141209,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-09-26 07:09:18","like_diff":7,"likes":7,"dislikes":0,"content":"每节课都在输出观点，崇尚封建糟粕，不尊重他人，尤其不尊重女性，热衷于吹捧自己和所谓企业家朋友，纯属浪费时间的课"},{"id":154203,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-05-26 03:09:46","like_diff":7,"likes":9,"dislikes":2,"content":"开创业基础这门课意义何在？垃圾课程要不是1.5学分谁会来上，讲课跟传销一样，狗屁要求真多"},{"id":157336,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-23 03:54:22","like_diff":7,"likes":7,"dislikes":0,"content":"论一个老师能有多垃圾？？？"},{"id":157450,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-23 09:17:46","like_diff":7,"likes":7,"dislikes":0,"content":"烂进骨子里了"},{"id":158425,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-29 06:43:01","like_diff":7,"likes":8,"dislikes":1,"content":"纯纯的智障"},{"id":159248,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-07-09 05:52:43","like_diff":7,"likes":7,"dislikes":0,"content":"成功学带师，听懂掌声"},{"id":160117,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-09-13 11:25:25","like_diff":7,"likes":7,"dislikes":0,"content":"传销组织"},{"id":161626,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-09 14:18:25","like_diff":7,"likes":7,"dislikes":0,"content":"怎么什么人都能在浙大开课"},{"id":189329,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-01-23 09:00:32","like_diff":7,"likes":8,"dislikes":1,"content":"老师讲课如何我不评价，但是事情是真的少，只有一篇课程论文"},{"id":109818,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2019-06-19 11:53:28","like_diff":6,"likes":9,"dislikes":3,"content":"①客观而言作业的确多，如果课业繁忙的同学不太建议选择。可以试听两节课看看适不适合自己。\n\n②教学上其实更多把重点放在教大家如何“自我管理”上吧，老师有关学习、生活、就业的很多看法都挺透彻的，老师曾经经商，课堂上也涉及到一定的相关知识，偏重经验介绍。\n\n③有关人生观和宗教的分析，个人认为见仁见智，毕竟这种东西私人性本身比较强。即使不同意也可以当做是了解另外的观点，大家有不同的立场，有些同学在作业里提出了不同的看法，上课也同样得到了肯定，期末的分数也不错。上课形式偏重于老师讲，但是观点可以争鸣。\n\n④老师很严格也很和善。课堂纪律要求比较高，注意不要迟到（不过不迟到本来也是本分吧）。感觉就是那种爷爷型人物吧，会严厉但整体上还是很温柔的。\n\n⑤我是2018年秋冬的课，没有期末考试，平时成绩加上两次有关课本内容的考试，闭卷。不会直接公布排名，隐私是能保证的，放心吧。\n\n⑥小组合作和班级组织的形式的确更有利于同学交往吧，认识了很多朋友。感觉整体上班级氛围不错，小组内部一般都挺愉快的，大家都有干活，比起别的课程的小组合作真的质量高很多，也很开心。（当然这只是我对我当时所处的班级的观察）"},{"id":126322,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2020-09-22 13:30:48","like_diff":6,"likes":6,"dislikes":0,"content":"妈蛋作业好多"},{"id":144921,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-12-26 02:51:59","like_diff":6,"likes":9,"dislikes":3,"content":"早上好"},{"id":148955,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-01-14 04:25:39","like_diff":6,"likes":6,"dislikes":0,"content":"三观不正，绩杀，垃圾"},{"id":157331,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-23 03:44:02","like_diff":6,"likes":7,"dislikes":1,"content":"有病吧，无语了"},{"id":160528,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-09-26 02:08:17","like_diff":6,"likes":6,"dislikes":0,"content":"第一次给老师打一分\n\n我就是毕不了业也不该来选创业基础"},{"id":161262,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-02 12:54:21","like_diff":6,"likes":7,"dislikes":1,"content":"我上了一个学期的创基课，老师没有讲任何干货。要不就是请一些企业家来吹牛和搞推销，要不就是让小组上台分析他以前的学生的成功例子。每次到了最后他就会上去总结一下，灌输一下毒鸡汤和成功学。\n\n每次喝完毒鸡汤我都会感到迷茫。\n\n没有干货，全是听起来很有用，很正统的没用的大话。。"},{"id":161546,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-08 14:06:59","like_diff":6,"likes":7,"dislikes":1,"content":"传销组织"},{"id":161601,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-09 09:32:09","like_diff":6,"likes":6,"dislikes":0,"content":"垃圾玩意"},{"id":161627,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-09 14:22:18","like_diff":6,"likes":6,"dislikes":0,"content":"要不是最低只能打一分还想再打低一些！"},{"id":165366,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-01-03 05:11:59","like_diff":6,"likes":6,"dislikes":0,"content":"吹牛第一名，给分还很迷"},{"id":169875,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-02-28 07:45:15","like_diff":6,"likes":7,"dislikes":1,"content":"鼓励鹅颈，资本气息浓厚，不过给分尚可，课建议少去，听课极容易高血压"},{"id":170769,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-03-09 09:02:45","like_diff":6,"likes":8,"dislikes":2,"content":"擅长灌输自以为了不起的价值观和错漏百出的哲学观点，实际上学不到任何的专业知识。想学到知识的别选\n\n创业基础会正态，不过客观的看事情确实不算太多。课上可能更适合戴上耳机做微积分"},{"id":198648,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-09-12 09:17:33","like_diff":6,"likes":6,"dislikes":0,"content":"大二老登终于碰到了自己大学生涯的第一个抽象老师......不多说了"},{"id":200730,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-10-21 11:46:40","like_diff":6,"likes":8,"dislikes":2,"content":"早你大坝，鲁班你大坝，胖东来你大坝，正大你大坝"},{"id":201680,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-11-05 10:54:35","like_diff":6,"likes":6,"dislikes":0,"content":"区区一个水课，你是不是太看得起自己了？\n\n纯÷🤮🤮🤮"},{"id":7639,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-09-15 07:05:24","like_diff":5,"likes":12,"dislikes":7,"content":"的确讲得很好，然而作业多也是名不虚传"},{"id":11617,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-12-08 04:31:10","like_diff":5,"likes":13,"dislikes":8,"content":"需要一定的阅历才能感受到鲁大师的课好，懂得修心，必走得长远。"},{"id":34655,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-01-10 08:16:57","like_diff":5,"likes":15,"dislikes":10,"content":"我不在乎学分 也不在意作业多不多  关键是上课真的..愚昧 自大 浪费整个学期的时间 讲一些心灵鸡汤大道理或者歪理  然后自以为很厉害地觉得把学生教会了很多 仿佛学生的成功学生的能力全都靠他"},{"id":36017,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-11-10 10:05:05","like_diff":5,"likes":7,"dislikes":2,"content":"如果嫌大一闲得没事干的可以选一下，否则三思吧。"},{"id":86620,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-09-17 13:05:51","like_diff":5,"likes":5,"dislikes":0,"content":"完全洗脑，作业超多，还给你很重的作业负担，精神压力和道德约束"},{"id":86755,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-09-18 10:53:06","like_diff":5,"likes":7,"dislikes":2,"content":"\n\n鲁伯伯的课上的我太压抑了\n\n先退为敬\n\n换个事少的老师"},{"id":87701,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-10-17 11:15:23","like_diff":5,"likes":5,"dislikes":0,"content":"累而无意义"},{"id":97243,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2019-01-22 01:44:27","like_diff":5,"likes":5,"dislikes":0,"content":"无聊的鸡汤"},{"id":125824,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2020-09-14 13:30:02","like_diff":5,"likes":5,"dislikes":0,"content":"垃圾管理"},{"id":129529,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-01-07 00:30:18","like_diff":5,"likes":6,"dislikes":1,"content":"事多 学到的东西水 基本上就是自己看书学习 经常他被洗脑 听鸡汤可以来 不介意ddl卡的紧的来"},{"id":140712,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-09-15 08:28:03","like_diff":5,"likes":5,"dislikes":0,"content":"很有热情，认识独到。然而，上的创业基础课，不但上线下课还上线上课，也喜欢吹牛，真的是才1.5学分的课吗"},{"id":141943,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-11-01 12:37:24","like_diff":5,"likes":5,"dislikes":0,"content":"快逃！"},{"id":142173,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-11-08 06:53:40","like_diff":5,"likes":6,"dislikes":1,"content":"快逃!!\n\n!!!!!\n\n!!!!"},{"id":142879,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-11-17 05:20:09","like_diff":5,"likes":5,"dislikes":0,"content":"sb老师一个，千万别选他的课，简直是邪教传销组织"},{"id":143208,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-11-21 11:44:25","like_diff":5,"likes":5,"dislikes":0,"content":"1.课堂不会讲太多重要内容只会和你谈人生，可以学习如何如何和他人聊天时做个话痨（并没有不好的意思，我认为这在社会上也是重要的能力）\n\n2.真正干货在mooc里，听得都很有道理但是发现对创业几乎没有帮助，比较空，mooc和课堂上很多理论我不是很认同\n\n3.作业过多（mooc后有小作文，不限字数，于是开始卷字数，大论文也在卷字数），搞内卷（两部电视剧的观后感，不限字数，选做，我没做就被3.6了），给分差"},{"id":143254,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-11-22 10:51:04","like_diff":5,"likes":5,"dislikes":0,"content":"头头是道，狗屁不通，早上好。现在是上课，这个是原话。"},{"id":144317,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-12-21 05:46:09","like_diff":5,"likes":5,"dislikes":0,"content":"传销头子，认真完成作业和论文还是给了低分，千万别选，毁三观"},{"id":144603,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-12-22 14:50:59","like_diff":5,"likes":5,"dislikes":0,"content":"我不好说，水到极致了，作业量很大，观后感选做，没做就被3.3了"},{"id":151364,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-03-01 11:33:31","like_diff":5,"likes":6,"dislikes":1,"content":"传销现场 血压飙升"},{"id":151549,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-03-07 08:50:18","like_diff":5,"likes":6,"dislikes":1,"content":"“微笑，点头，鼓掌”"},{"id":151558,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-03-07 14:16:50","like_diff":5,"likes":5,"dislikes":0,"content":"不尊重科学，扭曲中国传统文化"},{"id":152699,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-04-18 12:47:50","like_diff":5,"likes":5,"dislikes":0,"content":"这个人在这里胡作非为这么多年，没人管吗？"},{"id":153235,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-04-27 03:05:17","like_diff":5,"likes":5,"dislikes":0,"content":"上课别听 论文好好卷"},{"id":153939,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-05-17 11:06:46","like_diff":5,"likes":5,"dislikes":0,"content":"我真。。。要求多的要死，还不提前说，在已经展示完了再说你们不符合要求。那你倒是提前把要求说出来啊！事情多，说话没逻辑，假大空，做派很奇怪"},{"id":155517,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-14 01:58:48","like_diff":5,"likes":5,"dislikes":0,"content":"纯纯混子"},{"id":156048,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-17 08:34:14","like_diff":5,"likes":5,"dislikes":0,"content":"没有营养"},{"id":161308,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-04 03:28:56","like_diff":5,"likes":7,"dislikes":2,"content":"创业基础，传销一样"},{"id":162646,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-01 14:56:58","like_diff":5,"likes":5,"dislikes":0,"content":"我只能说想学习PUA 可以报名，想毕业赶快退课，特朗普不来鲁伯伯都为他惋惜啊，泰国首富想把公司给他而不给儿子可见鲁伯伯多么厉害啊 牛逼 想毕业就快跑"},{"id":162800,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-06 08:45:21","like_diff":5,"likes":5,"dislikes":0,"content":"他可能是查老师分数跌的最快的老师了"},{"id":163860,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-16 09:04:55","like_diff":5,"likes":5,"dislikes":0,"content":"垃圾，我真的不理解这种人是怎么当上浙大老师的。不断的pua学生，每次课讲毫无关系的烧杯自我经历。搞得大家很闲一样去听着垃圾讲课我也是服了"},{"id":166485,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-01-12 10:58:31","like_diff":5,"likes":8,"dislikes":3,"content":"u1s1真的像传销。创业基础事其实不多，就一次小组分享加上一篇论文。不过考虑到这次的疫情影响，一大半的课都只要挂着就行，不用听，如坐针毡的痛苦少了很多。最后给分4.2还算正常。"},{"id":171065,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-03-15 11:11:04","like_diff":5,"likes":6,"dislikes":1,"content":"臭sb，草泥马"},{"id":172251,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-04-24 00:45:08","like_diff":5,"likes":5,"dislikes":0,"content":"傻鸟老师\n\n吐了"},{"id":182320,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-11-14 13:47:16","like_diff":5,"likes":8,"dislikes":3,"content":"傻逼一个，整天早早早早早早，我的建议是赶紧请您早点死别来这里祸害学生。要不是为了这他妈傻鸟一样的必修学分我他妈先拿出刀把你砍了。一整个傻卵哲学思维，还他妈扯牛顿和爱因斯坦的公式来乱逼，我请你自己傻逼就算了不要侮辱物理学。还他妈扯乘法加法，数学到了您手里就是您传销的工具了是吧。还他妈吹自己牛逼牛逼，还他妈拉踩职规课，你都一把年纪了是真的不要脸啊。赶紧入土，赶紧灰飞烟灭吧别投胎了别祸害人间了"},{"id":182843,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-11-20 14:31:58","like_diff":5,"likes":5,"dislikes":0,"content":"伟大的哲学家😋拒绝上市公司老板禅让的伟大教育家😋心系人民的伟大人民教师😋浙江大学管理中流砥柱😋\n\n\n\n讲课答辩，需要治愈心灵"},{"id":201679,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-11-05 10:53:30","like_diff":5,"likes":5,"dislikes":0,"content":"太把自己当回事了吧"},{"id":203910,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-11-22 02:49:26","like_diff":5,"likes":6,"dislikes":1,"content":"垃圾老师 上课纯洗脑 本来想试一试 结果试试就逝世 千万别选这门课 再怎么缺学分也别选 一句忠告 忍了一个秋学期的洗脑课程 论文辛辛苦苦写了6000多 最后出的分不忍直视。。。"},{"id":206015,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-12-13 03:11:47","like_diff":5,"likes":5,"dislikes":0,"content":"是爸爸姑姑或者妈妈舅舅的孩子，感觉像是那种最后一次观影机会点到仁寿区炸膛在狗脸上的那种人。"},{"id":206393,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-12-14 21:34:59","like_diff":5,"likes":6,"dislikes":1,"content":"对一个不知道查老师网站的大一新生造成了极大的伤害"},{"id":104160,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2019-03-13 07:25:34","like_diff":4,"likes":6,"dislikes":2,"content":"大一因为鲁伯伯的课开始脚踏实地，告诉自己要现实，得谢谢他，但是也要谢谢自己，所幸没在大一被他洗脑。"},{"id":116914,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2019-09-17 07:27:59","like_diff":4,"likes":4,"dislikes":0,"content":"我后悔啊啊啊啊啊啊啊啊啊！"},{"id":141896,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-11-17 00:29:32","like_diff":4,"likes":4,"dislikes":0,"content":"真会忽悠啊，没有干货的传销课。"},{"id":142820,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-11-16 13:20:01","like_diff":4,"likes":4,"dislikes":0,"content":"输出什么垃圾价值观"},{"id":142900,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-11-17 07:48:35","like_diff":4,"likes":4,"dislikes":0,"content":"一股子成功学＋微商的感觉"},{"id":142964,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-11-18 01:14:19","like_diff":4,"likes":8,"dislikes":4,"content":"给分很随意 自己上课没怎么听 作业也只是普通质量的完成却拿到了4.5绩点"},{"id":144173,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-12-20 06:04:34","like_diff":4,"likes":4,"dislikes":0,"content":"不仅没什么用而且有害的课程，非常非常不建议选，建议取消这门课吧，每次看到都想吐。"},{"id":144433,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-12-21 12:57:44","like_diff":4,"likes":4,"dislikes":0,"content":"恶心"},{"id":144881,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-12-25 11:45:32","like_diff":4,"likes":4,"dislikes":0,"content":"孩子快跑！"},{"id":154642,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-02 16:06:27","like_diff":4,"likes":4,"dislikes":0,"content":"这就是鲁班"},{"id":157864,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-25 07:26:30","like_diff":4,"likes":4,"dislikes":0,"content":"给分不好，唉"},{"id":159436,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-07-19 12:06:46","like_diff":4,"likes":4,"dislikes":0,"content":"不求是"},{"id":160074,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-09-13 03:56:19","like_diff":4,"likes":4,"dislikes":0,"content":"b事儿真多，作业也多，就会吹牛逼，吹的还没意思，我都睡着了"},{"id":160285,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-09-16 12:19:59","like_diff":4,"likes":8,"dislikes":4,"content":"脑残老师，脑子有问题。教学班还有一半的余量不让我补选，小爷我为了这门学分都不在乎他的评价了，给他这么大的脸，他还不要，该被骂的狗都不如，他也配在浙大上课，既没有人情味，也没有教学实力。他在搞什么东西，脑子有题的老师简直没有脑子"},{"id":161545,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-08 13:41:08","like_diff":4,"likes":4,"dislikes":0,"content":"听进去他的课等于精神污染"},{"id":163495,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-14 13:16:28","like_diff":4,"likes":4,"dislikes":0,"content":"sbsbsbsbsbsbbsbsbsb事多分少还要忍受他的nc发言 快逃！！！"},{"id":164759,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-25 12:46:18","like_diff":4,"likes":4,"dislikes":0,"content":"选这门课之前一定要谨慎谨慎谨慎，感觉学到的东西都不是从老师地方来的，老师每节课的点评每个人都会说，大部分时间都是同学以及学长的分享水过去的，以及这门课的给分完全凭老师和助教的心情。"},{"id":164760,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-25 12:49:47","like_diff":4,"likes":5,"dislikes":1,"content":"人模狗样祸害众生🤮"},{"id":166498,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-01-12 11:51:19","like_diff":4,"likes":5,"dislikes":1,"content":"这个老师就是传销组织出来的，根本学不上东西，当上课代表都能比普通生的分数低，千万别选上他的课，选上他的课捯了八辈子血霉了"},{"id":167483,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-01-16 14:46:12","like_diff":4,"likes":5,"dislikes":1,"content":"别选，你会感谢我的"},{"id":169291,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-02-25 08:53:22","like_diff":4,"likes":4,"dislikes":0,"content":"sb吧"},{"id":180764,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-09-26 02:39:18","like_diff":4,"likes":5,"dislikes":1,"content":"感觉事情不算多，上课有点吵"},{"id":201690,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-11-05 11:28:34","like_diff":4,"likes":4,"dislikes":0,"content":"神棍、压抑，擅长没有逻辑的归因，以及依靠个人的经验要求所有人。无趣而又狂躁的老人。"},{"id":211629,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2025-01-12 05:17:06","like_diff":4,"likes":6,"dislikes":2,"content":"课程史中史，事情少中少，分数高中高"},{"id":213114,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2025-01-16 04:34:59","like_diff":4,"likes":4,"dislikes":0,"content":"创业基础\n\n感觉其他人说的很好了，上课戴好耳机，开始自习就行"},{"id":11797,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-12-29 07:56:08","like_diff":3,"likes":14,"dislikes":11,"content":"能听到一个得道者一生的精华 不是心灵鸡汤 每堂课都能收获值得终生思考的问题 能让你顿悟的传道者"},{"id":13891,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-02 01:23:33","like_diff":3,"likes":12,"dislikes":9,"content":"一入鲁班，终生难忘！"},{"id":20773,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-31 11:04:25","like_diff":3,"likes":12,"dislikes":9,"content":"大家风范！课堂上能让人受益匪浅，课下能真正给予关心和帮助的好老师！更重要的是，你的付出和你的回报成正比！"},{"id":27603,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-06-27 04:46:00","like_diff":3,"likes":4,"dislikes":1,"content":"不说了，会被喷"},{"id":27976,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-06-28 07:56:25","like_diff":3,"likes":6,"dislikes":3,"content":"个人不太喜欢，太多强硬鸡汤"},{"id":59046,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-09-19 07:55:27","like_diff":3,"likes":5,"dislikes":2,"content":"太累了。"},{"id":86568,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-09-17 08:19:21","like_diff":3,"likes":4,"dislikes":1,"content":"太累了，体力没有很好就别选"},{"id":86636,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-09-17 14:56:05","like_diff":3,"likes":5,"dislikes":2,"content":"不太能接受老师上课一些情绪过于激烈的脏字，虽然说话糙理不糙，但为人师表，还是应该注意一点吧……事太多，为了凑个性学分的还是算了吧……"},{"id":93495,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2019-01-10 05:08:30","like_diff":3,"likes":4,"dislikes":1,"content":"事情太多了"},{"id":102059,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2019-01-30 08:42:13","like_diff":3,"likes":3,"dislikes":0,"content":"是一种考验，还得看运气，比如，如果这学期硬核课多的话，就不要选他的课了...仅此建议"},{"id":131185,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-01-26 12:36:43","like_diff":3,"likes":4,"dislikes":1,"content":"事超多，快没时间学微积分了，都认真完成了绩点也不高，就很不划算"},{"id":154793,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-05 12:13:32","like_diff":3,"likes":3,"dislikes":0,"content":"鲁大师"},{"id":154818,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-06 00:39:55","like_diff":3,"likes":3,"dislikes":0,"content":"鼓励内卷，卷死也就3.6，没有基础真的难受"},{"id":160917,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-07 01:34:48","like_diff":3,"likes":4,"dislikes":1,"content":"快逃！"},{"id":161148,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-10-29 10:49:07","like_diff":3,"likes":4,"dislikes":1,"content":"恨你哦！"},{"id":161330,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-04 07:08:37","like_diff":3,"likes":4,"dislikes":1,"content":"真的垃圾，上课就喜欢吹牛b，建议别选"},{"id":162157,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-17 06:38:52","like_diff":3,"likes":4,"dislikes":1,"content":"创业基础：\n\n   只能说老师丝毫没有讲出什么有意义的东西，全程都在打鸡血。给分也很差，虽然本人非专业课绩点一直不怎么样，但是看到绩点还是有点失望。\n\n   不过换个角度来想：对于我这个只想混一个创新创业学分达到毕业要求，且完全不关心非专业课绩点的高年级工科老狗，鲁伯伯的创业基础也足够水，课上写了很多篇实验报告跟代码，晚上因为做实验没能吃饭甚至可以无压力地在上课时跑出去恰个同学送的晚饭。任务也就一个pre和期末一篇大论文，比较少。所以虽然绩点比较难看但是也比较感恩鲁伯伯没有浪费我宝贵地学专业课的时间"},{"id":162316,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-20 03:40:53","like_diff":3,"likes":3,"dislikes":0,"content":"嘴跟套了铁幕似的\n\n讲课跟辐射蹲下一样难受\n\n各位肉人们千万别来！！！！！！！！"},{"id":162758,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-06 01:46:02","like_diff":3,"likes":3,"dislikes":0,"content":"鲁老师的创业基础不上课，给分全看自己和sb助教的心情。"},{"id":163922,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-16 14:29:38","like_diff":3,"likes":3,"dislikes":0,"content":"ljljlj"},{"id":164586,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-22 05:24:38","like_diff":3,"likes":3,"dislikes":0,"content":"创业基础，听得痛苦"},{"id":168200,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-02-01 14:01:04","like_diff":3,"likes":3,"dislikes":0,"content":"hhh"},{"id":169851,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-02-28 06:19:11","like_diff":3,"likes":3,"dislikes":0,"content":"lbx就没打算认真上课"},{"id":170403,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-03-04 00:35:30","like_diff":3,"likes":3,"dislikes":0,"content":"呵呵呵"},{"id":179099,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-08-28 01:44:17","like_diff":3,"likes":3,"dislikes":0,"content":"好崩溃"},{"id":198664,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-09-10 13:19:47","like_diff":3,"likes":3,"dislikes":0,"content":"很好的课，使我的大脑旋转，建议每个人都来上上这门课（不能只有我一个人吃到这口史）"},{"id":200791,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-10-22 11:31:39","like_diff":3,"likes":3,"dislikes":0,"content":"不多说"},{"id":201716,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-11-05 15:07:37","like_diff":3,"likes":3,"dislikes":0,"content":"史中史👍一节课就使我大开眼界并破防"},{"id":201769,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-11-06 05:36:49","like_diff":3,"likes":3,"dislikes":0,"content":"史中史，带上耳机心中还是有一股无名业火😡"},{"id":211861,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2025-01-12 20:35:57","like_diff":3,"likes":3,"dislikes":0,"content":"讲课真的难评，但给分是真的好，而且事情少。\n\n有几点给后来人的建议：1，他上课是有ppt的，写论文的时候可以引用他ppt里面你觉得正确的点，这样分数会比较好。\n\n2，他是雷达点名，而且只会下课前签到，你懂的。\n\n上课的时候坐在中间偏后远离走廊的一侧，坐在最后面会被赶到前面，坐在靠近走廊一侧会被点起来回答问题"},{"id":217445,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2025-04-10 12:16:39","like_diff":3,"likes":3,"dislikes":0,"content":"各位同学早上好"},{"id":217989,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2025-04-19 01:55:35","like_diff":3,"likes":3,"dislikes":0,"content":"完全不是人"},{"id":14545,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-07 13:48:24","like_diff":2,"likes":5,"dislikes":3,"content":"我服了"},{"id":22439,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-03-05 12:43:57","like_diff":2,"likes":10,"dislikes":8,"content":"在鲁班课堂上，管理学知识没学到多少，但是认识了很多有趣的小伙伴，而且会做电子书会做微信推送了，就后面这三点就非常值得。并且鲁伯伯给分真的很好，非常锻炼能力的一堂课，学过以后在其他课上码论文码体会什么的，都是小case了。还是比较庆幸刚进大学的时候就能上过鲁伯伯的课，也因为【情动杭城】而置身于社会舆论之中，一生都难忘的体验！"},{"id":26184,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-06-16 07:30:17","like_diff":2,"likes":7,"dislikes":5,"content":"管理学作业很多 主要是写作文一样的 其实文字功底好的很适合！"},{"id":28993,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-12-26 03:18:36","like_diff":2,"likes":5,"dislikes":3,"content":"累，别选"},{"id":47288,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-01-25 05:32:57","like_diff":2,"likes":6,"dislikes":4,"content":"你本该有更多事要去做。但你选择了这节课。选择了就耐心学习吧。不论暂时的得失。然后，就，好开心。也好伤心。那么，你的心还跳动着。真好。"},{"id":144576,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-12-22 11:01:46","like_diff":2,"likes":2,"dislikes":0,"content":"给分不错，只要节节到。课程内容有点水，平时要求也多。"},{"id":152834,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-04-20 09:26:10","like_diff":2,"likes":2,"dislikes":0,"content":"传销去死吧"},{"id":155358,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-11 13:32:34","like_diff":2,"likes":10,"dislikes":8,"content":"主观评价一下，鲁老师的人是很积极向上，会让人感觉很有活力，会对学生很鼓励，也会有一些很严格的要求。但是关于授课内容是不敢苟同的，是无法学到比较有效的知识。所以如果你报着水的心态可以来，但不要奢求学到什么"},{"id":159300,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-07-11 10:47:49","like_diff":2,"likes":2,"dislikes":0,"content":"呵呵呵"},{"id":160918,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-10-19 16:07:20","like_diff":2,"likes":4,"dislikes":2,"content":"传销组织"},{"id":160919,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-10-19 16:14:07","like_diff":2,"likes":3,"dislikes":1,"content":"讲的跟传销组织一样。自己出来传销卖鸡汤都能将2个小时。并且自己讲鸡汤举的例子牛头不对马嘴。纯纯的浪费时间浪费生命浪费学费。快跑别选这个烧杯的课"},{"id":160921,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-10-19 16:14:12","like_diff":2,"likes":3,"dislikes":1,"content":"客观来讲，讲的有少部分有用。如果有下一次，不，不会有下一次了"},{"id":160922,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-10-19 16:17:56","like_diff":2,"likes":3,"dislikes":1,"content":"两个多小时的鸡汤真的听不下去，上课的时候还会阴阳你"},{"id":162158,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-17 11:39:21","like_diff":2,"likes":2,"dislikes":0,"content":"一分好评❤❤❤"},{"id":162198,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-17 14:19:40","like_diff":2,"likes":2,"dislikes":0,"content":"真的sb"},{"id":162339,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-02 08:38:14","like_diff":2,"likes":2,"dislikes":0,"content":"自己只会吹牛，啥真本事都没有，给分还特别恶心。"},{"id":162497,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-23 12:41:52","like_diff":2,"likes":3,"dislikes":1,"content":"啊对对对，鲁老师说的都对\n\n大家上课该做什么做什么，占一个好位置，竟然还要绕教室，刚刚被看见做微积分..."},{"id":163449,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-14 11:06:35","like_diff":2,"likes":2,"dislikes":0,"content":"给分确实有点离谱了"},{"id":164364,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-20 12:15:45","like_diff":2,"likes":2,"dislikes":0,"content":"传销组织"},{"id":164495,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-21 09:01:12","like_diff":2,"likes":2,"dislikes":0,"content":"快跑"},{"id":164555,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-22 00:52:24","like_diff":2,"likes":2,"dislikes":0,"content":"💩😁😁"},{"id":172228,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-04-23 03:11:39","like_diff":2,"likes":2,"dislikes":0,"content":"sb"},{"id":183564,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-11-27 11:30:56","like_diff":2,"likes":3,"dislikes":1,"content":"没有专业知识，只有平庸无聊的自我高潮"},{"id":211630,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2025-01-12 05:17:21","like_diff":2,"likes":2,"dislikes":0,"content":"2b一个"},{"id":214578,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2025-02-13 13:24:37","like_diff":2,"likes":3,"dislikes":1,"content":"坐标创业基础\n\n实话说，事情少，老师基本不签到，也没有课后作业，甚至上课也不管大家听讲。\n\n上课极偶尔提问，都很简单，答不出也毫无关系。\n\n主要任务就是一份创业项目计划书。\n\n鲁老师本人和助教都是认真负责，备课还是很用心的，学期中也有请嘉宾来讲座。\n\n最后出分情况符合预期。\n\n个人觉得目前的分数不具有真实性。"},{"id":14183,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-05 07:55:45","like_diff":1,"likes":3,"dislikes":2,"content":""},{"id":20774,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-31 10:15:03","like_diff":1,"likes":5,"dislikes":4,"content":"受益匪浅，知道了如何学习，如何做人"},{"id":21210,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-02-26 09:01:17","like_diff":1,"likes":4,"dislikes":3,"content":"辛辛苦苦一学期结果3.6，呵呵了"},{"id":35724,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-01-25 03:25:57","like_diff":1,"likes":7,"dislikes":6,"content":"事情特多给分好"},{"id":39784,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-12-27 12:54:16","like_diff":1,"likes":16,"dislikes":15,"content":"鲁伯伯的管理学真的很好，希望有志于不水大学的各位勿要被过多负面评价所蒙蔽：不讲课本是因为有更高的方法和视野想分享给大家；不断写作正有益于对打稳大学四年课业基础；对合作与创新精神的领悟使人深为受益；老师话中的禅味和哲思引人无限遐思。鲁班很棒，真的。"},{"id":44502,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-01-18 01:47:03","like_diff":1,"likes":4,"dislikes":3,"content":"（纠正一下某同学的说法）期末百分之十满绩"},{"id":47215,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-01-24 14:39:39","like_diff":1,"likes":2,"dislikes":1,"content":"我只想问一句……啥时候出分？？？"},{"id":69695,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-01-25 08:31:10","like_diff":1,"likes":4,"dislikes":3,"content":"鲁老师人挺好的。\n\n但是事情真得太多了。两次分享加十六次作业。分享每次十五分钟不能沿用前面组用过的形式。作业一学期下来，我比较弱，字数一共只是接近十万，有的同学真的太强了，作业字数超十六万。不过你上完这门课，其余课的什么论文报告啊之类的都会觉得挺轻松的。\n\n另外，如果你选了微积分或者线代，请不要选鲁老师的课。\n\n但在这你会认识更多的人结交到好朋友。每回上课时你不用找门牌号，只需看坐在教室里的同学的脸就可以了。嘿嘿，上完课下来，课长成为了我的好朋友。"},{"id":87971,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-10-19 03:09:58","like_diff":1,"likes":2,"dislikes":1,"content":"好一般"},{"id":118936,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2019-11-08 03:28:02","like_diff":1,"likes":1,"dislikes":0,"content":"想了很久但还是要说...超级大水课。。"},{"id":141289,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-09-28 14:17:13","like_diff":1,"likes":1,"dislikes":0,"content":"鲁老师的作业让我的打字速度有了里程碑式的提升。"},{"id":152763,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-04-19 10:46:57","like_diff":1,"likes":1,"dislikes":0,"content":"嗯嗯嗯"},{"id":152764,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-04-19 10:58:15","like_diff":1,"likes":1,"dislikes":0,"content":"他是不是有些过于……那啥了？"},{"id":152803,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-04-20 04:11:27","like_diff":1,"likes":1,"dislikes":0,"content":"鲁大师"},{"id":153233,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-04-27 02:37:33","like_diff":1,"likes":1,"dislikes":0,"content":"不知所云给分烂"},{"id":155010,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-07 11:30:17","like_diff":1,"likes":1,"dislikes":0,"content":"真的偶"},{"id":161068,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-10-25 15:03:24","like_diff":1,"likes":2,"dislikes":1,"content":"..."},{"id":161076,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-10-26 01:28:35","like_diff":1,"likes":2,"dislikes":1,"content":"这是邪教 快逃 作业死多 上课从来不讲有用的东西 只在吹嘘自己怎么怎么样"},{"id":161794,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-13 13:29:30","like_diff":1,"likes":1,"dislikes":0,"content":"实在受不了，选了就退，别的都是几十进一，他一进几十"},{"id":161797,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-13 13:32:13","like_diff":1,"likes":1,"dislikes":0,"content":"6，太6了 传销 千万别来 上课跟坐牢一样，什么都学不到\n\n连讲3节课，他还觉得课少了 \n\n怎么不从早八一直讲到晚九？？？？\n\n我就搞不明白怎么有人会觉得他讲的还行 这哪是上课？这特么是邪教"},{"id":161989,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-15 23:48:31","like_diff":1,"likes":1,"dislikes":0,"content":"集邮与文化事多且绩杀，千万别来！快跑"},{"id":162109,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-17 01:45:30","like_diff":1,"likes":1,"dislikes":0,"content":"绩杀了，大家快跑"},{"id":162113,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-17 01:53:24","like_diff":1,"likes":1,"dislikes":0,"content":"拉跨，3.3"},{"id":162117,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-17 01:59:55","like_diff":1,"likes":1,"dislikes":0,"content":"传销头子"},{"id":162133,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-17 03:46:23","like_diff":1,"likes":1,"dislikes":0,"content":"绩杀，身边2点几三点几"},{"id":162146,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-17 04:59:52","like_diff":1,"likes":1,"dislikes":0,"content":"sb一个"},{"id":162184,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-18 04:08:35","like_diff":1,"likes":1,"dislikes":0,"content":"垃圾人"},{"id":162187,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-17 11:45:07","like_diff":1,"likes":1,"dislikes":0,"content":"邪教，绩杀"},{"id":162223,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-18 02:31:59","like_diff":1,"likes":1,"dislikes":0,"content":"浪费时间，课堂啥都不讲，打分十分离谱"},{"id":162285,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-19 06:16:03","like_diff":1,"likes":1,"dislikes":0,"content":"傻孩子，快跑啊"},{"id":162322,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-20 04:53:47","like_diff":1,"likes":1,"dislikes":0,"content":"辣鸡，谁选谁倒霉"},{"id":162387,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-21 11:19:22","like_diff":1,"likes":1,"dislikes":0,"content":"快跑！"},{"id":162434,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-22 09:37:58","like_diff":1,"likes":2,"dislikes":1,"content":"无语，真是成功学大师，想成功的都可以去上他的课，真是受益匪浅，我的绩点6.0"},{"id":162919,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-06 16:53:23","like_diff":1,"likes":1,"dislikes":0,"content":"鲁柏祥应该是把管理学课堂里面的一些教条搬进创业基础里了"},{"id":164577,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-22 03:25:07","like_diff":1,"likes":2,"dislikes":1,"content":"快跑快跑垃圾"},{"id":164693,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-12-23 12:16:12","like_diff":1,"likes":1,"dislikes":0,"content":"真的不是传销吗？ p都学不到"},{"id":165344,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-01-02 03:07:44","like_diff":1,"likes":1,"dislikes":0,"content":"呵呵呵"},{"id":169935,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-02-28 14:01:36","like_diff":1,"likes":2,"dislikes":1,"content":"滚滚滚"},{"id":172352,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-04-25 09:06:50","like_diff":1,"likes":2,"dislikes":1,"content":"管理学院的课是这样的"},{"id":172353,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-04-25 11:00:59","like_diff":1,"likes":1,"dislikes":0,"content":"依托答辩"},{"id":182828,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-11-20 13:18:44","like_diff":1,"likes":2,"dislikes":1,"content":"创业基础拿给本科生上可能太超前了"},{"id":184366,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-12-18 08:37:16","like_diff":1,"likes":2,"dislikes":1,"content":"依托答辩"},{"id":189375,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-01-23 13:18:20","like_diff":1,"likes":3,"dislikes":2,"content":"讲课怎么样不知道 可能是因为最后一个班 随便写了一点论文4.5还是比较水的"},{"id":198509,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-09-09 10:59:45","like_diff":1,"likes":1,"dislikes":0,"content":"6666"},{"id":203886,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-11-21 17:59:32","like_diff":1,"likes":2,"dislikes":1,"content":"出分了，课程只有最后几次集中签到，平时没有作业，只有一个最后的创业计划书。最后4.5，但至于上课的内容……"},{"id":205020,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-11-29 16:28:13","like_diff":1,"likes":3,"dislikes":2,"content":"你麻痹的，亏我一节课没落，每节课都听你的口水话，废话，喜提3.6，傻逼老师，你也配当老师，自我感觉良好的废物自恋狂，吃屎去吧"},{"id":406,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-03-15 01:58:40","like_diff":0,"likes":55,"dislikes":55,"content":"江湖骗子！每次上课必定吹嘘自己跟某企业家关系有多好，但讲课内容空洞无味，就是靠这些吹嘘一步一步走到今天这个位子上的。"},{"id":1256,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-03-21 17:06:56","like_diff":0,"likes":5,"dislikes":5,"content":"泪目"},{"id":3273,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-05-25 12:14:20","like_diff":0,"likes":5,"dislikes":5,"content":"难忘"},{"id":4413,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-06-22 03:16:25","like_diff":0,"likes":6,"dislikes":6,"content":"认真学一定能学到东西的"},{"id":5870,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-07-09 16:02:47","like_diff":0,"likes":16,"dislikes":16,"content":"作业其实没有传说那么恐怖，可以接受的，而且受益匪浅～上鲁伯伯的课认识很多很棒很厉害的人～来浙大目前为止最不后悔上的一门课"},{"id":27214,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-06-23 14:33:31","like_diff":0,"likes":3,"dislikes":3,"content":"退了课"},{"id":75464,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-03-12 06:46:24","like_diff":0,"likes":8,"dislikes":8,"content":"第一门满绩是鲁伯伯的管理学，事情多是真的多，管理学作业可以占满你整个周一到周四，但吐槽作业多的朋友，老师在第一堂课就劝退你们了，告诉过你们做也会很多，撑不下去在那个时候就该退了，既然撑下来了，说明你已经做了选择。虽然鲁伯伯的很多观点还有唯心主义思想、玄乎其玄的佛学论点我无法认同，但他确实给了我一种全新的学习方式，不管是被动接受还是主动接受，这种方法确实让我有所受益。你可以说他的硬广很讨人厌，但你不能质疑他作为老师的真诚，在外给企业家上课远比给我们来的获利更多，但他却愿意逐字逐句地读完你的水文，给你真诚的鼓励或是批评。"},{"id":87543,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-10-04 04:00:53","like_diff":0,"likes":1,"dislikes":1,"content":"想知道pre该怎么做 周一要pre有点方张"},{"id":88053,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-10-21 03:51:03","like_diff":0,"likes":3,"dislikes":3,"content":"一个能让引导真正学习的地方 课堂还是学术比较自由 管理学是接受一种新观点的课程，只是看个人意愿选择是否思考这方面内容以及在现实中取舍罢了。"},{"id":91659,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-12-17 10:17:37","like_diff":0,"likes":6,"dislikes":6,"content":"收获很多 班级同学也很紧密 对于真的想学的同学会有很大帮助。关于作业的话，当成一个挑战吧慢慢写写着写着就会快，也不需要很久，而且自己的码字能力可以得到进步。期末考试作业很少，给别的学科留出时间。平时会累一点但是收获真的很大（从来不在查老师评论的我真的是超喜欢鲁老师啦！"},{"id":141874,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-10-29 01:51:36","like_diff":0,"likes":0,"dislikes":0,"content":"。。。"},{"id":142114,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-11-06 09:41:51","like_diff":0,"likes":4,"dislikes":4,"content":"短学期的创业基础课还算轻松，除了几次作业和课程论文以外没有别的任务，上课比较水，一张几个字的ppt可以放半个小时，多半是自己在讲故事。\n\n在企业里的时候确实有点成就，讲课就算了。听他的慕课会比较有效率。上课可以摸鱼\n\n创新创业类选修一门，选他的创业基础还是可以接受的"},{"id":142835,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-11-16 23:11:21","like_diff":0,"likes":0,"dislikes":0,"content":"很无语，分还低"},{"id":142849,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-11-17 01:51:20","like_diff":0,"likes":0,"dislikes":0,"content":"作业多，给分低"},{"id":142984,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-11-18 03:02:05","like_diff":0,"likes":0,"dislikes":0,"content":"上课基本没怎么听，作业好好做，签到好好签，给分不错的"},{"id":152804,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-04-20 04:15:12","like_diff":0,"likes":0,"dislikes":0,"content":"逐出鲁班"},{"id":153942,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-05-17 11:48:11","like_diff":0,"likes":0,"dislikes":0,"content":"呵呵）。"},{"id":154288,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-05-29 06:30:40","like_diff":0,"likes":0,"dislikes":0,"content":"．＿．"},{"id":162129,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-17 03:05:56","like_diff":0,"likes":0,"dislikes":0,"content":"。。。"},{"id":162137,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-17 04:24:22","like_diff":0,"likes":1,"dislikes":1,"content":"搞不明白这种人渣为什么会在浙大教书🙏\n\n人生建议：别选lbx 会生不如死 （不仅仅指上课听他吹牛洗脑骂粗口 还包括出分的时候）"},{"id":162178,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-17 10:46:28","like_diff":0,"likes":0,"dislikes":0,"content":"嗯 无话可说了"},{"id":162189,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-17 12:09:08","like_diff":0,"likes":0,"dislikes":0,"content":"啦啦啦"},{"id":173799,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-06-03 05:21:23","like_diff":0,"likes":0,"dislikes":0,"content":"真逆天"},{"id":199351,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-09-21 13:06:39","like_diff":0,"likes":0,"dislikes":0,"content":"666"},{"id":202406,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-11-12 11:40:25","like_diff":0,"likes":1,"dislikes":1,"content":"俺也来吃屎哩"},{"id":206760,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-12-17 11:51:19","like_diff":0,"likes":1,"dislikes":1,"content":"3.7还是高了"},{"id":207645,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-12-23 12:06:01","like_diff":0,"likes":2,"dislikes":2,"content":"精神折磨，建议不要去上课"},{"id":218739,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2025-04-30 04:53:44","like_diff":0,"likes":0,"dislikes":0,"content":"助教人很好"},{"id":87529,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-10-01 12:56:59","like_diff":-1,"likes":2,"dislikes":3,"content":"刚刚上了一节课，作业多到国庆没回家。感觉老师的这种模式也不是什么坏事，但我就想问问半数人退课是怎么肥四？！？"},{"id":90946,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-11-28 01:52:01","like_diff":-1,"likes":1,"dislikes":2,"content":"痛并快乐着"},{"id":123460,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2020-06-09 04:30:25","like_diff":-1,"likes":1,"dislikes":2,"content":"呃呃呃呃呃呃"},{"id":201689,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-11-05 11:25:25","like_diff":-1,"likes":1,"dislikes":2,"content":"谁说这啵啵老啊\n\n这啵啵太棒了"},{"id":2130,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-04-02 08:28:49","like_diff":-2,"likes":15,"dislikes":17,"content":"非常有才的老师，跟着他能学到真东西！"},{"id":10536,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-11-19 12:32:59","like_diff":-2,"likes":4,"dislikes":6,"content":"其实很好的，学的很多"},{"id":11328,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-11-27 03:34:57","like_diff":-2,"likes":2,"dislikes":4,"content":"很棒。"},{"id":13096,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-12-25 00:59:04","like_diff":-2,"likes":2,"dislikes":4,"content":"一般是很累的，到最后就习惯了"},{"id":14197,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-05 08:51:55","like_diff":-2,"likes":3,"dislikes":5,"content":"收获的不仅仅是管理学知识。\n\n付出也很多，但是值得"},{"id":14209,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-05 10:53:58","like_diff":-2,"likes":5,"dislikes":7,"content":"受益匪浅"},{"id":15060,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-11 18:07:08","like_diff":-2,"likes":1,"dislikes":3,"content":"看个人"},{"id":16104,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-17 08:04:18","like_diff":-2,"likes":11,"dislikes":13,"content":"说洗脑式鸡汤，产出不及投入的真是够了。如果上大学是为了追寻好的思想，就来吧。如果为了绩点，为什么不早走。鲁老师很早就说过，他当的课是讲给精英听的"},{"id":20802,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-02-01 02:04:51","like_diff":-2,"likes":1,"dislikes":3,"content":"投入与产出成正比，能学到很多"},{"id":20809,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-02-01 04:56:09","like_diff":-2,"likes":3,"dislikes":5,"content":"良心老师，上不上看自己"},{"id":34335,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-10-03 23:05:15","like_diff":-2,"likes":1,"dislikes":3,"content":"能把大学的课上得跟高三一样，厉害了，很快就让我们与周围的同学了，隔段时间来点小测，那感觉真是刺激"},{"id":58835,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-09-18 04:43:58","like_diff":-2,"likes":3,"dislikes":5,"content":"挺累的，但是能学到很多，是值得尊敬的那种老师。"},{"id":74172,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-02-06 03:35:22","like_diff":-2,"likes":3,"dislikes":5,"content":"其实我觉得鲁伯伯的课适合在没有其他重要的课，而且不是大一的时候上。虽然我也听不来佛学，但上课讲的那些大道理我觉得还是蛮受用的。管理学的干货看书其实就够了，但并不是每节课都有机会学到类似做电子书、ppt或是如何展示的机会。而且确实认识了很多朋友。这节课学到更多的是怎么学习，蛮不错的。"},{"id":3514,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-06-17 01:25:38","like_diff":-3,"likes":7,"dislikes":10,"content":"被点化"},{"id":4208,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-06-18 06:15:54","like_diff":-3,"likes":8,"dislikes":11,"content":"课很充实，很有趣，作业嘛→_→多，不过给分很好，收获也多。总之，痛并快乐着^_^"},{"id":14152,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-05 04:54:12","like_diff":-3,"likes":3,"dislikes":6,"content":"作业多就不用说了，人生导师吧。而且在鲁班会有不一样的风景。"},{"id":15964,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-17 00:17:06","like_diff":-3,"likes":3,"dislikes":6,"content":"我爱鲁伯伯，就酱紫\n\n"},{"id":17063,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-19 14:07:09","like_diff":-3,"likes":0,"dislikes":3,"content":"获益匪浅"},{"id":20794,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-31 12:49:14","like_diff":-3,"likes":2,"dislikes":5,"content":"有趣哦"},{"id":39509,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-12-23 10:13:30","like_diff":-3,"likes":3,"dislikes":6,"content":"我觉得挺好的"},{"id":40847,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-01-06 02:33:42","like_diff":-3,"likes":22,"dislikes":25,"content":"我发现不少评论者反复强调投入产出比，试问我们求学之路何尝变得这般斤斤计较。当我们在考虑投入产出的时候，其实我们只是在考虑绩点的问题，考虑一些实在利益。但鲁老师的课程不是以“水”为基础，不是以“功利”为导向，甚至不是以知识本身为目的。鲁老师的管理学其实是一种管理伦理，而伦理信条的缺失却让很多刚上大一的同学感觉被灌输鸡汤，在这个时候其实你往往是以一种并不谦卑的态度对待学问。鲁老师教导我们的正是怀有谦卑之心，如此才能真的感受学习之道。重在听别人讲了什么，而不是急于作出评价，当你急于做评价的时候，往往你只是看到事物的表象，或者只是领会到别人思想当中的只言片语。懂得倾听，理解他人，方能构建管理基础。鲁班看似很苦，但其实不过是身体的劳累，埋头苦干比起精神空洞是不值一提之事，当沉浸其中的时候，我们会感受到智慧在身上发生的幸福。若有幸在鲁班学习，用心去感受，大学的起点会非常美好！"},{"id":41132,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-01-09 11:25:37","like_diff":-3,"likes":4,"dislikes":7,"content":"老师特别棒，虽然作业多了一点，但是多点也没关系，顶多把原先用来水手机的时间用到了学习上。通过这一学期的学习自己不仅仅是知识的收获，最重要的是懂得了如何学习。如果可以，愿意在读一次管理学，鲁伯伯真的好棒！"},{"id":41158,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-01-09 14:53:03","like_diff":-3,"likes":4,"dislikes":7,"content":"老师超赞的，很有收获"},{"id":88302,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-10-27 22:47:14","like_diff":-3,"likes":5,"dislikes":8,"content":"学习本身就是求什么得什么的过程，只要你足够努力，勇于尝试，任何老师都能给你想要的东西，但是如果你一开始就只是想水个好看的绩点的话，鲁老师不适合你。很多事情要真正去做了才知好坏，不愿付出的人永远只能停留在表面。"},{"id":103441,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2019-02-28 06:40:24","like_diff":-3,"likes":0,"dislikes":3,"content":"很好非常好越来越好"},{"id":116990,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2019-09-18 04:32:19","like_diff":-3,"likes":1,"dislikes":4,"content":"很好啊"},{"id":167015,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-01-14 15:49:19","like_diff":-3,"likes":9,"dislikes":12,"content":"给分其实没那么差，和职规相比事情也算少"},{"id":7294,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-09-13 05:56:27","like_diff":-4,"likes":5,"dislikes":9,"content":"很棒~"},{"id":7759,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-09-15 12:37:53","like_diff":-4,"likes":5,"dislikes":9,"content":"非常好"},{"id":8725,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-09-24 13:21:51","like_diff":-4,"likes":6,"dislikes":10,"content":"虽然苦，但很有收获！鲁老师真的很棒！"},{"id":12634,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-12-23 16:29:33","like_diff":-4,"likes":5,"dislikes":9,"content":"有信仰的人老师，能学到的东西还是很多的"},{"id":144966,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-12-26 05:53:24","like_diff":-4,"likes":12,"dislikes":16,"content":"怎么说呢，看来一圈评论都是骂的，但平心而论，鲁老师的课只能说是空了一点，有很多自己的观点，尤其强调的就是创业与管理的不同，要求我们大学生要做创造价值的企业等等。鲁老师本身有很多值得学习的品质，比如从不迟到（一般至少要早十分钟），每天晚睡早起，对生活乐观积极（当然这些更多是一种企业家的态度，对我们来说可能不太好接受），他带领的鲁班团队也真的是做出了成绩的。他们创新创业学院下面有个浙大的校友忻皓，绿色浙江创始人，他在“自立自强 青春向党”青年演讲大赛的演讲（第一名）就非常符合老师一直以来的观点，也是很令人感动的。也许正如最最后一节课上说的：中国还是需要这样的人（具体忘记了）。我上创业基础是就有很多同学完全不听课，自顾自捣鼓，老师的课有这么差吗？只能说建议大一新生选一选，第一节课时我是十分震撼的，当然后面有许多观点我也有不同看法，但这并没有很大影响。老师的一种态度和想法很值得借鉴。"},{"id":145339,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-12-29 06:04:03","like_diff":-4,"likes":2,"dislikes":6,"content":"emmmm还行吧"},{"id":165432,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-01-05 05:04:49","like_diff":-4,"likes":3,"dislikes":7,"content":"没上过鲁老师的课，不过他似乎风评很不好的亚子......"},{"id":182256,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-11-13 10:54:41","like_diff":-4,"likes":5,"dislikes":9,"content":"鲁伯伯可爱捏"},{"id":13230,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-12-26 14:29:18","like_diff":-5,"likes":8,"dislikes":13,"content":"简直就是享受！启发人生！"},{"id":25855,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-06-12 10:09:14","like_diff":-5,"likes":1,"dislikes":6,"content":"很有收获"},{"id":41364,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-01-11 05:11:06","like_diff":-5,"likes":8,"dislikes":13,"content":"不必说什么。\n\n我们是一种文化，一种信仰，我们，一直都在"},{"id":44782,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-01-18 08:52:25","like_diff":-5,"likes":6,"dislikes":11,"content":"我不想评价鲁伯伯什么，只是单纯想说一下我上了一学期鲁伯伯的课的心路历程。当初选课，在查老师上查过鲁伯伯，知道鲁伯伯的课作业会比较多，因此把鲁伯伯作为第三志愿，没想到偏偏是第三志愿选上了。刚开始，会觉得很烦，事情太多。但是，渐渐地，会学着鲁伯伯那样，反思自己，总结自己，体会一些容易忽略的东西。很多时候，我们在大学里的学习，更重要的是自学。鲁伯伯就是这样的想法，他的课堂没有统一的标准，但如果你用心体会，用心品味，踏踏实实地跟着他指引的路走，或许，你短期得不到想要的高分，但你会获得一种前所未有的成长。鲁伯伯是一点点地将他的人生智慧教给学生，他把自己定位在我们人生路上的引路人，他不会带着我们走，但他会教给我们走的方法，会鼓励我们以自己的方式好好走下去。说真的，鲁伯伯布置的作业，安排的任务，都是一次叩问内心，挑战自我的良机。选他的课的人，能够用心投入的人，必定不会是浮躁的人。"},{"id":100667,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2019-01-26 14:19:53","like_diff":-5,"likes":1,"dislikes":6,"content":"作业多、干活少、绩点高"},{"id":103124,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2019-02-26 05:34:58","like_diff":-5,"likes":2,"dislikes":7,"content":"超赞的老师！事情虽然多，给分很棒，也有学到很多做人道理。"},{"id":153498,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-05-02 05:25:47","like_diff":-5,"likes":1,"dislikes":6,"content":"事多分高"},{"id":13830,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-01-01 04:03:39","like_diff":-6,"likes":5,"dislikes":11,"content":"说心灵鸡汤的 本来就有抵触情绪 又怎么学的进去呢？鲁伯伯确实良心好老师"},{"id":33994,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-01-18 01:32:01","like_diff":-6,"likes":5,"dislikes":11,"content":"能在大一选到这样的老师是我一生的幸运，只要努力，就会有收获。相信我，你们会为之改变。"},{"id":34774,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-02-28 10:58:41","like_diff":-6,"likes":5,"dislikes":11,"content":"很棒的"},{"id":122675,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2020-03-17 07:40:52","like_diff":-6,"likes":2,"dislikes":8,"content":"认真学了一学期，绩点4.8"},{"id":126722,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2020-10-15 12:37:50","like_diff":-6,"likes":1,"dislikes":7,"content":"能学到很多"},{"id":128465,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2020-12-23 10:08:19","like_diff":-6,"likes":2,"dislikes":8,"content":"我一般上课不写作业 但是作业实在是太多了 我只好一边听课一边做笔记一边写感想一边提醒同学不要玩游戏 还有好多同学不好好听课 明明上课质量优秀 哎～"},{"id":155038,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-06-07 17:08:55","like_diff":-7,"likes":2,"dislikes":9,"content":"细细想来真的有很多话是非常有道理的，别在上课前抱有不好的心态去就行。狂妄的学者而已。"},{"id":2649,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2015-05-05 03:08:04","like_diff":-8,"likes":5,"dislikes":13,"content":"给份很好 最重要的是学到很多东西"},{"id":144938,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-12-26 03:43:47","like_diff":-8,"likes":3,"dislikes":11,"content":"鲁伯伯的创业基础事少分高，不错不错"},{"id":40976,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-01-07 06:32:33","like_diff":-9,"likes":3,"dislikes":12,"content":"灵魂导师，说是鸡汤的是没有去感悟老师的哲学。可以收获很多。当然作业也多，所以选上，是幸运也是修行。"},{"id":47280,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-01-25 04:58:20","like_diff":-9,"likes":1,"dislikes":10,"content":"鲁伯伯更多的是教会我们思与悟，而且他充分地信任我们每一个人，给了我们发挥自己才能的空间，在鲁班，你可以看见一群优秀的人在你追我赶。"},{"id":145094,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-12-27 10:56:58","like_diff":-9,"likes":1,"dislikes":10,"content":"知识面广"},{"id":70813,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-01-27 14:21:45","like_diff":-11,"likes":1,"dislikes":12,"content":"在这个因为下雪回不了家的日子里，唯一给我慰藉的就是今天出分的管理学绩点。4.8。没有满绩但是对得起我这个学期的努力。鲁伯伯说他没有正态，大概是真的吧。唯一让我反感的是他给圣牧的硬广。至于鲁班至于授课其他同学说的很多了，个人不将之定义为鸡汤。"},{"id":161069,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-11-01 13:22:41","like_diff":-11,"likes":1,"dislikes":12,"content":"时不时能说出几句话触动到我这个麻木的大学生我觉得已经不错了，我挺喜欢他"},{"id":73577,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2018-02-02 04:11:01","like_diff":-12,"likes":3,"dislikes":15,"content":"作业是真的真的真的多啊，我周一到周三的时间全花在管理学上了。不过收获也挺多的，关于人生的想法还挺独特的，小组合作氛围也很好，认识许多小伙伴，还是一次不错的经历啦！"},{"id":129709,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-01-26 00:38:55","like_diff":-12,"likes":2,"dislikes":14,"content":"事多，但给分会高一些"},{"id":22959,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-03-15 06:58:36","like_diff":-14,"likes":7,"dislikes":21,"content":"虽然毁了微积分，大英均绩乃至选专业，但从不后悔！"},{"id":63662,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-12-12 03:16:13","like_diff":-14,"likes":0,"dislikes":14,"content":"听过其他老师的课，和鲁老师差距不是一点点大"},{"id":41466,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-01-12 00:49:14","like_diff":-15,"likes":4,"dislikes":19,"content":"伟大的老师，永恒的智者。心与道的修炼，岂是普通人能懂的。那些追求绩点的功利的利己主义者不要选，鲁伯伯只欢迎想真正明悟哲理的人。道可道，非常道。"},{"id":128460,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2020-12-23 09:49:33","like_diff":-17,"likes":0,"dislikes":17,"content":"虽然任务特别多，但不可否认老师在大政方针上上具有前瞻性，这是值得我们尊敬的"},{"id":64354,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-12-23 01:04:52","like_diff":-18,"likes":2,"dislikes":20,"content":"我就是很喜欢鲁爷爷的课，你们这些负面评价我真心不知道哪里来的"},{"id":169037,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2023-02-24 05:28:54","like_diff":-18,"likes":3,"dislikes":21,"content":"真的好老师（）"},{"id":129335,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-01-04 09:24:10","like_diff":-22,"likes":2,"dislikes":24,"content":"虽然学不到什么组织管理的知识，但可以收获其他很多东西。很庆幸第一个学期选到了鲁老师的课。作业也没有那么那么多。“从来不会想起，但也不会忘记”的知识是老师想给我们的。"},{"id":39652,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2016-12-26 14:24:48","like_diff":-23,"likes":21,"dislikes":44,"content":"鲁伯伯作业留的非常少，完成不完成全部靠自觉。期末有百分之三十免考满绩，没有小测，没有点名，课程很水，规矩很少！把我顶上头条！让学弟学妹知道这是个好老师！"},{"id":145121,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-12-27 13:46:38","like_diff":-33,"likes":8,"dislikes":41,"content":"鲁老师身上有很多值得我们学习的地方，也会带来很多创新的观点。看了一下底下的留言，我想说如果你真的在课上一直跟着老师的思路走，你会很有收货的。最后一节课上老师教导我们要永远保有热情到生命最后一刻，很多人在大学由优秀走向平庸而不是卓越。虽然老师的观点我也不是全部认同，但是能学到一些从其他老师那里学不到的以及对于人生的理解和感悟，我觉得还是很有收货。另外，创业基础这门课的事情确实比较多，但是认真听完你能对创新能有一个重新的认识。在出分前评价，防止受到绩点的影响，总之创新创业的课选鲁老师的创业基础很好，打十分。"},{"id":199770,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2024-11-22 08:40:55","like_diff":-36,"likes":3,"dislikes":39,"content":"抛开输出暴论不提，老登给分是真好啊，此生无悔进鲁班！！！"},{"id":148886,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2022-01-14 01:23:39","like_diff":-38,"likes":1,"dislikes":39,"content":"每节课必点名，学到的东西虽然不多，但也可以学到东西吧。"},{"id":145721,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2021-12-31 23:52:16","like_diff":-41,"likes":4,"dislikes":45,"content":"鲁老师的管理学真的是我上大学以来收获最多的一堂课，是各方面素质和思维方式的全面提升，事情虽然有点多但是收获绝对和付出成正比"},{"id":41464,"teacher_id":1099,"teacher_name":"鲁柏祥","post_time":"2017-01-12 00:20:08","like_diff":-79,"likes":8,"dislikes":87,"content":"看完这么多黑鲁伯伯评价才知道浙大竟然有这么多傻逼，呵呵你们不过就是未来的打工人员而已了。真正是不是干货自己能懂，爱选选，不选滚。真正的哲学本来就是少数人能听懂的。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

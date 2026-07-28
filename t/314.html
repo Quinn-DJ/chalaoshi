@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>那仁满都拉 - 医学院 - 浙大教评</title>
+    <meta name="description" content="那仁满都拉教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="那仁满都拉,医学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">那仁满都拉</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">医学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.55</div>
+                    <div class="rating-participants">127人参与评分</div>
+                    <div class="attendance-info">24.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">上善若水</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.41</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.40</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">卫生毒理学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.48</span>
+                            <span class="students">选课: 224人</span>
+                            <span class="std-dev">标准差: 0.85</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (113 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":32364,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-07-06 09:12:36","like_diff":26,"likes":43,"dislikes":17,"content":"这是我在浙遇到的最水的老师，讲课个人观点特别强烈，各种吹牛，自己的成绩好像很了不起一样，给分我只能呵呵"},{"id":3531,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2015-06-17 01:29:02","like_diff":25,"likes":48,"dislikes":23,"content":"给分好，讲的内容也很充实。"},{"id":22135,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-03-02 12:52:02","like_diff":22,"likes":31,"dislikes":9,"content":"老师会把自行车坐垫拔下来，带到教室。。"},{"id":166411,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2023-01-12 07:43:26","like_diff":22,"likes":23,"dislikes":1,"content":"2022-2023秋冬上善若水，整个课程就是在讲喝水，尤其是喝纯净水的重要性，课上经常穿插一些老师对当代青年不健康生活习惯的担忧。我们能够在课上学到什么呢？如果你先前天天喝奶茶、可乐等饮料，很少喝水或者喝的都是煮熟的自来水，在听了老师的课后形成了一个更为健康的饮水习惯，甚至进一步把这种生活理念推广给周围的人，我认为这就很有意义。不过如果你之前的生活方式就很健康，或者你是一个不容易被说服改变生活习惯的人，那么这门课就是一门水课。就分数构成来说，这次是小组展示+期末2000字以内的小作文，展示题目是“家乡的水污染治理”或者“上这门课的感受”，小作文主题是“如果你是家乡的领导者，如何让本地区的人民喝上好水”。老师给分还是很好的，如果你在展示或者作文中多表达对家乡的热爱和这门课对你生活习惯的改善，那么分数大概率是不会差的"},{"id":22134,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-03-02 12:50:36","like_diff":19,"likes":25,"dislikes":6,"content":"听老师的课我一直在喝水，还有老师是个男的，一直推荐我们喝哇哈哈。。。。哈哈哈哈哈哈"},{"id":24394,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-04-17 03:49:31","like_diff":17,"likes":26,"dislikes":9,"content":"老师讲得很好，个人感觉也非常有收获。就是帮忙改论文的人太坑了，强行绩杀(´⊥｀*)\n\n"},{"id":24883,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-05-04 08:11:15","like_diff":14,"likes":22,"dislikes":8,"content":"只能说给分并不好"},{"id":26972,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-06-22 03:03:01","like_diff":13,"likes":20,"dislikes":7,"content":"并不喜欢这个老师上课，感觉说话很极端，会突然叫不听课的人站起来回答问题，喜欢威胁学生"},{"id":110456,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2019-06-27 02:08:48","like_diff":12,"likes":14,"dislikes":2,"content":"为了民族团结我不敢给一分"},{"id":24920,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-05-04 10:37:03","like_diff":10,"likes":18,"dislikes":8,"content":"分太坑了。。无语"},{"id":32216,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-11-09 13:07:50","like_diff":10,"likes":17,"dislikes":7,"content":"点名都到了 上去展示了  论文好好写了\n\n凭什么给分这么渣\n\n老师观点偏激  有点自我  上课毫无逻辑感\n\n并不是给分不好才这么说 \n\n不相信的可以选选看\n\n"},{"id":32377,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-07-06 10:26:57","like_diff":10,"likes":15,"dislikes":5,"content":"期末因为其他考试比较多所以论文没有很认真写，本来也不期望能拿多高的分，不过签到都到了小组展示也做了还把我正态到80下这就有点尴尬加懵逼了。个人感觉上课气氛不够活跃，有点压抑，本身关于水的内容三次课左右就讲完了，所以后面都会涉及病理和毒理的知识，略枯燥一点...."},{"id":105327,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2019-04-17 11:29:28","like_diff":9,"likes":10,"dislikes":1,"content":"这老师嘴巨毒，事情还很杂。观点狭隘，太高高在上了"},{"id":148962,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2022-01-14 04:38:26","like_diff":8,"likes":10,"dislikes":2,"content":"给分很迷很难过。。。感觉是随机给分。每次出勤，有展示，考试题都是答对的，小作文写了近千字也很认真，出分前抱有很大期待，但看到结果真的难受了，真的无论如何都没想到会这么低。。。。是到目前为止收到的最低分了"},{"id":164355,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2022-12-20 11:08:25","like_diff":8,"likes":8,"dislikes":0,"content":"真.水课😰😰😰"},{"id":191800,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2024-04-30 09:44:50","like_diff":8,"likes":8,"dislikes":0,"content":"乒乓球桌？素质有待提高😅"},{"id":34220,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-11-19 10:42:36","like_diff":7,"likes":11,"dislikes":4,"content":"‥(｡ŏ﹏ŏ)又是一门疯狂拉绩点的课\n\n\n\n"},{"id":108382,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2019-05-22 10:45:00","like_diff":7,"likes":8,"dislikes":1,"content":"嘴很毒很贱"},{"id":113636,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2019-07-07 01:36:24","like_diff":7,"likes":7,"dislikes":0,"content":"难人蛮毒啦。"},{"id":117764,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2019-09-30 11:55:04","like_diff":7,"likes":15,"dislikes":8,"content":"讲课不做评判，有的观点实在偏激，作为医学院的老师，说同性恋是一种心理疾病，对多元的文化不够包容和尊重，让人感觉很不好。"},{"id":26633,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-07-06 03:18:38","like_diff":6,"likes":9,"dislikes":3,"content":"。。。"},{"id":32204,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-07-06 03:01:48","like_diff":6,"likes":10,"dislikes":4,"content":"就缺了一次课还交了请假条，论文好好写了，还上去展示给了那么低的分也是醉了，就这样吧没有话好说"},{"id":37669,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-11-20 04:43:52","like_diff":6,"likes":7,"dislikes":1,"content":"听课还是挺好的，老师也挺幽默，就是分不好，也不知道为什么"},{"id":88146,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2018-10-23 04:01:58","like_diff":6,"likes":7,"dislikes":1,"content":"观点极其偏激，用着十年前的PPT……"},{"id":103460,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2019-02-28 07:59:35","like_diff":6,"likes":6,"dislikes":0,"content":"不喜欢迟到和后排哦，谨记"},{"id":62518,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-11-25 15:11:02","like_diff":5,"likes":6,"dislikes":1,"content":"讲的都是万年前的数据水的重要意义谁不知道但政府现行的规范必有其道理也确实在向好的方面转变总之我不知道这课有什么存在的意义 但是话又说回来 那仁老师的专业知识还是很强大的 非常想听他讲他和他的砷"},{"id":118546,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2019-10-28 10:41:45","like_diff":5,"likes":7,"dislikes":2,"content":"既针对 又偏激"},{"id":118547,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2019-10-28 10:47:34","like_diff":5,"likes":13,"dislikes":8,"content":"不懂这老师分数为什么这么高…水与健康上课歧视同性恋，歧视留学生，讲课主观偏激，牛倒是挺会吹的…1分"},{"id":25749,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-06-06 11:07:55","like_diff":4,"likes":19,"dislikes":15,"content":"上课一直说中国的各种不好，各种负能量，没听过一句好玩，说的中国好像很黑暗一样！"},{"id":62439,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-11-25 09:07:39","like_diff":4,"likes":6,"dislikes":2,"content":"给分比较好，上课蛮有趣的，千万不要迟到，也学到了一些东西"},{"id":84242,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2018-07-12 10:25:45","like_diff":4,"likes":4,"dislikes":0,"content":"又水又健康，老师给分好"},{"id":107045,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2019-05-01 04:13:04","like_diff":4,"likes":5,"dislikes":1,"content":"4.8\n\n期末论文2000字手写…"},{"id":113591,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2019-07-07 00:41:12","like_diff":4,"likes":4,"dislikes":0,"content":"课是真的水，但是给分也没有特别好啦。老师还可以吧，但有时候非常偏激，且非常讨厌迟到。后面选的朋友们千万不要迟到啊！"},{"id":150644,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2022-02-08 16:09:09","like_diff":4,"likes":9,"dislikes":5,"content":"大爱那仁老师，老师超级有趣，上课可以学到很多东西，是手动签字点名，最后给分好极了，推荐大家选这门课（上善若水）"},{"id":194501,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2024-06-24 07:49:00","like_diff":4,"likes":4,"dislikes":0,"content":"好人，还算有趣，但爹味难掩"},{"id":195465,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2024-06-28 07:19:27","like_diff":4,"likes":4,"dislikes":0,"content":"上课爹味有点重，但是给分还行。上善若水又水给分友善"},{"id":756,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2019-05-26 12:51:24","like_diff":3,"likes":9,"dislikes":6,"content":"很好"},{"id":34208,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-11-09 13:08:43","like_diff":3,"likes":6,"dislikes":3,"content":"。。。。。"},{"id":34727,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-11-10 07:48:32","like_diff":3,"likes":7,"dislikes":4,"content":"。。。。。"},{"id":37535,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-11-19 09:39:15","like_diff":3,"likes":8,"dislikes":5,"content":"非常直爽的老师，刀子嘴豆腐心"},{"id":90587,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2018-11-24 08:33:24","like_diff":3,"likes":3,"dislikes":0,"content":"好 真好 课如其名"},{"id":90938,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2018-11-28 00:27:53","like_diff":3,"likes":3,"dislikes":0,"content":"老师讲的挺有趣的。不定期签到，最后一堂课课堂即兴pre（20min准备包括分组和做ppt），一篇中英文皆可的论文。每节课都去了，上台pre了，论文用中文认真写了，最后4.2，还算可以了。"},{"id":148880,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2022-01-14 00:57:54","like_diff":3,"likes":5,"dislikes":2,"content":"上善若水，给分意料之外的不错，平时随便听听课，签到是以手动签名的方式，然后到期末有一个两人组队的展示环节，一个考试，但也挺水的哈哈哈哈。那仁老师上课个人色彩比较强烈，不过也是个很有教书育人感觉的老师!"},{"id":178808,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2023-07-24 00:48:13","like_diff":3,"likes":3,"dislikes":0,"content":"很喜欢老师的性格-直率，他说只要75%的学生喜欢这门可就达到了目的，不在乎其他人对他的负面评论；对时间的要求贼高！感谢老师，学到了很多做人做事，担当等，感谢"},{"id":7609,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2015-09-15 06:31:20","like_diff":2,"likes":7,"dislikes":5,"content":"很棒的老师，关心学生"},{"id":24517,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-05-01 04:02:13","like_diff":2,"likes":5,"dislikes":3,"content":"还行，观点有些重复讲"},{"id":78457,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2018-05-12 04:32:46","like_diff":2,"likes":6,"dislikes":4,"content":"老师非常棒o(^o^)o以三次签到的方式点名，签到表会在他上课的时候在同学之间传，要留意一下或者下课之后去签；讨论和展示不计分，但是同学们都很积极地上台展示了；最后的论文，老师要求既要交电子版文档，又要交手写稿，鼓励用英文写。其实我的字很丑，当老师说他除了看内容之外还会看学生的态度，本来以为这门课又要凉了，结果出乎我的意料，给老师一个大大的赞?老师非常讨厌迟到的同学，同学们要注意不要迟到"},{"id":107149,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2019-05-02 02:32:35","like_diff":2,"likes":3,"dislikes":1,"content":"课程很有趣，老师也很帅，但是给分不是很理想"},{"id":176432,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2023-06-29 01:58:42","like_diff":2,"likes":3,"dislikes":1,"content":"给分很迷……没想到会这么低，而且还卡绩……钉钉已读不回……虽然上课是很水，但是每个作业我都是有认真在做的，点名也都在，考试也认真考，怎么会这样……是随机给分吧……"},{"id":191809,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2024-04-30 11:49:47","like_diff":2,"likes":2,"dislikes":0,"content":"《上善若水》。。。。。。至此已成笑话"},{"id":37529,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-11-19 09:06:18","like_diff":1,"likes":8,"dislikes":7,"content":"这个老师太nice了！给分很好 而且可以记住每一个学生 据说是在家放羊能记住每一只羊（虽然在我看来都一样） 很养生很轻松的课堂 相信会有收获的！"},{"id":48726,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-03-10 08:21:01","like_diff":1,"likes":2,"dislikes":1,"content":"有点有趣"},{"id":49911,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-04-27 06:00:04","like_diff":1,"likes":3,"dislikes":2,"content":"坑，喜欢点名"},{"id":62437,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-11-25 08:36:51","like_diff":1,"likes":3,"dislikes":2,"content":"事少分高，上课很有趣。给老师打call!!"},{"id":62440,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-11-25 09:08:20","like_diff":1,"likes":3,"dislikes":2,"content":"讲的很好，还是很有收获的\n\n而且平常事情比较少，期末一篇2000字手写论文就OK了"},{"id":62496,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-11-25 12:52:07","like_diff":1,"likes":1,"dislikes":0,"content":"这课上起来一点也不累，好好听听还是有很多健康tips，而且老师给分良心"},{"id":64916,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-12-28 02:53:12","like_diff":1,"likes":1,"dislikes":0,"content":"还可以吧"},{"id":88970,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2018-11-13 02:45:45","like_diff":1,"likes":1,"dislikes":0,"content":"Good"},{"id":103867,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2019-03-06 13:51:02","like_diff":1,"likes":3,"dislikes":2,"content":"就凭课上的最后一句，我愿意给老师十分"},{"id":118549,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2019-10-28 10:58:34","like_diff":1,"likes":3,"dislikes":2,"content":"歧视留学生是真的严重，装b也是真的会装"},{"id":144224,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2021-12-20 16:10:04","like_diff":1,"likes":2,"dislikes":1,"content":"老是非常好，很敬业，上课很有趣"},{"id":144950,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2021-12-26 04:33:39","like_diff":1,"likes":1,"dislikes":0,"content":"。。。"},{"id":160339,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2022-09-19 11:35:21","like_diff":1,"likes":1,"dislikes":0,"content":"水水更健康"},{"id":160340,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2022-09-19 11:35:21","like_diff":1,"likes":1,"dislikes":0,"content":"水水更健康"},{"id":170641,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2023-03-07 11:28:03","like_diff":1,"likes":2,"dislikes":1,"content":"老师上课会传达正能量，满满的收获！推荐给大家！"},{"id":177829,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2023-07-05 03:13:43","like_diff":1,"likes":1,"dislikes":0,"content":"老师人很好"},{"id":177830,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2023-07-05 03:13:43","like_diff":1,"likes":1,"dislikes":0,"content":"老师人很好"},{"id":211530,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2025-01-12 01:14:45","like_diff":1,"likes":1,"dislikes":0,"content":"会有几次点名，以纸质签到的形式。上课可以不用听，（如果对稍微专业一点的知识不感兴趣的话，比如我）但是一个长学期下来确实对水的重要性有了更深的了解吧。我感觉上课是没有压力的，我都在干自己的事情。但偶尔会抽同学回答问题，但是基本上是蛮基础的理科小问题，回答不上来也没事啦。\n老师个人色彩强烈，会有人喜欢有人很讨厌。\n我们这次应该算运气比较好，考核方式是一次小组汇报和期末开卷考（可以查手机），开卷考的选择题都搜的到，最后一道主观题是讲讲对这节课的看法，我认为应该尽量写多点，然后显示出你有听点课（可以引用一些老师的“名言”），应该是能拿到不错的成绩的。\n但是一些同学说他给分不咋地，那看来只能尽人事听老师命啦～"},{"id":211583,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2025-01-12 03:04:34","like_diff":1,"likes":1,"dislikes":0,"content":"给分烂的很，上课就会吹牛逼自说自话"},{"id":214739,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2025-02-17 07:34:42","like_diff":1,"likes":1,"dislikes":0,"content":"2024-2025学的上善若水，每节课都去了，期末也认真写了，小组展示也是好好做的，但是3.9。感觉给分会比较玄乎，没有具体的标准。"},{"id":24720,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-05-03 08:02:20","like_diff":0,"likes":7,"dislikes":7,"content":"讲课认真给分良心，平时完全没作业期末交一篇2k字论文就OK，课程内容也不无聊，老师一直在安利我们喝矿泉水233 可选√"},{"id":24761,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-05-03 11:52:09","like_diff":0,"likes":5,"dislikes":5,"content":"给分可以(◎_◎;)"},{"id":26264,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-06-16 12:35:55","like_diff":0,"likes":9,"dislikes":9,"content":"绝对男神，带着北方汉子的豪爽。给分我觉得可以，一起的课友分都不错，平时没作业，期末2K手写论文。推荐选。有收获。"},{"id":49321,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-04-05 07:15:11","like_diff":0,"likes":4,"dislikes":4,"content":"绝对是我男神。"},{"id":49721,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-04-24 19:28:24","like_diff":0,"likes":4,"dislikes":4,"content":"给分低，死也不选他的课"},{"id":50462,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-05-03 04:59:57","like_diff":0,"likes":1,"dislikes":1,"content":"第一次上90的通识，大爱老师。每节课都来，论文认真写就好啦。"},{"id":50527,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-05-03 09:52:20","like_diff":0,"likes":1,"dislikes":1,"content":"啊！太棒了吧!给分太好了！"},{"id":50584,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-05-03 16:06:39","like_diff":0,"likes":2,"dislikes":2,"content":"老师太有趣了三观也正认真写论文给分好"},{"id":51321,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-05-31 08:08:48","like_diff":0,"likes":0,"dislikes":0,"content":"各取所需"},{"id":55979,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-07-03 01:12:25","like_diff":0,"likes":0,"dislikes":0,"content":"课上会有签到，签到不够三次期末就没分啦，大家一定不要缺太多的课！老师上课还是挺幽默风趣的，论文用心写一下，分数不会太差，虽然临时的pre和speak English有点尴尬，但毕竟这课平时也没啥事情啊！"},{"id":56002,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-07-03 01:46:54","like_diff":0,"likes":0,"dislikes":0,"content":"老师很有趣～很耿直超逗。主要就是有助于生活中对水的认识等等"},{"id":56039,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-07-03 03:17:52","like_diff":0,"likes":0,"dislikes":0,"content":"老师人还比较负责，但是上课的教学方式是实在不喜欢，给分一般"},{"id":62454,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-11-25 09:52:13","like_diff":0,"likes":0,"dislikes":0,"content":"很好的老师，能了解很多东西。但是给分不是很理想。"},{"id":62508,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-11-25 14:37:43","like_diff":0,"likes":2,"dislikes":2,"content":"胡言乱语、乱给分"},{"id":76836,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2018-04-24 10:15:17","like_diff":0,"likes":1,"dislikes":1,"content":"虽然这门课主要是以水为主，但是老师会加入一些病例个案，将医学知识与水课题相结合。除了能学到水的重要性，也扩展了对病例的认识。老师也非常喜欢和学生互动，整堂课下来不会感觉枯燥乏味，特别棒的一门通识课\n\n\n\n"},{"id":79727,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2018-06-13 06:05:51","like_diff":0,"likes":0,"dislikes":0,"content":"给分真心好！"},{"id":83870,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2018-07-11 11:46:01","like_diff":0,"likes":0,"dislikes":0,"content":"听课还是挺好的，老师也挺幽默，给分也超好哦!"},{"id":163815,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2022-12-16 07:24:49","like_diff":0,"likes":1,"dislikes":1,"content":"水课就对了"},{"id":171527,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2023-03-27 11:12:10","like_diff":0,"likes":1,"dislikes":1,"content":"感觉老师挺和蔼的，上课内容也确实很水，就是不知道为什么，老师要求最后一排的同学不能坐着上课，好像必须要躺着。我也不太懂，因为我今天第一次蹭课，老师好像不认识最后一排的两位督导，连带把我也赶出去了。总之，水水就好。"},{"id":176435,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2023-06-29 02:12:54","like_diff":0,"likes":0,"dislikes":0,"content":"给分一般 满嘴火车"},{"id":176550,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2023-06-29 08:48:03","like_diff":0,"likes":0,"dislikes":0,"content":"..."},{"id":180346,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2023-09-21 07:22:15","like_diff":0,"likes":0,"dislikes":0,"content":"老师挺幽默的，上完这门课只学到了，“喝好的纯净水”哈哈哈哈，老师刀子嘴豆腐心，感觉挺可爱的，在学术方面也很有成就！作业什么的按照要求写应该不会差，期末的论文我结合身边的实例，最后满了~"},{"id":196731,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2024-07-05 02:33:51","like_diff":0,"likes":0,"dislikes":0,"content":"给分很好，课可以随便水，就一次pre（应该是不计入考核分的那种）还有一次开卷考（可以上网搜答案），开卷考的感悟好好写最后满了"},{"id":209523,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2025-01-06 07:31:24","like_diff":0,"likes":0,"dislikes":0,"content":"很有趣的老师"},{"id":211521,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2025-01-12 00:59:50","like_diff":0,"likes":1,"dislikes":1,"content":"事少分高 还能学到不少健康知识 大家都快去选上善若水"},{"id":221357,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2025-06-23 04:20:50","like_diff":0,"likes":1,"dislikes":1,"content":"放心选"},{"id":221424,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2025-06-23 10:26:59","like_diff":0,"likes":0,"dislikes":0,"content":"上的上善若水课，老师讲课很有意思，缺点是会点名，但整体来说事很少，给分高，可以选！"},{"id":225406,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2025-12-23 06:35:09","like_diff":0,"likes":0,"dislikes":0,"content":"讲水与健康的知识，纸质点名"},{"id":24395,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-04-30 09:29:38","like_diff":-1,"likes":6,"dislikes":7,"content":"讲得好 给分也还可以的"},{"id":30192,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-07-01 05:00:49","like_diff":-1,"likes":6,"dislikes":7,"content":"会有签到。老师讲的绝对是有用的东西，给十分。我上课就带两瓶水，讲一会就得喝一口。期末手写一篇论文，字不好看者慎入，本人字比较难看所以最后分比较低～平时会有签到。"},{"id":50467,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-05-03 05:28:58","like_diff":-1,"likes":1,"dislikes":2,"content":"讲课很幽默，给分还凑合"},{"id":52744,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-06-22 11:49:53","like_diff":-1,"likes":4,"dislikes":5,"content":"真的是无语了后天就要考试了，最后一节课没有事干，强行点了很多人上去speak English，真的呵呵。现在就是正在听着他讲各种闲话什么书都看不进去，拜托大家都很忙好吗最后一节课没事能不能放啊在这里拖着大家都很不好受啊。提前告诉以后要选这课的同学们，他说以后要让每个同学做pre and speak English(摊手)。"},{"id":76902,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2018-04-25 13:02:59","like_diff":-1,"likes":2,"dislikes":3,"content":"那仁老师是我在浙遇到的最好的老师，能给人带来正能量，上了他的课收获很大，很喜欢他的上课风格"},{"id":76971,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2018-04-26 16:54:30","like_diff":-1,"likes":3,"dislikes":4,"content":"老师是真的好老师！！！不过就是课堂80％的留学生，有点吵。。最后是两千字的作文，英语写恶竞了解一下？"},{"id":78640,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2018-05-14 05:48:21","like_diff":-1,"likes":0,"dislikes":1,"content":"课上留学生很多，三次签到，一次展示，一次论文，最后给了满级，付出和回报还是成正比的，夏天大嘎多喝水哈"},{"id":83972,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2018-07-11 15:40:22","like_diff":-1,"likes":0,"dislikes":1,"content":"三次签到一篇论文事儿少给分好 愿意听的可以学到些东西的;平时代签一下的期末论文好好写也有不错的分数。"},{"id":84030,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2018-07-12 01:23:22","like_diff":-1,"likes":0,"dislikes":1,"content":"一个比较有人生情趣的老师。上课其实就是在分享一些养生小常识和他的人生经验。平时三次点名加期末2000字论文，比较轻松。课上留学生会多一些，最后给分不错。"},{"id":119406,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2019-11-12 17:06:31","like_diff":-1,"likes":2,"dislikes":3,"content":"出成绩了呀"},{"id":167073,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2023-01-15 01:28:24","like_diff":-1,"likes":1,"dislikes":2,"content":"楼下说得对"},{"id":31876,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2016-07-06 05:45:43","like_diff":-2,"likes":5,"dislikes":7,"content":"老师给我的分还是不错的 可能因为女生字写得比较公整"},{"id":170643,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2023-03-07 11:49:44","like_diff":-2,"likes":0,"dislikes":2,"content":"课非常好，给分也很好。"},{"id":78488,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2018-05-12 09:33:56","like_diff":-5,"likes":2,"dislikes":7,"content":"太好的老师了o(^o^)o满绩的我太开心了"},{"id":62452,"teacher_id":314,"teacher_name":"那仁满都拉","post_time":"2017-11-25 09:45:30","like_diff":-10,"likes":3,"dislikes":13,"content":"三观正到炸裂，不停喝水。给分的话看看均绩就知道挺好的，。我觉得我写论文已经超级用心了，还是没有满绩（别打我），可能有更认真的吧。我只是好奇那些没我用心写论文的人怎么个分数。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

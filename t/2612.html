@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>张弛 - 人文学院 - 浙大教评</title>
+    <meta name="description" content="张弛教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="张弛,人文学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">张弛</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">人文学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.30</div>
+                    <div class="rating-participants">93人参与评分</div>
+                    <div class="attendance-info">12.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (8 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">18世纪法国史：从启蒙运动到法兰西第一帝国</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.64</span>
+                            <span class="students">选课: 14人</span>
+                            <span class="std-dev">标准差: 0.39</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">世界历史文选</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.71</span>
+                            <span class="students">选课: 29人</span>
+                            <span class="std-dev">标准差: 0.64</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">世界史史料研读</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.39</span>
+                            <span class="students">选课: 26人</span>
+                            <span class="std-dev">标准差: 0.27</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">世界文明史Ⅰ（H）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.06</span>
+                            <span class="students">选课: 247人</span>
+                            <span class="std-dev">标准差: 0.41</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">世界近代史（Q）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.30</span>
+                            <span class="students">选课: 57人</span>
+                            <span class="std-dev">标准差: 0.31</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">历史社会学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.54</span>
+                            <span class="students">选课: 60人</span>
+                            <span class="std-dev">标准差: 0.32</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">史学规范与论文写作</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.19</span>
+                            <span class="students">选课: 40人</span>
+                            <span class="std-dev">标准差: 0.36</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">学年论文</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.20</span>
+                            <span class="students">选课: 28人</span>
+                            <span class="std-dev">标准差: 0.75</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (73 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":51300,"teacher_id":2612,"teacher_name":"张弛","post_time":"2017-05-29 14:26:26","like_diff":32,"likes":39,"dislikes":7,"content":"那股痞劲儿真让人又爱又恨。"},{"id":93261,"teacher_id":2612,"teacher_name":"张弛","post_time":"2019-01-08 12:44:52","like_diff":17,"likes":19,"dislikes":2,"content":"听说老师头发长出来了 再打一次分 来自日渐秃头本人的羡慕|ω・）"},{"id":51719,"teacher_id":2612,"teacher_name":"张弛","post_time":"2017-06-08 14:41:37","like_diff":16,"likes":18,"dislikes":2,"content":"你抽车，我推烟。\n\n一根烟的功夫。\n\n经典老师，好老师是用来启蒙的，而不只是传授知识的。"},{"id":131065,"teacher_id":2612,"teacher_name":"张弛","post_time":"2021-01-25 23:08:33","like_diff":15,"likes":16,"dislikes":1,"content":"呜呜老婆人太好了，爱了爱了"},{"id":167895,"teacher_id":2612,"teacher_name":"张弛","post_time":"2023-01-20 03:24:19","like_diff":15,"likes":18,"dislikes":3,"content":"本人理科生，世界文明史H可以水课，任务少，一次小组展示+期末5000字读书报告，但会被绩杀。"},{"id":18484,"teacher_id":2612,"teacher_name":"张弛","post_time":"2016-01-21 22:25:56","like_diff":14,"likes":17,"dislikes":3,"content":"第一次给老师评分，张老师的课，听的好受益匪浅，听不好便水过去，请在一开始就跟住他的心"},{"id":82369,"teacher_id":2612,"teacher_name":"张弛","post_time":"2018-07-08 03:58:54","like_diff":14,"likes":18,"dislikes":4,"content":"不多说，这辈子遇到的最负责、最优秀的老师，本科四年给予的教导和帮助实在难以用感谢一词概括。三生有幸，得教于张弛师。"},{"id":9869,"teacher_id":2612,"teacher_name":"张弛","post_time":"2015-11-11 11:34:36","like_diff":13,"likes":18,"dislikes":5,"content":"非常好"},{"id":18569,"teacher_id":2612,"teacher_name":"张弛","post_time":"2016-01-22 04:41:21","like_diff":13,"likes":15,"dislikes":2,"content":"一个有智慧，有独特思想的老师，推崇自由化课堂，超级好"},{"id":18607,"teacher_id":2612,"teacher_name":"张弛","post_time":"2016-01-22 06:10:27","like_diff":13,"likes":16,"dislikes":3,"content":"我觉得这才是大学老师    极有魅力"},{"id":22312,"teacher_id":2612,"teacher_name":"张弛","post_time":"2016-03-03 12:18:53","like_diff":11,"likes":13,"dislikes":2,"content":"走神一秒落后一年"},{"id":184377,"teacher_id":2612,"teacher_name":"张弛","post_time":"2023-12-18 10:40:24","like_diff":11,"likes":12,"dislikes":1,"content":"怎么我的到课率都比老师高了呢😅"},{"id":122156,"teacher_id":2612,"teacher_name":"张弛","post_time":"2020-02-17 11:22:44","like_diff":9,"likes":10,"dislikes":1,"content":"能有这样的先生，实属我浙学子之幸。“我认为，最优秀的学生不是在关注最紧迫的问题，而是在关注最根本的问题”。一个秋学期的世界文明史，实在受益匪浅。"},{"id":181485,"teacher_id":2612,"teacher_name":"张弛","post_time":"2023-10-19 02:54:39","like_diff":9,"likes":9,"dislikes":0,"content":"······"},{"id":119151,"teacher_id":2612,"teacher_name":"张弛","post_time":"2019-11-11 01:50:33","like_diff":7,"likes":7,"dislikes":0,"content":"让人又爱又恨，完全碾压，思维活跃跳脱。罗伯特·达恩顿的学生。不讲究死记硬背，提倡独立思考。"},{"id":174318,"teacher_id":2612,"teacher_name":"张弛","post_time":"2023-06-09 09:20:06","like_diff":7,"likes":8,"dislikes":1,"content":"历史社会学是一门相当伟大的课，感觉不上的人亏大了（另：感谢老师介绍让我认识了现在非常热爱的汤普森，当时看《买卖妻子》这篇的时候真的受到了深深的震撼…）"},{"id":183807,"teacher_id":2612,"teacher_name":"张弛","post_time":"2023-11-30 07:50:44","like_diff":7,"likes":7,"dislikes":0,"content":"老师你今年怎么大变活人……是有什么心事吗……"},{"id":63061,"teacher_id":2612,"teacher_name":"张弛","post_time":"2017-11-28 05:43:05","like_diff":6,"likes":8,"dislikes":2,"content":"上课很有趣哇 会放一些小视频  关心老师头会不会冷|ω・）"},{"id":74412,"teacher_id":2612,"teacher_name":"张弛","post_time":"2018-02-20 01:42:47","like_diff":6,"likes":7,"dislikes":1,"content":"虽然分不高，但是人格魅力哇！"},{"id":94087,"teacher_id":2612,"teacher_name":"张弛","post_time":"2019-01-15 07:03:26","like_diff":6,"likes":8,"dislikes":2,"content":"博学、见解深刻、富有情怀，关键长得还帅，完全是神仙老师！结课了好不舍，想打100分"},{"id":91204,"teacher_id":2612,"teacher_name":"张弛","post_time":"2018-12-03 07:31:46","like_diff":5,"likes":6,"dislikes":1,"content":"老师超级棒!\n\n这才是大学教授应该有的样子!\n\n\n\n因为他爱上了希腊文明\n\n\n\n也在考虑转去历史系"},{"id":181515,"teacher_id":2612,"teacher_name":"张弛","post_time":"2023-10-20 07:16:29","like_diff":5,"likes":5,"dislikes":0,"content":"我太菜了"},{"id":213038,"teacher_id":2612,"teacher_name":"张弛","post_time":"2025-01-16 00:38:33","like_diff":5,"likes":6,"dislikes":1,"content":"觉得老师其实更适合搞研究而不是上课 因为从老师的教育背景和家乡来看不难推出为什么老师会选择在浙大教书 以及老师的性格可能并非是授课型的而确实是研究型的 不过为了不浪费彼此的时间希望学校可以给这门课换一位老师或者让老师稍微调整一下这门课的内容 老师长得其实还算帅的 能从北大历史系毕业也非常厉害（我曾经的梦想qwq） 给老师打了9分 //出分89"},{"id":100387,"teacher_id":2612,"teacher_name":"张弛","post_time":"2019-01-26 04:36:40","like_diff":4,"likes":5,"dislikes":1,"content":"我学世界文明史最大的收获，一是来自拉尔夫的书，二是来自张弛老师讲的课"},{"id":184072,"teacher_id":2612,"teacher_name":"张弛","post_time":"2023-12-08 00:52:56","like_diff":4,"likes":4,"dislikes":0,"content":"老师还是很有水平的，但是上课经常迟到。。"},{"id":185531,"teacher_id":2612,"teacher_name":"张弛","post_time":"2024-01-02 02:31:00","like_diff":4,"likes":6,"dislikes":2,"content":"历史社会学，pre是考核方式。我夙兴夜寐做了特别久ppt写了5000字报告绘声绘色讲了十几分钟，他一直在做自己的事情，下课了居然不知道我是否有汇报过，还在钉钉群里@我问。。。。。。。。。。。真的崩溃了。\n\n我的努力，都是小狗屁。\n\n自己早八几乎此次迟到，还有好几次让学生代课。"},{"id":87065,"teacher_id":2612,"teacher_name":"张弛","post_time":"2018-09-20 06:24:52","like_diff":3,"likes":4,"dislikes":1,"content":"男神不多说"},{"id":93311,"teacher_id":2612,"teacher_name":"张弛","post_time":"2019-01-09 03:15:31","like_diff":3,"likes":4,"dislikes":1,"content":"不说了，是真正的有思想的老师，也是大学需要的老师。"},{"id":120300,"teacher_id":2612,"teacher_name":"张弛","post_time":"2019-11-27 23:59:47","like_diff":3,"likes":4,"dislikes":1,"content":"先生风骨，山高水长"},{"id":121294,"teacher_id":2612,"teacher_name":"张弛","post_time":"2019-12-23 11:09:10","like_diff":3,"likes":4,"dislikes":1,"content":"老师讲课有时候会上头，很酷"},{"id":165121,"teacher_id":2612,"teacher_name":"张弛","post_time":"2022-12-29 13:48:43","like_diff":3,"likes":4,"dislikes":1,"content":"有一众迷妹……\n\n相当让人敬佩的老师，永远忘不了他讲来自黎巴嫩的雪松时带来的感动"},{"id":165135,"teacher_id":2612,"teacher_name":"张弛","post_time":"2022-12-29 09:18:22","like_diff":3,"likes":6,"dislikes":3,"content":"真的好喜欢老师！世界文明史H，不属于理科生的任何培养方案，完全凭借兴趣选择。但是真的受益匪浅。老师会启发我们拥有历史的思维去了解世界的文明，启发我们解读材料。课后的作业内容也较为轻松，小组展示轻松但能学到很多。世界文明史课甚至比数学课和计算机课更加吸引我，成为每周的期待。老师上课行云流水，富有思辨，满腹经纶。强烈推荐有兴趣的同学选择，绝对值得！"},{"id":187638,"teacher_id":2612,"teacher_name":"张弛","post_time":"2024-01-17 02:36:59","like_diff":3,"likes":4,"dislikes":1,"content":"严厉又温柔，上完他的历史社会学，到现在都很怕他。本来想通过这门课，好好看书好好讨论的，但是今年选的人太多了，以往一个班就十几个人，今年有四五十个，讨论都没法进行，所以老师采取的是一个一个抽人回答。但我们今年很多人选了课但没来上课，老师很生气（因为每次发言也算是一次小考试，老师会记录给分），遂每次上课都会优先抽上节课没来上课的同学回答问题，算是给一次补考机会。如果是为了高绩点来选这门课的，建议不用，因为很累，而且人多课堂讨论目的也达不到，老师也不会给每个同学高分，要看实力。"},{"id":9868,"teacher_id":2612,"teacher_name":"张弛","post_time":"2015-11-11 11:34:02","like_diff":2,"likes":4,"dislikes":2,"content":"视听结合～～"},{"id":9890,"teacher_id":2612,"teacher_name":"张弛","post_time":"2015-11-12 04:35:00","like_diff":2,"likes":4,"dislikes":2,"content":"非常喜欢他的课，很有趣"},{"id":53521,"teacher_id":2612,"teacher_name":"张弛","post_time":"2017-06-27 01:44:44","like_diff":2,"likes":2,"dislikes":0,"content":"上课超有趣，满满的干货。有知识有情怀～"},{"id":70477,"teacher_id":2612,"teacher_name":"张弛","post_time":"2018-01-26 16:35:46","like_diff":2,"likes":2,"dislikes":0,"content":"老师超好"},{"id":71464,"teacher_id":2612,"teacher_name":"张弛","post_time":"2018-01-28 13:23:38","like_diff":2,"likes":4,"dislikes":2,"content":"极有魅力的老师"},{"id":104613,"teacher_id":2612,"teacher_name":"张弛","post_time":"2019-03-25 07:03:45","like_diff":2,"likes":2,"dislikes":0,"content":"不是，老师，您慢点，这车速有点快啊呜呜呜\n\n   满分老师"},{"id":104621,"teacher_id":2612,"teacher_name":"张弛","post_time":"2019-03-25 07:52:55","like_diff":2,"likes":2,"dislikes":0,"content":"讲的是真好，也是真快，求求老师字别这么潇洒就好了?"},{"id":105961,"teacher_id":2612,"teacher_name":"张弛","post_time":"2019-04-23 15:13:00","like_diff":2,"likes":2,"dislikes":0,"content":"社会的感觉"},{"id":113467,"teacher_id":2612,"teacher_name":"张弛","post_time":"2019-07-06 17:44:37","like_diff":2,"likes":4,"dislikes":2,"content":"社会缺少这样的人，浙大缺少这样的老师"},{"id":151508,"teacher_id":2612,"teacher_name":"张弛","post_time":"2022-03-06 07:59:00","like_diff":2,"likes":3,"dislikes":1,"content":"令人敬畏"},{"id":165059,"teacher_id":2612,"teacher_name":"张弛","post_time":"2022-12-29 02:22:33","like_diff":2,"likes":3,"dislikes":1,"content":"我个人之前对世界文明史的知识知之甚少，于是我不太跟得上张老师的思路，甚至我都搞不懂上课讲了些什么。\n\n张老师前几节课讲总论的时候讲了几节课“什么是世界，什么是文明，什么是历史”，而我又有点讨厌这些空空地讨论定义的东西，于是就对这门课有了一点成见。讲两河的时候讲他们住的房子是怎么样的，讲埃及的时候又讲埃及的神啊鬼啊的，哈哈哈哈我被老师搞蒙了……\n\n但我印象最深的是讲希腊城邦四美德的那节课，我受到的启发很大。"},{"id":165104,"teacher_id":2612,"teacher_name":"张弛","post_time":"2022-12-29 07:00:09","like_diff":2,"likes":3,"dislikes":1,"content":"世界文明史H，当做普通的通识课选的，选上才发现班里有很多人社的同学，一开始没有特别认真听课，但是总是会被老师讲课吸引并且思考。是一门能学到很多东西，思考很多东西，也很自由开放的课程。"},{"id":199303,"teacher_id":2612,"teacher_name":"张弛","post_time":"2024-09-20 15:00:05","like_diff":2,"likes":3,"dislikes":1,"content":"hhh 点名杀手"},{"id":224643,"teacher_id":2612,"teacher_name":"张弛","post_time":"2025-11-26 06:08:34","like_diff":2,"likes":2,"dislikes":0,"content":"真正有大师风范的老师，很潇洒，对学生也很好，和老师讨论学术问题会非常非常有深度，讲课虽然有点难但如果认真学习的话一定会非常非常有收获，一定不要错过"},{"id":151195,"teacher_id":2612,"teacher_name":"张弛","post_time":"2022-02-24 08:32:23","like_diff":1,"likes":4,"dislikes":3,"content":"老师是真的厉害。任务很多，非本专业慎选。"},{"id":165177,"teacher_id":2612,"teacher_name":"张弛","post_time":"2022-12-30 01:54:30","like_diff":1,"likes":3,"dislikes":2,"content":"选了不吃亏，强度高，收获大"},{"id":184074,"teacher_id":2612,"teacher_name":"张弛","post_time":"2023-12-08 01:22:07","like_diff":1,"likes":7,"dislikes":6,"content":"emmmm……难评……自己总不来上课还节节讽刺学生不上课……"},{"id":187980,"teacher_id":2612,"teacher_name":"张弛","post_time":"2024-01-18 02:48:27","like_diff":1,"likes":2,"dislikes":1,"content":"想向老师请教问题，老师已读不回………."},{"id":189022,"teacher_id":2612,"teacher_name":"张弛","post_time":"2024-01-21 09:23:16","like_diff":1,"likes":3,"dislikes":2,"content":"很难评，不是因为老师给分不好，而是因为以我菜鸡的水平难以给这么大牛的老师以中肯的评价。"},{"id":189747,"teacher_id":2612,"teacher_name":"张弛","post_time":"2024-01-28 07:58:41","like_diff":1,"likes":2,"dislikes":1,"content":"上过老师两门课了。\n\n历史社会学这门课，老师前四周的安排很好，前面阅读书目也让我收获很大。(日夜苦读)但后面每个人都展示显得有些水(可能是课程人数增加很多的原因)，而且老师会忙着做其他事情。\n\n老师经常迟到，但多是因为身体原因。大家没必要指责。(还有两次让其学生代课也是)\n\n老师学识渊博，世界史史料阅读课上收获很大，启发很大，对学生的要求也高。是很好的老师。(如果能亲近点学生就更好了)"},{"id":209293,"teacher_id":2612,"teacher_name":"张弛","post_time":"2025-01-05 10:53:24","like_diff":1,"likes":2,"dislikes":1,"content":"我记得他最后一节课说（也可能是我听错了）\n\n你们都挺膈应我的吧，不过活该，谁让你们选了（）"},{"id":8115,"teacher_id":2612,"teacher_name":"张弛","post_time":"2015-09-17 05:22:42","like_diff":0,"likes":5,"dislikes":5,"content":"人挺好"},{"id":9870,"teacher_id":2612,"teacher_name":"张弛","post_time":"2015-11-11 11:34:50","like_diff":0,"likes":3,"dislikes":3,"content":"萌萌哒"},{"id":9871,"teacher_id":2612,"teacher_name":"张弛","post_time":"2015-11-11 11:35:02","like_diff":0,"likes":3,"dislikes":3,"content":"好老师"},{"id":106838,"teacher_id":2612,"teacher_name":"张弛","post_time":"2019-04-30 04:08:53","like_diff":0,"likes":3,"dislikes":3,"content":"用才华和情怀收割迷妹心的老师！男神！妥妥的男神！！"},{"id":110095,"teacher_id":2612,"teacher_name":"张弛","post_time":"2019-06-22 15:51:52","like_diff":0,"likes":2,"dislikes":2,"content":"浙大需要这样的老师"},{"id":187445,"teacher_id":2612,"teacher_name":"张弛","post_time":"2024-01-16 07:09:58","like_diff":0,"likes":5,"dislikes":5,"content":"讲课毫无逻辑，考试内容与上课没什么关联，认真听完所有课答题分都没多高，老师平时分给分也超级烂，别选，考试全靠ppt，不是那种认真上课分就高的课"},{"id":187449,"teacher_id":2612,"teacher_name":"张弛","post_time":"2024-01-16 07:18:27","like_diff":0,"likes":2,"dislikes":2,"content":"好老师，上课富有激情与启发性"},{"id":212576,"teacher_id":2612,"teacher_name":"张弛","post_time":"2025-01-14 08:27:50","like_diff":0,"likes":0,"dislikes":0,"content":"行吧，"},{"id":224105,"teacher_id":2612,"teacher_name":"张弛","post_time":"2025-11-10 00:34:25","like_diff":0,"likes":0,"dislikes":0,"content":"很感谢老师"},{"id":165119,"teacher_id":2612,"teacher_name":"张弛","post_time":"2022-12-29 08:06:45","like_diff":-1,"likes":0,"dislikes":1,"content":"老师上课很认真，只是我对于历史知识不是很感兴趣，反而很喜欢老师岔开去讲的话题（x）\n\n上的世界文明史，能看出来老师不仅仅是在教知识，是真的想让我们有所思考的，认真听他的一些教导还是蛮有启发的"},{"id":165141,"teacher_id":2612,"teacher_name":"张弛","post_time":"2022-12-29 09:47:56","like_diff":-1,"likes":0,"dislikes":1,"content":"老师很博学，讲课思维跳跃很大，上课会放很多视频，能学到很多历史知识"},{"id":165142,"teacher_id":2612,"teacher_name":"张弛","post_time":"2022-12-29 09:51:15","like_diff":-1,"likes":0,"dislikes":1,"content":"老师讲课超级有意思"},{"id":207833,"teacher_id":2612,"teacher_name":"张弛","post_time":"2024-12-24 12:14:21","like_diff":-1,"likes":2,"dislikes":3,"content":"大师风范，讲课有水平，课堂氛围自由，会提问，但不算点名。世界文明史只用进行小组展示，以及写一篇5000字读书报告，就能得到3学分，我做为理科生选了世界文明史H，很有收获。"},{"id":172918,"teacher_id":2612,"teacher_name":"张弛","post_time":"2023-05-10 02:19:32","like_diff":-3,"likes":0,"dislikes":3,"content":"老师真的特别好，讲课有一种娓娓道来引人入胜的感觉，听老师讲课真的是一种享受！！！"},{"id":208899,"teacher_id":2612,"teacher_name":"张弛","post_time":"2025-01-03 08:07:38","like_diff":-3,"likes":1,"dislikes":4,"content":"上课随意，给分随机，平时展示做得越多分越低，这课你就上吧，等低分随机到你头上就老实了"},{"id":18642,"teacher_id":2612,"teacher_name":"张弛","post_time":"2016-02-03 10:13:55","like_diff":-4,"likes":5,"dislikes":9,"content":"呵呵呵呵"},{"id":204673,"teacher_id":2612,"teacher_name":"张弛","post_time":"2024-11-27 09:07:08","like_diff":-4,"likes":0,"dislikes":4,"content":"我不喜欢他，再也不会选你的课"},{"id":184333,"teacher_id":2612,"teacher_name":"张弛","post_time":"2023-12-18 02:28:05","like_diff":-5,"likes":2,"dislikes":7,"content":"感谢张弛师"},{"id":7175,"teacher_id":2612,"teacher_name":"张弛","post_time":"2017-10-24 01:12:25","like_diff":-24,"likes":10,"dislikes":34,"content":"表情很搞笑，女生分都高，男生给分很崩溃"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

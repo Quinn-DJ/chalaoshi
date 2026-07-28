@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>魏江 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="魏江教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="魏江,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">魏江</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">1.31</div>
+                    <div class="rating-participants">126人参与评分</div>
+                    <div class="attendance-info">14.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">创业战略</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.24</span>
+                            <span class="students">选课: 79人</span>
+                            <span class="std-dev">标准差: 0.43</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">战略管理</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.64</span>
+                            <span class="students">选课: 35人</span>
+                            <span class="std-dev">标准差: 0.95</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (91 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":108727,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-06-01 04:10:01","like_diff":90,"likes":114,"dislikes":24,"content":"要是能给零分早就毫不犹豫了，价值观有问题，大男子主义，功利主义，非常轻浮，把管院管理得乱七八糟的。去年入院典礼说学会计没用，今年又来说如果能取消这个专业早就取消了。你牛逼，人人都去研究股市管控风险了太厉害了。“毕业以后去企业做借贷分录我就跟你断绝母校关系”这种话是院长该说的吗？不停质问新生为什么浙大没有培养出国家领导人为什么不反思一下自己呢？总而言之牛逼了，惹不起。"},{"id":32693,"teacher_id":3124,"teacher_name":"魏江","post_time":"2016-07-09 16:35:41","like_diff":64,"likes":79,"dislikes":15,"content":"恕我直言，讲课是种价值观，讲套路很深，但给分不负责，应该反思自己教学哪里有问题"},{"id":86079,"teacher_id":3124,"teacher_name":"魏江","post_time":"2018-09-04 12:54:42","like_diff":58,"likes":63,"dislikes":5,"content":"听了一场讲座，可能认识不全面，恕我直言，感觉对国家形势等方面的认识比较理性，但个人价值观方面近乎于存天理灭人欲的偏激观点真的不敢苟同，吹13方面不输强哥"},{"id":125010,"teacher_id":3124,"teacher_name":"魏江","post_time":"2020-08-10 05:24:02","like_diff":56,"likes":63,"dislikes":7,"content":"真的是管院最差的院长！\n\n1.本科课程越改越水，以前比较有难度的专业课，中微，计量这些课居然都删掉了，水课占据了百分之90，既没有数理性，也没有思想性。整个本科也就几门数学基础课还有点意义了。就这还自诩为课程改革的典范。。。。\n\n2.喜欢吹牛不务实。入院典礼公开吐槽会计学没用，讲一堆虚头巴脑的东西，与其扯这些有的没的还不如好好改善一下本科教学！\n\n3.学院对学生就业提供的支持太少了！不给帮忙也就罢了，大四居然还故意分散排课阻碍学生实习，脑回路很奇特！！！\n\n\n\n\n\n"},{"id":108154,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-05-15 16:31:47","like_diff":50,"likes":50,"dislikes":0,"content":"谁来管管管院越来越浮躁的风气？？？"},{"id":108329,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-05-21 07:17:40","like_diff":43,"likes":43,"dislikes":0,"content":"博士生凭什么不能抑郁？！"},{"id":103485,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-06-02 08:56:07","like_diff":42,"likes":46,"dislikes":4,"content":"枉然不顾历史背景大谈浙大行政企业人才空缺；论点大于逻辑，思想偏激而无支撑，借用刘欣一句话it’s all emotions and accusations supported with little substance. 和印象相差甚远，吹逼能力不输强哥。还有sexual discrimination"},{"id":105898,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-04-23 02:05:48","like_diff":42,"likes":44,"dislikes":2,"content":"过于浮夸了，吹牛大于学术能力，管院本科课程也太水。价值观有些扭曲"},{"id":108745,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-06-01 08:25:47","like_diff":39,"likes":42,"dislikes":3,"content":"讲话直戳我喷点，直男癌＋大男子主义＋官僚主义＝魏江"},{"id":106085,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-04-25 02:04:43","like_diff":36,"likes":36,"dislikes":0,"content":"不喜欢，喜欢吹牛"},{"id":107775,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-05-09 10:57:22","like_diff":34,"likes":35,"dislikes":1,"content":"沽名钓誉"},{"id":108635,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-06-01 04:33:39","like_diff":33,"likes":42,"dislikes":9,"content":"毫无疑问一分！搞个入院典礼形式主义，还让同学出节目浪费时间。自己的讲话吹牛浮夸，价值观扭曲，还讲什么会计没用？！这是一个院长该有的样子？"},{"id":124401,"teacher_id":3124,"teacher_name":"魏江","post_time":"2020-06-30 05:53:41","like_diff":31,"likes":31,"dislikes":0,"content":"就问一句你是真的懂会计吗？如果仅仅认为会计就是借贷分录和常规的账务处理，我只会觉得你很无知。无知也没有关系，隔行如隔山，但无知又不尊重，坐在这样的位子上还大方厥词，就是你的不对了。——来自启真湖里的王八"},{"id":86078,"teacher_id":3124,"teacher_name":"魏江","post_time":"2018-09-04 11:57:06","like_diff":28,"likes":31,"dislikes":3,"content":"偏激啊\n\n"},{"id":115492,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-07-28 15:07:15","like_diff":27,"likes":27,"dislikes":0,"content":"唱支山歌给党听"},{"id":124921,"teacher_id":3124,"teacher_name":"魏江","post_time":"2020-07-21 01:40:51","like_diff":27,"likes":29,"dislikes":2,"content":"直男癌，势利小人，斯文败类。"},{"id":117990,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-10-17 16:57:43","like_diff":26,"likes":26,"dislikes":0,"content":"自我感觉良好 官瘾大 升官之后当浙大副校长了浙大咋办啊"},{"id":107617,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-05-07 23:01:10","like_diff":25,"likes":27,"dislikes":2,"content":"管院为什么要合并那么多专业"},{"id":120494,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-12-09 08:31:01","like_diff":25,"likes":26,"dislikes":1,"content":"我说傻逼魏江有人有疑问吗？管院什么时候换院长？"},{"id":124925,"teacher_id":3124,"teacher_name":"魏江","post_time":"2020-07-21 03:25:32","like_diff":25,"likes":26,"dislikes":1,"content":"管院有这样的院长真悲哀！非常势利且很有权力欲"},{"id":106307,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-04-26 09:47:46","like_diff":24,"likes":25,"dislikes":1,"content":"套路太多"},{"id":108314,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-05-21 01:52:59","like_diff":24,"likes":26,"dislikes":2,"content":"希特勒也是比较有个人魅力但打着为国家、为真理的名号强奸欧洲扩张权力的呀"},{"id":89569,"teacher_id":3124,"teacher_name":"魏江","post_time":"2018-11-19 15:28:36","like_diff":21,"likes":21,"dislikes":0,"content":"一般般"},{"id":107892,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-05-11 00:31:18","like_diff":21,"likes":23,"dislikes":2,"content":"价值观不太正常"},{"id":108472,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-05-26 07:59:28","like_diff":20,"likes":21,"dislikes":1,"content":"讲自己的奋斗史，不能沉下心好好讲课，太浮躁"},{"id":116600,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-09-12 02:58:09","like_diff":20,"likes":21,"dislikes":1,"content":"价值观极其扭曲"},{"id":124390,"teacher_id":3124,"teacher_name":"魏江","post_time":"2020-06-30 04:40:21","like_diff":20,"likes":23,"dislikes":3,"content":"价值观有问题，取向不正确，看不起swot，看不起学生，看不起一切，又没有啥大牛的地方，跟吴晓波至少差10个量级"},{"id":108730,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-06-01 04:08:55","like_diff":19,"likes":20,"dislikes":1,"content":"大男子主义直男癌"},{"id":121220,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-12-27 06:02:51","like_diff":19,"likes":19,"dislikes":0,"content":"正在听19年新生的专业见面交流会，印象非常糟糕"},{"id":106171,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-04-25 12:02:49","like_diff":18,"likes":18,"dislikes":0,"content":"不喜欢"},{"id":108497,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-05-27 03:40:55","like_diff":18,"likes":19,"dislikes":1,"content":"套路比理论多"},{"id":116317,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-09-08 08:09:43","like_diff":18,"likes":20,"dislikes":2,"content":"性别歧视，普通话水平有待提高，全天下唯我独尊"},{"id":119117,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-11-10 13:01:31","like_diff":18,"likes":21,"dislikes":3,"content":"这位老师说实话已经不是为人师表有问题了，作为一个人的基本素养都没有，指着外国留学生当面diss这是一位老师该干的事情吗？"},{"id":123084,"teacher_id":3124,"teacher_name":"魏江","post_time":"2020-05-09 01:58:53","like_diff":18,"likes":19,"dislikes":1,"content":"假大空"},{"id":107858,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-05-10 11:21:57","like_diff":17,"likes":18,"dislikes":1,"content":"比较骄傲"},{"id":121357,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-12-18 08:16:49","like_diff":17,"likes":17,"dislikes":0,"content":"空谈误国！"},{"id":107804,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-05-10 01:33:39","like_diff":16,"likes":16,"dislikes":0,"content":"没觉得有多神"},{"id":107928,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-05-12 01:53:53","like_diff":16,"likes":17,"dislikes":1,"content":"无语了。。。。。。"},{"id":122647,"teacher_id":3124,"teacher_name":"魏江","post_time":"2020-03-11 13:36:54","like_diff":16,"likes":18,"dislikes":2,"content":"如果可以尽量避开他的课吧，尤其女生，怕被气死"},{"id":124383,"teacher_id":3124,"teacher_name":"魏江","post_time":"2020-06-30 03:44:59","like_diff":16,"likes":18,"dislikes":2,"content":"只会整些有的没的，讲的东西毫无营养，猪脚更是傻逼"},{"id":133955,"teacher_id":3124,"teacher_name":"魏江","post_time":"2021-03-10 13:07:36","like_diff":16,"likes":17,"dislikes":1,"content":"观点很片面主观性很强 而且非常自大 不知道怎么当上院长的"},{"id":142144,"teacher_id":3124,"teacher_name":"魏江","post_time":"2021-11-07 17:52:40","like_diff":16,"likes":17,"dislikes":1,"content":"小人得志"},{"id":144474,"teacher_id":3124,"teacher_name":"魏江","post_time":"2021-12-21 17:31:20","like_diff":16,"likes":17,"dislikes":1,"content":"浙大的耻辱"},{"id":107876,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-05-11 00:17:52","like_diff":15,"likes":15,"dislikes":0,"content":"不负责任"},{"id":124185,"teacher_id":3124,"teacher_name":"魏江","post_time":"2020-06-26 16:11:11","like_diff":15,"likes":15,"dislikes":0,"content":"没什么干货"},{"id":124386,"teacher_id":3124,"teacher_name":"魏江","post_time":"2020-06-30 03:59:44","like_diff":15,"likes":18,"dislikes":3,"content":"渣就一个字，我只说一次"},{"id":151692,"teacher_id":3124,"teacher_name":"魏江","post_time":"2022-03-28 14:00:11","like_diff":14,"likes":16,"dislikes":2,"content":"性别歧视，自以为是，欺下瞒上，蝈蝻劣根性之集大成者。"},{"id":119118,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-11-10 13:56:30","like_diff":13,"likes":14,"dislikes":1,"content":"无语了"},{"id":150645,"teacher_id":3124,"teacher_name":"魏江","post_time":"2022-02-08 17:41:01","like_diff":12,"likes":13,"dislikes":1,"content":"沽名钓誉的势利小人"},{"id":159762,"teacher_id":3124,"teacher_name":"魏江","post_time":"2022-08-28 12:42:53","like_diff":12,"likes":12,"dislikes":0,"content":"听了他的讲座，这年头还能听到这种讲座（流汗黄豆）"},{"id":193919,"teacher_id":3124,"teacher_name":"魏江","post_time":"2024-06-20 18:01:34","like_diff":12,"likes":13,"dislikes":1,"content":"女朋友浙财的，听说调到浙财当校长后净整些诸如教考分离的花活，快被骂死了🤣"},{"id":159757,"teacher_id":3124,"teacher_name":"魏江","post_time":"2022-08-28 12:15:50","like_diff":11,"likes":11,"dislikes":0,"content":"他知道清朝亡了吗…"},{"id":142143,"teacher_id":3124,"teacher_name":"魏江","post_time":"2021-11-07 17:43:31","like_diff":9,"likes":10,"dislikes":1,"content":"魏江真恶心"},{"id":142524,"teacher_id":3124,"teacher_name":"魏江","post_time":"2021-11-12 15:03:05","like_diff":9,"likes":10,"dislikes":1,"content":"此人有毒"},{"id":159764,"teacher_id":3124,"teacher_name":"魏江","post_time":"2022-08-28 12:44:16","like_diff":9,"likes":10,"dislikes":1,"content":"别犹豫，快跑"},{"id":181779,"teacher_id":3124,"teacher_name":"魏江","post_time":"2023-10-31 11:29:43","like_diff":9,"likes":9,"dislikes":0,"content":"终于走了 感动"},{"id":159759,"teacher_id":3124,"teacher_name":"魏江","post_time":"2022-08-28 12:23:47","like_diff":8,"likes":9,"dislikes":1,"content":"请问这位是原始时代穿越来的吗？已经2022年了。快醒醒吧"},{"id":160815,"teacher_id":3124,"teacher_name":"魏江","post_time":"2022-10-13 17:16:31","like_diff":7,"likes":9,"dislikes":2,"content":"之前有一段时间内各地高校接连有好几位研究生同学想不开ZS的，媒体上沸沸扬扬。听说其竟然在组会上对这些不幸的同学言语轻浮不敬，用这些事来对自己的学生进行“敲打”，足以说明其缺乏最基本的做人素质。"},{"id":172757,"teacher_id":3124,"teacher_name":"魏江","post_time":"2023-05-06 07:48:05","like_diff":7,"likes":8,"dislikes":1,"content":"喊女生站起来问她三围，问大家她好不好看？？？？？你大男子主义沽名钓誉拿你没办法，你要是敢性骚扰？？"},{"id":216078,"teacher_id":3124,"teacher_name":"魏江","post_time":"2025-03-10 08:12:11","like_diff":7,"likes":7,"dislikes":0,"content":"SB胃浆，请滚回浙大"},{"id":153680,"teacher_id":3124,"teacher_name":"魏江","post_time":"2022-05-07 16:47:42","like_diff":6,"likes":6,"dislikes":0,"content":"讲课没什么干货，一直在吹牛，啥都学不到。。。"},{"id":159756,"teacher_id":3124,"teacher_name":"魏江","post_time":"2022-08-28 12:15:02","like_diff":6,"likes":7,"dislikes":1,"content":"大男子主义"},{"id":159758,"teacher_id":3124,"teacher_name":"魏江","post_time":"2022-08-28 12:20:40","like_diff":6,"likes":6,"dislikes":0,"content":"这都啥跟啥"},{"id":174370,"teacher_id":3124,"teacher_name":"魏江","post_time":"2023-06-11 04:45:06","like_diff":6,"likes":8,"dislikes":2,"content":"怎么还没有收敛于1😅集我对中年蝻的刻板印象于一身"},{"id":156146,"teacher_id":3124,"teacher_name":"魏江","post_time":"2022-06-18 02:44:47","like_diff":5,"likes":5,"dislikes":0,"content":"比较偏激"},{"id":159763,"teacher_id":3124,"teacher_name":"魏江","post_time":"2022-08-28 12:43:21","like_diff":4,"likes":5,"dislikes":1,"content":"不能理解的三观….大清亡了"},{"id":159765,"teacher_id":3124,"teacher_name":"魏江","post_time":"2022-08-28 12:50:30","like_diff":4,"likes":5,"dislikes":1,"content":"清朝哥哥"},{"id":159767,"teacher_id":3124,"teacher_name":"魏江","post_time":"2022-08-28 12:59:05","like_diff":4,"likes":5,"dislikes":1,"content":"qnm"},{"id":164891,"teacher_id":3124,"teacher_name":"魏江","post_time":"2022-12-27 10:22:09","like_diff":4,"likes":4,"dislikes":0,"content":"垃圾东西"},{"id":173501,"teacher_id":3124,"teacher_name":"魏江","post_time":"2023-05-26 12:21:04","like_diff":3,"likes":3,"dislikes":0,"content":"乐色老师"},{"id":173504,"teacher_id":3124,"teacher_name":"魏江","post_time":"2023-05-26 13:33:01","like_diff":3,"likes":3,"dislikes":0,"content":"当了副校长浙大咋办啊 救命 下头男"},{"id":197334,"teacher_id":3124,"teacher_name":"魏江","post_time":"2024-07-11 03:37:21","like_diff":3,"likes":3,"dislikes":0,"content":"听同期实习同事（浙财）的说，你去他们学校天天开音乐节😂"},{"id":216080,"teacher_id":3124,"teacher_name":"魏江","post_time":"2025-03-10 08:18:02","like_diff":3,"likes":3,"dislikes":0,"content":"一坨10"},{"id":202594,"teacher_id":3124,"teacher_name":"魏江","post_time":"2024-11-13 08:49:15","like_diff":2,"likes":2,"dislikes":0,"content":"可怕很凶"},{"id":159768,"teacher_id":3124,"teacher_name":"魏江","post_time":"2022-08-28 13:32:46","like_diff":1,"likes":7,"dislikes":6,"content":"价值观真的不正确，吹马斯克是企业家和科学家为一身的伟大人物，吹乌克兰人民是坚强的人民，真无语了"},{"id":216082,"teacher_id":3124,"teacher_name":"魏江","post_time":"2025-03-10 08:42:31","like_diff":1,"likes":1,"dislikes":0,"content":"。。。"},{"id":216149,"teacher_id":3124,"teacher_name":"魏江","post_time":"2025-03-11 04:46:02","like_diff":1,"likes":1,"dislikes":0,"content":"求撞大运🙏"},{"id":225432,"teacher_id":3124,"teacher_name":"魏江","post_time":"2025-12-23 09:50:04","like_diff":1,"likes":1,"dislikes":0,"content":"我浙财的同学都想让他滚回来"},{"id":159766,"teacher_id":3124,"teacher_name":"魏江","post_time":"2022-08-28 12:54:24","like_diff":0,"likes":1,"dislikes":1,"content":"《讲座名师》我听得太认真了…"},{"id":216121,"teacher_id":3124,"teacher_name":"魏江","post_time":"2025-03-10 17:25:26","like_diff":0,"likes":0,"dislikes":0,"content":"td，能不能滚回去"},{"id":205518,"teacher_id":3124,"teacher_name":"魏江","post_time":"2024-12-08 12:18:15","like_diff":-6,"likes":1,"dislikes":7,"content":"烂博配烂导"},{"id":151232,"teacher_id":3124,"teacher_name":"魏江","post_time":"2022-02-25 04:41:47","like_diff":-13,"likes":4,"dislikes":17,"content":"挺好的 我喜欢"},{"id":134798,"teacher_id":3124,"teacher_name":"魏江","post_time":"2021-04-15 11:45:30","like_diff":-22,"likes":2,"dislikes":24,"content":"需要理解他的思维"},{"id":124387,"teacher_id":3124,"teacher_name":"魏江","post_time":"2020-06-30 04:03:16","like_diff":-23,"likes":4,"dislikes":27,"content":"挺好的，不错"},{"id":56717,"teacher_id":3124,"teacher_name":"魏江","post_time":"2017-07-04 12:22:41","like_diff":-26,"likes":4,"dislikes":30,"content":"6666666的感觉"},{"id":79246,"teacher_id":3124,"teacher_name":"魏江","post_time":"2018-05-28 12:38:02","like_diff":-27,"likes":8,"dislikes":35,"content":"商业思维优秀，比起院长，更像企业家。"},{"id":80681,"teacher_id":3124,"teacher_name":"魏江","post_time":"2018-06-29 05:35:53","like_diff":-28,"likes":7,"dislikes":35,"content":"就像个企业家"},{"id":108758,"teacher_id":3124,"teacher_name":"魏江","post_time":"2019-06-01 13:02:36","like_diff":-38,"likes":16,"dislikes":54,"content":"其实吧，我也是会计专业的18级本科生，也听了他的讲话。我觉得他的本意还是很好的，希望我们管院学子能够具有以天下为己任的崇高情怀，而不是拘泥于找个工作考个证书。而且，会计专业目前确实在一些领域被人工智能替代了，低端会计是没有前景的，魏江老师也是希望我们会计学的学生要更有压力，打好数理基础，不要满足只做一个“会计”。我问了北大光华的学姐，她也说在北大，会计学的学生很少真正做会计，大多还是进入资本金融分析市场。这是一个趋势。只不过，魏老师讲话听起来确实有点偏激，但这应该更多的是为了演讲的效果，为了能让我们印象更深刻。我觉得他讲的还是对我很有启发的。"},{"id":3759,"teacher_id":3124,"teacher_name":"魏江","post_time":"2015-06-17 03:29:24","like_diff":-43,"likes":15,"dislikes":58,"content":"满分用解释？是那种可以不要学分都要来听的课。"},{"id":78996,"teacher_id":3124,"teacher_name":"魏江","post_time":"2018-05-20 00:55:06","like_diff":-47,"likes":5,"dislikes":52,"content":"魏江院长好帅！思想很深邃！"},{"id":51022,"teacher_id":3124,"teacher_name":"魏江","post_time":"2017-05-14 05:34:51","like_diff":-53,"likes":6,"dislikes":59,"content":"魏江男神！"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

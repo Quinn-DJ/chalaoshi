@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>刘渊 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="刘渊教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="刘渊,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">刘渊</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">5.19</div>
+                    <div class="rating-participants">128人参与评分</div>
+                    <div class="attendance-info">22.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">电子商务与电子政务</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.99</span>
+                            <span class="students">选课: 102人</span>
+                            <span class="std-dev">标准差: 0.50</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">电子商务概论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.76</span>
+                            <span class="students">选课: 90人</span>
+                            <span class="std-dev">标准差: 0.74</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (116 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":80664,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2018-06-29 03:10:18","like_diff":61,"likes":80,"dislikes":19,"content":"为什么对于这样的老师，管理学院都是各种赞美各种荣誉？还评为三好学者！试问一个论文和基金完全由学生，并未有指导，整天钻营给政府写报告的老师如何是一个好学者？假大空，跟着他的博士都是怨声载道。猥亵女学生，半夜一两天约男生到家里私聊。两个国家社科项目都是由博士生写的，结题书也是由学生写的，压榨学生，不许毕业，而且完全由学生完成的结题报告都不署名。管院的风气真的很可悲！"},{"id":118854,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-07 05:08:52","like_diff":56,"likes":59,"dislikes":3,"content":"讲一学期课就三句话，1.昨天我又去哪里开会了2.阿里真牛逼3.我真牛逼。"},{"id":64285,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2018-01-22 13:07:30","like_diff":33,"likes":35,"dislikes":2,"content":"只会自己瞎逼逼，给分就看上课回答问题活跃度，"},{"id":37650,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-11-20 02:45:58","like_diff":30,"likes":33,"dislikes":3,"content":"分低\n\n作业那么认真\n\n分还那么低\n\n好气"},{"id":63382,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2018-01-04 04:02:17","like_diff":22,"likes":31,"dislikes":9,"content":"讲的东西倒确乎是可以的，只是老师有一种谜一般的自信。对信管专业特别偏爱，如果为了绩点的话非信管专业慎选。最后补充一句吐槽：请问您是浙大教授呢还是阿里的技工呢？"},{"id":7520,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2015-09-15 01:47:56","like_diff":20,"likes":35,"dislikes":15,"content":"不明觉厉"},{"id":37683,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-11-20 06:05:39","like_diff":19,"likes":24,"dislikes":5,"content":"课看似很神，实则肤浅，无聊的水课，给分还低"},{"id":2626,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2015-07-18 11:22:39","like_diff":18,"likes":31,"dislikes":13,"content":"不能翘课，讲的很厉害，我仔细听也不能完全听懂，两次小组展示，每次我都好好干，都是我去讲的，最后大作业改了又改，尽我最大可能去写了，竟然刚刚80出头。。。"},{"id":63340,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2017-12-01 02:51:40","like_diff":17,"likes":18,"dislikes":1,"content":"分低的超乎想象……"},{"id":64527,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2017-12-25 02:46:35","like_diff":17,"likes":19,"dislikes":2,"content":"当初看了楼上的评价，觉得如果上课有收获给分低也无所谓，就选了电子商务与电子政务。结果非常失望。感觉一直在重复两节课的内容，没有太多干货。而且，， 给分确实非常低。"},{"id":36415,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-11-13 09:16:04","like_diff":16,"likes":21,"dislikes":5,"content":"强调对学生思维的锻炼，不过总体来讲比较虚，翻来覆去讲电商的优点，本质上是一样的。考试很坑，都是一些技术层面的东西，上课从来没提过，貌似是在百度文库里摘的，搜电子商务考试就能搜到。"},{"id":63337,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2017-12-01 02:45:36","like_diff":14,"likes":16,"dislikes":2,"content":"績點大爆炸"},{"id":87226,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2018-09-26 01:56:17","like_diff":13,"likes":13,"dislikes":0,"content":"无聊透顶。毫无干货。优越感满满。"},{"id":88121,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2018-10-22 13:13:52","like_diff":12,"likes":15,"dislikes":3,"content":"水课，什么都学不到，绩点全看课堂活跃度。想学东西就不要选，毫无收获，自己上网搜搜都比他讲的好，真心不要选，过来人的一件"},{"id":92794,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-01-04 12:30:54","like_diff":12,"likes":13,"dislikes":1,"content":"真不信老师本科是学计算机出身的，感觉一直瞎bb，对人家工科同学还有点微黑。\n\n我就纳闷了，没有人家把技术一步步落实下来，人工智能，算法这些东西怎么来的。而且，恕我直言，人家技术完全走在了你理论面前，你不过是把人家的技术分析一遍。哪来的优越感呢"},{"id":119676,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-15 00:09:04","like_diff":12,"likes":12,"dislikes":0,"content":"我到底是哪里出错了才能给这么低分quq"},{"id":119766,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-15 14:36:27","like_diff":12,"likes":12,"dislikes":0,"content":"老师讲的很好，只要你顺着老师的思路，就一定能睡个好觉"},{"id":87839,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2018-10-15 10:22:15","like_diff":11,"likes":11,"dislikes":0,"content":"无聊的水课，什么都学不到"},{"id":11378,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2015-11-29 10:43:13","like_diff":10,"likes":18,"dislikes":8,"content":"讲得是挺好的，分数给得一般。"},{"id":51864,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2017-06-13 02:27:45","like_diff":10,"likes":11,"dislikes":1,"content":"为什么他分组是把信管专业的放一起，管院其他专业的放一起，非管院的放一起....留学生和非信管专业或非管院的一起....基本上留学生都扔给非管院的学生...我是非管院学生，然后一个小组除了我都是留学生，明明不是本专业的，了解得也不多，还和三个留学生一起，小组作业每次被坑死?无话可说...老师能不能善待一下其他学院的学生...反正最后只有3.9?"},{"id":118012,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-10-18 13:16:24","like_diff":9,"likes":9,"dislikes":0,"content":"上课像个复读机一遍又一遍讲着类似的观点，而且和课本毫无关系。每次小组展示只给一周甚至四五天时间，要求也很不明确"},{"id":119674,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-14 23:46:56","like_diff":9,"likes":9,"dislikes":0,"content":"果然是绩杀"},{"id":119700,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-15 02:11:27","like_diff":8,"likes":8,"dislikes":0,"content":"电商专业课，专业课诶还是绩杀。\n\n上课啥也学不到，短学期八周两次小组展示。\n\n上课主要看发言，拼命举手发言的成绩好\n\n期末考试没什么意义\n\n这种老师我一分也不想给"},{"id":119686,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-15 00:37:15","like_diff":7,"likes":7,"dislikes":0,"content":"讲课差，花了很多力气却给分很低，考试试卷选择题大部分来自百度，与课堂基本无关。研究做得再好有什么用？烂老师一生黑。"},{"id":120359,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-30 06:16:03","like_diff":7,"likes":7,"dislikes":0,"content":"水课，阿里，开会，绩杀。"},{"id":182673,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2023-11-19 13:46:04","like_diff":6,"likes":6,"dislikes":0,"content":"管院怎么能有您这样的老师呢，拿着几年前的数据，上课ppt每一届都讲一样的，自己说着：“电商现在发展的非常迅速，需要讲的知识点也要不断改进...”但您自己呢，ppt都懒得改，上课放一堆网上捡来的视频，每节课就重复那几个东西，感觉这门课由您来上，真的是浪费学校资源，浪费同学时间，还觉得自己特别nb，还经常吹自己的博士生，那些学长学姐们还不是被你天天压榨，为什么我们学校姓ly的这两个老师都这么..."},{"id":62788,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2017-11-27 03:28:12","like_diff":5,"likes":6,"dislikes":1,"content":"绩点爆炸"},{"id":119680,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-15 00:18:05","like_diff":5,"likes":5,"dislikes":0,"content":"上课没有回答过问题，必死"},{"id":119696,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-15 01:59:56","like_diff":5,"likes":5,"dislikes":0,"content":"讲课炒冷菜，还是个绩杀\n\n"},{"id":180541,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2023-09-22 14:29:59","like_diff":5,"likes":5,"dislikes":0,"content":"老师您认识李勇吗？那个出生"},{"id":182713,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2023-11-20 05:50:10","like_diff":5,"likes":5,"dislikes":0,"content":"电商已死？死了没，没死，到底死没死，如死。阿里巴巴，阿巴阿巴。看到成绩，啊啊啊啊？"},{"id":125943,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2020-09-16 02:23:45","like_diff":4,"likes":4,"dislikes":0,"content":"上课吹阿里和自己，毫无体验。"},{"id":127986,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2020-12-02 08:23:30","like_diff":4,"likes":4,"dislikes":0,"content":"第一节课讲一波我初中就听过的大数据和云计算，然后后面的每一门课都是第一天的重演。\n\n上课起来答题硬是能让你站起来再把你晾十分钟。"},{"id":130545,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2021-01-23 14:29:44","like_diff":4,"likes":4,"dislikes":0,"content":"不错！上课一次都没举手，居然还混了个4.2，哈哈哈哈哈哈哈。上课没举手抓住ppt的pre和期末大作业，好好吹吹感悟啥的，认真写写多方面的收获，很满意了哈哈哈哈哈哈哈不仅没挂还上了4"},{"id":188521,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2024-01-19 07:06:34","like_diff":4,"likes":4,"dislikes":0,"content":"选了他的电子商务和电子政务，这课确实水，基本没听，上课也就发言了两次，小组展示也都在混，最后的考试是课上开卷，回顾了一下上课的ppt，从ppt上抄了不少，最后拿了4.5还是挺满意的。"},{"id":117904,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-10-30 00:32:40","like_diff":3,"likes":4,"dislikes":1,"content":"因为我们在坐的大部分都是信管专业的学生…"},{"id":119694,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-15 01:13:20","like_diff":3,"likes":3,"dislikes":0,"content":"不喜发言者还是别选了。事多给分也不怎么样，短学期的课三次小组作业。我寻思给分就是看课堂参与度，考不考期末考无所谓，毕竟期末考是百度上抄来的题目。"},{"id":119848,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-16 06:10:19","like_diff":3,"likes":3,"dislikes":0,"content":"学术不端，为人虚浮。对于想学知识的人来说无法容忍。喜欢谈他的那个崇拜他的女学生。"},{"id":140745,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2021-09-15 14:29:42","like_diff":3,"likes":3,"dislikes":0,"content":"什么玩意儿？都什么年代了还用十几年前的数据和视频上课，课件没有认真更新，每年都重复同一套说辞，万变不离阿里。。。第一节课听睡着了，果断退。"},{"id":141636,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2021-10-18 11:31:33","like_diff":3,"likes":3,"dislikes":0,"content":"三句话，让老师带我去阿里巴巴"},{"id":147623,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2022-01-10 10:26:43","like_diff":3,"likes":3,"dislikes":0,"content":"绩点低"},{"id":182176,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2023-11-11 12:17:45","like_diff":3,"likes":3,"dislikes":0,"content":"上课又水事情又多还要固定座位，上大学遇到最差的老师之二"},{"id":11433,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2015-12-01 06:40:42","like_diff":2,"likes":13,"dislikes":11,"content":"很厉害 讲的很好 开拓眼界必选的课"},{"id":36085,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-11-20 01:02:12","like_diff":2,"likes":2,"dislikes":0,"content":"真心不懂-_-#选太早了"},{"id":116784,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-09-16 00:27:52","like_diff":2,"likes":2,"dislikes":0,"content":"电子商务概论。上课固定座位。讲课内容很少，想拓宽眼界的可以听，想上专业课拿绩点或者学习得慎选。"},{"id":119689,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-15 00:42:30","like_diff":2,"likes":4,"dislikes":2,"content":"我觉得给分还凑活，但老师讲课是真的水"},{"id":119802,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-16 01:33:50","like_diff":2,"likes":2,"dislikes":0,"content":"被绩杀了，如果想选这门课的同学，一定一定一定要积极发言，如果不能保证一堂课至少发言一次那还是别选了"},{"id":126715,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2020-10-15 03:00:52","like_diff":2,"likes":2,"dislikes":0,"content":"每堂课都很认真在听，然而不知道自己听了些什么......................"},{"id":127647,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2020-11-25 09:15:36","like_diff":2,"likes":2,"dislikes":0,"content":"第一节课到最后一节内容一模一样，绩点低到离谱，课贼水。为什么不能打零分"},{"id":165859,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2023-01-10 06:36:38","like_diff":2,"likes":2,"dislikes":0,"content":"绩杀 不知道他在牛逼些什么 我考试复习巨认真 基本把ppt全背下来装脑子里了 答题卷上全写满 给我来个84 恶心谁呢"},{"id":167499,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2023-01-16 16:24:23","like_diff":2,"likes":2,"dislikes":0,"content":"刘也中！➗中➗！"},{"id":174534,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2023-06-14 00:35:38","like_diff":2,"likes":2,"dislikes":0,"content":"被你暴击"},{"id":182620,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2023-11-18 11:52:45","like_diff":2,"likes":2,"dislikes":0,"content":"电子商务概论，怎么说呢，感觉讲来讲去讲的都是一个意思，我已经有在很努力的认真听了，但是考试感觉完全不会啊"},{"id":182842,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2023-11-20 14:28:54","like_diff":2,"likes":2,"dislikes":0,"content":"有的课是16节课各上一次，有的课是一节课上了16次"},{"id":37648,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-11-20 03:22:21","like_diff":1,"likes":3,"dislikes":2,"content":"要是真正在作业里渗透老师的思想得分会比较高，但是上课也要发言什么的，小组作业也要重视，总之就是要真正领悟老师的思想"},{"id":63383,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2017-12-02 06:33:04","like_diff":1,"likes":3,"dislikes":2,"content":"如果用心学能学到很多东西，但是……工科生慎选，如果课前不预习的话基本听不懂课的。"},{"id":90367,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2018-11-23 09:26:34","like_diff":1,"likes":1,"dislikes":0,"content":"有点无语"},{"id":90446,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2018-11-23 13:29:54","like_diff":1,"likes":7,"dislikes":6,"content":"个人觉得老师本身水平挺高的，但是这一门课本身上的一般，老师始终在强化一个概念：技术在社会变革中的决定性作用，文理交融看待我们社会。这个概念是很有启发性，但问题是老师有点重复强化以至于实际内容比较少，所以显得有点水。而且电商电政具体内容也是概念偏多，比较笼统。  \n\n个人的绩点还不错（当然不代表整体），一点经验就是积极发言，发言有加分，然后自己去阅读一些相关的书籍（比如电商电政一些经典课本）来自学，然后认真去准备小组讨论和期末问题，用老师思维方式：什么技术，怎样运用，带来什么样变革可能有帮助。\n\n仅供参考"},{"id":90825,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2018-11-26 10:25:21","like_diff":1,"likes":2,"dislikes":1,"content":"讲课还行，分给的低，认为管理学天下第一"},{"id":96063,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-01-20 12:12:24","like_diff":1,"likes":1,"dislikes":0,"content":"老师上课讲的貌似没啥用，想拿高分靠个人发言，小组展示很重要，会拉分的，要好好准备，考试就是正常选择，判断，分析（电商概论），怕影响绩点可放到大四上"},{"id":119687,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-15 00:37:47","like_diff":1,"likes":1,"dislikes":0,"content":"垃圾玩意儿"},{"id":120563,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2020-01-13 01:02:00","like_diff":1,"likes":2,"dislikes":1,"content":"电商电政慎选，课很水，感觉第一节课上完之后，后面的内容都在重复，两次小组展示，最后一节课会有一个开卷的作业，如果不能做到经常发言就做好3.3的觉悟，还有吐槽一下，老师真的很能吹，还有对于工科生的言论不敢苟同"},{"id":129235,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2021-01-02 05:03:41","like_diff":1,"likes":1,"dislikes":0,"content":"无力吐槽 真的想骂人，事特别多，一个通识选修比专业课都事多，上课完全不想听。。。"},{"id":130587,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2021-01-24 01:21:25","like_diff":1,"likes":4,"dislikes":3,"content":"多回答问题，展示要参与，感觉虽然最后自己的作业答的挺烂的，但是还是拿了4.5（老师可能变了，愿意打高分了？）。课吧，可能是因为我对这个不是很感兴趣，所以感觉自己水过去的没能学到啥。喜欢管理，喜欢计算机，喜欢阿里，喜欢马云的同学应该会喜欢这门课"},{"id":141543,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2021-10-14 01:42:07","like_diff":1,"likes":2,"dislikes":1,"content":"三句话，让刘渊老师带我去阿里"},{"id":162985,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2022-12-07 01:22:24","like_diff":1,"likes":1,"dislikes":0,"content":"考试考的跟上课讲的完全没有关系"},{"id":163135,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2022-12-08 02:26:59","like_diff":1,"likes":1,"dislikes":0,"content":"管院专业课，很无语的课"},{"id":171403,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2023-03-23 11:50:38","like_diff":1,"likes":1,"dislikes":0,"content":"不咋地。。。"},{"id":182687,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2023-11-19 13:00:45","like_diff":1,"likes":1,"dislikes":0,"content":"事多人讨厌给分差"},{"id":187775,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2024-01-17 11:15:20","like_diff":1,"likes":1,"dislikes":0,"content":"有实力能把18节课上成一节课，评价电商是变化的学科但是用的是古早的PPT，只会狂吹阿里。还歧视工科，不能干别的事。这里给他的一分是他卡给我的"},{"id":195422,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2024-06-28 04:02:04","like_diff":1,"likes":2,"dislikes":1,"content":"刘渊老师讲的东西段位还是比较高的，能和老师有共鸣的人基本也都是在领域里摸爬滚打经验丰富的牛人。"},{"id":12692,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2015-12-24 02:07:13","like_diff":0,"likes":11,"dislikes":11,"content":"特别有眼光有见解的一个老师。认真听他的课会学到很多。至于给分我觉得很合理，分高不高只取决于你有没有真的学好。。。"},{"id":18663,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-01-22 08:48:36","like_diff":0,"likes":8,"dislikes":8,"content":"第一节课就说大一的不适合选这课，然而我听下去觉得听不听得懂和大几没关系啊，老师是不是对这课太自负了，最后给分挺低的，不知是不是因为我大一\n\n"},{"id":37702,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-11-20 09:45:42","like_diff":0,"likes":7,"dislikes":7,"content":"课不错，老师很有想法，给分泪流满面"},{"id":37718,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-11-20 11:25:44","like_diff":0,"likes":3,"dislikes":3,"content":"给分不太好。"},{"id":90521,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2018-11-23 23:35:50","like_diff":0,"likes":1,"dislikes":1,"content":"课比较水没什么好听的 但上课多发言给分应该不会太低"},{"id":118242,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-10-23 13:08:24","like_diff":0,"likes":0,"dislikes":0,"content":"我是真的觉得没啥用，水一水就过去了，我也尝试仔细听过，但感觉总是空谈，泛泛而谈，要不是为了凑一门当代社会课，我早退了唉"},{"id":119702,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-15 02:38:06","like_diff":0,"likes":1,"dislikes":1,"content":"嘴上说着爱信管，伤害信管最深.."},{"id":119761,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-15 11:26:22","like_diff":0,"likes":1,"dislikes":1,"content":"真垃圾"},{"id":119986,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-17 03:28:45","like_diff":0,"likes":0,"dislikes":0,"content":"感觉上完没什么用。。。"},{"id":120342,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-29 10:43:04","like_diff":0,"likes":0,"dislikes":0,"content":"变相点名，不得不去，课程极水，给分很迷"},{"id":122955,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2020-04-25 14:32:40","like_diff":0,"likes":0,"dislikes":0,"content":"幸好听了两节就退了"},{"id":127639,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2020-11-25 07:41:51","like_diff":0,"likes":0,"dislikes":0,"content":"唉～不知道咋说"},{"id":130533,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2021-01-23 13:24:46","like_diff":0,"likes":1,"dislikes":1,"content":"🐶🐶🐶"},{"id":140742,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2021-09-15 14:26:23","like_diff":0,"likes":1,"dislikes":1,"content":"什么玩意儿，都什么年代了还用十几年前的数据和视频上课。。。看样子没有好好备课，倒是每年重复同样的说辞。。。听睡着了，果断退课。。。"},{"id":141544,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2021-10-14 01:49:05","like_diff":0,"likes":1,"dislikes":1,"content":"上刘老师课可以去阿里"},{"id":162479,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2022-11-23 05:45:12","like_diff":0,"likes":0,"dislikes":0,"content":"学不到东西，老师的上课倒还是挺热情"},{"id":192716,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2024-05-29 07:42:02","like_diff":0,"likes":0,"dislikes":0,"content":"阿弥陀佛"},{"id":195584,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2024-06-29 01:20:37","like_diff":0,"likes":0,"dislikes":0,"content":"空洞无物"},{"id":196903,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2024-07-06 00:55:44","like_diff":0,"likes":0,"dislikes":0,"content":"。。。"},{"id":35049,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-10-31 12:39:43","like_diff":-1,"likes":10,"dislikes":11,"content":"老师讲课真的很厉害\n\n他的眼界真的很开阔 看得很长远\n\n是很好的通识课"},{"id":36401,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-11-13 03:19:56","like_diff":-1,"likes":2,"dislikes":3,"content":"干货还是挺多的，就是有时会感觉有点玄虚。建议上课把老师精炼的一些观点抄下来，期末作业有用！！！"},{"id":37743,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-11-20 15:02:37","like_diff":-1,"likes":3,"dislikes":4,"content":"老师人很好，只要好好听课，用老师教导的新视角新思维写作业可以拿到不错的绩点的"},{"id":37784,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-11-21 04:36:48","like_diff":-1,"likes":2,"dislikes":3,"content":"干货满满，学到了很多东西。作业认真做了，但是绩点不是很好。"},{"id":119704,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-15 02:45:19","like_diff":-1,"likes":1,"dislikes":2,"content":"一学期的内容完全可以在三次课内讲完，期末考卷乱出，和课堂内容无关，八周有三次展示"},{"id":141530,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2021-10-13 09:38:36","like_diff":-1,"likes":1,"dislikes":2,"content":"老师很有格局，会带我们去阿里，耶"},{"id":141531,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2021-10-13 09:41:39","like_diff":-1,"likes":1,"dislikes":2,"content":"老师也是有优点的，明天就要带我们去阿里参观了"},{"id":37708,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-11-20 10:30:09","like_diff":-2,"likes":0,"dislikes":2,"content":"听课是一种享受，给分太折磨人，泪流满面"},{"id":37735,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-11-20 12:40:07","like_diff":-2,"likes":0,"dislikes":2,"content":"很有眼界，给分还行吧"},{"id":141545,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2021-10-14 01:50:01","like_diff":-2,"likes":1,"dislikes":3,"content":"一开始觉得刘老师是个很古板的老师，讲课也是一板一眼的，但上了一段时间后，发现并不是这样的。电子商务概论，“概论”顾名思义就是“概论”，所以老师讲的也是“概论”，听上去十分枯燥无趣。但如果上课积极跟着老师走，多互动的话，会发现刘老头儿真的很有意思。而且，如果大家积极互动的话，刘老头儿一高兴，说不定还能获得阿里的免费参访券！"},{"id":35583,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-11-10 07:29:18","like_diff":-3,"likes":1,"dislikes":4,"content":"老师真的很厉害，知识很渊博"},{"id":38555,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-12-08 11:29:01","like_diff":-3,"likes":1,"dislikes":4,"content":"老师很有思想"},{"id":119690,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2019-11-15 00:47:24","like_diff":-3,"likes":0,"dislikes":3,"content":"老师感觉做研究还挺厉害的，课堂也能学到不少东西，然而绩杀（惨）"},{"id":90385,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2018-11-23 10:26:02","like_diff":-4,"likes":2,"dislikes":6,"content":"绩点给的不错啊，平常几乎不回答问题，超乎预料，谢谢老师，上课讲的也觉得挺有深度的，学到了很多"},{"id":91101,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2018-11-30 02:15:15","like_diff":-4,"likes":1,"dislikes":5,"content":"老师挺温和的，讲的东西也是有丶东西的，毕竟通识课，没有太多专业层面的内容。很适合合个专业的同学"},{"id":14678,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-01-08 08:40:30","like_diff":-5,"likes":4,"dislikes":9,"content":"干货满满"},{"id":37948,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-11-22 07:30:08","like_diff":-5,"likes":5,"dislikes":10,"content":"老师壮志凌云，很有见地"},{"id":37896,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-11-22 00:42:12","like_diff":-6,"likes":2,"dislikes":8,"content":"小组讨论+ppt+1500字。座位按顺序。水水课还是可以，作业完成就行。想听得也能长见识。给分一般。"},{"id":38395,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-12-02 02:45:24","like_diff":-8,"likes":2,"dislikes":10,"content":"给分很好讲得很好"},{"id":24706,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-05-03 07:08:30","like_diff":-9,"likes":3,"dislikes":12,"content":"电子商务概论三次小组展示+文献综述+考试  事情不少 老师讲的很好  给分也不错"},{"id":37634,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2016-11-20 01:45:35","like_diff":-9,"likes":1,"dislikes":10,"content":"老师人超级好，讲课也超好，学到很多，给分不错。"},{"id":90472,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2018-11-23 15:16:30","like_diff":-9,"likes":1,"dislikes":10,"content":"哇，没想到绩点还不错诶"},{"id":150066,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2022-01-18 17:16:23","like_diff":-13,"likes":0,"dislikes":13,"content":"平时不怎么听课，只有两次小组作业还有一次的期末测验，还以为会挂，没想到还能拿个4.2，虽然不高但也不低，因为这是一门事少绩点不错的通识课！！"},{"id":39198,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2017-09-19 10:34:51","like_diff":-16,"likes":4,"dislikes":20,"content":"按位置坐，相当于点名，水 一学期没听 展示做ppt水水过 论文用些思辨的观点 4.2\n\n"},{"id":64353,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2017-12-23 00:46:27","like_diff":-17,"likes":0,"dislikes":17,"content":"老师是一个很有思想的人，经常给人一种豁然开朗的感觉，对课堂发言比较看重，想水的人还是不要选了。绝对的好老师。"},{"id":63210,"teacher_id":1542,"teacher_name":"刘渊","post_time":"2017-12-01 03:45:27","like_diff":-22,"likes":3,"dislikes":25,"content":"上课认真听认真做笔记，几乎不玩手机，积极发言，用心写字数多的论文，4.5。虽然给分不够理想，但是老师真的很开阔思路，最后还给我们聚鞠了一躬，很谦逊博学的学者。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

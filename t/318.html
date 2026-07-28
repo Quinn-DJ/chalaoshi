@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>林融 - 公共管理学院 - 浙大教评</title>
+    <meta name="description" content="林融教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="林融,公共管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">林融</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">公共管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.86</div>
+                    <div class="rating-participants">164人参与评分</div>
+                    <div class="attendance-info">28.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">社会学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.77</span>
+                            <span class="students">选课: 265人</span>
+                            <span class="std-dev">标准差: 0.95</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会学概论</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.31</span>
+                            <span class="students">选课: 75人</span>
+                            <span class="std-dev">标准差: 0.65</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">社会学（UPA）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.31</span>
+                            <span class="students">选课: 158人</span>
+                            <span class="std-dev">标准差: 0.46</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (140 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":829,"teacher_id":318,"teacher_name":"林融","post_time":"2015-03-17 15:53:00","like_diff":139,"likes":144,"dislikes":5,"content":"一学期用王小狗、张美丽、扫地大妈讲完了社会学 很有趣"},{"id":7363,"teacher_id":318,"teacher_name":"林融","post_time":"2015-09-14 03:36:36","like_diff":43,"likes":51,"dislikes":8,"content":"老师风趣幽默，不点名，给分厚道"},{"id":89695,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-20 09:43:20","like_diff":36,"likes":39,"dislikes":3,"content":"我考完查到分之后向他问考试情况，微信秒回并一定要晚上回家把试卷翻出来然后语音了十分钟，把每一分扣在哪里讲清楚，还提了对我以后学习的意见。就凭这个都可以一生推。"},{"id":7718,"teacher_id":318,"teacher_name":"林融","post_time":"2015-09-15 10:41:23","like_diff":34,"likes":36,"dislikes":2,"content":"幼儿园的故事很好听"},{"id":36738,"teacher_id":318,"teacher_name":"林融","post_time":"2016-11-15 16:19:15","like_diff":26,"likes":29,"dislikes":3,"content":"我对林老师很满意。平时不怎么点名，在教务处要求下通过小测的方式点了一次名。讲课跟其他社会学老师比算是比较有趣的，考试是他独立命题，只要好好背笔记，不会太差的！！！请不要黑他！！！"},{"id":1911,"teacher_id":318,"teacher_name":"林融","post_time":"2015-03-26 06:32:47","like_diff":25,"likes":29,"dislikes":4,"content":"好老师！\n\n"},{"id":22052,"teacher_id":318,"teacher_name":"林融","post_time":"2016-03-02 07:50:30","like_diff":20,"likes":24,"dislikes":4,"content":"很可爱的，知道没有"},{"id":10166,"teacher_id":318,"teacher_name":"林融","post_time":"2015-11-17 05:33:50","like_diff":15,"likes":19,"dislikes":4,"content":"超级棒！强烈推荐！"},{"id":11120,"teacher_id":318,"teacher_name":"林融","post_time":"2015-11-24 10:15:21","like_diff":14,"likes":15,"dislikes":1,"content":"没ppt无板书但考他讲的，不会记笔记压力很大，不过讲的蛮不错的"},{"id":124346,"teacher_id":318,"teacher_name":"林融","post_time":"2020-06-29 13:00:13","like_diff":14,"likes":22,"dislikes":8,"content":"看到评论区里大家对林老师清一色的好评，那我不妨来说几句差评。就林融老师所开设的“社会学概论”这门课来说，我认为老师的态度是认真的，但是老师的专业程度是值得怀疑的。林老师上课的内容过于简单，过于片面，所授知识完全不能算得上“概论”二字。也许对非社会学专业的同学来讲，这是个不错的个性选修课，简单，给分好，又不点名。但是对于社会学专业的学生而言，这门概论课基本上只讲社会学当中微观人际互动的部分，重点是信任，信息以及中国的人际互动等等。一学期听下来，社会学中几个重要的方面比如社会结构，制度之间的互动关系，国家与社会的互动等等，很多议题都毫无涉及。更令人不满的是，作为社会学的专业课，实在是太水。没有文献阅读，没有论文写作。作为社会学专业的入门课，如果不带着大家读读三大家，读读吉登斯，读读哈贝马斯一些著作经典，怎么可能打好专业的基础？就此一点来说，林老师的“社会学概论”失败之至。拿着这些残缺不全的东西就去上各种专业选修课，不被其他老师diss才怪。"},{"id":10139,"teacher_id":318,"teacher_name":"林融","post_time":"2015-11-16 23:12:37","like_diff":13,"likes":17,"dislikes":4,"content":"李小狗，张美丽"},{"id":10172,"teacher_id":318,"teacher_name":"林融","post_time":"2015-11-17 06:05:22","like_diff":13,"likes":16,"dislikes":3,"content":"上课好玩。给分也超好。老师人也超好。还给留学生送月饼。"},{"id":119349,"teacher_id":318,"teacher_name":"林融","post_time":"2019-11-12 07:54:02","like_diff":13,"likes":13,"dislikes":0,"content":"林融老师批280份试卷，亲手，一个人。"},{"id":126754,"teacher_id":318,"teacher_name":"林融","post_time":"2020-10-18 15:19:31","like_diff":12,"likes":14,"dislikes":2,"content":"老师讲的是非常细致的，笔记也记了很多，还没考试。但是每年讲的东西是一样的，社会学通识课和社会学专业课讲的内容是一样的，好话已经有很多人说了，我也挑点茬，是不是多考虑一些案例能够把当今社会的热点和社会学的理论相结合？而不是反反复复机械化重复同样的例子"},{"id":61124,"teacher_id":318,"teacher_name":"林融","post_time":"2017-11-26 07:37:50","like_diff":11,"likes":15,"dislikes":4,"content":"很棒的老师，学到了很多。最重视的一门课满了"},{"id":87626,"teacher_id":318,"teacher_name":"林融","post_time":"2018-10-08 12:47:26","like_diff":11,"likes":11,"dislikes":0,"content":"老师自嘲\"林小胖子\"，惊了´∀`"},{"id":160612,"teacher_id":318,"teacher_name":"林融","post_time":"2022-09-28 03:31:14","like_diff":11,"likes":13,"dislikes":2,"content":"9.9怎么打出来的…真的过誉了…理论水平和阐释能力都很有限，课堂里太多飘忽的判断。"},{"id":4892,"teacher_id":318,"teacher_name":"林融","post_time":"2015-06-30 06:50:57","like_diff":10,"likes":12,"dislikes":2,"content":"风趣生动！ps：社会学和经济社会学内容有很大重复，可只选一门"},{"id":10153,"teacher_id":318,"teacher_name":"林融","post_time":"2015-11-17 02:43:07","like_diff":10,"likes":11,"dislikes":1,"content":"老师人很好 很幽默 给分也好"},{"id":13036,"teacher_id":318,"teacher_name":"林融","post_time":"2015-12-24 15:02:11","like_diff":10,"likes":10,"dislikes":0,"content":"讲课进度有点慢，但讲得很有趣，给分也好"},{"id":32101,"teacher_id":318,"teacher_name":"林融","post_time":"2016-07-05 15:30:40","like_diff":10,"likes":10,"dislikes":0,"content":"没作业 不点名...考试100%...但是试卷真心简单 背背笔记就好了！王小狗 张美丽..."},{"id":36690,"teacher_id":318,"teacher_name":"林融","post_time":"2016-11-15 11:46:08","like_diff":10,"likes":11,"dislikes":1,"content":"上大学一年半最喜欢的一门课。。。不知道要怎样形容林老师给我留下的印象，就是觉得平平淡淡，实实在在，但特别能抓住人心。觉得只上短短半学期，没上够…………这门课激起了我考研方向选择社会学的热情……实在喜欢。"},{"id":37625,"teacher_id":318,"teacher_name":"林融","post_time":"2016-11-20 01:05:28","like_diff":10,"likes":11,"dislikes":1,"content":"喜欢老师的王小狗和张美丽还有她女儿的故事！老师很幽默很有亲和力，讲课认真课后答疑也很及时。不过因为大部分内容他是按照自己思路讲的，而且没有PPT，所以有个阶段会感觉有点乱，逻辑性不是很强，但到最后记清楚就OK了。考试考的都是讲过的挺基础的内容，认真听课和做笔记就没问题。"},{"id":126891,"teacher_id":318,"teacher_name":"林融","post_time":"2020-10-27 01:33:24","like_diff":10,"likes":12,"dislikes":2,"content":"讲课效率低下，虽然方式独特，但是严重影响了学习质量。同时，涉及内容也较为片面，并且相对过时。"},{"id":10990,"teacher_id":318,"teacher_name":"林融","post_time":"2015-11-23 15:28:03","like_diff":9,"likes":11,"dislikes":2,"content":"很生动有趣"},{"id":15708,"teacher_id":318,"teacher_name":"林融","post_time":"2016-01-16 07:14:29","like_diff":9,"likes":9,"dislikes":0,"content":"超棒，超有趣，考试题难度适宜，人也很好"},{"id":21875,"teacher_id":318,"teacher_name":"林融","post_time":"2016-03-01 10:58:55","like_diff":9,"likes":9,"dislikes":0,"content":"王小狗，张美丽"},{"id":32381,"teacher_id":318,"teacher_name":"林融","post_time":"2016-07-06 11:08:16","like_diff":9,"likes":11,"dislikes":2,"content":"特别好的一个老师，有什么问题微信问他总是秒回，很关心学生"},{"id":19416,"teacher_id":318,"teacher_name":"林融","post_time":"2016-01-24 06:52:45","like_diff":8,"likes":8,"dislikes":0,"content":"认真讲课的老师 每节课都觉得上的很用心 老师人本身也是好的不得了 简直大学最爱课"},{"id":89247,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-17 13:18:07","like_diff":8,"likes":8,"dislikes":0,"content":"林老师这么太幽默了吧  上林老师的课就是一天快乐的源泉了，林小狗和张美丽hhhhhhhhh  只要认真记笔记  期末认真背 就能拿到好成绩哇～"},{"id":127492,"teacher_id":318,"teacher_name":"林融","post_time":"2020-11-23 12:22:36","like_diff":8,"likes":14,"dislikes":6,"content":"问问很多同学，你们是真的意识到老师“好”在哪里，还是只是在大学遇到一位不用讲义不用PPT单靠一张嘴讲完32节课的老师，觉得牛逼而已？\n\n诚然，林老师自成体系的讲解，绘声绘色的举例，确实很有特色，也传授了不少知识，但是也必须意识到，这门课的讲授缺乏一定和当下结合的点，每一年的案例都是一样的，考试也相对僵化；\n\n其二，既然是这样的模式，没有讲义没有PPT，单凭学生对老师一张嘴所讲进行记述，我想可能1000个人会有1000份不同的笔记。之前说了，考试的题型很僵化，但是这些固定的答案，同学们可能记得并不一样，即便有考前复习，大家对一个知识点的掌握，可能是我觉得A这句话更重要，他觉得B这句话非写不可，而老师如果看不到C就不给分。甚至可能细致到一个字（规定与规范，这是老师强调的，如果还有其他老师没强调的呢？）所以最后给分，也不是所谓的“背了就满”，因为如果你的觉得要写上去的重点老师觉得没用，这部分分是不会给你的。"},{"id":11294,"teacher_id":318,"teacher_name":"林融","post_time":"2015-11-26 09:35:31","like_diff":7,"likes":8,"dislikes":1,"content":"还不错。。好好玩"},{"id":36683,"teacher_id":318,"teacher_name":"林融","post_time":"2016-11-15 11:14:57","like_diff":7,"likes":7,"dislikes":0,"content":"老师很好啊，本身对社会学不感兴趣，但上课还是很有趣，考前非常耐心为学生解答，考的内容都是平时讲过的，成绩还是比较好地能反映努力程度的。"},{"id":89256,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-17 14:14:14","like_diff":7,"likes":7,"dislikes":0,"content":"太喜欢林老师了，没有PPT没有教案，用王小狗和张美丽讲完了所有课，生动有趣，也没有作业，考前会复习划重点，超棒"},{"id":161354,"teacher_id":318,"teacher_name":"林融","post_time":"2022-11-04 13:10:15","like_diff":7,"likes":9,"dislikes":2,"content":"一学期从头到尾听下来，怎一个平庸了得。陈旧老套，洞见全无，随便读一本社会学导论小册子所学到的东西都能比听一秋学期这个空洞冗长的低质量课堂来得多。最后一节课看到好些同学勤勤恳恳地询问问题，无论他们是出于纯粹的求知欲望还是仅仅为了应付考试，我都感到无比心疼：这样的课堂，不值得。好在这位即将退休，退位让贤。希望能够有年轻的杰出人士来到浙大，只有这样，浙大文科才能有未来。"},{"id":21147,"teacher_id":318,"teacher_name":"林融","post_time":"2016-02-22 03:46:13","like_diff":6,"likes":6,"dislikes":0,"content":"幽默，大气，给分超赞。\n\n"},{"id":26081,"teacher_id":318,"teacher_name":"林融","post_time":"2016-06-15 12:35:00","like_diff":6,"likes":6,"dislikes":0,"content":"张美丽和王小狗占据了整个课程，老师也是好到不行，认真听讲，最后背一下，90+"},{"id":31713,"teacher_id":318,"teacher_name":"林融","post_time":"2016-12-28 03:23:41","like_diff":6,"likes":8,"dislikes":2,"content":"老师对讲授的内容很熟悉，讲课也很好，很有意思。课上真的能学到东西。就是老师有时候讲得太快了，记笔记压力很大，带电脑来记才勉强跟上。。"},{"id":36713,"teacher_id":318,"teacher_name":"林融","post_time":"2016-11-15 13:31:09","like_diff":6,"likes":7,"dislikes":1,"content":"给分超好~一学期只有一次课堂作业当点名，考试简答题论述题都是划重点的内容，认真听讲收获很大"},{"id":37357,"teacher_id":318,"teacher_name":"林融","post_time":"2016-11-18 12:26:36","like_diff":6,"likes":6,"dislikes":0,"content":"上课很有意思，只要考前背笔记，分数不会低"},{"id":62037,"teacher_id":318,"teacher_name":"林融","post_time":"2017-11-22 08:25:42","like_diff":6,"likes":7,"dislikes":1,"content":"小伙伴们遇到期末划重点的老师请珍惜！认真记笔记期末好好背老师划的重点满绩无压力知道没有！"},{"id":62104,"teacher_id":318,"teacher_name":"林融","post_time":"2017-11-22 11:38:50","like_diff":6,"likes":6,"dislikes":0,"content":"天呐，林老师真的是我见过最认真的老师了，非常有人格魅力…本身就很喜欢社会学…考完试以后问题目，老师还打电话过来认真给分析题目，人超级好"},{"id":87387,"teacher_id":318,"teacher_name":"林融","post_time":"2018-09-28 02:15:04","like_diff":6,"likes":6,"dislikes":0,"content":"老师很好呀(●°u°●)​ 」讲的故事内容很社会很有趣很现实也很容易理解！"},{"id":89303,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-18 07:49:35","like_diff":6,"likes":7,"dislikes":1,"content":"大部分内容口述没有PPT，需要每节课都做笔记，语言风趣幽默，评论说的都是真的。最后一节课说考完三天出成绩就三天出，考完也可以微信找老师分析，老师一定一定会帮你找试卷分析失误，真的非常感谢&感动了。另外考试时东二201教室第二排那个戴帽子的男生作弊，中途还故意出去上厕所，衣服袋子藏纸片的，祝你这辈子都过不了这门课。"},{"id":117618,"teacher_id":318,"teacher_name":"林融","post_time":"2019-09-26 23:58:23","like_diff":6,"likes":6,"dislikes":0,"content":"知道了没有??"},{"id":144022,"teacher_id":318,"teacher_name":"林融","post_time":"2021-12-16 05:22:33","like_diff":6,"likes":11,"dislikes":5,"content":"lr凭什么9分？"},{"id":36706,"teacher_id":318,"teacher_name":"林融","post_time":"2016-11-15 13:04:56","like_diff":5,"likes":6,"dislikes":1,"content":"只有一次交作业点到 平时不管  好好复习好好背笔记成绩不会差   老师很好 社会学也很有趣"},{"id":36844,"teacher_id":318,"teacher_name":"林融","post_time":"2016-11-16 08:33:28","like_diff":5,"likes":6,"dislikes":1,"content":"社会学5来刷一发，老师和蔼+有趣，好好记+认真背90以上没问题。"},{"id":37076,"teacher_id":318,"teacher_name":"林融","post_time":"2016-11-17 08:59:52","like_diff":5,"likes":5,"dislikes":0,"content":"老师讲课很有趣，虽然是早课，但是完全不想睡觉，考完之后对自己的成绩不满意，老师还会耐心的给我讲哪里错了。真的超好的，希望你们考试的时候千万要看清题目啊，不要像我那样。"},{"id":37139,"teacher_id":318,"teacher_name":"林融","post_time":"2016-11-17 14:20:47","like_diff":5,"likes":5,"dislikes":0,"content":"老师很幽默，讲课深入浅出，能让我们从另一个视角理解一些曾经令人生厌的东西，上了老师的社会学改变了我的一些看法吧"},{"id":89368,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-19 00:33:14","like_diff":5,"likes":5,"dislikes":0,"content":"林老师真的是一个非常好非常可爱的一个老师，很照顾学生，自己也很有水平，什么时候才能变成和老师一样优秀的人哇啊啊啊啊啊啊"},{"id":27845,"teacher_id":318,"teacher_name":"林融","post_time":"2016-06-27 19:56:56","like_diff":4,"likes":6,"dislikes":2,"content":"有人格魅力"},{"id":36697,"teacher_id":318,"teacher_name":"林融","post_time":"2016-11-15 12:03:16","like_diff":4,"likes":7,"dislikes":3,"content":"打十分好老师，虽然我完全按笔记背的只有80分(微笑)"},{"id":62008,"teacher_id":318,"teacher_name":"林融","post_time":"2017-11-22 06:35:41","like_diff":4,"likes":4,"dislikes":0,"content":"老师简直太好了！讲课很有趣，还给划重点，给分棒，只要好好背笔记期末考试完全没有问题。为林老师疯狂打call！"},{"id":65148,"teacher_id":318,"teacher_name":"林融","post_time":"2017-12-29 11:35:07","like_diff":4,"likes":6,"dislikes":2,"content":"这门课上的我就想辅修社会学！！！大爱林融！！！！！！！"},{"id":87490,"teacher_id":318,"teacher_name":"林融","post_time":"2018-09-29 14:02:02","like_diff":4,"likes":4,"dislikes":0,"content":"不带讲稿不用PPT纯讲，妙趣横生出神入化的社会学课堂，令人陶醉。"},{"id":87966,"teacher_id":318,"teacher_name":"林融","post_time":"2018-10-19 01:26:57","like_diff":4,"likes":4,"dislikes":0,"content":"收益一生的社会学课，上课从来不会睡觉的课"},{"id":88843,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-09 14:58:14","like_diff":4,"likes":4,"dislikes":0,"content":"上完课两年后才给的评价（捂脸）当年上课时觉得林老师非常幽默有魅力，对我们很体贴耐心，如今才发现他上课传授的干货对于做人非常重要，诚哉为人师表、倾囊相授！"},{"id":89248,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-17 13:23:15","like_diff":4,"likes":4,"dislikes":0,"content":"哈，刚刚出的成绩，说好三天内出成绩就三天内出成绩。上课不点名，只有期中一次小测作点名。上课没有PPT，就靠老师讲，然后疯狂记在小本子上。期末一看复习的东西好多，然后老师透题式的复习把内容压的很少。最后，老师上课经常说知道了没有? 超可爱的，渴望被同学加微信去问问题"},{"id":91318,"teacher_id":318,"teacher_name":"林融","post_time":"2018-12-05 14:06:16","like_diff":4,"likes":4,"dislikes":0,"content":"期末考试前15分钟，助教正把卷子摊在讲台上，老师过来说了一句:别把卷子摊开，学生是很狡猾的，瞄一眼就知道考试内容了。…………学生是很狡猾的Σ(っ °Д °;)っ"},{"id":61414,"teacher_id":318,"teacher_name":"林融","post_time":"2017-11-16 15:00:34","like_diff":3,"likes":4,"dislikes":1,"content":"给老师打call！！！"},{"id":61938,"teacher_id":318,"teacher_name":"林融","post_time":"2017-11-22 01:29:58","like_diff":3,"likes":3,"dislikes":0,"content":"老师讲课真的思路超级清晰，很有趣，有很多超级生动的例子，点名的话就是有一个期中的小测试来看看人来齐了没，期末考点超级明确，只要稍加背诵与记忆就可以有90+的好成绩，问问题的时候真的超级好，会非常仔细的给你解释"},{"id":64823,"teacher_id":318,"teacher_name":"林融","post_time":"2017-12-27 09:00:11","like_diff":3,"likes":3,"dislikes":0,"content":"强力推荐！上课认真！不明白的问题也可以微信问老师，老师也会详细讲解\n\n"},{"id":89325,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-18 12:35:06","like_diff":3,"likes":3,"dislikes":0,"content":"讲课相关 | 林老师讲课贴近生活，各种事例信手拈来。能感受出来，他是把社会学融入了生活。听其课，记笔记，背记时毫不费力。一学期下来，使人收获颇丰。如今遇人遇事，我常不自觉套用社会学所学来解释剖析。\n\n\n\n考核相关 | 老师会选一次人多的课以小测（不计分）形式点名，倒数第二节课会梳理重点，最后一节课是答疑。"},{"id":89353,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-18 15:15:01","like_diff":3,"likes":3,"dislikes":0,"content":"老师非常负责体贴，讲课考试什么的很实在，不搞花招，很棒"},{"id":90229,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-22 14:44:06","like_diff":3,"likes":3,"dislikes":0,"content":"林融老师非常可爱 非常有耐心，负责任\n\n有问题立马微信语音回复 只要好好背笔记绩点就很不错"},{"id":112742,"teacher_id":318,"teacher_name":"林融","post_time":"2019-07-05 01:52:06","like_diff":3,"likes":3,"dislikes":0,"content":"林老师太友善了！！很会上课和教书的老师，对一个外专业的学生来说，社会学上学到了很多知识，很有用！（再次感谢老师呜呜"},{"id":112982,"teacher_id":318,"teacher_name":"林融","post_time":"2019-07-05 17:14:16","like_diff":3,"likes":3,"dislikes":0,"content":"老师太好了55，好好背真的没错！！谢谢老师！"},{"id":118556,"teacher_id":318,"teacher_name":"林融","post_time":"2019-10-28 12:36:14","like_diff":3,"likes":4,"dislikes":1,"content":"社会学是我秋学期最最喜欢最最期待的一门课辣！"},{"id":119826,"teacher_id":318,"teacher_name":"林融","post_time":"2019-11-16 03:06:21","like_diff":3,"likes":3,"dislikes":0,"content":"当个性来修的，老师人超级好，讲课条理清晰，重点分明。考前会划重点，考试难度挺低。是一门就算不点名也让我心甘情愿起床的两天早八"},{"id":120103,"teacher_id":318,"teacher_name":"林融","post_time":"2019-11-17 12:28:17","like_diff":3,"likes":3,"dislikes":0,"content":"林老师真是太棒了！！！可是nlb xgg是我的！！！"},{"id":120104,"teacher_id":318,"teacher_name":"林融","post_time":"2019-11-17 12:29:20","like_diff":3,"likes":3,"dislikes":0,"content":"绝了，老师一绝，nlbxgg更绝，每次坐他后面都不能好好上课嘤嘤嘤"},{"id":28509,"teacher_id":318,"teacher_name":"林融","post_time":"2016-06-28 09:42:43","like_diff":2,"likes":4,"dislikes":2,"content":"讲得很好"},{"id":40334,"teacher_id":318,"teacher_name":"林融","post_time":"2017-01-03 03:17:50","like_diff":2,"likes":2,"dislikes":0,"content":"很有趣，即使是早课也不会睡着！给分很好，又能学到有用的东西，超级棒！"},{"id":51102,"teacher_id":318,"teacher_name":"林融","post_time":"2017-05-17 06:42:18","like_diff":2,"likes":2,"dislikes":0,"content":"你这么说  ，那个人肺都要气炸了，知道了没\n\n张美丽和王小狗\n\n很有趣哈哈哈哈哈哈\n\n唯一一门错过了还要录音的课"},{"id":55532,"teacher_id":318,"teacher_name":"林融","post_time":"2017-07-01 23:56:21","like_diff":2,"likes":2,"dislikes":0,"content":"第一次在大学里遇到不用ppt，全靠嘴巴讲的老师\n\n\n\n虽然要背书，但是我到现在还记得。也算是有所得了"},{"id":61930,"teacher_id":318,"teacher_name":"林融","post_time":"2017-11-22 00:10:27","like_diff":2,"likes":3,"dislikes":1,"content":"迄今为止听得最认真的课，整整记了一个小本子的笔记，很有意思，考试难度不大，认真复习必有回报"},{"id":61942,"teacher_id":318,"teacher_name":"林融","post_time":"2017-11-22 01:41:43","like_diff":2,"likes":3,"dislikes":1,"content":"超好的老师，上课很有趣，王小狗和张美丽大概是忘不掉了。期末会给学生划重点，然后很体谅学生，每次在微信上问他问题，都回复特别快……给分也高！大爱！！"},{"id":62031,"teacher_id":318,"teacher_name":"林融","post_time":"2017-11-22 08:10:30","like_diff":2,"likes":4,"dislikes":2,"content":"总的来说就是想选社会学作为辅修了"},{"id":68838,"teacher_id":318,"teacher_name":"林融","post_time":"2018-01-24 03:03:17","like_diff":2,"likes":4,"dislikes":2,"content":"社会学满绩啦  老师很好很幽默。回答问题也很热心  期末考挺简单的认真做笔记就OK\n\n\n\n"},{"id":89245,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-17 13:15:39","like_diff":2,"likes":2,"dislikes":0,"content":"老师上课全程不用ppt不点名，讲得很好很有趣。绩点全看考试，只要认真背笔记考试就稳了。"},{"id":89250,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-17 13:31:56","like_diff":2,"likes":3,"dislikes":1,"content":"太感人了，给分超好，会把考点都跟你讲了，好好背完全可以拿高分"},{"id":89252,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-17 13:44:32","like_diff":2,"likes":2,"dislikes":0,"content":"好好记笔记认真背分高"},{"id":89253,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-17 13:54:30","like_diff":2,"likes":2,"dislikes":0,"content":"我爱林老师"},{"id":89272,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-18 02:00:51","like_diff":2,"likes":2,"dislikes":0,"content":"草鸡年轻态的老师 声音也超温柔 没有ppt 教案全在心里 没有作业 期末好好背笔记就没问题 基础概念理解为主"},{"id":89279,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-18 04:10:43","like_diff":2,"likes":5,"dislikes":3,"content":"第一次满绩！开心！谢谢老师！"},{"id":89284,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-18 04:36:56","like_diff":2,"likes":3,"dislikes":1,"content":"啊啊啊吹爆老师！男神无疑了！"},{"id":89316,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-18 10:34:35","like_diff":2,"likes":3,"dislikes":1,"content":"为融融疯狂打call"},{"id":113384,"teacher_id":318,"teacher_name":"林融","post_time":"2019-07-06 13:40:42","like_diff":2,"likes":2,"dislikes":0,"content":"吹爆了"},{"id":119221,"teacher_id":318,"teacher_name":"林融","post_time":"2019-11-11 09:53:47","like_diff":2,"likes":2,"dislikes":0,"content":"老师很好，对学生很负责，考试期间问的问题都很认真的回答。从细节中可以看到一个人的人品，真的一名不错的老师。"},{"id":119942,"teacher_id":318,"teacher_name":"林融","post_time":"2019-11-17 01:34:40","like_diff":2,"likes":2,"dislikes":0,"content":"近距离接触小哥哥的课程，感谢社会学让我一学期都坐在nlb后面，想和小哥哥组cp(*˘︶˘*).。.:*♡"},{"id":120000,"teacher_id":318,"teacher_name":"林融","post_time":"2019-11-17 04:11:44","like_diff":2,"likes":2,"dislikes":0,"content":"来浙大能选到最幸运的课！林融老师真的超可爱！教学水平极高，上课不用ppt不用书，全凭老师一张嘴！"},{"id":142473,"teacher_id":318,"teacher_name":"林融","post_time":"2021-11-12 03:30:29","like_diff":2,"likes":9,"dislikes":7,"content":"就这种老师也配高分？你们长眼是留喘气的？"},{"id":163129,"teacher_id":318,"teacher_name":"林融","post_time":"2022-12-16 08:18:16","like_diff":2,"likes":3,"dislikes":1,"content":"是靠贩卖冷饭维持生计的可怜人呢"},{"id":38289,"teacher_id":318,"teacher_name":"林融","post_time":"2016-11-29 08:06:18","like_diff":1,"likes":4,"dislikes":3,"content":"。。。"},{"id":61699,"teacher_id":318,"teacher_name":"林融","post_time":"2017-11-20 07:23:51","like_diff":1,"likes":2,"dislikes":1,"content":"超级棒的老师，上课幽默风趣，给分也很棒！"},{"id":61935,"teacher_id":318,"teacher_name":"林融","post_time":"2017-11-22 01:05:22","like_diff":1,"likes":2,"dislikes":1,"content":"一门很有趣的课，考试难度是真的低"},{"id":64563,"teacher_id":318,"teacher_name":"林融","post_time":"2017-12-25 08:19:25","like_diff":1,"likes":2,"dislikes":1,"content":"很好，认真背笔记分不会低"},{"id":76569,"teacher_id":318,"teacher_name":"林融","post_time":"2018-04-15 10:26:41","like_diff":1,"likes":2,"dislikes":1,"content":"最最喜欢的老师～很可爱，很亲切"},{"id":89274,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-18 02:40:10","like_diff":1,"likes":2,"dislikes":1,"content":"林胖好可爱！！！"},{"id":92236,"teacher_id":318,"teacher_name":"林融","post_time":"2018-12-27 07:22:31","like_diff":1,"likes":1,"dislikes":0,"content":"真的太好了！！我感动得要哭了"},{"id":93985,"teacher_id":318,"teacher_name":"林融","post_time":"2019-01-14 14:44:37","like_diff":1,"likes":2,"dislikes":1,"content":"非常棒"},{"id":112973,"teacher_id":318,"teacher_name":"林融","post_time":"2019-07-05 17:09:50","like_diff":1,"likes":1,"dislikes":0,"content":"给分太感人了，都怪自己考试的时候脑子卡壳"},{"id":119768,"teacher_id":318,"teacher_name":"林融","post_time":"2019-11-15 14:41:43","like_diff":1,"likes":1,"dislikes":0,"content":"老师真的超级认真超级负责！！讲课幽默风趣，学生有问题微信秒回，出了成绩会语音通话细细的讲解，我的天这么好的老师真的不多了！！好好珍惜！！"},{"id":120130,"teacher_id":318,"teacher_name":"林融","post_time":"2019-11-17 17:56:22","like_diff":1,"likes":1,"dislikes":0,"content":"社会学没满真的是我太辣鸡了。老师太棒啦！可以水，但是好好听课也超级舒服！顺便问下你们说的xgg到底是谁?"},{"id":120163,"teacher_id":318,"teacher_name":"林融","post_time":"2019-11-18 01:48:33","like_diff":1,"likes":1,"dislikes":0,"content":"疯狂给nlbxgg打CALL!!!\n\n"},{"id":180331,"teacher_id":318,"teacher_name":"林融","post_time":"2023-09-21 06:29:36","like_diff":1,"likes":1,"dislikes":0,"content":"如果一门课上下来成了资料背诵为主导，那我觉得这门课是让人失望的"},{"id":61980,"teacher_id":318,"teacher_name":"林融","post_time":"2017-11-22 04:13:11","like_diff":0,"likes":1,"dislikes":1,"content":"可爱的老师ớ ₃ờ"},{"id":89257,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-17 14:23:15","like_diff":0,"likes":2,"dislikes":2,"content":"\n\n林老师社会学上课也太有意思了吧\n\n条分缕析 风趣幽默\n\n而且给分也太好了吧 \n\n认真背笔记分数不会低\n\n真的大爱"},{"id":89259,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-17 15:25:09","like_diff":0,"likes":1,"dislikes":1,"content":"老师给分太好太惊喜了吧！！"},{"id":89301,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-18 07:37:53","like_diff":0,"likes":1,"dislikes":1,"content":"超级棒！！"},{"id":102527,"teacher_id":318,"teacher_name":"林融","post_time":"2019-02-05 03:53:00","like_diff":0,"likes":0,"dislikes":0,"content":"林老师太好了呜呜呜！大年初一还给我发新年祝福！！！"},{"id":119762,"teacher_id":318,"teacher_name":"林融","post_time":"2019-11-15 11:50:49","like_diff":0,"likes":0,"dislikes":0,"content":"老师真的很好 回答问题很耐心 一个人批快三百张卷子 给分很客观 考试好好复习分数绝对不低"},{"id":119867,"teacher_id":318,"teacher_name":"林融","post_time":"2019-11-16 11:37:29","like_diff":0,"likes":0,"dislikes":0,"content":"对林老师早有耳闻，知道他是负责任出了名的。加了老师只是打算问一问今晚会不会出成绩老师直接一个电话打过来告诉我分数。简直太好了！"},{"id":120060,"teacher_id":318,"teacher_name":"林融","post_time":"2019-11-17 08:54:04","like_diff":0,"likes":2,"dislikes":2,"content":"老师真的太棒了！课堂又有趣又有干货！给分超超超超级好！认真背书就能满绩满绩满绩！"},{"id":175081,"teacher_id":318,"teacher_name":"林融","post_time":"2023-06-21 12:16:31","like_diff":0,"likes":2,"dislikes":2,"content":"哎哟喂，听说老师退休了来逛逛。自己不好好背讲义拿了低分在这踩，最新的评论只要夸给分好的全都是负的，有些人心里不要太不平衡。"},{"id":127448,"teacher_id":318,"teacher_name":"林融","post_time":"2020-11-23 06:41:12","like_diff":-1,"likes":2,"dislikes":3,"content":"林融老师，也太好了吧，让我深深记住了王小狗，张美丽还有马变斑马🐴 。"},{"id":142127,"teacher_id":318,"teacher_name":"林融","post_time":"2021-11-07 07:14:15","like_diff":-1,"likes":1,"dislikes":2,"content":"认真负责的好老师！"},{"id":156916,"teacher_id":318,"teacher_name":"林融","post_time":"2022-06-21 10:32:05","like_diff":-1,"likes":1,"dislikes":2,"content":"他特别注重理论工具的发展应用不能离开所要解决的问题本身，课程很多知识确实对中国社会的一些现象有解释力，很好的老师，只要学生态度认真他会很热情的。"},{"id":39691,"teacher_id":318,"teacher_name":"林融","post_time":"2016-12-27 03:36:41","like_diff":-2,"likes":1,"dislikes":3,"content":"上课内容不多，但都讲的很翔实。平时认真听考试很轻松"},{"id":60984,"teacher_id":318,"teacher_name":"林融","post_time":"2017-11-06 11:52:21","like_diff":-2,"likes":1,"dislikes":3,"content":"课堂超级有趣"},{"id":61937,"teacher_id":318,"teacher_name":"林融","post_time":"2017-11-22 01:23:27","like_diff":-2,"likes":2,"dislikes":4,"content":"讲课很有激情，把笔记背熟了绝对就满了！"},{"id":119924,"teacher_id":318,"teacher_name":"林融","post_time":"2019-11-17 01:01:47","like_diff":-2,"likes":1,"dislikes":3,"content":"老师人真的很好，背半天去考完全没有问题，大概很久都会记得王小狗和张美丽的故事吧！"},{"id":120268,"teacher_id":318,"teacher_name":"林融","post_time":"2019-11-27 02:04:36","like_diff":-2,"likes":0,"dislikes":2,"content":"太负责了没见过这么负责的老师呜呜呜"},{"id":161451,"teacher_id":318,"teacher_name":"林融","post_time":"2022-11-07 04:22:51","like_diff":-2,"likes":1,"dislikes":3,"content":"老胡中肯。前期看到没有ppt，只有讲课，也不是很想听。到中后期发现讲的很有趣，很多关于中国社会很现实的东西还有过去那些事情，就开始后悔前面没有好好听。课后去问问题，老师也很热情回答，都会拖到很晚。但是听多了，也发现讲来将去就那些事情，但第一次听还是很有趣很受启发，感觉提前步入中国特色人情社会，最后希望可以给我高分嘤嘤嘤"},{"id":90011,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-21 14:33:34","like_diff":-3,"likes":1,"dislikes":4,"content":"非常棒，老师会耐心地解答问题，基本上是秒回。必听之课!"},{"id":90883,"teacher_id":318,"teacher_name":"林融","post_time":"2018-11-27 03:29:30","like_diff":-3,"likes":0,"dislikes":3,"content":"老师讲课还行，蛮有趣的。"},{"id":161871,"teacher_id":318,"teacher_name":"林融","post_time":"2022-11-14 15:43:49","like_diff":-3,"likes":1,"dislikes":4,"content":"非常不错！王小狗和张美丽哦豁"},{"id":112913,"teacher_id":318,"teacher_name":"林融","post_time":"2019-07-05 10:39:59","like_diff":-4,"likes":0,"dislikes":4,"content":"条理清晰"},{"id":125443,"teacher_id":318,"teacher_name":"林融","post_time":"2020-09-09 08:13:12","like_diff":-4,"likes":2,"dislikes":6,"content":"一学期笔记过三遍，当堂课讲一遍，下节课课前简略复习一遍，期末从头到尾过一遍。只能说实在太认真详细易懂了！\n\n林老师和王小狗的故事百听不厌！\n\n笔记是林老师一句话一句话复述出来的，一学期记笔记几万字555\n\n我爱林老师，我爱社会学w"},{"id":161835,"teacher_id":318,"teacher_name":"林融","post_time":"2022-11-14 10:30:04","like_diff":-4,"likes":1,"dislikes":5,"content":"不会说一个给分好的老师不好😍对Paper的要求也不高，只要研究具体一些的问题，结合上课讲解，多查查论文，体现出自己对于问题的思考就可以。\n\n但是老师把社会学局限在微观人际互动，个人觉得有点偏颇了，如果作为社会学专业的基础课可能不太合适。想了解社会学整个体系的架构，不如多看看社会学概论类的书。"},{"id":161846,"teacher_id":318,"teacher_name":"林融","post_time":"2022-11-14 12:05:05","like_diff":-4,"likes":0,"dislikes":4,"content":"给分不多说，好就对了。"},{"id":161837,"teacher_id":318,"teacher_name":"林融","post_time":"2022-11-14 10:37:26","like_diff":-5,"likes":0,"dislikes":5,"content":"作为外专业的学生，选这门课感觉还是挺不错的，挺有趣，也可以了解一些社会学的知识，虽然上课方式和考前复习实在硬核，但是老师给分也很好"},{"id":111615,"teacher_id":318,"teacher_name":"林融","post_time":"2019-07-02 07:41:23","like_diff":-7,"likes":5,"dislikes":12,"content":"上社会学的专业课经常被老师diss社会学概论是怎么学的，林老师要背这个锅。"},{"id":151015,"teacher_id":318,"teacher_name":"林融","post_time":"2022-02-22 03:15:02","like_diff":-8,"likes":0,"dislikes":8,"content":"听他的课我都舍不得玩手机"},{"id":160265,"teacher_id":318,"teacher_name":"林融","post_time":"2022-09-16 03:19:05","like_diff":-8,"likes":0,"dislikes":8,"content":"好可爱"},{"id":159201,"teacher_id":318,"teacher_name":"林融","post_time":"2022-07-07 18:54:35","like_diff":-10,"likes":0,"dislikes":10,"content":"给分真心好，上课也有趣"},{"id":31761,"teacher_id":318,"teacher_name":"林融","post_time":"2016-07-05 01:26:52","like_diff":-12,"likes":7,"dislikes":19,"content":"老师真心对课本知识熟悉，内容应该不多，但是能不能给个ppt啊！上课一走神，就不知道讲什么了。本身不喜欢社会学，所以无感"},{"id":15664,"teacher_id":318,"teacher_name":"林融","post_time":"2016-01-16 05:24:31","like_diff":-20,"likes":4,"dislikes":24,"content":"老师人很不错，给分就一般般\n\n\n\n"},{"id":31849,"teacher_id":318,"teacher_name":"林融","post_time":"2017-11-22 08:26:32","like_diff":-59,"likes":8,"dislikes":67,"content":"讲课语无伦次，不用PPT不搬书，最好别作为个性选"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

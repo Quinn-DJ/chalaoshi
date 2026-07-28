@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>张起元 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="张起元教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="张起元,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">张起元</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">5.94</div>
+                    <div class="rating-participants">45人参与评分</div>
+                    <div class="attendance-info">38.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (1 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">国际商务</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.51</span>
+                            <span class="students">选课: 135人</span>
+                            <span class="std-dev">标准差: 0.91</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (42 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":36887,"teacher_id":3508,"teacher_name":"张起元","post_time":"2016-11-16 11:05:04","like_diff":13,"likes":17,"dislikes":4,"content":"结课以后可以学到很多东西，是很好的学习体验。但是老师经验不足，上课恶性竞争发言很严重，并且发言质量堪忧，相信会有很多同学对此很有意见，课堂参与度不能只看发言呀，评分体系有待改进。"},{"id":86498,"teacher_id":3508,"teacher_name":"张起元","post_time":"2018-09-17 02:01:02","like_diff":8,"likes":9,"dislikes":1,"content":"ok怪"},{"id":36848,"teacher_id":3508,"teacher_name":"张起元","post_time":"2016-11-16 08:43:53","like_diff":7,"likes":7,"dislikes":0,"content":"人是挺好的 但太看重平时发言了分值超高 都有点恶竞了 不习惯上课抢发言的分数的同学就扣的非常厉害 要相差1.几个绩点 好烦啊"},{"id":36891,"teacher_id":3508,"teacher_name":"张起元","post_time":"2016-11-16 11:09:47","like_diff":7,"likes":7,"dislikes":0,"content":"很认真的老师~英语好很有优势~发言的话……额……可能是因为老师习惯了香港的风格？给分还好，感觉挺严格地按照标准给的。不会多给。但是考试不难~case analysis比较有趣~选择题全是PPT的~"},{"id":142766,"teacher_id":3508,"teacher_name":"张起元","post_time":"2021-11-16 03:29:15","like_diff":6,"likes":6,"dislikes":0,"content":"快逃 无语"},{"id":142960,"teacher_id":3508,"teacher_name":"张起元","post_time":"2021-11-18 00:53:14","like_diff":6,"likes":6,"dislikes":0,"content":"老师教的很好，但给分有点……"},{"id":87305,"teacher_id":3508,"teacher_name":"张起元","post_time":"2018-09-27 01:07:15","like_diff":5,"likes":5,"dislikes":0,"content":"没两句就说ok。。。。。。。\n\n感觉她不会备课\n\n"},{"id":131397,"teacher_id":3508,"teacher_name":"张起元","post_time":"2021-01-27 10:48:16","like_diff":4,"likes":4,"dislikes":0,"content":"上课无聊给分烂，慎选\n\n不过国际商务好像都这样？"},{"id":142779,"teacher_id":3508,"teacher_name":"张起元","post_time":"2021-11-16 04:40:12","like_diff":4,"likes":4,"dislikes":0,"content":"我 不 理 解 🤧"},{"id":152687,"teacher_id":3508,"teacher_name":"张起元","post_time":"2022-04-18 10:40:10","like_diff":4,"likes":5,"dislikes":1,"content":"我会给所有管理学院不重应用与思考而是闭卷考概念的老师打低分"},{"id":37493,"teacher_id":3508,"teacher_name":"张起元","post_time":"2016-11-19 06:10:18","like_diff":3,"likes":5,"dislikes":2,"content":"迷醉的人 迷醉的课"},{"id":89016,"teacher_id":3508,"teacher_name":"张起元","post_time":"2018-11-14 01:55:49","like_diff":3,"likes":3,"dislikes":0,"content":"老师挺和善的，但一次发言分等于期末考的两分……发言可以质量差，还有人重复前面的人讲过的话，为发言而发言，但期末考考的是真实水平，这个权重不太妥吧。望老师考虑调整(虽然不知道她看不看得到)"},{"id":141930,"teacher_id":3508,"teacher_name":"张起元","post_time":"2021-11-01 06:38:03","like_diff":3,"likes":3,"dislikes":0,"content":"事儿多上课无聊，可能是其他管院老师太好了吧感觉她上课只是基础理论念ppt没有什么新鲜感。没法调动同学发言热情还贼重视发言"},{"id":142776,"teacher_id":3508,"teacher_name":"张起元","post_time":"2021-11-16 04:33:22","like_diff":3,"likes":3,"dislikes":0,"content":"。。。。认真付出与回报不成正比 任务多 考试不让用中文（zgf都说可以了）。。还必须有发言分。。嗯。"},{"id":142813,"teacher_id":3508,"teacher_name":"张起元","post_time":"2021-11-16 11:03:41","like_diff":3,"likes":3,"dislikes":0,"content":"快逃，以身试雷了属于是"},{"id":143696,"teacher_id":3508,"teacher_name":"张起元","post_time":"2021-12-02 03:06:47","like_diff":3,"likes":4,"dislikes":1,"content":"鹅颈，哭"},{"id":35576,"teacher_id":3508,"teacher_name":"张起元","post_time":"2016-11-16 10:36:20","like_diff":2,"likes":4,"dislikes":2,"content":"老师超级萌 上课氛围超级轻松 期末考试大部分就是PPT上的内容 发言这个事情我觉得也是有点不好 这算起来一次发言是期末实打实的两分 没有发言的同学很吃亏 发言的质量其实也是参差不齐 不过觉得的确学到东西就是了 小组的同学因为讨论也变熟悉好多"},{"id":36876,"teacher_id":3508,"teacher_name":"张起元","post_time":"2016-11-16 10:22:45","like_diff":2,"likes":4,"dislikes":2,"content":"老师帅气天真又可爱  英文基本上可以听懂 看重小组作业讨论和发言。发言蛮重要的。这门课一点都不水! 考试要好好复习  分数还行 但没有期望中的高。但是老师真的喜欢。 这门课可以锻炼你的口语和展示能力。推荐～～"},{"id":37739,"teacher_id":3508,"teacher_name":"张起元","post_time":"2018-09-19 09:45:36","like_diff":2,"likes":6,"dislikes":4,"content":"怎么说，我觉得发言的问题是学生自己的问题，是应试教育的问题，重视发言没有错，虽然我自己也特别不喜欢发言。学习的过程需要有自己的思考，不是被动的听，更要表达出来，更何况将来时做管理方面的工作，在课堂上都不表达出自己的思考、观点，以后进入社会谁会给你机会呢?只能说学生必须慢慢改变自己。"},{"id":90353,"teacher_id":3508,"teacher_name":"张起元","post_time":"2018-11-23 08:50:10","like_diff":2,"likes":3,"dislikes":1,"content":"新老师，课程评价体系有问题。上国商的小伙伴们要做好坏的打算"},{"id":90375,"teacher_id":3508,"teacher_name":"张起元","post_time":"2018-11-23 09:49:48","like_diff":2,"likes":6,"dislikes":4,"content":"不像以前的短学期课那么水，课程内容有难度的，理论性比较强。但是好好学期末也还可以考好的。说要刷发言的我醉了，上课到后面老师提问根本没人发言，是真的没机会发还是不想发？老师只是希望学生能多参与多表达，发言满了平时分就是送20分。还有专业黑的我也无语，展示的质量大家都有目共睹吧，复习谁还不是看复印的ppt？？"},{"id":90566,"teacher_id":3508,"teacher_name":"张起元","post_time":"2018-11-24 05:59:28","like_diff":2,"likes":3,"dislikes":1,"content":"发言比重过高，鹅颈开始了。"},{"id":119691,"teacher_id":3508,"teacher_name":"张起元","post_time":"2019-11-16 00:50:20","like_diff":2,"likes":2,"dislikes":0,"content":"老师和助教gg都好帅！讲课有条理，发言分的话每日新闻还是可以刷满的，考试简单、明确，完全是ppt上的，复习一遍可以考的很好。然后老师只给打印的屁屁踢，建议自己用word做下笔记，国商这门课算管院课程中有干货的了。相当于经院的国际贸易，不过国商更多从企业角度进行分析。（老师的衣品我可以欣赏好久哈哈哈"},{"id":120393,"teacher_id":3508,"teacher_name":"张起元","post_time":"2019-12-03 06:40:00","like_diff":2,"likes":2,"dislikes":0,"content":"不好??"},{"id":142772,"teacher_id":3508,"teacher_name":"张起元","post_time":"2021-11-16 04:04:49","like_diff":2,"likes":4,"dislikes":2,"content":"给分迷  专业课目前最低分  80都没有\n\n就是说小组那个国家案例有认真写，三个分析也很认真，而且我们小组有被点名表扬。\n\n发言也挺积极，但是老师有没有说多少次是发言满分.....\n\n至于考试也认真复习了，主观题也按三层次分析。\n\n我不理解"},{"id":142777,"teacher_id":3508,"teacher_name":"张起元","post_time":"2021-11-16 04:33:22","like_diff":2,"likes":2,"dislikes":0,"content":"。。。。认真付出与回报不成正比 任务多 考试不让用中文（zgf都说可以了）。。还必须有发言分。。嗯。"},{"id":36626,"teacher_id":3508,"teacher_name":"张起元","post_time":"2016-11-15 06:18:48","like_diff":1,"likes":2,"dislikes":1,"content":"国际商务分小组，有一个小组展示。但是上课要刷发言数也是醉了"},{"id":90370,"teacher_id":3508,"teacher_name":"张起元","post_time":"2018-11-23 09:35:27","like_diff":1,"likes":6,"dislikes":5,"content":"我觉得老师蛮不错，自己绩点一般还是怪自己知识不扎实，选择题不好。之前看有人说财管的同学有ppt？？又不是老师发的，自己的connection不到位，怪别人恶警？别个自己的懒惰找借口，你要是认真学习，掌握好知识，相信分数不会差，毕竟期末占比还是很好的。"},{"id":127801,"teacher_id":3508,"teacher_name":"张起元","post_time":"2020-11-27 07:56:16","like_diff":1,"likes":1,"dislikes":0,"content":"今年疫情线上上课 全程没有一种参与度 70%全靠考试……\n\n希望增加出席点名环节吧 分数也能拉高点"},{"id":127935,"teacher_id":3508,"teacher_name":"张起元","post_time":"2020-11-30 13:43:21","like_diff":1,"likes":1,"dislikes":0,"content":"迷之绩点"},{"id":142771,"teacher_id":3508,"teacher_name":"张起元","post_time":"2021-11-16 03:58:22","like_diff":1,"likes":3,"dislikes":2,"content":"课程内容还好，还是可以学到东西，给分的话中规中矩，付出多少得到多少，上课体验就一般"},{"id":90356,"teacher_id":3508,"teacher_name":"张起元","post_time":"2018-11-23 08:57:06","like_diff":0,"likes":1,"dislikes":1,"content":"ok?"},{"id":90368,"teacher_id":3508,"teacher_name":"张起元","post_time":"2018-11-23 09:27:03","like_diff":0,"likes":1,"dislikes":1,"content":"上课完全没有一种代入感，搞正态分布，不推荐选。"},{"id":119177,"teacher_id":3508,"teacher_name":"张起元","post_time":"2019-11-11 04:07:23","like_diff":0,"likes":2,"dislikes":2,"content":"老师很好，虽然发言比重很高，但是每次课前都给大家新闻讲解的机会。只要每次都准备好新闻，就没什么压力了。老师很好看，而且很负责，有的时候还有点可爱。刚开始上课不适应这样全英文课程，但是老师经常会中文解释。总的说，非常奈斯，都不想结课了。"},{"id":142707,"teacher_id":3508,"teacher_name":"张起元","post_time":"2021-11-18 05:30:49","like_diff":0,"likes":5,"dislikes":5,"content":"虽然是英文的课程而且教得很快，但是都解释得很清楚，虽然分数打的有点那个。。但是学到很多！"},{"id":142829,"teacher_id":3508,"teacher_name":"张起元","post_time":"2021-11-16 15:46:58","like_diff":0,"likes":1,"dislikes":1,"content":"认真听或许有收获……但老实说想水的话只要考试复习怒刷PPT就行…"},{"id":143087,"teacher_id":3508,"teacher_name":"张起元","post_time":"2021-11-19 01:10:10","like_diff":0,"likes":2,"dislikes":2,"content":"老师挺好的 上课会给我们分析案例之类的 考试刷ppt吧选择题都是ppt 线上上课没有发言分 纯靠考试分和小组作业 感谢小组带飞加上考试不太难ppt都有，绩点不错"},{"id":172629,"teacher_id":3508,"teacher_name":"张起元","post_time":"2023-05-02 14:15:38","like_diff":0,"likes":0,"dislikes":0,"content":"快 逃"},{"id":36510,"teacher_id":3508,"teacher_name":"张起元","post_time":"2016-11-14 11:12:18","like_diff":-4,"likes":5,"dislikes":9,"content":"给分好 很水 老师人挺好的 就是思维有点怪………"},{"id":90354,"teacher_id":3508,"teacher_name":"张起元","post_time":"2018-11-23 08:54:49","like_diff":-4,"likes":6,"dislikes":10,"content":"全英文上课，助教又不给PPT，只给纸质版的黑胡胡看都看不清，但是财管的同学却有PPT，上课发言恶竞，老师读PPT，唯一有趣的事case Analysis，明明有18次发言，小组长，认真做展示，认真写公司进军报告，认真写三国分析，可是！！分也不好啊！垃圾国商，毁我青春"},{"id":142831,"teacher_id":3508,"teacher_name":"张起元","post_time":"2021-11-16 16:09:36","like_diff":-4,"likes":0,"dislikes":4,"content":"感觉真的还好？虽然课真的很好水但也能学到东西，期末考试有复习过也就不难，个人没怎么发过言但最后有3.9，还是很满意的"},{"id":36833,"teacher_id":3508,"teacher_name":"张起元","post_time":"2016-11-16 07:22:35","like_diff":-6,"likes":2,"dislikes":8,"content":"老师人很美，英文说的超好，但是对于口语要求挺高的，所以想要锻炼自己英语能力的阔以来选她的课哦୧( \"̮ )୨✧ᐦ̤喜大普奔"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

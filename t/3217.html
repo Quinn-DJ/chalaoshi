@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>范杰 - 理学院 - 浙大教评</title>
+    <meta name="description" content="范杰教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="范杰,理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">范杰</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.09</div>
+                    <div class="rating-participants">44人参与评分</div>
+                    <div class="attendance-info">17.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (4 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">专题研讨课</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.45</span>
+                            <span class="students">选课: 13人</span>
+                            <span class="std-dev">标准差: 0.35</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">化学前沿专题研讨</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.38</span>
+                            <span class="students">选课: 91人</span>
+                            <span class="std-dev">标准差: 0.30</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">普通化学（甲）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.72</span>
+                            <span class="students">选课: 334人</span>
+                            <span class="std-dev">标准差: 0.77</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">研究型课程</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.33</span>
+                            <span class="students">选课: 18人</span>
+                            <span class="std-dev">标准差: 0.37</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (34 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":170708,"teacher_id":3217,"teacher_name":"范杰","post_time":"2023-03-08 08:24:27","like_diff":15,"likes":15,"dislikes":0,"content":"建议高中没学化学的不要选范杰的普化甲，因为老师上课讲的更多的是化学前沿的一些拓展而不是教你如何去学化学。没有高中化学基础的人听范杰的课并不能学到任何东西，最后考试前也只能痛苦找别的老师的课程自学普化甲。但是老师捞人还是很给力的。"},{"id":129322,"teacher_id":3217,"teacher_name":"范杰","post_time":"2021-01-04 06:43:56","like_diff":8,"likes":10,"dislikes":2,"content":"一个特别好的老师。有先进的教学思维，没有被传统的考试思维束缚，在课堂上会拓展我们的思维和眼界。而且每次作业量适中，还会布置一些有意思的思考题，这种老师不拿高分天理难容！一学期的普化课，最后在一首《只要平凡》中谢幕。"},{"id":88658,"teacher_id":3217,"teacher_name":"范杰","post_time":"2018-11-05 05:42:36","like_diff":7,"likes":14,"dislikes":7,"content":"听不懂。是我太菜了么。"},{"id":129972,"teacher_id":3217,"teacher_name":"范杰","post_time":"2021-01-14 09:00:23","like_diff":5,"likes":8,"dislikes":3,"content":"如果我说我梦到范老师了大家会相信吗"},{"id":170078,"teacher_id":3217,"teacher_name":"范杰","post_time":"2023-03-01 09:33:36","like_diff":5,"likes":5,"dislikes":0,"content":"怎么说呢，感觉我的成绩和老师毫无关系"},{"id":133771,"teacher_id":3217,"teacher_name":"范杰","post_time":"2021-03-05 02:43:48","like_diff":4,"likes":5,"dislikes":1,"content":"超级棒的老师！上学期刚上他的课时来看评分居然只有6分多我真的惊了，这学期过来看就9分多了，超级开心！！老师是很优秀也很有趣的人！！【针对之前说不讲本质内容的评价，我觉得这应该是普化这门课本身的问题，这课本身要求就不高，老师讲得也就不深，不过同时还能做到有趣的延展，真的非常棒了"},{"id":125772,"teacher_id":3217,"teacher_name":"范杰","post_time":"2020-09-14 06:54:34","like_diff":3,"likes":5,"dislikes":2,"content":"好老师，第一节课就非常有意思"},{"id":128396,"teacher_id":3217,"teacher_name":"范杰","post_time":"2020-12-22 07:51:10","like_diff":3,"likes":6,"dislikes":3,"content":"挺好的，不知道为什么分不高"},{"id":129324,"teacher_id":3217,"teacher_name":"范杰","post_time":"2021-01-04 06:49:50","like_diff":3,"likes":5,"dislikes":2,"content":"老师的课时这个学期最喜欢的课。其实大一很多的通识课，考试结束过两周你就不会记得这节课讲了什么知识，但是真的会记得老师带给你的一些思维方式以及习惯性的对社会问题的关切。范杰老师就是这样的老师。第一节课绪论的时候谈到“人类社会的发展史怎么出现差异的”推荐《枪炮病菌与钢铁》，一个理科老师，竟然让人很想去看社科的书；他会在上课的时候普及很多诺贝尔奖的成果、最新发的论文等等，很多知识没有记得，但是在赶一些报告的ddl的时候这些例子就会直接被想起来。回答问题也非常耐心，还会引导你去思考。真的很喜欢老师的课。"},{"id":132245,"teacher_id":3217,"teacher_name":"范杰","post_time":"2021-01-31 08:17:53","like_diff":3,"likes":3,"dislikes":0,"content":"范老师博学多才，对诺贝尔奖得主了如指掌，即将获得下一届诺贝尔博物学奖。开玩笑啦，老师上课非常有趣，能从多个角度切入主题，物化生文艺都有涉猎，既能学普化，又能拓宽知识面，好评！"},{"id":153066,"teacher_id":3217,"teacher_name":"范杰","post_time":"2022-04-24 17:21:03","like_diff":3,"likes":4,"dislikes":1,"content":"我是一个理科很菜很菜的家伙，普化课对我来说很不轻松，每节课有听不懂（不是老师的问题，老师节奏很好，完全是我的问题）的地方是基操，下课也经常拿一些很傻很基础甚至很奇怪的问题去问老师。现在我已经大三了，还记得老师总是微笑着很耐心地跟我一步步讲，思考的时候又是认真脸哈哈哈。助教xgg我也经常拿问题，甚至是很多基础的课后题去骚扰，也好耐心回答我。老师课后也会留下一些思考题，完全是书本之外的，又完全是书本知识深入的东西，在明知我们这种专业不会深入学习化学的同时又很想启发我们。最后一节课结尾，我记得老师给我们放了一首歌，一首童声，唱的什么我不记得了，但是还记得老师对我们说，不是所有人都能所谓的成功还是很厉害啥的，但是到那个时候，也请你接受自己。难得的好老师。"},{"id":200940,"teacher_id":3217,"teacher_name":"范杰","post_time":"2024-10-25 05:27:42","like_diff":3,"likes":3,"dislikes":0,"content":"普化甲基本自己，范老师上课喜欢用英语PPT，一边讲中文一边讲英文，难度还是有点被人为加大的◑.◑"},{"id":212988,"teacher_id":3217,"teacher_name":"范杰","post_time":"2025-01-15 12:10:20","like_diff":3,"likes":3,"dislikes":0,"content":"海底捞，绝赞！"},{"id":88109,"teacher_id":3217,"teacher_name":"范杰","post_time":"2018-10-22 09:19:32","like_diff":2,"likes":7,"dislikes":5,"content":"老师很好，对于很多原理更多的是讲为什么而不是怎么做。会布置课外的思考题，收获很大"},{"id":117330,"teacher_id":3217,"teacher_name":"范杰","post_time":"2019-09-23 03:38:14","like_diff":2,"likes":5,"dislikes":3,"content":"延伸到位，应用联系加深理解"},{"id":122440,"teacher_id":3217,"teacher_name":"范杰","post_time":"2020-02-27 12:43:19","like_diff":1,"likes":2,"dislikes":1,"content":"老师挺好的，问问题也会耐心解答。"},{"id":144287,"teacher_id":3217,"teacher_name":"范杰","post_time":"2021-12-21 04:16:13","like_diff":1,"likes":2,"dislikes":1,"content":"作为高中没选化学的化学白痴，表示老师讲的好快，根本听不懂啊听不懂，好吧是我太菜了"},{"id":161589,"teacher_id":3217,"teacher_name":"范杰","post_time":"2022-11-09 08:13:12","like_diff":1,"likes":1,"dislikes":0,"content":"好老师，可是普化太难了，呜呜呜"},{"id":161665,"teacher_id":3217,"teacher_name":"范杰","post_time":"2022-11-10 07:33:58","like_diff":1,"likes":1,"dislikes":0,"content":"喜欢的人会很喜欢，不喜欢的话……可能会很无聊"},{"id":168327,"teacher_id":3217,"teacher_name":"范杰","post_time":"2023-02-11 14:43:09","like_diff":1,"likes":2,"dislikes":1,"content":"最喜欢的老师之一，虽然课程是普通化学，但对我来说一点都不普通（警惕新型陷阱），每次课上都能对化学界一些问题都能有自己的看法，感觉老师到浙大教课就是一个附带的任务，课上更着重的是对学生的教导，并且大二科研认知还选择了去听他的课题组，整个课题组氛围也很放松"},{"id":206033,"teacher_id":3217,"teacher_name":"范杰","post_time":"2024-12-13 03:36:24","like_diff":1,"likes":1,"dislikes":0,"content":"老师人很好，也很幽默。但是普通化学讲的东西有点超前了，不太适合大一小登"},{"id":129321,"teacher_id":3217,"teacher_name":"范杰","post_time":"2021-01-04 06:41:27","like_diff":0,"likes":2,"dislikes":2,"content":"老师上课很有意思，还拓展一些课堂之外有深度的内容，老师真滴很好啊。"},{"id":129323,"teacher_id":3217,"teacher_name":"范杰","post_time":"2021-01-04 06:45:34","like_diff":0,"likes":2,"dislikes":2,"content":"进浙大的第一个学期遇到的最好的老师。不仅仅是讲授课本中的内容，会进行最前沿最实时的科研成果普及，会引导我们进行真正的深入思考。声音很温柔很磁性，普化课有一种很轻松的氛围。学到很多，一定会想念他。"},{"id":141731,"teacher_id":3217,"teacher_name":"范杰","post_time":"2021-10-23 10:08:22","like_diff":0,"likes":0,"dislikes":0,"content":"老师很渊博，但是讲课有点快，也可能是我的问题"},{"id":146921,"teacher_id":3217,"teacher_name":"范杰","post_time":"2022-01-08 05:04:21","like_diff":0,"likes":2,"dislikes":2,"content":"为什么我给分这么低我不理解"},{"id":162473,"teacher_id":3217,"teacher_name":"范杰","post_time":"2022-11-23 03:33:43","like_diff":0,"likes":1,"dislikes":1,"content":"不错的"},{"id":169522,"teacher_id":3217,"teacher_name":"范杰","post_time":"2023-02-26 15:29:37","like_diff":0,"likes":0,"dislikes":0,"content":"这是一个观念比较先进开放的老师，很好很好的老师，普通化学这门课不一定有什么很大收获，但这个老师会让你学到挺多。"},{"id":212877,"teacher_id":3217,"teacher_name":"范杰","post_time":"2025-01-15 06:44:27","like_diff":0,"likes":0,"dislikes":0,"content":"不点名，上课讲的比较难听不懂，但是最后狠狠捞狠狠捞狠狠捞"},{"id":213157,"teacher_id":3217,"teacher_name":"范杰","post_time":"2025-01-16 06:59:19","like_diff":0,"likes":0,"dislikes":0,"content":"怎么说，我学到的知识和老师没有关系全凭自学，但我最后取得的分数全靠老师的大捞特捞（）\n\n上课不点名，建议上课溜走考前补天，效果绝佳👍"},{"id":213482,"teacher_id":3217,"teacher_name":"范杰","post_time":"2025-01-17 18:43:20","like_diff":0,"likes":0,"dislikes":0,"content":"上课讲的不细\n\n最后也有点卡绩\n\n但是老师上课还是很真诚的\n\n很喜欢化学\n\n也很喜欢老师！"},{"id":225397,"teacher_id":3217,"teacher_name":"范杰","post_time":"2025-12-23 06:13:23","like_diff":0,"likes":0,"dislikes":0,"content":"夯夯夯"},{"id":116671,"teacher_id":3217,"teacher_name":"范杰","post_time":"2019-09-23 03:19:11","like_diff":-2,"likes":1,"dislikes":3,"content":"..."},{"id":118032,"teacher_id":3217,"teacher_name":"范杰","post_time":"2019-10-19 03:57:32","like_diff":-3,"likes":7,"dislikes":10,"content":"上课很无聊，完全不讲本质，只会说PPT上的内容，上课就是在浪费时间"},{"id":117294,"teacher_id":3217,"teacher_name":"范杰","post_time":"2019-09-22 13:32:08","like_diff":-8,"likes":6,"dislikes":14,"content":"PPT与课本相似度极高?"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>程思遥 - 化学系 - 浙大教评</title>
+    <meta name="description" content="程思遥教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="程思遥,化学系,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">程思遥</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">化学系</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.08</div>
+                    <div class="rating-participants">36人参与评分</div>
+                    <div class="attendance-info">21.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (1 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">职业生涯规划</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.53</span>
+                            <span class="students">选课: 181人</span>
+                            <span class="std-dev">标准差: 0.32</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (31 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":78153,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2018-05-09 14:12:19","like_diff":7,"likes":24,"dislikes":17,"content":"架子比书记还大，以为老娘天下第一？"},{"id":71578,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2018-01-28 15:38:22","like_diff":5,"likes":15,"dislikes":10,"content":"大美女，和潘贤林一起上思修，两个老师一前一后一起讲课，很有意思"},{"id":73194,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2018-02-01 06:47:18","like_diff":4,"likes":5,"dislikes":1,"content":"支持两位老师！"},{"id":131541,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2021-01-28 03:18:14","like_diff":3,"likes":4,"dislikes":1,"content":"程老师很好的，人美心善，会捞人，上课有课外活动课，还有学长学姐分享，强烈推荐。"},{"id":72117,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2018-01-29 11:24:24","like_diff":2,"likes":4,"dislikes":2,"content":"很好的老师"},{"id":121045,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2020-01-19 10:14:03","like_diff":2,"likes":2,"dislikes":0,"content":"没听课"},{"id":121061,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2020-01-19 11:42:11","like_diff":2,"likes":4,"dislikes":2,"content":"思修上课水，事情少，要是读书报告和展示别太水给分也不错，老师也挺漂亮的，上她的课认真听也能学到很多东西，还会有很多大牛学长来分享，很有意思而且干货满满。"},{"id":130079,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2021-01-16 11:19:21","like_diff":2,"likes":6,"dislikes":4,"content":"恶性竞争，不公平分配时间，"},{"id":131538,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2021-01-28 03:07:25","like_diff":2,"likes":3,"dislikes":1,"content":"会捞会捞"},{"id":172499,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2023-05-23 07:04:29","like_diff":2,"likes":2,"dislikes":0,"content":"职规课，老师人美事少给分好，所有作业按基本要求完成，没有额外卷也能被捞到 89/4.5，强推"},{"id":182310,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2023-11-14 11:26:39","like_diff":2,"likes":2,"dislikes":0,"content":"上过职规课，总是要上台分享一些莫名其妙的感想"},{"id":192164,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2024-05-10 11:36:30","like_diff":2,"likes":2,"dislikes":0,"content":"职规课，总体感觉下来，老师人美心善。\n\n绩点方面，不用太卷，完成基本要求就可以获取一个不错的绩点。\n\n老师也会请学长学姐来分享经验，不过因为专业原因我收获不是很大(专业不同，发展路线有些差异)，但如果是相关专业的同学收获应该会很大。\n\n还有最后的几节课会讲一些职场礼仪着装和简历相关的内容，不知道别的老师会不会讲。这些东西虽然现在用不到，但以后找工作面试时应该挺有用的。"},{"id":131540,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2021-01-28 03:17:36","like_diff":1,"likes":1,"dislikes":0,"content":"会捞人！"},{"id":136490,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2021-06-19 01:47:15","like_diff":1,"likes":3,"dislikes":2,"content":"点名有一次没到 展示作业没上去过 期末水水地考 最后4.5 快选她！"},{"id":174573,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2023-06-14 08:13:39","like_diff":1,"likes":1,"dislikes":0,"content":"这学期课选多了，职业规划书来不及写，跟老师实话讲了。平时上课没发过一次言，最后被捞到4.2，吹爆！"},{"id":72223,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2018-01-29 14:46:37","like_diff":0,"likes":4,"dislikes":4,"content":"脾气很好，讲的不错，主要讲前面部分"},{"id":72506,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2018-01-30 09:06:01","like_diff":0,"likes":2,"dislikes":2,"content":"好好好"},{"id":75911,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2018-03-21 12:05:03","like_diff":0,"likes":4,"dislikes":4,"content":"可以评分了，开心。讲课中规中矩吧，但是人漂亮啊。笑起来很魔性。"},{"id":79166,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2018-05-25 05:39:32","like_diff":0,"likes":10,"dislikes":10,"content":"没脑子的白痴"},{"id":129116,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2020-12-30 07:47:54","like_diff":0,"likes":2,"dislikes":2,"content":"挺好的，我觉得"},{"id":131542,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2021-01-28 03:17:10","like_diff":0,"likes":0,"dislikes":0,"content":"程老师很好的，思修课带出去参观，还有学长学姐的分享，最重要的是，会捞，人美心善，强烈推荐。"},{"id":131586,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2021-01-28 05:46:01","like_diff":0,"likes":0,"dislikes":0,"content":"人美心善，很好的老师"},{"id":225772,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2025-12-30 05:34:51","like_diff":0,"likes":0,"dislikes":0,"content":"老师人好看是真的，但其实课外事情不少的，德法课要单独竞选小班长和课代表真有点诡异了，小组作业也事情特别多，什么字号要求。引用说明特别死"},{"id":225906,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2026-01-04 07:50:32","like_diff":0,"likes":0,"dislikes":0,"content":"她的德法课点名千万不要缺，点名占扣分比例很大！"},{"id":71908,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2018-01-29 11:26:21","like_diff":-1,"likes":1,"dislikes":2,"content":"体验非常好"},{"id":131543,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2021-01-28 03:21:26","like_diff":-1,"likes":0,"dislikes":1,"content":"专门跑过来跟老师评价。本来看到自己读书报告和小组作业85因为会被卡绩，但是最后4.5真的挺开心的。老师讲课也很好，会找大牛学长来分享。只点过一次名，还是因为老师发现来的同学太少了😇"},{"id":192981,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2024-06-01 15:36:28","like_diff":-1,"likes":0,"dislikes":1,"content":"老师人很好也很体谅学生，第一节课就会分组然后会上台汇报介绍小组成员，当组长的话会加分，不过我这学期当了组长也没太感觉到加分哈哈哈但是给分还是不错滴4.8已经满意啦。平时上课也很有意思，都是分享或者小游戏，每节课需要小组成员上台汇报。反正综合感觉老师人很好也热心，还欢迎我们有问题和她分享交流呀"},{"id":71910,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2018-01-29 05:28:05","like_diff":-2,"likes":0,"dislikes":2,"content":"还不错"},{"id":85855,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2018-08-23 02:12:00","like_diff":-2,"likes":1,"dislikes":3,"content":"很好的"},{"id":100317,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2019-01-26 02:51:41","like_diff":-2,"likes":1,"dislikes":3,"content":"好好好！"},{"id":133729,"teacher_id":4511,"teacher_name":"程思遥","post_time":"2021-03-04 09:06:14","like_diff":-16,"likes":2,"dislikes":18,"content":"被绩杀。作业用心做了，考试也认真复习了。想不通为什么最后给分这么低。唯一解释是有两次点名我没到。但她明明说过要把出勤率占的分数比重往下调的。别选快跑。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

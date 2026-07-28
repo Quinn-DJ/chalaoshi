@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>施杰 - 管理学院 - 浙大教评</title>
+    <meta name="description" content="施杰教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="施杰,管理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">施杰</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">管理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">8.16</div>
+                    <div class="rating-participants">156人参与评分</div>
+                    <div class="attendance-info">19.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (3 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">伦理与社会责任</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.02</span>
+                            <span class="students">选课: 327人</span>
+                            <span class="std-dev">标准差: 0.73</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">创业启程</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.01</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.61</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">管理学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.16</span>
+                            <span class="students">选课: 406人</span>
+                            <span class="std-dev">标准差: 0.75</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (134 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":126656,"teacher_id":2379,"teacher_name":"施杰","post_time":"2020-10-12 04:18:02","like_diff":38,"likes":66,"dislikes":28,"content":"鼓励恶竞，1分都不想给"},{"id":107788,"teacher_id":2379,"teacher_name":"施杰","post_time":"2019-05-09 15:56:30","like_diff":17,"likes":30,"dislikes":13,"content":"创业启程好凉"},{"id":188994,"teacher_id":2379,"teacher_name":"施杰","post_time":"2024-01-21 05:26:57","like_diff":17,"likes":25,"dislikes":8,"content":"最后出分挺满意的，留下一点建议给未来选这门课的同学吧。\n\n首先如果你对于绩点没有要求，这是一门非常好水的课，计划书、听后感、考试都很容易可以水过去\n\n其次，如果你对于绩点有追求（4.5以上），上述三者你至少得在其中两个方面卷一卷。个人建议计划书看得过去就行，因为这不知道是谁打的分，根本不知道评分标准。听后感是值得卷一卷的，其实很容易得到一个比较好的分数；考试的话，一定要关注历年卷，但也要关注书本，因为创业启程考试的考点是非常多的，大概一本书出个500分的试卷不是难事儿，每年考试都会有一部分题目和历年卷重合，但也存在新题，需要关注书本（考试最后的大题多抄抄），祝以后选这门课的同学能取得满意的成绩。"},{"id":159020,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-07-04 13:04:43","like_diff":13,"likes":17,"dislikes":4,"content":"给9分吧。\n\n就，一定要当组长。然后一定要认真听要求。\n\n老师的给分细则是很明确很清晰的，按照这个要求来就好了。\n\n老师说实话心底里也是很温柔的人。"},{"id":60904,"teacher_id":2379,"teacher_name":"施杰","post_time":"2017-11-02 05:26:58","like_diff":11,"likes":20,"dislikes":9,"content":"简直是高中老师，各种说教，且前后矛盾。"},{"id":92927,"teacher_id":2379,"teacher_name":"施杰","post_time":"2019-01-05 22:51:03","like_diff":10,"likes":11,"dislikes":1,"content":"讲课一般，是很和蔼可亲，可是我觉得作业好多啊 心累????????"},{"id":188198,"teacher_id":2379,"teacher_name":"施杰","post_time":"2024-01-18 11:31:03","like_diff":10,"likes":13,"dislikes":3,"content":"什么垃圾评分，这种课平时分扣个十分，喜欢拉低均绩是吧。认认真真写的，给的什么勾分"},{"id":118335,"teacher_id":2379,"teacher_name":"施杰","post_time":"2019-10-25 03:56:12","like_diff":9,"likes":22,"dislikes":13,"content":"创业启程课水事多\n\n2.0学分的课一篇讲座感想2000字，课程大作业加起来也得2000。。\n\n最坑的是教材考前20天才到。。。自学半本书。。。\n\n不过听网课确实能对创业有一定了解，但是那么多事情实在没必要，太占时间了\n\n网课可倍速"},{"id":148117,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-01-11 14:06:56","like_diff":8,"likes":13,"dislikes":5,"content":"老师人很好，给分也不错啊，毕竟均绩摆在那儿。推荐选，老师真的很好。"},{"id":127848,"teacher_id":2379,"teacher_name":"施杰","post_time":"2020-11-28 15:35:49","like_diff":7,"likes":15,"dislikes":8,"content":"创业启程老师相比于其他班 给分很好了"},{"id":129771,"teacher_id":2379,"teacher_name":"施杰","post_time":"2021-01-12 07:47:19","like_diff":6,"likes":6,"dislikes":0,"content":"课程结束，分数也大体有数。可以说这一门课是可以治疗拖延症的一门课，每周一个ddl的压力相对较大。老师这个人相对来讲比较矛盾。有的时候你感觉他说的很有道理，有的时候对于他的做法无法理解。比如对于我们小组的调研报告就在他的引导下转换了方向，但是在最后又受到了批评。可以说，其实这门课，并不需要卷，而需要的是更多的听清楚老师的要求。老师本人呢emmmm人还是不错的，但可能受制于课程的限制，还是只是局限在了念ppt中，课堂相对沉闷。不用太抗拒，但是对于课堂的态度就仁者见仁智者见智了。"},{"id":172834,"teacher_id":2379,"teacher_name":"施杰","post_time":"2023-05-08 05:46:13","like_diff":6,"likes":7,"dislikes":1,"content":"给分低，事情多，课也无聊"},{"id":198066,"teacher_id":2379,"teacher_name":"施杰","post_time":"2024-08-27 17:34:01","like_diff":6,"likes":7,"dislikes":1,"content":"创业启程，垃圾课程\n\n不要看上面老师大捞特捞的评论，实际也不怎么捞（平时分绝对没给满，还扣了不少），只是给分比另外几个老师略好一点而已。"},{"id":215738,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-03-05 03:33:48","like_diff":6,"likes":6,"dislikes":0,"content":"给分不好"},{"id":40096,"teacher_id":2379,"teacher_name":"施杰","post_time":"2016-12-29 06:56:40","like_diff":5,"likes":16,"dislikes":11,"content":"認真負責  給分明確\n\n"},{"id":65601,"teacher_id":2379,"teacher_name":"施杰","post_time":"2018-01-07 02:41:49","like_diff":5,"likes":16,"dislikes":11,"content":"老师讲课布置作业什么的都很认真，认真学能学到东西。\n\n缺点是上课非常无聊，一大半的人都在水，以及作业多出天际。我一个理科生平时都在赶管理学的due严重挤压了其它科作业的时间。别告诉我是我自己的问题"},{"id":121138,"teacher_id":2379,"teacher_name":"施杰","post_time":"2020-01-20 00:35:39","like_diff":5,"likes":11,"dislikes":6,"content":"无语…"},{"id":146817,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-01-07 13:40:35","like_diff":5,"likes":8,"dislikes":3,"content":"我学的是这位老师的管理学，平时的作业真的有点多，小组和个人都有，要求写的作业字数也差不多是越多越好的那种标准。我平时的小组和个人作业还是比较认真的，而且也还代表小组做过展示，可是看看管理学大家均绩4.2+，我真的不明白我为怎么是3.3，(╥╯^╰╥)\n\n老师还是比较和蔼负责的，但是个人认为上课不是很有趣"},{"id":146854,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-01-08 05:45:29","like_diff":5,"likes":7,"dislikes":2,"content":"老师人很好，非常负责任及用心，给分给的明确也很好，作业不是写越多越好，不需要卷字数，而且加分项很多。至于作业，管理学这门课本就没有期末，所以课程作业会比较多，不过要拿高分的话，平时的小测就得花点时间读。总的来说，如果想上管理学，非常推荐同学来拿老师的课，真的很赞，10分！"},{"id":207404,"teacher_id":2379,"teacher_name":"施杰","post_time":"2024-12-21 09:37:26","like_diff":5,"likes":6,"dislikes":1,"content":"给个忠告，一定不要选《创业启程》这门课，无论是哪个老师，包括sj，这门课就是史\n\n只有一种情况，除非你大四保研了或者出国确定offer对绩点无要求，那么这个课可以帮你水到创新创业学分（毕竟不用线下上课，挂科一般也不至于，大家的分数集中在70-80）"},{"id":212500,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-01-14 06:08:47","like_diff":5,"likes":7,"dislikes":2,"content":"给分超级好，计划书扣三分了总评还给捞到96"},{"id":218487,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-04-24 04:00:12","like_diff":5,"likes":12,"dislikes":7,"content":"sj老师的创业启程绝对是创业类最推荐的课了，平时不用去上课，第一节课就把成绩构成很清楚地讲了。平时完全等于没这门课，只要空闲时间认认真真把线上任务都做了，期末花半天背一下，最后分数会很好(^ ^)"},{"id":33782,"teacher_id":2379,"teacher_name":"施杰","post_time":"2016-09-21 14:27:15","like_diff":4,"likes":24,"dislikes":20,"content":"挺好的！"},{"id":107787,"teacher_id":2379,"teacher_name":"施杰","post_time":"2019-05-09 15:00:16","like_diff":4,"likes":19,"dislikes":15,"content":"呜呜呜，创业启程不好?"},{"id":146822,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-01-16 09:48:16","like_diff":4,"likes":8,"dislikes":4,"content":"管理学老师上课很认真的解释每个知识点，平时信息回复也很有耐心，满绩了！！"},{"id":151629,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-03-10 02:39:01","like_diff":4,"likes":4,"dislikes":0,"content":"创业启程就是很累"},{"id":154816,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-06-05 17:01:30","like_diff":4,"likes":6,"dislikes":2,"content":"这课助教会评分吗？？？我辛辛苦苦做了ppt 配图 文案 做了五六十页ppt 结果人家每个点写了几句话 最后总分按百分比一算约等于0！！对得起学生的努力吗！！！！！\n\n这课老师这么对我们的 我们就应该这么对他们 大家水吧 努力没有意义！！！无语！上大学第一件这么无语的事！"},{"id":167246,"teacher_id":2379,"teacher_name":"施杰","post_time":"2023-01-15 08:11:21","like_diff":4,"likes":5,"dislikes":1,"content":"伦理与社会责任：课程本身可能比较无聊，但老师人很好，特别会举例帮助理解。两份个人作业一份小组作业，任务量不大，期末半开卷98上相关资料很多，主观题需要灵活运用知识，but！有十分课堂发言分比较痛苦QAQ"},{"id":189636,"teacher_id":2379,"teacher_name":"施杰","post_time":"2024-01-26 08:12:19","like_diff":4,"likes":4,"dislikes":0,"content":"给分真的不行啊，上课发言前5%是有的，考试的时候都找到了但是给分真的很迷"},{"id":121063,"teacher_id":2379,"teacher_name":"施杰","post_time":"2020-01-19 11:58:34","like_diff":3,"likes":11,"dislikes":8,"content":"创业启程\n\n我真的巨难过。考前把书上重点背了三遍，考试时候选择题就两三道不确定，精益创业的概念也背出来了，最后绩点贼低。\n\n助教说我们班的卷面成绩确实比其他班低一点吧。我朋友书都没看（别的班）拿了4.2，我真的有点气。\n\n我也不知道自己哪里做的不够好，可能大作业的十个设想不够好？我尽力写了，但不擅长，可能效果也不够好叭╮（﹀＿﹀）╭\n\n\n\n建议创业启程还是选别的老师吧"},{"id":129459,"teacher_id":2379,"teacher_name":"施杰","post_time":"2021-01-05 14:57:44","like_diff":3,"likes":5,"dislikes":2,"content":"懂的都懂，啥也不说了（哭。。。）"},{"id":147594,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-01-10 09:16:06","like_diff":3,"likes":6,"dislikes":3,"content":"给分巨烂"},{"id":167277,"teacher_id":2379,"teacher_name":"施杰","post_time":"2023-01-15 11:08:36","like_diff":3,"likes":4,"dislikes":1,"content":"伦理与社会责任的课\n\n讲课很认真负责，各种给分机制也有尽量做到公正公开\n\n课本身就水，这个不能怪老师，老师已经尽可能在丰富课堂内容了，会为学生考虑，任务量也不大"},{"id":169896,"teacher_id":2379,"teacher_name":"施杰","post_time":"2023-02-28 08:56:46","like_diff":3,"likes":3,"dislikes":0,"content":"第二次上施杰老师的课，从管理学到伦理与社会责任。\n\n总而言之，多发言、多写点，做组长、做课长，分数一定会不错。\n\n伦理与社会责任这门课里，其实老师讲课还是有内容的，有些观点和思路还是很有启发。只能说最大的缺陷就是不吸引学生，有点干了。"},{"id":203288,"teacher_id":2379,"teacher_name":"施杰","post_time":"2024-11-19 02:34:15","like_diff":3,"likes":3,"dislikes":0,"content":"课水真的很水，事多真的很多，一堆小测，成绩量化特别严重，课堂恶竞。人是好的，负责认真的。自己权衡吧"},{"id":209801,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-01-07 06:45:08","like_diff":3,"likes":5,"dislikes":2,"content":"倒了八辈子霉选了创业启程这门史课中的史课，平台老师完全不会打分纯纯眼瞎，商业计划书超级用心写分数还没有别人上网买一份高，平时分扣光光无语死了，现在还要期末考真的绝望了"},{"id":217326,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-04-08 12:51:53","like_diff":3,"likes":3,"dislikes":0,"content":"不多说哈，就那样，说管理学通病的，别人管理学没有发言赋分这鬼东西吧"},{"id":33783,"teacher_id":2379,"teacher_name":"施杰","post_time":"2017-09-21 05:12:01","like_diff":2,"likes":8,"dislikes":6,"content":"太好了"},{"id":35524,"teacher_id":2379,"teacher_name":"施杰","post_time":"2016-11-10 07:23:57","like_diff":2,"likes":7,"dislikes":5,"content":"水11111"},{"id":118714,"teacher_id":2379,"teacher_name":"施杰","post_time":"2019-10-31 04:15:57","like_diff":2,"likes":5,"dislikes":3,"content":"讲课真的很一般，身为管院老师，对自己课堂的时间管理也真的是很弱了。拖堂无极限，然而还没价值。但老师的确很认真，作业巨多，但上交的基本会看然后给反馈。能接受的也能接受。"},{"id":130154,"teacher_id":2379,"teacher_name":"施杰","post_time":"2021-01-18 07:36:45","like_diff":2,"likes":4,"dislikes":2,"content":"哼(ノ=Д=)ノ┻━┻\n\n哼(ノ=Д=)ノ┻━┻\n\n哼(ノ=Д=)ノ┻━┻"},{"id":131368,"teacher_id":2379,"teacher_name":"施杰","post_time":"2021-01-27 08:23:04","like_diff":2,"likes":14,"dislikes":12,"content":"施杰老师很关爱学生~虽然上课相对有些枯燥但是人是非常nice的~\n\n课程事情比较多，但打分细则明确，给分很慷慨，加分项很多。好好完成作业基本都会满。"},{"id":175590,"teacher_id":2379,"teacher_name":"施杰","post_time":"2023-06-25 16:19:16","like_diff":2,"likes":3,"dislikes":1,"content":"给分不好"},{"id":186715,"teacher_id":2379,"teacher_name":"施杰","post_time":"2024-01-12 15:34:42","like_diff":2,"likes":4,"dislikes":2,"content":"鼓励恶竞 卷的我想死 在作业上花的时间比我在vjf花的时间还多 如果你有一个令人舒适的小组那还稍微好一点 不然真的超级崩溃 真的感谢我的小组 感谢学长学姐带飞 卷死卷活拿了4.8"},{"id":199449,"teacher_id":2379,"teacher_name":"施杰","post_time":"2024-09-24 02:24:42","like_diff":2,"likes":4,"dislikes":2,"content":"我就是讨厌讨厌他"},{"id":68940,"teacher_id":2379,"teacher_name":"施杰","post_time":"2018-01-24 06:48:37","like_diff":1,"likes":4,"dislikes":3,"content":"实在没什么收获"},{"id":94104,"teacher_id":2379,"teacher_name":"施杰","post_time":"2019-01-15 07:49:43","like_diff":1,"likes":3,"dislikes":2,"content":"超级好，期末各种拉分，上课很认真，很有意义的课、唯一问题事有点多"},{"id":102068,"teacher_id":2379,"teacher_name":"施杰","post_time":"2019-01-30 09:16:15","like_diff":1,"likes":2,"dislikes":1,"content":"如果能认真听的话还是很有收获的。而且，老师给分也太好了叭！！"},{"id":102071,"teacher_id":2379,"teacher_name":"施杰","post_time":"2019-01-30 09:28:11","like_diff":1,"likes":2,"dislikes":1,"content":"上课很认真，态度超好！然后事情多但主要是课程要求的原因，如果必修管理学的话选他很不错。给分很好，只要做事情分不会低的，就是如果分到的组员不好的话会比较累。"},{"id":102095,"teacher_id":2379,"teacher_name":"施杰","post_time":"2019-01-30 12:18:43","like_diff":1,"likes":3,"dislikes":2,"content":"100昏～"},{"id":117565,"teacher_id":2379,"teacher_name":"施杰","post_time":"2019-09-26 04:21:50","like_diff":1,"likes":1,"dislikes":0,"content":"一般般\n\n\n\n"},{"id":121838,"teacher_id":2379,"teacher_name":"施杰","post_time":"2020-01-22 09:16:57","like_diff":1,"likes":4,"dislikes":3,"content":"管理学，这门课事情都多，老师相对而言已经很不错了，给分也好，积极参与活动满绩不难；老师也很关心学生"},{"id":131729,"teacher_id":2379,"teacher_name":"施杰","post_time":"2021-01-28 15:12:48","like_diff":1,"likes":2,"dislikes":1,"content":"完全没有期待高分的来着但给分很好 伦理这门课一次小组作业两次个人作业 压力也不大"},{"id":147156,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-01-09 02:27:08","like_diff":1,"likes":1,"dislikes":0,"content":"管理学上课很水基本学不到什么有用的东西，纯靠自己卷一卷，平时作业、小测要尽量拿的高一些。施老师人很好就是事情有点多，每次讲布置的作业能讲大半节课…而且要求的格式和内容有点过于鸡蛋里挑骨头，被迫卷起来了…给分还不错，如果自己平时表现好的话老师给的分会很高的！"},{"id":147417,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-01-10 03:02:24","like_diff":1,"likes":2,"dislikes":1,"content":"伦理个人作业小组作业做好，考试开卷其实不难，就是要多思考。上课会讲很多案例比较容易理解，老师也很亲和！"},{"id":164849,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-12-27 02:09:40","like_diff":1,"likes":1,"dislikes":0,"content":"老师的管理学真的很好，给分特别明确，而且老师非常温柔"},{"id":167259,"teacher_id":2379,"teacher_name":"施杰","post_time":"2023-01-15 09:03:17","like_diff":1,"likes":6,"dislikes":5,"content":"创业启程给分超好"},{"id":173834,"teacher_id":2379,"teacher_name":"施杰","post_time":"2023-06-03 11:56:01","like_diff":1,"likes":6,"dislikes":5,"content":"老师根本不负责"},{"id":207344,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-01-14 06:02:14","like_diff":1,"likes":5,"dislikes":4,"content":"古希腊掌管捞捞的神"},{"id":209333,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-01-05 12:22:54","like_diff":1,"likes":1,"dislikes":0,"content":"人挺好，但给分挺迷。"},{"id":212516,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-01-14 06:11:11","like_diff":1,"likes":4,"dislikes":3,"content":"sjgg听我说我爱你，真的捞真的捞，直接干到5.0了我哭死。总结一下就是商业计划书给分随缘，但是观后感和期末考要好好卷卷就不会太差。。期末考我是写了两套历年卷掌握了下知识点再去背知识提纲的，大家加油！"},{"id":212532,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-01-14 06:52:47","like_diff":1,"likes":5,"dislikes":4,"content":"除了第一节课不用去上，两个大作业随便糊弄过去，考前突击半天，最后4.8。施杰老师真是海底捞😭😭😭"},{"id":213276,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-01-16 15:08:37","like_diff":1,"likes":2,"dislikes":1,"content":"花了三个小时水完了线上作业，考前看了一套历年卷，3.9，性价比还行，事少分感觉也不低"},{"id":215512,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-02-27 09:14:18","like_diff":1,"likes":1,"dislikes":0,"content":"创业启程的给分相比其他老师好很多。认真做了所有任务，期末花一天背了，最后成绩挺好的。"},{"id":225163,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-12-19 09:14:43","like_diff":1,"likes":1,"dislikes":0,"content":"不用上课，线上作业水一水就行，商业计划书拿的分不高对总评影响也不大，但期末花时间背一下，当时背了半天吧，最后成绩还可以"},{"id":225259,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-12-26 03:41:56","like_diff":1,"likes":1,"dislikes":0,"content":"很平庸的一个老师，和学生有距离感，讲课内容枯燥乏味，在某些方面不通人情"},{"id":52002,"teacher_id":2379,"teacher_name":"施杰","post_time":"2017-06-14 05:49:02","like_diff":0,"likes":5,"dislikes":5,"content":"老师为人很随和，每节课会有上节课复习的小测，任务应该算不上很多，但毕竟管理学作业量还是有一定的，好好听课，做作业，会收获很多，付出多，结果也不错，给分很好"},{"id":69108,"teacher_id":2379,"teacher_name":"施杰","post_time":"2018-01-24 08:33:47","like_diff":0,"likes":5,"dislikes":5,"content":"很多没有用的作业。。但是比较分散按照要求来也不会太花时间 老师人很好，还是不错的"},{"id":69297,"teacher_id":2379,"teacher_name":"施杰","post_time":"2018-01-24 12:19:54","like_diff":0,"likes":10,"dislikes":10,"content":"开学时就把怎么打分说得很清楚，上课照本宣科还是要看自己想不想学，说老师给分不好的，可能是平时的小测和个人作业没好好做"},{"id":69788,"teacher_id":2379,"teacher_name":"施杰","post_time":"2018-01-25 11:40:16","like_diff":0,"likes":4,"dislikes":4,"content":"一般般，事儿少，分相较于其他老师给的不太好，但也过得去。当个组长课长啥的应该还可以。有点死板。给分完全公开，也没什么调分的操作。不在乎绩点，怕事儿多的同学还是建议选一下的。"},{"id":102070,"teacher_id":2379,"teacher_name":"施杰","post_time":"2019-01-30 09:25:05","like_diff":0,"likes":1,"dislikes":1,"content":"老师超级好呀，很和蔼，而且给分超级好。不过管理学本来就是比较水的一门课，想要从课上学到什么还是比较难的，小组作业比较多。不过很幸运的是，我们组的氛围特别好，交到了很好的朋友。"},{"id":102074,"teacher_id":2379,"teacher_name":"施杰","post_time":"2019-01-30 10:24:07","like_diff":0,"likes":1,"dislikes":1,"content":"还不错"},{"id":107898,"teacher_id":2379,"teacher_name":"施杰","post_time":"2019-05-11 00:42:07","like_diff":0,"likes":3,"dislikes":3,"content":"感觉老师挺好的 提问在群里回复很及时 而且人也很好 就是创业启程卡绩没上4有点难受"},{"id":123425,"teacher_id":2379,"teacher_name":"施杰","post_time":"2020-06-09 00:24:39","like_diff":0,"likes":3,"dislikes":3,"content":"老师人超好的 管理学给分也超给力！"},{"id":128972,"teacher_id":2379,"teacher_name":"施杰","post_time":"2020-12-27 14:31:04","like_diff":0,"likes":5,"dislikes":5,"content":"老师的课，事情是真的多……以管理学为例，班里没有人不怨声载道。事儿那么多的前提下老师评分还能有7，真的说明老师的人品没有任何问题……每个人的作业都会认真看，我们敷衍了事他却认认真真，尽责这一方面真的没话说，除了……事儿多……"},{"id":131353,"teacher_id":2379,"teacher_name":"施杰","post_time":"2021-01-27 07:15:04","like_diff":0,"likes":1,"dislikes":1,"content":"满啦啦"},{"id":136455,"teacher_id":2379,"teacher_name":"施杰","post_time":"2021-06-18 05:38:25","like_diff":0,"likes":1,"dislikes":1,"content":"很认真的老师，我们可能相比比较敷衍，最后一节课下课我坐在那里，他还过来笑眯眯地夸我说我后来把组长工作做得很好，我满了大学第一个满绩，给了我很大的信心，小组成员分数都很不错，就事情有点多，但分摊下来，也能够接受"},{"id":147491,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-01-10 05:29:30","like_diff":0,"likes":1,"dislikes":1,"content":"老师授课认真，过于重视发言，期末也不难，给分不错的。"},{"id":147712,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-01-10 13:56:30","like_diff":0,"likes":1,"dislikes":1,"content":"创业启程…给分好迷"},{"id":147889,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-01-11 05:50:08","like_diff":0,"likes":4,"dislikes":4,"content":"压根就不上课，让你看看网课自学，听个讲座要2000字感想，给分还巨低，踩了大雷了，爷吐了"},{"id":157785,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-06-24 23:10:03","like_diff":0,"likes":1,"dislikes":1,"content":"老师很负责，选就对了"},{"id":165936,"teacher_id":2379,"teacher_name":"施杰","post_time":"2023-01-10 12:35:03","like_diff":0,"likes":1,"dislikes":1,"content":"老师人好好"},{"id":166040,"teacher_id":2379,"teacher_name":"施杰","post_time":"2023-01-11 02:32:14","like_diff":0,"likes":2,"dislikes":2,"content":"管理学的分数还是可以的，毕竟均绩摆在那里。几个隐藏加分项：课长、督察员（好像叫这个）、组长、读书报告展示（不确定是否每个学期都有）。没有正态分布，你平时累积的分数实打实变成最后的绩点，而且老师还会有一个书信的作业加两分，大救特救。因为这样的给分机制，虽然会有点鼓励竞争，但也算不上恶竞了，大家都卷的话分数也都会高，老师不会特意压分。事情比较多应该是所有管理学课程的通病（如果可以这么说的话）了。老师的人可以感觉到是非常温柔的，如果你必须或者想要选择管理学这门课程，施杰老师会是一个不错的选择。"},{"id":167285,"teacher_id":2379,"teacher_name":"施杰","post_time":"2023-01-15 11:44:14","like_diff":0,"likes":5,"dislikes":5,"content":"创业启程：\n\n老师人真的很好！我的雨课堂分数一开始统计有误，老师很认真也很热心地帮我查了分数，解决了问题。\n\n给分也很好，应该是创业启程给分最好的老师了吧，我听后感勉强扯了三千多字，期末考前背了一天半，没想到最后居然满了（本来对这门课不抱期待的hhh），谢谢老师！"},{"id":172336,"teacher_id":2379,"teacher_name":"施杰","post_time":"2023-04-25 07:00:26","like_diff":0,"likes":1,"dislikes":1,"content":"施杰老师的管理学给分不错，只要认真完成作业，就会有很高的分，我没有上课发过言但还是分很高，老师人品没得说，认真负责，而且和蔼可亲hhh～"},{"id":188698,"teacher_id":2379,"teacher_name":"施杰","post_time":"2024-01-19 15:02:00","like_diff":0,"likes":2,"dislikes":2,"content":"伦理与社会责任 老师给分真的蛮好的"},{"id":188889,"teacher_id":2379,"teacher_name":"施杰","post_time":"2024-01-20 11:21:36","like_diff":0,"likes":1,"dislikes":1,"content":"伦理与社会责任\n\n发言次数给分有点难评\n\n但感觉最后老师还是都给了很好的发言分\n\n给分挺好的\n\n后来的同学多发言 小组作业思考的深入一些"},{"id":207664,"teacher_id":2379,"teacher_name":"施杰","post_time":"2024-12-23 14:36:55","like_diff":0,"likes":0,"dislikes":0,"content":"这学期上的伦理与社会责任，这是我第一次在查老师评分，也直接给了满分。虽然需要课堂发言，但我本身是一个比较e的人，感觉老师不会对发言正确与否苛刻，会很认真听你的发言，脸上带着耐心亲切的表情。只是想鼓励大家思考，提高参与度，只要大胆表达就好，甚至发言时间太久，也不会着急，非常尽力让所有举手的同学都能说上话！课堂氛围我很喜欢，老师很温柔很和蔼，有一次发烧请假，老师告诉我要休息好了再上课。课堂内容也很有启发，很贴合生活，举例通俗易懂，可谓知识与生活结合。我要把施杰老师的课都上一遍！！！"},{"id":212528,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-01-14 06:47:50","like_diff":0,"likes":3,"dislikes":3,"content":"是谁在忤逆sj老师😭😭😭虽然背的时候很折磨但给分真的太好了😭😭😭😭😭"},{"id":212587,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-01-14 08:51:59","like_diff":0,"likes":3,"dislikes":3,"content":"创业启程满绩了！！！虽然可捞范围真的有点小，但是sjgg真的很努力在捞了只有第一节是线下课绪论，后面都是雨课堂录播课（有测试题，只能答一次），线上大作业是商业计划书设计（只拿了22/30，平台给分真的随缘迷惑），学在浙大大作业是听两次讲座写2000字观后感（sjgg捞满！！）。最后期末闭卷闭卷闭卷考试（填空选择共80分，材料分析一题20分），考得非常细碎，要好好看书，复习了一个下午考试的时候还是感觉不太会，建议98上历年卷都要做一下，有部分题目是重合的。感觉sgjj真的非常努力在捞了，一定要选这门课的话就选他。🎉🎉🎉"},{"id":214716,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-02-17 04:05:14","like_diff":0,"likes":1,"dislikes":1,"content":"sjgg很能捞捞！选创启的话一定要认准sj老师！"},{"id":225186,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-12-19 14:02:57","like_diff":0,"likes":0,"dislikes":0,"content":"管理学上课可以水，分还是挺好得的，但每周都有任务和测试，按部就班完成就可以，老师会捞。最后92/4.8。"},{"id":226052,"teacher_id":2379,"teacher_name":"施杰","post_time":"2026-01-07 13:29:22","like_diff":0,"likes":0,"dislikes":0,"content":"草泥马"},{"id":59406,"teacher_id":2379,"teacher_name":"施杰","post_time":"2017-09-21 06:59:28","like_diff":-1,"likes":3,"dislikes":4,"content":"上过老师的管理学。非常非常负责，上课就按课本来讲，ppt做的很清晰。任务会列明时间和内容，跟着老师走就能完成，完全不会手忙脚乱或者小组拖拉。算是管理学里事情少的老师了"},{"id":68948,"teacher_id":2379,"teacher_name":"施杰","post_time":"2018-01-24 06:58:21","like_diff":-1,"likes":1,"dislikes":2,"content":"不是很喜欢老师的上课风格，很无聊"},{"id":69189,"teacher_id":2379,"teacher_name":"施杰","post_time":"2018-01-24 11:07:21","like_diff":-1,"likes":3,"dislikes":4,"content":"压分，靠"},{"id":69372,"teacher_id":2379,"teacher_name":"施杰","post_time":"2018-01-24 14:32:39","like_diff":-1,"likes":4,"dislikes":5,"content":"老师人挺好的，但是真的教条，讲课很无聊，没什么干货，照本念，尤其无法忍受的是他会把一个错误上升到管理学的方方面面来批评，挺自以为是的。事儿应该不算多吧，给分死板，投机取巧把平时的课堂测验做好，当个课长之类的，最后应该会拿个比较好的分数"},{"id":69431,"teacher_id":2379,"teacher_name":"施杰","post_time":"2018-01-24 15:56:09","like_diff":-1,"likes":2,"dislikes":3,"content":"上课有点枯燥 事情还蛮多的\n\n给分一般吧"},{"id":89400,"teacher_id":2379,"teacher_name":"施杰","post_time":"2018-11-19 03:03:39","like_diff":-1,"likes":1,"dislikes":2,"content":"很负责的老师 不凶 上课真的很认真 人也很好"},{"id":100074,"teacher_id":2379,"teacher_name":"施杰","post_time":"2019-01-25 13:45:59","like_diff":-1,"likes":1,"dislikes":2,"content":"管理学的事情会比较多，平时要写的东西比较碎。老师讲的还算是比较认真的，讲课缺乏一些趣味性。就个人来讲，我很幸运，我们组内的氛围很不错，交到了不少朋友。"},{"id":102090,"teacher_id":2379,"teacher_name":"施杰","post_time":"2019-01-30 11:19:29","like_diff":-1,"likes":2,"dislikes":3,"content":"老师很好啊！ 给分超级好啊！ 虽然事情有点多，但是管理学这一门课本来就事多，老师已经是相对事很少的了。我真的吹爆！！！"},{"id":127998,"teacher_id":2379,"teacher_name":"施杰","post_time":"2020-12-02 15:47:35","like_diff":-1,"likes":6,"dislikes":7,"content":"垃圾垃圾不要选他的创业启程！！！！事情居多又要写观后感又要看视频又要写商业计划书又要期末考试，考的还巨细。而且还绩杀！！！别选快逃"},{"id":157660,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-06-24 09:07:31","like_diff":-1,"likes":1,"dislikes":2,"content":"给分真的很好"},{"id":168336,"teacher_id":2379,"teacher_name":"施杰","post_time":"2023-02-12 12:48:24","like_diff":-1,"likes":0,"dislikes":1,"content":"管理学加分项挺多的，不错"},{"id":185237,"teacher_id":2379,"teacher_name":"施杰","post_time":"2023-12-27 08:07:02","like_diff":-1,"likes":1,"dislikes":2,"content":"管理学这课很难评，但施老师是很好很善良的老师，问他问题都会耐心解答，很体谅学生。"},{"id":194179,"teacher_id":2379,"teacher_name":"施杰","post_time":"2024-06-22 10:50:08","like_diff":-1,"likes":2,"dislikes":3,"content":"管理学满了，个人认为老师还是很好的"},{"id":212491,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-01-14 05:41:07","like_diff":-1,"likes":2,"dislikes":3,"content":"上的是创业启程，平时的事情真的很少，只是期末闭卷比较痛苦，但是只要找对方法背两天就能拿到一个很高的绩点，98上有很多相关的复习帖子，老师真的很捞"},{"id":212540,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-01-14 07:14:45","like_diff":-1,"likes":2,"dislikes":3,"content":"创业启程，好好背书看历年卷，一天时间就够用，老师超捞的！其实性价比很高"},{"id":212786,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-01-15 02:14:02","like_diff":-1,"likes":3,"dislikes":4,"content":"事少分不错"},{"id":213280,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-01-16 15:54:56","like_diff":-1,"likes":1,"dislikes":2,"content":"创启好课"},{"id":214434,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-02-03 05:20:48","like_diff":-1,"likes":1,"dislikes":2,"content":"神 伟大"},{"id":214822,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-02-18 05:41:00","like_diff":-1,"likes":1,"dislikes":2,"content":"事少分高，期末考好好准备最后4.8，比预期好"},{"id":46758,"teacher_id":2379,"teacher_name":"施杰","post_time":"2017-01-22 09:25:49","like_diff":-2,"likes":3,"dislikes":5,"content":"真的很好的老师！对学生很好很随和！作业也不多！好好学的话受益会很多！！给分也很好啊提均绩！！"},{"id":68936,"teacher_id":2379,"teacher_name":"施杰","post_time":"2018-01-24 06:42:54","like_diff":-2,"likes":1,"dislikes":3,"content":"上课很认真，太认真了"},{"id":71767,"teacher_id":2379,"teacher_name":"施杰","post_time":"2018-01-29 02:55:08","like_diff":-2,"likes":6,"dislikes":8,"content":"辣鸡老师 屁事多给分差 什么每周一论就是瞎bb 没内容"},{"id":121125,"teacher_id":2379,"teacher_name":"施杰","post_time":"2020-01-19 18:51:58","like_diff":-2,"likes":5,"dislikes":7,"content":"管理学 满了\n\n认真学 完成作业 还是可以收获管理的核心知识和调研报告写作方法的（后来被我完全复制到思修报告） 老师很负责，发邮件或者群里提问都回复及时 给分也很好，临终反思全班都满了 期末也各种捞（但要基于平时你是认真积极的）还有很重要一点划重点划重点，老师真的很恶竞很恶竞，在这里深谙恶竞之道绝对能让你的绩点发生飞跃！！！"},{"id":146843,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-01-07 15:10:42","like_diff":-2,"likes":1,"dislikes":3,"content":"老师真的很好和爱和亲对学生也超好的！！给分更是不用说太好了！明年还想学他！！"},{"id":154775,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-06-05 06:14:24","like_diff":-2,"likes":0,"dislikes":2,"content":"一般般"},{"id":173589,"teacher_id":2379,"teacher_name":"施杰","post_time":"2023-05-29 12:35:43","like_diff":-2,"likes":4,"dislikes":6,"content":"老师人真的很认真负责，管理学打分的细则很明确，本人上课没发过言，没拿线下发言的分，但是也可以拿线上讨论区的分，会点名，也会有很多加分的机会，但是互评不好说，看同学吧，老师会再看一遍调分的，而且互评的要求也很明确，管理学感觉上课比较水也是没办法的事情吧"},{"id":212597,"teacher_id":2379,"teacher_name":"施杰","post_time":"2025-01-14 09:02:32","like_diff":-2,"likes":1,"dislikes":3,"content":"创业启程需要好好卷期末考试，期末考好了，可能加上会捞的平时分，最后总评应该能不错"},{"id":102163,"teacher_id":2379,"teacher_name":"施杰","post_time":"2019-01-31 01:39:32","like_diff":-3,"likes":4,"dislikes":7,"content":"管理学给分超棒啊！！\n\n不要被老师的评分吓到\n\n我们组的氛围特别特别好 大家都是大佬哈哈哈哈 所以我们每次作业都完成的超棒！\n\n满啦满啦\n\n"},{"id":157659,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-06-24 08:50:22","like_diff":-3,"likes":0,"dislikes":3,"content":"创业启程上4了 不戳"},{"id":167335,"teacher_id":2379,"teacher_name":"施杰","post_time":"2023-01-15 14:22:53","like_diff":-3,"likes":3,"dislikes":6,"content":"创业启程给分很好， 单论性价比完爆职规\n\n个人dp: 大四佛系玩家， 平时这课不用上课， 期末半天写BP， 半天写观后感， 半天佛系面向往年卷overfit， 考试主观题写了一个半小时大概几千字， 出分4.8"},{"id":167338,"teacher_id":2379,"teacher_name":"施杰","post_time":"2023-01-15 14:27:48","like_diff":-3,"likes":2,"dislikes":5,"content":"创业启程给分很好"},{"id":60178,"teacher_id":2379,"teacher_name":"施杰","post_time":"2017-10-12 06:46:23","like_diff":-4,"likes":2,"dislikes":6,"content":"你说我一个电气的怎么就跑来学管理了呢。因为老师讲的真的不错啊?"},{"id":69209,"teacher_id":2379,"teacher_name":"施杰","post_time":"2018-01-24 10:09:45","like_diff":-4,"likes":6,"dislikes":10,"content":"第一门满绩的课程，谢谢老师"},{"id":94189,"teacher_id":2379,"teacher_name":"施杰","post_time":"2019-01-15 13:37:58","like_diff":-4,"likes":0,"dislikes":4,"content":"老师人很好，事多是课程的原因，上课很认真。"},{"id":167250,"teacher_id":2379,"teacher_name":"施杰","post_time":"2023-01-15 08:35:59","like_diff":-4,"likes":5,"dislikes":9,"content":"给分不好，勿选"},{"id":40166,"teacher_id":2379,"teacher_name":"施杰","post_time":"2016-12-29 15:38:03","like_diff":-5,"likes":2,"dislikes":7,"content":"很认真，没有什么鸡汤，很随和，照本念\n\n"},{"id":147590,"teacher_id":2379,"teacher_name":"施杰","post_time":"2022-01-10 09:10:21","like_diff":-5,"likes":3,"dislikes":8,"content":"就tm一个sb，不要选"},{"id":186674,"teacher_id":2379,"teacher_name":"施杰","post_time":"2024-01-12 12:02:36","like_diff":-5,"likes":3,"dislikes":8,"content":"很体谅学生，很会捞的老师"},{"id":196810,"teacher_id":2379,"teacher_name":"施杰","post_time":"2024-07-05 08:51:11","like_diff":-6,"likes":2,"dislikes":8,"content":"创业启程是shi课但老师大捞特捞了"},{"id":196669,"teacher_id":2379,"teacher_name":"施杰","post_time":"2024-07-04 17:23:17","like_diff":-8,"likes":4,"dislikes":12,"content":"创业启程：\n\n首先这门课的设计就有很多值得喷的点，shi课无疑\n\n其次，如果非要选创业启程，sj是最好的选择\n\n期末考难度是有的，体现在历年卷、各路笔记的重合度不高，建议直接对照笔记看两遍书有印象\n\nsj感觉还是四个老师里面，唯一会捞人的一位了"},{"id":125111,"teacher_id":2379,"teacher_name":"施杰","post_time":"2020-08-31 14:28:10","like_diff":-61,"likes":5,"dislikes":66,"content":"创业启程真的给分烂，认认真真听学堂云的课，最后的商业计划书95分，绩点4.2什么概念"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

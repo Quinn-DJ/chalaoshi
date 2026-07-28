@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>任重 - 计算机科学与技术学院 - 浙大教评</title>
+    <meta name="description" content="任重教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="任重,计算机科学与技术学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">任重</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">计算机科学与技术学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">5.37</div>
+                    <div class="rating-participants">93人参与评分</div>
+                    <div class="attendance-info">29.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (4 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">C程序设计专题</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.91</span>
+                            <span class="students">选课: 164人</span>
+                            <span class="std-dev">标准差: 0.84</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">程序设计基础</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.10</span>
+                            <span class="students">选课: 145人</span>
+                            <span class="std-dev">标准差: 0.89</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">程序设计基础与实验</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.34</span>
+                            <span class="students">选课: 122人</span>
+                            <span class="std-dev">标准差: 0.90</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">计算机图形学研究进展</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.21</span>
+                            <span class="students">选课: 109人</span>
+                            <span class="std-dev">标准差: 0.69</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (78 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":113686,"teacher_id":4069,"teacher_name":"任重","post_time":"2019-07-07 03:58:55","like_diff":20,"likes":25,"dislikes":5,"content":"听不懂是真的听不懂 全靠自学\n\n给分应该还可以\n\n主要是我自己太菜了"},{"id":173513,"teacher_id":4069,"teacher_name":"任重","post_time":"2023-05-27 04:49:19","like_diff":17,"likes":21,"dislikes":4,"content":"陆飞洋！！！！！！"},{"id":166853,"teacher_id":4069,"teacher_name":"任重","post_time":"2023-01-14 02:38:07","like_diff":15,"likes":20,"dislikes":5,"content":"大爱我陆飞扬助教，满分满分满分!!!只要他留在浙大任教绝对是满分老师!!!然后任重的话，真的挺难听懂的(本人上网课基本没听，自学b站的翁恺，期末靠刷点题，问助教才搞了个半懂不懂，最后绩点3)"},{"id":181901,"teacher_id":4069,"teacher_name":"任重","post_time":"2023-11-04 07:54:34","like_diff":15,"likes":17,"dislikes":2,"content":"学的第5课，题目做的第8课，rz你是真的6"},{"id":134132,"teacher_id":4069,"teacher_name":"任重","post_time":"2021-03-17 00:37:17","like_diff":13,"likes":16,"dislikes":3,"content":"老师能好好讲中文吗？"},{"id":152058,"teacher_id":4069,"teacher_name":"任重","post_time":"2022-03-24 08:48:41","like_diff":9,"likes":12,"dislikes":3,"content":"5分是给助教的。这老师一分得不到。除了助教真的好能救一救，上课不得不说真的讲的差。上课听了跟没听一样，实际写代码的时候不会照样不会，到最后只能面向CSDN，那我来听你讲干什么？纯纯的浪费时间，r**，退钱！"},{"id":176345,"teacher_id":4069,"teacher_name":"任重","post_time":"2023-06-28 13:02:21","like_diff":9,"likes":10,"dislikes":1,"content":"陆飞洋！！！我爱你！！！！！！！"},{"id":176606,"teacher_id":4069,"teacher_name":"任重","post_time":"2023-06-29 12:19:01","like_diff":9,"likes":11,"dislikes":2,"content":"飞洋gg我的神！！！😭😭😭特别特别有耐心，问了助教gg很多问题都会耐心回答，而且讲的特别清晰明白！！！考完试还告诉我没有被斩杀，让我放松心态复习下一科，我真的哭死！！！😭😭😭怎么会有这么好的助教，幸运幸运幸运！感恩感恩感恩！😘😘😘大爱飞洋gg！！！😘😘😘"},{"id":181904,"teacher_id":4069,"teacher_name":"任重","post_time":"2023-11-04 12:25:54","like_diff":8,"likes":11,"dislikes":3,"content":"责任重，道不够远啊\n\n黑板字看不到，上课可视化程序看不懂，作业都是没教过的\n\n原来得分高都是因为之前的助教……"},{"id":115034,"teacher_id":4069,"teacher_name":"任重","post_time":"2019-07-14 15:48:19","like_diff":7,"likes":9,"dislikes":2,"content":"老师给分可以 但是这门课让我感觉确实很糟糕 就是我平时代码也不太会编 考试的代码题就突然很简单 Project也是花了很多精力但是还是感觉自己不行 结果考试雨Pro无瓜?简单的说这门课你只要找一个完美的队友 然后期末把历年卷全刷了 就可以混个好分了"},{"id":196414,"teacher_id":4069,"teacher_name":"任重","post_time":"2024-07-03 08:59:34","like_diff":7,"likes":7,"dislikes":0,"content":"[计算机图形学研究进展]\n\n1.课程评分方式是15%签到+15%论文阅读笔记+70%期末大作业。点名无规律，缺勤一次扣五分；论文阅读笔记要求选一篇有关CG的论文写笔记期末上交；期末大作业要求复现一篇有关CG的顶会/期刊论文，可以组队但如果solo会有加分，第一批报告也会有加分。比较硬核，适合有点基础的朋友们选，如果自己对相关方向完全没有了解或者代码能力比较弱的话不建议选，工作量还是比较大的。\n\n2.课程由很多老师一起上，有点类似讲座，课上确实能学到不少东西。大作业也让人收获满满，lz跟同学两个人一个学期认真复现一篇SIGGRAPH的论文收获还是蛮大的，也很有成就感。\n\n3.这课给分完全是依托，这对lz本就保研边缘的绩点更是雪上加霜，本想4分大课可以选来刷分但出成绩的那一刻我还是很难绷，大作业和论文笔记给分感觉很随便，期末答辩的时候感觉还不错问的都答上来了，但最后给了一个让人很无语的分...完全不知道扣分的理由是什么，给的分挺让人寒心的。但已经出分了lz也懒得跟助教老师打听扣分原因了，反正这个大作业我确实认真付出了问心无愧。建议助教明年增加一个公示环节，别等期末出分了给人一个大惊喜好吧。"},{"id":151198,"teacher_id":4069,"teacher_name":"任重","post_time":"2022-02-24 10:44:14","like_diff":6,"likes":7,"dislikes":1,"content":"为什么我觉得老师上课有很多没有必要的中英夹杂"},{"id":166609,"teacher_id":4069,"teacher_name":"任重","post_time":"2023-01-13 03:51:38","like_diff":6,"likes":8,"dislikes":2,"content":"助教好好，老师上课讲的根本听不懂，依托答辩"},{"id":113735,"teacher_id":4069,"teacher_name":"任重","post_time":"2019-07-07 06:38:33","like_diff":5,"likes":8,"dislikes":3,"content":"第一个学期上课，不太有经验，讲的内容不是很贴近考试内容，但是挺拓宽视野的，有利有弊吧。研讨课太水了，大作业学生的project质量和讨论的水平完全和隔壁班比不了。希望老师在这块想办法提高要求。"},{"id":120721,"teacher_id":4069,"teacher_name":"任重","post_time":"2020-01-15 23:15:33","like_diff":5,"likes":9,"dislikes":4,"content":"个人认为任老师不应该只有6.9😂😂，其实没有楼上说的那么不堪，听不懂也不至于，而且老师平时在群里答疑什么的也很热情（虽然每次上机课都要去要点名），c程这门课给分应该都不错的，期末考前一定要刷题，不用多，三四份就好，把错题都搞搞明白期末考就没问题了。"},{"id":142159,"teacher_id":4069,"teacher_name":"任重","post_time":"2021-11-08 03:20:20","like_diff":5,"likes":5,"dislikes":0,"content":"听不懂"},{"id":149734,"teacher_id":4069,"teacher_name":"任重","post_time":"2022-01-16 15:07:32","like_diff":5,"likes":6,"dislikes":1,"content":"讲课完全没法听，几乎不捞人，没有补考也是神了，就算对学生有自信，也不要对自己的教学太自信好不好"},{"id":164579,"teacher_id":4069,"teacher_name":"任重","post_time":"2022-12-22 03:35:18","like_diff":5,"likes":6,"dislikes":1,"content":"真的是。。。\n\n助教给满昏，老师上课依托答辩。"},{"id":166466,"teacher_id":4069,"teacher_name":"任重","post_time":"2023-01-19 08:42:24","like_diff":5,"likes":6,"dislikes":1,"content":"赞同楼上的，考的不讲讲的不考，期末没被斩杀我已经知足了，班级群出分一片哀号"},{"id":181905,"teacher_id":4069,"teacher_name":"任重","post_time":"2023-11-04 12:27:06","like_diff":5,"likes":7,"dislikes":2,"content":"rnm，退钱"},{"id":189295,"teacher_id":4069,"teacher_name":"任重","post_time":"2024-01-23 03:09:53","like_diff":5,"likes":6,"dislikes":1,"content":"最后成绩也不咋样，一点没捞，很求是，平时分也没拉满，对总评影响还挺大的。"},{"id":189592,"teacher_id":4069,"teacher_name":"任重","post_time":"2024-01-25 13:13:46","like_diff":5,"likes":5,"dislikes":0,"content":"恪守求是精神，严格按照制定的平时分标准给分，无基础/不愿意整个学期战战兢兢地按照第一课的评分标准行事的慎选"},{"id":104339,"teacher_id":4069,"teacher_name":"任重","post_time":"2019-03-18 06:26:25","like_diff":4,"likes":4,"dislikes":0,"content":"。。。"},{"id":132002,"teacher_id":4069,"teacher_name":"任重","post_time":"2021-01-30 02:14:11","like_diff":4,"likes":5,"dislikes":1,"content":"给分很差"},{"id":133631,"teacher_id":4069,"teacher_name":"任重","post_time":"2021-03-03 04:20:14","like_diff":4,"likes":5,"dislikes":1,"content":"他以为同学们都会了，但我不"},{"id":148425,"teacher_id":4069,"teacher_name":"任重","post_time":"2022-01-12 12:10:43","like_diff":4,"likes":5,"dislikes":1,"content":"老师答疑很快\n\n但是我上课真的听不懂\n\n期末做历年卷像是预习（哭笑）\n\n但是助教太nice了\n\n基本秒读秒回\n\nch助教还会回复“不客气”（哭笑）\n\n感觉我的C程不挂科全靠的助教（哭笑）"},{"id":151191,"teacher_id":4069,"teacher_name":"任重","post_time":"2022-02-24 07:45:05","like_diff":4,"likes":5,"dislikes":1,"content":"第一次见到上机课要求必须到的老师"},{"id":146263,"teacher_id":4069,"teacher_name":"任重","post_time":"2022-01-06 05:25:52","like_diff":3,"likes":4,"dislikes":1,"content":"讲课着实有点…考试还很难，讲课内容和考试相差太远"},{"id":149525,"teacher_id":4069,"teacher_name":"任重","post_time":"2022-01-16 00:13:16","like_diff":3,"likes":3,"dislikes":0,"content":"老师人很好，但是讲课着实不太行，给分一般"},{"id":151572,"teacher_id":4069,"teacher_name":"任重","post_time":"2022-03-08 06:36:03","like_diff":3,"likes":4,"dislikes":1,"content":"你怎么也开始“一个好的程序员”了"},{"id":185860,"teacher_id":4069,"teacher_name":"任重","post_time":"2024-01-08 12:18:02","like_diff":3,"likes":4,"dislikes":1,"content":"作业超前，有点难。上课感觉把我们当成有基础的人在讲，有些部分真听不懂。\n\n但是我过了一周才发现没签到，老师应该是给我补签了。"},{"id":189875,"teacher_id":4069,"teacher_name":"任重","post_time":"2024-02-01 02:12:57","like_diff":3,"likes":3,"dislikes":0,"content":"。。。"},{"id":113653,"teacher_id":4069,"teacher_name":"任重","post_time":"2019-07-07 02:07:47","like_diff":2,"likes":4,"dislikes":2,"content":"有点听不懂(尬笑"},{"id":117042,"teacher_id":4069,"teacher_name":"任重","post_time":"2019-09-18 14:22:58","like_diff":2,"likes":3,"dislikes":1,"content":"自学吧"},{"id":118694,"teacher_id":4069,"teacher_name":"任重","post_time":"2019-10-30 17:29:23","like_diff":2,"likes":4,"dislikes":2,"content":"水平很高，拓展很多"},{"id":132486,"teacher_id":4069,"teacher_name":"任重","post_time":"2021-02-02 02:31:45","like_diff":2,"likes":2,"dislikes":0,"content":"没基础一定要自学，重视理论，平时多做PTA编程题"},{"id":134280,"teacher_id":4069,"teacher_name":"任重","post_time":"2021-03-22 23:59:08","like_diff":2,"likes":5,"dislikes":3,"content":"老师是个好人！！！真的是好人！！！并不是老师想挂你，不是大佬的可以先多自学一下，我这种完全没学过的和那些高中学过或者搞竞赛的一起上压力很大，但老师真的是好人！"},{"id":145564,"teacher_id":4069,"teacher_name":"任重","post_time":"2021-12-30 08:52:25","like_diff":2,"likes":4,"dislikes":2,"content":"老师是很好的，但是我觉得他讲课就不太好。。至少对于我来说，他过于重视讲课进度，而丧失了对一些本质东西的讲解。但不得不说，老师水平很高！"},{"id":175460,"teacher_id":4069,"teacher_name":"任重","post_time":"2023-06-25 04:46:03","like_diff":2,"likes":3,"dislikes":1,"content":"讲的依托答辩"},{"id":189270,"teacher_id":4069,"teacher_name":"任重","post_time":"2024-01-22 17:22:07","like_diff":2,"likes":2,"dislikes":0,"content":"还好，没挂"},{"id":151501,"teacher_id":4069,"teacher_name":"任重","post_time":"2022-03-08 06:34:58","like_diff":1,"likes":3,"dislikes":2,"content":"为什么编程题只能用C写啊大哥\n\n以及pta上能放点自己学校出的题吗"},{"id":151507,"teacher_id":4069,"teacher_name":"任重","post_time":"2022-03-06 05:25:49","like_diff":1,"likes":2,"dislikes":1,"content":"不太喜欢"},{"id":160347,"teacher_id":4069,"teacher_name":"任重","post_time":"2022-09-20 02:06:37","like_diff":1,"likes":3,"dislikes":2,"content":"能说脏话吗？不能？那我没话说了"},{"id":166338,"teacher_id":4069,"teacher_name":"任重","post_time":"2023-01-12 03:50:26","like_diff":1,"likes":3,"dislikes":2,"content":"上了他的课就是我最大的悲哀\n\n考的不讲 讲的不考\n\n考试和讲的内容完全是两样的\n\n而且很不负责任\n\n要不是预置了我直接。。。"},{"id":168555,"teacher_id":4069,"teacher_name":"任重","post_time":"2023-02-19 10:25:47","like_diff":1,"likes":3,"dislikes":2,"content":"有点听不懂😭我好菜"},{"id":189283,"teacher_id":4069,"teacher_name":"任重","post_time":"2024-01-22 22:55:10","like_diff":1,"likes":2,"dislikes":1,"content":"我成绩不错给个6分吧，虽然感觉是我自己的功劳\n\n该说的大部分人都说过，只能说遇见任老师就认命吧，自学启动！"},{"id":205584,"teacher_id":4069,"teacher_name":"任重","post_time":"2024-12-09 14:59:57","like_diff":1,"likes":1,"dislikes":0,"content":"天天点名，纸质点名，我要红温了！\n\n\n\n关键是课上得的确不行呀！真的难绷！"},{"id":212740,"teacher_id":4069,"teacher_name":"任重","post_time":"2025-01-14 16:15:03","like_diff":1,"likes":2,"dislikes":1,"content":"为任老师洗一洗，rz的课适合有基础的人听。纯小白不推荐选。如果你有一点C语言基础，能跟的上rz讲知识点和部署较复杂程序的话，一个学期下来能有很多收获。只要每节课都去上，应付一下点名，期末考好一点，高绩点绝对不成问题。本人期中70分不到，总评还能有89分。这课，只要你肯认真上，好的绩点绝对没问题。评论区清一色的讲不明白可能是因为rz讲课没有足够的铺垫。反正，这是一个会在介绍printf函数时讲到内存的老师。基础不够慎选。基础够很推荐。"},{"id":214122,"teacher_id":4069,"teacher_name":"任重","post_time":"2025-01-24 17:00:39","like_diff":1,"likes":1,"dislikes":0,"content":"讲的什么勾史"},{"id":223191,"teacher_id":4069,"teacher_name":"任重","post_time":"2025-09-16 04:11:50","like_diff":1,"likes":1,"dislikes":0,"content":"真听不懂，不知道在讲什么"},{"id":113540,"teacher_id":4069,"teacher_name":"任重","post_time":"2019-07-06 23:26:58","like_diff":0,"likes":4,"dislikes":4,"content":"上课讲的不是很清楚。不过说实话上课本来也没什么用，更多还是得靠自己。给分还不错吧。"},{"id":114898,"teacher_id":4069,"teacher_name":"任重","post_time":"2019-07-12 15:06:46","like_diff":0,"likes":2,"dislikes":2,"content":"老师水平在线，ppt制作很棒，每个pro会给示例程序，据说老师是图像方向的，cad大程还会给opengl相关代码。每节课点名。给分还可以。建议选。"},{"id":116256,"teacher_id":4069,"teacher_name":"任重","post_time":"2019-09-06 16:09:28","like_diff":0,"likes":0,"dislikes":0,"content":"。。。"},{"id":118473,"teacher_id":4069,"teacher_name":"任重","post_time":"2019-10-27 11:47:38","like_diff":0,"likes":1,"dislikes":1,"content":"我觉得OK"},{"id":120339,"teacher_id":4069,"teacher_name":"任重","post_time":"2019-11-29 04:28:37","like_diff":0,"likes":2,"dislikes":2,"content":"真的 教的根本听不懂 不是我一个人听不懂 大家都这样 就 没什么实质性的帮助 全靠自学 给分一般"},{"id":128601,"teacher_id":4069,"teacher_name":"任重","post_time":"2020-12-24 11:45:58","like_diff":0,"likes":0,"dislikes":0,"content":"啊啊啊啊啊啊啊啊啊啊，就这，我上我也行"},{"id":131984,"teacher_id":4069,"teacher_name":"任重","post_time":"2021-01-30 01:18:03","like_diff":0,"likes":0,"dislikes":0,"content":"老师讲得很一般，本人不太跟得上。幸好没挂，谢谢老师捞人"},{"id":133257,"teacher_id":4069,"teacher_name":"任重","post_time":"2021-02-21 05:33:41","like_diff":0,"likes":3,"dislikes":3,"content":"分不好怪自己菜还不会自学吧，老师很强"},{"id":143558,"teacher_id":4069,"teacher_name":"任重","post_time":"2021-11-26 16:22:58","like_diff":0,"likes":1,"dislikes":1,"content":"好老师~"},{"id":144444,"teacher_id":4069,"teacher_name":"任重","post_time":"2021-12-21 13:39:52","like_diff":0,"likes":2,"dislikes":2,"content":"给老师提提分，虽然老师讲的比较难懂，尤其是有些英语单词让人困惑。但老师人还是不错的，扩展的内容也很有用。"},{"id":163055,"teacher_id":4069,"teacher_name":"任重","post_time":"2022-12-07 04:28:37","like_diff":0,"likes":1,"dislikes":1,"content":"真的听不懂啊，讲课的内容很碎片化，不成体系，还是自学吧"},{"id":163058,"teacher_id":4069,"teacher_name":"任重","post_time":"2022-12-07 04:37:14","like_diff":0,"likes":1,"dislikes":1,"content":"老师讲课旁征博引，会把两块体系均匀地混在一起，为理解和做笔记带来极大的困难\n\n但即使如此还有优秀的室友考满分\n\n建议入一本C Primer Plus多多自学"},{"id":164246,"teacher_id":4069,"teacher_name":"任重","post_time":"2022-12-20 01:55:22","like_diff":0,"likes":1,"dislikes":1,"content":"呵呵，天书"},{"id":164589,"teacher_id":4069,"teacher_name":"任重","post_time":"2022-12-22 05:30:19","like_diff":0,"likes":1,"dislikes":1,"content":"看了上面的老帖，总觉得任老师上c程画风有些怪怪的哈哈哈哈"},{"id":166951,"teacher_id":4069,"teacher_name":"任重","post_time":"2023-01-14 10:24:23","like_diff":0,"likes":1,"dislikes":1,"content":"ppt精美，课程难度较大，有深度，中英文混讲，适合牛子（非我也"},{"id":172780,"teacher_id":4069,"teacher_name":"任重","post_time":"2023-05-06 16:19:19","like_diff":0,"likes":3,"dislikes":3,"content":"满嘴之乎者也，真把二十几年前的过时的玩意当成装B的资本了呵呵"},{"id":205583,"teacher_id":4069,"teacher_name":"任重","post_time":"2024-12-09 14:59:37","like_diff":0,"likes":0,"dislikes":0,"content":"天天点名"},{"id":206694,"teacher_id":4069,"teacher_name":"任重","post_time":"2024-12-17 06:33:34","like_diff":0,"likes":0,"dislikes":0,"content":"别指望能听懂任何东西"},{"id":212728,"teacher_id":4069,"teacher_name":"任重","post_time":"2025-01-14 15:18:42","like_diff":0,"likes":0,"dislikes":0,"content":"讲不明白"},{"id":224611,"teacher_id":4069,"teacher_name":"任重","post_time":"2025-11-25 07:45:10","like_diff":0,"likes":0,"dislikes":0,"content":"太强了，认真听了三节课，啥都听不懂，老师搁课上炫技来了"},{"id":128274,"teacher_id":4069,"teacher_name":"任重","post_time":"2020-12-16 03:22:21","like_diff":-1,"likes":2,"dislikes":3,"content":"我觉得很不错"},{"id":145528,"teacher_id":4069,"teacher_name":"任重","post_time":"2021-12-30 07:19:14","like_diff":-1,"likes":1,"dislikes":2,"content":"虽然教的难， 但是教会了很多东西"},{"id":189291,"teacher_id":4069,"teacher_name":"任重","post_time":"2024-01-23 02:47:14","like_diff":-1,"likes":2,"dislikes":3,"content":"上课可能一般\n\n但答疑真的很认真负责"},{"id":210863,"teacher_id":4069,"teacher_name":"任重","post_time":"2025-01-10 05:42:03","like_diff":-1,"likes":0,"dislikes":1,"content":"我主观评价一下吧。\n\n\n\n任老师可能自己水平很高，但是上C程课的确不咋地。\n\n\n\n上课的水平极低，讲课属于是基本没有备课，上得也不成体系。\n\n\n\n关键是他口头点名呀！这真的难整！本来你不点名的话我都不会说啥，毕竟C程自学的确比较重要，但是你自己课上得这么烂还强迫我们到课，这不是ex人吗？"},{"id":109378,"teacher_id":4069,"teacher_name":"任重","post_time":"2019-07-06 22:52:45","like_diff":-2,"likes":4,"dislikes":6,"content":"推荐选任重哈哈哈哈大概是 这学期竺院c程几个老师里面最水的"},{"id":177795,"teacher_id":4069,"teacher_name":"任重","post_time":"2023-07-05 02:04:15","like_diff":-3,"likes":2,"dislikes":5,"content":"挺好的，点名，上课听不懂，全靠自学，给分可以，over"},{"id":177792,"teacher_id":4069,"teacher_name":"任重","post_time":"2023-07-05 01:57:42","like_diff":-5,"likes":2,"dislikes":7,"content":"任老师人很好 给分相当好。编程这东西本来就是靠自学，好好做大作业，学期还是可以收获很多的。"},{"id":159398,"teacher_id":4069,"teacher_name":"任重","post_time":"2022-07-16 03:31:25","like_diff":-7,"likes":0,"dislikes":7,"content":"CG前沿，很好的老师，很清楚的讲授"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

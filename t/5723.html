@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>冯友军 - 医学院 - 浙大教评</title>
+    <meta name="description" content="冯友军教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="冯友军,医学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">冯友军</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">医学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">1.39</div>
+                    <div class="rating-participants">71人参与评分</div>
+                    <div class="attendance-info">33.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (5 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">Medical Microbiology &amp; Parasitology</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 2.77</span>
+                            <span class="students">选课: 63人</span>
+                            <span class="std-dev">标准差: 0.81</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">病原生物学</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.18</span>
+                            <span class="students">选课: 254人</span>
+                            <span class="std-dev">标准差: 0.82</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">病原生物学(甲)</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.22</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.93</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">病原生物学与免疫学实验</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.06</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.55</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">病原生物学（甲）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.17</span>
+                            <span class="students">选课: 433人</span>
+                            <span class="std-dev">标准差: 0.91</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (64 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":135450,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2021-05-11 02:17:11","like_diff":48,"likes":53,"dislikes":5,"content":"傻逼一个"},{"id":143287,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2021-11-23 02:05:01","like_diff":28,"likes":28,"dislikes":0,"content":"花一节课提问每个人？？？？上课还迟到咕咕掉整个班的人？？还是后来补的课"},{"id":182724,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-20 02:08:40","like_diff":24,"likes":25,"dislikes":1,"content":"尊重是自己给自己的，不能用某些手段来逼迫。\n\n还说什么恶意打低分，自己的课上得怎么样自己心里没有数吗"},{"id":182728,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-20 02:31:51","like_diff":22,"likes":22,"dislikes":0,"content":"老师会非常非常温柔地让你收起电脑抬头听课，会非常非常亲切地问候每一个人的知识掌握情况，课前会非常非常认真地巡视教室，助教也会非常非常感激地邀请你给老师打高分"},{"id":182721,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-20 02:05:15","like_diff":20,"likes":20,"dislikes":0,"content":"扎不多德勒\n\n讲得不好\n\n阴阳学生\n\n爱提问（提个寄吧靠这个水时间是吧，三十分钟能讲完的东西给你水到三节课还想让学生给你打高分？？？"},{"id":152666,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2022-04-18 02:16:32","like_diff":18,"likes":18,"dislikes":0,"content":"怎么不能打负分啊 什么自高自大的傻逼 就你厉害 我们都丢脸 讲的每一句话都让人浑身难受 傻逼"},{"id":142787,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2021-11-16 06:04:49","like_diff":17,"likes":18,"dislikes":1,"content":"上课只提问不讲课，混乱不知所云"},{"id":183338,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-24 02:53:50","like_diff":16,"likes":17,"dislikes":1,"content":"“有些同学不要恶意评价，我们会进行相应的追究的”"},{"id":205138,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2024-12-02 05:54:23","like_diff":13,"likes":13,"dislikes":0,"content":"老师挺好的，祝他讲什么得什么吧"},{"id":142786,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2021-11-16 06:02:49","like_diff":11,"likes":11,"dislikes":0,"content":"只能说楼上说的对"},{"id":183363,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-25 05:51:23","like_diff":11,"likes":11,"dislikes":0,"content":"Sb病原fyj\n\n就个乙肝蛋白需要点了两排人起来回答吗\n\n在他课上是不是就是要什么都要提前预习好过去学生当老师反哺他知识[龇牙][龇牙]"},{"id":143106,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2021-11-19 03:56:55","like_diff":10,"likes":11,"dislikes":1,"content":"完全不来上课的嘛……"},{"id":182995,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-21 11:21:22","like_diff":10,"likes":10,"dislikes":0,"content":"上完课觉得当这位老师的研究生好惨"},{"id":183386,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-24 13:55:36","like_diff":9,"likes":9,"dislikes":0,"content":"自大，愚钝，狂妄，可笑。讲的烂还拿挂科威胁人，我是没见过老师这样还要求学生打高分的。"},{"id":182421,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-16 02:43:32","like_diff":8,"likes":9,"dislikes":1,"content":"靠提问一些莫名其妙的问题让大家听他稀烂的课跟靠孩子留住出轨的男人有什么区别"},{"id":182738,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-20 04:06:08","like_diff":8,"likes":8,"dislikes":0,"content":"讲课乱七八糟，形式主义一大堆，小sb会说话就多说点"},{"id":183380,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-24 12:58:27","like_diff":8,"likes":8,"dislikes":0,"content":"动不动就把尊重挂在嘴边的人，往往正是自己所缺少的，医学院之耻！"},{"id":205170,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2024-12-02 11:21:03","like_diff":8,"likes":8,"dislikes":0,"content":"不尊重我们 我们凭什么给你尊重？？？体面是相互的"},{"id":161913,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2022-11-15 03:44:21","like_diff":7,"likes":7,"dislikes":0,"content":"自己讲的拉，没人听，开始叫同学们把电脑放起来，，，"},{"id":183408,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-25 06:09:41","like_diff":7,"likes":7,"dislikes":0,"content":"上他的课如同等待枪毙"},{"id":205154,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2024-12-02 07:41:09","like_diff":7,"likes":7,"dislikes":0,"content":"越缺啥越喜欢强调啥。缺少对别人的尊重，故强调尊重也是在所难免。"},{"id":151610,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2022-03-09 09:32:09","like_diff":6,"likes":6,"dislikes":0,"content":"..."},{"id":166142,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-01-11 07:33:04","like_diff":6,"likes":6,"dislikes":0,"content":"有点大病"},{"id":182839,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-20 14:15:58","like_diff":6,"likes":6,"dislikes":0,"content":"医生、老师本身都是高尚的职业，有些人却能用自己的努力让学生感受到这两种职业肮脏的下限"},{"id":183336,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-24 02:29:06","like_diff":6,"likes":6,"dislikes":0,"content":"尊重，前提是你尊重我们好好上课，如果课上的不是很好，那就别说了"},{"id":183352,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-24 04:55:33","like_diff":6,"likes":6,"dislikes":0,"content":"傻逼老师，上课不讲课，连龙车提问，头一次见助教这样用，站后面两个小时看人听不听课"},{"id":205218,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2024-12-03 03:18:03","like_diff":6,"likes":6,"dislikes":0,"content":"不愧是医学院出生帮榜首"},{"id":182432,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-16 03:51:37","like_diff":5,"likes":5,"dislikes":0,"content":"大无语，上课提问浪费大量时间，信息传递效率太低"},{"id":182746,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-21 06:06:36","like_diff":5,"likes":5,"dislikes":0,"content":"令人无语"},{"id":182919,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-21 05:50:48","like_diff":5,"likes":5,"dislikes":0,"content":"血统非常纯😅"},{"id":172254,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-04-24 02:08:49","like_diff":4,"likes":4,"dislikes":0,"content":"纯纯傻逼"},{"id":172257,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-04-24 02:32:27","like_diff":4,"likes":4,"dislikes":0,"content":"纯sb"},{"id":172265,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-04-24 03:56:28","like_diff":4,"likes":4,"dislikes":0,"content":"有点大病"},{"id":182428,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-16 03:11:57","like_diff":4,"likes":4,"dislikes":0,"content":"什么傻逼都能来讲课了吗？"},{"id":182429,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-16 03:22:13","like_diff":4,"likes":4,"dislikes":0,"content":"史.."},{"id":182811,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-20 11:02:26","like_diff":4,"likes":4,"dislikes":0,"content":"讲得好，给11分，这是多出来的1分"},{"id":182875,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-21 02:07:07","like_diff":4,"likes":4,"dislikes":0,"content":"爬！"},{"id":183346,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-24 04:13:14","like_diff":4,"likes":4,"dislikes":0,"content":"差不多得了 nt玩意"},{"id":205139,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2024-12-02 05:36:56","like_diff":4,"likes":4,"dislikes":0,"content":"超级大傻逼"},{"id":183288,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-23 12:47:35","like_diff":3,"likes":3,"dislikes":0,"content":"。。。"},{"id":183334,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-24 02:13:01","like_diff":3,"likes":3,"dislikes":0,"content":"。\n\n。\n\n。"},{"id":183349,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-24 04:36:08","like_diff":3,"likes":3,"dislikes":0,"content":"逆天.."},{"id":191064,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2024-03-31 11:47:16","like_diff":3,"likes":4,"dislikes":1,"content":"上课如同听史记"},{"id":182740,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-20 04:09:58","like_diff":2,"likes":2,"dislikes":0,"content":"纯乐鼠"},{"id":182742,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-21 08:25:43","like_diff":2,"likes":6,"dislikes":4,"content":"老师科研能力很强"},{"id":182745,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-20 04:17:25","like_diff":2,"likes":2,"dislikes":0,"content":"老师就是纯纯nt，刷存在感呢"},{"id":182747,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-20 04:40:42","like_diff":2,"likes":2,"dislikes":0,"content":"🤮🤮🤮高分打不了一点"},{"id":182749,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-20 04:28:08","like_diff":2,"likes":2,"dislikes":0,"content":"傻逼一个"},{"id":182750,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-20 04:39:31","like_diff":2,"likes":2,"dislikes":0,"content":"纯sb，史。蛀虫"},{"id":182751,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-20 04:42:01","like_diff":2,"likes":2,"dislikes":0,"content":"建议老师多反思自己，少指责别人"},{"id":183510,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-27 03:01:52","like_diff":2,"likes":3,"dislikes":1,"content":"答辩依托"},{"id":205164,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2024-12-02 10:14:56","like_diff":2,"likes":2,"dislikes":0,"content":"明天上课，略有耳闻，来此提前评价"},{"id":182431,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-16 03:25:00","like_diff":1,"likes":1,"dislikes":0,"content":"嘻嘻😁"},{"id":182795,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-20 09:05:51","like_diff":1,"likes":1,"dislikes":0,"content":"dddd"},{"id":182857,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-11-20 20:02:50","like_diff":1,"likes":2,"dislikes":1,"content":"我也想见识一下老师的定位呢😁"},{"id":200953,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2024-10-25 11:05:41","like_diff":1,"likes":1,"dislikes":0,"content":"难评。。。"},{"id":205226,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2024-12-03 03:28:41","like_diff":1,"likes":1,"dislikes":0,"content":"不知所云"},{"id":205233,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2024-12-03 04:24:41","like_diff":1,"likes":1,"dislikes":0,"content":"随堂小测太莫名其妙"},{"id":213238,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2025-01-16 11:58:28","like_diff":1,"likes":1,"dislikes":0,"content":"呃不好评价 先不评了"},{"id":217592,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2025-04-14 03:06:01","like_diff":1,"likes":1,"dislikes":0,"content":"66666"},{"id":172259,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2023-04-24 02:49:52","like_diff":0,"likes":0,"dislikes":0,"content":"…泰裤啦"},{"id":205141,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2024-12-02 06:14:15","like_diff":-5,"likes":1,"dislikes":6,"content":"一名真正的好老师！👍🏼👍🏼👍🏼👍🏼👍🏼👍🏼👍🏼👍🏼👍🏼👍🏽👍🏽👍🏽👍🏽"},{"id":191215,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2024-04-12 05:56:30","like_diff":-6,"likes":4,"dislikes":10,"content":"您工作在今朝，却建设着祖国的明天;您教学在课堂，成就却在祖国的四面八方"},{"id":191058,"teacher_id":5723,"teacher_name":"冯友军","post_time":"2024-03-31 10:33:57","like_diff":-34,"likes":1,"dislikes":35,"content":"非常博学的一位教授，认真备课，课堂上气氛不错"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

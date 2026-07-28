@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>许威威 - 计算机科学与技术学院 - 浙大教评</title>
+    <meta name="description" content="许威威教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="许威威,计算机科学与技术学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">许威威</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">计算机科学与技术学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.43</div>
+                    <div class="rating-participants">69人参与评分</div>
+                    <div class="attendance-info">32.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (2 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">数值分析</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.25</span>
+                            <span class="students">选课: 346人</span>
+                            <span class="std-dev">标准差: 0.80</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">面向对象程序设计</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.09</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.79</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (62 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":75937,"teacher_id":3982,"teacher_name":"许威威","post_time":"2018-03-22 07:21:11","like_diff":46,"likes":51,"dislikes":5,"content":"觉得像马化腾的点个赞"},{"id":73785,"teacher_id":3982,"teacher_name":"许威威","post_time":"2018-02-03 05:37:39","like_diff":22,"likes":25,"dislikes":3,"content":"威威一笑很倾城"},{"id":76048,"teacher_id":3982,"teacher_name":"许威威","post_time":"2018-03-26 00:57:52","like_diff":20,"likes":24,"dislikes":4,"content":"c++讲得很吃力，听得也很吃力"},{"id":162503,"teacher_id":3982,"teacher_name":"许威威","post_time":"2023-01-11 13:00:03","like_diff":17,"likes":18,"dislikes":1,"content":"666\n\n前面那个喷他吹陈越的是什么牛马\n\ncy的ds上课有多少人听怎么不说一说？\n\n单从为人处世来说cy和他就没法比\n\n\n\n出分了，真的神仙老师，我问了一圈全是满绩"},{"id":100443,"teacher_id":3982,"teacher_name":"许威威","post_time":"2019-01-26 06:38:00","like_diff":13,"likes":14,"dislikes":1,"content":"上的他的NA。老师对学生很和善，上课讲的也很清楚，但课程内容较为硬核，基本处于好不容易听懂之后不复习就都忘掉的状态。平时分最后的计分方式也是真的很宽松了，全勤，作业全交，偶尔发言，平时分基本不会扣。每周的作业可能要写一阵子，不过期末题型跟作业也比较相似，值得认真做一下。绩点应该主要是期末定的吧，期末是开卷，可以带教材，ppt，计算器。认真的话绩点不会太差，本人最后4.8。感恩。"},{"id":213507,"teacher_id":3982,"teacher_name":"许威威","post_time":"2025-01-18 02:51:54","like_diff":10,"likes":12,"dislikes":2,"content":"NA给分不错。今年老师说学校不允许太多平时分满分（大部分同学都是59.5～59.8之间），所以使用向下取整的方法导致大部分同学的平时分是59分，建议上课发言1～2次以获得额外加分。期末考试很多题都是PPT上的原题，考试前把PPT和课后作业过一遍就够了，应该可以获得不错的成绩"},{"id":157557,"teacher_id":3982,"teacher_name":"许威威","post_time":"2022-06-23 16:58:28","like_diff":9,"likes":11,"dislikes":2,"content":"没上过这个老师的课，但今年OOP期末考试里相对最友好的题都是他出的，救我狗命。。。凭着这份善良必须给出十分\n\n\n\n顺便怼李继军，出的什么题，一道不会┭┮﹏┭┮"},{"id":85136,"teacher_id":3982,"teacher_name":"许威威","post_time":"2018-07-15 15:47:34","like_diff":7,"likes":9,"dislikes":2,"content":"c艹讲的一般般 而且早课要么迟到要么没来... 其实也不是很需要听课自己看ppt就行 似乎有三次签到 作业比别的班少很多 水lab 最后的大作业比较难下手但不麻烦 老师人很好 给分不错"},{"id":196593,"teacher_id":3982,"teacher_name":"许威威","post_time":"2024-07-04 07:06:10","like_diff":7,"likes":8,"dislikes":1,"content":"对OOP客观的说一句。讲课确实一般，感觉应该没人听他讲，但是胜在平时作业少，就7个lab没了，且没有期中考。对比之下，翁恺讲课好但任务繁多；陈翔则是任务量适中且讲课不错。因此比较好的选择是选xww但是听wk或cx的课。\n\n关于平时分给分，其实并没有其他同学说的比较严格。今年的主要问题是lab的ddl均在上课时公布，且一开始没有说延期提交lab的penalty政策，有些同学没有听到因此被扣了很多而感到气愤。其实这事的主要责任应该是助教无所作为，学在浙大上给个ddl或者钉钉群里@all宣布一下都不会有这种情况。除此之外的平时lab给分还挺正常的，基本上就是程序有边界情况错误或者代码不规范的情况从20分扣个1分这样子。\n\n综上，个人认为OOP选xww真的挺好的，腾出大量时间你完全可以自学或者听别的老师的课，只要注意一下lab的要求就好了。"},{"id":99787,"teacher_id":3982,"teacher_name":"许威威","post_time":"2019-01-25 07:27:26","like_diff":6,"likes":6,"dislikes":0,"content":"人帅心善给分好!"},{"id":121919,"teacher_id":3982,"teacher_name":"许威威","post_time":"2020-01-23 23:56:31","like_diff":6,"likes":6,"dislikes":0,"content":"老师很好，讲课很清楚，总是能抓住要点。不过NA确实有一点难度，作业和复习确实得花一点时间~建议考试前在看PPT和课本之外复习一遍作业题。最后给分很给力，老师新年快乐！"},{"id":122087,"teacher_id":3982,"teacher_name":"许威威","post_time":"2020-02-12 13:04:59","like_diff":6,"likes":6,"dislikes":0,"content":"好老师，给分很好，人很nice，上课也还行，放心选!"},{"id":139462,"teacher_id":3982,"teacher_name":"许威威","post_time":"2021-07-16 04:57:20","like_diff":6,"likes":7,"dislikes":1,"content":"数值分析给分很好。oop平时分很难满，有一半人平时分都要扣6分，相当于总评扣3分，建议oop选wk"},{"id":121927,"teacher_id":3982,"teacher_name":"许威威","post_time":"2020-01-24 07:12:30","like_diff":5,"likes":5,"dislikes":0,"content":"老师特别可爱！讲的挺好的（虽然我上课经常掉线555）。最后有时间复习，期末考的挺好的，老师给分真的超nice"},{"id":121948,"teacher_id":3982,"teacher_name":"许威威","post_time":"2020-01-25 10:19:35","like_diff":5,"likes":5,"dislikes":0,"content":"课程：数值分析\n\n人比较nice，会布置书上的作业，展示水水的。\n\n只要认真完成作业和lab平时分就很好。\n\n期末考前给了一个考试题型ppt，考试的内容基本上都是上课ppt或者题型ppt里有的，考试开卷，所以只要看一遍ppt和作业就没啥问题，所有题都找到类似的了。"},{"id":166267,"teacher_id":3982,"teacher_name":"许威威","post_time":"2023-01-11 15:06:11","like_diff":5,"likes":5,"dislikes":0,"content":"给分也太好了吧 泪目了\n\nxww真的是我的神\n\n强推NA！！！！平时分全班基本都99以上"},{"id":121911,"teacher_id":3982,"teacher_name":"许威威","post_time":"2020-01-23 17:15:21","like_diff":4,"likes":5,"dislikes":1,"content":"许威威老师给分真的很好\n\n上课的感觉也不错\n\n数值分析平时八道编程题加一次小组展示认真做了基本给满 期末考的有点难但大概是分往高调了"},{"id":165325,"teacher_id":3982,"teacher_name":"许威威","post_time":"2022-12-31 17:27:42","like_diff":4,"likes":5,"dislikes":1,"content":"前面有人喷cy？\n\n人家说的不是事实？也不知道前面那个牛马在给cy洗什么"},{"id":176870,"teacher_id":3982,"teacher_name":"许威威","post_time":"2023-06-30 13:27:03","like_diff":4,"likes":5,"dislikes":1,"content":"考完OOP了，先打个10分，威威捞捞我！"},{"id":197104,"teacher_id":3982,"teacher_name":"许威威","post_time":"2024-07-07 17:09:05","like_diff":4,"likes":4,"dislikes":0,"content":"虽然讲课很一般，但是oop给分很好。\n\n\n\n另，lab的ddl上课都会通知。因为不去教室上课导致不知道作业ddl的主要责任难道不在于自己？"},{"id":76435,"teacher_id":3982,"teacher_name":"许威威","post_time":"2018-07-15 09:04:52","like_diff":3,"likes":8,"dislikes":5,"content":"讲课一般，给分挺好的。正常完成作业＋比较水的大作业+很简单的考试=4.8"},{"id":165515,"teacher_id":3982,"teacher_name":"许威威","post_time":"2023-01-07 17:32:01","like_diff":3,"likes":3,"dislikes":0,"content":"好老师！平时分给的真的好！"},{"id":166219,"teacher_id":3982,"teacher_name":"许威威","post_time":"2023-01-11 12:48:10","like_diff":3,"likes":3,"dislikes":0,"content":"说NA讲课拉的无法理解，感觉讲得挺清楚的\n\n平时分基本上都能给满，xww我的超人！"},{"id":166231,"teacher_id":3982,"teacher_name":"许威威","post_time":"2023-01-11 13:10:02","like_diff":3,"likes":3,"dislikes":0,"content":"许威威老师我爱你"},{"id":166290,"teacher_id":3982,"teacher_name":"许威威","post_time":"2023-01-11 16:53:39","like_diff":3,"likes":3,"dislikes":0,"content":"xww，NA秋冬学期。\n\n许爹我的神，平时分给的好到爆炸，试卷出的也简单，基本上自己不放弃绝对就是高分，强推"},{"id":214678,"teacher_id":3982,"teacher_name":"许威威","post_time":"2025-02-16 13:54:30","like_diff":3,"likes":6,"dislikes":3,"content":"下面这个评论的人考了5.0，菜的不要来，很容易挂！！"},{"id":72008,"teacher_id":3982,"teacher_name":"许威威","post_time":"2018-01-29 08:02:16","like_diff":2,"likes":4,"dislikes":2,"content":"老师讲课一般般，但是人很好"},{"id":74659,"teacher_id":3982,"teacher_name":"许威威","post_time":"2018-03-05 04:14:19","like_diff":2,"likes":3,"dislikes":1,"content":"讲课实在没什么营养，给分很好（数值分析）"},{"id":74758,"teacher_id":3982,"teacher_name":"许威威","post_time":"2018-03-05 14:32:09","like_diff":2,"likes":3,"dislikes":1,"content":"数值分析师生情"},{"id":79968,"teacher_id":3982,"teacher_name":"许威威","post_time":"2018-06-17 10:32:14","like_diff":2,"likes":4,"dislikes":2,"content":"老师人很好，讲的一般，，好吧是我NA学的太菜了……"},{"id":121322,"teacher_id":3982,"teacher_name":"许威威","post_time":"2019-12-20 04:49:51","like_diff":2,"likes":2,"dislikes":0,"content":"NA讲的通透易懂"},{"id":150028,"teacher_id":3982,"teacher_name":"许威威","post_time":"2022-01-18 11:42:46","like_diff":2,"likes":2,"dislikes":0,"content":"NA给分还是很好的，比较难的课，平常最好以理解为主要任务。"},{"id":158707,"teacher_id":3982,"teacher_name":"许威威","post_time":"2022-07-01 13:29:17","like_diff":2,"likes":2,"dislikes":0,"content":"老师很好，oop选他选他，不会让你失望的"},{"id":188680,"teacher_id":3982,"teacher_name":"许威威","post_time":"2024-01-19 14:06:47","like_diff":2,"likes":2,"dislikes":0,"content":"不是，xww的NA真神吧"},{"id":195615,"teacher_id":3982,"teacher_name":"许威威","post_time":"2024-06-29 04:38:30","like_diff":2,"likes":7,"dislikes":5,"content":"oop严重不推荐，快逃。"},{"id":122929,"teacher_id":3982,"teacher_name":"许威威","post_time":"2020-04-21 16:11:07","like_diff":1,"likes":2,"dislikes":1,"content":"当初考研想去他的实验室，接触过，人非常nice，后来阴差阳错没去成，也是遗憾！"},{"id":139479,"teacher_id":3982,"teacher_name":"许威威","post_time":"2021-07-16 10:04:36","like_diff":1,"likes":1,"dislikes":0,"content":"老师人真的很好！"},{"id":153719,"teacher_id":3982,"teacher_name":"许威威","post_time":"2022-05-09 08:18:08","like_diff":1,"likes":1,"dislikes":0,"content":"老师很会理解学生，通情达理，真的喜欢他"},{"id":158239,"teacher_id":3982,"teacher_name":"许威威","post_time":"2022-06-27 16:35:37","like_diff":1,"likes":1,"dislikes":0,"content":"老师有点像小马哥，钉钉问老师问题也回复地超快，很通情达理，给分也超级好！"},{"id":166304,"teacher_id":3982,"teacher_name":"许威威","post_time":"2023-01-12 00:45:23","like_diff":1,"likes":2,"dislikes":1,"content":"讲课一般，但是给分绝对无敌。"},{"id":174635,"teacher_id":3982,"teacher_name":"许威威","post_time":"2023-06-15 01:55:03","like_diff":1,"likes":1,"dislikes":0,"content":"威威人帅心善给分高"},{"id":189123,"teacher_id":3982,"teacher_name":"许威威","post_time":"2024-01-22 05:04:08","like_diff":1,"likes":1,"dislikes":0,"content":"NA真神不解释。\n\n但是今年的题目计算量很大，比起往年来说要难不少，所以提醒后来的同学们平时要多多练习计算\n\n（或者熟练使用计算器，最好考试带那种高级的可运算矩阵的计算器）"},{"id":197312,"teacher_id":3982,"teacher_name":"许威威","post_time":"2024-07-11 01:14:17","like_diff":1,"likes":1,"dislikes":0,"content":"事最少的oop班级，总评lab和期末五五开，七个lab有六个闭着眼睛写完，最后的大作业内存池难度也不大，给分也很不错。\n\noop这门课本身就是琐碎的c++语法，网上资料也很多，老师讲课其实有点无聊的，不喜欢的话真心建议自学（自己能写出7个lab的水平就可以了）"},{"id":222135,"teacher_id":3982,"teacher_name":"许威威","post_time":"2025-06-30 08:48:37","like_diff":1,"likes":1,"dislikes":0,"content":"OOP 大作业打分莫名其妙，建议选隔壁陈翔的，给分好很多"},{"id":71386,"teacher_id":3982,"teacher_name":"许威威","post_time":"2018-01-28 11:23:41","like_diff":0,"likes":2,"dislikes":2,"content":"我觉得海星"},{"id":75719,"teacher_id":3982,"teacher_name":"许威威","post_time":"2018-03-15 11:47:21","like_diff":0,"likes":2,"dislikes":2,"content":"老师人很好，但有些时候会讲的比较快"},{"id":85190,"teacher_id":3982,"teacher_name":"许威威","post_time":"2018-07-16 04:03:13","like_diff":0,"likes":3,"dislikes":3,"content":"讲课还行吧，oop大多数都现场拿vs演示，老师人很好，给分也不错。"},{"id":149055,"teacher_id":3982,"teacher_name":"许威威","post_time":"2022-01-14 08:45:19","like_diff":0,"likes":2,"dislikes":2,"content":"好就一个字！我说累了！！！NA课很难，但老师真的超级好www"},{"id":158708,"teacher_id":3982,"teacher_name":"许威威","post_time":"2022-07-01 13:31:14","like_diff":0,"likes":2,"dislikes":2,"content":"给分很棒，讲课也不错，最后顺利满绩，10分献上"},{"id":159563,"teacher_id":3982,"teacher_name":"许威威","post_time":"2022-08-11 12:58:47","like_diff":0,"likes":0,"dislikes":0,"content":"好老师zszs"},{"id":178277,"teacher_id":3982,"teacher_name":"许威威","post_time":"2023-07-09 09:02:50","like_diff":0,"likes":0,"dislikes":0,"content":"讲课比较一般，给分还可以（虽然被卡了）"},{"id":199016,"teacher_id":3982,"teacher_name":"许威威","post_time":"2024-09-14 03:45:52","like_diff":0,"likes":0,"dislikes":0,"content":"qjqj"},{"id":78986,"teacher_id":3982,"teacher_name":"许威威","post_time":"2018-05-19 03:24:03","like_diff":-1,"likes":3,"dislikes":4,"content":"挺好的。"},{"id":168182,"teacher_id":3982,"teacher_name":"许威威","post_time":"2023-02-01 06:17:33","like_diff":-1,"likes":4,"dislikes":5,"content":"给分真的逆天\n\n数值分析使劲冲 一个班90%的5.0"},{"id":196610,"teacher_id":3982,"teacher_name":"许威威","post_time":"2024-07-04 08:39:29","like_diff":-2,"likes":1,"dislikes":3,"content":"OOP可选，任务少很轻松，但这学期的评分机制完全就是一坨非常垃圾。pta上7个lab一起放出来，ddl设在6.30，此外除了某几节课会提一下什么时候要提交哪个lab之外完全没有明确规定各个lab的ddl，也完全没有提到penalty机制，甚至也完全没提到晚于xx时候交会扣分，这种情况下正常就默认以为pta关闭前提交就可以。但是一直到6.28考完试助教才突然在群里公布了penalty机制以及刚讨论出来的各个lab的ddl，并且扣分扣得很多，而这个时候所有lab都是已经过了ddl甚至过了很久的，非常恶心，导致一些人平时分扣了很多。\n\n讲课方面讲得比较乱七八糟思路不清晰，去听其他老师的课或者搜搜网课都比xww讲的强得多，所以听完前几节课后面的就翘了。老师不点名，这也导致翘课的人根本不知道上课有提到lab的ddl的事，显得上面的penalty机制更加不合理。\n\n综合考虑，课可以放心选，但是第一节课一定要先“严刑拷问”老师和助教平时作业的ddl和penalty机制防止平时分吃亏，然后就可以放心去听其他老师或者网课了。"},{"id":197045,"teacher_id":3982,"teacher_name":"许威威","post_time":"2024-07-07 02:07:48","like_diff":-2,"likes":2,"dislikes":4,"content":"OOP虽然平时分公布的时候大家都在骂，但是最后成绩一出来直接跪了，许老师是我叠你们不许骂😡（也不知道怎么做到的，是改了期末占比还是直接期末动分了？可怕"},{"id":108319,"teacher_id":3982,"teacher_name":"许威威","post_time":"2019-05-21 03:35:40","like_diff":-3,"likes":0,"dislikes":3,"content":"作业要求不清楚"},{"id":139519,"teacher_id":3982,"teacher_name":"许威威","post_time":"2021-07-17 02:10:17","like_diff":-3,"likes":3,"dislikes":6,"content":"oop平时分没想到被阴了一手\n\nwk班都给满的，建议快逃"},{"id":165040,"teacher_id":3982,"teacher_name":"许威威","post_time":"2022-12-28 15:05:07","like_diff":-7,"likes":1,"dislikes":8,"content":"前面那个喷cy的什么牛马。我这学期正好被两个人都教，NA和fds。讲课都算还行的，感觉难分伯仲，属于纯小白不准备==需要重听/上课容易失去同步。别问，问就是就是2号考NA在补天复习智云。发现老师讲的确实有些东西，虽然全是书本上的内容（确信），但是会从中找出要点提炼还是比纯看书效率高的。建议之后上他的NA如果没基础的话，上课还是尽量听一下，就当通识求大体了解，下课再看书（有中文的还是比较容易懂的）或者重听智云（复习用），效果是比较好的——仅保证适用我这种菜菜（因为学分选多没时间分给NA就很折磨，呜呜呜）"},{"id":195876,"teacher_id":3982,"teacher_name":"许威威","post_time":"2024-07-07 13:30:59","like_diff":-10,"likes":0,"dislikes":10,"content":"oop 平时分给分比较严格。讲课水平一般，计院平均水平。平时任务量比较小，但是上课体验是远不如陈翔和翁恺的。\n\n\n\nupdate: 成绩出来之后，大家分数普遍比之前自己算出来的高，猜测是老师最后良心发现平时分给的有点差，又捞了平时分。"},{"id":164848,"teacher_id":3982,"teacher_name":"许威威","post_time":"2022-12-27 01:42:31","like_diff":-19,"likes":0,"dislikes":19,"content":"NA 讲课太拉了"},{"id":161219,"teacher_id":3982,"teacher_name":"许威威","post_time":"2022-11-03 02:30:19","like_diff":-37,"likes":2,"dislikes":39,"content":"数值分析，老师的水平真不咋滴。\n\n课件是copy陈越姥姥的，\n\n实验也是copy陈越姥姥的，\n\n上课讲的很多东西感觉自己也不明白。\n\n教室里基本没人听课。\n\n单从数值分析这门课的授课来看，xww真没有一个长江学者的能力和气质。"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

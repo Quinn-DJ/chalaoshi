@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>沈宏 - 理学院 - 浙大教评</title>
+    <meta name="description" content="沈宏教师详情页，包含课程信息、学生评价等">
+    <meta name="keywords" content="沈宏,理学院,浙江大学,教师评价">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: white;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-content h1 {
+            color: #333;
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        /* 搜索栏样式 */
+        .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 0;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+        
+        .teacher-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-info-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .teacher-basic-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .teacher-name {
+            font-size: 2.8em;
+            color: #333;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+        
+        .teacher-university {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-college {
+            font-size: 1.1em;
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .teacher-rating-display {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-left: 40px;
+        }
+        
+        .large-rating {
+            font-size: 4.5em;
+            font-weight: bold;
+            color: #1e74fd;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        
+        .rating-participants {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .attendance-info {
+            font-size: 0.95em;
+            color: #666;
+        }
+        
+        .teacher-stats {
+            display: flex;
+            justify-content: flex-start;
+            gap: 40px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-item i {
+            font-size: 1.5em;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .teacher-courses, .teacher-comments {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .teacher-courses h3, .teacher-comments h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .comments-sort {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            color: #666;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .sort-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+        
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .sort-btn i {
+            font-size: 0.8em;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .course-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .gpa {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .comments-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .comment-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .comment-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .comment-likes i {
+            margin-right: 5px;
+        }
+        
+        .comment-likes .likes {
+            color: #28a745;
+            margin-right: 15px;
+        }
+        
+        .comment-likes .dislikes {
+            color: #dc3545;
+        }
+        
+        .comment-content {
+            line-height: 1.5;
+        }
+        
+        .no-data {
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .more-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid #eee;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-input {
+                border-radius: 8px;
+            }
+            
+            .search-btn {
+                border-radius: 8px;
+                justify-content: center;
+            }
+            
+            .teacher-info-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teacher-basic-info {
+                margin-bottom: 20px;
+            }
+            
+            .teacher-rating-display {
+                padding-left: 0;
+            }
+            
+            .teacher-name {
+                font-size: 2.2em;
+            }
+            
+            .large-rating {
+                font-size: 3.5em;
+            }
+            
+            .teacher-stats {
+                justify-content: center;
+                gap: 30px;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-stats {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .comments-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .comments-sort {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .sort-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 12px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="nav-content">
+                <h1>浙大教评 - 教师索引</h1>
+            </div>
+        </nav>
+        
+        <!-- 搜索栏 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" id="search-input" placeholder="请输入教师姓名、学院或拼音...">
+                <button class="search-btn" id="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+        
+        <!-- 教师基本信息 -->
+        <div class="teacher-header">
+            <div class="teacher-info-container">
+                <div class="teacher-basic-info">
+                    <h1 class="teacher-name">沈宏</h1>
+                    <p class="teacher-university">浙江大学</p>
+                    <p class="teacher-college">理学院</p>
+                </div>
+                <div class="teacher-rating-display">
+                    <div class="large-rating">9.33</div>
+                    <div class="rating-participants">109人参与评分</div>
+                    <div class="attendance-info">36.0%的人认为该老师会点名</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 课程信息 -->
+        
+            <div class="teacher-courses">
+                <h3><i class="fas fa-book"></i> 课程信息 (10 门课程)</h3>
+                <div class="courses-grid">
+            
+                    <div class="course-card">
+                        <div class="course-name">中级化学实验Ⅰ</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.89</span>
+                            <span class="students">选课: 71人</span>
+                            <span class="std-dev">标准差: 0.64</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">仪器分析实验</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 4.14</span>
+                            <span class="students">选课: 33人</span>
+                            <span class="std-dev">标准差: 0.29</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">分析化学（乙）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.16</span>
+                            <span class="students">选课: 239人</span>
+                            <span class="std-dev">标准差: 0.84</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">分析化学（甲）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.08</span>
+                            <span class="students">选课: 382人</span>
+                            <span class="std-dev">标准差: 0.85</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">外科学总论(乙)</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.44</span>
+                            <span class="students">选课: 357人</span>
+                            <span class="std-dev">标准差: 0.74</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">外科学总论（甲）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.76</span>
+                            <span class="students">选课: 500+人</span>
+                            <span class="std-dev">标准差: 0.67</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">大学化学实验（A）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.93</span>
+                            <span class="students">选课: 183人</span>
+                            <span class="std-dev">标准差: 0.61</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">普通化学（甲）</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 2.93</span>
+                            <span class="students">选课: 89人</span>
+                            <span class="std-dev">标准差: 0.69</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">现代分离分析</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.28</span>
+                            <span class="students">选课: 32人</span>
+                            <span class="std-dev">标准差: 0.72</span>
+                        </div>
+                    </div>
+                
+                    <div class="course-card">
+                        <div class="course-name">色谱分析</div>
+                        <div class="course-stats">
+                            <span class="gpa">GPA: 3.40</span>
+                            <span class="students">选课: 25人</span>
+                            <span class="std-dev">标准差: 0.86</span>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+        
+        <!-- 学生评论 -->
+        
+            <div class="teacher-comments">
+                <div class="comments-header">
+                    <h3><i class="fas fa-comments"></i> 学生评论 (90 条)</h3>
+                    <div class="comments-sort">
+                        <button class="sort-btn active" data-sort="popular">
+                            <i class="fas fa-fire"></i> 人气评论
+                        </button>
+                        <button class="sort-btn" data-sort="latest">
+                            <i class="fas fa-clock"></i> 最新评论
+                        </button>
+                    </div>
+                </div>
+                <div class="comments-list" id="comments-list">
+                </div>
+                <script>
+                    // 评论数据
+                    const commentsData = [{"id":14424,"teacher_id":566,"teacher_name":"沈宏","post_time":"2016-01-07 03:29:32","like_diff":31,"likes":33,"dislikes":2,"content":"普通化学讲的真心好"},{"id":23901,"teacher_id":566,"teacher_name":"沈宏","post_time":"2016-04-20 12:14:21","like_diff":29,"likes":30,"dislikes":1,"content":"“谢谢大家认真听讲”。惭愧啊！"},{"id":4440,"teacher_id":566,"teacher_name":"沈宏","post_time":"2015-06-23 06:12:41","like_diff":22,"likes":25,"dislikes":3,"content":"普化老师人好，讲的详细"},{"id":17730,"teacher_id":566,"teacher_name":"沈宏","post_time":"2016-01-20 20:08:19","like_diff":21,"likes":21,"dislikes":0,"content":"普化讲得很好，每次的“谢谢大家认真听讲”是必备结束语~"},{"id":14388,"teacher_id":566,"teacher_name":"沈宏","post_time":"2016-01-06 17:00:08","like_diff":13,"likes":23,"dislikes":10,"content":"千万别选现代分离分析，千万别选现代分离分析，千万别选现代分离分析，三遍了.\n\n说好的开卷考试，ppt不给带，笔记不给带，只允许五张A4纸"},{"id":47353,"teacher_id":566,"teacher_name":"沈宏","post_time":"2017-01-25 10:59:12","like_diff":12,"likes":12,"dislikes":0,"content":"老师人挺好，给分不水，选分析化学的人复习时多看看仪器和原理的知识点，计算考的少。"},{"id":579,"teacher_id":566,"teacher_name":"沈宏","post_time":"2015-03-15 06:00:36","like_diff":11,"likes":19,"dislikes":8,"content":"求是 分化卷子难、偏"},{"id":111520,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-07-02 03:11:13","like_diff":11,"likes":13,"dislikes":2,"content":"woc，，，这个什么辣鸡猪脚，，平时群里有人问问题一点都不回答，，作业随随便便改，随便一下就是b，c档，没见过这么不负责任的助教，您咋不把给个e啊，e显得您多厉害啊~~~不过老师人是好的，绩点不好看，也不能怪老师，沈老师平时上课讲的很细致，回答问题也很细心，只是分析化学这门课太难了，而且期末占比80％，确实是考的不好，给老师10分！"},{"id":11981,"teacher_id":566,"teacher_name":"沈宏","post_time":"2015-12-21 12:23:27","like_diff":9,"likes":9,"dislikes":0,"content":"讲的很仔细很有条理 人很温柔\n\n特别喜欢"},{"id":17064,"teacher_id":566,"teacher_name":"沈宏","post_time":"2016-01-19 14:08:10","like_diff":9,"likes":10,"dislikes":1,"content":"普化上的超好"},{"id":63960,"teacher_id":566,"teacher_name":"沈宏","post_time":"2017-12-20 06:02:22","like_diff":9,"likes":9,"dislikes":0,"content":"真心想好好教学的老师，不给10分对不起良心"},{"id":111644,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-07-02 10:04:02","like_diff":9,"likes":9,"dislikes":0,"content":"这10分老师的，是真心的关心同学，说实话最后跟着老师的复习提纲把所有提纲上的东西掌握了基本上期末考能上90(其实我做期末考题的时候发现题目很多和最后复习提纲对应，但还是看的不够深入因此最后弟弟3.3，但弟弟只认真看了一半的书)但我认识一高中化竞一奖也只有3.9，心里平衡不少。对于助教，感觉太较真了，动不动给b给c，感觉有点不把学生的成绩当成绩。还有这门课的内容真的很难分清重点主次，所以平常不要去纠结细节，大致理解就行，不要纠结太细。"},{"id":74422,"teacher_id":566,"teacher_name":"沈宏","post_time":"2018-02-21 05:39:36","like_diff":8,"likes":8,"dislikes":0,"content":"普化讲得真心赞，讲得清楚，耐心，将难以理解的科目变得易于理解。"},{"id":26618,"teacher_id":566,"teacher_name":"沈宏","post_time":"2016-06-20 11:37:40","like_diff":7,"likes":8,"dislikes":1,"content":"老师讲课超级耐心，而且很温和，听他的课不容易走神，很有收获的。"},{"id":114633,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-07-11 02:01:21","like_diff":7,"likes":8,"dislikes":1,"content":"分化甲。唉感觉上课和考试没什么关系。而且为什么听沈老师的课想睡觉？可能是沈老师说话太温柔了吧……最后复习的挺认真的但是不知道方向所以做了太多无用功吧。希望选这门课的同学复习有效率一点，认真理解课本分析方法和仪器原理，考试会比较偏，要做好抄了整张A4纸也没什么用的准备。其实很多东西理解了根本没必要抄。考试计算也不难，多看课本！多看课本！多看课本！"},{"id":129765,"teacher_id":566,"teacher_name":"沈宏","post_time":"2021-01-12 06:09:57","like_diff":7,"likes":7,"dislikes":0,"content":"非常认真的好老师，每次下课都说“谢谢大家认真听讲”"},{"id":156427,"teacher_id":566,"teacher_name":"沈宏","post_time":"2022-06-19 14:50:08","like_diff":7,"likes":8,"dislikes":1,"content":"这个老师真的没有良心啊"},{"id":61050,"teacher_id":566,"teacher_name":"沈宏","post_time":"2017-11-07 12:32:41","like_diff":6,"likes":7,"dislikes":1,"content":"老师人挺好的 每次下课都说 谢谢同学们认真听讲 挺惭愧的..."},{"id":110003,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-07-01 22:29:51","like_diff":6,"likes":8,"dislikes":2,"content":"助教很垃圾，，平时分极低，作业b，c档一大把。老师上课有条理，讲的也很清楚，就是没有重点，很容易走神。最后，绩杀哦！认认真真复习了一个礼拜，感觉发挥的不错，大题有一道刚好做到了，2.4，历史最低。。"},{"id":111580,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-07-02 04:40:18","like_diff":6,"likes":6,"dislikes":0,"content":"老师的专业程度和投入程度你值得拥有；学习前最好对课程的回报程度有一个明确定位：这是一门非常重要的基础性课程，这在学习的时候可以给自己心理暗示的。老师上课很杂，与考试关联度随缘，但复习的时候只要紧扣书本，基本都能复习好的；助教方面，最好有一本习题答案，这样就避免他因懒作恶；最后，请及时并重视小测，我的绩点纯粹死于平时小测作死，至今不知道这扣了我多少分，可能降了2档...祝大家好运！"},{"id":111613,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-07-02 07:17:03","like_diff":6,"likes":6,"dislikes":0,"content":"我挺想知道平时分扣了我多少。。。"},{"id":119169,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-11-11 03:44:34","like_diff":6,"likes":6,"dislikes":0,"content":"很棒的老师\n\n就是每次下课听到感谢同学认真听讲都很心虚"},{"id":4287,"teacher_id":566,"teacher_name":"沈宏","post_time":"2015-06-18 14:58:43","like_diff":5,"likes":6,"dislikes":1,"content":"分化不点名的"},{"id":20041,"teacher_id":566,"teacher_name":"沈宏","post_time":"2016-01-26 02:55:05","like_diff":5,"likes":5,"dislikes":0,"content":"好老师，普化教的很好！！！"},{"id":21578,"teacher_id":566,"teacher_name":"沈宏","post_time":"2016-02-29 08:32:54","like_diff":5,"likes":5,"dislikes":0,"content":"普化讲的不错，几乎面面俱到，平时看书忽略的上课会讲到。只要认真听，分数不会低。"},{"id":99987,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-01-25 11:50:31","like_diff":5,"likes":5,"dislikes":0,"content":"论一张A4纸如何救命（褒义）"},{"id":111500,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-07-01 23:19:26","like_diff":5,"likes":6,"dislikes":1,"content":"这个绩点，感觉不会再爱了，明明自己学的还可以，平时小测也在班级中游水平，结果出来后1.8，什么鬼，?再见"},{"id":38957,"teacher_id":566,"teacher_name":"沈宏","post_time":"2016-12-20 03:52:07","like_diff":4,"likes":4,"dislikes":0,"content":"普化讲的超级好！人也超级好！"},{"id":45154,"teacher_id":566,"teacher_name":"沈宏","post_time":"2017-01-19 05:06:50","like_diff":4,"likes":4,"dislikes":0,"content":"有思想，博学，教课认真负责，非常为同学考虑，难得的好老师"},{"id":77277,"teacher_id":566,"teacher_name":"沈宏","post_time":"2018-05-04 09:41:10","like_diff":4,"likes":4,"dislikes":0,"content":"仪器分析讲得很清楚很好\n\n"},{"id":111514,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-07-02 00:18:56","like_diff":4,"likes":4,"dislikes":0,"content":"老师人很好，讲课也很有条理，但是真的是绩杀啊<(ToT)>"},{"id":119034,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-11-09 23:35:47","like_diff":4,"likes":4,"dislikes":0,"content":"真的很喜欢沈宏老师，老师很博学很儒雅。听老师讲课我都有想转专业去学分化了hhh"},{"id":19122,"teacher_id":566,"teacher_name":"沈宏","post_time":"2016-01-23 10:01:18","like_diff":3,"likes":5,"dislikes":2,"content":"老师上课很棒，而且不点名，不过不要选现代分离分析！"},{"id":77570,"teacher_id":566,"teacher_name":"沈宏","post_time":"2018-05-06 14:30:27","like_diff":3,"likes":3,"dislikes":0,"content":"老师真的超级好，建议大家选他，课堂内容很丰富，讲的很详细，老师很温柔"},{"id":97945,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-01-25 11:27:14","like_diff":3,"likes":3,"dislikes":0,"content":"老师人超棒！"},{"id":100808,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-01-27 01:02:10","like_diff":3,"likes":3,"dislikes":0,"content":"超级棒的老师"},{"id":119346,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-11-12 07:45:13","like_diff":3,"likes":3,"dislikes":0,"content":"(分析化学)沈老师是这个学期最喜欢的老师之一了，上课讲得很好，思路很清楚，每次下课都会说“谢谢大家认真听讲”。因为课时覆盖了自己的午觉时间，每次课我都好困好困，要努力阻止自己睡着，不过大部分时候还是认真听课了的！也谢谢老师一直认真上课。"},{"id":149877,"teacher_id":566,"teacher_name":"沈宏","post_time":"2022-01-17 12:34:51","like_diff":3,"likes":4,"dislikes":1,"content":"沈宏老师讲课是真心好！但是助教给分是真的拉！一个化竞生不知道为什么普化只拿了4.2的绩点，明明期中考了全班前列，期末出分就不知道为什么巨低。。。"},{"id":49200,"teacher_id":566,"teacher_name":"沈宏","post_time":"2017-03-29 06:57:40","like_diff":2,"likes":2,"dislikes":0,"content":"普化超赞"},{"id":52566,"teacher_id":566,"teacher_name":"沈宏","post_time":"2017-06-21 06:28:15","like_diff":2,"likes":3,"dislikes":1,"content":"老师人很好 上课也耐心  但是重点不突出  比较容易困...\n\n"},{"id":77232,"teacher_id":566,"teacher_name":"沈宏","post_time":"2018-05-04 05:01:47","like_diff":2,"likes":2,"dislikes":0,"content":"老师人超好，上了他的仪器分析。感觉上课很有意思，可能是我太菜了hh，成绩一般。老师是个好老师，超级棒"},{"id":77492,"teacher_id":566,"teacher_name":"沈宏","post_time":"2018-05-06 04:09:52","like_diff":2,"likes":2,"dislikes":0,"content":"人很好"},{"id":93028,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-01-07 03:51:00","like_diff":2,"likes":10,"dislikes":8,"content":"为什么要在期末考试前一周让我们至少找出分化课本上的10个错误？如果一本课本有这么多的错误，那这本书也太失败了吧？"},{"id":94101,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-01-15 07:46:02","like_diff":2,"likes":2,"dislikes":0,"content":"明人不说暗话，老铁666"},{"id":95797,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-01-20 05:24:28","like_diff":2,"likes":2,"dislikes":0,"content":"老师温柔，有些些啰嗦，然而我还是学不会"},{"id":100308,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-01-26 02:43:21","like_diff":2,"likes":2,"dislikes":0,"content":"老师好有礼貌啊，而且很儒雅"},{"id":100436,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-01-26 06:30:49","like_diff":2,"likes":2,"dislikes":0,"content":"超喜欢沈老师，虽然预置老师不是沈老师，但还是慕名来听沈老师的分析化学，收获很大。老师讲课清晰，答疑耐心，有些答疑不到位的地方会晚上查资料第二天重新给你讲解一遍，人很儒雅，每节课后都会说“感谢大家认真听讲”。喜欢~"},{"id":100437,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-01-26 06:31:03","like_diff":2,"likes":2,"dislikes":0,"content":"老师讲课清晰，答疑耐心，而且人超级nice。每节课下课都会说“谢谢同学们认真听讲”，超儒雅呀"},{"id":111559,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-07-02 03:10:13","like_diff":2,"likes":3,"dislikes":1,"content":"老师9分 助教0分，认真复习了一个多星期，考试感觉也不错 3.0"},{"id":111565,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-07-02 03:34:02","like_diff":2,"likes":3,"dislikes":1,"content":"老师上课上得很好，每次下课都会说谢谢同学们认真听讲，说实话，是个挺好的老师，但是试卷出的实在恶心，理科硬生生考成文科，绩点实在不敢恭维。此课慎选，除非你把正本书背下来，才有可能的高分"},{"id":118863,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-11-07 06:17:23","like_diff":2,"likes":2,"dislikes":0,"content":"既然考完了就来给沈老师打个call～超爱沈老师 撇开功利性的考试和绩点（毕竟都还没出来）沈老师真的是很好的老师 很认真很负责地上课 虽然上课时间很紧张但是老师讲得很细致也会有适当的拓展 感觉不会仅仅为了一场考试去教书 答疑超耐心 老师个人也很有人格魅力 很欣赏老师对人对事的态度 感谢老师～"},{"id":124542,"teacher_id":566,"teacher_name":"沈宏","post_time":"2020-07-02 13:44:39","like_diff":2,"likes":2,"dislikes":0,"content":"出分了竟然没人来评论。。讲得还是挺好的，这学期疫情原因有点乱，考试占80，平时只有20，而且闭卷，感觉分数还是有些吃亏。"},{"id":145359,"teacher_id":566,"teacher_name":"沈宏","post_time":"2021-12-29 07:28:05","like_diff":2,"likes":2,"dislikes":0,"content":"温文尔雅的沈老师yyds"},{"id":145859,"teacher_id":566,"teacher_name":"沈宏","post_time":"2022-01-03 11:38:51","like_diff":2,"likes":2,"dislikes":0,"content":"我感觉能教普化的老师教个普物应该没问题（10分）"},{"id":153057,"teacher_id":566,"teacher_name":"沈宏","post_time":"2022-04-24 13:28:44","like_diff":2,"likes":2,"dislikes":0,"content":"期中八十三，当时全班平均分七十分左右（好像），总评八十二，…莫名其妙…"},{"id":154566,"teacher_id":566,"teacher_name":"沈宏","post_time":"2022-06-02 06:53:28","like_diff":2,"likes":3,"dislikes":1,"content":"想要高绩点就快逃，助教给分真的拉！"},{"id":155308,"teacher_id":566,"teacher_name":"沈宏","post_time":"2022-06-10 12:47:26","like_diff":2,"likes":3,"dislikes":1,"content":"老师讲的很好 但绩杀"},{"id":156321,"teacher_id":566,"teacher_name":"沈宏","post_time":"2022-06-19 04:46:28","like_diff":2,"likes":4,"dislikes":2,"content":"分化期中第2，作业交齐，展示也好的，期末也差不多的样子，最后4.2属实有点难受；老师的课很好，人也很好，给分这样不是助教的问题，因为普化也是这个样子；低分的会捞，成绩比较均匀；想拿高绩点的同学建议润"},{"id":158488,"teacher_id":566,"teacher_name":"沈宏","post_time":"2022-06-29 16:24:58","like_diff":2,"likes":3,"dislikes":1,"content":"提醒下想换老师的同学，分化甲只有沈老师上。。。"},{"id":195404,"teacher_id":566,"teacher_name":"沈宏","post_time":"2024-06-28 03:19:45","like_diff":2,"likes":2,"dislikes":0,"content":"老师很不错，值得10分，可惜被中化一这门狗屎耽误了。希望老师作为课程的负责人能够对这门比大物实验还烂的课进行大刀阔斧的改进！"},{"id":21763,"teacher_id":566,"teacher_name":"沈宏","post_time":"2016-03-01 04:29:32","like_diff":1,"likes":1,"dislikes":0,"content":"老师讲得很细 人很好"},{"id":47742,"teacher_id":566,"teacher_name":"沈宏","post_time":"2017-02-22 21:54:08","like_diff":1,"likes":4,"dislikes":3,"content":"大一寝室3个人一起上分化，课还没结全跨了大类。。。"},{"id":75432,"teacher_id":566,"teacher_name":"沈宏","post_time":"2018-03-12 01:45:37","like_diff":1,"likes":1,"dislikes":0,"content":"普化讲的真心好"},{"id":97961,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-01-23 02:45:20","like_diff":1,"likes":1,"dislikes":0,"content":"老师人很好，很细心。"},{"id":99900,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-01-25 09:20:31","like_diff":1,"likes":1,"dislikes":0,"content":"呵呵呵呵"},{"id":138539,"teacher_id":566,"teacher_name":"沈宏","post_time":"2021-07-09 16:22:30","like_diff":1,"likes":2,"dislikes":1,"content":"虽然线上上课有点听不清楚，但是老师上的真的很好，感觉线下上课好有趣，每一节上完课都会说“谢谢大家认真听讲”，助教姐姐也很好！"},{"id":142169,"teacher_id":566,"teacher_name":"沈宏","post_time":"2021-11-08 05:43:13","like_diff":1,"likes":2,"dislikes":1,"content":"温文尔雅，孜孜不倦，循循善诱的好老师"},{"id":157718,"teacher_id":566,"teacher_name":"沈宏","post_time":"2022-06-24 12:30:25","like_diff":1,"likes":2,"dislikes":1,"content":"怎么说呢？老师非常和蔼，而且是非常厉害的老师，但是可能更适合当硕士、博士生导师，给本科生上课的话，就感觉有些平淡无味。而且分析化学这门课本身考试形式和考试的内容就非常无语。作业是交齐的，期中考是89分，但是课堂上总会出现那么几次从来不提醒的小测，然后期末考莫名其妙的74分，最后总评卡在了82分。只能说，老师没有完全发挥他的实力，我也没有发挥出我正常的水平。不过如果想要拿到高绩点，建议还是选别的老师。"},{"id":178123,"teacher_id":566,"teacher_name":"沈宏","post_time":"2023-07-07 05:10:06","like_diff":1,"likes":1,"dislikes":0,"content":"（上了沈宏老师的分化甲和沈老师负责的大化实验A）是这学期最喜欢的老师！！！很儒雅的一位老师，上课节奏比较慢但是讲的也比较细比较清楚。会在下课的时候说“谢谢大家认真听讲”！问问题也回答的很详细！是从各个方面来讲都非常求是的老师"},{"id":193668,"teacher_id":566,"teacher_name":"沈宏","post_time":"2024-06-14 23:31:24","like_diff":1,"likes":1,"dislikes":0,"content":"人是好人，当老师水平也是很好的，但因为中级化学实验的逆天理论考逆天预习考逆天理论课逆天平时成绩公布需要负直接责任，扣两分，打个八分"},{"id":89820,"teacher_id":566,"teacher_name":"沈宏","post_time":"2018-11-21 02:33:28","like_diff":0,"likes":0,"dislikes":0,"content":"666"},{"id":100291,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-01-26 02:13:57","like_diff":0,"likes":1,"dislikes":1,"content":"每次上课提早半小时到 有一次教师们都没开?\n\n总想着比老师早到一回 却总是失败\n\n期末考试分析化学复习了整整五天（导致C程无力补天）所幸结果不错 努力有收获"},{"id":100553,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-01-26 09:40:26","like_diff":0,"likes":0,"dislikes":0,"content":"老师真的很贴心， 备课讲课很认真，回答问题很细致，十分十分♥"},{"id":100756,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-01-26 17:23:31","like_diff":0,"likes":1,"dislikes":1,"content":"老师真的太好了TT 备课太用心了，考试划重点认真听分化就有指望了 感谢老师让我分化上4"},{"id":136371,"teacher_id":566,"teacher_name":"沈宏","post_time":"2021-06-17 04:22:30","like_diff":0,"likes":1,"dislikes":1,"content":"我觉得沈宏这学期教的分化教魔怔了 💣"},{"id":141241,"teacher_id":566,"teacher_name":"沈宏","post_time":"2021-09-27 05:32:02","like_diff":0,"likes":2,"dislikes":2,"content":"太好啦！"},{"id":151879,"teacher_id":566,"teacher_name":"沈宏","post_time":"2022-03-19 01:41:27","like_diff":0,"likes":0,"dislikes":0,"content":"绩点很低，讲的还行"},{"id":163166,"teacher_id":566,"teacher_name":"沈宏","post_time":"2022-12-08 13:10:31","like_diff":0,"likes":0,"dislikes":0,"content":"讲得挺好的"},{"id":170775,"teacher_id":566,"teacher_name":"沈宏","post_time":"2023-03-09 11:00:57","like_diff":0,"likes":0,"dislikes":0,"content":"外瑞古德"},{"id":191026,"teacher_id":566,"teacher_name":"沈宏","post_time":"2024-03-29 00:26:00","like_diff":0,"likes":4,"dislikes":4,"content":"逆天高中班主任，没上课在实验室门口吃三明治bb得整个走廊都听得见"},{"id":195567,"teacher_id":566,"teacher_name":"沈宏","post_time":"2024-06-28 22:23:37","like_diff":0,"likes":3,"dislikes":3,"content":"好求是，分析化学应该是一分不调，小测应该也没赋分，考多少就是多少。我期中考98，小测平均差不多85，期末只有一两个填空不会，最后总评92，仅供参考"},{"id":221199,"teacher_id":566,"teacher_name":"沈宏","post_time":"2025-06-22 02:33:22","like_diff":0,"likes":0,"dislikes":0,"content":"其实老师人是很好的，讲课也讲的很细致，但是老师的声音有点催眠，平时看着也是一个很儒雅有礼的人，之前他还很有礼貌地问我，在实验中心看到我，是在做什么实验，但是分化甲实在是难/哭，而且一张a4抄不下什么东西，抄的都没考，是我上课没好好听，给分比较求是吧"},{"id":223177,"teacher_id":566,"teacher_name":"沈宏","post_time":"2025-09-16 00:36:46","like_diff":0,"likes":1,"dislikes":1,"content":"分析化学给分好求是"},{"id":144886,"teacher_id":566,"teacher_name":"沈宏","post_time":"2021-12-25 12:20:15","like_diff":-3,"likes":0,"dislikes":3,"content":"非常关心学生的老师，讲课非常认真，重点讲的很详细，考试狠狠捞"},{"id":213413,"teacher_id":566,"teacher_name":"沈宏","post_time":"2025-01-17 08:51:05","like_diff":-3,"likes":0,"dislikes":3,"content":"分化乙，老师讲课非常细致，深入浅出，节奏偏慢，非常友好，还会记住大家的脸（有位朋友不上课去交作业，老师问他为什么不怎么来上课）。随堂可能会有总共3次左右的小测，不会提醒；考试方面，至少拿今年来说，不太需要太多的准备，做好微雕基本可以完全覆盖，而且今年计算题和作业没一点关系。\n\n绩点的话，老师明确说了这门课过程化给分，平时小测蛮重要，另外貌似真的不会调。"},{"id":136870,"teacher_id":566,"teacher_name":"沈宏","post_time":"2021-07-08 03:47:19","like_diff":-4,"likes":1,"dislikes":5,"content":"助教好漂亮，脾气又好，爱了爱了。"},{"id":138081,"teacher_id":566,"teacher_name":"沈宏","post_time":"2021-07-07 09:30:26","like_diff":-6,"likes":4,"dislikes":10,"content":"一点师生情都没有。。。。。。。。。"},{"id":100020,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-01-25 12:48:15","like_diff":-25,"likes":5,"dislikes":30,"content":"虽然被卡绩了，只有4.5。但是还是感谢老师，沈老师教得不错。"},{"id":100015,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-01-25 12:43:25","like_diff":-30,"likes":5,"dislikes":35,"content":"感谢老师半开卷，试卷上要考的都写了，虽说最后也只有4.8，但老师真的超好啦！"},{"id":100000,"teacher_id":566,"teacher_name":"沈宏","post_time":"2019-01-25 12:17:09","like_diff":-38,"likes":1,"dislikes":39,"content":"老师真的很棒\n\n但是期末绩杀 只有4.2"}];
+                    
+                    // 排序函数
+                    function sortComments(sortType) {
+                        let sortedComments = [...commentsData];
+                        
+                        if (sortType === 'popular') {
+                            // 按人气排序（点赞减点踩）
+                            sortedComments.sort((a, b) => b.like_diff - a.like_diff);
+                        } else if (sortType === 'latest') {
+                            // 按时间排序（最新在前）
+                            sortedComments.sort((a, b) => new Date(b.post_time) - new Date(a.post_time));
+                        }
+                        
+                        return sortedComments;
+                    }
+                    
+                    // 渲染评论列表
+                    function renderComments(comments) {
+                        const commentsList = document.getElementById('comments-list');
+                        commentsList.innerHTML = comments.map(comment => `
+                            <div class="comment-item">
+                                <div class="comment-meta">
+                                    <span class="comment-time">${comment.post_time}</span>
+                                    <span class="comment-likes">
+                                        <span class="likes"><i class="fas fa-thumbs-up"></i> ${comment.likes}</span>
+                                        <span class="dislikes"><i class="fas fa-thumbs-down"></i> ${comment.dislikes}</span>
+                                    </span>
+                                </div>
+                                <div class="comment-content">${comment.content}</div>
+                            </div>
+                        `).join('');
+                    }
+                    
+                    // 初始化页面
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // 默认显示人气评论
+                        renderComments(sortComments('popular'));
+                        
+                        // 绑定排序按钮事件
+                        document.querySelectorAll('.sort-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                // 更新按钮状态
+                                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                                
+                                // 排序并渲染评论
+                                const sortType = this.getAttribute('data-sort');
+                                renderComments(sortComments(sortType));
+                            });
+                        });
+                    });
+                </script>
+            </div>
+            
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>浙江大学教评查询系统 | 数据时效: 2026-01-11</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            
+            // 搜索按钮点击事件
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+            
+            // 搜索框回车事件
+            if (searchInput) {
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // 跳转到首页并携带搜索参数
+                    window.location.href = '../index.html?search=' + encodeURIComponent(query);
+                } else {
+                    // 如果搜索为空，只跳转到首页
+                    window.location.href = '../index.html';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
