@@ -32,29 +32,29 @@
 
 ```
 web/
-├── teachers/
-|   └── ...
-├── index.html
-├── README.md
+├── complete.html     # 主页面（教师搜索、评论浏览）
+├── index.html        # 教师索引页
+├── t/                # 教师单独页面
+│   └── {id}.html
 └── ...
 ```
+
+> 使用 `--main-only` 参数仅生成 `complete.html` 主页面。
 
 ## 使用网站
 
 ### 直接打开文件
 
 ```bash
-# 双击打开
-./web/index.html
+# 打开主页面
+open web/complete.html
 ```
 
 ## 分发与部署
 
 ### 完整打包
-整个 `web/` 目录是一个独立的网站包：
-对 `web/` 进行压缩后即可分法。
+整个 `web/` 目录是一个独立的网站包，压缩后即可分发：
 ```bash
-# 创建zip包
 zip -r chalaoshi.zip web/
 ```
 

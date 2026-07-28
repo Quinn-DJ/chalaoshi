@@ -90,12 +90,15 @@ class SingleHTMLBuilder:
         self.load_gpa_data()
         self.build_statistics()
         
+        # 生成主HTML文件
+        self.generate_html()
+        
         # 生成单个教师页面
         if self.generate_individual_pages:
             self.generate_individual_teacher_pages()
         
         print(f"✅ HTML文件构建完成！")
-        print(f"📁 教师索引页面: web/index.html")
+        print(f"📁 主页面: {self.output_file}")
         print(f"📊 包含数据: {len(self.teachers)} 位教师, {len(self.comments)} 条评论")
         
         if self.generate_individual_pages:
@@ -849,8 +852,8 @@ class SingleHTMLBuilder:
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: #f5f5f5;
+            color: #c9d1d9;
+            background: #0d1117;
         }
         
         .container {
@@ -860,11 +863,12 @@ class SingleHTMLBuilder:
         }
         
         .navbar {
-            background: white;
+            background: #161b22;
             border-radius: 10px;
             padding: 15px 20px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid #30363d;
         }
         
         .nav-content {
@@ -874,18 +878,19 @@ class SingleHTMLBuilder:
         }
         
         .nav-content h1 {
-            color: #333;
+            color: #c9d1d9;
             font-size: 1.5em;
             margin: 0;
         }
         
         /* 搜索栏样式 */
         .search-section {
-            background: white;
+            background: #161b22;
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid #30363d;
         }
         
         .search-box {
@@ -896,11 +901,17 @@ class SingleHTMLBuilder:
         .search-input {
             flex: 1;
             padding: 12px 15px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #30363d;
             border-radius: 8px 0 0 8px;
             font-size: 14px;
             outline: none;
             transition: border-color 0.3s;
+            background: #0d1117;
+            color: #c9d1d9;
+        }
+        
+        .search-input::placeholder {
+            color: #484f58;
         }
         
         .search-input:focus {
@@ -925,11 +936,12 @@ class SingleHTMLBuilder:
         }
         
         .teacher-header {
-            background: white;
+            background: #161b22;
             border-radius: 15px;
             padding: 30px;
             margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 1px solid #30363d;
         }
         
         .teacher-info-container {
@@ -946,20 +958,20 @@ class SingleHTMLBuilder:
         
         .teacher-name {
             font-size: 2.8em;
-            color: #333;
+            color: #c9d1d9;
             margin: 0 0 10px 0;
             font-weight: 600;
         }
         
         .teacher-university {
             font-size: 1.1em;
-            color: #666;
+            color: #8b949e;
             margin: 5px 0;
         }
         
         .teacher-college {
             font-size: 1.1em;
-            color: #666;
+            color: #8b949e;
             margin: 5px 0;
         }
         
@@ -972,20 +984,20 @@ class SingleHTMLBuilder:
         .large-rating {
             font-size: 4.5em;
             font-weight: bold;
-            color: #1e74fd;
+            color: #58a6ff;
             line-height: 1;
             margin-bottom: 10px;
         }
         
         .rating-participants {
             font-size: 1em;
-            color: #666;
+            color: #8b949e;
             margin-bottom: 8px;
         }
         
         .attendance-info {
             font-size: 0.95em;
-            color: #666;
+            color: #8b949e;
         }
         
         .teacher-stats {
@@ -994,7 +1006,7 @@ class SingleHTMLBuilder:
             gap: 40px;
             margin-top: 20px;
             padding-top: 20px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid #30363d;
         }
         
         .stat-item {
@@ -1011,21 +1023,22 @@ class SingleHTMLBuilder:
         .stat-value {
             font-size: 1.8em;
             font-weight: bold;
-            color: #333;
+            color: #c9d1d9;
             display: block;
         }
         
         .stat-label {
-            color: #666;
+            color: #8b949e;
             font-size: 0.9em;
         }
         
         .teacher-courses, .teacher-comments {
-            background: white;
+            background: #161b22;
             border-radius: 15px;
             padding: 30px;
             margin-bottom: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 1px solid #30363d;
         }
         
         .teacher-courses h3, .teacher-comments h3 {
@@ -1052,9 +1065,9 @@ class SingleHTMLBuilder:
         
         .sort-btn {
             padding: 8px 16px;
-            border: 2px solid #e0e0e0;
-            background: white;
-            color: #666;
+            border: 2px solid #30363d;
+            background: #21262d;
+            color: #8b949e;
             border-radius: 20px;
             cursor: pointer;
             font-size: 0.9em;
@@ -1086,7 +1099,7 @@ class SingleHTMLBuilder:
         }
         
         .course-card {
-            background: #f8f9fa;
+            background: #21262d;
             border-radius: 10px;
             padding: 15px;
             border-left: 4px solid #667eea;
@@ -1095,18 +1108,18 @@ class SingleHTMLBuilder:
         .course-name {
             font-weight: bold;
             margin-bottom: 10px;
-            color: #333;
+            color: #c9d1d9;
         }
         
         .course-stats {
             display: flex;
             justify-content: space-between;
             font-size: 0.9em;
-            color: #666;
+            color: #8b949e;
         }
         
         .gpa {
-            color: #28a745;
+            color: #3fb950;
             font-weight: bold;
         }
         
@@ -1116,7 +1129,7 @@ class SingleHTMLBuilder:
         }
         
         .comment-item {
-            background: #f8f9fa;
+            background: #21262d;
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 15px;
@@ -1126,7 +1139,7 @@ class SingleHTMLBuilder:
         .comment-meta {
             display: flex;
             justify-content: space-between;
-            color: #666;
+            color: #8b949e;
             font-size: 0.9em;
             margin-bottom: 10px;
         }
@@ -1136,20 +1149,21 @@ class SingleHTMLBuilder:
         }
         
         .comment-likes .likes {
-            color: #28a745;
+            color: #3fb950;
             margin-right: 15px;
         }
         
         .comment-likes .dislikes {
-            color: #dc3545;
+            color: #f85149;
         }
         
         .comment-content {
             line-height: 1.5;
+            color: #c9d1d9;
         }
         
         .no-data {
-            color: #666;
+            color: #8b949e;
             font-style: italic;
             text-align: center;
             padding: 20px;
@@ -1157,7 +1171,7 @@ class SingleHTMLBuilder:
         
         .more-comments {
             text-align: center;
-            color: #666;
+            color: #8b949e;
             font-style: italic;
             margin-top: 20px;
         }
@@ -1165,8 +1179,8 @@ class SingleHTMLBuilder:
         .footer {
             text-align: center;
             padding: 20px;
-            color: #666;
-            border-top: 1px solid #eee;
+            color: #8b949e;
+            border-top: 1px solid #30363d;
             margin-top: 40px;
         }
         
@@ -1260,8 +1274,8 @@ class SingleHTMLBuilder:
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: #f5f5f5;
+            color: #c9d1d9;
+            background: #0d1117;
         }
         
         .container {
@@ -1271,11 +1285,12 @@ class SingleHTMLBuilder:
         }
         
         .navbar {
-            background: white;
+            background: #161b22;
             border-radius: 10px;
             padding: 15px 20px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid #30363d;
         }
         
         .nav-content {
@@ -1293,15 +1308,16 @@ class SingleHTMLBuilder:
         }
         
         .nav-home:hover {
-            background: #f0f0f0;
+            background: #21262d;
         }
         
         .stats-summary {
-            background: white;
+            background: #161b22;
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid #30363d;
             display: flex;
             gap: 30px;
             justify-content: center;
@@ -1316,21 +1332,28 @@ class SingleHTMLBuilder:
         }
         
         .search-box {
-            background: white;
+            background: #161b22;
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid #30363d;
             position: relative;
         }
         
         .search-box input {
             width: 100%;
             padding: 15px 50px 15px 20px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #30363d;
             border-radius: 8px;
             font-size: 16px;
             outline: none;
+            background: #0d1117;
+            color: #c9d1d9;
+        }
+        
+        .search-box input::placeholder {
+            color: #484f58;
         }
         
         .search-box input:focus {
@@ -1342,21 +1365,22 @@ class SingleHTMLBuilder:
             right: 35px;
             top: 50%;
             transform: translateY(-50%);
-            color: #666;
+            color: #8b949e;
         }
         
         .search-results {
-            background: white;
+            background: #161b22;
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid #30363d;
         }
         
         .search-results h3 {
             color: #667eea;
             margin-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 2px solid #30363d;
             padding-bottom: 10px;
         }
         
@@ -1372,7 +1396,7 @@ class SingleHTMLBuilder:
             justify-content: space-between;
             align-items: center;
             padding: 12px 15px;
-            background: #f8f9fa;
+            background: #21262d;
             border-radius: 8px;
             text-decoration: none;
             color: inherit;
@@ -1381,7 +1405,7 @@ class SingleHTMLBuilder:
         }
         
         .result-item:hover {
-            background: #e9ecef;
+            background: #30363d;
             border-left-color: #667eea;
             transform: translateX(5px);
         }
@@ -1394,12 +1418,12 @@ class SingleHTMLBuilder:
         
         .teacher-name {
             font-weight: 600;
-            color: #333;
+            color: #c9d1d9;
         }
         
         .teacher-college {
             font-size: 0.9em;
-            color: #666;
+            color: #8b949e;
         }
         
         .teacher-rating {
@@ -1411,17 +1435,18 @@ class SingleHTMLBuilder:
         .no-results, .more-results {
             text-align: center;
             padding: 20px;
-            color: #666;
+            color: #8b949e;
             font-style: italic;
         }
         
         .search-hint {
-            background: white;
+            background: #161b22;
             border-radius: 10px;
             padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid #30363d;
             text-align: center;
-            color: #666;
+            color: #8b949e;
         }
         
         .search-hint i {
@@ -1432,8 +1457,8 @@ class SingleHTMLBuilder:
         .footer {
             text-align: center;
             padding: 20px;
-            color: #666;
-            border-top: 1px solid #eee;
+            color: #8b949e;
+            border-top: 1px solid #30363d;
             margin-top: 40px;
         }
         
@@ -1482,8 +1507,8 @@ class SingleHTMLBuilder:
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #c9d1d9;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
         }
         
@@ -1513,11 +1538,12 @@ class SingleHTMLBuilder:
         
         /* 搜索区域 */
         .search-section {
-            background: white;
+            background: #161b22;
             border-radius: 15px;
             padding: 30px;
             margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            border: 1px solid #30363d;
         }
         
         .search-box {
@@ -1528,11 +1554,17 @@ class SingleHTMLBuilder:
         .search-input {
             flex: 1;
             padding: 15px 20px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #30363d;
             border-radius: 10px 0 0 10px;
             font-size: 16px;
             outline: none;
             transition: border-color 0.3s;
+            background: #0d1117;
+            color: #c9d1d9;
+        }
+        
+        .search-input::placeholder {
+            color: #484f58;
         }
         
         .search-input:focus {
@@ -1561,19 +1593,21 @@ class SingleHTMLBuilder:
         
         .filter-select {
             padding: 10px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #30363d;
             border-radius: 8px;
-            background: white;
+            background: #0d1117;
+            color: #c9d1d9;
             outline: none;
         }
         
         /* 结果区域 */
         .results-section {
-            background: white;
+            background: #161b22;
             border-radius: 15px;
             padding: 30px;
             margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            border: 1px solid #30363d;
             display: none;
         }
         
@@ -1583,12 +1617,12 @@ class SingleHTMLBuilder:
             align-items: center;
             margin-bottom: 20px;
             padding-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 2px solid #30363d;
         }
         
         .results-count {
             font-size: 1.2em;
-            color: #333;
+            color: #c9d1d9;
         }
         
         .clear-btn {
@@ -1608,29 +1642,29 @@ class SingleHTMLBuilder:
         }
         
         .teacher-card {
-            background: #f8f9fa;
+            background: #21262d;
             border-radius: 12px;
             padding: 20px;
             cursor: pointer;
             transition: all 0.3s;
-            border: 2px solid transparent;
+            border: 2px solid #30363d;
         }
         
         .teacher-card:hover {
             transform: translateY(-3px);
             border-color: #667eea;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.15);
         }
         
         .teacher-name {
             font-size: 1.3em;
             font-weight: bold;
-            color: #333;
+            color: #c9d1d9;
             margin-bottom: 8px;
         }
         
         .teacher-college {
-            color: #666;
+            color: #8b949e;
             margin-bottom: 15px;
         }
         
@@ -1661,7 +1695,7 @@ class SingleHTMLBuilder:
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.85);
             z-index: 1000;
         }
         
@@ -1670,17 +1704,18 @@ class SingleHTMLBuilder:
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: white;
+            background: #161b22;
             border-radius: 15px;
             width: 90%;
             max-width: 800px;
             max-height: 90vh;
             overflow-y: auto;
+            border: 1px solid #30363d;
         }
         
         .modal-header {
             padding: 25px;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 2px solid #30363d;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -1688,7 +1723,7 @@ class SingleHTMLBuilder:
         
         .modal-title {
             font-size: 1.5em;
-            color: #333;
+            color: #c9d1d9;
         }
         
         .close-btn {
@@ -1696,7 +1731,7 @@ class SingleHTMLBuilder:
             border: none;
             font-size: 1.5em;
             cursor: pointer;
-            color: #999;
+            color: #8b949e;
         }
         
         .modal-body {
@@ -1721,7 +1756,7 @@ class SingleHTMLBuilder:
         }
         
         .comment-item {
-            background: #f8f9fa;
+            background: #21262d;
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 15px;
@@ -1731,13 +1766,14 @@ class SingleHTMLBuilder:
         .comment-meta {
             display: flex;
             justify-content: space-between;
-            color: #666;
+            color: #8b949e;
             font-size: 0.9em;
             margin-bottom: 10px;
         }
         
         .comment-content {
             line-height: 1.5;
+            color: #c9d1d9;
         }
         
         .load-more {
@@ -1758,14 +1794,14 @@ class SingleHTMLBuilder:
         .loading {
             text-align: center;
             padding: 40px;
-            color: #666;
+            color: #8b949e;
         }
         
         .spinner {
             display: inline-block;
             width: 40px;
             height: 40px;
-            border: 4px solid #f3f3f3;
+            border: 4px solid #30363d;
             border-top: 4px solid #667eea;
             border-radius: 50%;
             animation: spin 1s linear infinite;
@@ -2094,7 +2130,7 @@ class SingleHTMLBuilder:
                             <i class="fas fa-fire"></i> ${teacher.heat}
                         </div>
                     </div>
-                    <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                    <div style="margin-top: 10px; font-size: 0.9em; color: #8b949e;">
                         ${teacher.rating_count} 人评分
                     </div>
                 `;
@@ -2139,7 +2175,7 @@ class SingleHTMLBuilder:
             displayTeacherInfo(teacher) {
                 const info = document.getElementById('teacher-info');
                 info.innerHTML = `
-                    <div style="background: #f8f9fa; border-radius: 10px; padding: 20px;">
+                    <div style="background: #21262d; border-radius: 10px; padding: 20px;">
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                             <div>
                                 <strong>教师姓名:</strong> ${teacher.name}
@@ -2166,14 +2202,14 @@ class SingleHTMLBuilder:
                 const courses = this.gpaData[teacher.name] || [];
                 
                 if (courses.length === 0) {
-                    coursesDiv.innerHTML = '<p style="color: #666;">暂无课程GPA数据</p>';
+                    coursesDiv.innerHTML = '<p style="color: #8b949e;">暂无课程GPA数据</p>';
                     return;
                 }
                 
                 const coursesHtml = courses.map(course => `
-                    <div style="background: #f8f9fa; border-radius: 8px; padding: 15px; margin-bottom: 10px;">
-                        <div style="font-weight: bold; margin-bottom: 5px;">${course.name}</div>
-                        <div style="display: flex; justify-content: space-between; color: #666;">
+                    <div style="background: #21262d; border-radius: 8px; padding: 15px; margin-bottom: 10px;">
+                        <div style="font-weight: bold; margin-bottom: 5px; color: #c9d1d9;">${course.name}</div>
+                        <div style="display: flex; justify-content: space-between; color: #8b949e;">
                             <span>GPA: <strong style="color: #667eea;">${course.gpa.toFixed(2)}</strong></span>
                             <span>选课人数: ${course.student_count}</span>
                             <span>标准差: ${course.std_dev.toFixed(2)}</span>
@@ -2194,7 +2230,7 @@ class SingleHTMLBuilder:
                 const end = Math.min(20, teacherComments.length);
                 
                 if (teacherComments.length === 0) {
-                    commentsDiv.innerHTML = '<p style="color: #666;">暂无评论数据</p>';
+                    commentsDiv.innerHTML = '<p style="color: #8b949e;">暂无评论数据</p>';
                     document.getElementById('load-more-comments').classList.add('hidden');
                     return;
                 }
@@ -2204,8 +2240,8 @@ class SingleHTMLBuilder:
                         <div class="comment-meta">
                             <span>${comment.post_time}</span>
                             <span>
-                                <i class="fas fa-thumbs-up" style="color: #28a745;"></i> ${comment.likes}
-                                <i class="fas fa-thumbs-down" style="color: #dc3545; margin-left: 10px;"></i> ${comment.dislikes}
+                                <i class="fas fa-thumbs-up" style="color: #3fb950;"></i> ${comment.likes}
+                                <i class="fas fa-thumbs-down" style="color: #f85149; margin-left: 10px;"></i> ${comment.dislikes}
                             </span>
                         </div>
                         <div class="comment-content">${comment.content}</div>
@@ -2237,8 +2273,8 @@ class SingleHTMLBuilder:
                         <div class="comment-meta">
                             <span>${comment.post_time}</span>
                             <span>
-                                <i class="fas fa-thumbs-up" style="color: #28a745;"></i> ${comment.likes}
-                                <i class="fas fa-thumbs-down" style="color: #dc3545; margin-left: 10px;"></i> ${comment.dislikes}
+                                <i class="fas fa-thumbs-up" style="color: #3fb950;"></i> ${comment.likes}
+                                <i class="fas fa-thumbs-down" style="color: #f85149; margin-left: 10px;"></i> ${comment.dislikes}
                             </span>
                         </div>
                         <div class="comment-content">${comment.content}</div>
@@ -2273,7 +2309,7 @@ class SingleHTMLBuilder:
                 new ChalaoshiApp();
             } else {
                 console.error('数据加载失败');
-                document.body.innerHTML = '<div style="text-align: center; padding: 50px; color: red;">数据加载失败，请检查文件</div>';
+                document.body.innerHTML = '<div style="text-align: center; padding: 50px; color: #f85149;">数据加载失败，请检查文件</div>';
             }
         });
     </script>

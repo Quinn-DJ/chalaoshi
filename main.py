@@ -94,9 +94,9 @@ def do_build(main_only: bool = False) -> bool:
 
     builder.build_all()
 
-    index_file = PROJECT_ROOT / "web" / "index.html"
+    index_file = PROJECT_ROOT / "web" / "complete.html"
     if index_file.exists():
-        print(f"  ✅ HTML 构建完成: web/index.html")
+        print(f"  ✅ HTML 构建完成: web/complete.html")
         return True
     else:
         print("  ❌ HTML 文件生成失败")
