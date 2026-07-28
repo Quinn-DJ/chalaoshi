@@ -159,10 +159,10 @@ class FileDownloader:
         # 完整的文件路径
         file_path = download_path / filename
         
-        # 如果文件已存在，询问是否覆盖
+        # 如果文件已存在，跳过下载
         if file_path.exists():
-            logging.warning(f"文件已存在: {file_path}")
-            # 这里可以添加交互式询问或自动重命名逻辑
+            logging.info(f"文件已存在，跳过下载: {file_path}")
+            return True
         
         try:
             logging.info(f"开始下载: {url}")

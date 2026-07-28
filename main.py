@@ -2,13 +2,18 @@
 """
 查老师 - chalaoshi 离线网站构建工具（统一入口）
 
+配置文件:
+    config/update.json  — 外部发放的更新通知（放置此文件后运行主程序即可自动更新）
+    config/config.yaml  — 本地缓存（版本号 + 密码，由程序自动维护，无需手动编辑）
+
 用法:
-    uv run main.py                    # 执行完整构建流程
-    uv run main.py download           # 仅下载数据压缩包
-    uv run main.py extract            # 仅解压数据文件
-    uv run main.py build              # 仅构建 HTML
-    uv run main.py build --main-only  # 仅构建主页（不含教师单页）
-    uv run main.py info               # 查看压缩包信息
+    uv run main.py                      # 完整构建（自动检查 config/update.json 更新）
+    uv run main.py download             # 仅下载数据压缩包
+    uv run main.py extract              # 仅解压数据文件
+    uv run main.py build                # 仅构建 HTML
+    uv run main.py build --main-only    # 仅构建主页（不含教师单页）
+    uv run main.py info                 # 查看压缩包信息
+    uv run main.py update               # 手动触发更新检查（读取 config/update.json）
 """
 
 import sys
@@ -128,6 +133,16 @@ def do_info() -> None:
         print()
 
 
+def do_update() -> bool:
+    """检查 config/update.json 并应用数据集更新"""
+    step_header("检查数据集更新")
+
+    from src.update_manager import UpdateManager
+
+    mgr = UpdateManager()
+    return mgr.check_and_apply()
+
+
 def do_full(main_only: bool = False) -> bool:
     """执行完整构建流程"""
     print("🎓 查老师 - 浙江大学教师评价查询系统")
@@ -138,7 +153,12 @@ def do_full(main_only: bool = False) -> bool:
 
     check_requirements()
 
-    # 下载
+    # 检查更新（对比 config/update.json 与 config/config.yaml）
+    if not do_update():
+        print("\n❌ 更新失败，构建中止")
+        return False
+
+    # 下载（基于 download_config.yaml 中的任务列表）
     if not do_download():
         print("\n❌ 下载失败，构建中止")
         return False
@@ -199,6 +219,9 @@ def main() -> None:
         sys.exit(0 if success else 1)
     elif cmds[0] == "info":
         do_info()
+    elif cmds[0] == "update":
+        success = do_update()
+        sys.exit(0 if success else 1)
     else:
         print(f"未知命令: {cmds[0]}")
         print_help()
